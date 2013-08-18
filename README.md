@@ -43,7 +43,7 @@ JEECG 基于代码生成器的智能开发平台
 
 
 
-###		UI标签库列表页面
+###  UI标签库列表页面
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <div class="easyui-layout" fit="true">
