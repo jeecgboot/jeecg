@@ -21,7 +21,7 @@ JEECG 基于代码生成器的智能开发平台
 * 	技术点六：Web GIS支持 （基础技术GIS的支持）</br>
 * 	技术点七：移动平台支持，对Bootstrap(兼容Html5)进行标准封装 </br>
 * 	技术点八：动态报表功能（用户输入一个sql，系统自动解析生成报表）</br>
-* 	
+	
 * 	JEECG V3.0,经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
 * 	支持多种浏览器: IE, 火狐, Google 等</br>
 * 	支持数据库: Mysql,Oracle10g,Postgre,SqlServer等</br>
