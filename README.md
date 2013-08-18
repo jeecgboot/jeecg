@@ -99,7 +99,12 @@ JEECG 功能特点
     </div>
     </div>
     
-    
+
+技术文档
+-----------------------------------
+[JEECG 技术文档](http://code.google.com/p/jeecg/downloads/detail?name=JEECG%20v3.3.1.beta%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C.zip&can=2&q=#makechanges)
+[JEECG 源码下载](http://code.google.com/p/jeecg/downloads/list)
+
     
 技术交流
 -----------------------------------
