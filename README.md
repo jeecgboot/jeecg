@@ -44,6 +44,8 @@ JEECG 智能开发平台
 * 	交流群:106259349, 106838471, 289782002</br>
 * 	在线演示: [JEECG演示DEMO](http://demo.jeecg.org:8080/)
 
+###系统截图  
+![github](http://www.jeecg.org/data/attachment/forum/201303/02/123311mf9fa22tv69b228f.jpg "github")
 
 ### [代码示例]UI标签库实现数据列表页面    
     这是一个有多行的文本框  
