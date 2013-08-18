@@ -7,7 +7,7 @@ JEECG 基于代码生成器的智能开发平台
 
 架构说明
 -----------------------------------
-•	JEECG V3.0版本采用SpringMVC+Hibernate+UI快速开发库+Spring jdbc+ freemarker+ Highcharts+ bootstrap+Ehcache 的基础架构</br>
+* 	JEECG V3.0版本采用SpringMVC+Hibernate+UI快速开发库+Spring jdbc+ freemarker+ Highcharts+ bootstrap+Ehcache 的基础架构</br>
 •	采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、
 表单处理等功能，再配合Online Coding在线开发与代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少80%以上。</br>
 
