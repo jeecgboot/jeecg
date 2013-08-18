@@ -2,7 +2,7 @@ JEECG 基于代码生成器的智能开发平台
 ===============
 简介
 -----------------------------------
-     JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台，引领新开发模式(Online Coding模式->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。 
+### JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台，引领新开发模式(Online Coding模式->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。 
     JEECG宗旨是: 简单功能由代Online Coding配置出功能;复杂功能由代码生成器生成进行手工Merge; 复杂流程业务采用表单自定义，业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。 实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量
 
 架构说明
@@ -40,31 +40,3 @@ JEECG 基于代码生成器的智能开发平台
 * 	论坛：[www.jeecg.org](http://www.jeecg.org)</br>
 * 	交流群:106259349, 106838471, 289782002</br>
 * 	合作：开源捐助 | 项目合作 | 技术支持</br>
-
-
-
-### UI标签库列表页面实现
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
-<%@include file="/context/mytags.jsp"%>  
-<div class="easyui-layout" fit="true">  
-  <div region="center" style="padding:1px;">  
-  <t:dategrid name="jeecgDemoList" title="开发DEMO列表" actionUrl="jeecgDemoController.do?datagrid" idField="id" fit="true">
-   <t:dgCol title="编号" field="id" hidden="false"></t:dgCol>
-   <t:dgCol title="用户名" field="userName" query="true"></t:dgCol>
-   <t:dgCol title="电话号码" sortable="false" field="mobilePhone" width="20" query="true"></t:dgCol>
-   <t:dgCol title="办公电话" field="officePhone"></t:dgCol>
-   <t:dgCol title="邮箱" field="email"></t:dgCol>
-   <t:dgCol title="年龄" sortable="true" field="age"></t:dgCol>
-   <t:dgCol title="工资"  field="sex"></t:dgCol>
-   <t:dgCol title="性别"  field="salary"></t:dgCol>
-   <t:dgCol title="生日" field="birthday" formatter="yyyy/MM/dd"></t:dgCol>
-   <t:dgCol title="创建日期" field="createTime" formatter="yyyy-MM-dd hh:mm:ss"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-   <t:dgFunOpt funname="szqm(id)" title="审核" />
-   <t:dgDelOpt title="删除" url="jeecgDemoController.do?del&id={id}" />
-   <t:dgToolBar title="录入" icon="icon-add"></t:dgToolBar>
-   <t:dgToolBar title="编辑" icon="icon-edit"></t:dgToolBar>
-  </t:dategrid>
-  </div>
-  </div>
-
