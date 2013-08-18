@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="jeecg : JEECG 基于代码生成器的智能开发平台" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>jeecg</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/zhangdaiscott/jeecg">View on GitHub</a>
+
+          <h1 id="project_title">jeecg</h1>
+          <h2 id="project_tagline">JEECG 基于代码生成器的智能开发平台</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/zhangdaiscott/jeecg/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/zhangdaiscott/jeecg/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="jeecg-%E5%9F%BA%E4%BA%8E%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8%E7%9A%84%E6%99%BA%E8%83%BD%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0" class="anchor" href="#jeecg-%E5%9F%BA%E4%BA%8E%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8%E7%9A%84%E6%99%BA%E8%83%BD%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0"><span class="octicon octicon-link"></span></a>JEECG 基于代码生成器的智能开发平台</h1>
+
+<h2>
+<a name="%E7%AE%80%E4%BB%8B" class="anchor" href="#%E7%AE%80%E4%BB%8B"><span class="octicon octicon-link"></span></a>简介</h2>
+
+<pre><code> JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台，引领新开发模式(Online Coding模式-&gt;代码生成器模式-&gt;手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。 
+JEECG宗旨是: 简单功能由代Online Coding配置出功能;复杂功能由代码生成器生成进行手工Merge; 复杂流程业务采用表单自定义，业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。 实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量
+</code></pre>
+
+<h2>
+<a name="%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E" class="anchor" href="#%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E"><span class="octicon octicon-link"></span></a>架构说明</h2>
+
+<ul>
+<li>  JEECG V3.0版本采用SpringMVC+Hibernate+UI快速开发库+Spring jdbc+ freemarker+ Highcharts+ bootstrap+Ehcache 的基础架构</li>
+<li><p>采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、
+表单处理等功能，再配合Online Coding在线开发与代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少80%以上。</p></li>
+<li><p>JEECG V3.0版本六大技术点: 1.Online Coding (通过在线配置实现一个表模型的增删改查功能，无需一行代码，支持用户自定义表单布局)2.代码生成器 3.UI快速开发库 4.在线流程设计 5.系统日志记录 6.Web GIS支持 7.移动平台支持Bootstrap(兼容Html5) 8.动态报表9.查询过滤器</p></li>
+<li><p>技术点一：Online Coding开发模式（通过配置实现单表模型和一对多数据模型的增删改查功能,No 代码） </p></li>
+<li><p>技术点二：代码生成器，支持多种数据模型,根据表生成对应的Entity,Service,Dao,Action,JSP等,增删改查功能生成直接使用</p></li>
+<li><p>技术点三：UI快速开发库，针对WEB UI进行标准封装，页面统一采用UI标签实现功能：数据datagrid,表单校验,Popup,Tab等，实现JSP页面零JS，开发维护非常高效</p></li>
+<li><p>技术点四：在线流程定义，采用开源Activiti流程引擎，实现在线画流程,自定义表单,表单挂接,业务流转，流程监控，流程跟踪，流程委托等</p></li>
+<li><p>技术点五：系统日志记录 (详细记录操作日志)</p></li>
+<li><p>技术点六：Web GIS支持 （基础技术GIS的支持）</p></li>
+<li><p>技术点七：移动平台支持，对Bootstrap(兼容Html5)进行标准封装 </p></li>
+<li><p>技术点八：动态报表功能（用户输入一个sql，系统自动解析生成报表）</p></li>
+<li><p>JEECG V3.0,经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</p></li>
+<li><p>支持多种浏览器: IE, 火狐, Google 等</p></li>
+<li><p>支持数据库: Mysql,Oracle10g,Postgre,SqlServer等</p></li>
+<li><p>基础权限: 用户，角色，菜单权限，按钮权限，数据权限</p></li>
+<li><p>智能报表集成: 简易的图像报表工具和Excel导入导出</p></li>
+<li><p>Web容器测试通过的有Jetty和Tomcat6,Weblogic</p></li>
+<li><p>即将推出功能：分布式部署，云平台，移动平台开发，规则引擎</p></li>
+<li><p>要求JDK1.6+</p></li>
+</ul><h2>
+<a name="%E6%8A%80%E6%9C%AF%E4%BA%A4%E6%B5%81" class="anchor" href="#%E6%8A%80%E6%9C%AF%E4%BA%A4%E6%B5%81"><span class="octicon octicon-link"></span></a>技术交流</h2>
+
+<ul>
+<li>  作者：张代浩</li>
+<li>  邮箱：<a href="mailto:zhangdaiscott@163.com">zhangdaiscott@163.com</a>
+</li>
+<li>  论坛：<a href="http://www.jeecg.org">www.jeecg.org</a>
+</li>
+<li>  交流群:106259349, 106838471, 289782002</li>
+<li>  合作：开源捐助 | 项目合作 | 技术支持</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">jeecg maintained by <a href="https://github.com/zhangdaiscott">zhangdaiscott</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
