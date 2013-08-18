@@ -45,13 +45,7 @@ JEECG 基于代码生成器的智能开发平台
 
 ### 比如我们可以在多行文本框里输入一段代码,来一个Java版本的HelloWorld吧  
     public class HelloWorld {  
-  
-      /**  
-      * @param args  
-   */  
    public static void main(String[] args) {  
    System.out.println("HelloWorld!");  
-  
    }  
-  
-    }
+  }
