@@ -36,7 +36,8 @@ JEECG 智能开发平台
 * 	要求JDK1.6+</br>
 
 
-###系统演示  
+系统演示
+-----------------------------------
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/123311mf9fa22tv69b228f.jpg "jeecg")
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/123412x003euegeg7nb68z.jpg "jeecg")
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/124748gyhrgvr45vshyc82.jpg "jeecg")
@@ -44,7 +45,8 @@ JEECG 智能开发平台
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/124749up2j5id7gj9kppp8.jpg "jeecg")
 
 
-### [代码示例]  
+代码示例
+-----------------------------------
     这是一个有多行的文本框  
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <%@include file="/context/mytags.jsp"%>
@@ -70,7 +72,8 @@ JEECG 智能开发平台
     </div>
     </div>
     
-    技术交流
+    
+技术交流
 -----------------------------------
 * 	作者：张代浩</br>
 * 	邮箱：zhangdaiscott@163.com
