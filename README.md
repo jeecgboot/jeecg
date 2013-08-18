@@ -38,7 +38,7 @@ JEECG 基于代码生成器的智能开发平台
 技术交流
 -----------------------------------
 * 	作者：张代浩</br>
-* 	邮箱：zhangdaiscott@163.com</br>
-* 	论坛：[www.jeecg.org](http://www.jeecg.org)</br>
+* 	邮箱：zhangdaiscott@163.com
+* 	论坛：[www.jeecg.org](http://www.jeecg.org)
 * 	交流群:106259349, 106838471, 289782002</br>
-* 	合作：开源捐助 | 项目合作 | 技术支持</br>
+* 	在线演示: [JEECG演示DEMO](http://demo.jeecg.org:8080/)
