@@ -1,5 +1,6 @@
 JEECG 智能开发平台
 ===============
+
 简介
 -----------------------------------
     JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台。引领新的开发模式(Online Coding模式->代码生成器模式->手工MERGE智能开发)，
@@ -7,6 +8,7 @@ JEECG 智能开发平台
     
     JEECG宗旨是: 简单功能由代Online Coding配置出功能;复杂功能由代码生成器生成进行手工Merge; 复杂流程业务采用表单自定义，
     业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量。
+
 
 架构说明
 -----------------------------------
@@ -36,6 +38,7 @@ JEECG 智能开发平台
 * 	要求JDK1.6+</br>
 
 
+
 系统演示
 -----------------------------------
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/123311mf9fa22tv69b228f.jpg "jeecg")
@@ -43,6 +46,7 @@ JEECG 智能开发平台
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/124748gyhrgvr45vshyc82.jpg "jeecg")
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/123428ubcjjnuwjbkjrnrw.jpg "jeecg")
 ![github](http://www.jeecg.org/data/attachment/forum/201303/02/124749up2j5id7gj9kppp8.jpg "jeecg")
+
 
 
 代码示例
@@ -71,6 +75,7 @@ JEECG 智能开发平台
     </t:dategrid>
     </div>
     </div>
+    
     
     
 技术交流
