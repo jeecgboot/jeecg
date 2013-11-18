@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jeecg-final-framework">
+        <wb-resource deploy-path="/" source-path="/WebRoot"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
+        <property name="java-output-path" value="/renfang2/WebRoot/WEB-INF/classes"/>
+        <property name="context-root" value="/jeecg"/>
+    </wb-module>
+</project-modules>

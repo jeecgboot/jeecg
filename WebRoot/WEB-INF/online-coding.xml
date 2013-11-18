@@ -1,0 +1,171 @@
+<servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.trans.transList_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.trans.transList_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.generate.one2many_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.generate.one2many_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.generate.single_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.generate.single_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.excel.upload_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.excel.upload_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.enhance.cgformenhanceJs_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.enhance.cgformenhanceJs_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgFormHead_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.config.cgFormHead_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgFormHeadList_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.config.cgFormHeadList_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgformMigrateSqlInclude_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.config.cgformMigrateSqlInclude_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtl_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.cgformftl.cgformFtl_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlEditor_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlEditor_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList2_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList2_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.ckeditor_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.cgformftl.ckeditor_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButton_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.button.cgformButton_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonList_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.button.cgformButtonList_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonSql_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.button.cgformButtonSql_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonSqlOut_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webpage.cgform.button.cgformButtonSqlOut_jsp</servlet-class>
+    </servlet>
+
+
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.trans.transList_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/trans/transList.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.generate.one2many_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/generate/one2many.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.generate.single_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/generate/single.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.excel.upload_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/excel/upload.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.enhance.cgformenhanceJs_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/enhance/cgformenhanceJs.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgFormHead_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/config/cgFormHead.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgFormHeadList_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/config/cgFormHeadList.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.config.cgformMigrateSqlInclude_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/config/cgformMigrateSqlInclude.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtl_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/cgformftl/cgformFtl.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlEditor_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/cgformftl/cgformFtlEditor.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/cgformftl/cgformFtlList.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.cgformFtlList2_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/cgformftl/cgformFtlList2.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.cgformftl.ckeditor_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/cgformftl/ckeditor.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButton_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/button/cgformButton.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonList_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/button/cgformButtonList.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonSql_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/button/cgformButtonSql.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webpage.cgform.button.cgformButtonSqlOut_jsp</servlet-name>
+        <url-pattern>/webpage/cgform/button/cgformButtonSqlOut.jsp</url-pattern>
+    </servlet-mapping>

@@ -1,0 +1,356 @@
+
+/* DataTables Styling */
+
+table { font-size: 12px; }
+
+table.dataTable {
+	margin: 0 auto;
+	clear: both;
+	width: 100%;
+}
+
+table.dataTable thead th {
+	padding: 3px 18px 3px 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+table.dataTable tfoot th {
+	padding: 3px 18px 3px 10px;
+	border-top: 1px solid black;
+	font-weight: bold;
+}
+
+table.dataTable td {
+	padding: 3px 10px;
+}
+
+table.dataTable td.center,
+table.dataTable td.dataTables_empty {
+	text-align: center;
+}
+
+table.dataTable tr.odd { background-color: #fff; }
+table.dataTable tr.even { background-color: #f6f6f6; }
+table.dataTable td { padding: 8px 10px; border-right: 1px solid #ccc; }
+table.dataTable tr.odd:hover, table.dataTable tr.even:hover { background-color: #ddd; }
+table.dataTable thead th { border-right: 1px solid #ccc; }
+table.dataTable thead th:last-of-type { border-right: none; }
+
+/* Commented out to simplify
+
+table.dataTable tr.odd td.sorting_1 { background-color: #D3D6FF; }
+table.dataTable tr.odd td.sorting_2 { background-color: #DADCFF; }
+table.dataTable tr.odd td.sorting_3 { background-color: #E0E2FF; }
+table.dataTable tr.even td.sorting_1 { background-color: #EAEBFF; }
+table.dataTable tr.even td.sorting_2 { background-color: #F2F3FF; }
+table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
+
+*/
+
+
+/*
+ * Table wrapper
+ */
+.dataTables_wrapper {
+	position: relative;
+	clear: both;
+	zoom: 1;
+}
+
+
+/*
+ * Page length menu
+ */
+.dataTables_length {
+	float: left;
+}
+
+
+/*
+ * Filter
+ */
+.dataTables_filter {
+	float: right;
+	text-align: right;
+}
+
+
+/*
+ * Table information
+ */
+.dataTables_info {
+	margin: 12px;
+	clear: both;
+	float: left;
+	color: #292929 !important;
+	text-shadow: 0 1px 0 #fff;
+	font-size: 10px;
+	font-weight: 400;
+}
+
+
+/*
+ * Pagination
+ */
+.dataTables_paginate {
+	margin-top: 6px;
+	float: right;
+	text-align: right;
+}
+
+/* Two button pagination - previous / next */
+.paginate_disabled_previous,
+.paginate_enabled_previous,
+.paginate_disabled_next,
+.paginate_enabled_next {
+	height: 19px;
+	float: left;
+	cursor: pointer;
+	color: #292929 !important;
+	text-shadow: 0 1px 0 #fff;
+}
+.paginate_disabled_previous:hover,
+.paginate_enabled_previous:hover,
+.paginate_disabled_next:hover,
+.paginate_enabled_next:hover {
+	text-decoration: none !important;
+}
+.paginate_disabled_previous:active,
+.paginate_enabled_previous:active,
+.paginate_disabled_next:active,
+.paginate_enabled_next:active {
+	outline: none;
+}
+
+.paginate_disabled_previous,
+.paginate_disabled_next {
+	color: #666 !important;
+}
+.paginate_disabled_previous,
+.paginate_enabled_previous {
+	padding-left: 23px;
+}
+.paginate_disabled_next,
+.paginate_enabled_next {
+	padding-right: 23px;
+	margin-left: 10px;
+}
+
+.paginate_enabled_previous { background: url('../images/back_enabled.png') no-repeat top left; }
+.paginate_enabled_previous:hover { background: url('../images/back_enabled_hover.png') no-repeat top left; }
+.paginate_disabled_previous { background: url('../images/back_disabled.png') no-repeat top left; }
+
+.paginate_enabled_next { background: url('../images/forward_enabled.png') no-repeat top right; }
+.paginate_enabled_next:hover { background: url('../images/forward_enabled_hover.png') no-repeat top right; }
+.paginate_disabled_next { background: url('../images/forward_disabled.png') no-repeat top right; }
+
+/* Full number pagination */
+
+.paging_full_numbers a:active {
+	outline: none
+}
+.paging_full_numbers a:hover {
+	text-decoration: none;
+}
+
+.paging_full_numbers a.paginate_button,
+.paging_full_numbers a.paginate_active {
+	border: 1px solid #aaa;
+	padding: 2px 20px;
+	margin: 0 3px;
+	cursor: pointer;
+	color: #333 !important;
+}
+
+.paging_full_numbers a.paginate_button {
+	background-color: #ddd;
+}
+
+.paging_full_numbers a.paginate_button:hover {
+	background-color: #ccc;
+	text-decoration: none !important;
+}
+
+.paging_full_numbers a.paginate_active {
+	background-color: #99B3FF;
+}
+
+
+/*
+ * Processing indicator
+ */
+.dataTables_processing {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 250px;
+	height: 30px;
+	margin-left: -125px;
+	margin-top: -15px;
+	padding: 14px 0 2px 0;
+	border: 1px solid #ddd;
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+	background-color: white;
+}
+
+
+table.dataTable th:active {
+	outline: none;
+}
+
+/*
+ * Scrolling
+ */
+.dataTables_scroll {
+	clear: both;
+}
+
+.dataTables_scrollBody {
+	margin-top: -1px;
+}
+
+
+/*
+==============================================
+= ADMINITY TABLE & DATA TABLE CUSTOM STYLING =
+==============================================
+*/
+
+
+/* GENERAL */
+
+table thead tr {
+	background-image: url(../img/grad-overlay.png);
+	height: 30px; 
+}
+table thead th {
+	border-right: 1px solid #ccc;
+	color: #292929;
+	text-shadow: 0 1px 0 #fff;
+	font-size: 12px; 
+}
+table thead th:last-of-type { border-right: none; }
+table tbody {
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+}
+table tr.odd { background-color: #fff; }
+table tr.even { background-color: #f6f6f6; }
+table td { padding: 8px 10px; border-right: 1px solid #ccc; }
+table tbody tr:hover { background-color: #ddd; }
+
+.display { width: 100%; }
+
+/* TOOLBAR */
+
+.fg-toolbar {
+	background: url(../img/grad-overlay.png) #eee;
+	border: none;
+	border-radius: 0 0 2px 2px;
+}
+.table-toolbar {
+	height: 30px;
+	border-bottom: 1px solid #ccc;
+	background: url(../img/grad-overlay.png) #eee;
+}
+.table-toolbar li {
+	height: 30px;
+	border-right: 1px solid #ccc;
+	float: left;
+}
+.table-toolbar li a {
+	color: #292929;
+	font-size: 12px;
+	position: relative;
+	top: 4px;
+	padding: 7px 10px;
+	text-shadow: 0 1px 0 #fff;
+}
+.table-toolbar img {
+	position: relative;
+	top: 3px;
+}
+
+/* WRAPPER AND CONTENT */
+
+.DataTables_sort_wrapper {
+	padding: 4px 0;
+	position: relative;
+}
+.DataTables_sort_wrapper span {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+}
+
+.dataTables_wrapper {position: relative;}
+.dataTables_filter, .dataTables_length {
+	position: absolute;
+	top: -25px;
+	right: 8px;
+	display: inline-block;
+    color: #ddd;
+    height: 17px;
+}
+.dataTables_length {margin-right: 170px; }
+.table-toolbar + .dataTables_wrapper .dataTables_filter,
+.table-toolbar + .dataTables_wrapper .dataTables_length {
+	color: #292929;
+	text-shadow: 0 1px 0 #fff;
+	font-size: 12px;
+}
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_length {
+	color: #ddd;
+	text-shadow: 0 1px 0 #222;
+	font-size: 12px;
+}
+.dataTables_wrapper input {
+	padding: 1px !important;
+	box-shadow: none !important;
+}
+.dataTables_wrapper select {
+	padding: 0;
+	box-shadow: none !important;
+}
+.table-toolbar + .dataTables_wrapper.dataTables_filter input,
+.table-toolbar + .dataTables_wrapper.dataTables_length select {
+	background-color: #eee;
+	border: 1px solid #bbb;
+	border-radius: 2px;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+	background-color: #ddd;
+	border: 1px solid #bbb;
+	border-radius: 2px;
+}
+
+.dataTables_paginate .fg-button {
+	background: url(../img/grad-overlay-s.png) #ddd;
+	padding: 5px 7px;
+	font-weight: 400;
+	font-size: 10px;
+	color: #292929;
+	text-shadow: 0 1px 0 #eee;
+}
+.dataTables_paginate.paging_two_button { border: none !important; }
+.paging_two_button .fg-button {
+	background: url(../img/grad-overlay-s.png) #ddd;
+	padding: 2px 4px;
+	border: 1px solid #bbb;
+}
+.dataTables_paginate .fg-button:hover { background-color: #ccc; }
+.dataTables_paginate {
+	border: 1px solid #bbb;
+	border-radius: 2px;
+}
+
+/* For preventing interference with the jQuery Flot chart legends */
+
+.legendColorBox, .legendLabel { padding: 1px 2px; border: none; }
+

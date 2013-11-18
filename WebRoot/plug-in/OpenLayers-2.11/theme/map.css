@@ -1,0 +1,279 @@
+.customEditingToolbar {
+			float:left;
+            width: 100%;
+
+		}
+		.customEditingToolbar div {
+			float: left;
+			margin: 5px;
+			width: 24px;
+			height: 24px;
+		}
+		.olControlNavigationItemActive {
+            background-image: url("default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -103px -23px;
+        }
+        .olControlNavigationItemInactive {
+            background-image: url("default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -103px -0px;
+        }
+
+		.olControlFindFeatureCircleItemActive {
+            background-image: url("default/img/circleselect_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlFindFeatureCircleItemInactive {
+            background-image: url("default/img/circleselect_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+
+        }
+		.olControlFindFeaturePointItemActive {
+            background-image: url("default/img/select_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlFindFeaturePointItemInactive {
+            background-image: url("default/img/select_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+
+        }
+		.olControlFindFeatureSquareItemActive {
+            background-image: url("default/img/rectselect_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlFindFeatureSquareItemInactive {
+            background-image: url("default/img/rectselect_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+
+        }
+		.olControlFindFeaturePolygonItemActive {
+            background-image: url("default/img/polygonselect_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlFindFeaturePolygonItemInactive {
+            background-image: url("default/img/polygonselect_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+
+        }
+		.olControlFindFeatureLineItemActive {
+            background-image: url("default/img/draw_line_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlFindFeatureLineItemInactive {
+            background-image: url("default/img/draw_line_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlMeasureDistanceItemActive {
+            background-image: url("default/img/btnMeasureLine-on.gif");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlMeasureDistanceItemInactive {
+            background-image: url("default/img/btnMeasureLine-off.gif");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlMeasureAreaItemActive {
+            background-image: url("default/img/btnMeasureArea-on.gif");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlMeasureAreaItemInactive {
+            background-image: url("default/img/btnMeasureArea-off.gif");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        
+        .olControlDrawFeaturePointItemActive {
+            background-image: url("default/img/btnDrawPoint-on.gif");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDrawFeaturePointItemInactive {
+            background-image: url("default/img/btnDrawPoint-off.gif");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDrawFeaturePathItemActive {
+            background-image: url("default/img/btnDrawLine-on.gif");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDrawFeaturePathItemInactive {
+            background-image: url("default/img/btnDrawLine-off.gif");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDrawFeaturePolygonItemActive {
+            background-image: url("default/img/btnDrawPolygon-on.gif");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDrawFeaturePolygonItemInactive {
+            background-image: url("default/img/btnDrawPolygon-off.gif");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        
+        .olControlMoveFeatureItemActive {
+            background-image: url("default/img/move_feature_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlMoveFeatureItemInactive {
+            background-image: url("default/img/move_feature_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlModifyFeatureItemActive {
+            background-image: url("default/img/modify_vertex_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlModifyFeatureItemInactive {
+            background-image: url("default/img/modify_vertex_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDeleteFeatureItemActive {
+            background-image: url("default/img/remove_point_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDeleteFeatureItemInactive {
+            background-image: url("default/img/remove_point_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlSaveFeaturesItemActive {
+            background-image: url("default/img/save_features_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlSaveFeaturesItemInactive {
+            background-image: url("default/img/save_features_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlClearAllItemActive {
+            background-image: url("default/img/qingchu_on.png");
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlClearAllItemInactive {
+            background-image: url("default/img/qingchu_off.png");
+			background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+         .nodeStyle{
+        cursor:pointer;
+        width:16px;
+        height:16px;
+        padding-left:25px;
+        padding-top:10px
+        }   
+        .leftContent {width:270px;position:relative;overflow:hidden;}   
+		   body {
+                font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+                font-size: small;
+            }
+			#map {
+                clear: both;
+                position: relative;
+                width: 100%;
+                height: 90%;
+                border: 0px solid black;
+            }
+			#options {
+                position: absolute;
+                left: 13px;
+                top: 7px;
+                z-index: 3000;
+            }
+			#toolbar {
+                position: relative;
+                padding-bottom: 0.5em;
+                display: none;
+            }
+			#toolbar ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+			 #toolbar ul li {
+                float: left;
+                padding-right: 1em;
+                padding-bottom: 0.5em;
+            }
+			#toolbar ul li a {
+                font-weight: bold;
+                font-size: smaller;
+                vertical-align: middle;
+                color: black;
+                text-decoration: none;
+            }
+
+            #toolbar ul li a:hover {
+                text-decoration: underline;
+            }
+            
+            #toolbar ul li * {
+                vertical-align: middle;
+            }
+			#wrapper {
+                width: 512px;
+            }
+            
+            #location {
+                float: right;
+            }
+            
+            #options {
+                position: absolute;
+                left: 13px;
+                top: 7px;
+                z-index: 3000;
+            }
+             /* Styles used by the default GetFeatureInfo output, added to make IE happy */
+            table.featureInfo, table.featureInfo td, table.featureInfo th {
+                border: 1px solid #ddd;
+                border-collapse: collapse;
+                margin: 0;
+                padding: 0;
+                font-size: 90%;
+                padding: .2em .1em;
+            }
+            
+            table.featureInfo th {
+                padding: .2em .2em;
+                text-transform: uppercase;
+                font-weight: bold;
+                background: #eee;
+            }
+            
+            table.featureInfo td {
+                background: #fff;
+            }
+            
+            table.featureInfo tr.odd td {
+                background: #eee;
+            }
+            
+            table.featureInfo caption {
+                text-align: left;
+                font-size: 100%;
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: .2em .2em;
+            }

@@ -1,0 +1,129 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head> 
+		<title>bootstarp测试</title>
+		<link type="text/css" rel="stylesheet" href="plug-in/bootstrap/css/bootstrap.css"" ></link>
+		<link type="text/css" rel="stylesheet" href="plug-in/datatables/thems/grey/datatables_top.css"></link>
+		<link rel="stylesheet" href="plug-in/datatables/thems/grey/datatables_style.css" type="text/css"></link>
+		<script type="text/javascript" src="plug-in/jquery/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="plug-in/datatables/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" src="plug-in/datatables/thems/grey/datatables_style.js"></script>
+		<script type="text/javascript">
+	    $(document).ready(function() {
+		var oTable = $('#example').dataTable({
+			//"sDom" : "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+			"bProcessing" : true,//当datatable获取数据时候是否显示正在处理提示信息
+			"bPaginate" : true, //是否分页
+			"sPaginationType" : "bootstrap",//分页样式full_numbers,
+			"bFilter" : true,//是否使用内置的过滤功能
+			"bSort" : true, //排序功能
+			"bAutoWidth" : true,//自动宽度
+			"bLengthChange" : true,//是否允许用户自定义每页显示条数
+			"bInfo" : true,//页脚信息
+			"sAjaxSource" : "userController.do?test",
+			"bServerSide" : true,//指定从服务器端获取数据 	
+			"oLanguage" : { //汉化  
+				"sLengthMenu" : " _MENU_ 条记录",
+				"sZeroRecords" : "没有检索到数据",
+				"sInfo" : "第 _START_ 至 _END_ 条数据 共 _TOTAL_ 条",
+				"sInfoEmtpy" : "没有数据",
+				"sProcessing" : "正在加载数据...",
+				"sSearch" : "搜索",
+				"oPaginate" : {
+					"sFirst" : "首页",
+					"sPrevious" : "前页", 
+					"sNext" : "后页",
+					"sLast" : "尾页"
+				}
+			},
+			//获取数据的处理函数 //"data" : {_dt_json : JSON.stringify(aoData)},
+			"fnServerData" : function(sSource, aoData, fnCallback, oSettings) {
+				oSettings.jqXHR = $.ajax({
+					"dataType" : 'json',
+					"type" : "POST",
+					"url" : sSource,
+					"data" : aoData,
+					"success" : fnCallback
+				});
+			},
+			//"aaSorting": [[0 , "desc" ],[1 , "asc" ]],
+			"aoColumnDefs" : [ {
+				"sClass" : "center",
+				"aTargets" : [ 0, 1, 2, 3 ]
+			},
+			
+			{
+				"bSearchable" : false,
+				"aTargets" : [ 3, 4 ]
+			}, {
+				"bVisible" : false,
+				"aTargets" : [ 0 ]
+			},
+			{
+				"bSortable" : false,
+				"aTargets" : [ 3, 4 ]
+			} ],
+			"aoColumns" : [ {
+				"sName" : "id",
+				"sTitle" : "ID",
+				"mDataProp" : "id",
+				"mData" : "id"
+			}, {
+				"sName" : "userName",
+				"sTitle" : "用户名",
+				"mDataProp" : "userName",
+				"mData" : "userName",
+				"sWidth":"20%"
+			}, {
+				"sName" : "mobilePhone",
+				"sTitle" : "手机",
+				"mDataProp" : "mobilePhone",
+				"mData" : "mobilePhone",
+				"bSortable" : false,
+				"bSearchable" : false,
+				"sWidth":"20%"
+			}, {
+				"sName" : "TSDepart_departname",
+				"sTitle" : "部门",
+				"mDataProp" : "TSDepart_departname",
+				"mData" : "TSDepart_departname",
+				"sWidth":"20%"
+			}, {
+				"sTitle" : "操作",
+				"mData" : "id",
+				"sWidth":"30%",
+				"mRender" : function(data, type, row) {
+					return row.id;
+				}
+			} ]
+		});
+	});
+</script>
+  	</head>
+	<body>
+		
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="box">
+						<h4 class="box-header round-top">
+							<i class="icon-list"></i> 用户管理
+							<small class="hidden-phone">用户列表</small>
+							<a class="box-btn" title="关闭"><i class="icon-remove" ></i> </a>
+							<a class="box-btn" title="收缩"><i class="icon-minus"></i> </a>
+							<a class="box-btn" title="设置" data-toggle="modal"><i class="icon-cog"></i> </a>
+						</h4>
+						<div class="box-container-toggle" id="dd">
+							<div class="box-content">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered bootstrap-datatable" id="example">
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/span-->
+			</div>
+			<!--/row-->
+		
+	</body>
+</html>

@@ -1,0 +1,1 @@
+select count(*) from t_s_user

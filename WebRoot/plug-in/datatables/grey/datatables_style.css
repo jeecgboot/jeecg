@@ -1,0 +1,217 @@
+
+html,body {
+	margin: 0;
+	padding: 0;
+	margin-top: 3px;
+}
+.dataTables_wrapper {
+	position: relative;
+	min-height: 100%;
+	clear: both;
+	_height: 100%;
+	zoom: 1; /* Feeling sorry for IE */
+}
+/*加载信息样式*/
+.dataTables_processing {
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	width: 200px;
+	height: 20px;
+	margin-left: -125px;
+	margin-top: -15px;
+	padding: 14px 0 2px 0;
+	border: 1px solid #ddd;
+	text-align: center;
+	color: #ddd;
+	font-size: 14px;
+	background-color: white;
+}
+
+
+
+/*列表长度文字描述宽度*/
+div.dataTables_length label {
+	width: 150px;
+	float: left;
+	text-align: left;
+}
+/*列表长度下拉框宽度*/
+div.dataTables_length select {
+	width: 60px;
+}
+/*搜索框长度*/
+div.dataTables_filter label {
+	float: right;
+	width:250px;
+}
+/*列表INFO设置*/
+div.dataTables_info {
+	padding-top:0px;
+	width: 60%;
+	float: left;
+}
+/*分页条样式*/
+div.dataTables_paginate {
+	text-align: right;
+	float: right;
+	margin: 0;
+}
+/* Pagination nested */
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
+	height: 19px;
+	width: 19px;
+	margin-left: 3px;
+	float: left;
+}
+
+/*表格边距*/
+table {
+	margin: 2px 0;
+	clear: both;
+}
+
+table.dataTable th:active {
+	outline: none;
+}
+.uneditable-input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  /* IE6-9 搜索框样式 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+h1,h2,h3,h4,h5,h6{margin:0;font-family:'Telex',sans-serif;font-weight:bold;color:#317eac;text-rendering:optimizelegibility;}h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-weight:normal;color:#999999;}
+h4{font-size:14px;}h4 small{font-size:12px;}
+body{margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;line-height:12px;color:#555555;background-color:#ffffff;}
+.table tbody tr:hover td,.table tbody tr:hover th{background-color:#f5f5f5;}
+label,input,button,select,textarea{font-size:12px;font-weight:normal;line-height:10px;}
+table .header {
+	cursor: pointer;
+}
+
+table .header:after {
+	content: "";
+	float: right;
+	margin-top: 5px;
+	border-width: 0 4px 4px;
+	border-style: solid;
+	border-color: #000 transparent;
+	visibility: hidden;
+}
+table .headerSortUp,table .headerSortDown {
+	background-color: rgba(141, 192, 219, 0.25);
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+}
+
+table .header:hover:after {
+	visibility: visible;
+}
+
+table .headerSortDown:after,table .headerSortDown:hover:after {
+	visibility: visible;
+	filter: alpha(opacity = 60);
+	-khtml-opacity: 0.6;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+}
+
+table .headerSortUp:after {
+	border-bottom: none;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid #000;
+	visibility: visible;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	filter: alpha(opacity = 60);
+	-khtml-opacity: 0.6;
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+}
+
+table .blue {
+	color: #049cdb;
+	border-bottom-color: #049cdb;
+}
+
+table .headerSortUp.blue,table .headerSortDown.blue {
+	background-color: #ade6fe;
+}
+
+table .green {
+	color: #46a546;
+	border-bottom-color: #46a546;
+}
+
+table .headerSortUp.green,table .headerSortDown.green {
+	background-color: #cdeacd;
+}
+
+table .red {
+	color: #9d261d;
+	border-bottom-color: #9d261d;
+}
+
+table .headerSortUp.red,table .headerSortDown.red {
+	background-color: #f4c8c5;
+}
+
+table .yellow {
+	color: #ffc40d;
+	border-bottom-color: #ffc40d;
+}
+
+table .headerSortUp.yellow,table .headerSortDown.yellow {
+	background-color: #fff6d9;
+}
+
+table .orange {
+	color: #f89406;
+	border-bottom-color: #f89406;
+}
+
+table .headerSortUp.orange,table .headerSortDown.orange {
+	background-color: #fee9cc;
+}
+
+table .purple {
+	color: #7a43b6;
+	border-bottom-color: #7a43b6;
+}
+
+table .headerSortUp.purple,table .headerSortDown.purple {
+	background-color: #e2d5f0;
+}
+/*分页条样式*/
+.pagination {
+  height: 20px;
+  margin: 5px 0;
+}
+.pagination ul > li > a,
+.pagination ul > li > span {
+  float: left;
+  padding: 0 10px;
+  line-height: 25px;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-left-width: 0;
+}
+/*列表样式*/
+.table {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.table th,
+.table td {
+  padding: 6px;
+  line-height: 17px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+

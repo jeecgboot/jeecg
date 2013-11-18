@@ -1,0 +1,114 @@
+.maintitle {
+	FONT-SIZE: 13px; COLOR: #000000
+}
+.maintxt {
+	FONT-SIZE: 12px
+}
+.maintxt A:visited {
+	FONT-SIZE: 12px; COLOR: #000000; TEXT-DECORATION: none
+}
+.maintxt A:hover {
+	FONT-SIZE: 12px; COLOR: #ff0000; TEXT-DECORATION: none
+}
+.maintxt A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+.maintxt A:active {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:link {
+	TEXT-DECORATION: none
+}
+A:visited {
+	TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: none
+}
+A:active {
+	TEXT-DECORATION: none
+}
+.btn {
+	BORDER-RIGHT: #0066cc 1px solid; BORDER-TOP: #3366ff 1px solid; FONT-SIZE: 12px; PADDING-BOTTOM: 3px; MARGIN: 1px 0px 2px 3px; BORDER-LEFT: #0066cc 1px solid; WIDTH: 128px; COLOR: #ffffff; PADDING-TOP: 3px; BORDER-BOTTOM: #3366ff 1px solid; FONT-STYLE: normal; HEIGHT: 24px; BACKGROUND-COLOR: #638eef
+}
+.style2 {
+	FONT-SIZE: 12px; COLOR: #ff0000; FONT-FAMILY: "宋体", Arial, sans-serif
+}
+.style3 {
+	FONT-SIZE: 12px; FONT-FAMILY: "宋体", Arial, sans-serif
+}
+.redLink {
+	COLOR: #ff0000
+}
+.topSide {
+	BORDER-TOP: #3366cc 1px solid; BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #3366cc; BORDER-BOTTOM-WIDTH: 1px; BORDER-BOTTOM-COLOR: #3366cc; BORDER-RIGHT-WIDTH: 1px; BORDER-RIGHT-COLOR: #3366cc
+}
+.leftBorder {
+	BORDER-TOP-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-LEFT: #0066ff 1px dashed; BORDER-RIGHT-WIDTH: 1px
+}
+.downSide {
+	BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM: #0066ff 1px dashed; BORDER-RIGHT-WIDTH: 1px
+}
+.menuItem {
+	BORDER-TOP-WIDTH: 1px; PADDING-RIGHT: 0px; PADDING-LEFT: 12px; BORDER-LEFT-WIDTH: 1px; BORDER-LEFT-COLOR: #0000cc; BORDER-BOTTOM-WIDTH: 1px; BORDER-BOTTOM-COLOR: #0000cc; PADDING-BOTTOM: 0px; MARGIN: 1px 0px 0px; CURSOR: pointer; COLOR: #000066; BORDER-TOP-COLOR: #0000cc; PADDING-TOP: 1px; HEIGHT: 18px; BACKGROUND-COLOR: #e5ecf9; BORDER-RIGHT-WIDTH: 1px; BORDER-RIGHT-COLOR: #0000cc
+}
+.TableBlock {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; FONT-SIZE: 9pt; BORDER-LEFT: #a55257 1px solid; LINE-HEIGHT: 20px; BORDER-BOTTOM: #a55257 1px solid; BORDER-COLLAPSE: collapse
+}
+.TableBlock TD {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; COLOR: #000000; PADDING-TOP: 3px
+}
+.TableBlock .TableHeader TD {
+	BORDER-RIGHT: #a55257 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #a55257 1px solid; PADDING-LEFT: 0px; FONT-WEIGHT: bold; BACKGROUND: #e5ecf9; PADDING-BOTTOM: 0px; BORDER-LEFT: #a55257 1px solid; COLOR: #000; LINE-HEIGHT: 23px; PADDING-TOP: 0px; BORDER-BOTTOM: #a55257 1px solid
+}
+.TableBlock TD.TableHeader {
+	BORDER-RIGHT: #a55257 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #a55257 1px solid; PADDING-LEFT: 0px; FONT-WEIGHT: bold; BACKGROUND: #e5ecf9; PADDING-BOTTOM: 0px; BORDER-LEFT: #a55257 1px solid; COLOR: #000; LINE-HEIGHT: 23px; PADDING-TOP: 0px; BORDER-BOTTOM: #a55257 1px solid
+}
+.TableBlock .TableLine1 TD {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #f8f8f8
+}
+.TableBlock TD.TableLine1 {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #f8f8f8
+}
+.TableBlock .TableLine2 TD {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #ffffff
+}
+.TableBlock TD.TableLine2 {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #ffffff
+}
+.TableBlock .TableData TD {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #ffffff
+}
+.TableBlock TD.TableData {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #ffffff
+}
+.TableBlock TD.leftTableData {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #6699ff
+}
+.TableBlock .TableContent TD {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #f0f0f0
+}
+.TableBlock TD.TableContent {
+	BORDER-RIGHT: #a55257 1px solid; BORDER-TOP: #a55257 1px solid; BACKGROUND: #f0f0f0
+}
+.TableBlock .TableFooter TD {
+	BORDER-RIGHT: #cfddea 1px solid; BORDER-TOP: #cfddea 1px solid; BACKGROUND: #fff; BORDER-LEFT: #cfddea 1px solid; BORDER-BOTTOM: #cfddea 1px solid
+}
+.TableBlock .TableControl TD {
+	BORDER-RIGHT: #cfddea 1px solid; BORDER-TOP: #cfddea 1px solid; BACKGROUND: #fff; BORDER-LEFT: #cfddea 1px solid; BORDER-BOTTOM: #cfddea 1px solid
+}
+.TableBlock TD.TableFooter {
+	BORDER-RIGHT: #cfddea 1px solid; BORDER-TOP: #cfddea 1px solid; BACKGROUND: #fff; BORDER-LEFT: #cfddea 1px solid; BORDER-BOTTOM: #cfddea 1px solid
+}
+.TableBlock TD.TableControl {
+	BORDER-RIGHT: #cfddea 1px solid; BORDER-TOP: #cfddea 1px solid; BACKGROUND: #fff; BORDER-LEFT: #cfddea 1px solid; BORDER-BOTTOM: #cfddea 1px solid
+}
+.TableBlock .TableRed TD {
+	BACKGROUND: #ffebeb
+}
+.TableBlock TD.TableRed {
+	BACKGROUND: #ffebeb
+}
+BODY {
+	FONT-SIZE: 12px; FONT-FAMILY: arial, 宋体, serif
+}
