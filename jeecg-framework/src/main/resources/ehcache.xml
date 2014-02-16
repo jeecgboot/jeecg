@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- Cluster localhost setting -->
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="hostName=localhost, port=40001,socketTimeoutMillis=2000" />
+
+
+	<cache name="dictCache" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicatePuts=false,replicateUpdatesViaCopy=false" />
+	</cache>
+
+	<cache name="eternalCache" maxElementsInMemory="500"
+		overflowToDisk="true" eternal="false" timeToIdleSeconds="1200"
+		timeToLiveSeconds="1200">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicatePuts=false,replicateUpdatesViaCopy=false" />
+	</cache>
+	<!-- DefaultCache setting. Modify ehcache-safe.xml for timeToIdleSeconds,timeToLiveSecond,diskExpiryThreadIntervalSeconds 
+		Use ehcache-safe.xml default for maxElementsInMemory,maxElementsOnDisk,overflowToDisk,eternal 
+		Use ehcache default for memoryStoreEvictionPolicy,diskPersistent,. -->
+	<defaultCache maxElementsInMemory="10000" overflowToDisk="true"
+		eternal="false" memoryStoreEvictionPolicy="LRU" maxElementsOnDisk="10000000"
+		diskExpiryThreadIntervalSeconds="600" timeToIdleSeconds="3600"
+		timeToLiveSeconds="100000" diskPersistent="false" />
+</ehcache>

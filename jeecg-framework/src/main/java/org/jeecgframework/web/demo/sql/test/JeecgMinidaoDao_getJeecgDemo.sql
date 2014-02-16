@@ -1,0 +1,1 @@
+SELECT * FROM jeecg_minidao WHERE id=:id

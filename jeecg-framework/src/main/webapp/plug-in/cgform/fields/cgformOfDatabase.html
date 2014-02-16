@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div>
+	<table>
+		<tbody id="template_header_database">
+			<tr bgcolor="#E6E6E6">
+				<!-- 增加序号表头 -->
+				<th align="center" bgcolor="#EEEEEE">序号</th>
+				<th style="display: none;"><input style="display: none;"></th>
+				<th align="center" bgcolor="#EEEEEE">操作</th>
+				<th align="center" bgcolor="#EEEEEE">字段名称</th>
+				<th align="center" bgcolor="#EEEEEE">字段备注</th>
+				<th align="center" bgcolor="#EEEEEE">字段长度</th>
+				<th align="center" bgcolor="#EEEEEE">小数点</th>
+				<th align="center" bgcolor="#EEEEEE">默认值</th>
+				<th align="center" bgcolor="#EEEEEE">字段类型</th>
+				<th align="center" bgcolor="#EEEEEE">主键</th>
+				<th style="display: none;"><input style="display: none;"></th>
+				<th align="center" bgcolor="#EEEEEE">允许空值</th>
+			</tr>
+		</tbody>
+		<tbody id="add_column_table_template_database">
+			<tr>
+				<!-- 增加行序号<a>标签 -->
+				<td><a name="rownumber[#rindex#]"></a></td>
+				<td style="display: none;"><input style="display: none;" name="columns[#index#].id"
+					value=""></td>
+				<td align="left"><input style="width: 20px;" type="checkbox"
+					name="ck" /></td>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columns[#index#].fieldName" nullmsg="请输入字段名称！"
+					datatype="s1-20,/^[a-z\d_]+$/" errormsg="字段名称为1到20位且不能有大写字母" class="fieldNameInput" />
+					<input style="width: 120px;" type="hidden"
+					name="columns[#index#].oldFieldName"  /></td>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columns[#index#].content" nullmsg="请输入字段注释！" datatype="s2-14"
+					errormsg="字段注释为2到14位" class="contentInput" /></td>
+				<td align="left"><input name="columns[#index#].length"
+					nullmsg="请输入字段长度！" datatype="n1-4" errormsg="字段长度为1到4位"
+					maxlength="4" type="text" value="0" style="width: 60px;"></td>
+				<td align="left"><input name="columns[#index#].pointLength"
+					nullmsg="请输入小数点长度！" datatype="n1-2" errormsg="小数点长度为1到2位"
+					type="text" value="0" style="width: 60px;"></td>
+				<td align="left"><input name="columns[#index#].fieldDefault"
+					datatype="*1-20" errormsg="默认值最长为20！" ignore="ignore"
+					type="text" value="" style="width: 60px;"></td>
+				<td align="left"><select name="columns[#index#].type">
+						<option value="string">String</option>
+						<option value="int">Integer</option>
+						<option value="double">Double</option>
+						<option value="Date">Date</option>
+						<option value="BigDecimal">BigDecimal</option>
+						<option value="Text">Text</option>
+						<option value="Blob">Blob</option>
+				</select></td>
+				<td align="left"><input type="checkbox" style="width: 20px;"
+					name="columns[#index#].isKey"></td>
+				<td align="left" style="display: none;"><input name="columns[#index#].orderNum"
+					maxlength="2" nullmsg="请输入字段顺序！" datatype="n1-2"
+					errormsg="字段顺序为1到2位" type="hidden" value="0"
+					style="display: none;"></td>
+				<td align="left"><input type="checkbox" style="width: 50px;"
+					name="columns[#index#].isNull" checked="checked"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
