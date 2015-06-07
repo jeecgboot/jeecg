@@ -1,0 +1,3 @@
+formdesign 完全兼容新版Ueditor
+
+祝你生活愉快 ^_^ 代码没Bug ^_^

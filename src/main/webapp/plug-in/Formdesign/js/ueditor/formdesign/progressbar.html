@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>进度条</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript">
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+    </script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th><span>控件名称</span><span class="label label-important">*</span></th>
+        <th><span>跨度</span></th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgname" type="text" placeholder="必填项"/>
+        </td>
+        <td>
+            <input id="orgvalue" type="text" value="20" class="input-small span1" /> %
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">进度条样式</th>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label><input type="radio" value="progress-info" name="orgsigntype" checked /><code>表示重要信息</code></label>
+            <div class="progress progress-info">
+              <div class="bar" style="width: 20%;"></div>
+            </div>
+            <label><input type="radio" value="progress-success" name="orgsigntype" /><code>表示完成情况</code></label>
+            <div class="progress progress-success">
+              <div class="bar" style="width: 40%;"></div>
+            </div>
+            <label><input type="radio" value="progress-warning" name="orgsigntype" /><code>表示警告、提醒</code></label>
+            <div class="progress progress-warning">
+              <div class="bar" style="width: 60%;"></div>
+            </div>
+            <label><input type="radio" value="progress-danger" name="orgsigntype" /><code>表示危险、高度重视</code></label>
+            <div class="progress progress-danger">
+              <div class="bar" style="width: 80%;"></div>
+            </div>
+            <p>部分浏览器或无 [ CSS3渐变、过渡 ] 等动画效果。</p>
+        </td>
+    </tr>
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'progressbar';
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        var gValue = oNode.getAttribute('orgvalue').replace(/&quot;/g,"\""),gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gStyle=oNode.getAttribute('orgsigntype');
+        gValue = gValue==null ? '' : gValue;
+        gTitle = gTitle==null ? '' : gTitle;
+        $G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        for ( var i = 0; i < document.getElementsByName('orgsigntype').length;i++) {
+            if (document.getElementsByName('orgsigntype')[i].value == gStyle){
+                document.getElementsByName('orgsigntype')[i].checked = true;
+                break;
+            }
+        }
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+    
+    if( $G('orgname').value == '') {
+        alert('控件名称不能为空');
+        $G('orgname').focus();
+        return false;
+    }
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gStyle='';
+    for ( var i = 0;i < document.getElementsByName('orgsigntype').length; i ++) {
+        if (document.getElementsByName('orgsigntype')[i].checked){
+            gStyle = document.getElementsByName('orgsigntype')[i].value;
+            break;
+        }
+    }
+    
+    if( !oNode ) {
+        try {
+            oNode = createElement('img','leipiNewField');
+            oNode.setAttribute('title',gTitle);
+            oNode.setAttribute('name','leipiNewField');
+            oNode.setAttribute('leipiPlugins',thePlugins );
+            oNode.setAttribute('orgvalue',orgvalue);
+            oNode.setAttribute('orgsigntype',gStyle);
+            if ( $G('orgvalue').value == '' ) {
+                oNode.setAttribute('orgvalue','1');
+            } else {
+                oNode.setAttribute('orgvalue',gValue);
+            }
+            oNode.setAttribute('src',editor.options.UEDITOR_HOME_URL + UE.leipiFormDesignUrl+'/images/progressbar.gif');
+            editor.execCommand('insertHtml',oNode.outerHTML);
+            return true ;
+        } catch ( e ) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请到 [雷劈网] 反馈或寻求帮助！');
+            }
+            return false;
+        }
+    } else {
+        oNode.setAttribute('orgsigntype',gStyle);
+        oNode.setAttribute('title',gTitle);
+        if ($G('orgvalue').value == '') {
+            oNode.setAttribute('orgvalue','1');
+        } else {
+            oNode.setAttribute('orgvalue',gValue);
+        }
+        delete UE.plugins[thePlugins].editdom;
+        return true;
+    }
+};
+</script>
+</body>
+</html>

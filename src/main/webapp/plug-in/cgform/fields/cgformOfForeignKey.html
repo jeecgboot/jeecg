@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="../../jquery/jquery-1.8.3.js"></script>
+
+<script>
+	var parentObj =window.parent;
+	//var langurl = parentObj.langurl.value;
+	var langurl = parentObj.document.getElementById("langurl").value;
+	var mutiLangScript = "<script type='text/javascript' src='" + langurl + "'><\/script>";
+	document.write(mutiLangScript);
+</script>
+
+</head>
+<body>
+	<div>
+	<table>
+		<tbody id="template_header_key">
+			<tr bgcolor="#E6E6E6">
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldname">字段名称</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldremark">字段备注</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="mastertablename">主表名</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="mastertablefield">主表字段</th>
+			</tr>
+		</tbody>
+		<tbody id="add_column_table_template_key">
+			<tr>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columnsfieldName_index"
+					readonly="readonly" /></td>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columnscontent_index"
+					readonly="readonly" /></td>
+				<td align="left"><input name="columns[#index#].mainTable"
+					maxlength="150" type="text" style="width: 120px;"></td>
+				<td align="left"><input name="columns[#index#].mainField"
+					maxlength="150" type="text" style="width: 120px;"></td>
+
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+	$("[mutiLang_id]").each(function() {
+		this.innerText = eval(this.attributes["mutiLang_id"].value);
+	});
+})
+</script>

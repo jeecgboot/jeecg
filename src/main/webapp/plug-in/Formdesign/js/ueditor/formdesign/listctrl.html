@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>列表控件属性</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript" src="./jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;
+}
+</script>
+ 
+</head>
+<body>
+<div class="content">
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <td> 
+                <span> 控件名称 ：</span> 
+                <input id="orgname" placeholder="必填项" type="text" class="input-medium" value="列表控件"/> <span class="label label-important">*</span>
+            </td>
+            <td>
+                宽 <input id="orgwidth" type="text" value="100%" class="input-small span1" placeholder="auto"/> % 或 px
+            </td>
+        </tr>
+    </thead>
+</table>
+
+
+            <table class="table table-striped table-bordered table-condensed"  id="tbl">
+                <thead>
+                    <tr>
+                        <th> <span>序号</span> </th>
+                        <th> <span>表头</span> </th>
+                        <th> <span>类型</span> </th>
+                        <th> <span>单位</span> </th>
+                        <th> <span>合计</span> <a id="showCountTips" title="在该列的底部显示该列的合计数值，数据类型只允许数值类型" rel="popover"><i class="icon-info-sign"></i></a> </th>
+                        <th> <span>默认值</span> </th>
+                    </tr>
+                </thead>
+                <tbody id="tbl1">
+                    <tr>
+                        <td><span class="badge">1</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_1" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_1" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_1" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_1" class="csum" value="1"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_1"  type="text" class="input-medium"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge">2</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_2" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_2" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                                
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_2" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_2" class="csum" value="2"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_2"  type="text" class="input-medium"/></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge">3</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_3" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_3" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_3" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_3" class="csum" value="3"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_3"  type="text" class="input-medium"/></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">4</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_4" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_4" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_4" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_4" class="csum" value="4"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_4"  type="text" class="input-medium"/></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge">5</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_5" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_5" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_5" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_5" class="csum" value="5"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_5"  type="text" class="input-medium"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge">6</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_6" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_6" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_6" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_6" class="csum" value="6"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_6"  type="text" class="input-medium"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge">7</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_7" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_7" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_7" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_7" class="csum" value="7"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_7"  type="text" class="input-medium"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="badge">8</span></td>
+                        <td title="Tab键切换输入框"> <input id="item_8" type="text" class="input-medium"> </td>
+                        <td title="Tab键切换输入框">
+                            <select id="coltype_8" class="input-medium">
+                                <option value="text">单行输入框</option>
+                                <option value="textarea">多行输入框</option>
+                                <option value="int">数值</option>
+                            </select>
+                        </td>
+                        <td title="Tab键切换输入框"> <label><input type="text" class="input-mini" id="unit_8" value=""> </label> </td>
+                        <td title="Tab键切换输入框"> <label> <input type="checkbox" id="sum_8" class="csum" value="8"> </label> </td>
+                        <td title="Tab键切换输入框"><input id="colvalue_8"  type="text" class="input-medium"/></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        <!--div class="alert alert-danger">提示：</div-->
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'listctrl';
+var rows_count = 8;
+var adefaultDatatype = ['text','textarea','int','calc'];
+
+window.onload = function() {
+    //弹出窗口初始化函数，这里主要是判断是编辑下拉列表还是新增
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        $G('orgname').value = oNode.getAttribute('title');
+        var gWidth=oNode.getAttribute('orgwidth');  
+        var gTitle = oNode.getAttribute('orgtitle'),
+                gColType = oNode.getAttribute('orgcoltype'),
+                gUnit = oNode.getAttribute('orgunit'),
+                gSum = oNode.getAttribute('orgsum'),
+                gColValue = oNode.getAttribute('orgcolvalue');
+        var aTitle = gTitle.split('`'),
+                aColType = gColType ? gColType.split('`') : null,
+                aUnit = gUnit ? gUnit.split('`') : null,
+                aSum = gSum ? gSum.split('`') : null,
+                aColValue = gColValue ? gColValue.split('`') : null;
+        $G('orgwidth').value = gWidth;
+
+        for ( var i = 0;i < aTitle.length-1; i++ ) {
+            
+            var sItem = 'item_' + (i + 1),
+            sColtype = 'coltype_' + (i + 1),
+            sUnit = 'unit_' + (i + 1),
+            sNum = 'sum_' + (i + 1),
+            sColValue = 'colvalue_' + (i + 1);
+            $G(sItem).value = aTitle[i];
+            $G(sUnit).value = aUnit[i];
+            if ( gSum ) {
+                $G(sNum).checked = aSum[i] == 1 ? true : false;
+            }
+            if ( gColType ) {
+                $('#' + sColtype).val(aColType[i]);
+            }
+            if ( gColValue ) {
+                if($.inArray(aColType[i],adefaultDatatype) !== -1){
+                    $G(sColValue).value = aColValue[i];
+                }
+            }
+        }
+
+    }
+    //合计，强制选择 int
+    $(".csum").click(function(){
+        if($(this).attr("checked"))
+        {
+            var i = $(this).val();
+            $("#coltype_"+ i).val('int');
+        }
+
+    });
+}
+dialog.oncancel = function () {
+if( UE.plugins[thePlugins].editdom ) {
+    delete UE.plugins[thePlugins].editdom;
+}
+};
+dialog.onok = function (){
+
+    var gName=$G('orgname').value.replace(/\"/g,"&quot;"),gWidth=$G('orgwidth').value;
+
+    if( gName == '') {
+        alert('控件名称不能为空');
+        $G('orgname').focus();
+        return false;
+    }
+
+    var gTitle = '',gColType = '' ,gUnitValue='' ,gSum = '' ,gColValue = '' ,
+        nCount = 0 ;
+    for (var i = 1;i <= rows_count; i ++ ) {
+        var oItem  = $G( "item_" + i ) ,
+        oSum = $G( 'sum_'+i ) , oColType = $G('coltype_' + i) ,
+        oColValue = $G('colvalue_' + i) , oUnit = $G( 'unit_' + i);
+            
+        if ( oItem.value != '') {
+            if(gTitle.indexOf(oItem.value+ '`') !== -1 )
+            {
+                continue;//重复
+            }
+            gTitle += oItem.value + '`'; //表头
+            nCount ++ ;
+            if ( oSum.checked ) { //合计
+                gSum += '1`';
+            } else {
+                gSum += '0`';
+            }
+            gColType += oColType.value + '`';
+            gColValue += oColValue.value + '`';
+            gUnitValue += oUnit.value + '`';
+            
+        }//end if
+    }//end for
+
+    if ( nCount == 0 ) {
+        alert("表头项目不能为空");
+        return false;
+    }
+
+    if( !oNode ) {
+
+        try {
+            oNode = createElement('input','leipiNewField');
+            oNode.setAttribute('leipiPlugins',thePlugins );
+            oNode.setAttribute('type','text');
+            oNode.setAttribute('value','{列表控件}');
+            oNode.setAttribute('readonly','readonly');
+            oNode.setAttribute('title',gName);
+            oNode.setAttribute('orgtitle',gTitle);
+            oNode.setAttribute('orgcoltype',gColType);
+            oNode.setAttribute('orgunit',gUnitValue);
+            oNode.setAttribute('orgsum',gSum);
+            oNode.setAttribute('orgcolvalue',gColValue);
+           
+            if( gWidth != '' ) {
+                oNode.style.width = gWidth;
+            }
+            oNode.setAttribute('orgwidth',gWidth );
+            
+            editor.execCommand('insertHtml',oNode.outerHTML);
+            return true ;
+        } catch (e) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请到 [雷劈网] 反馈或寻求帮助！');
+            }
+            return false;
+        }
+    } else {
+        //修改
+        oNode.setAttribute('leipiPlugins',thePlugins );
+        oNode.setAttribute('title',gName);
+        oNode.setAttribute('orgtitle',gTitle);
+        oNode.setAttribute('orgcoltype',gColType);
+        oNode.setAttribute('orgunit',gUnitValue);
+        oNode.setAttribute('orgsum',gSum);
+        oNode.setAttribute('orgcolvalue',gColValue);
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth;
+        }else
+        {
+            oNode.style.width = '';
+        }
+        oNode.setAttribute('orgwidth',gWidth );
+        
+
+        delete UE.plugins[thePlugins].editdom; //使用后清空这个对象，变回新增模式
+    }
+};
+</script>
+</body>
+</html>

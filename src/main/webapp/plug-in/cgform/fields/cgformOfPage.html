@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="../../jquery/jquery-1.8.3.js"></script>
+
+<script>
+	var parentObj =window.parent;
+	//var langurl = parentObj.langurl.value;
+	var langurl = parentObj.document.getElementById("langurl").value;
+	var mutiLangScript = "<script type='text/javascript' src='" + langurl + "'><\/script>";
+	document.write(mutiLangScript);
+</script>
+
+</head>
+<body>
+	<div>
+	<table>
+		<tbody id="template_header_page">
+			<tr bgcolor="#E6E6E6">
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldname">字段名称</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldremark">字段备注</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="formdisplay">表单显示</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="griddisplay">列表显示</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="controltype">控件类型</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="controllength">控件长度</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="isquery">是否查询</th>
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="querytype">查询类型</th>
+			</tr>
+		</tbody>
+		<tbody id="add_column_table_template_page">
+			<tr>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columnsfieldName_index"
+					readonly="readonly" /></td>
+				<td align="left"><input style="width: 120px;" type="text"
+					name="columnscontent_index"
+					readonly="readonly" /></td>
+				<td align="left"><input type="checkbox" checked="checked"
+					name="columns[#index#].isShow" style="width: 50px;"></td>
+				<td align="left"><input type="checkbox" checked="checked"
+					name="columns[#index#].isShowList" style="width: 50px;"></td>
+				<td align="left"><select name="columns[#index#].showType">
+						<option value="text">text</option>
+						<option value="password">password</option>
+						<option value="radio">radio</option>
+						<option value="checkbox">checkbox</option>
+						<option value="date">date</option>
+						<option value="datetime">datetime</option>
+						<option value="file">file</option>
+						<option value="textarea">textarea</option>
+						<option value="list">select</option>
+						<option value="popup">popup</option>
+				</select></td>
+				<td align="left"><input name="columns[#index#].fieldLength"
+					value="120" type="text" style="width: 60px;"></td>
+				<td align="left"><input type="checkbox"
+					name="columns[#index#].isQuery" style="width: 50px;"></td>
+				<td align="left"><select name="columns[#index#].queryMode">
+						<option value="single">single</option>
+						<option value="group">group</option>
+				</select></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+	$("[mutiLang_id]").each(function() {
+		this.innerText = eval(this.attributes["mutiLang_id"].value);
+	});
+})
+</script>

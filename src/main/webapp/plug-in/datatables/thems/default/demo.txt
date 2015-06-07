@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%@include file="/context/mytags.jsp"%>
+<html>
+ <head>
+  <title>bootstarp测试</title>
+  <link type="text/css" rel="stylesheet" href="plug-in/bootstrap/css/bootstrap.css"" ></link>
+  <link type="text/css" rel="stylesheet" href="plug-in/datatables/thems/default/datatables_style.css"></link>
+  <link href="plug-in/datatables/thems/default/box.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="plug-in/jquery/jquery-1.8.2.min.js"></script>
+  <script type="text/javascript" src="plug-in/datatables/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="plug-in/artDiglog/jquery.artDialog.js?skin=blue"></script>
+  <script type="text/javascript" src="plug-in/artDiglog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+ </head>
+ <body>
+  <div class="row-fluid">
+   <div class="span12">
+    <div class="box gradient">
+     <div class="title">
+      <h4>
+       <span>用户列表</span>
+      </h4>
+     </div>
+     <div class="content noPad clearfix">
+      <t:dategrid name="userList" title="用户管理" actionUrl="userController.do?datagrid" style="dynamicTable display table table-bordered" idField="id">
+       <t:dgCol title="ID" field="id" hidden="true"></t:dgCol>
+       <t:dgCol title="用户名" field="userName"></t:dgCol>
+       <t:dgCol title="手机" field="mobilePhone" query="true"></t:dgCol>
+       <t:dgCol title="部门" field="TSDepart_departname" sortable="false"></t:dgCol>
+       <t:dgCol title="操作" field="opt"></t:dgCol>
+       <t:dgurl type="1" url="userController.do?del&id={0}" arg="id" name="删除"></t:dgurl>
+      </t:dategrid>
+     </div>
+    </div>
+    <!-- End .box -->
+   </div>
+   <!-- End .span12 -->
+  </div>
+  <!-- End .row-fluid -->
+ </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>表单设计器 - 清单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+</head>
+<body>
+
+<div class="well">
+<div class="alert alert-info">
+<span class="pull-right"><a href="http://formdesign.leipi.org/index.php/doc.html" target="_blank"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;使用教程</a></span>
+控件列表 
+</div>
+<p>
+    <button type="button" onclick="leipiDialog.exec('text');" class="btn btn-info btn-small">单行输入框</button>
+    <button type="button" onclick="leipiDialog.exec('textarea');" class="btn btn-info btn-small">多行输入框</button>
+    <button type="button" onclick="leipiDialog.exec('select');" class="btn btn-info btn-small">下拉菜单</button>
+    <button type="button" onclick="leipiDialog.exec('radios');" class="btn btn-info btn-small">单选框</button>
+    <button type="button" onclick="leipiDialog.exec('checkboxs');" class="btn btn-info btn-small">复选框</button>
+    <button type="button" onclick="leipiDialog.exec('macros');" class="btn btn-info btn-small">宏控件</button>
+    <button type="button" onclick="leipiDialog.exec('progressbar');" class="btn btn-info btn-small">进度条</button>
+	<button type="button" onclick="leipiDialog.exec('qrcode');" class="btn btn-info btn-small">二维码</button>
+</p>
+<br/>
+<p>
+    <button type="button" onclick="leipiDialog.exec('listctrl');" class="btn btn-info btn-small">列表控件</button>
+
+    <button type="button" onclick="leipiDialog.exec('more');" class="btn btn-primary btn-small">一起参与...</button>
+</p>
+</div>
+<script type="text/javascript">
+var leipiDialog = {
+    exec : function (method) {
+        editor.execCommand(method);
+        dialog.close(true);
+    }
+};
+</script>
+</body>
+</html>

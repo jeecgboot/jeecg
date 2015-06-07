@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+/*********按钮区域***************/
+.button-row { width : 100%; padding : 0; margin : 0; white-space : nowrap; text-align : right; }
+
+/*********录入区域***************/
+div.formDetails label input { border : 1px solid #54A5D5; padding:2px; }
+
+div.formDetails label textarea,
+select { border : 1px solid #D7D7D7; padding:6px; width:157px; border-radius: 3px;}
+
+div.formDetails { background-color: #f2f7fe; border: solid 1px #5BB5FD; padding:5px; line-height:20px; visibility:visible; overflow:hidden; }
+
+div.formDetails label {text-align: right; width:300px; display: inline-block; visibility:visible; padding:0; margin-right:10px; margin-top:5px; }
+
+div.formDetails label span.righttext{text-align: left; width:300px; display: inline-block; visibility:visible; padding:0; margin-left:10px; margin-top:5px; }
+
+div.formDetails label span.Validform_label{text-align: right; width:100px; display: inline-block; visibility:visible; padding:0; margin-left:10px; margin-top:5px; }
+
+div.formDetails label.row { text-align: left; width:616px; *width:610px;
+display: block; overflow:hidden; padding:0;  margin-left:15px;}
+
+div.formDetails label.row textarea { width:442px; *width:436px;
+_width:440px; overflow:auto; height:auto; }
+
+div.formDetails label.row input { width:442px; *width:436px;
+_width:440px; _height:20px; }
+
+div.formDetails input[type="button"],
+input[type="submit"],
+input[type="reset"] { background-color:#39F; background-image:url(../images/tab_14.gif); color:#333 !important; font-family:"微软雅黑"; font-size:12px; padding:2px 6px !important; *padding:0 2px !important;
+cursor:pointer !important; border:1px solid #D7EAFF !important; margin-right:4px !important; width:auto !important; }
+
+input[type="file"] { background-color: #D7EAFF; border : 1px solid #54A5D5; width:auto !important; padding:2px; }
+
+input[type="text"] { 
+	background-color: #fff; 
+	/*border : 1px solid #54A5D5;
+	padding:2px;  */
+	
+	border: 1px solid #D7D7D7;
+	border-radius: 3PX;
+	/*height: 14PX;*/
+	padding: 7px 0 7px 5px;
+	line-height: 14PX;
+	font-size: 12px;
+	display: inline-block;
+}

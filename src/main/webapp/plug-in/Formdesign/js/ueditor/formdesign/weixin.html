@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>微信模板</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript" src="../../../../jquery/jquery-1.8.3.js">
+    <script type="text/javascript" src="../../../../tools/json2.js" ></script>
+    <style type="text/css">
+.wrap{ padding: 0px;font-size: 14px;}
+.left{width:100%;}
+
+.center{width:95%;border: 1px solid #ccc;padding:1px;margin-right:1px;}
+.center .pre{height: 250px;overflow-y: auto;}
+
+.center .pre .preitem{width:650px;border: white 1px solid;margin: 0px 0;padding: 2px 0;}
+.center .preitem:hover{background-color: lemonChiffon;cursor: pointer;border: #ccc 1px solid;}
+.center .preitem div{margin: 0 auto;width:100%;}
+.center .preitem p img{width:auto!important;}
+.center .preitem span img{width:auto!important;}
+.center .preitem img{width:100%;}
+
+
+.clear{clear: both;}
+.top{height:20px;line-height: 26px;padding: 0px;}
+.footer{float:left;width:95%;height:100px;}
+.bottom{ width:100%;  margin-left:0px;height:100px;margin: 0 auto;}
+.bottom img{width:100%;  margin-left:0px;margin: 0 auto;}
+.bottom p img{width:auto!important;}
+.border_style1{padding:0px;border: 1px solid #ccc;border-radius: 0px;box-shadow:2px 2px 0px #d3d6da;}
+
+.transparent{ background: url("template/images/bg.gif") repeat;}
+
+.bottom table tr td{border:1px dashed #ccc;}
+#colorPicker{width: 17px;height: 17px;border: 1px solid #CCC;display: inline-block;border-radius: 3px;box-shadow: 2px 2px 5px #D3D6DA;}
+
+p{margin: 0px 0}
+table{clear:both;margin-bottom:0px;border-collapse:collapse;word-break:break-all;}
+li{clear:both}
+ol{padding-left:0px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="left">
+            <div class="top">
+                <label><var id="lang_template_clear">保留原有内容</var>：<input id="issave" checked type="checkbox"></label>
+           
+            </div>  
+             <div class="center"> <fieldset  class="border_style1">
+            <legend><var id="lang_template_select"></var></legend>
+            <div class="pre" id="preitem"></div>
+        </fieldset> </div>
+         
+        </div>
+        <div class="footer"><label><var id="lang_template_clear">选择预览</var></label>
+         <div class="bottom border_style1" id="preview"></div></div>
+        
+        <div class="clear"></div>
+    </div>
+    <script type="text/javascript">
+/**
+* Templates.
+* 添加模板，以下面配置即可
+*/
+var templates = [
+    {
+        "pre":"pre0.png",//预览图
+        'title':"表单设计器模板",//标题
+        //预览html
+        'preHtml':'<p style="text-align: center;"><span style="font-size: 24px;">示例</span></p><hr/>表单设计器模板，注意控件：name="leipiNewField"',
+        //确认后到编辑器的html
+        "content":'<p style="text-align: center;"><span style="font-size: 24px;">示例</span></p><hr/>表单设计器模板，注意控件：name="leipiNewField"'
+    },{
+     "pre":"pre1.png",
+        'title':"微信",
+        'content':
+    '<blockquote style="margin: 0.2em; padding: 10px; border: 3px solid rgb(201, 201, 201); border-image-source: none; font-family: 微软雅黑; font-size: 13px; white-space: normal; max-width: 100%; color: rgb(62, 62, 62); line-height: 25.6000003814697px; box-shadow: rgb(170, 170, 170) 0px 0px 10px; -webkit-box-shadow: rgb(170, 170, 170) 0px 0px 10px; word-wrap: break-word !important; box-sizing: border-box !important; background-color: rgb(255, 255, 255);">'
++'<p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; border: 0px; max-width: 100%; word-wrap: normal; min-height: 1em; box-sizing: border-box !important;">'
++'<span style="margin: 0px; padding: 0px; border: 0px; max-width: 100%; line-height: 25.6000003814697px; word-wrap: break-word !important; box-sizing: border-box !important;">可在这输入内容， 微推宝微信编辑器，微信编辑首选。</span>'
++'</p><p><span style="margin: 0px; padding: 0px; border: 0px; max-width: 100%; line-height: 25.6000003814697px; word-wrap: break-word !important; box-sizing: border-box !important;"><br></span>'
++'</p></blockquote><p><br></p>'
+},
+    {
+        "pre":"pre1.png",
+        'title':"欢迎使用",
+        'preHtml':'<p style="text-align: center;"><br/></p><p style="text-align: center;"><span style="font-size: 24px;">示例表</span></p><table class="table table-bordered"> <tbody> <tr class="firstRow"><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">文本框 </td> <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" > <input style="text-align: left; width: 150px;" title="文本框" value="雷劈网" name="leipiNewField" orgheight="" orgwidth="150" orgalign="left" orgfontsize="" orghide="0" leipiplugins="text" orgtype="text"/> </td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" >下拉菜单</td> <td valign="top" style="border-color: rgb(221, 221, 221);"> {|-<span leipiplugins="select"><select name="leipiNewField" title="下拉菜单" leipiplugins="select" size="1" orgwidth="150" style="width: 150px;"><option value="下拉">下拉</option> <option value="菜单"> 菜单 </option></select>&nbsp;&nbsp;</span>-|}</td> </tr><tr> <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);"> 单选</td> <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" >              {|-<span leipiplugins="radios" class="radios" orgtimestamp="1407254440134" title="单选"><input name="leipiNewField" value="单选1" title="单选" orgtimestamp="1407254440134" leipiplugins="radio" type="radio"/>单选1&nbsp;<input name="leipiNewField" value="单选2" title="单选" orgtimestamp="1407254440134" leipiplugins="radio" type="radio"/>单选2&nbsp;</span>-|}           </td> <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" >              复选           </td> <td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">                {|-<span class="checkboxs" leipiplugins="checkboxs" orgtimestamp="1407254454990" title="复选"><input name="leipiNewField" value="复选1" title="复选" orgtimestamp="1407254454990" leipiplugins="checkbox" type="checkbox"/>复选1&nbsp;<input name="leipiNewField" value="复选2" title="复选" orgtimestamp="1407254454990" leipiplugins="checkbox" type="checkbox"/>复选2&nbsp;<input name="leipiNewField" value="复选3" title="复选" orgtimestamp="1407254454990" leipiplugins="checkbox" type="checkbox"/>复选3&nbsp;</span>-|}            </td> </tr> <tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">                宏控件            </td><td valign="top" style="border-color: rgb(221, 221, 221);" >                <input name="leipiNewField" type="text" value="{macros}" title="宏控件" leipiplugins="macros" orgtype="sys_date_cn" orghide="0" orgfontsize="12" orgwidth="150" style="font-size: 12px; width: 150px;"/> </td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" >               二维码</td><td valign="top" style="border-color: rgb(221, 221, 221);" >                <img name="leipiNewField" title="雷劈网" value="http://www.leipi.org" orgtype="url" leipiplugins="qrcode" src="/Public/js/ueditor/formdesign/images/qrcode.gif" orgwidth="40" orgheight="40" style="width: 40px; height: 40px;"/></td></tr></tbody></table>',
+        "content":'<p style="text-align: center;"><br/></p><p style="text-align: center;"><span style="font-size: 24px;">示例表</span></p><table class="table table-bordered"><tbody><tr class="firstRow"><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">                文本框</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="227"><input style="text-align: left; width: 150px;" title="文本框" value="雷劈网" name="leipiNewField" orgheight="" orgwidth="150" orgalign="left" orgfontsize="" orghide="0" leipiplugins="text" orgtype="text"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">                下拉菜单</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312">                {|-<span leipiplugins="select"><select name="leipiNewField" title="下拉菜单" leipiplugins="select" size="1" orgwidth="150" style="width: 150px;"><option value="下拉">                    下拉</option><option value="菜单">                    菜单</option></select>&nbsp;&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">                单选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="41">                {|-<span leipiplugins="radios" title="单选" name="leipiNewField"><input value="单选1" type="radio" checked="checked" name=""/>单选1&nbsp;<input value="单选2" type="radio" name=""/>单选2&nbsp;</span>-|}</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">                复选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="312">                {|-<span leipiplugins="checkboxs" title="复选"><input name="leipiNewField" value="复选1" type="checkbox" checked="checked"/>复选1&nbsp;<input name="leipiNewField" value="复选2" type="checkbox" checked="checked"/>复选2&nbsp;<input name="leipiNewField" value="复选3" type="checkbox"/>复选3&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">                宏控件</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="41"><input name="leipiNewField" type="text" value="{macros}" title="宏控件" leipiplugins="macros" orgtype="sys_date_cn" orghide="0" orgfontsize="12" orgwidth="150" style="font-size: 12px; width: 150px;"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">                二维码</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312"><img name="leipiNewField" title="雷劈网" value="http://www.leipi.org" orgtype="url" leipiplugins="qrcode" src="/Public/js/ueditor/formdesign/images/qrcode.gif" orgwidth="40" orgheight="40" style="width: 40px; height: 40px;"/></td></tr></tbody></table><p><input name="leipiNewField" leipiplugins="listctrl" type="text" value="{列表控件}" readonly="readonly" title="采购商品列表" orgtitle="商品名称`数量`单价`小计`描述`" orgcoltype="text`int`int`int`text`" orgunit="```元``" orgsum="0`0`0`1`0`" orgcolvalue="`````" orgwidth="100%" style="width: 100%;"/></p><p><textarea title="多行文本" name="leipiNewField" leipiplugins="textarea" value="" orgrich="0" orgfontsize="12" orgwidth="600" orgheight="80" style="font-size:12px;width:600px;height:80px;"></textarea></p><p><img name="leipiNewField" title="进度条" leipiplugins="progressbar" orgvalue="20" orgsigntype="progress-info" src="/Public/js/ueditor/formdesign/images/progressbar.gif"/></p>'
+
+    }
+];
+
+/**
+ *  Templates.
+ */
+(function () {
+function GetQueryString(name) {  
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
+    var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+    var context = "";  
+    if (r != null)  
+         context = r[2];  
+    reg = null;  
+    r = null;  
+    return context == null || context == "" || context == "undefined" ? "" : context;  
+}
+//alert(unescape(GetQueryString("type"))); 
+var curl= "../../../../../cgAutoListController.do?datagrid&configId=weixin_template&field=id,title,type,content,&type=" +GetQueryString("type");
+$.ajax({
+  type: 'POST',
+  url :curl,
+  dataType : 'json',
+  success : function(msg){
+  		if(msg.success){
+  			alert('loading table weixin_template error:'+msg.msg);
+  		}else{
+  		 	templates =msg.rows;
+  		 }
+		 var str = "";
+		for ( var i = 0, tmp; tmp = templates[i++]; ) {
+            //str += '<div class="preitem" onclick="pre(' + i + ')"><img src="' + "images/template/" + tmp.pre + '" ' + (tmp.title ? "alt=" + tmp.title + " title=" + tmp.title + "" : "") + '></div>';
+        	str+='<div class="preitem" onclick="pre(' + i + ')">'+tmp.content+'</div>';
+        }
+        preitem.innerHTML = str;
+  },
+});
+    var me = editor,
+            preview = $G( "preview" ),
+            preitem = $G( "preitem" ),
+            tmps = templates,
+            currentTmp;
+    var pre = function ( n ) {
+        var tmp = templates[n - 1];
+        currentTmp = tmp;
+        clearItem();
+        domUtils.setStyles( preitem.childNodes[n - 1], {
+            "background-color":"lemonChiffon",
+            "border":"#ccc 1px solid"
+        } );
+        preview.innerHTML = tmp.content ? tmp.content : "";
+    };
+    var clearItem = function () {
+        var items = preitem.children;
+        for ( var i = 0, item; item = items[i++]; ) {
+            domUtils.setStyles( item, {
+                "background-color":"",
+                "border":"white 1px solid"
+            } );
+        }
+    };
+    dialog.onok = function () {
+        if ( !$G( "issave" ).checked ){
+            me.execCommand( "cleardoc" );
+        }
+        var obj = {
+            html:currentTmp && currentTmp.content
+        };
+        me.execCommand( "template", obj );
+    };
+    //initPre();
+    window.pre = pre;
+    pre(2)
+
+})();
+    </script>
+</body>
+</html>
