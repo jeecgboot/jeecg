@@ -134,4 +134,4 @@ JEECG 功能特点
 -----------------------------------
 * 	作者：[张代浩](http://www.jeecg.org/forum.php?mod=viewthread&tid=1047)</br>
 * 	邮箱：jeecg@sina.com</br>
-* 	QQ交流群： 106259349</br>
+* 	QQ交流群： 106838471（二群）、106259349（一群）</br>
