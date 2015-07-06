@@ -129,6 +129,14 @@ JEECG 功能特点
 * [JEECG 开发入门视频](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
 * [JEECG 在线演示](http://demo.jeecg.org:8080)
 
+
+- 福利贴 -
+-----------------------------------
+* 资源1： 受Maven折磨的同学来福利了，Eclipse非maven版本下载地址
+* JEECG 开发平台(V3系列-NEW)
+* JEEWX微信管家系统（V2系列-NEW）
+* [下载地址](http://www.jeecg.org/forum.php?mod=viewthread&tid=1229&extra=page%3D1)
+
     
 技术交流
 -----------------------------------
