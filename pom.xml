@@ -139,13 +139,13 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>oschinaMavenThirdparty</id>
-			<name>oschinaMavenThirdparty</name>
-			<url>http://maven.oschina.net/content/repositories/thirdparty/</url>
-			<snapshots>
+            <id>jeecg</id>
+            <name>jeecg Repository</name>
+            <url>http://maven.jeecg.org/nexus/content/repositories/jeecg</url>
+            <snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+        </repository>
 		<!--
 		<repository>
 			<id>osc</id>
