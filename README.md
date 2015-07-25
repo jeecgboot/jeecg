@@ -127,7 +127,7 @@ JEECG 功能特点
 * [JEECG 开发入门搭建文档（Maven版）](http://www.jeecg.org/forum.php?mod=viewthread&tid=2537&extra=page%3D1)
 * [JEECG 技术论坛](http://www.jeecg.org)
 * [JEECG 开发入门视频](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
-* [JEECG 在线演示](http://demo.jeecg.org:8080)
+* [JEECG 在线演示](http://demo.jeecg.org)
 
 
 - 福利贴 -
