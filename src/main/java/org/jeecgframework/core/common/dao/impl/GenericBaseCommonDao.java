@@ -599,7 +599,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public int getCount(Class<T> clazz) {
 
 		int count = DataAccessUtils.intResult(getSession().createQuery(
-				"select count(*) from " + clazz.getName()).list());
+				"select count(1) from " + clazz.getName()).list());
 		return count;
 	}
 
