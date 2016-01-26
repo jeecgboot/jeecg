@@ -54,7 +54,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 			  <input class="inputxt" id="tableName" name="tableName" value="${cgFormHeadPage.tableName}"
 				prefixName="" <c:if test="${not empty cgFormHeadPage.tableName}">readonly="readonly"</c:if> datatype="*" validType="cgform_head,table_Name,id" nullmsg=<t:mutiLang langKey="please.input.table.name"/>> 
 				<span class="Validform_checktip"></span></td>
-		</tr>
+			</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="pk.strategies"/>:</label></td>
 			<td class="value" id="jformPkTypeTd" <c:if test="${cgFormHeadPage.jformPkType ne 'SEQUENCE'}">colspan="3"</c:if>>
@@ -66,22 +66,48 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 			</td>
 			<td align="right" id="jformPkSequenceN" <c:if test="${cgFormHeadPage.jformPkType ne 'SEQUENCE'}">style="display: none;"</c:if>><label class="Validform_label"> <t:mutiLang langKey="sequence.name"/>:</label></td>
 			<td class="value" id="jformPkSequenceV" <c:if test="${cgFormHeadPage.jformPkType ne 'SEQUENCE'}">style="display: none;"</c:if>><input id="jformPkSequence" name="jformPkSequence" type="text"
-				class="inputxt" value="${cgFormHeadPage.jformPkSequence}" /> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;"> <t:mutiLang langKey="sequence.name"/>:</label></td>
+																																				  class="inputxt" value="${cgFormHeadPage.jformPkSequence}" /> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;"> <t:mutiLang langKey="sequence.name"/>:</label></td>
+		</tr>
+			<tr>
+			<!--add-start--Author:luobaoli  Date:20150607 for：增加表单分类下拉列表-->
+			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.category"/>:</label></td>
+			<td class="value"><select id="jformCategory" name="jformCategory">
+				<c:forEach items="${typeList}" var="type">
+					<option value="${type.typecode}" <c:if test="${type.typecode==cgFormHeadPage.jformCategory}">selected="selected"</c:if>>${type.typename}</option>
+				</c:forEach>
+			</select></td>
+			<!--add-end--Author:luobaoli  Date:20150607 for：增加表单分类下拉列表-->
+
+				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.type"/>: </label></td>
+				<td class="value"><select id="jformType" name="jformType" onchange="formTypeChange();">
+					<option value="1" <c:if test="${cgFormHeadPage.jformType eq '1'}"> selected='selected'</c:if>><t:mutiLang langKey="single.table"/></option>
+					<option value="2" <c:if test="${cgFormHeadPage.jformType eq '2'}"> selected="selected"</c:if>><t:mutiLang langKey="master.table"/></option>
+					<option value="3" <c:if test="${cgFormHeadPage.jformType eq '3'}"> selected="selected"</c:if>><t:mutiLang langKey="slave.table"/></option>
+				</select>
+					<div id="relation_type_div" style="display: none;">
+						<input type="radio" name="relationType"
+							   <c:if test="${cgFormHeadPage.relationType eq '0' || cgFormHeadPage.relationType ==null }">
+								   checked="checked"
+							   </c:if> value="0">
+							<t:mutiLang langKey="common.one.to.many"/>
+						</input>
+						<input type="radio" name="relationType"
+							<c:if test="${cgFormHeadPage.relationType eq '1' }">
+								checked="checked"
+							</c:if> value="1">
+							<t:mutiLang langKey="comon.one.to.one"/>
+						</input> &nbsp;
+						<t:mutiLang langKey="sequence.name"/>:<input class="inputxt" style="width: 30px" id="tabOrder" name="tabOrder" value="${cgFormHeadPage.tabOrder}" datatype="n" ignore="ignore"></div>
+				</td>
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.description"/>: </label></td>
 			<td class="value"><input class="inputxt" id="content" name="content" value="${cgFormHeadPage.content}" datatype="s2-100"> <span class="Validform_checktip"></span></td>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.type"/>: </label></td>
-			<td class="value"><select id="jformType" name="jformType" onchange="jformTypeChange();">
-				<option value="1" <c:if test="${cgFormHeadPage.jformType eq '1'}"> selected='selected'</c:if>><t:mutiLang langKey="single.table"/></option>
-				<option value="2" <c:if test="${cgFormHeadPage.jformType eq '2'}"> selected="selected"</c:if>><t:mutiLang langKey="master.table"/></option>
-				<option value="3" <c:if test="${cgFormHeadPage.jformType eq '3'}"> selected="selected"</c:if>><t:mutiLang langKey="slave.table"/></option>
-			</select>
-			<div id="relation_type_div" style="display: none;"><input type="radio" name="relationType"
-				<c:if test="${cgFormHeadPage.relationType eq '0' || cgFormHeadPage.relationType ==null }">checked="checked"</c:if> value="0"><t:mutiLang langKey="common.one.to.many"/></input> <input type="radio" name="relationType"
-				<c:if test="${cgFormHeadPage.relationType eq '1' }">checked="checked"</c:if> value="1"><t:mutiLang langKey="comon.one.to.one"/></input> &nbsp;<t:mutiLang langKey="sequence.name"/>:<input class="inputxt" style="width: 30px" id="tabOrder" name="tabOrder"
-				value="${cgFormHeadPage.tabOrder}" datatype="n" ignore="ignore"></div>
-			</td>
+			<!--add-start--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
+			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style"/>:</label></td>
+			<td class="value"><select id="formTemplate" name="formTemplate" temVal="${cgFormHeadPage.formTemplate}">
+				</select></td>
+			<!--add-end--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="show.checkbox"/>: </label></td>
@@ -173,6 +199,7 @@ $(function() {
 	$("#isTree").change(function() {
 		isTreeHandle();
 	});
+	getFormTemplateName();
 }); 
 //根据是否为树形菜单隐藏或显示tree输入框
 function isTreeHandle() {
@@ -186,6 +213,36 @@ function isTreeHandle() {
 		$("tr.tree").find(":input").attr("disabled", true).removeAttr("datatype").end().hide();
 	}
 }
+<!--add-start--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
+//获取表单风格模板名称
+function getFormTemplateName(){
+ var type=$("#jformType").val();
+	$.ajax({
+		url:"${pageContext.request.contextPath}/cgformTemplateController.do?getTemplate",
+		type:"post",
+		data:{type:type},
+		dataType:"json",
+		success:function(data){
+			if(data.success){
+				$("#formTemplate").empty();
+				$("#formTemplate").append("<option value='' ><t:mutiLang langKey="common.please.select"/></option>");
+				$.each(data.obj,function(i,tem){
+					$("#formTemplate").append("<option value='"+tem.templateCode+"' >"+tem.templateName+"</option>");
+				});
+				var temVal=$("#formTemplate").attr("temVal");
+				if(temVal.length>0){
+					var len=$("#formTemplate").find("[value='"+temVal+"']").attr("selected","selected");
+				}
+			}
+		}
+	});
+}
+//表单类型改变 调用
+	function formTypeChange(){
+		jformTypeChange();
+		getFormTemplateName();
+	}
+<!--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
 </script>
 <iframe id="iframe_check" name="iframe_check" src="plug-in/cgform/fields/cgformOfCheck.html" style="display: none"></iframe>
 <iframe id="iframe_database" src="plug-in/cgform/fields/cgformOfDatabase.html" style="display: none"></iframe>

@@ -14,6 +14,7 @@
     <![endif]-->
     <link rel="stylesheet" href="leipi.style.css">
     <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript" src="../../../../jquery/jquery-1.8.3.js"></script>
 </head>
 <body>
 <div class="content">
@@ -27,6 +28,21 @@
         <td><input id="orgfontsize" type="text"  value="" class="input-small span1" placeholder="auto"/> px</td>
     </tr>
     <tr>
+        <th><span>数据源</span></th>
+        <th><span>字段</span> </th>
+    </tr>
+    <tr>
+
+        <td>
+            <select id="datasource"></select>
+        </td>
+        <td>
+            <select id="field">
+                <option selected value=''>请先选择数据源</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
         <th><span>输入框样式</span> </th>
         <th><span>增强</span> </th>
     </tr>
@@ -38,6 +54,19 @@
         </td>
         <td> <label class="checkbox"><input id="orgrich" type="checkbox"  /> 富文本形式 </label> </td>
     </tr>
+        <tr>
+            <th><span>检验规则</span> </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                <select type="text" id="datatype" name="datatype" value="" >
+                </select>
+            </td>
+            <td>
+                <label class="checkbox inline"> </label>
+            </td>
+        </tr>
     <tr>
         <td colspan="2">
             <label for="orgvalue">默认值</label>
@@ -47,7 +76,8 @@
     </table>
 </div>
 <script type="text/javascript">
-var oNode = null,thePlugins = 'textarea';;
+var oNode = null,thePlugins = 'textarea';
+var contentPath="../../../../../";
 window.onload = function() {
     if( UE.plugins[thePlugins].editdom ){
         oNode = UE.plugins[thePlugins].editdom;
@@ -55,6 +85,27 @@ window.onload = function() {
         
         gValue = gValue==null ? '' : gValue;
         gTitle = gTitle==null ? '' : gTitle;
+        
+        var arr1= oNode.getAttribute('autofield');
+		if(arr1){
+			arr1= arr1.split('.');
+			var field = arr1[1]==null?'':arr1[1];
+            var id = '';
+            editor.ready(function() {
+                id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
+            });
+            $.post(
+                    contentPath+'autoFormController.do?getFormField',
+                    {dbName:arr1[0],autoFormId:id},
+                    function(data){
+                        data = $.parseJSON(data);
+                        $('#field').html('');
+                        $('#field').html(data.msg);
+                        $('#field').val(field);
+                        $("#datasource").val(arr1[0]);
+                    });
+        }
+        
         $G('orgvalue').value = gValue;
         $G('orgname').value = gTitle;
         if ( gRich == '1' ) {
@@ -63,7 +114,13 @@ window.onload = function() {
         $G('orgfontsize').value = gFontSize;
         $G('orgwidth').value = gWidth;
         $G('orgheight').value = gHeight;
+        var datatype=oNode.getAttribute('datatype');
+        $G('datatype').value =datatype;
+        loadDataType( datatype);
+    }else{
+        loadDataType( $G('datatype').value);
     }
+
 }
 dialog.oncancel = function () {
     if( UE.plugins[thePlugins].editdom ) {
@@ -72,18 +129,41 @@ dialog.oncancel = function () {
 };
 dialog.onok = function (){
     if($G('orgname').value==''){
-        alert('请输入控件名称');
+        var selectedField=$('#field').find("option:selected");
+        var flag=false;
+        if(selectedField.length>0){
+            selectedField=selectedField.get(0);
+            if(selectedField.value!=''){
+                $G('orgname').value=selectedField.text;
+                flag=true;
+            }
+        }
+        if(!flag){
+            alert('请输入控件名称');
+            $G('orgname').focus();
+            return false;
+        }
+    }
+    var datatype = $G('datatype').value;
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value;
+    var datasource=$G('datasource').value;
+    var field=$G('field').value;
+    if(datasource !='' && field ==''){
+        alert('请选择字段');
         return false;
     }
-    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value;
-
+    var name= getName(datasource,field,gTitle);
     if( !oNode ) {
         try {
             var html = '<textarea ';
             html += ' title = "' + gTitle + '"';
             html += ' name = "leipiNewField"';
             html += ' leipiPlugins = "'+thePlugins+'"';
+            html += ' datatype = "'+datatype+'"';
             html += ' value = "' + gValue + '"';
+            if( datasource != '' ){
+            	html +=' autofield="'+datasource+(field!=''?('.'+field):'') +'"';
+            }
             if ( $G('orgrich').checked ) {
                 html += ' orgrich = "1"';
             } else {
@@ -115,6 +195,7 @@ dialog.onok = function (){
             if( gHeight != '' ) {
                 html += 'height:' + gHeight + 'px;';
             }
+            
             html += '">';
             html += gValue + '</textarea>';
             editor.execCommand('insertHtml',html);
@@ -129,6 +210,8 @@ dialog.onok = function (){
     } else {
         oNode.setAttribute('title', gTitle);
         oNode.setAttribute('value',gValue);
+        oNode.setAttribute('name',name);
+        oNode.setAttribute('datatype',datatype);
         oNode.innerHTML = gValue;
         if( $G('orgrich').checked ) {
             oNode.setAttribute('orgrich', 1);
@@ -154,9 +237,70 @@ dialog.onok = function (){
         }else{
             oNode.setAttribute('orgheight', '');
         }
+      	 if( datasource != '' ){
+            	oNode.setAttribute('autofield',datasource+(field!=''?('.'+field):'') );
+            }else{
+            	oNode.setAttribute('autofield','');
+            }
         delete UE.plugins[thePlugins].editdom;
     }
 };
+function getName(datasource,field,title){
+    if(datasource !='' && field !=''){
+        return datasource+'.'+field;
+    } else {
+        return title;
+    }
+}
+$(function(){
+    var id = '';
+    editor.ready(function() {
+        id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
+    });
+    $.post(
+            contentPath+'autoFormController.do?getFormDb',
+            {autoFormId:id},
+            function(data){
+                data = $.parseJSON(data);
+                $('#datasource').html(data.msg);
+            });
+    //2.2 绑定change事件,并填充字段
+    $("#datasource").change(function(){
+        var dbId = $(this).val();
+        $.post(
+                contentPath+'autoFormController.do?getFormField',
+                {dbName:dbId,autoFormId:id},
+                function(data){
+                    data = $.parseJSON(data);
+                    $('#field').html('');
+                    $('#field').html(data.msg);
+                });
+    });
+    $("#field").change(function(){
+        if(this.value!='')
+            $G('orgname').value= $(this).find("option:selected")[0].text;
+    });
+
+
+});
+function loadDataType(val){
+    $("#datatype").empty();
+    $("#datatype").append("<option value=''>无</option>");
+    $.ajax({
+        url:contentPath+"systemController.do?typeGrid&",
+        data:{typegroupid:"4028838850c35b6a0150c37251e00002",field:"id,typename,typecode"},
+        type:"post",
+        dataType:"json",
+        success:function(data){
+            var results=data.rows;
+            $.each(results,function(i,dict){
+                $("#datatype").append("<option value='"+dict.typecode+"'>"+dict.typename+"</option>");
+            })
+            if(val)
+                $($G('datatype')).find("option[value='"+val+"']").attr("selected","selected");
+        }
+    });
+}
 </script>
 </body>
 </html>

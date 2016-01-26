@@ -35,6 +35,8 @@ public class SysContextSqlConvert {
 		return "";
 		String sqlValue="";
 		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleConditions());
+
+		//-----------------------------------------------------------------------
 		//#{sys_user_code}%
 		String ValueTemp = dataRule.getRuleValue();
 		String moshi = "";
@@ -48,6 +50,7 @@ public class SysContextSqlConvert {
 		} else {
 			ValueTemp = ValueTemp;
 		}
+		//-----------------------------------------------------------------------
 		String tempValue = null;
 		tempValue = ResourceUtil.getUserSystemData(ValueTemp);
 		if(tempValue!=null){
@@ -57,7 +60,7 @@ public class SysContextSqlConvert {
 		}
 		switch (ruleEnum) {
 		case GT:
-			sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+tempValue+"'";
+			sqlValue+=" and "+dataRule.getRuleColumn()+" >'"+tempValue+"'";
 			break;
 		case GE:
 			sqlValue+=" and "+dataRule.getRuleColumn()+" >='"+tempValue+"'";

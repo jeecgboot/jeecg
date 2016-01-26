@@ -69,6 +69,7 @@
     <bean id="jeecgExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
     <bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView" />
     <bean id="jeecgTemplateWordView" class="org.jeecgframework.poi.excel.view.JeecgTemplateWordView" />
+    <bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
 	<!-- 方言 -->
 	<bean id="dialect"
 		class="org.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
@@ -91,12 +92,21 @@
 						<value>loginController.do?goPwdInit</value>
 						<value>loginController.do?pwdInit</value>
 						<value>loginController.do?login</value>
+                        <value>loginController.do?login2</value>
+						<value>loginController.do?login3</value>
 						<value>loginController.do?checkuser</value>
 						<value>repairController.do?repair</value>
 						<value>repairController.do?deleteAndRepair</value>
+						<!--add-start-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
+						<value>tSTeamPersonController.do?getTeacherList</value>
+						<value>tSTeamPersonController.do?getTeacher</value>
+						<!--add-end-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
                         <!--add-start-Author:zhangguoming  Date:20140825 for：用户选择组织机构的url-->
 						<value>userController.do?userOrgSelect</value>
                         <!--add-end-Author:zhangguoming  Date:20140825 for：用户选择组织机构的url-->
+						<!--add-start-Author: zzl Date:20150709 for：社区介绍-->
+						<value>tSTeamPersonController.do?introduce</value>
+						<!--add-end-Author: zzl Date:20150709 for：社区介绍-->
 					</list>
 				</property>
 			</bean>

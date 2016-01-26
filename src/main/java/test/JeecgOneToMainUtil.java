@@ -11,7 +11,8 @@ import org.jeecgframework.codegenerate.pojo.onetomany.SubTableEntity;
 /**
  * 代码生成器入口【一对多】
  * @author 张代浩
- *
+ * @site www.jeecg.org
+ * 
  */
 public class JeecgOneToMainUtil {
 
@@ -20,34 +21,42 @@ public class JeecgOneToMainUtil {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//第一步：设置主表
+		//第一步：设置主表配置
 		CodeParamEntity codeParamEntityIn = new CodeParamEntity();
-		codeParamEntityIn.setTableName("jeecg_order_main");//主表[表名]
-		codeParamEntityIn.setEntityName("OrderMain");	 //主表[实体名]
-		codeParamEntityIn.setEntityPackage("jeecg");	 //主表[包名]
-		codeParamEntityIn.setFtlDescription("订单主数据");	 //主表[描述]
+		codeParamEntityIn.setTableName("jform_order_main");//表名
+		codeParamEntityIn.setEntityName("TestOrderMain");	 //实体名
+		codeParamEntityIn.setEntityPackage("jeecg");	 //包名
+		codeParamEntityIn.setFtlDescription("订单");	 //描述
 		
-		//第二步：设置子表集合
+		//第二步：设置子表集合配置
 		List<SubTableEntity> subTabParamIn = new ArrayList<SubTableEntity>();
 		//[1].子表一
 		SubTableEntity po = new SubTableEntity();
-		po.setTableName("jeecg_order_custom");//子表[表名]
-		po.setEntityName("OrderCustoms");	 //子表[实体名]
-		po.setEntityPackage("jeecg");			 //子表[包]
-		po.setFtlDescription("订单客户明细");		 //子表[描述]
-		//子表[外键:与主表关联外键]
-		//说明：这里面的外键是子表的外键字段,非主表和子表的对应关系  GORDER_ID修改为ID
-		po.setForeignKeys(new String[]{"ID","GO_ORDER_CODE"});
+		po.setTableName("jform_order_customer");//表名
+		po.setEntityName("TestOrderCustom");	    //实体名
+		po.setEntityPackage("jeecg");	        //包名
+		po.setFtlDescription("客户明细");       //描述
+		//子表外键参数配置
+		/*说明: 
+		 * a) 子表引用主表主键ID作为外键，外键字段必须以_ID结尾;
+		 * b) 主表和子表的外键字段名字，必须相同（除主键ID外）;
+		 * c) 多个外键字段，采用逗号分隔;
+		*/
+		po.setForeignKeys(new String[]{"fk_id"});
 		subTabParamIn.add(po);
 		//[2].子表二
 		SubTableEntity po2 = new SubTableEntity();
-		po2.setTableName("jeecg_order_product");		//子表[表名]
-		po2.setEntityName("OrderProduct");			//子表[实体名]
-		po2.setEntityPackage("jeecg"); 					//子表[包]
-		po2.setFtlDescription("订单产品明细");				//子表[描述]
-		//子表[外键:与主表关联外键]
-		//说明：这里面的外键是子表的外键字段,非主表和子表的对应关系      GORDER_ID修改为ID
-		po2.setForeignKeys(new String[]{"ID","GO_ORDER_CODE"});
+		po2.setTableName("jform_order_ticket");		//表名
+		po2.setEntityName("TestOrderTicket");			//实体名
+		po2.setEntityPackage("jeecg"); 				//包名
+		po2.setFtlDescription("产品明细");			//描述
+		//子表外键参数配置
+		/*说明: 
+		 * a) 子表引用主表主键ID作为外键，外键字段必须以_ID结尾;
+		 * b) 主表和子表的外键字段名字，必须相同（除主键ID外）;
+		 * c) 多个外键字段，采用逗号分隔;
+		*/
+		po2.setForeignKeys(new String[]{"fck_id"});
 		subTabParamIn.add(po2);
 		codeParamEntityIn.setSubTabParam(subTabParamIn);
 		

@@ -46,6 +46,8 @@ public class DynamicDataSourceEntity implements java.io.Serializable {
 	private java.lang.String dbPassword;
 	/**dbType*/
 	private java.lang.String dbType;
+	/**dbName*/
+	private java.lang.String dbName;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -178,5 +180,21 @@ public class DynamicDataSourceEntity implements java.io.Serializable {
 	 */
 	public void setDbType(java.lang.String dbType){
 		this.dbType = dbType;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  dbName
+	 */
+	@Column(name ="DB_NAME",nullable=true,precision=50,length=50)
+	public java.lang.String getDbName() {
+		return dbName;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  dbName
+	 */
+	public void setDbName(java.lang.String dbName) {
+		this.dbName = dbName;
 	}
 }

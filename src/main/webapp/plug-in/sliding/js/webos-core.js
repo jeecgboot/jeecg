@@ -47,7 +47,6 @@ function dataFlush(){
 		}
     });
 }
-
 /**
  * 转换用户的桌面
  */
@@ -1506,6 +1505,7 @@ appIcon_amg1 = appIcon_amg.extend({
 		});
 		appIcon.append($("<img>",{
 			alt:this.app.name ,
+            /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
             /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
@@ -1586,6 +1586,7 @@ appIcon_t1 = appIcon_t0.extend({
 		});
 		appIcon.append($("<img>",{
 			alt:this.app.name ,
+            /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
             /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/

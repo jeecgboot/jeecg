@@ -15,7 +15,7 @@
                 alert("复制成功");
                 frameElement.api.close();
             });
-            var url = "${url}&id=${title}";
+			var url = "${url}&id=${title}";
             clip.setText(url);
             $("#menuLink").val(url);
             clip.glue('copyBtn');

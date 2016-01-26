@@ -53,6 +53,14 @@ public class DictSelectTag extends TagSupport {
 	public void setDictCondition(String dicCondition) {
 		this.dictCondition = dicCondition;
 	}
+	private String datatype;
+	public String getDatatype() {
+		return datatype;
+	}
+
+	public void setDatatype(String datatype) {
+		this.datatype = datatype;
+	}
 	@Autowired
 	private static SystemService systemService;
 
@@ -156,6 +164,7 @@ public class DictSelectTag extends TagSupport {
 					if (!StringUtils.isBlank(this.id)) {
 						sb.append(" id=\"" + id + "\"");
 					}
+					this.datatype(sb);
 					sb.append(">");
 					select("common.please.select", "", sb);
 					for (TSType type : types) {
@@ -201,6 +210,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+			this.datatype(sb);
 			sb.append(" />");
 		} else {
 			sb.append("<input type=\"radio\" name=\"" + field + "\" value=\""
@@ -208,6 +218,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+			this.datatype(sb);
 			sb.append(" />");
 		}
 		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
@@ -239,6 +250,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+			this.datatype(sb);
 			sb.append(" />");
 		} else {
 			sb.append("<input type=\"checkbox\" name=\"" + field
@@ -246,6 +258,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+			this.datatype(sb);
 			sb.append(" />");
 		}
 		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
@@ -285,6 +298,18 @@ public class DictSelectTag extends TagSupport {
 				SystemService.class);
 		List<Map<String, Object>> list = systemService.findForJdbc(sql);
 		return list;
+	}
+	
+	/**
+	 * 加入datatype属性,并加入非空验证作为默认值
+	 * @param sb
+	 * @return
+	 */
+	private StringBuffer datatype(StringBuffer sb){
+		if (!StringUtils.isBlank(this.datatype)) {
+			sb.append(" datatype=\"" + datatype + "\"");
+		}
+		return sb;
 	}
 
 	public String getTypeGroupCode() {

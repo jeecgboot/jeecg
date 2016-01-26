@@ -12,7 +12,7 @@ import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.core.common.service.CommonService;
 
 /**
- * 
+ *
  * @author  张代浩
  *
  */
@@ -24,11 +24,11 @@ public interface SystemService extends CommonService{
  	 * @param dicTable
  	 * @param dicCode
  	 * @param dicText
- 	 * @return 
+ 	 * @return
  	 * 返回类型： List<DictEntity>
  	 */
  	public List<DictEntity> queryDict(String dicTable,String dicCode, String dicText);
-	
+
 	/**
 	 * 登陆用户检查
 	 * @param user
@@ -74,7 +74,7 @@ public interface SystemService extends CommonService{
 	public  Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId,String functionId);
 	/**
 	 * 根据编码获取字典组
-	 * 
+	 *
 	 * @param typegroupCode
 	 * @return
 	 */
@@ -83,7 +83,7 @@ public interface SystemService extends CommonService{
 	 * 对数据字典进行缓存
 	 */
 	public void initAllTypeGroups();
-	
+
 	/**
 	 * 刷新字典缓存
 	 * @param type
@@ -95,7 +95,7 @@ public interface SystemService extends CommonService{
 	public void refleshTypeGroupCach();
 	/**
 	 * 刷新菜单
-	 * 
+	 *
 	 * @param id
 	 */
 	public void flushRoleFunciton(String id, TSFunction newFunciton);
@@ -107,9 +107,9 @@ public interface SystemService extends CommonService{
      * @return 组织机构编码
      */
 	String generateOrgCode(String id, String pid);
-	
+
 	/**
-	 * 
+	 *
 	  * getOperationCodesByRoleIdAndruleDataId
 	  * 根据角色id 和 菜单Id 获取 具有操作权限的数据规则
 	  *
@@ -121,17 +121,17 @@ public interface SystemService extends CommonService{
 	  * @return Set<String>    返回类型
 	  * @throws
 	 */
-	
+
 	public  Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,String functionId);
-	
+
 	public  Set<String> getOperationCodesByUserIdAndDataId(String userId,String functionId);
-	
+
 	/**
 	 * 加载所有图标
 	 * @return
 	 */
 	public  void initAllTSIcons();
-	
+
 	/**
 	 * 更新图标
 	 * @param icon
@@ -141,5 +141,13 @@ public interface SystemService extends CommonService{
 	 * 删除图标
 	 * @param icon
 	 */
-	public  void delTSIcons(TSIcon icon); 
+	public  void delTSIcons(TSIcon icon);
+
+	/**
+	 * 添加数据日志
+	 * @param tableName		操作表名
+	 * @param dataId		数据ID
+	 * @param dataContent	内容(JSON格式)
+	 */
+	public void addDataLog(String tableName, String dataId, String dataContent);
 }

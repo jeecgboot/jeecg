@@ -48,7 +48,7 @@ public class ComboBoxTag extends TagSupport {
 				+"$(function() {"
 				+"$(\'#"+name+"\').combobox({"
 				+"url:\'"+url+"&id="+id+"&text="+text+"\',"
-				+"editable:\'false\',"
+				+"editable:\'"+editable+"\',"
 				+"valueField:\'id\',"
 				+"textField:\'text\'," 
 				+"width:\'"+width+"\'," 
@@ -78,5 +78,12 @@ public class ComboBoxTag extends TagSupport {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
 }

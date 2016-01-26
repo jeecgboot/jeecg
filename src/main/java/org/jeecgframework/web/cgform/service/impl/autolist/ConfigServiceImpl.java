@@ -72,6 +72,8 @@ public class ConfigServiceImpl implements ConfigServiceI {
 		configs.put(CgAutoListConstant.TREE_PARENTID_FIELDNAME, tableEntity.getTreeParentIdFieldName());
 		configs.put(CgAutoListConstant.TREE_ID_FIELDNAME, tableEntity.getTreeIdFieldname());
 		configs.put(CgAutoListConstant.TREE_FIELDNAME, tableEntity.getTreeFieldname());
+		configs.put(CgAutoListConstant.TABLE_TYPE, tableEntity.getJformType());
+		configs.put(CgAutoListConstant.SUB_TABLES, tableEntity.getSubTableStr());
 		String formId = tableEntity.getId();
 		List<CgformButtonEntity>  buttons = cgformButtonService.getCgformButtonListByFormId(formId);
 		configs.put(CgAutoListConstant.CONFIG_BUTTONLIST,buttons.size()>0?buttons:new ArrayList<CgformButtonEntity>(0));

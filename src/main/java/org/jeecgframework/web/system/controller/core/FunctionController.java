@@ -88,7 +88,11 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(params = "operation")
 	public ModelAndView operation(HttpServletRequest request, String functionId) {
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		request.setAttribute("functionId", functionId);
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		return new ModelAndView("system/operation/operationList");
 	}
 
@@ -100,7 +104,11 @@ public class FunctionController extends BaseController {
 	@RequestMapping(params = "dataRule")
 	public ModelAndView operationData(HttpServletRequest request,
 			String functionId) {
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		request.setAttribute("functionId", functionId);
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		return new ModelAndView("system/dataRule/ruleDataList");
 	}
 
@@ -132,10 +140,14 @@ public class FunctionController extends BaseController {
 	public void opdategrid(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class, dataGrid);
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		String functionId = oConvertUtils.getString(request
 				.getParameter("functionId"));
 		cq.eq("TSFunction.id", functionId);
 		cq.add();
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -234,11 +246,15 @@ public class FunctionController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveFunction(TSFunction function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		function.setFunctionUrl(function.getFunctionUrl().trim());
 		String functionOrder = function.getFunctionOrder();
 		if (StringUtils.isEmpty(functionOrder)) {
 			function.setFunctionOrder("0");
 		}
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		if (function.getTSFunction().getId().equals("")) {
 			function.setTSFunction(null);
 		} else {
@@ -254,8 +270,13 @@ public class FunctionController extends BaseController {
 					Globals.Log_Leavel_INFO);
 			List<TSFunction> subFunction = systemService.findByProperty(TSFunction.class, "TSFunction.id", function.getId());
 			updateSubFunction(subFunction,function);
+			// ----------------------------------------------------------------
+			// ----------------------------------------------------------------
 
 			systemService.flushRoleFunciton(function.getId(), function);
+
+			// ----------------------------------------------------------------
+			// ----------------------------------------------------------------
 
 		} else {
 			if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {

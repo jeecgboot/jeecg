@@ -107,8 +107,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 				}
 				//这个地方用全匹配？应该是模糊查询吧
 				//TODO
-				List<TSFunction> functions = systemService.findByProperty(TSFunction.class, "functionUrl", requestPath);
-				
+				String uri= request.getRequestURI().substring(request.getContextPath().length() + 1);
+				String realRequestPath = null;
+				if(uri.endsWith(".do")||uri.endsWith(".action")){
+					realRequestPath=requestPath;
+				}else {
+					realRequestPath=uri;
+				}
+				List<TSFunction> functions = systemService.findByProperty(TSFunction.class, "functionUrl", realRequestPath);
 				if (functions.size()>0){
 					functionId = functions.get(0).getId();
 				}

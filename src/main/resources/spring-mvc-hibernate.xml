@@ -39,8 +39,10 @@
 		<property name="minIdle" value="5" />
 		<!-- 获取连接最大等待时间 -->
 		<property name="maxWait" value="60000" />
-		<!-- <property name="poolPreparedStatements" value="true" /> <property 
-			name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+		<!--
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="33" />
+		-->
 		<property name="validationQuery" value="${validationQuery.sqlserver}" />
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
@@ -89,7 +91,7 @@
 				<!--<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
 			</props>
@@ -102,6 +104,7 @@
 				<value>org.jeecgframework.web.test.entity.*</value>
 				<value>org.jeecgframework.web.cgform.entity.*</value>
 				<value>org.jeecgframework.web.cgreport.entity.*</value>
+				<value>org.jeecgframework.web.rank.*</value>
 				<value>org.jeecgframework.web.sms.*</value>
 				<value>com.buss.*</value>
 			</list>

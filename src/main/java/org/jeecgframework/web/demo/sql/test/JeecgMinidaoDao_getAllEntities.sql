@@ -1,4 +1,4 @@
-SELECT * FROM jeecg_minidao WHERE
+SELECT * FROM jeecg_minidao WHERE 1=1
 <#if jeecgMinidao.userName ?exists && jeecgMinidao.userName ?length gt 0>
 	and user_name = :jeecgMinidao.userName
 </#if>

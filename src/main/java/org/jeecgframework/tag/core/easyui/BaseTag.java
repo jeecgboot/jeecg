@@ -63,14 +63,18 @@ public class BaseTag extends TagSupport {
 			if(cssTheme==null||"".equals(cssTheme)){
 				cssTheme="default";
 			}*/
-			SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+			SysThemesEnum sysThemesEnum = null;
+			if(StringUtil.isEmpty(cssTheme)||"null".equals(cssTheme)){
+				sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+			}else{
+				sysThemesEnum = SysThemesEnum.toEnum(cssTheme);
+			}
 			String types[] = type.split(",");
 			
 			//插入多语言脚本
 			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 			String langjs = StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/mutiLang/{0}.js\"></script>", "{0}", lang);
 			sb.append(langjs);
-			
 			if (oConvertUtils.isIn("jquery-webos", types)) {
                 sb.append("<script type=\"text/javascript\" src=\"plug-in/sliding/js/jquery-1.7.1.min.js\"></script>");
 			} else if (oConvertUtils.isIn("jquery", types)) {
@@ -90,6 +94,7 @@ public class BaseTag extends TagSupport {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
 //				sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
 				sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
+				sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
 				sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");

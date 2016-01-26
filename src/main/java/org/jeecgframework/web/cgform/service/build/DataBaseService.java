@@ -11,10 +11,8 @@ import org.jeecgframework.web.cgform.exception.BusinessException;
  *
  */
 public interface DataBaseService {
-	
-	public int insertTable(String tableName, Map<String, Object> data);
-	
-	public int updateTable(String tableName,Object id, Map<String, Object> data);
+	public void insertTable(String tableName, Map<String, Object> data) throws BusinessException ;
+	public int updateTable(String tableName,Object id, Map<String, Object> data) throws BusinessException ;
 	
 	public Map<String, Object>  findOneForJdbc(String tableName, String id);
 	
@@ -29,4 +27,11 @@ public interface DataBaseService {
 	public void executeSqlExtend(String formId,String buttonCode,Map<String, Object> data);
 
 	public Object getPkValue(String tableName);
+	/**
+	 * java业务增强
+	 * @param formId
+	 * @param buttonCode
+	 * @param data
+	 */
+	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException;
 }

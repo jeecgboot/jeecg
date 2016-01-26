@@ -136,7 +136,7 @@ a:hover {
     <img src="plug-in/login/images/logo.jpg"> 
     <!--
         <img src="plug-in/login/images/toplogo.png" width="550" height="52" alt="">-->
-        <div style="position: absolute; top: 75px; left: 33px;">JEECG Framework <span style="letter-spacing: -1px;">-3.5.2</span></div>
+        <div style="position: absolute; top: 75px; left: 33px;">JEECG Framework <span style="letter-spacing: -1px;">-3.6</span></div>
     </td>
     <td align="right" nowrap>
         <table border="0" cellpadding="0" cellspacing="0">
@@ -169,6 +169,10 @@ a:hover {
                                 <t:mutiLang langKey="common.change.password"/>
                             </div>
                             <div class="menu-sep"></div>
+                            <div onclick="openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')">
+                                <t:mutiLang langKey="common.ssms.getSysInfos"/>
+                            </div>
+                            <div class="menu-sep"></div>
                             <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,200)">
                                 <t:mutiLang langKey="common.change.style"/>
                             </div>
@@ -186,7 +190,6 @@ a:hover {
                         <img src="plug-in/easyui/themes/default/images/layout_button_up.gif"
                              style="cursor:pointer" onclick="panelCollapase()" />
                     </div>
-                    <%--update-end--Author:JueYue  Date:20140616 for：首页上方可以折叠--%>
                     </div>
                 </td>
             </tr>
@@ -207,7 +210,7 @@ a:hover {
 <!-- 中间-->
 <div id="mainPanle" region="center" style="overflow: hidden;">
     <div id="maintabs" class="easyui-tabs" fit="true" border="false">
-        <div class="easyui-tab" title="<t:mutiLang langKey="common.dash_board"/>" href="loginController.do?home" style="padding: 2px; overflow: hidden;"></div>
+        <div class="easyui-tab" title="<t:mutiLang langKey="common.dash_board"/>" href="loginController.do?home" style="padding: 2px;"></div>
         <c:if test="${map=='1'}">
             <div class="easyui-tab" title="<t:mutiLang langKey="common.map"/>" style="padding: 1px; overflow: hidden;">
                 <iframe name="myMap" id="myMap" scrolling="no" frameborder="0" src="mapController.do?map" style="width: 100%; height: 99.5%;"></iframe>
@@ -248,9 +251,9 @@ a:hover {
     <div align="center" style="color: #1fa3e5; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title="JEECG Framework -3.5.2">JEECG Framework -3.5.2</a>
-            <t:mutiLang langKey="common.browser"/>:
-            <a href="#" title="JEECG Framework -3.5.2">JEECG Framework -3.5.2</a>
+            <a href="http://www.jeecg.org" title="JEECG Framework -3.6">JEECG Framework -3.6</a>
+            (推荐谷歌浏览器，获得更快响应速度) 技术支持:
+            <a href="#" title="JEECG Framework -3.6">JEECG Framework -3.6</a>
         </span>
     </div>
 </div>

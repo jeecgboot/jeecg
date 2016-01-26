@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jeecgframework.web.system.pojo.base.TSDepart;
-
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.jeecgframework.core.common.dao.ICommonDao;
@@ -414,7 +413,6 @@ public class CommonServiceImpl implements CommonService {
 	public Long getCountForJdbc(String sql) {
 		return commonDao.getCountForJdbc(sql);
 	}
-
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
@@ -443,5 +441,10 @@ public class CommonServiceImpl implements CommonService {
 	public <T> List<T> findByDetached(DetachedCriteria dc) {
 		return this.commonDao.findByDetached(dc);
 	}
-
+	/**
+	 * 调用存储过程
+	 */
+	public <T> List<T> executeProcedure(String procedureSql,Object... params) {
+		return this.commonDao.executeProcedure(procedureSql, params);
+	}
 }

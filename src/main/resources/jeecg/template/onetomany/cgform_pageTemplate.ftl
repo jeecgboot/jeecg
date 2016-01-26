@@ -26,7 +26,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.SequenceGenerator;
-
+import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.poi.excel.annotation.ExcelCollection;
 
 /**   
  * @Title: Entity
@@ -37,19 +38,11 @@ import javax.persistence.SequenceGenerator;
  *
  */
 public class ${entityName}Page implements java.io.Serializable {
-	<#list subTab as sub>
-	/**保存-${sub.ftlDescription}*/
-	private List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List = new ArrayList<${sub.entityName}Entity>();
-	public List<${sub.entityName}Entity> get${sub.entityName}List() {
-		return ${sub.entityName?uncap_first}List;
-	}
-	public void set${sub.entityName}List(List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List) {
-		this.${sub.entityName?uncap_first}List = ${sub.entityName?uncap_first}List;
-	}
-	</#list>
-
 	<#list columns as po>
 	/**${po.content}*/
+	<#if po.isShow != 'N'>
+    @Excel(name="${po.content}"<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if>)
+	</#if>
 	private ${po.type} ${po.fieldName};
 	</#list>
 	
@@ -69,5 +62,17 @@ public class ${entityName}Page implements java.io.Serializable {
 	public void set${po.fieldName?cap_first}(${po.type} ${po.fieldName}){
 		this.${po.fieldName} = ${po.fieldName};
 	}
+	</#list>
+
+	<#list subTab as sub>
+	/**保存-${sub.ftlDescription}*/
+    @ExcelCollection(name="${sub.ftlDescription}")
+	private List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List = new ArrayList<${sub.entityName}Entity>();
+		public List<${sub.entityName}Entity> get${sub.entityName}List() {
+		return ${sub.entityName?uncap_first}List;
+		}
+		public void set${sub.entityName}List(List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List) {
+		this.${sub.entityName?uncap_first}List = ${sub.entityName?uncap_first}List;
+		}
 	</#list>
 }

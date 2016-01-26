@@ -5,13 +5,13 @@ $("#cgrSql").after($btn);
 $btn.click(function(){
  $.ajax({
     url:"cgReportController.do?getFields",
-    data:{sql:$("#cgrSql").val()},
+    data:{sql:$("#cgrSql").val(),'dbKey':$("[name='dbSource']").eq(0).val()},
 	type:"Post",
     dataType:"json",
     success:function(data){
     if(data.status=="success"){
 	      $("#add_cgreportConfigItem_table").empty();
-	      $.each(data.datas,function(index,e){
+	      $.each(data.fields,function(index,e){
 	        var $tr = $("#add_cgreportConfigItem_table_template tr").clone();
 		    $tr.find("td:eq(1) :text").val(e);
 		    $tr.find("td:eq(2) :text").val(index);
@@ -19,6 +19,16 @@ $btn.click(function(){
 		    $("#add_cgreportConfigItem_table").append($tr);
 	      }); 
 	      resetTrNum("add_cgreportConfigItem_table");
+	      
+	      $("#add_cgreportConfigParam_table").empty();
+	      $.each(data.params,function(index,e){
+	        var $tr = $("#add_cgreportConfigParam_table_template tr").clone();
+		    $tr.find("td:eq(1) :text").val(e);
+		    $tr.find("td:eq(2) :text").val(e);
+		    $tr.find("td:eq(4) :text").val(index);
+		    $("#add_cgreportConfigParam_table").append($tr);
+	      }); 
+	      resetTrNum("add_cgreportConfigParam_table");
     }else{
 		$.messager.alert('错误',data.datas);
 	}

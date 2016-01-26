@@ -259,6 +259,23 @@ public final class JSONHelper {
 		}
 		return list;
 	}
+	
+	// 返回非实体类型(Map<String,Object>)的List
+	public static List<Map<String, Object>> toList(JSONArray jsonArray) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		for (Object obj : jsonArray) {
+			JSONObject jsonObject = (JSONObject) obj;
+			Map<String, Object> map = new HashMap<String, Object>();
+			Iterator it = jsonObject.keys();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				Object value = jsonObject.get(key);
+				map.put((String) key, value);
+			}
+			list.add(map);
+		}
+		return list;
+	}
 
 	/***
 	 * 将JSON对象数组转换为传入类型的List

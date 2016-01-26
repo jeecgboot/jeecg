@@ -62,10 +62,24 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    if( $G('orgname').value == '') {
-        alert('控件名称不能为空');
-        return false;
+    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
+    if($G('orgname').value==''){
+        var selectedField=$('#field').find("option:selected");
+        var flag=false;
+        if(selectedField.length>0){
+            selectedField=selectedField.get(0);
+            if(selectedField.value!=''){
+                $G('orgname').value=selectedField.text;
+                flag=true;
+            }
+        }
+        if(!flag){
+            alert('请输入控件名称');
+            $G('orgname').focus();
+            return false;
+        }
     }
+    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     var gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
     if( !oNode ) {
         try {

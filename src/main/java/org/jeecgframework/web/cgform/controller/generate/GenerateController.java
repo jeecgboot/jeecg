@@ -23,6 +23,7 @@ import org.jeecgframework.codegenerate.pojo.CreateFileProperty;
 import org.jeecgframework.codegenerate.pojo.onetomany.CodeParamEntity;
 import org.jeecgframework.codegenerate.pojo.onetomany.SubTableEntity;
 import org.jeecgframework.codegenerate.util.CodeResourceUtil;
+import org.jeecgframework.codegenerate.util.CodeStringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.util.StringUtil;
@@ -35,10 +36,9 @@ import org.jeecgframework.web.cgform.entity.generate.GenerateEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateSubListEntity;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonSqlServiceI;
-import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
-import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.cgform.service.impl.generate.TempletContextWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,10 +62,8 @@ public class GenerateController extends BaseController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger
-			.getLogger(GenerateController.class);
-	@Autowired
-	private  SystemService systemService;
+	private static final Logger logger = Logger.getLogger(GenerateController.class);
+	
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
@@ -75,7 +73,7 @@ public class GenerateController extends BaseController {
 	@Autowired
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
 	@Autowired
-	private CgformFtlServiceI cgformFtlService;
+	private TempletContextWord templetContextWord;
 	/**
 	 * 代码生成配置页面
 	 * @param request
@@ -158,15 +156,15 @@ public class GenerateController extends BaseController {
 			boolean tableexist = new JeecgReadTable().checkTableExist(tableName);
 			if(tableexist){
 				//step.3 判断是不是用用户自定义界面
-				String html;
-				CgformCodeGenerate generate = 	new CgformCodeGenerate(createFileProperty,generateEntity);
-				if(createFileProperty.getJspMode().equals("04") &&
-						(html = cgformFtlService.getUserFormFtl(cgFormHead.getId())) != null){
-					//generate.setCgformJspHtml(hanlderForGenerate(html,cgFormHead));
+				CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
+				if(createFileProperty.getJspMode().equals("04")){
+					String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
+					generate.setCgformJspHtml(formhtml);
 				}
 				//step.4 调用代码生成器
 				generate.generateToFile();
-				j.setMsg("成功生成增删改查->功能："+ftlDescription);
+				
+				j.setMsg(ftlDescription+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(generateEntity.getEntityName())+"Controller.do?list");
 			}else{
 				j.setMsg("表["+tableName+"] 在数据库中，不存在");
 			}
@@ -187,33 +185,8 @@ public class GenerateController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 预处理一些
-	 * @param html
-	 * @param cgFormHead
-	 * @return
-	 */
-	private String hanlderForGenerate(String html, CgFormHeadEntity cgFormHead) {
-		html = replaceAddJSP(html);
-		html = html.replace("cgFormBuildController.do?saveOrUpdate", "{entityName?uncap_first}Controller.do?doAdd");
-		html = html.replace("<input type=\"hidden\" name=\"tableName\" value=\"${tableName?if_exists?html}\" />", "");
-		html = html.replace("<input id='jform_hidden_field' name='jform_hidden_field' type='text' style='width: 150px' class='inputxt' >", "");
-		return html;
-	}
-	/**
-	 * 替换#{} 为${}
-	 * @param cgformJspHtml
-	 * @return
-	 */
-	private String replaceAddJSP(String cgformJspHtml) {
-		String key,realKey;
-		while (cgformJspHtml.indexOf("#{") > 0) {
-			key  = cgformJspHtml.substring(cgformJspHtml.indexOf("#{"),cgformJspHtml.indexOf("}",cgformJspHtml.indexOf("#{"))+1);
-			realKey = key.substring(2, key.length() -1);
-			cgformJspHtml = cgformJspHtml.replace(key, "<input id='"+JeecgReadTable.formatField(realKey)+"' name='"+JeecgReadTable.formatField(realKey)+"' type='text' value='${'$'}{${entityName?uncap_first}Page."+JeecgReadTable.formatField(realKey)+"}' style='width: 150px' class='inputxt' >");
-		}
-		return cgformJspHtml;
-	}
+	
+	
 	
 	
 	/**
@@ -262,8 +235,9 @@ public class GenerateController extends BaseController {
 			}
 			codeParamEntityIn.setSubTabParam(subTabParamIn);
 			//step.5 一对多(父子表)数据模型,代码生成
-			   CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
-			j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
+			CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			//j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
+			j.setMsg(codeParamEntityIn.getFtlDescription()+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(codeParamEntityIn.getEntityName())+"Controller.do?list");
 		}catch (Exception e) {
 			e.printStackTrace();
 			j.setMsg(e.getMessage());

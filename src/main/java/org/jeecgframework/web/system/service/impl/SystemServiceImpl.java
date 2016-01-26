@@ -18,7 +18,17 @@ import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.dao.JeecgDictDao;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.DictEntity;
+import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSIcon;
+import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleUser;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,11 +40,11 @@ import org.springframework.util.StringUtils;
 public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
 	@Autowired
 	private JeecgDictDao jeecgDictDao;
-	
+
 	public TSUser checkUserExits(TSUser user) throws Exception {
 		return this.commonDao.getUserByUserIdAndUserNameExits(user);
 	}
-	
+
 	public List<DictEntity> queryDict(String dicTable, String dicCode,String dicText){
 		List<DictEntity> dictList = null;
 		//step.1 如果没有字典表则使用系统字典表
@@ -69,7 +79,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 	/**
 	 * 根据类型编码和类型名称获取Type,如果为空则创建一个
-	 * 
+	 *
 	 * @param typecode
 	 * @param typename
 	 * @return
@@ -93,7 +103,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 	/**
 	 * 根据类型分组编码和名称获取TypeGroup,如果为空则创建一个
-	 * 
+	 *
 	 * @param typecode
 	 * @param typename
 	 * @return
@@ -109,13 +119,13 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return tsTypegroup;
 	}
 
-	
+
 	public TSTypegroup getTypeGroupByCode(String typegroupCode) {
 		TSTypegroup tsTypegroup = commonDao.findUniqueByProperty(TSTypegroup.class, "typegroupcode", typegroupCode);
 		return tsTypegroup;
 	}
 
-	
+
 	public void initAllTypeGroups() {
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
 		for (TSTypegroup tsTypegroup : typeGroups) {
@@ -125,7 +135,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 	}
 
-	
+
 	public void refleshTypesCach(TSType type) {
 		TSTypegroup tsTypegroup = type.getTSTypegroup();
 		TSTypegroup typeGroupEntity = this.commonDao.get(TSTypegroup.class, tsTypegroup.getId());
@@ -133,7 +143,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		TSTypegroup.allTypes.put(typeGroupEntity.getTypegroupcode().toLowerCase(), types);
 	}
 
-	
+
 	public void refleshTypeGroupCach() {
 		TSTypegroup.allTypeGroups.clear();
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
@@ -141,6 +151,9 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			TSTypegroup.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), tsTypegroup);
 		}
 	}
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
 
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
@@ -196,7 +209,10 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 		return operationCodes;
 	}
-	
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -318,5 +334,22 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 */
 	public  void delTSIcons(TSIcon icon) {
 		TSIcon.allTSIcons.remove(icon.getId());
+	}
+	@Override
+	public void addDataLog(String tableName, String dataId, String dataContent) {
+
+		int versionNumber = 0;
+
+		Integer integer = commonDao.singleResult("select max(versionNumber) from TSDatalogEntity where tableName = '" + tableName + "' and dataId = '" + dataId + "'");
+		if (integer != null) {
+			versionNumber = integer.intValue();
+		}
+
+		TSDatalogEntity tsDatalogEntity = new TSDatalogEntity();
+		tsDatalogEntity.setTableName(tableName);
+		tsDatalogEntity.setDataId(dataId);
+		tsDatalogEntity.setDataContent(dataContent);
+		tsDatalogEntity.setVersionNumber(versionNumber + 1);
+		commonDao.save(tsDatalogEntity);
 	}
 }

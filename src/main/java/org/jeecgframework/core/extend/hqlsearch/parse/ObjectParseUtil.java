@@ -40,7 +40,7 @@ public class ObjectParseUtil {
 			cq.in(name, (Object[]) value);
 			break;
 		case LIKE:
-			cq.like(name, value);
+			cq.like(name, HqlParseEnum.SUFFIX_ASTERISK_VAGUE.getValue()+ value+ HqlParseEnum.SUFFIX_ASTERISK_VAGUE.getValue());
 			break;
 		case LEFT_LIKE:
 			cq.like(name, HqlParseEnum.SUFFIX_ASTERISK_VAGUE.getValue() + value);

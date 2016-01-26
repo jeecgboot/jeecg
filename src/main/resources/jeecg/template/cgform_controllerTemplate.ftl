@@ -7,6 +7,7 @@ package ${bussiPackage}.controller.${entityPackage};
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
 </#if>
+import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
@@ -90,8 +91,8 @@ public class ${entityName}Controller extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "${entityName?uncap_first}")
-	public ModelAndView ${entityName?uncap_first}(HttpServletRequest request) {
+	@RequestMapping(params = "list")
+	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("${bussiPackage?replace(".","/")}/${entityPackage}/${entityName?uncap_first}List");
 	}
 
@@ -338,12 +339,12 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(${entityName}Entity ${entityName?uncap_first},HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		modelMap.put(TemplateExcelConstants.FILE_NAME, "${ftl_description}");
-		modelMap.put(TemplateExcelConstants.PARAMS,new TemplateExportParams("Excel模板地址"));
-		modelMap.put(TemplateExcelConstants.MAP_DATA,null);
-		modelMap.put(TemplateExcelConstants.CLASS,${entityName}Entity.class);
-		modelMap.put(TemplateExcelConstants.LIST_DATA,null);
-		return TemplateExcelConstants.JEECG_TEMPLATE_EXCEL_VIEW;
+    	modelMap.put(NormalExcelConstants.FILE_NAME,"${ftl_description}");
+    	modelMap.put(NormalExcelConstants.CLASS,${entityName}Entity.class);
+    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+    	"导出信息"));
+    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	
 	@SuppressWarnings("unchecked")

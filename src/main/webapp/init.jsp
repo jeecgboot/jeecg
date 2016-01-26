@@ -12,7 +12,6 @@
     $.cookie(iconCookieKey, null);
     $.cookie(iconCookieKeyForSlider, null);
 </script>
-<%--update-end--Author:zhangguoming  Date:20140609 for：云桌面，清除桌面图标的cookie历史记录--%>
 <script type="text/javascript">
     window.setTimeout(function() {
         window.location.replace('repairController.do?repair');

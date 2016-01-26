@@ -1,9 +1,6 @@
 package org.jeecgframework.web.cgform.entity.enhance;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -129,7 +126,10 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	@Transient
 	public String getCgJsStr() {
 		if(cgJs!=null){
-			cgJsStr = new String(cgJs);
+			try{
+				cgJsStr = new String(cgJs,"utf-8");
+			}catch (Exception e){
+			}
 		}
 		return cgJsStr;
 	}
@@ -137,7 +137,11 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	public void setCgJsStr(String cgJsStr) {
 		this.cgJsStr = cgJsStr;
 		if(cgJsStr!=null){
-		this.cgJs = cgJsStr.getBytes();
+			try {
+				this.cgJs = cgJsStr.getBytes("utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

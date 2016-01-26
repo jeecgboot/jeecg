@@ -83,7 +83,10 @@ public class CgFormHeadEntity implements java.io.Serializable {
 	private java.lang.String treeIdFieldname;
 	/**树形列表 菜单列名*/
 	private java.lang.String treeFieldname;
-	
+	/**表单分类*/
+	private java.lang.String jformCategory;
+	/**表单模板*/
+	private String formTemplate;
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
@@ -430,5 +433,25 @@ public class CgFormHeadEntity implements java.io.Serializable {
 
 	public void setTreeFieldname(java.lang.String treeFieldname) {
 		this.treeFieldname = treeFieldname;
+	}
+
+	/**
+	 *@return: INteger  表单分类
+	 */
+	@Column(name ="jform_category",nullable=false,length=50)
+	public java.lang.String getJformCategory() {
+		return jformCategory;
+	}
+
+	public void setJformCategory(java.lang.String jformCategory) {
+		this.jformCategory = jformCategory;
+	}
+	@Column(name ="form_template",length=50)
+	public String getFormTemplate() {
+		return formTemplate;
+	}
+
+	public void setFormTemplate(String formTemplate) {
+		this.formTemplate = formTemplate;
 	}
 }

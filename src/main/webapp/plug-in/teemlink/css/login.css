@@ -1,0 +1,73 @@
+body, html, div {padding:0px;margin:0px;}
+body {
+	text-align: center;
+	font-size:12px;
+	scrollbar-3dlight-color:#f2f2f2;
+	scrollbar-arrow-color:#006699;
+	scrollbar-base-color:#f8f8f8;
+	scrollbar-darkshadow-color:#ffffff;
+	scrollbar-face-color:#f2f2f2;
+	scrollbar-highlight-color:#ffffff;
+	scrollbar-shadow-color:#595959;
+	scrollbar-track-color:#fefefe;
+	background:url("../image/bg.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/bg.png*/;
+}
+img{border:0px;}
+ul{ margin:0; padding:0; display:block; float:left; list-style-type:none;}
+li{margin:0; padding:0; display:block; line-height:33px; height:33px;}	
+a:link{text-decoration:none; color:#4c4c4c;}
+a:hover{text-decoration:none; color:#4c4c4c;}
+a:visited{text-decoration:none; color:#4c4c4c;}
+.loginBg{behavior: url("../image/iepngfix.htc")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/css/iepngfix.htc*/;}
+
+.container{position:relative; width:1003px; height:768px; margin:0 auto;background:url("../image/loginBg.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/loginBg.png*/;}
+.language{position:absolute; right:50px; top:25px;height:30px;line-height:30px;}
+.language span{display:block; float:left;color:#ffffff;}
+.language select{display:block; float:left;width:94px; height:24px;line-height:24px; border:1px solid #4d4d4d;}
+
+.login{position:absolute;top:217px; left:266px; width:480px; height:241px; padding:20px 10px 15px 15px; color:#4c4c4c;z-index:99;}
+.titleName{width:170px; margin-right:15px;}
+.titleName li{text-align:center;}
+.english{font-size:22px; font-family:Arial, Helvetica, sans-serif;}
+.chinese{font-size:18px; font-family:��Բ; font-weight:bold;}
+.loginInfo{width:265px;}
+.loginInfo span{display:block; float:left;width:62px; text-align:right;}
+
+.domainLi{position:relative;z-index:100;}
+.selectdoMain{position:absolute;left:62px;width:182px; height:26px;}
+.selectdoMain input{background:url("../image/select.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/select.png*/ no-repeat 100% 0%!important;}
+.domain{position:absolute;width:180px;overflow:auto;left:63px;top:26px;border:1px solid #4d4d4d;display:none;background:#ffffff;}
+.domain li{height:22px;line-height:22px;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.domain li a{padding-left:5px;display:block;}
+.domain li a:hover{padding-left:5px;display:block;background:#e3e3e3;}
+
+.userName,.password{background:url("../image/input.png") no-repeat 100% 0%;display:block;float:left;margin-top:3px; border:0; width:172px; padding:0 5px; height:26px; line-height:26px; _vertical-align:middle;}
+*+html input{vertical-align:middle;}
+.checkCode input{display:block;float:left;margin-right:5px;width:70px;height:26px;line-height:26px;background:url("../image/checkCode.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/checkCode.png*/ no-repeat;}
+.checkCode img{display:block;float:left;margin-top:3px;}
+.checkCode .invisibility{width:40px;text-decoration: underline;display: inline;color:#1461cc;cursor: pointer;}
+.notcheckCode{height:20px;line-height:20px;}
+.keepInfo{ _margin-top:1px; padding-left:60px; height:20px;line-height:20px;text-align:left;}
+.keepInfo input{display:block;float:left;margin-right:3px;width:14px; height:14px; vertical-align:middle; padding:0;}
+
+.tipsArea{height:22px!important;line-height:22px!important;_height:20px!important;_line-height:20px!important;padding-left:55px;text-align:left!important;word-spacing:-1px;_word-spacing:0;overflow: hidden;visibility: visible;}
+*+html .tipsArea{word-spacing:0;}
+.btnOk{padding-left:60px;}
+.loginBtn{display:block; background:url("../image/loginBtn.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/loginBtn.png*/ no-repeat; width:101px; height:33px; line-height:33px; text-align:center;}
+.errorMsg{position:absolute;width:445px; top:470px; left:266px;  text-align:center;color: red;font-family: Arial;font-size: 14px;}
+.copyright{background:url("../image/logo.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/logo.png*/ no-repeat;position:absolute; top:550px; left:320px; width:400px;text-align:left; padding-left:15px; margin:0 auto;color:#4c4c4c;}
+.copyright span{font-family:Arial, Helvetica, sans-serif;}
+
+/********************Proxy user login style start********************/
+.userTypeLi{height:60px;padding-left:30px;line-height:22px;text-align:left;}
+.userTypeSpan{display:block;width:100%!important;text-align:left!important;font-weight:bold;color:#06547a;}
+.userTypeLi input{background:none;width:23px!important;height:23px!important;vertical-align:middle;padding:0!important;margin:0!important;}
+.userTypeLi label{background:#ffffff;display:block;float:left;width:55px;height:23px;}
+.proxyShow{height:60px;padding-left:30px;text-align:left;padding-top:15px!important;}
+.proxyShowSpan{width:auto!important;line-height:30px;font-weight:bold;color:#06547a;}
+.operationLi{padding-left:30px;}
+.operationLi input{display:block; background:url("../image/loginBtn.png")/*tpa=http://dev01.teemlink.com:8080/obpm/portal/share/images/login/loginBtn.png*/ no-repeat; width:101px; height:33px; line-height:33px; text-align:center;}
+/********************Proxy user login style end********************/
+
+
+	

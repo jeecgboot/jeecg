@@ -182,10 +182,17 @@
 <span id="containerline" style="float: left; width: 30%; height: 60%"></span>
 <span id="containerCol" style="float: left; width: 38%; height: 60%"></span>
 <span id="containerPie" style="width: 30%; height: 60%"></span>
-
-<div style="width: 98%; height: 280px"><t:datagrid name="studentStatisticList" title="class.count.statistics" actionUrl="reportDemoController.do?listAllStatisticByJdbc" idField="id" fit="true">
-	<t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="lang.class" field="classname" width="130"></t:dgCol>
-	<t:dgCol title="number.ofpeople" field="personcount" width="130"></t:dgCol>
-	<t:dgCol title="common.proportion" field="rate" width="130"></t:dgCol>
-</t:datagrid></div>
+<div style="width: 100%; height: 38%;">
+	<t:datagrid name="studentStatisticList" title="class.count.statistics" actionUrl="reportDemoController.do?listAllStatisticByJdbc" idField="id" fit="true">
+		<t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
+		<t:dgCol title="lang.class" field="classname" width="130"></t:dgCol>
+		<t:dgCol title="number.ofpeople" field="personcount" width="130"></t:dgCol>
+		<t:dgCol title="common.proportion" field="rate" width="130"></t:dgCol>
+	</t:datagrid>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(document.body).css("width","99.3%");
+	});
+</script>
+<!-- add-update--Author:jg_renjie  Date:20150613 for：页面自适应页面，不会出现左右滚动条 -->

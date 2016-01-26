@@ -82,6 +82,7 @@ public class IconController extends BaseController {
 	 * @param response
 	 * @param dataGrid
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "datagrid")
 	public void datagrid(TSIcon icon,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSIcon.class, dataGrid);
@@ -89,7 +90,11 @@ public class IconController extends BaseController {
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
         IconImageUtil.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
-		TagUtil.datagrid(response, dataGrid);
+        List<TSIcon> list = dataGrid.getResults();
+        for(TSIcon tsicon:list){
+        	tsicon.setIconName(MutiLangUtil.doMutiLang(tsicon.getIconName(), ""));
+		}
+        TagUtil.datagrid(response, dataGrid);
 	}
 
 	/**

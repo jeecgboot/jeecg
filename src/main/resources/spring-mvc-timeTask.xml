@@ -50,8 +50,10 @@
 		class="org.jeecgframework.core.timer.DataBaseSchedulerFactoryBean">
 		<property name="triggers">
 			<list>
+				<!--
 				<ref bean="taskDemoServiceTaskCronTrigger" />
 				<ref bean="smsSendTaskCronTrigger" />
+				-->
 			</list>
 		</property>
 	</bean>

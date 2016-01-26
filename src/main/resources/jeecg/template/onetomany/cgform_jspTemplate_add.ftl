@@ -41,37 +41,16 @@
 			  <#elseif po.showType=='textarea'>
 				 <textarea id="${po.fieldName}" style="width:600px;" class="inputxt" rows="6" name="${po.fieldName}"></textarea>
 		      <#elseif po.showType=='password'>
-		      	 <input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt"  
-		      						<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n" 
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" 
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if>>
+		      	 <input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 				<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 					<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
 						<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if>  hasLabel="false"  title="${po.content}"></t:dictSelect>     
 				<#elseif po.showType=='date'>
 					  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
-		      						class="Wdate" onClick="WdatePicker()"
-		      						<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if> 
-					               </#if>>    
+							 class="Wdate" onClick="WdatePicker()" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if>>
 		      	<#elseif po.showType=='datetime'>
 					  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
-		      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-		      						<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if> 
-					               </#if>>
+		      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if>>
 				<#elseif po.showType=='file'>
 						<input type="hidden" id="${po.fieldName}" name="${po.fieldName}" />
 						<a  target="_blank" id="${po.fieldName}_href">暂时未上传文件</a>
@@ -84,18 +63,7 @@
 						}
 						</script>
 		      	<#else>
-		      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
-		      						<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n" 
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" 
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if>>
+		      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 				</#if>
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
@@ -138,51 +106,22 @@
 				  <td align="left">
 					  <#if po.showType == "text">
 					  	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					  		<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n" 
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" 
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if>>
+					  		type="text" class="inputxt"  style="width:120px;" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 						<#elseif po.showType=='password'>
 							<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 
 					  		type="password" class="inputxt"  style="width:120px;"
-					  		<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n" 
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" 
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if>>
+					  		<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else> <#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
 							<t:dictSelect field="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="${po.showType?if_exists?html}"
 										<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 						<#elseif po.showType=='date'>
 							<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 
 					  		type="text" class="Wdate" onClick="WdatePicker()"  style="width:120px;"
-					  		<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if> 
-					               </#if>>  
+					  		<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else> <#if po.isNull != 'Y'>datatype="*"</#if></#if>>
 					      <#elseif po.showType=='datetime'>
 					      	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 
 						  		type="text"  class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="width:120px;"
-						  		<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if> 
-					               </#if>>  
+						  		<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else> <#if po.isNull != 'Y'>datatype="*"</#if></#if>>
 					       <#elseif po.showType=='file'>
 										<input type="hidden" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" />
 										<a  target="_blank" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}_href">未上传</a>
@@ -192,17 +131,7 @@
 					       <#else>
 					       	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 
 						  		type="text" class="inputxt"  style="width:120px;"
-						  		<#if po.fieldValidType?if_exists?html != ''>
-					               datatype="${po.fieldValidType?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n" 
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" 
-					               <#else>
-					               <#if po.isNull != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if>>
+						  		<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else> <#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 					  </#if>
 					  <label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
 				  </td>

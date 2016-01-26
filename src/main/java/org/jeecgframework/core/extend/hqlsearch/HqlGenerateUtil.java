@@ -1,27 +1,28 @@
 package org.jeecgframework.core.extend.hqlsearch;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.annotation.query.QueryTimeFormat;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.demo.entity.test.JeecgDemo;
 import org.jeecgframework.web.demo.entity.test.QueryCondition;
 import org.jeecgframework.web.system.pojo.base.TSDataRule;
 import org.springframework.util.NumberUtils;
@@ -50,6 +51,7 @@ public class HqlGenerateUtil {
 	 * @throws Exception
 	 */
 	public static void installHql(CriteriaQuery cq, Object searchObj) {
+//		--author：龙金波 ------start---date：20150519--------for：统一函数处理sqlbuilder---------------------------------- 
 		installHql(cq,searchObj,null);
 
 	}
@@ -65,6 +67,7 @@ public class HqlGenerateUtil {
 	public static void installHql(CriteriaQuery cq, Object searchObj,
 			Map<String, String[]> parameterMap) {
 		installHqlJoinAlias(cq, searchObj, getRuleMap(), parameterMap, "");
+//		--author：龙金波 ------start---date：20150422--------for：增加一个特殊sql参数处理---------------------------------- 
 		try{
 			String json= null;
 			if(StringUtil.isNotEmpty(cq.getDataGrid().getSqlbuilder())){
@@ -77,13 +80,14 @@ public class HqlGenerateUtil {
 				List<QueryCondition> list  = JSONHelper.toList(
 						json
 			             , QueryCondition.class);
-				String sql=getSql(list,"");
+				String sql=getSql(list,"",searchObj.getClass());
 				System.out.println("DEBUG sqlbuilder:"+sql);
 				cq.add(Restrictions.sqlRestriction(sql));
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+//		--author：龙金波 ------start---date：201504022--------for：增加一个特殊sql参数处理---------------------------------- 
 
 		cq.add();
 	}
@@ -139,6 +143,9 @@ public class HqlGenerateUtil {
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum
 								.convert(value);
+						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))){
+							value="*%"+value+"%*";
+						}
 						value = PageValueConvertRuleEnum.replaceValue(rule,
 								value);
 						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
@@ -189,7 +196,6 @@ public class HqlGenerateUtil {
 						// for：用户反馈
 						cq.createAlias(aliasName,
 								aliasName.replaceAll("\\.", "_"));
-						// ------------end--Author:JueYue Date:20140521 for：用户反馈
 						installHqlJoinAlias(cq, param, ruleMap, parameterMap,
 								aliasName);
 					}
@@ -320,7 +326,7 @@ public class HqlGenerateUtil {
 		return ruleMap;
 	}
 
-//	--author：龙金波 ------start---date：20150422--------for：sql高级查询器参数的sql组装
+//	--author：龙金波 ------start---date：20150628--------for：sql高级查询器参数的sql组装
 	/**
 	 * @author ljb
 	 * 根据对象拼装sql 
@@ -329,20 +335,63 @@ public class HqlGenerateUtil {
 	 * @param tab格式化
 	 * @return
 	 */
-	public static String getSql(List<QueryCondition> list,String tab){
+	public static String getSql(List<QueryCondition> list,String tab,Class claszz){
 		StringBuffer sb=new StringBuffer();
 		sb.append(" 1=1 ");
 		for(QueryCondition c :list){
+			String column = invokeFindColumn(claszz,c.getField());
+			String type = invokeFindType(claszz,c.getField());
+			c.setType(type);
+			c.setField(column);
 			sb.append(tab+c);sb.append("\r\n");
 			if(c.getChildren()!=null){
 				
 				List list1= JSONHelper.toList(c.getChildren(), QueryCondition.class);
 				sb.append(tab);
 				sb.append(c.getRelation()+"( ");
-				sb.append(getSql(list1,tab+"\t"));
+				sb.append(getSql(list1,tab+"\t",claszz));
 				sb.append(tab+")\r\n");
 			}
 		}
 		return sb.toString();
+	}
+	/**
+	 * 根据字段名称,获取字段的类型字符串
+	 * return: java.lang.Integer
+	 */
+	public static String invokeFindType(Class clazz,String field_name){
+		String type=null;
+		Field field;
+		try {
+			field = clazz.getDeclaredField(field_name);
+			if(field!=null){
+				type=field.getType().getSimpleName();
+			}
+		} catch (Exception e) {
+			return type;
+		}
+		return type;
+	}
+	/**
+	 * 根据字段名称返回hibernate映射数据库字段名
+	 * @param clazz
+	 * @param field_name	字段名称
+	 * @return
+	 */
+	public static String invokeFindColumn(Class clazz,String field_name){
+		String column=null;
+		Field field;
+		try {
+			field = clazz.getDeclaredField(field_name);
+			PropertyDescriptor pd = new PropertyDescriptor(field.getName(),clazz);  
+	        Method getMethod = pd.getReadMethod();//获得get方法 
+			Column col=getMethod.getAnnotation(Column.class);
+			if(col!=null){
+				column=col.name();
+			}
+		} catch (Exception e) {
+			return column;
+		}
+		return column;
 	}
 }

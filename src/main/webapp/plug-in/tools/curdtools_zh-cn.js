@@ -39,7 +39,7 @@ function addTreeNode(title,addurl,gname) {
  * @param addurl//目标页面地址
  * @param id//主键字段
  */
-function update(title,url, id,width,height) {
+function update(title,url, id,width,height,isRestful) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
 	if (!rowsData || rowsData.length==0) {
@@ -50,8 +50,11 @@ function update(title,url, id,width,height) {
 		tip('请选择一条记录再编辑');
 		return;
 	}
-	
-	url += '&id='+rowsData[0].id;
+	if(isRestful!='undefined'&&isRestful){
+		url += '/'+rowsData[0].id;
+	}else{
+		url += '&id='+rowsData[0].id;
+	}
 	createwindow(title,url,width,height);
 }
 

@@ -15,6 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.SequenceGenerator;
 
 import org.jeecgframework.web.cgreport.entity.core.CgreportConfigItemEntity;
+import org.jeecgframework.web.cgreport.entity.core.CgreportConfigParamEntity;
 
 /**   
  * @Title: Entity
@@ -30,11 +31,21 @@ import org.jeecgframework.web.cgreport.entity.core.CgreportConfigItemEntity;
 public class CgreportConfigHeadPage implements java.io.Serializable {
 	/**保存-动态报表配置明细*/
 	private List<CgreportConfigItemEntity> cgreportConfigItemList = new ArrayList<CgreportConfigItemEntity>();
+	/**保存-动态报表参数*/
+	private List<CgreportConfigParamEntity> cgreportConfigParamList = new ArrayList<CgreportConfigParamEntity>();
+	
 	public List<CgreportConfigItemEntity> getCgreportConfigItemList() {
 		return cgreportConfigItemList;
 	}
 	public void setCgreportConfigItemList(List<CgreportConfigItemEntity> cgreportConfigItemList) {
 		this.cgreportConfigItemList = cgreportConfigItemList;
+	}
+	public List<CgreportConfigParamEntity> getCgreportConfigParamList() {
+		return cgreportConfigParamList;
+	}
+	public void setCgreportConfigParamList(
+			List<CgreportConfigParamEntity> cgreportConfigParamList) {
+		this.cgreportConfigParamList = cgreportConfigParamList;
 	}
 
 

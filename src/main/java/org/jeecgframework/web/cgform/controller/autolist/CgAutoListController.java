@@ -16,10 +16,14 @@ import javax.servlet.http.HttpSession;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
+import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.QueryParamUtil;
+import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.service.SystemService;
@@ -61,6 +65,8 @@ public class CgAutoListController extends BaseController{
 	private SystemService systemService;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
+	@Autowired
+	private CgformTemplateServiceI cgformTemplateService;
 	private static Logger log = Logger.getLogger(CgAutoListController.class);
 	/**
 	 * 动态列表展现入口
@@ -81,7 +87,17 @@ public class CgAutoListController extends BaseController{
 		//step.3 封装页面数据
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
-		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgform/engine/autolist/autolist.ftl", paras);
+		String template=request.getParameter("olstylecode");
+		if(StringUtils.isBlank(template)){
+				CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
+				template=head.getFormTemplate();
+			paras.put("_olstylecode","");
+		}else{
+			paras.put("_olstylecode",template);
+		}
+        paras.put("this_olstylecode",template);
+		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
+		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -122,7 +138,6 @@ public class CgAutoListController extends BaseController{
 			QueryParamUtil.loadQueryParams(request,b,params);
 			fieldMap.put(b.getFieldName(), new String[]{b.getType(), b.getFieldDefault()});
 		}
-		
 		//参数处理
 		boolean isTree = configs.get(CgAutoListConstant.CONFIG_ISTREE) == null ? false
 				: CgAutoListConstant.BOOL_TRUE.equalsIgnoreCase(configs.get(CgAutoListConstant.CONFIG_ISTREE).toString());
@@ -439,14 +454,16 @@ public class CgAutoListController extends BaseController{
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 			nolist = null;
 		}
+		List<String> list = new ArrayList<String>();
 		String nolistStr = "";
 		if(nolist!=null){
 			for(TSOperation operation:nolist){
 				nolistStr+=operation.getOperationcode();
 				nolistStr+=",";
+				list.add(operation.getOperationcode());
 			}
 		}
-		paras.put(CgAutoListConstant.CONFIG_NOLIST, nolist==null?new ArrayList<String>(0):nolist);
+		paras.put(CgAutoListConstant.CONFIG_NOLIST, list);
 		paras.put(CgAutoListConstant.CONFIG_NOLISTSTR, nolistStr==null?"":nolistStr);
 	}
 	/**

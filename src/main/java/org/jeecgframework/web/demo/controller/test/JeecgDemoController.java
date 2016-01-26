@@ -8,8 +8,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
 import org.jeecgframework.web.demo.entity.test.JeecgDemo;
+import org.jeecgframework.web.demo.entity.test.JeecgDemoPage;
 import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
@@ -28,6 +30,7 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -186,7 +189,7 @@ public class JeecgDemoController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
+	 * @param
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -250,7 +253,7 @@ public class JeecgDemoController extends BaseController {
 	/**
 	 * 添加JeecgDemo例子
 	 * 
-	 * @param ids
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(params = "save")
@@ -282,7 +285,7 @@ public class JeecgDemoController extends BaseController {
 	/**
 	 * 审核报错
 	 * 
-	 * @param ids
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(params = "saveAuthor")
@@ -395,5 +398,38 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "goDemo")
 	public ModelAndView goDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
+	}
+
+	/**
+	 * 保存新增/更新的行数据
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(params = "saveRows")
+	@ResponseBody
+	public AjaxJson saveRows(JeecgDemoPage page){
+		List<JeecgDemo> demos=page.getDemos();
+		AjaxJson j = new AjaxJson();
+		if(CollectionUtils.isNotEmpty(demos)){
+			for(JeecgDemo jeecgDemo:demos){
+				if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
+					JeecgDemo t =jeecgDemoService.get(JeecgDemo.class, jeecgDemo.getId());
+					try {
+						message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被更新成功";
+						MyBeanUtils.copyBeanNotNull2Bean(jeecgDemo, t);
+						jeecgDemoService.saveOrUpdate(t);
+						systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被添加成功";
+					jeecgDemo.setStatus("0");
+					jeecgDemoService.save(jeecgDemo);
+					systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+				}
+			}
+		}
+		return j;
 	}
 }

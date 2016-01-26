@@ -1,10 +1,6 @@
 package org.jeecgframework.core.common.dao.impl;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -43,6 +40,7 @@ import org.jeecgframework.core.common.hibernate.qbc.PagerUtil;
 import org.jeecgframework.core.common.model.common.DBTable;
 import org.jeecgframework.core.common.model.json.DataGridReturn;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.ToEntityUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
@@ -52,7 +50,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -60,10 +57,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.Assert;
 
+
 /**
- * 
+ *
  * 类描述： DAO层泛型基类
- * 
+ *
  * 张代浩
  * @date： 日期：2012-12-7 时间：上午10:16:48
  * @param <T>
@@ -92,7 +90,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 获得该类的属性和类型
-	 * 
+	 *
 	 * @param entityName
 	 *            注解的实体类
 	 */
@@ -108,7 +106,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 获取所有数据表
-	 * 
+	 *
 	 * @return
 	 */
 	public List<DBTable> getAllDbTableName() {
@@ -136,7 +134,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 获取所有数据表
-	 * 
+	 *
 	 * @return
 	 */
 	public Integer getAllDbTableSize() {
@@ -147,7 +145,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据实体名字获取唯一记录
-	 * 
+	 *
 	 * @param propertyName
 	 * @param value
 	 * @return
@@ -189,7 +187,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 批量保存数据
-	 * 
+	 *
 	 * @param <T>
 	 * @param entitys
 	 *            要持久化的临时实体对象集合
@@ -210,9 +208,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据传入的实体添加或更新对象
-	 * 
+	 *
 	 * @param <T>
-	 * 
+	 *
 	 * @param entity
 	 */
 
@@ -247,7 +245,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据主键删除指定的实体
-	 * 
+	 *
 	 * @param <T>
 	 * @param pojo
 	 */
@@ -258,9 +256,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 删除全部的实体
-	 * 
+	 *
 	 * @param <T>
-	 * 
+	 *
 	 * @param entitys
 	 */
 	public <T> void deleteAllEntitie(Collection<T> entitys) {
@@ -281,7 +279,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据主键获取实体并加锁。
-	 * 
+	 *
 	 * @param <T>
 	 * @param entityName
 	 * @param id
@@ -299,7 +297,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 更新指定的实体
-	 * 
+	 *
 	 * @param <T>
 	 * @param pojo
 	 */
@@ -310,7 +308,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 更新指定的实体
-	 * 
+	 *
 	 * @param <T>
 	 * @param pojo
 	 */
@@ -328,7 +326,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过hql 查询语句查找对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -346,7 +344,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过hql查询唯一对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -366,7 +364,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过hql 查询语句查找HashMap对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -386,7 +384,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过sql更新记录
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -399,7 +397,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过sql查询语句查找对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -411,7 +409,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 创建Criteria对象，有排序功能。
-	 * 
+	 *
 	 * @param <T>
 	 * @param entityClass
 	 * @param orderBy
@@ -432,7 +430,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 创建Criteria对象带属性比较
-	 * 
+	 *
 	 * @param <T>
 	 * @param entityClass
 	 * @param criterions
@@ -454,7 +452,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 创建单一Criteria对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param entityClass
 	 * @param criterions
@@ -467,7 +465,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据属性名和属性值查询. 有排序
-	 * 
+	 *
 	 * @param <T>
 	 * @param entityClass
 	 * @param propertyName
@@ -485,7 +483,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据属性名和属性值 查询 且要求对象唯一.
-	 * 
+	 *
 	 * @return 符合条件的唯一对象.
 	 */
 	public <T> T findUniqueBy(Class<T> entityClass, String propertyName,
@@ -497,7 +495,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据查询条件与参数列表创建Query对象
-	 * 
+	 *
 	 * @param session
 	 *            Hibernate会话
 	 * @param hql
@@ -518,7 +516,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 批量插入实体
-	 * 
+	 *
 	 * @param clas
 	 * @param values
 	 * @return
@@ -534,7 +532,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据实体名返回全部对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param hql
 	 * @param size
@@ -542,7 +540,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	/**
 	 * 使用占位符的方式填充值 请注意：like对应的值格式："%"+username+"%" Hibernate Query
-	 * 
+	 *
 	 * @param hibernateTemplate
 	 * @param hql
 	 * @param valus
@@ -562,7 +560,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据实体模版查找
-	 * 
+	 *
 	 * @param entityName
 	 * @param exampleEntity
 	 * @return
@@ -592,7 +590,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 查询指定实体的总记录数
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */
@@ -607,7 +605,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * 获取分页记录CriteriaQuery 老方法final int allCounts =
 	 * oConvertUtils.getInt(criteria
 	 * .setProjection(Projections.rowCount()).uniqueResult(), 0);
-	 * 
+	 *
 	 * @param cq
 	 * @param isOffset
 	 * @return
@@ -734,7 +732,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 获取分页记录SqlQuery
-	 * 
+	 *
 	 * @param cq
 	 * @param isOffset
 	 * @return
@@ -766,7 +764,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 获取分页记录HqlQuery
-	 * 
+	 *
 	 * @param cq
 	 * @param isOffset
 	 * @return
@@ -793,7 +791,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 根据CriteriaQuery获取List
-	 * 
+	 *
 	 * @param cq
 	 * @param isOffset
 	 * @return
@@ -833,7 +831,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据
-	 * 
+	 *
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
@@ -859,7 +857,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据-采用预处理方式
-	 * 
+	 *
 	 * @param criteria
 	 * @param firstResult
 	 * @param maxResults
@@ -882,7 +880,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC-采用预处理方式
-	 * 
+	 *
 	 */
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
 		return this.jdbcTemplate.queryForLong(sql, objs);
@@ -905,14 +903,21 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	}
 	public Object executeSqlReturnKey(final String sql, Map<String, Object> param) {
 		Object keyValue = null;
-		KeyHolder keyHolder = new GeneratedKeyHolder(); 
+		KeyHolder keyHolder = null;
 		SqlParameterSource sqlp  = new MapSqlParameterSource(param);
-		this.namedParameterJdbcTemplate.update(sql,sqlp, keyHolder);
-		if(oConvertUtils.isNotEmpty(keyHolder.getKey())){
-			keyValue = keyHolder.getKey().longValue();
+		if (StringUtil.isNotEmpty(param.get("id"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
+			this.namedParameterJdbcTemplate.update(sql,sqlp);
+		}else{//NATIVE or SEQUENCE
+			keyHolder = new GeneratedKeyHolder();
+			this.namedParameterJdbcTemplate.update(sql,sqlp, keyHolder, new String[]{"id"});
+			Number number = keyHolder.getKey();
+			if(oConvertUtils.isNotEmpty(number)){
+				keyValue = keyHolder.getKey().longValue();
+			}
 		}
 		return keyValue;
 	}
+
 	public Integer countByJdbc(String sql, Object... param) {
 		return this.jdbcTemplate.queryForInt(sql, param);
 	}
@@ -927,7 +932,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 通过hql 查询语句查找对象
-	 * 
+	 *
 	 * @param <T>
 	 * @param query
 	 * @return
@@ -944,7 +949,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 	/**
 	 * 执行HQL语句操作更新
-	 * 
+	 *
 	 * @param hql
 	 * @return
 	 */
@@ -967,5 +972,18 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> List<T> findByDetached(DetachedCriteria dc) {
 		return dc.getExecutableCriteria(getSession()).list();
+	}
+	/**
+	 * 调用存储过程
+	 */
+	@SuppressWarnings({ "unchecked",})
+	public <T> List<T> executeProcedure(String executeSql,Object... params) {
+		SQLQuery sqlQuery = getSession().createSQLQuery(executeSql);
+		
+		for(int i=0;i<params.length;i++){
+			sqlQuery.setParameter(i, params[i]);
+		}
+		
+		return sqlQuery.list();
 	}
 }

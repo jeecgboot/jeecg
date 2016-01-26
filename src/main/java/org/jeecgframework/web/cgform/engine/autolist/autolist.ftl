@@ -164,6 +164,15 @@ function createDataGrid${config_id}(){
 		}
 		return value;
 	}
+	
+	/**
+	 * 获取表格对象
+	 * @return 表格对象
+	 */
+	function getDataGrid(){
+		var datagrid = $('#'+gridname);
+		return datagrid;
+	}
 	/**
 	 * 获取列表中选中行的数据（多行）
 	 * @param field 数据中字段名-不传此参数则获取全部数据
@@ -310,6 +319,8 @@ function createDataGrid${config_id}(){
 		}); 
 		window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields)
 	}
+	
+	
 	//JS增强
 	${config_jsenhance}
 </script>

@@ -20,6 +20,7 @@ import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.easyui.Autocomplete;
 import org.jeecgframework.web.system.pojo.base.TSRole;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -93,18 +94,18 @@ public class TagUtil {
         for (int i=0; i<jsonValue.length(); i++) {
         char c = jsonValue.charAt(i);  
           switch (c){
-         case '\"':      
-                 sb.append("\\\"");      
-                 break;      
+//         case '\"':      
+//                 sb.append("\\\"");      
+//                 break;      
           case '\'':      
                  sb.append("\\\'");      
                  break;    
              case '\\':      
                  sb.append("\\\\");      
                  break;      
-             case '/':      
-                 sb.append("\\/");      
-                 break;      
+//             case '/':      
+//                 sb.append("\\/");      
+//                 break;   
              case '\b':      
                  sb.append("\\b");      
                  break;      
@@ -176,23 +177,24 @@ public class TagUtil {
 			}
 		}
 		jsonTemp.append("]");
-		if (footers != null) {
+		if (footers != null&&footers.length>0) {
 			jsonTemp.append(",");
 			jsonTemp.append("\"footer\":[");
 			jsonTemp.append("{");
-			jsonTemp.append("\"name\":\"合计\",");
-			for (String footer : footers) {
-				String footerFiled = footer.split(":")[0];
+//			jsonTemp.append("\"name\":\"合计\",");
+			for(i=0;i<footers.length;i++){
+				String footerFiled = footers[i].split(":")[0];
 				Object value = null;
-				if (footer.split(":").length == 2)
-					value = footer.split(":")[1];
+				if (footers[i].split(":").length == 2)
+					value = footers[i].split(":")[1];
 				else {
 					value = getTotalValue(footerFiled, list);
 				}
-				jsonTemp.append("\"" + footerFiled + "\":\"" + value + "\",");
-			}
-			if (jsonTemp.lastIndexOf(",") == jsonTemp.length()) {
-				jsonTemp = jsonTemp.deleteCharAt(jsonTemp.length());
+				if(i==0){
+					jsonTemp.append("\"" + footerFiled + "\":\"" + value + "\"");
+				}else{
+					jsonTemp.append(",\"" + footerFiled + "\":\"" + value + "\"");
+				}
 			}
 			jsonTemp.append("}");
 			jsonTemp.append("]");
@@ -438,6 +440,33 @@ public class TagUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 控件类型：easyui
+	 * 返回datagrid JSON数据
+	 * @param response
+	 * @param dataGrid
+	 * @param extMap 数据列表的扩展
+	 */
+	public static void datagrid(HttpServletResponse response,DataGrid dg,Map<String,Map<String,Object>>  extMap) {
+		response.setContentType("application/json");
+		response.setHeader("Cache-Control", "no-store");
+		JSONObject object = TagUtil.getJson(dg);
+		JSONArray r =  object.getJSONArray("rows");
+		for (Object object2 : r) {
+			JSONObject o =(JSONObject) object2;
+			o.putAll(extMap.get(o.get("id")));
+		}
+		try {
+			PrintWriter pw=response.getWriter();
+			pw.write(object.toString());
+			pw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * 控件类型：datatable
 	 * 返回datatable JSON数据
@@ -560,5 +589,24 @@ public class TagUtil {
 		}
 		param += "'\"+index+\"'";// 传出行索引号参数
 		return param;
+	}
+	public static String getJson(List fields,List datas){
+		if(datas!=null && datas.size()>0){
+			StringBuffer sb = new StringBuffer();
+			sb.append("{\"total\":\""+datas.size()+"\",\"rows\":[");
+			for(int i=0;i<datas.size();i++){
+				Object[] values = (Object[]) datas.get(i);
+				sb.append("{");
+				for(int j=0;j<values.length;j++){
+					sb.append("\""+fields.get(j)+"\":\""+(values[j]==null?"":values[j])+"\""+(j==values.length-1?"":","));
+				}
+				sb.append("}"+(i==datas.size()-1?"":","));
+			}
+			sb.append("]}");
+			
+			return sb.toString();
+		}else{
+			return "{\"total\":\"0\",\"rows\":[]}";
+		}
 	}
 }

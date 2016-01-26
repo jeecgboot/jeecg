@@ -58,9 +58,14 @@ UE.plugins['text'] = function () {
 			  this.hide();
 		},
 		_delete:function(){
-			if( window.confirm('确认删除该控件吗？') ) {
-				baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-			}
+			
+			//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			
 			this.hide();
 		}
 	} );
@@ -132,9 +137,12 @@ UE.plugins['macros'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -358,9 +366,15 @@ UE.plugins['radios'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				//update start by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+				//baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+				$(popup.anchorEl).parent().empty();
+				//update end by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -434,9 +448,15 @@ UE.plugins['checkboxs'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				//update start by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+				//baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+				$(popup.anchorEl).parent().empty();
+				//update end by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -510,9 +530,12 @@ UE.plugins['textarea'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -583,9 +606,15 @@ UE.plugins['select'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				//update start by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+				//baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+				$(popup.anchorEl).parent().parent().empty();
+				//update end by jg_huangxg at 20151116 for: 修改点击删除，删除不干净的问题
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -663,9 +692,12 @@ UE.plugins['progressbar'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -737,9 +769,12 @@ UE.plugins['qrcode'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -780,7 +815,7 @@ UE.plugins['listctrl'] = function () {
                 name:thePlugins,
                 editor:this,
                 title: '列表控件',
-                cssRules:"width:800px;height:400px;",
+                cssRules:"width:1100px;height:400px;",
                 buttons:[
                 {
                     className:'edui-okbutton',
@@ -811,9 +846,12 @@ UE.plugins['listctrl'] = function () {
               this.hide();
         },
         _delete:function(){
-            if( window.confirm('确认删除该控件吗？') ) {
-                baidu.editor.dom.domUtils.remove(this.anchorEl,false);
-            }
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
             this.hide();
         }
     } );
@@ -892,7 +930,7 @@ UE.plugins['leipi'] = function () {
                 iframeUrl:this.options.UEDITOR_HOME_URL + UE.leipiFormDesignUrl+'/leipi.html',
                 name:thePlugins,
                 editor:this,
-                title: '表单设计器 - 清单',
+                title: '表单控件',
                 cssRules:"width:620px;height:220px;",
                 buttons:[
                 {
@@ -949,7 +987,7 @@ UE.registerUI('button_leipi',function(editor,uiName){
         //按钮的名字
         name:uiName,
         //提示
-        title:"表单设计器",
+        title:"表单控件",
         //需要添加的额外样式，指定icon图标，这里默认使用一个重复的icon
         cssRules :'background-position: -401px -40px;',
         //点击时执行的命令
@@ -1043,6 +1081,8 @@ UE.registerUI('button_preview',function(editor,uiName){
     return btn;
 });
 
+//---update--begin---author:scott----date:20151027-----for:注释掉保存按钮------
+/**
 UE.registerUI('button_save',function(editor,uiName){
     if(!this.options.toolleipi)
     {
@@ -1077,3 +1117,78 @@ UE.registerUI('button_save',function(editor,uiName){
     //因为你是添加button,所以需要返回这个button
     return btn;
 });
+*/
+//---update--end---author:scott----date:20151027-----for:注释掉保存按钮------
+
+
+//longjb1 新增popup控件
+UE.plugins['popup'] = function () {
+    var me = this,thePlugins = 'popup';
+    me.commands[thePlugins] = {
+        execCommand:function () {
+            var dialog = new UE.ui.Dialog({
+                iframeUrl:this.options.UEDITOR_HOME_URL + UE.leipiFormDesignUrl+'/popup.html',
+                name:thePlugins,
+                editor:this,
+                title: 'PopUp弹出选择控件',
+                cssRules:"width:590px;height:370px;",
+                buttons:[
+                {
+                    className:'edui-okbutton',
+                    label:'确定',
+                    onclick:function () {
+                        dialog.close(true);
+                    }
+                },
+                {
+                    className:'edui-cancelbutton',
+                    label:'取消',
+                    onclick:function () {
+                        dialog.close(false);
+                    }
+                }]
+            });
+            dialog.render();
+            dialog.open();
+        }
+    };
+    var popup = new baidu.editor.ui.Popup( {
+        editor:this,
+        content: '',
+        className: 'edui-bubble',
+        _edittext: function () {
+              baidu.editor.plugins[thePlugins].editdom = popup.anchorEl;
+              me.execCommand(thePlugins);
+              this.hide();
+        },
+        _delete:function(){
+        	//update start by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+			$.dialog.confirm("确认删除该控件吗？", function(){
+				baidu.editor.dom.domUtils.remove(popup.anchorEl,false);
+			}, function(){
+			});
+			//update end by jg_renjie at 20151028 for:修改window.confirm 会出发表单submit
+            this.hide();
+        }
+    } );
+    popup.render();
+  //update start by jg_renjie at 20151029 for:修改不能弹出编辑及删除按钮的bug
+    me.addListener( 'mouseover', function( t, evt ) {
+        evt = evt || window.event;
+        var el = evt.target || evt.srcElement;
+        var leipiPlugins = el.getAttribute('leipiplugins');
+        if ( /input/ig.test( el.tagName ) && leipiPlugins==thePlugins) {
+            var html = popup.formatHtml(
+                '<nobr>PopUp菜单: <span onclick=$$._edittext() class="edui-clickable">编辑</span>&nbsp;&nbsp;<span onclick=$$._delete() class="edui-clickable">删除</span></nobr>' );
+            if ( html ) {
+                popup.getDom( 'content' ).innerHTML = html;
+                popup.anchorEl = el;
+                popup.showAnchor( popup.anchorEl );
+            } else {
+                popup.hide();
+            }
+        }
+    });
+  //update end by jg_renjie at 20151029 for:修改不能弹出编辑及删除按钮的bug
+
+};

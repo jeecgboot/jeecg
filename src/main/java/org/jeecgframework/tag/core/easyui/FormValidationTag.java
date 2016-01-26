@@ -117,7 +117,12 @@ public class FormValidationTag extends TagSupport {
 	public int doEndTag() throws JspException {
 		try {
 			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
-			SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+			SysThemesEnum sysThemesEnum = null;
+			if(StringUtil.isEmpty(cssTheme)||"null".equals(cssTheme)){
+				sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+			}else{
+				sysThemesEnum = SysThemesEnum.toEnum(cssTheme);
+			}
 			JspWriter out = this.pageContext.getOut();
 			StringBuffer sb = new StringBuffer();
 			if (layout.equals("div")) {

@@ -1,7 +1,7 @@
 JEECG Î¢ÔÆ¿ìËÙ¿ª·¢Æ½Ì¨
 ===============
 
-µ±Ç°×îĞÂ°æ±¾£º 3.5.2£¨·¢²¼ÈÕÆÚ£º20150607£©
+µ±Ç°×îĞÂ°æ±¾£º 3.6£¨·¢²¼ÈÕÆÚ£º20151204£©
 
 Ç°ÑÔ£º
 -----------------------------------
@@ -35,6 +35,7 @@ JEECG×ÚÖ¼ÊÇ: ¼òµ¥¹¦ÄÜÓÉ´úOnline CodingÅäÖÃ³ö¹¦ÄÜ;¸´ÔÓ¹¦ÄÜÓÉ´úÂëÉú³ÉÆ÷Éú³É½øĞĞÊÖ¹
 * 14.¶àÖÖÊ×Ò³·ç¸ñÇĞ»»,Ö§³Ö×Ô¶¨ÒåÊ×Ò³·ç¸ñ¡££¨¾­µä·ç¸ñ¡¢Shortcut·ç¸ñ¡¢ACE bootstrap·ç¸ñ¡¢ÔÆ×ÀÃæ·ç¸ñ£©
 * 15.ÔÚÏßÅäÖÃ±¨±í£¨ÎŞĞè±àÂë£¬Í¨¹ıÔÚÏßÅäÖÃ·½Ê½£¬ÊµÏÖÇúÏßÍ¼£¬Öù×´Í¼£¬Êı¾İµÈ±¨±í£©
 * 16.¼òÒ×Excelµ¼Èëµ¼³ö£¬Ö§³Öµ¥±íµ¼³öºÍÒ»¶Ô¶à±íÄ£Ê½µ¼³ö£¬Éú³ÉµÄ´úÂë×Ô´øµ¼Èëµ¼³ö¹¦ÄÜ
+* 17.×Ô¶¨Òå±íµ¥£¬Ö§³ÖÓÃ»§×Ô¶¨Òå±íµ¥²¼¾Ö£¬Ö§³Öµ¥±í£¬Ò»¶Ô¶à±íµ¥¡¢Ö§³Öselect¡¢radio¡¢checkbox¡¢textarea¡¢date¡¢popup¡¢ÁĞ±í¡¢ºêµÈ¿Ø¼ş
 
 JEECG ÊÊÓÃ·¶Î§
 -----------------------------------
@@ -48,13 +49,13 @@ JEECG ¹¦ÄÜÌØµã
 * 	²ÉÓÃÃæÏòÉùÃ÷µÄ¿ª·¢Ä£Ê½£¬ »ùÓÚ·ºĞÍ±àĞ´¼«ÉÙ´úÂë¼´¿ÉÊµÏÖ¸´ÔÓµÄÊı¾İÕ¹Ê¾¡¢Êı¾İ±à¼­¡¢
 ±íµ¥´¦ÀíµÈ¹¦ÄÜ£¬ÔÙÅäºÏOnline CodingÔÚÏß¿ª·¢Óë´úÂëÉú³ÉÆ÷µÄÊ¹ÓÃ,½«J2EEµÄ¿ª·¢Ğ§ÂÊÌá¸ß6±¶ÒÔÉÏ£¬¿ÉÒÔ½«´úÂë¼õÉÙ80%ÒÔÉÏ¡£</br>
 
-* 	JEECG V3.5.2 °æ±¾¼¼Êõµã×Ü½á:
+* 	JEECG V3.6 °æ±¾¼¼Êõµã×Ü½á:
 
 * 	<b>¼¼ÊõµãÒ»£º</b>Online CodingÔÚÏß¿ª·¢(Í¨¹ıÔÚÏßÅäÖÃÊµÏÖÒ»¸ö±íÄ£ĞÍµÄÔöÉ¾¸Ä²é¹¦ÄÜ£¬ÎŞĞèÒ»ĞĞ´úÂë£¬Ö§³ÖÓÃ»§×Ô¶¨Òå±íµ¥²¼¾Ö) </br>
 * 	<b>¼¼Êõµã¶ş£º</b>´úÂëÉú³ÉÆ÷£¬Ö§³Ö¶àÖÖÊı¾İÄ£ĞÍ,¸ù¾İ±íÉú³É¶ÔÓ¦µÄEntity,Service,Dao,Action,JSPµÈ,ÔöÉ¾¸Ä²é¹¦ÄÜÉú³ÉÖ±½ÓÊ¹ÓÃ</br>
 * 	<b>¼¼ÊõµãÈı£º</b>UI¿ìËÙ¿ª·¢¿â£¬Õë¶ÔWEB UI½øĞĞ±ê×¼·â×°£¬Ò³ÃæÍ³Ò»²ÉÓÃUI±êÇ©ÊµÏÖ¹¦ÄÜ£ºÊı¾İdatagrid,±íµ¥Ğ£Ñé,Popup,TabµÈ£¬ÊµÏÖJSPÒ³ÃæÁãJS£¬¿ª·¢Î¬»¤·Ç³£¸ßĞ§</br>
 * 	<b>¼¼ÊõµãËÄ£º</b>ÔÚÏßÁ÷³Ì¶¨Òå£¬²ÉÓÃ¿ªÔ´ActivitiÁ÷³ÌÒıÇæ£¬ÊµÏÖÔÚÏß»­Á÷³Ì,×Ô¶¨Òå±íµ¥,±íµ¥¹Ò½Ó,ÒµÎñÁ÷×ª£¬Á÷³Ì¼à¿Ø£¬Á÷³Ì¸ú×Ù£¬Á÷³ÌÎ¯ÍĞµÈ</br>
-* 	<b>¼¼ÊõµãÎå£º</b>ÏµÍ³ÈÕÖ¾¼ÇÂ¼ (ÏêÏ¸¼ÇÂ¼²Ù×÷ÈÕÖ¾)</br>
+* 	<b>¼¼ÊõµãÎå£º</b>×Ô¶¨Òå±íµ¥,Ö§³ÖÓÃ»§×Ô¶¨Òå±íµ¥²¼¾Ö£¬Ö§³Öµ¥±í¡¢ÁĞ±í¡¢Select\Radio\Checkbox\PopUP\DateµÈÌØÊâ¿Ø¼ş</br>
 * 	<b>¼¼ÊõµãÁù£º</b>²éÑ¯¹ıÂËÆ÷£º²éÑ¯¹¦ÄÜ×Ô¶¯Éú³É£¬ºóÌ¨¶¯Ì¬Æ´SQL×·¼Ó²éÑ¯Ìõ¼ş£»Ö§³Ö¶àÖÖÆ¥Åä·½Ê½£¨È«Æ¥Åä/Ä£ºı²éÑ¯/°üº¬²éÑ¯/²»Æ¥Åä²éÑ¯£©</br>
 * 	<b>¼¼ÊõµãÆß£º</b>ÒÆ¶¯Æ½Ì¨Ö§³Ö£¬¶ÔBootstrap(¼æÈİHtml5)½øĞĞ±ê×¼·â×° </br>
 * 	<b>¼¼Êõµã°Ë£º</b>¶¯Ì¬±¨±í¹¦ÄÜ£¨ÓÃ»§ÊäÈëÒ»¸ösql£¬ÏµÍ³×Ô¶¯½âÎöÉú³É±¨±í£©</br>
@@ -65,7 +66,7 @@ JEECG ¹¦ÄÜÌØµã
 *   <b>¼¼ÊõµãÊ®Èı£º</b>ÔÚÏßÅäÖÃ±¨±í£¨ÎŞĞè±àÂë£¬Í¨¹ıÔÚÏßÅäÖÃ·½Ê½£¬ÊµÏÖÇúÏßÍ¼£¬Öù×´Í¼£¬Êı¾İµÈ±¨±í£©</br>
 *   <b>¼¼ÊõµãÊ®ËÄ£º</b>¼òÒ×Excelµ¼Èëµ¼³ö£¬Ö§³Öµ¥±íµ¼³öºÍÒ»¶Ô¶à±íÄ£Ê½µ¼³ö£¬Éú³ÉµÄ´úÂë×Ô´øµ¼Èëµ¼³ö¹¦ÄÜ</br>
 	
-* 	JEECG V3.5.2, ¾­¹ıÁË×¨ÒµÑ¹Á¦²âÊÔ,ĞÔÄÜ²âÊÔ£¬±£Ö¤ºóÌ¨Êı¾İµÄ×¼È·ĞÔºÍÒ³Ãæ·ÃÎÊËÙ¶È</br>
+* 	JEECG V3.6, ¾­¹ıÁË×¨ÒµÑ¹Á¦²âÊÔ,ĞÔÄÜ²âÊÔ£¬±£Ö¤ºóÌ¨Êı¾İµÄ×¼È·ĞÔºÍÒ³Ãæ·ÃÎÊËÙ¶È</br>
 * 	Ö§³Ö¶àÖÖä¯ÀÀÆ÷: IE, »ğºü, Google µÈ</br>
 * 	Ö§³ÖÊı¾İ¿â: Mysql,Oracle10g,Postgre,SqlServerµÈ</br>
 * 	»ù´¡È¨ÏŞ: ÓÃ»§£¬½ÇÉ«£¬²Ëµ¥È¨ÏŞ£¬°´Å¥È¨ÏŞ£¬Êı¾İÈ¨ÏŞ</br>
@@ -78,9 +79,16 @@ JEECG ¹¦ÄÜÌØµã
 
 ÏµÍ³ÑİÊ¾
 -----------------------------------
-Æ½Ì¨Ö§³ÖËÄÖÖÊ×Ò³·ç¸ñÇĞ»»£º ¾­µä·ç¸ñ¡¢Shortcut·ç¸ñ¡¢ACE bootstrap·ç¸ñ¡¢ÔÆ×ÀÃæ·ç¸ñ
+Æ½Ì¨Ìá¹©Ê×Ò³·ç¸ñ£¬Ö§³Ö×Ô¶¨Òå£º¾­µä·ç¸ñ|Shortcut·ç¸ñ|ACE bootstrap·ç¸ñ|ÔÆ×ÀÃæ·ç¸ñ
 ![github](http://img.blog.csdn.net/20150607214324659?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214353113?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
+
+×Ô¶¨Òå±íµ¥Éè¼Æ²¼¾ÖĞ§¹û
+![github](http://www.jeecg.org/data/attachment/forum/201512/17/175056vgzo2j2thph29jdp.jpg "jeecg")
+![github](http://www.jeecg.org/data/attachment/forum/201512/17/175135xq9fwiun3pi6i4e6.jpg "jeecg")
+![github](http://www.jeecg.org/data/attachment/forum/201512/17/175152r6eg2f15g58jzzej.png "jeecg")
+![github](http://www.jeecg.org/data/attachment/forum/201512/17/175103v1r87337prnfr1du.jpg "jeecg")
+
 ![github](http://img.blog.csdn.net/20150607222027195?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214724128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607221941932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
@@ -125,17 +133,10 @@ JEECG ¹¦ÄÜÌØµã
 ¼¼ÊõÎÄµµ
 -----------------------------------
 * [JEECG ¿ª·¢ÈëÃÅ´î½¨ÎÄµµ£¨Maven°æ£©](http://www.jeecg.org/forum.php?mod=viewthread&tid=2537&extra=page%3D1)
-* [JEECG ¼¼ÊõÂÛÌ³](http://www.jeecg.org)
 * [JEECG ¿ª·¢ÈëÃÅÊÓÆµ](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
 * [JEECG ÔÚÏßÑİÊ¾](http://demo.jeecg.org)
+* [JEECG ¼¼ÊõÂÛÌ³ - ¸ü¶à×ÊÁÏ](http://www.jeecg.org)
 
-
-- ¸£ÀûÌù -
------------------------------------
-* ×ÊÔ´1£º ÊÜMavenÕÛÄ¥µÄÍ¬Ñ§À´¸£ÀûÁË£¬Eclipse·Çmaven°æ±¾ÏÂÔØµØÖ·
-* JEECG ¿ª·¢Æ½Ì¨(V3ÏµÁĞ-NEW)
-* JEEWXÎ¢ĞÅ¹Ü¼ÒÏµÍ³£¨V2ÏµÁĞ-NEW£©
-* [ÏÂÔØµØÖ·](http://www.jeecg.org/forum.php?mod=viewthread&tid=1229&extra=page%3D1)
 
     
 ¼¼Êõ½»Á÷

@@ -105,8 +105,9 @@ function browseFolder(path) {
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
-			<td class="value" colspan="3"><select id="jspMode" name="jspMode">
-				<option value="01" selected="selected">Table风格(form)</option>
+			<td class="value" colspan="3">
+			<select id="jspMode" name="jspMode">
+				<option value="01">Table风格(form)</option>
 				<option value="02">Div风格(form)</option>
 				<option value="04">自定义word(form)</option>
 			</select> <span class="Validform_checktip"></span></td>

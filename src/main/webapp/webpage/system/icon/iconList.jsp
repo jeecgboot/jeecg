@@ -3,7 +3,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding: 1px;">
-    <t:datagrid name="iconList" title="icon.list" actionUrl="iconController.do?datagrid" idField="id">
+    <t:datagrid name="iconList" title="icon.list" actionUrl="iconController.do?datagrid" fit="true" fitColumns="true" idField="id">
         <t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
         <t:dgCol title="common.icon.name" query="true" field="iconName"></t:dgCol>
         <t:dgCol title="common.icon.style" field="iconClas"></t:dgCol>

@@ -54,7 +54,6 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	 */
 	public void parserXml(String fileName);
 	public List<ComboTree> comTree(List<TSDepart> all,ComboTree comboTree);
-
 	/**
      * 根据模型生成ComboTree JSON
      *

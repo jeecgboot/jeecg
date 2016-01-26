@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.jeecgframework.web.cgreport.common.CgReportConstant;
 import org.jeecgframework.web.cgreport.dao.core.CgReportDao;
+import org.jeecgframework.web.cgreport.entity.core.CgreportConfigHeadEntity;
+import org.jeecgframework.web.cgreport.entity.core.CgreportConfigParamEntity;
 import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
 
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
@@ -34,8 +36,10 @@ public class CgReportServiceImpl extends CommonServiceImpl implements
 		Map<String,Object> cgReportM = new HashMap<String, Object>(0);
 		Map<String,Object> mainM = queryCgReportMainConfig(reportId);
 		List<Map<String,Object>> itemsM = queryCgReportItems(reportId);
+		List<String> params =queryCgReportParam(reportId);
 		cgReportM.put(CgReportConstant.MAIN, mainM);
 		cgReportM.put(CgReportConstant.ITEMS, itemsM);
+		cgReportM.put(CgReportConstant.PARAMS, params);
 		return cgReportM;
 	}
 	
@@ -58,6 +62,21 @@ public class CgReportServiceImpl extends CommonServiceImpl implements
 		//采用MiniDao实现方式
 		return cgReportDao.queryCgReportItems(reportId);
 	}
+	
+	public List<String> queryCgReportParam(String reportId){
+		List<String> list = null;
+		CgreportConfigHeadEntity cgreportConfigHead = this.findUniqueByProperty(CgreportConfigHeadEntity.class, "code", reportId);
+    	String hql0 = "from CgreportConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
+    	List<CgreportConfigParamEntity> cgreportConfigParamList = this.findHql(hql0,cgreportConfigHead.getId());
+    	if(cgreportConfigParamList!=null&cgreportConfigParamList.size()>0){
+    		list = new ArrayList<String>();
+    		for(CgreportConfigParamEntity cgreportConfigParam :cgreportConfigParamList){
+    			list.add(cgreportConfigParam.getParamName());
+    		}
+    	}
+		return list;
+	}
+	
 	@SuppressWarnings("unchecked")
 	
 	public List<Map<String, Object>> queryByCgReportSql(String sql, Map params,

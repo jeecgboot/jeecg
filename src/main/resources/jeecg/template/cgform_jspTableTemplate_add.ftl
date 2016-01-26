@@ -34,29 +34,15 @@
 					</td>
 					<td class="value">
 						 <#if po.showType=='text'>
-					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"
-							<#if po.fieldValidType?if_exists?html != ''>
-								               datatype="${po.fieldValidType?if_exists?html}"
-								               <#else>
-								               <#if po.type == 'int'>
-								               datatype="n" 
-								               <#elseif po.type=='double'>
-								               datatype="/^(-?\d+)(\.\d+)?$/" 
-								               <#else>
-								               <#if po.isNull != 'Y'>datatype="*"</#if>
-								               </#if>
-								               </#if>>
+					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#elseif po.isNull != 'Y'> datatype="*"</#if>>
 						<#elseif po.showType=='popup'>
 						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <#if po.fieldValidType?if_exists?html != ''>
 							datatype="${po.fieldValidType?if_exists?html}"
-						<#else>
-							<#if po.type == 'int'>
+						<#elseif po.type == 'int'>
 								datatype="n" 
 							<#elseif po.type=='double'>
 								     datatype="/^(-?\d+)(\.\d+)?$/" 
-							<#else>
-								<#if po.isNull != 'Y'>datatype="*"</#if>
-							</#if>
+							<#elseif po.isNull != 'Y'>datatype="*"
 						</#if><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if>>
 						  <#elseif po.showType=='textarea'>
 						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}"></textarea>
@@ -64,14 +50,11 @@
 					      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt"  
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
-								               <#else>
-								               <#if po.type == 'int'>
+								               <#elseif po.type == 'int'>
 								               datatype="n" 
 								               <#elseif po.type=='double'>
 								               datatype="/^(-?\d+)(\.\d+)?$/" 
-								               <#else>
-								               <#if po.isNull != 'Y'>datatype="*"</#if>
-								               </#if>
+								               <#elseif po.isNull != 'Y'>datatype="*"
 								               </#if>
 						       >
 							<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
@@ -82,16 +65,14 @@
 					      						class="Wdate" onClick="WdatePicker()"
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
-								               <#else>
-								               <#if po.isNull != 'Y'>datatype="*"</#if> 
+								               <#elseif po.isNull != 'Y'>datatype="*"
 								               </#if>>    
 					      	<#elseif po.showType=='datetime'>
 							   <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
 					      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
-								               <#else>
-								               <#if po.isNull != 'Y'>datatype="*"</#if> 
+								               <#elseif po.isNull != 'Y'>datatype="*"
 								               </#if>>
 							<#elseif po.showType=='file'>
 								<input type="hidden" id="${po.fieldName}" name="${po.fieldName}" />
@@ -108,14 +89,11 @@
 					      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
-								               <#else>
-								               <#if po.type == 'int'>
+								               <#elseif po.type == 'int'>
 								               datatype="n" 
 								               <#elseif po.type=='double'>
 								               datatype="/^(-?\d+)(\.\d+)?$/" 
-								               <#else>
-								               <#if po.isNull != 'Y'>datatype="*"</#if>
-								               </#if>
+								               <#elseif po.isNull != 'Y'>datatype="*"
 								               </#if>>
 							</#if>
 							<span class="Validform_checktip"></span>

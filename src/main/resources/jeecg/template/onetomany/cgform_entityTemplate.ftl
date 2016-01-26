@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.SequenceGenerator;
+import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
  * @Title: Entity
@@ -37,11 +38,16 @@ import javax.persistence.SequenceGenerator;
 public class ${entityName}Entity implements java.io.Serializable {
 	<#list columns as po>
 	/**${po.content}*/
+	<#if po.isShow != 'N'>
+    @Excel(name="${po.content}"<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if>)
+	</#if>
 	<#if po.type == "javax.xml.soap.Text">
 	private java.lang.String ${po.fieldName};
 	</#if>
 	<#if po.type != "javax.xml.soap.Text">
-	private ${po.type} ${po.fieldName};
+	<#--update-start--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]-->
+	private <#if po.type=='java.sql.Blob'>byte[]<#else>${po.type}</#if> ${po.fieldName};
+	<#--update-end--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]-->
 	</#if>
 	</#list>
 	
@@ -83,8 +89,9 @@ public class ${entityName}Entity implements java.io.Serializable {
 	}
 	</#if>
 	<#if po.type != "javax.xml.soap.Text">
-	@Column(name ="${fieldMeta[po.fieldName]}",nullable=<#if po.isNull == 'Y'>true<#else>false</#if><#if po.pointLength != 0>,scale=${po.pointLength}</#if><#if po.length !=0>,length=${po.length?c}</#if>)
-	public ${po.type} get${po.fieldName?cap_first}(){
+	<#--update-start--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]，且去掉length属性-->
+	@Column(name ="${fieldMeta[po.fieldName]}",nullable=<#if po.isNull == 'Y'>true<#else>false</#if><#if po.pointLength != 0>,scale=${po.pointLength}</#if><#if po.type!='java.sql.Blob'><#if po.length !=0>,length=${po.length?c}</#if></#if>)
+	public <#if po.type=='java.sql.Blob'>byte[]<#else>${po.type}</#if> get${po.fieldName?cap_first}(){
 		return this.${po.fieldName};
 	}
 
@@ -92,9 +99,10 @@ public class ${entityName}Entity implements java.io.Serializable {
 	 *方法: 设置${po.type}
 	 *@param: ${po.type}  ${po.content}
 	 */
-	public void set${po.fieldName?cap_first}(${po.type} ${po.fieldName}){
+	public void set${po.fieldName?cap_first}(<#if po.type=='java.sql.Blob'>byte[]<#else>${po.type}</#if> ${po.fieldName}){
 		this.${po.fieldName} = ${po.fieldName};
 	}
+	<#--update-end--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]，且去掉length属性-->
 	</#if>
 	
 	</#list>

@@ -65,10 +65,12 @@ public class OfficeHtmlUtil {
 	 *            WORD文件全路径
 	 * @param htmlfile
 	 *            转换后HTML存放路径
+	 * @throws Exception 
 	 */
-	public void wordToHtml(String docfile, String htmlfile) {
-		ActiveXComponent app = new ActiveXComponent("Word.Application"); // 启动word
+	public void wordToHtml(String docfile, String htmlfile) throws Exception {
+		ActiveXComponent app = null;
 		try {
+			app = new ActiveXComponent("Word.Application"); // 启动word
 			app.setProperty("Visible", new Variant(false));
 			Dispatch docs = app.getProperty("Documents").toDispatch();
 			Dispatch doc = Dispatch.invoke(docs, "Open", Dispatch.Method, new Object[] { docfile, new Variant(false), new Variant(true) }, new int[1]).toDispatch();
@@ -76,9 +78,12 @@ public class OfficeHtmlUtil {
 			Variant f = new Variant(false);
 			Dispatch.call(doc, "Close", f);
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			throw new Exception("请确认，Word转化组件是否安装！");
 		} finally {
-			app.invoke("Quit", new Variant[] {});
+			if(app!=null){
+				app.invoke("Quit", new Variant[] {});
+			}
 		}
 	}
 

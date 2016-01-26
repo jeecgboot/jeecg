@@ -56,7 +56,6 @@ public final class Globals {
 	  */
 	 public static String Function_Order_ONE="ofun";//一级权限
 	 public static String Function_Order_TWO="tfun";//二级权限
-	 
 	 /**
 	  * 权限类型
 	  */

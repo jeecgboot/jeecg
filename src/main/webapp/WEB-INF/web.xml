@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>jeecg-framework-3.5.2</display-name>
+	<display-name>jeecg-framework-3.6</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>jeecg</param-value>
@@ -30,6 +30,10 @@
 	<filter-mapping>
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>openSessionInViewFilter</filter-name>
+		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<description>字符集过滤器</description>
@@ -65,6 +69,14 @@
 		<filter-name>druidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<filter>
+		<filter-name>ecsideExport</filter-name>
+		<filter-class>org.jeecgframework.core.aop.GZipFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ecsideExport</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 	<listener>
 		<description>spring监听器</description>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -81,8 +93,6 @@
 		<description>系统初始化监听器</description>
 		<listener-class>org.jeecgframework.web.system.listener.InitListener</listener-class>
 	</listener>
-
-	<!-- 在线用户监听器 add by duanql 20130607 -->
 	<listener>
 		<listener-class>org.jeecgframework.web.system.listener.OnlineListener</listener-class>
 	</listener>
@@ -110,7 +120,6 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
-	<!-- update begin Author:liuht Date:20131228 -->
 	<!-- restUrl风格配置 -->
 	<servlet>
 		<servlet-name>restSpringMvc</servlet-name>
@@ -163,7 +172,6 @@
         <servlet-name>RandCodeImage</servlet-name>
         <url-pattern>/randCodeImage</url-pattern>
     </servlet-mapping>
-    <!--update-end-Author:zhangguoming  Date:20140226 for：添加验证码-->
 
 	<filter>
 		<filter-name>FileUploadFilter</filter-name>
@@ -182,24 +190,10 @@
 		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
 	</filter-mapping>
 	<!-- ckfinder配置 END -->
-	
-	
-	<!-- 提高系统性能，压缩js,css等文件 -->
-	<filter>
-		<filter-name>ecsideExport</filter-name>
-		<filter-class>org.jeecgframework.core.aop.GZipFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ecsideExport</filter-name>
-		<url-pattern>*</url-pattern>
-	</filter-mapping>
-
-    <!-- update-start-Author:zhangguoming  Date:20140623 for：添加404页面-->
     <error-page>
         <error-code>404</error-code>
         <location>/webpage/common/404.jsp</location>
     </error-page>
-    <!-- update-end-Author:zhangguoming  Date:20140623 for：添加404页面-->
 
 	<!-- session超时设置30分钟 add by zhoujunfeng 20130830 -->
 	<session-config>

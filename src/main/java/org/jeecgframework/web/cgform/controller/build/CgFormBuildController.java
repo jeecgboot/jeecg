@@ -1,27 +1,7 @@
 package org.jeecgframework.web.cgform.controller.build;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.common.CommUtils;
-import org.jeecgframework.web.cgform.engine.TempletContext;
-import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
-import org.jeecgframework.web.cgform.exception.BusinessException;
-import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -30,14 +10,32 @@ import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import org.jeecgframework.web.cgform.common.CommUtils;
+import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
+import org.jeecgframework.web.cgform.engine.TempletContext;
+import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
+import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
+import org.jeecgframework.web.cgform.exception.BusinessException;
+import org.jeecgframework.web.cgform.service.build.DataBaseService;
+import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
+import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.*;
 
 /**
  * @ClassName: formBuildController
@@ -55,7 +53,8 @@ public class CgFormBuildController extends BaseController {
 	private TempletContext templetContext;
 	@Autowired
 	private DataBaseService dataBaseService;
-	
+	@Autowired
+	private CgformTemplateServiceI cgformTemplateService;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
@@ -76,13 +75,22 @@ public class CgFormBuildController extends BaseController {
 		try {
 			long start = System.currentTimeMillis();
 			String tableName =request.getParameter("tableName");
-			String ftlVersion =request.getParameter("ftlVersion");
-			Template template = templetContext.getTemplate(tableName, ftlVersion);
-			StringWriter stringWriter = new StringWriter();
-			BufferedWriter writer = new BufferedWriter(stringWriter);
 	        Map<String, Object> data = new HashMap<String, Object>();
 	        String id = request.getParameter("id");
-	        //获取版本号
+			String mode=request.getParameter("mode");
+			String templateName=tableName+"_";
+			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
+			if(StringUtils.isBlank(id)){
+				templateName+=TemplateUtil.TemplateType.ADD.getName();
+				templateType=TemplateUtil.TemplateType.ADD;
+			}else if("read".equals(mode)){
+				templateName+=TemplateUtil.TemplateType.DETAIL.getName();
+				templateType=TemplateUtil.TemplateType.DETAIL;
+			}else{
+				templateName+=TemplateUtil.TemplateType.UPDATE.getName();
+				templateType=TemplateUtil.TemplateType.UPDATE;
+			}
+			//获取版本号
 	        String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
 	        //装载表单配置
 	    	Map configData = cgFormFieldService.getFtlFormConfig(tableName,version);
@@ -120,24 +128,69 @@ public class CgFormBuildController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
+	    	data.put("head", head);
+	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
 	    	//装载附件信息数据
-	    	pushFiles(data,id);
-			template.process(data, writer);
-			String content = stringWriter.toString();
+	    	pushFiles(data, id);
+			String content =null;
 			response.setContentType("text/html;charset=utf-8");
+			String urlTemplateName=request.getParameter("olstylecode");
+			if(StringUtils.isNotBlank(urlTemplateName)){
+				data.put("this_olstylecode",urlTemplateName);
+				content=getUrlTemplate(urlTemplateName,templateType,data);
+			}else{
+				data.put("this_olstylecode",head.getFormTemplate());
+				content=getTableTemplate(templateName,request,data);
+			}
 			response.getWriter().print(content);
 			long end = System.currentTimeMillis();
 			logger.debug("自定义表单生成耗时："+(end-start)+" ms");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (TemplateException e) {
-			e.printStackTrace();
 		}
 
 	}
-	
+	/**
+	 * 获取url指定模板
+	 * @param templateName
+	 * @param templateType
+	 * @param dataMap
+	 * @return
+	 */
+	private String getUrlTemplate(String templateName,TemplateUtil.TemplateType templateType,Map dataMap){
+		String content=null;
+		CgformTemplateEntity entity=cgformTemplateService.findByCode(templateName);
+		if(entity!=null){
+			FreemarkerHelper viewEngine = new FreemarkerHelper();
+			content = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, templateType), dataMap);
+		}
+		return content;
+	}
+
+	/**
+	 * 获取表配置中存储的风格模板
+	 * @param templateName
+	 * @param request
+	 * @param data
+	 * @return
+	 */
+	private String getTableTemplate(String templateName,HttpServletRequest request,Map data){
+		StringWriter stringWriter = new StringWriter();
+		BufferedWriter writer = new BufferedWriter(stringWriter);
+//		String ftlVersion =request.getParameter("ftlVersion");
+		String ftlVersion = oConvertUtils.getString(data.get("version"));
+		Template template = templetContext.getTemplate(templateName, ftlVersion);
+		try {
+			template.process(data, writer);
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stringWriter.toString();
+	}
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
@@ -234,14 +287,16 @@ public class CgFormBuildController extends BaseController {
 			    	Object pkValue = null;
 			    	pkValue = dataBaseService.getPkValue(tableName);
 			    	data.put("id", pkValue);
-					int num = dataBaseService.insertTable(tableName, data);
-					if (num>0) {
+			    	//--author：luobaoli---------date:20150615--------for: 处理service层抛出的异常
+			    	try {
+						dataBaseService.insertTable(tableName, data);
 						j.setSuccess(true);
 						message = "业务提交成功";
-					}else {
-						j.setSuccess(false);
+			    	}catch (Exception e) {
+			    		j.setSuccess(false);
 						message = "业务提交失败";
-					}
+			    	}
+			    	//--author：luobaoli---------date:20150615--------for: 处理service层抛出的异常
 				} catch (Exception e) {
 					e.printStackTrace();
 					j.setSuccess(false);
@@ -360,6 +415,7 @@ public class CgFormBuildController extends BaseController {
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
+				dataBaseService.executeJavaExtend(formId, buttonCode, data);
 			}
 			j.setSuccess(true);
 			message = "操作成功";

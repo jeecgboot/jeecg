@@ -24,7 +24,7 @@
 		}
     });
 </script>
-<div style="padding: 3px; height: 25px; width: auto;" class="datagrid-toolbar"><a id="addCgreportConfigItemBtn" href="#">添加</a> <a id="delCgreportConfigItemBtn" href="#">删除</a></div>
+<div style="padding: 3px; height: 25px; width: auto;" class="datagrid-toolbar"><a id="addCgreportConfigItemBtn" href="javascript:void(0);">添加</a> <a id="delCgreportConfigItemBtn" href="javascript:void(0);">删除</a></div>
 <div style="width: auto; height: 300px; overflow-y: auto; overflow-x: scroll;">
 <table border="0" cellpadding="2" cellspacing="0" id="cgreportConfigItem_table">
 	<tr bgcolor="#E6E6E6">

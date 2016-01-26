@@ -34,7 +34,6 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	private Short functionType;//菜单类型
 	private TSIcon TSIcon = new TSIcon();//菜单图标
 	private TSIcon TSIconDesk;// 云桌面菜单图标
-	
 	/*private int subFunctionSize;
 	@Formula(value = "(SELECT count(t_s_function.id) FROM t_s_function where t_s_function.parentfunctionid = id)")
 	public int getSubFunctionSize() {
@@ -57,8 +56,6 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	/*public void setSubFunctionSize(int subFunctionSize) {
 		this.subFunctionSize = subFunctionSize;
 	}*/
-	
-	
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "desk_iconid")
     public TSIcon getTSIconDesk() {
@@ -77,7 +74,6 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	public void setTSIcon(TSIcon tSIcon) {
 		TSIcon = tSIcon;
 	}
-	
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentfunctionid")
 	public TSFunction getTSFunction() {

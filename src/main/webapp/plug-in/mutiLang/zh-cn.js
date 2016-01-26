@@ -72,3 +72,8 @@ var isquery = "是否查询";
 var querytype = "查询类型";
 
 var sqlParse = "SQL解析";
+
+/*add-start--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/
+var extendJson = "扩展参数";
+var extendJsonTip = "请输入json格式，调整表单字段的属性";
+/*add-end--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/

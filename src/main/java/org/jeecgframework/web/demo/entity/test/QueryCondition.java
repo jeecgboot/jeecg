@@ -2,6 +2,9 @@ package org.jeecgframework.web.demo.entity.test;
 
 import java.util.List;
 
+import org.jeecgframework.core.util.PropertiesUtil;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+
 public class QueryCondition {
 	String field;
 	String type;
@@ -51,13 +54,24 @@ public class QueryCondition {
 		sb.append(this.relation).append(" ");
 		sb.append(this.field).append(" ")
 		.append(this.condition).append(" ");
-		if("java.util.Date".equals(this.type)){
-			sb.append("to_date('").append(this.value).append("','yyyy-MM-dd')");
-		}else if("java.lang.Number".equals(this.type)
-				||this.condition.indexOf("in")>0){//TODO 需要按类型处理
+		if("Integer".equals(this.type)
+				||"BigDecimal".equals(this.type)
+				||"Double".equals(this.type)
+				||"Long".equals(this.type)){//TODO 需要按类型处理
 			sb.append(this.value);
-		}else{
-			sb.append("'").append(this.value).append("'");//TODO 需要处理特殊字符
+		}else if("Date".equals(this.type)){
+			PropertiesUtil util = new PropertiesUtil("sysConfig.properties");
+			String dbtype = util.readProperty("jdbc.url.jeecg");
+			if("oracle".equalsIgnoreCase(dbtype)){
+				sb.append("to_date(");
+			}
+			//mysql slqserver无须函数，其他数据库情况未处理
+			sb.append("'").append(this.value).append("'");
+			if("oracle".equalsIgnoreCase(dbtype)){
+				sb.append(",'yyyy-MM-dd')");
+			}
+		}else {
+			sb.append("'").append(this.value.replaceAll("'","\'")).append("'");//TODO 需要处理特殊字符
 		}
 		return sb.toString();
 	}

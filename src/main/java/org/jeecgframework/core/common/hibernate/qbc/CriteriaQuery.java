@@ -535,7 +535,7 @@ public class CriteriaQuery implements Serializable {
 	 * @param keyvalue2
 	 */
 	public void in(String keyname, Object[] keyvalue) {
-		if (keyvalue != null && keyvalue[0] != "") {
+		if (keyvalue != null&&keyvalue.length>0&& keyvalue[0] != "") {
 			criterionList.addPara(Restrictions.in(keyname, keyvalue));
 		}
 	}

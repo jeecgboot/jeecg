@@ -25,7 +25,7 @@ table.ui_border,table.ui_dialog{ width:auto;border-spacing:0;*border-collapse:co
 .ui_main{ min-width:6em;min-width:0\9;text-align:center; }
 .ui_content{ display:inline-block;*display:inline;zoom:1;text-align:left; }
 .ui_content.ui_state_full{ display:block;width:100%;height:100%;margin:0;padding:0!important; }
-.ui_content.ui_state_full iframe{ border-radius:0 0 5px 5px; }
+.ui_content.ui_state_full iframe{ border-radius:0 0 5px 5px;}
 .ui_loading{ width:96px;height:32px;text-align:left;text-indent:-9999em;overflow:hidden;background:url(icons/loading.gif) no-repeat center center; }
 .ui_icon_bg{ margin:20px 0 20px 15px; }
 
@@ -46,7 +46,7 @@ table.ui_border,table.ui_dialog{ width:auto;border-spacing:0;*border-collapse:co
 
 /*样式层开始*/
 .ui_inner{ background:#FFF; }
-.ui_title_bar{ width:100%;position:relative; }
+.ui_title_bar{ width:100%;position:relative;background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#EDEDED)); }
 .ui_title{ display:block;height:26px;line-height:26px;border-bottom:1px solid #DDD\9;font-size:14px;font-weight:bold;color:#888;background:#FFF;background:none;padding-left:3px; }
 .ui_state_focus .ui_title{ color:#505050; }
 .ui_lt,.ui_rt,.ui_lb,.ui_rb,.ui_t,.ui_b,.ui_close { background-image:url(idialog/idialog_s.png);background-repeat:no-repeat; }
@@ -87,15 +87,16 @@ table.ui_border,table.ui_dialog{ width:auto;border-spacing:0;*border-collapse:co
 	.ui_state_drag .ui_border,.ui_state_drag.ui_state_lock .ui_border  { box-shadow:none; }
 	.ui_state_lock .ui_border { box-shadow:0 3px 18px rgba(0, 0, 0, .6); }
 	.ui_state_tips:active {border-radius:5px;  box-shadow:0 1px 8px rgba(0, 0, 0, .5)}
-.ui_title:after{ content:"";display:block;height:8px;width:100%;position:absolute;top:26px;left:0;
-background:-moz-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* FF3.6+ */
-background:-webkit-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* Chrome10+,Safari5.1+ */
-background:-o-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* Opera 12+ */
-background:-ms-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* IE10+ */
-background:radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%);/* W3C */display:none\9; }
+/* .ui_title:after{ content:"";display:block;height:8px;width:100%;position:absolute;top:26px;left:0;
+background:-moz-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); FF3.6+
+background:-webkit-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); Chrome10+,Safari5.1+
+background:-o-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); Opera 12+
+background:-ms-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); IE10+
+background:radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%);W3C
+display:none\9; }
 .ui_title:before{ content:"";display:block;height:5px;width:100%;position:absolute;top:26px;left:0;background:#FFF;z-index:1;display:none\9; }
 }
-
+ */
 /*底部按钮样式*/
 .ui_buttons{ white-space:nowrap; padding:4px 8px; text-align:right; }
 .ui_buttons input::-moz-focus-inner{ border:0; padding:0; margin:0; }

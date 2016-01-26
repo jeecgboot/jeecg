@@ -9,28 +9,28 @@ UE.plugins['weixin_template'] = function () {
     me.commands[thePlugins] = {
         execCommand:function (cmd,uiName) {
     		var pos='';
-    	if(uiName=='内容区'){
-        	pos   	='WXNRQ';//此处编码要对应weixin数据字典项
-        }if(uiName=='关注引导'){
-        	pos   	='WXGZYD';
-        }else if(uiName=='标题'){
-        	pos   	='WXBT';
-        }else if(uiName=='原文引导'){
-        	pos   	='WXYWYD';
-        }else if(uiName=='分隔线'){
-        	pos   	='WXFGX';
-        }else if(uiName=='互推账号'){
-        	pos   	='WXHTZH';
-        }else if(uiName=='我的样式'){
-        	pos   	='WXWDYS';
-        }else if(uiName=='其他'){
-        	pos   	='WXQT';
-        }
+	    	if(uiName=='内容区'){
+	        	pos   	='WXNRQ';//此处编码要对应weixin数据字典项
+	        }if(uiName=='关注引导'){
+	        	pos   	='WXGZYD';
+	        }else if(uiName=='标题'){
+	        	pos   	='WXBT';
+	        }else if(uiName=='原文引导'){
+	        	pos   	='WXYWYD';
+	        }else if(uiName=='分隔线'){
+	        	pos   	='WXFGX';
+	        }else if(uiName=='互推账号'){
+	        	pos   	='WXHTZH';
+	        }else if(uiName=='我的样式'){
+	        	pos   	='WXWDYS';
+	        }else if(uiName=='其他'){
+	        	pos   	='WXQT';
+	        }
             var dialog = new UE.ui.Dialog({
                 iframeUrl:this.options.UEDITOR_HOME_URL + UE.leipiFormDesignUrl+'/weixin.html?type='+pos,
                 name:thePlugins,
                 editor:this,
-                title: '微信模板-'+uiName,
+                title: '微信模板',
                 cssRules:"width:740px;height:430px;",
                 buttons:[
                 {
@@ -85,7 +85,7 @@ function weixinButton(editor,uiName){
         //提示
         title:uiName,
         //需要添加的额外样式，指定icon图标，这里默认使用一个重复的icon
-        cssRules :'background-position:'+pos+'!important;',
+        cssRules :'background-position:-902px -45px;width: 63px!important;',
         //点击时执行的命令
         onclick:function () {
             //这里可以不用执行命令,做你自己的操作也可
@@ -96,11 +96,12 @@ function weixinButton(editor,uiName){
     //因为你是添加button,所以需要返回这个button
     return btn;
 }
-UE.registerUI('关注引导',weixinButton);
+UE.registerUI('微信模板',weixinButton);
+/*
 UE.registerUI('标题',weixinButton);
 UE.registerUI('内容区',weixinButton);
 UE.registerUI('互推账号',weixinButton);
 UE.registerUI('分隔线',weixinButton);
 UE.registerUI('原文引导',weixinButton);
 UE.registerUI('其他',weixinButton);
-UE.registerUI('我的样式',weixinButton);
+UE.registerUI('我的样式',weixinButton);*/

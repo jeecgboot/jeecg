@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlParseEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
+import org.jeecgframework.core.util.PropertiesUtil;
+import org.jeecgframework.core.util.ResourceUtil;
 
 /**
  * 界面可视化数组转化为枚举
@@ -12,7 +14,7 @@ import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
  * @date 2014年8月23日 下午3:30:00
  */
 public class PageValueConvertRuleEnum {
-
+	
 	public static HqlRuleEnum convert(Object value) {
 		// 避免空数据
 		if (value == null) {
@@ -47,6 +49,9 @@ public class PageValueConvertRuleEnum {
 		// step 5 != 
 		if(rule == null && val.startsWith(HqlParseEnum.SUFFIX_NOT_EQUAL.getValue())){
 			rule = HqlRuleEnum.NE;
+		}
+		if(rule==null&&ResourceUtil.fuzzySearch){
+			rule = HqlRuleEnum.LIKE;
 		}
 		return rule != null ? rule : HqlRuleEnum.EQ;
 	}

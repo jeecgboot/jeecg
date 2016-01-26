@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.web.system.pojo.base.TSDemo;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.service.SystemService;
@@ -174,18 +175,25 @@ public class DemoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = StringUtil.getEncodePra(req.getParameter("id"));
 		String floor = "";
-		CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
-		cq.eq("TSFunction.id", id);
-		cq.add();
-		List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
-		if (functions.size() > 0) {
-			for (TSFunction function : functions) {
-				floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + function.getFunctionName() + "&nbsp;&nbsp;";
+		if(StringUtil.isNotEmpty(id)){
+			if("ThreeLevelLinkage".equals(id)){
+				floor += "省：<select name=\"province\" id=\"provinceid\">"+"</select>" + "&nbsp;&nbsp;";
+				floor += "市：<select name=\"city\" id=\"cityid\">"+"</select>" + "&nbsp;&nbsp;";
+				floor += "县：<select name=\"county\" id=\"countyid\">"+"</select>" + "&nbsp;&nbsp;";
+			}else{
+				CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
+				cq.eq("TSFunction.id", id);
+				cq.add();
+				List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
+				if (functions.size() > 0) {
+					for (TSFunction function : functions) {
+						floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + MutiLangUtil.getMutiLangInstance().getLang(function.getFunctionName()) + "&nbsp;&nbsp;";
+					}
+				} else {
+					floor += "没有子项目!";
+				}
 			}
-		} else {
-			floor += "没有子项目!";
 		}
-
 		j.setMsg(floor);
 		return j;
 	}
@@ -261,7 +269,7 @@ public class DemoController extends BaseController {
 	/**
 	 * 保存DEMO维护
 	 * 
-	 * @param jeecgDemo
+	 * @param demo
 	 * @param request
 	 * @return
 	 * @throws Exception 
@@ -310,6 +318,29 @@ public class DemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
+	/**
+	 * demo页面跳转
+	 */
+	@RequestMapping(params = "demoLayoutList")
+	public ModelAndView demoLayout(HttpServletRequest request) {
+		CriteriaQuery cq = new CriteriaQuery(TSDemo.class);
+		cq.isNull("TSDemo.id");
+		cq.add();
+		List<TSDemo> demoList = systemService.getListByCriteriaQuery(cq, false);
+		request.setAttribute("demoList", demoList);
+		return new ModelAndView("jeecg/demo/base/layout/demoLayoutList");
+	}
 	
-	
+	/**
+	 * demo添加页面跳转
+	 */
+	@RequestMapping(params = "demoLayout")
+	public ModelAndView aorudemoLayout(TSDemo demo, HttpServletRequest request) {
+		if (demo.getId() != null) {
+			demo = systemService.getEntity(TSDemo.class, demo.getId());
+			request.setAttribute("demo", demo);
+		}
+		return new ModelAndView("jeecg/demo/base/layout/demoLayout");
+
+	}
 }

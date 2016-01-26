@@ -42,7 +42,8 @@
             </select>
         </div>
         <input name="TSFunction.id" value="${functionId}" type="hidden">
-        <div class="form">
+        <input name="status" type="hidden" value="0">
+        <%-- <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="common.status"/> </label>
         <select name="status">
                 <option value="0" <c:if test="${operation.status eq 0}">selected="selected"</c:if>>
@@ -53,7 +54,7 @@
 	            </option>
             </select>
             <span class="Validform_checktip"><t:mutiLang langKey="operatestatus.number"/></span>
-        </div>
+        </div> --%>
 	</fieldset>
 </t:formvalid>
 </body>

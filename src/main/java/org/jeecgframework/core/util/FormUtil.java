@@ -12,6 +12,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.jeecgframework.web.system.manager.ClientManager;
 
 /**
  * 处理雷劈表单编辑器html解析内容
@@ -46,7 +47,6 @@ public class FormUtil {
 
 		String html = parseHtml;
 		JSONArray jsonArray = new JSONArray().fromObject(contentData);
-
 		for (int f = 0; f < jsonArray.size(); f++) {
 			if (jsonArray.getJSONObject(f) == null
 					|| "".equals(jsonArray.getJSONObject(f)))
@@ -55,6 +55,9 @@ public class FormUtil {
 			JSONObject json = jsonArray.getJSONObject(f);// 获取对象
 
 			String name = "";
+			if(json==null){continue;
+			
+			}
 			String leipiplugins = json.getString("leipiplugins").toString();
 			if ("checkboxs".equals(leipiplugins))
 				name = json.getString("parse_name").toString();
@@ -81,6 +84,9 @@ public class FormUtil {
 			} else if ("progressbar".equals(leipiplugins)) {
 				// case ""://进度条 (未做处理)
 				/* temp_html = GetProgressbar(json, tableData, action); */
+				temp_html = json.getString("content").toString();
+			}else if ("popup".equals(leipiplugins)) {
+				temp_html = GetPopUp(json, tableData, action);
 			} else {
 				temp_html = json.getString("content").toString();
 			}
@@ -109,7 +115,27 @@ public class FormUtil {
 		else
 			return temp_html;
 	}
+	// popup
+	private static String GetPopUp(JSONObject item,
+			Map<String, Object> formData, String action) {
+		String dictionary = item.getString("dictionary").toString();
+		String[]dic = new String[]{"","",""};
+		 if(dictionary.split(",").length>1)dic = dictionary.split(",");
+		String temp = "<input type=\"text\" value=\"{0}\"   class=\"searchbox-inputtext\" value=\"\"  name=\"{1}\"  style=\"{2}\" onClick=\"inputClick(this,''{3}'',''{4}'');\" />";
+		String name = item.getString("name").toString();
 
+		String value = "";
+//		if (value == null)
+//			value = item.getString("value") == null ? "" : item.getString(
+//					"value").toString();
+		String style = item.getString("style") == null ? "" : item.getString(
+				"style").toString();
+		String temp_html = MessageFormat.format(temp, value, name, style,dic[1],dic[0]);
+		if ("view".equals(action))
+			return MessageFormat.format(temp_view, style, value,dic[1],dic[0]);
+		else
+			return temp_html;
+	}
 	// TextArea
 	private static String GetTextArea(JSONObject item,
 			Map<String, Object> formData, String action) {
@@ -249,21 +275,21 @@ public class FormUtil {
 		String value = formData.get(name) == null ? null : formData.get(name)
 				.toString();
 		String temp_html = item.getString("content").toString();
-
+		String microtype = "text";
 		if (value == null) {
 			// region 制造规则值
 			String type = item.getString("orgtype").toString();
 
 			String date_format = "";
-
-			Date date = new Date();
+			
+			Date date = new Date();//date”、“week”、“month”、“time”、“datetime”和“datetime-local
 			if (type.equals("sys_date")) {
 				date_format = "yyyy-MM-dd";
 				value = DateUtils.formatDate(date, date_format);
+				microtype = "date";
 			} else if (type.equals("sys_date_cn")) {
 				date_format = "yyyy年MM月dd日";
 				value = DateUtils.formatDate(date, date_format);
-
 			} else if (type.equals("sys_date_cn_short3")) {
 				date_format = "yyyy年";
 				value = DateUtils.formatDate(date, date_format);
@@ -273,14 +299,17 @@ public class FormUtil {
 			} else if (type.equals("sys_date_cn_short1")) {
 				date_format = "yyyy年MM月";
 				value = DateUtils.formatDate(date, date_format);
+				microtype = "month";
 			} else if (type.equals("sys_date_cn_short2")) {
 				date_format = "MM月dd日";
 				value = DateUtils.formatDate(date, date_format);
 			} else if (type.equals("sys_time")) {
 				date_format = "HH:mm:ss";
+				microtype = "time";
 				value = DateUtils.formatDate(date, date_format);
 			} else if (type.equals("sys_datetime")) {
-				date_format = "yyyy-MM-dd HH:mm:ss";
+				date_format = "yyyy-MM-dd'T'HH:mm";
+				microtype = "datetime-local";
 				value = DateUtils.formatDate(date, date_format);
 			} else if (type.equals("sys_week")) {
 				// String[] Day = new String[] { "星期日", "星期一", "星期二", "星期三",
@@ -288,23 +317,26 @@ public class FormUtil {
 				// value =
 				// Day[Convert.ToInt32(DateTime.Now.DayOfWeek.ToString("d"))].ToString();
 				value = DateUtils.formatDate(date, "EEEE");
+				//microtype = "week";
 			} else if (type.equals("sys_userid")) {
 				// if(!$def_value)
 				// $def_value = $controller["user"]["uid"];
 				// $tpl = str_replace("{macros}",$def_value,$tpl);
-				value="${userName }";
+				value="${userId}";
 			} else if (type.equals("sys_realname")) {
 				// if(!$def_value)
 				// $def_value = $controller["user"]["real_name"];
-				value="${userName }";
+				value="${userName}";
 			} else {
 			}
 			// endregion
 		}
 		if ("view".equals(action))
-			return value;
+			return value.replace("${userId}",  ClientManager.getInstance().getClient().getUser().getId())
+			.replace("${userName}",  ClientManager.getInstance().getClient().getUser().getUserName());
 		if(value!=null){
-		return temp_html.replace("{macros}", value);
+			temp_html = temp_html.replace("type=\"text\"","type=\""+microtype+"\" ");
+			return temp_html.replace("{macros}", value);
 		}else{
 			return temp_html;
 		}

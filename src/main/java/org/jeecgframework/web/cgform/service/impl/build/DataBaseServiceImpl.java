@@ -8,26 +8,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.common.CommUtils;
-import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
-import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
-import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.exception.BusinessException;
-import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.DataBaseConstant;
+import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.DBTypeUtil;
 import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import org.jeecgframework.web.cgform.common.CommUtils;
+import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
+import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
+import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
+import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
+import org.jeecgframework.web.cgform.exception.BusinessException;
+import org.jeecgframework.web.cgform.service.build.DataBaseService;
+import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
@@ -35,13 +38,16 @@ import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIn
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * @ClassName: DataBaseServiceImpl
  * @Description: (表单模板数据操作service)
  * @author zhoujunfeng
  */
 @Service("dataBaseService")
-@Transactional
+//--author：luobaoli---------date:20150616--------for: 修改spring事务回滚异常设置，以便支持BusinessException
+@Transactional(rollbackFor=Exception.class)
+//--author：luobaoli---------date:20150616--------for: 修改spring事务回滚异常设置，以便支持BusinessException
 public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseService{
 	private static final Logger logger = Logger.getLogger(DataBaseServiceImpl.class);
 	@Autowired
@@ -50,13 +56,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	private AbstractRoutingDataSource dataSource;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	/** 
+	/**
 	 * 表单添加
 	 * @param tableName 表名
 	 * @param data 添加的数据map
+	 * @throws BusinessException
 	 */
-	
-	public int insertTable(String tableName, Map<String, Object> data) {
+
+	public void insertTable(String tableName, Map<String, Object> data) throws BusinessException {
 		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		//系统上下文变量赋值
 		fillInsertSysVar(data);
@@ -78,28 +85,19 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					insertValue.append(comma + "null");
 				}
 				comma = ", ";
-			
+
 			}
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
-		try {
-			//类型转换冲突
-			try {
-				key = this.executeSqlReturnKey(sql,data);
-			} catch (DataRetrievalFailureException e) {
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		key = this.executeSqlReturnKey(sql,data);
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
+			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
 		}
-		return 1;
 	}
 	/**
 	 * 根据数据库和主键策略来适配Insert的sql语句
@@ -131,7 +129,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			Object key = it.next();
 			//根据表单配置的字段名 获取 前台数据
 			Object beforeV = data.get(key.toString().toLowerCase());
-			
+
 			//如果值不为空
 			if(oConvertUtils.isNotEmpty(beforeV)){
 				//获取字段配置-字段类型
@@ -184,14 +182,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		return data;
 	}
 
-	/** 
+	/**
 	 * 表单修改
 	 * @param tableName 表名
 	 * @param id 表数据id
 	 * @param data 修改的数据map
 	 */
-	
-	public int updateTable(String tableName, Object id, Map<String, Object> data) {
+	public int updateTable(String tableName, Object id, Map<String, Object> data) throws BusinessException {
 		fillUpdateSysVar(data);
 		dataAdapter(tableName,data);
 		String comma = "";
@@ -208,7 +205,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				comma = ", ";
 			}
 		}
-		
+
 		if(id instanceof java.lang.String){
 			sqlBuffer.append(" where id='").append(id).append("'");
 		}else{
@@ -216,19 +213,20 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		int num = this.executeSql(sqlBuffer.toString(), data);
-		
+
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
+			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
 		}
 		return num;
 	}
 
-	/** 
+	/**
 	 * 查询表单
 	 * @param tableName 表名
 	 * @param id 表数据id
 	 */
-	
+
 	public Map<String, Object> findOneForJdbc(String tableName, String id) {
 		StringBuffer sqlBuffer = new StringBuffer();
 		sqlBuffer.append("select * from ").append(tableName);
@@ -236,10 +234,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		Map<String, Object> map = this.findOneForJdbc(sqlBuffer.toString());
 		return map;
 	}
-	
+
 	/**
 	 * sql业务增强
-	 * 
+	 *
 	 */
 	public void executeSqlExtend(String formId,String buttonCode,Map<String, Object> data){
 		//根据formId和buttonCode获取
@@ -267,7 +265,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		}
 	}
-	
+
 	private CgformButtonSqlEntity getCgformButtonSqlByCodeFormId(String buttonCode, String formId) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformButtonSqlEntity t");
@@ -279,8 +277,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * sql值替换
 	 * @param sql
@@ -303,7 +301,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	}
 
 	@SuppressWarnings("unchecked")
-	
+
 	public Map<String, Object> insertTableMore(Map<String, List<Map<String, Object>>> mapMore, String mainTableName) throws BusinessException {
 		//插入主表信息
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
@@ -313,7 +311,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	    Object pkValue = getPkValue(mainTableName);
 	    mainMap.put("id", pkValue);
 		insertTable(mainTableName, mainMap);
-		
 		//插入附表信息
 		//去除主表信息
 		String [] filterMainTable = {mainTableName};
@@ -336,7 +333,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	}
 
 	@SuppressWarnings("unchecked")
-	
+
 	public boolean updateTableMore(Map<String, List<Map<String, Object>>> mapMore, String mainTableName) throws BusinessException {
 		//更新主表信息
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
@@ -388,10 +385,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 获得主表附表关联键
-	 * 
+	 *
 	 * @param mainTableName 主表名
 	 * @param subTableName  附表名
 	 * @return
@@ -405,10 +402,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		List<Map<String,Object>> list = this.findForJdbc(sql1.toString(), subTableName,mainTableName);
 		return list;
 	}
-	
+
 	/**
 	 * 根据主表id获取附表信息
-	 * 
+	 *
 	 * @param fkFieldList 主表附表关联键
 	 * @param mainTableName 主表名
 	 * @param subTableName  附表名
@@ -416,7 +413,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @return
 	 */
 	private Map<Object,Map<String, Object>> getSubTableData(List<Map<String, Object>> fkFieldList,String mainTableName, String subTableName,Object mainTableId) {
-		
+
 		StringBuilder sql2 = new StringBuilder("");
 		sql2.append("select sub.* from ").append(subTableName).append(" sub ");
 		sql2.append(", ").append(mainTableName).append(" main ");
@@ -453,14 +450,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			pkValue = UUIDGenerator.generate();
 		}else if(StringUtil.isNotEmpty(pkType)&&"NATIVE".equalsIgnoreCase(pkType)){
 			if(StringUtil.isNotEmpty(dbType)&&"oracle".equalsIgnoreCase(dbType)){
-				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");	
+				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
 					logger.error(e,e);
 				}
 			}else if(StringUtil.isNotEmpty(dbType)&&"postgres".equalsIgnoreCase(dbType)){
-				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");	
+				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
@@ -471,14 +468,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			}
 		}else if(StringUtil.isNotEmpty(pkType)&&"SEQUENCE".equalsIgnoreCase(pkType)){
 			if(StringUtil.isNotEmpty(dbType)&&"oracle".equalsIgnoreCase(dbType)){
-				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, pkSequence);	
+				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, pkSequence);
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
 					logger.error(e,e);
 				}
 			}else if(StringUtil.isNotEmpty(dbType)&&"postgres".equalsIgnoreCase(dbType)){
-				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, pkSequence);	
+				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, pkSequence);
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
@@ -494,7 +491,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	}
 	/**
 	 * 根据id删除附表信息
-	 * 
+	 *
 	 * @param subId 附表数据
 	 * @param subTableName  附表名
 	 * @return
@@ -502,7 +499,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	private void deleteSubTableDataById(Object subId,String subTableName){
 		StringBuilder sql = new StringBuilder("");
 		sql.append(" delete from ").append(subTableName).append(" where id = ? ");
-		
+
 		this.executeSql(sql.toString(), subId);
 	}
 	/**
@@ -565,14 +562,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				.replace("{"+DataBaseConstant.SYS_TIME_TABLE+"}",  DateUtils.formatTime());
 		return sql;
 	}
-	
+
 	private Map<String,CgFormFieldEntity> getAllFieldByTableName(String tableName){
 		//获取版本号
         String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
         Map<String,CgFormFieldEntity> map  = cgFormFieldService.getAllCgFormFieldByTableName(tableName, version);
 		return map;
 	}
-	
+
 	//判断key是否为表配置的属性
 	private boolean isContainsFieled(String tableName,String fieledName){
 		boolean flag = false;
@@ -580,6 +577,48 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			flag = true;
 		}
 		return flag;
+	}
+	/**
+	 * 执行JAVA增强实现类
+	 */
+	@Override
+	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException{
+		CgformEnhanceJavaEntity cgformEnhanceJavaEntity = getCgformEnhanceJavaEntityByCodeFormId(buttonCode,formId);
+		if(cgformEnhanceJavaEntity!=null){
+			String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
+			String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
+			if(StringUtil.isNotEmpty(cgJavaValue)){
+				Object obj = null;
+				try {
+					if("class".equals(cgJavaType)){
+						//因新增时已经校验了实例化是否可以成功，所以这块就不需要再做一次判断
+						obj = MyClassLoader.getClassByScn(cgJavaValue).newInstance();
+					}else if("spring".equals(cgJavaType)){
+						obj = ApplicationContextUtil.getContext().getBean(cgJavaValue);
+					}
+					if(obj instanceof CgformEnhanceJavaInter){
+						CgformEnhanceJavaInter javaInter = (CgformEnhanceJavaInter) obj;
+						javaInter.execute(data);
+					}
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					e.printStackTrace();
+					throw new BusinessException("执行JAVA增强出现异常！");
+				} 
+			}
+		}
+	}
+	
+	public CgformEnhanceJavaEntity getCgformEnhanceJavaEntityByCodeFormId(String buttonCode, String formId) {
+		StringBuilder hql = new StringBuilder("");
+		hql.append(" from CgformEnhanceJavaEntity t");
+		hql.append(" where t.formId='").append(formId).append("'");
+		hql.append(" and  t.buttonCode ='").append(buttonCode).append("'");
+		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
+		if(list!=null&&list.size()>0){
+			return list.get(0);
+		}
+		return null;
 	}
 }
 

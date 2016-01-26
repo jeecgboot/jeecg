@@ -19,8 +19,6 @@
 		</a>
 	</span>
 	<%--add-end--Author:zhoujf  Date:20150531 for：日志详情按钮位置迁移--%>
-	
-    <!-- update---Author:赵俊夫  Date:20130507 for：需要加name=searchColums属性 -->
     <div name="searchColums" style="float: right; padding-right: 15px;">
         <t:mutiLang langKey="log.level"/>: <!-- update---Author:宋双旺  Date:20130414 for：改变值进行查询 -->
         <select name="loglevel" id="loglevel" onchange="logListsearch();">

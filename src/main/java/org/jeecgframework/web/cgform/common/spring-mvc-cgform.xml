@@ -14,7 +14,24 @@
 		<property name="defaultEncoding" value="UTF-8"></property>
 		<property name="numberFormat" value="0"></property>
 	</bean>
-
+	
+	<!-- update begin  online代码生成器支持 自定义word改造 -->
+	<!-- FreeMarker 自定义word代码生成器 -->
+	<bean id="freemarkerWord" class="freemarker.template.Configuration">
+		<property name="templateLoader" ref="templetLoaderWord" />
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="numberFormat" value="0"></property>
+	</bean>
+	<!-- Template Context 自定义word代码生成器 -->
+	<bean id="templetContextWord" class="org.jeecgframework.web.cgform.service.impl.generate.TempletContextWord">
+		<property name="tags">
+			<map>
+				<entry key="DictData" value-ref="dictDataTag" />
+			</map>
+		</property>
+	</bean>
+	<!-- update end  online代码生成器支持 自定义word改造 -->
+	
 	<!-- Template Context -->
 	<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">
 		<property name="tags">

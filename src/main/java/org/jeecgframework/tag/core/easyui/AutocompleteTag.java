@@ -76,7 +76,7 @@ public class AutocompleteTag extends TagSupport {
 		.append("$(\"#"+name+"\").autocomplete(\""+dataSource+"\",{")
 		.append("max: 5,minChars: "+minLength+",width: 200,scrollHeight: 100,matchContains: true,autoFill: false,extraParams:{")
         .append("featureClass : \"P\",style : \"full\",	maxRows : "+maxRows+",labelField : \""+labelField+"\",valueField : \""+valueField+"\",")
-		.append("searchField : \""+searchField+"\",entityName : \""+entityName+"\",trem: getTremValue}");
+		.append("searchField : \""+searchField+"\",entityName : \""+entityName+"\",trem: getTremValue"+name+"}");
 		if(StringUtil.isNotEmpty(parse)){
 			nsb.append(",parse:function(data){return "+parse+".call(this,data);}");
 		}
@@ -88,7 +88,7 @@ public class AutocompleteTag extends TagSupport {
 			nsb.append(result+".call(this,row); ");
 		}
 		nsb.append("}); });")
-		.append("function getTremValue(){return $(\"#"+name+"\").val();}")
+		.append("function getTremValue"+name+"(){return $(\"#"+name+"\").val();}")
         .append("</script>")
         .append("<input type=\"text\" id=\""+name+"\" datatype=\""+datatype+"\" nullmsg=\""+nullmsg+"\" errormsg=\""+errormsg+"\"/>");
 		if(StringUtil.isNotEmpty(label)){

@@ -10,6 +10,8 @@
 	<t:dgCol title="common.code" field="code" query="true" queryMode="single" width="120"></t:dgCol>
 	<t:dgCol title="common.name" field="name" query="true" queryMode="single" width="120"></t:dgCol>
 	<t:dgCol title="query.sql" field="cgrSql" query="true" queryMode="single" width="120"></t:dgCol>
+
+    <t:dgCol title="common.dynamic.dbsource" field="dbSource" query="true"   queryMode="single" width="120"></t:dgCol>
 	<t:dgCol title="common.createby" field="createBy" hidden="false"></t:dgCol>
 	<t:dgCol title="common.createtime" field="createDate" formatter="yyyy-MM-dd" hidden="false"></t:dgCol>
 	<t:dgCol title="common.updateby" field="updateBy" hidden="false"></t:dgCol>
@@ -36,7 +38,7 @@
 	*/
 	function popMenuLink(tableName,content){
 		$.dialog({
-			content: "url:cgFormHeadController.do?popmenulink&url=cgReportController.do?list&title="+tableName,
+			content: "url:cgreportConfigHeadController.do?popmenulink&url=cgReportController.do?list&title="+tableName,
             drag :false,
             lock : true,
             title:'菜单链接['+content+']',

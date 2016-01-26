@@ -1,15 +1,30 @@
 package org.jeecgframework.web.sms.controller;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.sms.entity.TSSmsEntity;
@@ -22,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.JsonArray;
 
 
 
@@ -64,7 +81,7 @@ public class TSSmsController extends BaseController {
 	 */
 	@RequestMapping(params = "tSSms")
 	public ModelAndView tSSms(HttpServletRequest request) {
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsList");
+		return new ModelAndView("system/sms/tSSmsList");
 	}
 
 	/**
@@ -202,7 +219,7 @@ public class TSSmsController extends BaseController {
 			tSSms = tSSmsService.getEntity(TSSmsEntity.class, tSSms.getId());
 			req.setAttribute("tSSmsPage", tSSms);
 		}
-		return new ModelAndView("org/jeecgframework/web/sms/tSSms-add");
+		return new ModelAndView("system/sms/tSSms-add");
 	}
 	/**
 	 * 消息发送记录表编辑页面跳转
@@ -215,7 +232,7 @@ public class TSSmsController extends BaseController {
 			tSSms = tSSmsService.getEntity(TSSmsEntity.class, tSSms.getId());
 			req.setAttribute("tSSmsPage", tSSms);
 		}
-		return new ModelAndView("org/jeecgframework/web/sms/tSSms-update");
+		return new ModelAndView("system/sms/tSSms-update");
 	}
 	
 	/**
@@ -225,7 +242,7 @@ public class TSSmsController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsUpload");
+		return new ModelAndView("system/sms/tSSmsUpload");
 	}
 	
 	/**
@@ -353,4 +370,79 @@ public class TSSmsController extends BaseController {
 //		}
 		return j;
 	}
+	/**
+	 * 今天需要提醒的【系统信息】
+	 * 
+	 */
+	@RequestMapping(params = "getMsgs")
+	@ResponseBody
+	public AjaxJson getMsgs(HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		
+		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
+		
+		//1. 取得系统当前登录人ID
+		String curUser = ResourceUtil.getSessionUserName().getUserName();
+		//2.查询当前登录人的消息类型为"3",并且在查询的节点之后一个小时内的信息
+		//当前时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String curDate = sdf.format(new Date());		
+		
+		try {
+			String isSend = ResourceUtil.getConfigByName("sms.tip.control");
+			if("1".equals(isSend)){
+				list = this.tSSmsService.getMsgsList(curUser,curDate);
+				int size = list.size();
+				//3.获取当前时间是否有提醒的系统消息
+				if(size>0){
+					for(TSSmsEntity tSSmsEntity:list){
+						//查询之后，同时将该条信息置为”已提醒“
+						if("1".equals(tSSmsEntity.getEsStatus())){
+							tSSmsEntity.setEsStatus("2");
+							this.tSSmsService.saveOrUpdate(tSSmsEntity);
+						}
+					}
+					j.setSuccess(true);
+					j.setMsg("您收到系统消息，请到【控制面板】下\"系统消息\"菜单查看！");
+				} else {
+					j.setSuccess(true);
+					j.setMsg("");
+				}
+		    }
+		} catch (Exception e) {
+			j.setSuccess(false);
+			//4.失败的时候，将此次所有查询的信息置为“发送失败”
+			list = this.tSSmsService.getMsgsList(curUser, curDate);
+			if(list.size()>0){
+				for(TSSmsEntity tSSmsEntity:list){
+					if("1".equals(tSSmsEntity.getEsStatus())){
+						tSSmsEntity.setEsStatus("3");
+						this.tSSmsService.saveOrUpdate(tSSmsEntity);
+					}
+				}
+			}
+			logger.info("获取发送信息失败");
+		}
+		return j;
+	}
+	/**
+	 * 当前登录人当日【系统信息】详细信息
+	 * 
+	 */
+	
+	@RequestMapping(params = "getSysInfos")
+	public ModelAndView getSysInfos(HttpServletRequest request) {
+		
+		//1. 取得系统当前登录人ID
+		String curUser = ResourceUtil.getSessionUserName().getUserName();
+		//2.查询当前登录人的消息类型为"3",并且在查询的节点之后一个小时内的信息
+		//当前时间
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String curDate = sdf.format(new Date());
+		List<TSSmsEntity> list = this.tSSmsService.getMsgsList(curUser,curDate);
+		request.setAttribute("smsList", list);
+		
+		return new ModelAndView("system/sms/tSSmsDetailList");
+	}
+	
 }

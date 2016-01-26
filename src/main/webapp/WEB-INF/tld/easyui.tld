@@ -256,6 +256,11 @@
 			<description>自定义函数名称</description>
 		</attribute>
 		<attribute>
+			<name>formatterjs</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义函数名称(调用页面自定义js方法 参数为(value,row,index)</description>
+		</attribute>
+		<attribute>
 			<name>hidden</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>列隐藏(隐藏:false)</description>
@@ -345,6 +350,11 @@
    			<name>popup</name>
    			<rtexprvalue>true</rtexprvalue>
    			<description>是否启用popup模式</description>
+  		</attribute>
+  		<attribute>
+   			<name>editor</name>
+   			<rtexprvalue>true</rtexprvalue>
+   			<description>高级查询器用的字段编辑器</description>
   		</attribute>
 	</tag>
 	<tag>
@@ -639,6 +649,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>listHeight对应字段</description>
 		</attribute>
+        <attribute>
+            <name>editable</name>
+            <rtexprvalue>true</rtexprvalue>
+            <description>是否可编辑</description>
+        </attribute>
 	</tag>
 	<tag>
 		<name>comboTree</name>
@@ -1371,6 +1386,11 @@
 			<name>dictCondition</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义字典表的显示文本-字典查询条件</description>
+		</attribute>
+		<attribute>
+			<name>datatype</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>校验字段,默认为非空校验</description>
 		</attribute>
 	</tag>
 	<!-- 按钮权限标签 -->

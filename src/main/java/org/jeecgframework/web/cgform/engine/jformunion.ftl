@@ -76,7 +76,9 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
-  			$("input[name='id']").val(data.obj.id);
+  			if(data.obj!=null && data.obj!='undefined'){
+  				$("input[name='id']").val(data.obj.id);
+  			}
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();

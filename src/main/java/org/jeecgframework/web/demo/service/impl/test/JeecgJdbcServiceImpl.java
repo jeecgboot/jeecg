@@ -56,6 +56,8 @@ public class JeecgJdbcServiceImpl extends CommonServiceImpl implements JeecgJdbc
 	}
 	// end of 方式1 ========================================= */ 
 	
+	// 方式2, 取值自己处理(代码量多一些，但执行效率应该会稍高一些)  -------------------------------
+	
 	public void getDatagrid2(JeecgJdbcEntity pageObj, DataGrid dataGrid) {
 		String sqlWhere = getSqlWhere(pageObj);
 		
@@ -109,6 +111,7 @@ public class JeecgJdbcServiceImpl extends CommonServiceImpl implements JeecgJdbc
 	// end of 方式2 ========================================= */ 
 	
 	// 推荐方法
+	// 方式3, 取值进一步自己处理(直接转换成easyUI的datagrid需要的东西，执行效率最高，最自由)  -------------------------------
 	
 	public JSONObject getDatagrid3(JeecgJdbcEntity pageObj, DataGrid dataGrid) {
 		String sqlWhere = getSqlWhere(pageObj);
@@ -161,7 +164,10 @@ public class JeecgJdbcServiceImpl extends CommonServiceImpl implements JeecgJdbc
 		}
 		return sqlWhere;
 	}
+	
+	// -----------------------------------------------------------------------------------
 	// 以下各函数可以提成共用部件 (Add by Quainty)
+	// -----------------------------------------------------------------------------------
 	/**
 	 * 返回easyUI的DataGrid数据格式的JSONObject对象
 	 * @param mapList : 从数据库直接取得的结果集列表

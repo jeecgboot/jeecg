@@ -3108,8 +3108,10 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 */
 	private void repairDemo() {
 		TSDemo demo = new TSDemo();
+		// -------------------------------------------------
 		// 复杂字符串文本读取，采用文件方式存储
 		String html = new FreemarkerHelper().parseTemplate("/org/jeecgframework/web/system/txt/valid-code-demo.ftl", null);
+		// -------------------------------------------------
 		demo.setDemocode(html);
 		demo.setDemotitle("表单验证");
 		commonDao.saveOrUpdate(demo);
@@ -3725,7 +3727,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		folder.setExtend("png");
 		commonDao.saveOrUpdate(folder);
 	}
-
     /**
      * 修复桌面默认图标
      * @param iconName 图标名称

@@ -6,8 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
     <script type="text/javascript" src="../dialogs/internal.js"></script>
-    <script type="text/javascript" src="../../../../jquery/jquery-1.8.3.js">
-    <script type="text/javascript" src="../../../../tools/json2.js" ></script>
+    <link id="easyuiTheme" rel="stylesheet" href="../../../../easyui/themes/default/easyui.css" type="text/css"></link>
+    <script type="text/javascript" src="../../../../jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="../../../../easyui/jquery.easyui.min.1.3.2.js"></script>
     <style type="text/css">
 .wrap{ padding: 0px;font-size: 14px;}
 .left{width:100%;}
@@ -20,11 +21,11 @@
 .center .preitem div{margin: 0 auto;width:100%;}
 .center .preitem p img{width:auto!important;}
 .center .preitem span img{width:auto!important;}
-.center .preitem img{width:100%;}
+.center .preitem img{height:auto;width:auto}
 
 
 .clear{clear: both;}
-.top{height:20px;line-height: 26px;padding: 0px;}
+.top{height:30px;line-height: 26px;padding: 0px;}
 .footer{float:left;width:95%;height:100px;}
 .bottom{ width:100%;  margin-left:0px;height:100px;margin: 0 auto;}
 .bottom img{width:100%;  margin-left:0px;margin: 0 auto;}
@@ -47,7 +48,7 @@ ol{padding-left:0px; }
         <div class="left">
             <div class="top">
                 <label><var id="lang_template_clear">保留原有内容</var>：<input id="issave" checked type="checkbox"></label>
-           
+                类型：</select><input style="width:100px;height:26px;"  id="selector" />
             </div>  
              <div class="center"> <fieldset  class="border_style1">
             <legend><var id="lang_template_select"></var></legend>
@@ -91,23 +92,13 @@ var templates = [
 
     }
 ];
-
-/**
- *  Templates.
- */
-(function () {
-function GetQueryString(name) {  
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
-    var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-    var context = "";  
-    if (r != null)  
-         context = r[2];  
-    reg = null;  
-    r = null;  
-    return context == null || context == "" || context == "undefined" ? "" : context;  
-}
-//alert(unescape(GetQueryString("type"))); 
-var curl= "../../../../../cgAutoListController.do?datagrid&configId=weixin_template&field=id,title,type,content,&type=" +GetQueryString("type");
+    var me = editor,
+            preview = $G( "preview" ),
+            preitem = $G( "preitem" ),
+            templates,
+            currentTmp;
+function changeType(type){
+var curl= "../../../../../cgAutoListController.do?datagrid&configId=weixin_template&field=id,title,type,content,&type=" +type;
 $.ajax({
   type: 'POST',
   url :curl,
@@ -123,35 +114,95 @@ $.ajax({
             //str += '<div class="preitem" onclick="pre(' + i + ')"><img src="' + "images/template/" + tmp.pre + '" ' + (tmp.title ? "alt=" + tmp.title + " title=" + tmp.title + "" : "") + '></div>';
         	str+='<div class="preitem" onclick="pre(' + i + ')">'+tmp.content+'</div>';
         }
-        preitem.innerHTML = str;
+         
+        $( "#preitem" ).html(str);
   },
 });
-    var me = editor,
-            preview = $G( "preview" ),
-            preitem = $G( "preitem" ),
-            tmps = templates,
-            currentTmp;
-    var pre = function ( n ) {
-        var tmp = templates[n - 1];
-        currentTmp = tmp;
-        clearItem();
-        domUtils.setStyles( preitem.childNodes[n - 1], {
-            "background-color":"lemonChiffon",
-            "border":"#ccc 1px solid"
-        } );
-        preview.innerHTML = tmp.content ? tmp.content : "";
-    };
-    var clearItem = function () {
-        var items = preitem.children;
+
+}
+function initCombox(){
+
+var curl= "../../../../../systemController.do?typeGrid&typegroupid=jglongjbtstypegourp2015060400001&field=id,typename,typecode,";
+$.ajax({
+  type: 'POST',
+  url :curl,
+  dataType : 'json',
+  success : function(msg){
+  		if(msg.total<0){
+  			alert('no weixin type data:');
+  		}else{
+  			var rows=msg.rows;
+  			$("#selector").combobox({
+				data : msg.rows,
+				editable:false,
+				valueField:'typecode',
+				mode:'local',
+				textField:'typename',
+				panelHeight:'auto',
+				onChange: function (n,o) {
+					changeType(n);
+					},
+				onLoadSuccess: function () { 
+                    var data = $('#selector').combobox('getData');
+                    if (data.length > 0) {
+                     //   $('#selector').combobox('select', data[0].typecode);
+                       // $('#selector').combobox('select',GetQueryString("type"));
+                    } 
+                }
+				});/*
+  			for ( var i = 0, tmp; tmp = rows[i++]; ) {
+            //str += '<div class="preitem" onclick="pre(' + i + ')"><img src="' + "images/template/" + tmp.pre + '" ' + (tmp.title ? "alt=" + tmp.title + " title=" + tmp.title + "" : "") + '></div>';
+        	$("#selector").append("<option value='"+tmp.typecode
+        	+"'" +(tmp.typecode==GetQueryString("type")?'selected':'')+">"+tmp.typename+"</option>");
+        	}*/
+        }
+  }
+});
+}
+ function clearItem() {
+        var items = document.getElementById("preitem" ).children;
         for ( var i = 0, item; item = items[i++]; ) {
             domUtils.setStyles( item, {
                 "background-color":"",
                 "border":"white 1px solid"
             } );
         }
-    };
+    }
+function pre( n ) {
+        var tmp = templates[n - 1];
+        currentTmp = tmp;
+        clearItem();
+        domUtils.setStyles( document.getElementById("preitem" ).childNodes[n - 1], {
+            "background-color":"lemonChiffon",
+            "border":"#ccc 1px solid"
+        } );
+         $( "#preview" ).html(tmp.content ? tmp.content : "");
+    }
+     window.pre = pre;
+function GetQueryString(name) {  
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
+    var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+    var context = "";  
+    if (r != null)  
+         context = r[2];  
+    reg = null;  
+    r = null;  
+    return context == null || context == "" || context == "undefined" ? "" : context;  
+}
+/**
+ *  Templates.
+ */
+(function () {
+
+
+//alert(unescape(GetQueryString("type"))); 
+initCombox();
+changeType(GetQueryString("type"));
+// $("#selector").val(GetQueryString("type"));
+
+    
     dialog.onok = function () {
-        if ( !$G( "issave" ).checked ){
+        if ( !$( "#issave" ).attr("checked")==true){
             me.execCommand( "cleardoc" );
         }
         var obj = {
@@ -160,8 +211,7 @@ $.ajax({
         me.execCommand( "template", obj );
     };
     //initPre();
-    window.pre = pre;
-    pre(2)
+   
 
 })();
     </script>

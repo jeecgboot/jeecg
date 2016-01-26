@@ -16,8 +16,10 @@
 				$("#parentId").val(node.id);
 			}
 		});
+		if ($('#id').val()) {
+			$('#categoryTree').combotree('disable');
+		}
 	});
-	
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
@@ -49,9 +51,10 @@
 			<tr>
 				<td align="right"><label class="Validform_label"> 所属上级:
 				</label></td>
-				<td class="value"><input id="categoryTree"
-					value="${categoryPage.parent.name}"> <input id="parentId"
-					name="parent.code" style="display: none;"
+				<td class="value">
+					<input id="pId" name="parent.id"type="hidden" value="${categoryPage.parent.id}">
+					<input id="categoryTree" value="${categoryPage.parent.name}"> <input
+					id="parentId" name="parent.code" style="display: none;"
 					value="${categoryPage.parent.code}"> <span
 					class="Validform_checktip"></span></td>
 			</tr>

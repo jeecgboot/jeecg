@@ -5,8 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import org.apache.log4j.Logger;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 文件操作工具类
@@ -14,7 +15,6 @@ import org.apache.log4j.Logger;
  *
  */
 public class FileUtils {
-	private static final Logger logger = Logger.getLogger(FileUtils.class);
 	/**
 	 * 获取文件扩展名
 	 * 
@@ -162,11 +162,36 @@ public class FileUtils {
 		File fileDelete = new File(strFileName);
 
 		if (!fileDelete.exists() || !fileDelete.isFile()) {
-			org.jeecgframework.core.util.LogUtil.info("错误: " + strFileName + "不存在!");
+			LogUtil.info("错误: " + strFileName + "不存在!");
 			return false;
 		}
 
-		org.jeecgframework.core.util.LogUtil.info("--------成功删除文件---------"+strFileName);
+		LogUtil.info("--------成功删除文件---------"+strFileName);
 		return fileDelete.delete();
 	}
+	
+	/**
+	 * 
+	* @Title: encodingFileName 2015-11-26 huangzq add
+	* @Description: 防止文件名中文乱码含有空格时%20 
+	* @param @param fileName
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	public static String encodingFileName(String fileName) {
+        String returnFileName = "";
+        try {
+            returnFileName = URLEncoder.encode(fileName, "UTF-8");
+            returnFileName = StringUtils.replace(returnFileName, "+", "%20");
+            if (returnFileName.length() > 150) {
+                returnFileName = new String(fileName.getBytes("GB2312"), "ISO8859-1");
+                returnFileName = StringUtils.replace(returnFileName, " ", "%20");
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            LogUtil.info("Don't support this encoding ...");
+        }
+        return returnFileName;
+    }
 }

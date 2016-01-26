@@ -17,6 +17,7 @@ public class DataGridColumn {
 	protected boolean sortable;//是否排序
 	protected boolean checkbox;//是否显示复选框
 	protected String formatter;//格式化函数
+	protected String formatterjs;//自定义函数名称(调用页面自定义js方法 参数为(value,row,index)
 	protected boolean hidden;//是否隐藏
 	protected String treefield;//
 	protected boolean image;//是否是图片
@@ -37,6 +38,14 @@ public class DataGridColumn {
 	protected String downloadName;//附件下载
 	protected boolean autocomplete;//自动补全
 	protected String extendParams;//扩展参数,easyui有的,但是jeecg没有的参数进行扩展
+	protected String editor;//高级查询用的编辑器
+	public String getEditor() {
+		return editor;
+	}
+
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
 	public String getDownloadName() {
 		return downloadName;
 	}
@@ -256,6 +265,14 @@ public class DataGridColumn {
 
 	public void setExtendParams(String extendParams) {
 		this.extendParams = extendParams;
+	}
+
+	public String getFormatterjs() {
+		return formatterjs;
+	}
+
+	public void setFormatterjs(String formatterjs) {
+		this.formatterjs = formatterjs;
 	}
 
 

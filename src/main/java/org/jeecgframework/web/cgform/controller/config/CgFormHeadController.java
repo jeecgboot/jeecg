@@ -7,11 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -19,6 +22,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -52,6 +56,8 @@ public class CgFormHeadController extends BaseController {
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private TempletContext templetContext;
 	private String message;
 
 	public String getMessage() {
@@ -68,7 +74,7 @@ public class CgFormHeadController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(params = "cgFormHeadList")
-	public ModelAndView cgFormHead(HttpServletRequest request) {
+	public ModelAndView cgFormHeadList(HttpServletRequest request) {
 		return new ModelAndView("jeecg/cgform/config/cgFormHeadList");
 	}
 	/**
@@ -84,7 +90,6 @@ public class CgFormHeadController extends BaseController {
 	public ModelAndView goCgFormSynChoice(HttpServletRequest request) {
 		return new ModelAndView("jeecg/cgform/config/cgformSynChoice");
 	}
-
 	@RequestMapping(params = "popmenulink")
 	public ModelAndView popmenulink(ModelMap modelMap,
                                     @RequestParam String url,
@@ -108,6 +113,12 @@ public class CgFormHeadController extends BaseController {
 			DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(CgFormHeadEntity.class,
 				dataGrid);
+		String jformCategory = request.getParameter("jformCategory");
+		if(StringUtil.isNotEmpty(jformCategory)){
+			cq.eq("jformCategory", jformCategory);
+			cq.add();
+		}
+		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
 				cgFormHead);
@@ -226,6 +237,7 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
+		templetContext.clearCache();
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -338,6 +350,8 @@ public class CgFormHeadController extends BaseController {
 			//cgFormHead.setTableName(cgFormHead.getTableName().replace(CgAutoListConstant.jform_, ""));
 			req.setAttribute("cgFormHeadPage", cgFormHead);
 		}
+		List<TSType> typeList = TSTypegroup.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
+		req.setAttribute("typeList", typeList);
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -386,11 +400,13 @@ public class CgFormHeadController extends BaseController {
 		
 		columnList.add(initCgFormFieldEntityId());
 		columnList.add(initCgFormFieldEntityString("create_name","创建人名称"));
-		columnList.add(initCgFormFieldEntityString("create_by","创建人登录名称"));
-		columnList.add(initCgFormFieldEntityTime("create_date","创建日期"));
+		columnList.add(initCgFormFieldEntityString("create_by", "创建人登录名称"));
+		columnList.add(initCgFormFieldEntityTime("create_date", "创建日期"));
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
-		columnList.add(initCgFormFieldEntityString("update_by","更新人登录名称"));
-		columnList.add(initCgFormFieldEntityTime("update_date","更新日期"));
+		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
+		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
+		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
+		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
 		return columnList;
 	}
 	/**

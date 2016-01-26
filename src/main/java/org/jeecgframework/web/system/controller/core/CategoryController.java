@@ -138,6 +138,7 @@ public class CategoryController extends BaseController {
 			j.setMsg("分类管理更新成功");
 			TSCategoryEntity t = categoryService.get(TSCategoryEntity.class,
 					category.getId());
+			category.getParent().setCode("".equals(t.getParent().getCode())?null:t.getParent().getCode());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(category, t);
 				categoryService.saveOrUpdate(t);

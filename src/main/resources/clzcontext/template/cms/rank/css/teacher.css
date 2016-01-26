@@ -1,0 +1,110 @@
+.custompage .es-section img {
+    max-width: 100%;
+    height: auto;
+}
+.es-section {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.es-section .section-header {
+    position: relative;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.es-section .section-header h1 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.es-section .section-header .more {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    color: #9e9e9e;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.es-section .section-header .more:hover {
+    color: #616161;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.es-section .section-header .more > i {
+    font-size: 24px;
+}
+.lt-ie9 .es-section {
+    border: 1px solid #e0e0e0;
+}
+.course-detail-header .es-section {
+    position: relative;
+    padding: 0;
+}
+
+.teacher-list-group .nickname {
+    display: inline-block;
+    width: 160px;
+    margin-left: 6px;
+}
+
+.teacher-list-group .visible-checkbox {
+    font-weight: normal;
+
+}
+
+.teacher-list-group .delete-btn {
+    margin-top: 12px;
+}
+
+.teacher-list-group li .sort-handle {
+    font-size: 18px;
+    padding: 15px 10px 5px 5px;
+    cursor: pointer;
+}
+.teacher-carousel .teacher-item {
+    display: none;
+}
+
+.teacher-carousel .teacher-item-active {
+    display: block;
+}
+
+.teacher-carousel .teacher-item .nickname {
+    text-align: center;
+    font-size: 16px;
+    margin: 15px 0 5px;
+}
+
+.teacher-carousel .teacher-item .title {
+    text-align: center;
+    margin: 5px 0 5px;
+    color: #666;
+}
+
+.teacher-carousel .teacher-item .about {
+    font-size: 13px;
+}
+
+.teacher-carousel .teacher-item .divider {
+    background: #e3e3e3;
+    height: 1px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.teacher-item .teacher-top {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #fafafa;
+    padding: 20px 10px;
+}

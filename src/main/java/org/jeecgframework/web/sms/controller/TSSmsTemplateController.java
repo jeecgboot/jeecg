@@ -65,7 +65,7 @@ public class TSSmsTemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "tSSmsTemplate")
 	public ModelAndView tSSmsTemplate(HttpServletRequest request) {
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsTemplateList");
+		return new ModelAndView("system/sms/tSSmsTemplateList");
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class TSSmsTemplateController extends BaseController {
 			tSSmsTemplate = tSSmsTemplateService.getEntity(TSSmsTemplateEntity.class, tSSmsTemplate.getId());
 			req.setAttribute("tSSmsTemplatePage", tSSmsTemplate);
 		}
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsTemplate-add");
+		return new ModelAndView("system/sms/tSSmsTemplate-add");
 	}
 	/**
 	 * 消息模本表编辑页面跳转
@@ -216,7 +216,7 @@ public class TSSmsTemplateController extends BaseController {
 			tSSmsTemplate = tSSmsTemplateService.getEntity(TSSmsTemplateEntity.class, tSSmsTemplate.getId());
 			req.setAttribute("tSSmsTemplatePage", tSSmsTemplate);
 		}
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsTemplate-update");
+		return new ModelAndView("system/sms/tSSmsTemplate-update");
 	}
 	
 	/**
@@ -226,7 +226,7 @@ public class TSSmsTemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		return new ModelAndView("org/jeecgframework/web/sms/tSSmsTemplateUpload");
+		return new ModelAndView("system/sms/tSSmsTemplateUpload");
 	}
 	
 	/**

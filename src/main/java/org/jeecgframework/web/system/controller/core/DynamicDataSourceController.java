@@ -1,32 +1,41 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.enums.SysDatabaseEnum;
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.service.DynamicDataSourceServiceI;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.MyBeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-/**   
+/**
  * @Title: Controller
  * @Description: 数据源配置
  * @author zhangdaihao
  * @date 2014-09-05 13:22:10
- * @version V1.0   
+ * @version V1.0
  *
  */
 @Controller
@@ -42,7 +51,7 @@ public class DynamicDataSourceController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 	private String message;
-	
+
 	public String getMessage() {
 		return message;
 	}
@@ -54,7 +63,7 @@ public class DynamicDataSourceController extends BaseController {
 
 	/**
 	 * 数据源配置列表 页面跳转
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "dbSource")
@@ -64,11 +73,11 @@ public class DynamicDataSourceController extends BaseController {
 
 	/**
 	 * easyui AJAX请求数据
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
+	 * @param
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -78,12 +87,12 @@ public class DynamicDataSourceController extends BaseController {
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, dbSource, request.getParameterMap());
 		this.dynamicDataSourceService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
-		
+
 	}
 
 	/**
 	 * 删除数据源配置
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "del")
@@ -91,12 +100,12 @@ public class DynamicDataSourceController extends BaseController {
 	public AjaxJson del(DynamicDataSourceEntity dbSource, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		dbSource = systemService.getEntity(DynamicDataSourceEntity.class, dbSource.getId());
-		
+
 		message = MutiLangUtil.paramDelSuccess("common.datasource.manage");
-		
+
 		dynamicDataSourceService.delete(dbSource);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-		
+
 		j.setMsg(message);
 		return j;
 	}
@@ -104,8 +113,8 @@ public class DynamicDataSourceController extends BaseController {
 
 	/**
 	 * 添加数据源配置
-	 * 
-	 * @param ids
+	 *
+	 * @param dbSource
 	 * @return
 	 */
 	@RequestMapping(params = "save")
@@ -126,7 +135,7 @@ public class DynamicDataSourceController extends BaseController {
 			}
 		} else {
 			message = MutiLangUtil.paramAddSuccess("common.datasource.manage");
-			
+
 			dynamicDataSourceService.save(dbSource);
 			dynamicDataSourceService.refleshCache();
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -137,7 +146,7 @@ public class DynamicDataSourceController extends BaseController {
 
 	/**
 	 * 数据源配置列表页面跳转
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdate")
@@ -148,4 +157,42 @@ public class DynamicDataSourceController extends BaseController {
 		}
 		return new ModelAndView("system/dbsource/dbSource");
 	}
+
+    /**
+     * 获取数据源列表
+     * @return
+     */
+    @RequestMapping(params = "getAll")
+    @ResponseBody
+    public List<ComboBox> getAll(){
+        List<DynamicDataSourceEntity> list= dynamicDataSourceService.getList(DynamicDataSourceEntity.class);
+        List<ComboBox> comboBoxes=new ArrayList<ComboBox>();
+        if(list!=null&&list.size()>0){
+            for(DynamicDataSourceEntity entity:list){
+                ComboBox comboBox=new ComboBox();
+                comboBox.setId(entity.getId());
+                comboBox.setText(entity.getDbKey());
+                comboBoxes.add(comboBox);
+            }
+        }
+        return  comboBoxes;
+    }
+    @RequestMapping(params = "getDynamicDataSourceParameter")
+	@ResponseBody
+    public AjaxJson getDynamicDataSourceParameter(@RequestParam String dbType){
+    	AjaxJson j = new AjaxJson();
+    	SysDatabaseEnum sysDatabaseEnum = SysDatabaseEnum.toEnum(dbType);
+
+    	if (sysDatabaseEnum != null) {
+    		Map<String, String> map = new HashMap<String, String>();
+        	map.put("driverClass", sysDatabaseEnum.getDriverClass());
+        	map.put("url", sysDatabaseEnum.getUrl());
+        	map.put("dbtype", sysDatabaseEnum.getDbtype());
+        	j.setObj(map);
+		}else {
+			j.setObj("");
+		}
+
+    	return j;
+    }
 }

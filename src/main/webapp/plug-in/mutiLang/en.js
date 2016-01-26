@@ -73,3 +73,8 @@ var pleaseinputfieldsquence = "Please enter a field order";
 var fieldsquencefromonetotwo = "Field order of 1 to 2 bit";
 
 var sqlParse = "SQLParse";
+
+/*add-start--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/
+var extendJson = "extendJson";
+var extendJsonTip = "Please input JSON style，adjust the form attribute";
+/*add-end--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/

@@ -2,6 +2,7 @@ package org.jeecgframework.web.sms.service.impl;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.ConnectException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -154,5 +155,11 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 			updateEntitie(tsSmsEntity);
 		}
 		System.out.println("===============消息发扫描结束=================");
+	}
+	public List<TSSmsEntity> getMsgsList(String curUser,String curDate) {
+		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
+		String hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and str(t.esSendtime) like ?";
+		list = this.findHql(hql, new Object[] {curUser,curDate+'%'});
+		return list;
 	}
 }

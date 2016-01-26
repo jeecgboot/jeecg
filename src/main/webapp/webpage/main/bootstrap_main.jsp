@@ -57,6 +57,7 @@
 	<ul class="dropdown-menu">
 		<li onclick="openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><a href="javascript:;"><i class="icon-user"></i> <t:mutiLang langKey="common.profile"/></a></li>
 		<li onclick="add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword')"><a href="javascript:;"><i class="icon-pencil"></i> <t:mutiLang langKey="common.change.password"/></a></li>
+		<li onclick="openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')"><a href="javascript:;"><i class="icon-pencil"></i> <t:mutiLang langKey="common.ssms.getSysInfos"/></a></li>
 		<li onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle')"><a href="javascript:;"><i class="icon-retweet"></i> <t:mutiLang langKey="common.change.style"/></a></li>
 	</ul>
 	</li>
@@ -80,8 +81,8 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework -3.5.2">JEECG Framework -3.5.2</a></li>
-	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework -3.5.2" href="http://www.jeecg.org">JEECG Framework -3.5.2</a></li>
+	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework -3.6">JEECG Framework -3.6</a></li>
+	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework -3.6" href="http://www.jeecg.org">JEECG Framework -3.6</a></li>
 </ul>
 </div>
 </footer>

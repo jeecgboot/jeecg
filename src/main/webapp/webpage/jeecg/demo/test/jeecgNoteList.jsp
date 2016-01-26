@@ -7,7 +7,7 @@
 	<t:dgCol title="年龄" field="age" query="true" extend="{data-options:{required:false,groupSeparator:\"','\"},class:{value:'easyui-numberbox'}}"></t:dgCol>
 	<t:dgCol title="生日" field="birthday" formatter="yyyy-MM-dd"></t:dgCol>
 	<t:dgCol title="出生日期" field="createdt" formatter="yyyy-MM-dd hh:mm:ss" query="true" queryMode="group" extend="{class:{value:'easyui-datebox'}}"></t:dgCol>
-	<t:dgCol title="用户名" field="name" query="true" extend="{style:{width:'300px'}}"></t:dgCol>
+	<t:dgCol title="用户名" field="name" query="true" extend="{style:'width:300px',value:'100'}"></t:dgCol>
 	<t:dgCol title="工资" field="salary"></t:dgCol>
 	<t:dgCol title="操作" field="opt" width="100"></t:dgCol>
 	<t:dgDelOpt title="删除" url="jeecgNoteController.do?del&id={id}" />

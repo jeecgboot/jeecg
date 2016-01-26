@@ -114,6 +114,12 @@ public class CgAutoListConstant {
 	/** 表单版本号 */
 	public static final String CONFIG_VERSION = "jformVersion";
 
+	/** 从表 */
+	public static final String SUB_TABLES = "subTables";
+
+	/** 表单类型 */
+	public static final String TABLE_TYPE = "tableType";
+
 	/** 1-单表,2-主表,3-从表 */
 	public static final int JFORM_TYPE_SINGLE_TABLE = 1;
 	public static final int JFORM_TYPE_MAIN_TALBE = 2;
@@ -128,4 +134,27 @@ public class CgAutoListConstant {
 	public static final String SYS_MODE_DEV = "DEV";
 	/** 系统模式--发布模式 */
 	public static final String SYS_MODE_PUB = "PUB";
+	
+	
+	/**
+	 * ===============数据源类型=================
+	 */
+	/** 数据库表 table */
+	public static final String DB_TYPE_TABLE = "table";
+	/** 动态SQL sql */
+	public static final String DB_TYPE_SQL = "SQL";
+	/** java类  clazz */
+	public static final String DB_TYPE_CLAZZ = "clazz";
+	
+	/**
+	 * ===============Online代码生成器页面风格=================
+	 */
+	/** Table风格(form)*/
+	public static final String CODE_JSP_MODE_01 = "01";
+	/** Div风格(form) */
+	public static final String CODE_JSP_MODE_02 = "02";
+	/** 详细页面-Table风格（子表） */
+	public static final String CODE_JSP_MODE_03 = "03";
+	/** 自定义模板 */
+	public static final String CODE_JSP_MODE_04 = "04";
 }

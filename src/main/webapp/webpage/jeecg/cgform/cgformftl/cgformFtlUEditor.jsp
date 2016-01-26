@@ -27,10 +27,10 @@
 			<td class="value"><input class="inputxt" id="cgformName" name="cgformName" value="${cgformFtlPage.cgformName}" datatype="*"> <span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>
-			
-			<td class="value" colspan=2><input type="hidden" id="ftl" name="ftlContent" >
-			<script id="ftlContent" type="text/plain" style="width:100%;">${cgformFtlPage.ftlContent == NULL || cgformFtlPage.ftlContent == '' ? '' : cgformFtlPage.ftlContent}
-</script></td>
+			<td class="value" colspan=2>
+				<input type="hidden" id="ftl" name="ftlContent" >
+				<script id="ftlContent" type="text/plain" style="width:100%;">${cgformFtlPage.ftlContent == NULL || cgformFtlPage.ftlContent == '' ? '' : cgformFtlPage.ftlContent}</script>
+			</td>
 		</tr>
 	</table>
 </t:formvalid>
@@ -39,7 +39,6 @@
 <script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/ueditor.all.js?2023"> </script>
 <script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/lang/zh-cn/zh-cn.js?2023"></script>
 <script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/formdesign/leipi.formdesign.v4.js?2023"></script>
-
 <script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/formdesign/weixinplugs.js"></script>
 <script type="text/javascript">
 
@@ -92,7 +91,7 @@ var leipiEditor = UE.getEditor('ftlContent',{
    parse_form:function(template,fields)
     {
         //正则  radios|checkboxs|select 匹配的边界 |--|  因为当使用 {} 时js报错
-        var preg =  /(\|-<span(((?!<span).)*leipiplugins=\"(radios|checkboxs|select)\".*?)>(.*?)<\/span>-\||<(img|input|textarea|select).*?(<\/select>|<\/textarea>|\/>))/gi,
+        var preg =  /(\|-<span(((?!<span).)*leipiplugins=\"(radios|checkboxs|select|popup)\".*?)>(.*?)<\/span>-\||<(img|input|textarea|select).*?(<\/select>|<\/textarea>|\/>))/gi,
         preg_attr =/(\w+)=\"(.?|.+?)\"/gi,
         preg_group =/<input.*?\/>/gi;
         if(!fields) fields = 0;
@@ -276,6 +275,7 @@ var leipiEditor = UE.getEditor('ftlContent',{
             alert("你点击了保存,这里可以异步提交，请自行处理....");
 			$("#ftl").val(leipiEditor.getContent());
             return false;
+            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
             var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
             if( typeof type!=='undefined' ){
@@ -335,9 +335,9 @@ var leipiEditor = UE.getEditor('ftlContent',{
            ' <link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/leipi.style.css">';
            $.ajax({
                 type: 'POST',
-                url : 'cgformFtlController.do?parseUeditor',
+                url : 'cgformFtlController.do?parseUeditorOld',
                 dataType : 'json',
-                data : {'action' :'view1','parseForm':parse_form},
+                data : {'action' :'edit','parseForm':parse_form},
                 success : function(msg){
 						//alert(msg);
                     	 W.$.dialog({

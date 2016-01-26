@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>上传Word布局模板</title>
+<title>上传Word 表单模板</title>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
@@ -19,7 +19,7 @@
 	<div class="form">
 	     <t:upload name="fiels" buttonText="选择Word模板文件" uploader="cgformFtlController.do?saveWordFiles" extend="*.doc" id="file_upload" formData="id,cgformId,cgformName,ftlVersion,ftlStatus"></t:upload>
 	</div>
-	<div class="form" id="filediv" style="height: 50px"></div>
+	<div class="form" id="filediv" style="height: 50px"><font color='red'>说明：此功能需要安装控件Jacob COM组件，目前只支持windows（32/64位）系统，因此该功能只适用于windows系统。不支持情况下，可以采用创建新模板，复制Word模板内容到编辑器中。</font></div>
 
 	</fieldset>
 </t:formvalid>

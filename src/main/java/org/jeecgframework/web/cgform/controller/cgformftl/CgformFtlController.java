@@ -15,8 +15,10 @@ import org.jeecgframework.web.cgform.common.OfficeHtmlUtil;
 import org.jeecgframework.web.cgform.entity.cgformftl.CgformFtlEntity;
 import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.jeecgframework.web.system.service.SystemService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -496,9 +498,9 @@ public class CgformFtlController extends BaseController {
 
 		attributes.put("id", cgformFtl.getId());
 		if (StringUtil.isNotEmpty(message))
-			j.setMsg("Word转Ftl失败," + message);
+			j.setMsg("Word 模板上传失败," + message);
 		else
-			j.setMsg("Word转Ftl成功");
+			j.setMsg("Word 模板上传成功");
 		j.setAttributes(attributes);
 
 		return j;
@@ -586,20 +588,18 @@ public class CgformFtlController extends BaseController {
 	}
 	// for：放弃jacob和poi上传word，改用ckeditor
 //----------longjb 20150602 ---for: html解析预览
-	@RequestMapping(params = "parseUeditor")
+	@RequestMapping(params = "parseUeditorOld")
 	@ResponseBody
-	public AjaxJson parseUeditor(String parseForm,String action,HttpServletRequest request) {
+	public AjaxJson parseUeditorOld(String parseForm,String action,HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		try {
-			System.out.println(parseForm);
-//			System.out.println(contentData);
 			JSONObject json = new JSONObject().fromObject(parseForm);
 			System.out.println(json.getString("parse"));
 			System.out.println(json.getString("data"));
 			// 判断有没有激活过的模板
 			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
-			j.setSuccess(true);
 			j.setMsg(message);
+			j.setSuccess(true);
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			e.printStackTrace();
@@ -609,4 +609,34 @@ public class CgformFtlController extends BaseController {
 		}
 		return j;
 	}
+	@RequestMapping(params = "parseUeditor")
+	@ResponseBody
+	public AjaxJson parseUeditor(String parseForm,String action,HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		try {
+//			System.out.println(parseForm);
+//			System.out.println(contentData);
+//			JSONObject json = new JSONObject().fromObject(parseForm);
+//			System.out.println(json.getString("parse"));
+//			System.out.println(json.getString("data"));
+//			// 判断有没有激活过的模板
+//			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
+			if(StringUtils.isNotBlank(parseForm)){
+				TemplateUtil tool = new TemplateUtil();
+				Map<String,Object> map = tool.processor(parseForm);
+				j.setMsg(map.get("parseHtml").toString().replaceAll("\"", "&quot;"));
+			} else {
+				j.setMsg("");
+			}
+			j.setSuccess(true);
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			e.printStackTrace();
+			message = "解析异常"+e.getMessage();
+			j.setSuccess(false);
+			j.setMsg(message);
+		}
+		return j;
+	}
+
 }

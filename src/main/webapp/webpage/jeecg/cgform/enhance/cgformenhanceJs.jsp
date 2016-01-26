@@ -7,7 +7,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="cgformEnhanceJsController.do?save">
+<t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="cgformEnhanceJsController.do?save" >
 	<input id="id" name="id" type="hidden" value="${cgformenhanceJsPage.id }">
 	<input id="formId" name="formId" type="hidden" value="${cgformenhanceJsPage.formId }">
 	<table cellpadding="0" cellspacing="1" class="formtable">

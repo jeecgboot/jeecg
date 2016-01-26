@@ -1996,7 +1996,9 @@ pre.prettyprint {
   line-height: 17px;
   padding-left: 7px;
   text-shadow: none !important;
-  font-size: 13px;
+  /*update-begin--Author:jg_renjie  Date:20150613 for：增加在缩小模式下菜单的宽度，从而使得不会再最下面出现菜单名字*/
+  /*font-size: 13px;*/
+  /*update-end--Author:jg_renjie  Date:20150613 for：增加在缩小模式下菜单的宽度，从而使得不会再最下面出现菜单名字*/
   text-decoration: none;
 }
 .nav-list > li > a > .menu-icon {
@@ -2659,14 +2661,16 @@ body.mob-safari .sidebar.sidebar-fixed {
     display: block;
   }
 }
+/*update-begin--Author:jg_renjie  Date:20150613 for：增加在缩小模式下菜单的宽度，从而使得不会再最下面出现菜单名字*/
 .sidebar.menu-min,
 .sidebar.menu-min.compact,
 .sidebar.menu-min.navbar-collapse {
-  width: 43px;
+  width: 53px;
 }
 .sidebar.menu-min + .main-content {
-  margin-left: 43px;
+  margin-left: 51px;
 }
+ /*update-end--Author:jg_renjie  Date:20150613 for：增加在缩小模式下菜单的，从而使得不会再最下面出现菜单名字*/
 .sidebar.menu-min .nav-list a .badge,
 .sidebar.menu-min .nav-list a .label {
   position: relative;

@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>下拉菜单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <link id="easyuiTheme" rel="stylesheet" href="../../../../easyui/themes/default/easyui.css" type="text/css"></link>
+        <script type="text/javascript" src="../../../../jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="../../../../easyui/jquery.easyui.min.1.3.2.js"></script>
+    <script type="text/javascript">
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+    </script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>控件名称</span><span class="label label-important">*</span></th>
+        <th><span>控件样式</span> </th>
+    </tr>
+    <tr>
+        <td><input id="orgname" placeholder="必填项" type="text"/></td>
+        <td> 宽：<input id="orgwidth" type="text" value="150" class="input-small span1"/> px&nbsp;&nbsp;&nbsp;&nbsp;高：<input id="orgsize" type="text" class="input-small span1" value="1"/> 行</td>
+    </tr>
+    <tr>
+        <th><span>数据源</span></th>
+        <th><span>字段</span> </th>
+    </tr>
+    <tr>
+
+        <td>
+            <select id="datasource"></select>
+        </td>
+        <td>
+            <select id="field">
+                <option selected value=''>请先选择数据源</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th ><span >PopUp报表</span></th>
+        <th><span>检验规则</span> </th>
+    </tr>
+    <tr>
+    <td ><input type="text"  id="dictTable"   placeholder="字典Table"></td>
+        <td>
+            <select  id="datatype" name="datatype" value="" >
+            </select>
+        </td>
+    </tr>
+        <tr>
+        <th><span>值ID</span></th>
+        <th><span>值文本</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="dictCode" placeholder="字典Code"></td>
+        <td><input type="text" id="dictText" placeholder="字典Text"></td>
+    </tr>
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,oListText='',thePlugins = 'popup';
+var contentPath="../../../../../";
+window.onload = function() {
+    oListText = $G('orglist');
+    
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        var gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gWidth=oNode.getAttribute('orgwidth'),gSize=oNode.getAttribute('size');
+        gTitle = gTitle==null ? '' : gTitle;
+        //$G('orgvalue').innerHTML = oNode.value;
+        $G('orgname').value = gTitle;
+        $G('orgsize').value = gSize;
+        $G('orgwidth').value = gWidth;
+         var dictCode= oNode.getAttribute('dictionary');
+         if(dictCode){
+         	var arraysDict= dictCode.split(',');
+			if(arraysDict.length==1){
+				$G('dictCode').value =arraysDict[0];
+			}else{
+				$G('dictCode').value = arraysDict[1];
+        		$G('dictTable').value = arraysDict[0];
+        		$G('dictText').value = arraysDict[2];
+        	}
+         }
+        var arr1= oNode.getAttribute('autofield');
+		if(arr1){
+			arr1= arr1.split('.');
+			var field = arr1[1]==null?'':arr1[1];
+            var id = '';
+            editor.ready(function() {
+                id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
+            });
+            $.post(
+                    contentPath+'autoFormController.do?getFormField',
+                    {dbName:arr1[0],autoFormId:id},
+                    function(data){
+                        data = $.parseJSON(data);
+                        $('#field').html('');
+                        $('#field').html(data.msg);
+                        $('#field').val(field);
+                        $("#datasource").val(arr1[0]);
+                    });
+        }
+        var datatype = oNode.getAttribute('datatype');
+        $G('datatype').value =datatype;
+        loadDataType(datatype);
+        for ( var i = 0 ; i < oNode.options.length ; i++ ) {
+            var sText    = oNode.options[i].value ;
+            fnAddComboOption( oListText, oNode.options[i].innerHTML, sText ) ;
+        }
+
+    }else{
+        loadDataType('');
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+    if($G('orgname').value==''){
+        var selectedField=$('#field').find("option:selected");
+        var flag=false;
+        if(selectedField.length>0){
+            selectedField=selectedField.get(0);
+            if(selectedField.value!=''){
+                $G('orgname').value=selectedField.text;
+                flag=true;
+            }
+        }
+        if(!flag){
+            alert('请输入控件名称');
+            $G('orgname').focus();
+            return false;
+        }
+    }
+    var datasource=$('#datasource').val();
+    var field=$('#field').val();
+    var gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
+    if(datasource !='' && field ==''){
+        alert('请选择字段');
+        return false;
+    }
+    var name= getName(datasource,field,gTitle);
+    var gSize = $G('orgsize').value ;
+    if ( gSize == null || isNaN( gSize ) || gSize < 1 ) {
+        gSize = '' ;
+    }
+     var gWidth=$G('orgwidth').value;
+   //longjinbo 增加数字字典code，与系统标签dgCol dictionary配置方法一致
+    var dicCode = $G('dictCode').value;
+    var dicTable = $G('dictTable').value;
+    var dicText = $G('dictText').value;
+    if(dicTable!=''){
+        	dicCode=dicTable+','+dicCode+','+dicText;
+    }
+    var datatype = $G('datatype').value;
+    if( !oNode ) {
+        try {
+            oNode = createElement('input','leipiNewField');
+            oNode.setAttribute('title',$G('orgname').value);
+            oNode.setAttribute('leipiPlugins',thePlugins );
+            oNode.setAttribute('size',gSize);
+            oNode.setAttribute('name',name);
+            oNode.setAttribute('datatype',datatype);
+           // oNode.setAttribute('onClick', inputClick(this));
+            oNode.setAttribute('style',"background:#fff url(../../../../easyui/themes/default/images/searchbox_button.png) no-repeat right;");
+            if(dicCode!=''){
+            	oNode.setAttribute('dictionary',dicCode);
+            }
+            if ( $G('orgwidth').value!= '' ) {
+                oNode.style.width =  $G('orgwidth').value+ 'px';
+                //oNode.setAttribute('style','width:'+ $G('orgwidth').value + 'px;');
+            }
+            if( gWidth != '' ) {
+                oNode.style.width = gWidth + 'px';
+                oNode.setAttribute('orgwidth',gWidth );
+            }
+            
+            if( datasource != '' ){
+            	oNode.setAttribute('autofield',datasource+(field!=''?('.'+field):'') );
+            }
+            //firefox要利用span
+            editor.execCommand('insertHtml','<span leipiplugins="popup">'+oNode.outerHTML+'</span>');
+            return true ;
+        } catch ( e ) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('控件异常，请到 [雷劈网] 反馈或寻求帮助！');
+            }
+            return false;
+        }
+    } else {
+        oNode.setAttribute('title', $G('orgname').value); 
+        oNode.setAttribute('size',gSize);
+        oNode.setAttribute('name',name);
+        oNode.setAttribute('datatype',datatype);
+        if(dicCode!=''){
+            	oNode.setAttribute('dictionary',dicCode);
+        }
+        if( gWidth != '' ) {
+			oNode.style.width = gWidth + 'px';
+			oNode.setAttribute('orgwidth',gWidth );
+		}
+		if( datasource != '' ){
+            	oNode.setAttribute('autofield',datasource+(field!=''?('.'+field):'') );
+            }else{
+            	oNode.setAttribute('autofield','');
+            }
+        
+        delete UE.plugins[thePlugins].editdom; 
+    }
+};
+function getName(datasource,field,title){
+    if(datasource !='' && field !=''){
+        return datasource+'.'+field;
+    } else {
+        return title;
+    }
+}
+$(function(){
+    var id = '';
+    editor.ready(function() {
+        id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
+    });
+    $.post(
+            contentPath+'autoFormController.do?getFormDb',
+            {autoFormId:id},
+            function(data){
+                data = $.parseJSON(data);
+                $('#datasource').html(data.msg);
+            });
+    //2.2 绑定change事件,并填充字段
+    $("#datasource").change(function(){
+        var dbId = $(this).val();
+        $.post(
+                contentPath+'autoFormController.do?getFormField',
+                {dbName:dbId,autoFormId:id},
+                function(data){
+                    data = $.parseJSON(data);
+                    $('#field').html('');
+                    $('#field').html(data.msg);
+                });
+    });
+    $("#field").change(function(){
+        if(this.value!='')
+            $G('orgname').value= $(this).find("option:selected")[0].text;
+    });
+
+});
+function loadDataType(val){
+    $("#datatype").empty();
+    $("#datatype").append("<option value=''>无</option>");
+    $.ajax({
+        url:contentPath+"systemController.do?typeGrid&",
+        data:{typegroupid:"4028838850c35b6a0150c37251e00002",field:"id,typename,typecode"},
+        type:"post",
+        dataType:"json",
+        success:function(data){
+            var results=data.rows;
+            $.each(results,function(i,dict){
+                $("#datatype").append("<option value='"+dict.typecode+"'>"+dict.typename+"</option>");
+            })
+            if(val)
+                $($G('datatype')).find("option[value='"+val+"']").attr("selected","selected");
+        }
+    });
+}
+</script>
+</body>
+</html>

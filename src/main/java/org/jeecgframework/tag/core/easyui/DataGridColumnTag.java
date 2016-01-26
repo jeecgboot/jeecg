@@ -25,6 +25,7 @@ public class DataGridColumnTag extends TagSupport {
 	protected boolean sortable=true;
 	protected boolean checkbox;
 	protected String formatter;
+	protected String formatterjs;//自定义函数名称(调用页面自定义js方法 参数为(value,row,index)
 	protected boolean hidden=false;
 	protected String replace;
 	protected String treefield;
@@ -47,13 +48,20 @@ public class DataGridColumnTag extends TagSupport {
 	private boolean autocomplete = false;//自动完成
 	private String extendParams;//扩展参数
 	private String langArg;
-	
+	protected String editor;//高级查询用的编辑器
+	public String getEditor() {
+		return editor;
+	}
+
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
 	public int doEndTag() throws JspTagException {
 		title = MutiLangUtil.doMutiLang(title, langArg);
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setColumn(title,field,width,rowspan,colspan,align,sortable,checkbox,formatter,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams);
+		parent.setColumn(title,field,width,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor);
 		return EVAL_PAGE;
 	}
 	
@@ -192,4 +200,9 @@ public class DataGridColumnTag extends TagSupport {
 	public void setLangArg(String langArg) {
 		this.langArg = langArg;
 	}
+
+	public void setFormatterjs(String formatterjs) {
+		this.formatterjs = formatterjs;
+	}
+	
 }

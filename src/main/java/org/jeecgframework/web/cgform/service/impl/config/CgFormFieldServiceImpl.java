@@ -26,6 +26,7 @@ import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableProcess;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableUtil;
+import org.jeecgframework.web.cgform.service.impl.config.util.ExtendJsonConvert;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.apache.commons.lang.StringUtils;
@@ -576,6 +577,9 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 					subtableVo.setHead(subhead);
 					subtableVo.setFieldList(subTalbeFieldList);
 					subtableVo.setHiddenFieldList(subTalbeHiddenFieldList);
+					//--author：luobaoli---------date:20150613--------for: 将表单子表中extend_json属性json样式转为普通html样式
+					ExtendJsonConvert.json2HtmlForList(subTalbeFieldList, "extend_json");
+					//--author：luobaoli---------date:20150613--------for: 将表单子表中extend_json属性json样式转为普通html样式
 					field.put(subTable, subtableVo);
 				}
 			}
@@ -631,6 +635,9 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 			data.put("columns", list);
 			data.put("columnsarea", textareaList);
 		}
+		//--author：luobaoli---------date:20150613--------for: 将表单单表或者主表中extend_json属性json样式转为普通html样式
+		ExtendJsonConvert.json2HtmlForList(fieldList, "extend_json");
+		//--author：luobaoli---------date:20150613--------for: 将表单单表或者主表中extend_json属性json样式转为普通html样式
 		// js增强
 		String jsCode = "";
 		CgformEnhanceJsEntity jsEnhance = cgformEnhanceJsService

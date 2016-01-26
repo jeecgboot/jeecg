@@ -10,7 +10,5 @@
 	<t:dgDelOpt title="common.delete" url="userController.do?del&id={id}&userName={userName}" />
 	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdate&departid=${departid}" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?addorupdate&departid=${departid}" funname="update"></t:dgToolBar>
-    <%--update-start--Author:zhangguoming  Date:20140826 for：添加有客户--%>
 	<t:dgToolBar title="common.add.exist.user" icon="icon-add" url="departController.do?goAddUserToOrg&orgId=${departid}" funname="add" width="500"></t:dgToolBar>
-    <%--update-end--Author:zhangguoming  Date:20140826 for：添加有客户--%>
 </t:datagrid>

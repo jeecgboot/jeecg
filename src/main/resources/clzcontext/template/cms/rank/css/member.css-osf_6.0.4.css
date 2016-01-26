@@ -1,0 +1,36 @@
+.member-item .course-picture {
+	float: left;
+}
+.member-item .course-view {
+	float:right;
+	margin:10px;
+	visibility: hidden;
+}
+
+.member-item:hover .course-view {
+	visibility: visible;
+}
+
+.lastest-member-list .member-picture-link {
+	float: left;
+	margin: 0 10px 5px 0;
+}
+.lastest-member-list .media {
+	padding-bottom: 0px;
+}
+.lastest-member-list .member-picture {
+	display: block;
+	width: 48px;
+	height: 48px;
+	border-radius: 3px;
+}
+.lastest-member-list .member-nickname {
+	color: #555;
+}
+.lastest-member-list .member-title {
+	color: #777;
+	font-size: 12px;
+}
+.memberzone {
+	min-height: 450px;
+}

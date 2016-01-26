@@ -107,6 +107,17 @@ public class DynamicDBUtil {
 		}
 		return list;
 	}
+	public static <T> List<T> findList(final String dbKey, String sql, Class<T> clazz,Object... param) {
+		List<T> list;
+		JdbcTemplate jdbcTemplate = getJdbcTemplate(dbKey);
+		
+		if (ArrayUtils.isEmpty(param)) {
+			list = jdbcTemplate.queryForList(sql,clazz);
+		} else {
+			list = jdbcTemplate.queryForList(sql,clazz,param);
+		}
+		return list;
+	}
 		
 	public static void main(String[] args) {
 		DynamicDataSourceEntity dynamicSourceEntity = new DynamicDataSourceEntity();

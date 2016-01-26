@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -204,7 +205,7 @@ public class LoginController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(params = "login")
-	public String login(ModelMap modelMap,HttpServletRequest request) {
+	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
 		DataSourceContextHolder.setDataSourceType(DataSourceType.dataSource_jeecg);
 		TSUser user = ResourceUtil.getSessionUserName();
 		String roles = "";
@@ -261,6 +262,10 @@ public class LoginController extends BaseController{
 			if("ace".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", getFunctionMap(user));
 			}
+			Cookie cookie = new Cookie("JEECGINDEXSTYLE", sysTheme.getStyle());
+			//设置cookie有效期为一个月
+			cookie.setMaxAge(3600*24*30);
+			response.addCookie(cookie);
 			return sysTheme.getIndexPath();
 		} else {
 			return "login/login";
@@ -391,7 +396,6 @@ public class LoginController extends BaseController{
 		}
 		return client.getFunctions();
 	}
-
     /**
      * 根据 角色实体 组装 用户权限列表
      * @param loginActionlist 登录用户的权限列表
@@ -562,5 +566,22 @@ public class LoginController extends BaseController{
 			j.setMsg(PMenu);
 		}
 		return j;
+	}
+
+    /**
+     * 另一套登录界面
+     * @return
+     */
+    @RequestMapping(params = "login2")
+    public String login2(){
+        return "login/login2";
+    }
+	/**
+	 * ACE登录界面
+	 * @return
+	 */
+	@RequestMapping(params = "login3")
+	public String login3(){
+		return "login/login3";
 	}
 }

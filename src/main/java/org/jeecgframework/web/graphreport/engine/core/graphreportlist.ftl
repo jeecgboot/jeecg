@@ -237,7 +237,7 @@ function showReport(data, tabName) {
 var columns = new Array();
 <#list config_fieldList as x> 
 	<#if x["is_show"]== "Y">
-		columns.push({field:"${x['field_name']}",title:"${x['field_txt']}",width:120, sortable: true});
+		columns.push({field:"${x['field_name']}",title:"<#if x['field_txt']??>${x['field_txt']}</#if>",width:120, sortable: true});
 	</#if> 
 </#list>
 columns = [columns];

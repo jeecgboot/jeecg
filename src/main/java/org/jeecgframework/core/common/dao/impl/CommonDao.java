@@ -181,7 +181,42 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				}
 				saveOrUpdate(object);
 				// 文件拷贝到指定硬盘目录
-				FileCopyUtils.copy(mf.getBytes(), savefile);
+					if("txt".equals(extend)){
+						//利用utf-8字符集的固定首行隐藏编码原理
+						//Unicode:FF FE   UTF-8:EF BB   
+						byte[] allbytes = mf.getBytes();
+						try{
+							String head1 = toHexString(allbytes[0]);
+							System.out.println(head1);
+							String head2 = toHexString(allbytes[1]);
+							System.out.println(head2);
+							if("ef".equals(head1) && "bb".equals(head2)){
+								//UTF-8
+								String contents = new String(mf.getBytes(),"UTF-8");
+								if(StringUtils.isNotBlank(contents)){
+									OutputStream out = new FileOutputStream(savePath);
+									out.write(contents.getBytes());
+									out.close();
+								}
+							}  else {
+								//GBK
+								String contents = new String(mf.getBytes(),"GBK");
+								OutputStream out = new FileOutputStream(savePath);
+								out.write(contents.getBytes());
+								out.close();
+							}
+						  } catch(Exception e){
+							  String contents = new String(mf.getBytes(),"UTF-8");
+								if(StringUtils.isNotBlank(contents)){
+									OutputStream out = new FileOutputStream(savePath);
+									out.write(contents.getBytes());
+									out.close();
+								}
+						}
+				} else {
+					FileCopyUtils.copy(mf.getBytes(), savefile);
+				}
+				
 //				if (uploadFile.getSwfpath() != null) {
 //					// 转SWF
 //					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + swfName + ".swf");
@@ -200,7 +235,15 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return object;
 	}
-
+    
+	private String toHexString(int index){
+        String hexString = Integer.toHexString(index);   
+        // 1个byte变成16进制的，只需要2位就可以表示了，取后面两位，去掉前面的符号填充   
+        hexString = hexString.substring(hexString.length() -2);  
+        return hexString;
+	}
+	
+	
 	/**
 	 * 文件下载或预览
 	 * 
@@ -472,7 +515,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				}
 			}
 		}
-
 		List curChildList = (List) reflectHelper.getMethodValue(comboTreeModel.getChildField());
 		if (curChildList != null && curChildList.size() > 0) {
 			tree.setState("closed");

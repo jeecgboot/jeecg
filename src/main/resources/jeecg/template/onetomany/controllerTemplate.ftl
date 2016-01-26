@@ -66,8 +66,8 @@ public class ${entityName}Controller extends BaseController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "${entityName?uncap_first}")
-	public ModelAndView ${entityName?uncap_first}(HttpServletRequest request) {
+	@RequestMapping(params = "list")
+	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("${bussiPackage?replace(".","/")}/${entityPackage}/${entityName?uncap_first}List");
 	}
 

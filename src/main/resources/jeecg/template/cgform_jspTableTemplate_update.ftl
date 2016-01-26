@@ -34,67 +34,20 @@
 						</td>
 						<td class="value">
 							<#if po.showType=='text'>
-						     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
-						      						<#if po.fieldValidType?if_exists?html != ''>
-									               datatype="${po.fieldValidType?if_exists?html}"
-									               <#else>
-									               <#if po.type == 'int'>
-									               datatype="n" 
-									               <#elseif po.type=='double'>
-									               datatype="/^(-?\d+)(\.\d+)?$/" 
-									               <#else>
-									               <#if po.isNull != 'Y'>datatype="*"</#if>
-									               </#if>
-									               </#if>
-										       value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
+						     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
 						    <#elseif po.showType=='popup'>
-						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <#if po.fieldValidType?if_exists?html != ''>
-							datatype="${po.fieldValidType?if_exists?html}"
-						<#else>
-							<#if po.type == 'int'>
-								datatype="n" 
-							<#elseif po.type=='double'>
-								     datatype="/^(-?\d+)(\.\d+)?$/" 
-							<#else>
-								<#if po.isNull != 'Y'>datatype="*"</#if>
-							</#if>
-						</#if><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
+						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
 						    <#elseif po.showType=='textarea'>
 						  	 	<textarea id="${po.fieldName}" style="width:600px;" class="inputxt" rows="6" name="${po.fieldName}">${'$'}{${entityName?uncap_first}Page.${po.fieldName}}</textarea>
 						     <#elseif po.showType=='password'>
-						      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt"  
-						      						<#if po.fieldValidType?if_exists?html != ''>
-									               datatype="${po.fieldValidType?if_exists?html}"
-									               <#else>
-									               <#if po.type == 'int'>
-									               datatype="n" 
-									               <#elseif po.type=='double'>
-									               datatype="/^(-?\d+)(\.\d+)?$/" 
-									               <#else>
-									               <#if po.isNull != 'Y'>datatype="*"</#if>
-									               </#if>
-									               </#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
+						      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
 								<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 									<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
 										<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 								<#elseif po.showType=='date'>
-									  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
-						      						class="Wdate" onClick="WdatePicker()"
-						      						<#if po.fieldValidType?if_exists?html != ''>
-									               datatype="${po.fieldValidType?if_exists?html}"
-									               <#else>
-									               <#if po.isNull != 'Y'>datatype="*"</#if> 
-									               </#if>
-						      						 value='<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd"/>'>    
+									  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px"  class="Wdate" onClick="WdatePicker()"<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if> value='<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd"/>'>
 						      	<#elseif po.showType=='datetime'>
-									  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
-						      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-						      						<#if po.fieldValidType?if_exists?html != ''>
-									               datatype="${po.fieldValidType?if_exists?html}"
-									               <#else>
-									               <#if po.isNull != 'Y'>datatype="*"</#if> 
-									               </#if>
-						      						 value='<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>'>
+									  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if> value='<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>'>
 						      	<#elseif po.showType=='file'>
 									  <input type="hidden" id="${po.fieldName}" name="${po.fieldName}" value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
 										<c:if test="${'$'}{empty ${entityName?uncap_first}Page.${po.fieldName}}">
@@ -112,18 +65,7 @@
 											}
 										</script>
 						      	<#else>
-						      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
-						      						<#if po.fieldValidType?if_exists?html != ''>
-									               datatype="${po.fieldValidType?if_exists?html}"
-									               <#else>
-									               <#if po.type == 'int'>
-									               datatype="n" 
-									               <#elseif po.type=='double'>
-									               datatype="/^(-?\d+)(\.\d+)?$/" 
-									               <#else>
-									               <#if po.isNull != 'Y'>datatype="*"</#if>
-									               </#if>
-									               </#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
+						      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>
 								</#if>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>

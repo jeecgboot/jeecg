@@ -125,7 +125,7 @@ dialog.onok = function (){
                 }*/
                 oNode = createElement('input','leipiNewField');
                 oNode.setAttribute('type','text');
-                oNode.setAttribute('value','{macros}');
+                oNode.setAttribute('value','macros');
                 
                 oNode.setAttribute('title',gTitle);
                 oNode.setAttribute('name','leipiNewField');
@@ -166,7 +166,9 @@ dialog.onok = function (){
         }*/
         oNewNode = createElement('input','leipiNewField');
         oNewNode.setAttribute('type','text');
-        oNewNode.setAttribute('value','{macros}');
+        //update start by jg_renjie at 20151028 for: 去掉{},以此消除后台json处理时出错
+        oNewNode.setAttribute('value','macros');
+        //update end by jg_renjie at 20151028 for: 去掉{},以此消除后台json处理时出错
         oNewNode.setAttribute('title',gTitle);
         oNewNode.setAttribute('name',norgname);
         oNewNode.setAttribute('leipiPlugins',thePlugins ); 

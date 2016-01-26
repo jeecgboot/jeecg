@@ -86,6 +86,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(head.getId(), "delete", data);
+				dataBaseService.executeJavaExtend(head.getId(), "delete", data);
 			}
 			//step.1 删除表
 			StringBuilder deleteSql = new StringBuilder();

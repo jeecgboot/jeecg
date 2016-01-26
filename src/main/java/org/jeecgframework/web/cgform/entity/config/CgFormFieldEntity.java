@@ -94,6 +94,8 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	private java.lang.String oldFieldName;
 	/**字段默认值*/
 	private java.lang.String fieldDefault;
+	/**扩展参数**/
+	private java.lang.String extendJson;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -547,6 +549,12 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	public void setFieldDefault(java.lang.String fieldDefault) {
 		this.fieldDefault = fieldDefault;
 	}
-	
-	
+	@Column(name ="extend_json",nullable=true,length=500)
+	public java.lang.String getExtendJson() {
+		return extendJson;
+	}
+
+	public void setExtendJson(java.lang.String extendJson) {
+		this.extendJson = extendJson;
+	}
 }

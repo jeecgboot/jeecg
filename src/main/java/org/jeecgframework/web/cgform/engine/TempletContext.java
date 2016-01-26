@@ -64,6 +64,7 @@ public class TempletContext {
 		if (tableName == null) {
 			return null;
 		}
+		String oldTableName = tableName;
         if (ftlVersion != null && ftlVersion.length() > 0) {
             tableName = tableName + "&ftlVersion=" + ftlVersion;
         }
@@ -72,7 +73,7 @@ public class TempletContext {
 				template = freemarker.getTemplate(tableName,freemarker.getLocale(), ENCODING);
 			}else if(CgAutoListConstant.SYS_MODE_PUB.equalsIgnoreCase(_sysMode)){//生产模式（缓存）
 				//获取版本号
-		    	String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
+		    	String version = cgFormFieldService.getCgFormVersionByTableName(oldTableName);
 				template = getTemplateFromCache(tableName, ENCODING,version);
 			}else{
 				throw new RuntimeException("sysConfig.properties的freeMarkerMode配置错误：(PUB:生产模式，DEV:开发模式)");
@@ -125,6 +126,11 @@ public class TempletContext {
 	public void setTags(Map<String, TemplateDirectiveModel> tags) {
 		this.tags = tags;
 	}
+	public void clearCache(){
+		try{
+			ehCache.removeAll();
+		}catch (Exception e){
 
-	
+		}
+	}
 }

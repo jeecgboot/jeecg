@@ -171,6 +171,14 @@ function fnSetAttribute( element, attName, attValue ) {
         <td> <span id="orgvalue" class="uneditable-input"></span> </td>
     </tr>
     <tr>
+        <th><span>数据源</span></th>
+        <th><span>字段</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="datasource" placeholder="数据源"></td>
+        <td><input type="text" id="field" placeholder="字段"></td>
+    </tr>
+    <tr>
         <th colspan="2">
             <span>单选框选项</span><span class="label label-important">*</span>
         </th>
@@ -212,7 +220,13 @@ window.onload = function() {
         gTitle = gTitle==null ? '' : gTitle;
         $G('orgvalue').innerHTML = gChecked;
         $G('orgname').value = gTitle;
-        
+        var arr1= oNode.getAttribute('autofield');
+		if(arr1){
+			arr1= arr1.split('.');
+			var field = arr1[1]==null?'':arr1[1];
+			$G('datasource').value = arr1[0];
+        	$G('field').value = field;
+        }
         var sDataField = gRadios;
         var aDataField = sDataField.split('`');
         var sLvCheck = gChecked;
@@ -232,16 +246,29 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    if($G('orgname').value == '') {
-        alert('控件名称不能为空');
-        return false;
+    if($G('orgname').value==''){
+        var selectedField=$('#field').find("option:selected");
+        var flag=false;
+        if(selectedField.length>0){
+            selectedField=selectedField.get(0);
+            if(selectedField.value!=''){
+                $G('orgname').value=selectedField.text;
+                flag=true;
+            }
+        }
+        if(!flag){
+            alert('请输入控件名称');
+            $G('orgname').focus();
+            return false;
+        }
     }
     if( oListText.options.length == 0 ) {
         alert('请添加选项！');
         return false;
     }
     var gValue=$G('orgvalue').innerHTML,gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
-    
+     var datasource=$G('datasource').value;
+    var field=$G('field').value;
     
     var sDataField = '',sLvCheck = '';
     for ( var i = 0 ; i < oListText.options.length ; i++ ) {
@@ -267,6 +294,9 @@ dialog.onok = function (){
             oNode.setAttribute('orgradios',sDataField);
             oNode.setAttribute('orgchecked',sLvCheck);
             oNode.setAttribute('leipiPlugins',thePlugins);
+            if( datasource != '' ){
+            	oNode.setAttribute('autofield',datasource+(field!=''?('.'+field):'') );
+            }
             editor.execCommand('insertHtml',oNode.outerHTML);
             return true ;
         } catch ( e ) {
@@ -281,6 +311,11 @@ dialog.onok = function (){
         oNode.setAttribute('title',gTitle);
         oNode.setAttribute('orgradios',sDataField);
         oNode.setAttribute('orgchecked',sLvCheck);
+        if( datasource != '' ){
+            	oNode.setAttribute('autofield',datasource+(field!=''?('.'+field):'') );
+            }else{
+            	oNode.setAttribute('autofield','');
+            }
         delete UE.plugins[thePlugins].editdom;
         return true;
     }

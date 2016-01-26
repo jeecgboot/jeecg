@@ -10,7 +10,8 @@ package org.jeecgframework.core.util;
 public class YouBianCodeUtil {
 
 	// 数字位数(默认生成3位的数字)
-	private static final int numLength = 2;
+	private static final int numLength = 4;
+	public static final int zhanweiLength = 1+numLength;
 
 	/**
 	 * 根据前一个code，获取同级下一个code
@@ -19,7 +20,7 @@ public class YouBianCodeUtil {
 	 * @param code
 	 * @return
 	 */
-	public static String getNextYouBianCode(String code) {
+	public static synchronized String getNextYouBianCode(String code) {
 		String newcode = "";
 		if (code == null || code =="") {
 			String zimu = "A";
@@ -30,9 +31,9 @@ public class YouBianCodeUtil {
 			String after_code = code.substring(code.length() - 1 - numLength,code.length());
 			char after_code_zimu = after_code.substring(0, 1).charAt(0);
 			Integer after_code_num = Integer.parseInt(after_code.substring(1));
-//			 System.out.println(after_code);
-//			 System.out.println(after_code_zimu);
-//			 System.out.println(after_code_num);
+//			 org.jeecgframework.core.util.LogUtil.info(after_code);
+//			 org.jeecgframework.core.util.LogUtil.info(after_code_zimu);
+//			 org.jeecgframework.core.util.LogUtil.info(after_code_num);
 
 			String nextNum = "";
 			char nextZimu = 'A';
@@ -67,11 +68,13 @@ public class YouBianCodeUtil {
 	 *       当前CODE:A01B03
 	 *       获取的code:A01B04
 	 *       
-	 * @param parentCode
+	 * @param parentCode   上级code
+	 * @param localCode    同级code
 	 * @return
 	 */
-	public static String getSubYouBianCode(String parentCode,String localCode) {
+	public static synchronized String getSubYouBianCode(String parentCode,String localCode) {
 		if(localCode!=null && localCode!=""){
+//			return parentCode + getNextYouBianCode(localCode);
 			return getNextYouBianCode(localCode);
 		}else{
 			parentCode = parentCode + "A"+ getNextStrNum(0);
@@ -142,10 +145,24 @@ public class YouBianCodeUtil {
 		}
 		return Integer.parseInt(max_num);
 	}
-	
+	public static String[] cutYouBianCode(String code){
+		if(code==null||StringUtil.isEmpty(code)){
+			return null;
+		}else{
+			//获取标准长度为numLength+1,截取的数量为code.length/numLength+1
+			int c = code.length()/(numLength+1);
+			String[] cutcode = new String[c];
+			for(int i =0 ; i <c;i++){
+				cutcode[i] = code.substring(0,(i+1)*(numLength+1));
+			}
+			return cutcode;
+		}
+		
+	}
 	public static void main(String[] args) {
-		// System.out.println(getNextZiMu('C'));
-		// System.out.println(getNextNum(8));
-		System.out.println(getSubYouBianCode("C99A99",null));
+		// org.jeecgframework.core.util.LogUtil.info(getNextZiMu('C'));
+		// org.jeecgframework.core.util.LogUtil.info(getNextNum(8));
+		org.jeecgframework.core.util.LogUtil.info(getSubYouBianCode("C99A01","B03"));
+//		org.jeecgframework.core.util.LogUtil.info(cutYouBianCode("C99A01B01")[2]);
 	}
 }

@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 动态菜单栏生成
  * 
  * @author 张代浩
+ *  update-begin--Author:jg_longjb龙金波  Date:20150313 for：本文件中所有.getTSFunctions().size()替换为.getSubFunctionSize();
+ *  update-begin--Author:jg_gudongli辜栋利  Date:20150516 for：本文件中所有.getSubFunctionSize()替换为hasSubFunction()
  *  获取是否有子节点不用查询数据库;
  */
 public class ListtoMenu {
@@ -414,7 +416,11 @@ public class ListtoMenu {
 		menuString.append(function.getFunctionUrl());
 		//如果是外部链接，则不加菜单ID
 		if(function.getFunctionUrl().indexOf("http:")==-1){
-			menuString.append("&clickFunctionId=");
+			if(function.getFunctionUrl().indexOf("?") == -1){
+				menuString.append("?clickFunctionId=");
+			} else {
+				menuString.append("&clickFunctionId=");
+			}
 			menuString.append(function.getId());
 		}
 		menuString.append("\',\'");
@@ -641,7 +647,6 @@ public class ListtoMenu {
 		data = dataString.toString();
 		return data;
 	}
-
     private static String getIconAndNameForDesk(TSFunction function) {
         StringBuffer dataString = new StringBuffer();
 

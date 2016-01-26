@@ -79,6 +79,14 @@ public class DataGridTag extends TagSupport {
 	private boolean autoLoadData=true; // 列表是否自动加载数据
 	//private boolean frozenColumn=false; // 是否是冰冻列    默认不是
 	private String langArg;
+	protected String cssTheme ;
+	
+	public String getCssTheme() {
+		return cssTheme;
+	}
+	public void setCssTheme(String cssTheme) {
+		this.cssTheme = cssTheme;
+	}
 
 	private boolean queryBuilder = false;// 高级查询器
 	public boolean isQueryBuilder() {
@@ -261,18 +269,19 @@ public class DataGridTag extends TagSupport {
 	 */
 	public void setColumn(String title, String field, Integer width, String rowspan, 
 			String colspan, String align, boolean sortable, boolean checkbox, 
-			String formatter, boolean hidden, String replace, 
+			String formatter,String formatterjs, boolean hidden, String replace, 
 			String treefield, boolean image,String imageSize, 
 			boolean query, String url, String funname, 
 			String arg,String queryMode, String dictionary,boolean popup,
 			boolean frozenColumn,String extend,
-			String style,String downloadName,boolean isAuto,String extendParams) {
+			String style,String downloadName,boolean isAuto,String extendParams,String editor) {
 		DataGridColumn dataGridColumn = new DataGridColumn();
 		dataGridColumn.setAlign(align);
 		dataGridColumn.setCheckbox(checkbox);
 		dataGridColumn.setColspan(colspan);
 		dataGridColumn.setField(field);
 		dataGridColumn.setFormatter(formatter);
+		dataGridColumn.setFormatterjs(formatterjs);
 		dataGridColumn.setHidden(hidden);
 		dataGridColumn.setRowspan(rowspan);
 		dataGridColumn.setSortable(sortable);
@@ -295,6 +304,7 @@ public class DataGridTag extends TagSupport {
 		dataGridColumn.setDownloadName(downloadName);
 		dataGridColumn.setAutocomplete(isAuto);
 		dataGridColumn.setExtendParams(extendParams);
+		dataGridColumn.setEditor(editor);
 		columnList.add(dataGridColumn);
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
@@ -320,7 +330,7 @@ public class DataGridTag extends TagSupport {
 				searchFields += field + ",";
 			}
 		}
-		if (replace != null) {
+		if (StringUtil.isNotEmpty(replace)) {
 			String[] test = replace.split(",");
 			String lang_key = "";
 			String text = "";
@@ -429,7 +439,6 @@ public class DataGridTag extends TagSupport {
 			
 			JspWriter out = this.pageContext.getOut();
 //			String indexStyle =null;
-//-----author:jg_longjb----start-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
 //			Cookie[] cookies = ((HttpServletRequest) super.pageContext
 //					.getRequest()).getCookies();
 //			for (Cookie cookie : cookies) {
@@ -440,13 +449,13 @@ public class DataGridTag extends TagSupport {
 //					indexStyle = cookie.getValue();
 //				}
 //			}
-			SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
+//			SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
 			if (style.equals("easyui")) {
-				if("ace".equals(sysThemesEnum.getStyle())){
-					out.print(this.aceStyleTable().toString());
-				}else{
+//				if("ace".equals(sysThemesEnum.getStyle())){
+//					out.print(this.aceStyleTable().toString());
+//				}else{
 					out.print(end().toString());
-				}
+//				}
 			}else{
 				out.print(datatables().toString());
 				out.flush();
@@ -679,11 +688,9 @@ public class DataGridTag extends TagSupport {
 			sb.append("function dosearch(params){");
 			sb.append("var jsonparams=$.parseJSON(params);");
 			sb.append("$(\'#" + name + "\')." + grid + "({url:'" + actionUrl + "&field=" + searchFields + "',queryParams:jsonparams});" + "}");
-			
 			 //searchbox框执行方法
 			  searchboxFun(sb,grid);
 			//生成重置按钮功能js
-			  
 			//回车事件
 			sb.append("function EnterPress(e){");
 			sb.append("var e = e || window.event;");
@@ -770,12 +777,12 @@ public class DataGridTag extends TagSupport {
 								sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 							}else{
 
-								sb.append("<input class=\"inuptxt\" onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+" style=\"width: 100px\" />");
+								sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" />");
 							}
 						}else if("group".equals(col.getQueryMode())){
-							sb.append("<input class=\"inuptxt\" type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input class=\"inuptxt\" type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 						}
 						sb.append("</span>");
 					}
@@ -854,25 +861,32 @@ public class DataGridTag extends TagSupport {
 			Iterator it = obj.keys();
 			while(it.hasNext()){
 				String key = String.valueOf(it.next());
-				JSONObject nextObj =((JSONObject)obj.get(key));
-				Iterator itvalue =nextObj.keys();
-				re.append(key+"="+"\"");
-				if(nextObj.size()<=1){
-					String onlykey = String.valueOf(itvalue.next());
-					if("value".equals(onlykey)){
-						re.append(nextObj.get(onlykey)+"");
-					}else{
-						re.append(onlykey+":"+nextObj.get(onlykey)+"");
-					}
-				}else{
-					while(itvalue.hasNext()){
-						String multkey = String.valueOf(itvalue.next());
-						String multvalue = nextObj.getString(multkey);
-						re.append(multkey+":"+multvalue+",");
-					}
-					re.deleteCharAt(re.length()-1);
+				JSONObject nextObj = null;
+				try {
+					 nextObj =((JSONObject)obj.get(key));
+					 Iterator itvalue =nextObj.keys();
+						re.append(key+"="+"\"");
+						if(nextObj.size()<=1){
+							String onlykey = String.valueOf(itvalue.next());
+							if("value".equals(onlykey)){
+								re.append(nextObj.get(onlykey)+"");
+							}else{
+								re.append(onlykey+":"+nextObj.get(onlykey)+"");
+							}
+						}else{
+							while(itvalue.hasNext()){
+								String multkey = String.valueOf(itvalue.next());
+								String multvalue = nextObj.getString(multkey);
+								re.append(multkey+":"+multvalue+",");
+							}
+							re.deleteCharAt(re.length()-1);
+						}
+						re.append("\" ");
+				} catch (Exception e) {
+					re.append(key+"="+"\"");
+					re.append(obj.get(key)+"\"");
+					re.append("\" ");
 				}
-				re.append("\" ");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -1115,72 +1129,69 @@ public class DataGridTag extends TagSupport {
 					sb.append(",sortable:" + column.isSortable() + "");
 				}
 			}
-			// 显示图片
-			if (column.isImage()) {
+			if(column.getFormatterjs()!=null){
 				sb.append(",formatter:function(value,rec,index){");
-				sb.append(" return '<img border=\"0\" src=\"'+value+'\"/>';}");
-			}
-            // 自定义显示图片
-            if (column.getImageSize() != null) {
-                    String[] tld = column.getImageSize().split(",");
-                    sb.append(",formatter:function(value,rec,index){");
-                    sb.append(" return '<img width=\"" + tld[0]
-                                    + "\" height=\"" + tld[1]
-                                    + "\" border=\"0\" src=\"'+value+'\"/>';}");
-                    tld = null;
-            }
-            if(column.getDownloadName() != null){
-            	sb.append(",formatter:function(value,rec,index){");
-                sb.append(" return '<a target=\"_blank\" href=\"'+value+'\">"
-                		+ column.getDownloadName() + "</a>';}");
-            }
-			// 自定义链接
-			if (column.getUrl() != null) {
-				sb.append(",formatter:function(value,rec,index){");
-				this.getFun(sb, column);
-				sb.append("}");
-			}
-			if(column.getFormatter()!=null)
-			{
-				sb.append(",formatter:function(value,rec,index){");
-				sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
-			}
-			// 加入操作
-			if (column.getField().equals("opt")) {
-				sb.append(",formatter:function(value,rec,index){");
-				// sb.append("return \"");
-				this.getOptUrl(sb);
-				sb.append("}");
-			}
-			// 值替換
-			if (columnValueList.size() > 0 && !column.getField().equals("opt")) {
-				String testString = "";
-				for (ColumnValue columnValue : columnValueList) {
-					if (columnValue.getName().equals(column.getField())) {
-						String[] value = columnValue.getValue().split(",");
-						String[] text = columnValue.getText().split(",");
+				sb.append(" return "+column.getFormatterjs()+"(value,rec,index);}");
+			}else {
+				// 显示图片
+				if (column.isImage()) {
+					if (column.getImageSize() != null) {// 自定义显示图片
+	                    String[] tld = column.getImageSize().split(",");
+	                    sb.append(",formatter:function(value,rec,index){");
+	                    sb.append(" return '<img width=\"" + tld[0]
+	                                    + "\" height=\"" + tld[1]
+	                                    + "\" border=\"0\" src=\"'+value+'\"/>';}");
+	                    tld = null;
+					}else{
 						sb.append(",formatter:function(value,rec,index){");
-						sb.append("var valArray = value.split(\",\");");
-						sb.append("if(valArray.length > 1){");
-						sb.append("var checkboxValue = \"\";");
-						sb.append("for(var k=0; k<valArray.length; k++){");
-						for(int j = 0; j < value.length; j++){
-							sb.append("if(valArray[k] == '" + value[j] + "'){ checkboxValue = checkboxValue + \'" + text[j] + "\' + ','}");
-						}
-						sb.append("}");
-						sb.append("return checkboxValue.substring(0,checkboxValue.length-1);");
-						sb.append("}");
-						sb.append("else{");
-						for (int j = 0; j < value.length; j++) {
-							testString += "if(value=='" + value[j] + "'){return \'" + text[j] + "\'}";
-						}
-						sb.append(testString);
-						sb.append("else{return value}");
-						sb.append("}");
-						sb.append("}");
+						sb.append(" return '<img border=\"0\" src=\"'+value+'\"/>';}");
 					}
+				} else if(column.getDownloadName() != null){
+	            	sb.append(",formatter:function(value,rec,index){");
+	                sb.append(" return '<a target=\"_blank\" href=\"'+value+'\">"
+	                		+ column.getDownloadName() + "</a>';}");
+	            }else if (column.getUrl() != null) { // 自定义链接
+					sb.append(",formatter:function(value,rec,index){");
+					this.getFun(sb, column);
+					sb.append("}");
+				}else if (column.getField().equals("opt")) {// 加入操作
+					sb.append(",formatter:function(value,rec,index){");
+					// sb.append("return \"");
+					this.getOptUrl(sb);
+					sb.append("}");
+				}else if (columnValueList.size() > 0 && !column.getField().equals("opt")) {// 值替換
+					String testString = "";
+					for (ColumnValue columnValue : columnValueList) {
+						if (columnValue.getName().equals(column.getField())) {
+							String[] value = columnValue.getValue().split(",");
+							String[] text = columnValue.getText().split(",");
+							sb.append(",formatter:function(value,rec,index){");
+							sb.append("if(value==undefined) return '';");
+							sb.append("var valArray = value.split(',');");
+							sb.append("if(valArray.length > 1){");
+							sb.append("var checkboxValue = '';");
+							sb.append("for(var k=0; k<valArray.length; k++){");
+							for(int j = 0; j < value.length; j++){
+								sb.append("if(valArray[k] == '" + value[j] + "'){ checkboxValue = checkboxValue + \'" + text[j] + "\' + ',';}");
+							}
+							sb.append("}");
+							sb.append("return checkboxValue.substring(0,checkboxValue.length-1);");
+							sb.append("}");
+							sb.append("else{");
+							for (int j = 0; j < value.length; j++) {
+								testString += "if(value=='" + value[j] + "'){return \'" + text[j] + "\';}";
+							}
+							sb.append(testString);
+							sb.append("else{return value;}");
+							sb.append("}");
+							sb.append("}");
+						}
+					}
+				}else if(column.getFormatter()!=null)
+				{
+					sb.append(",formatter:function(value,rec,index){");
+					sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
 				}
-
 			}
 			// 背景设置
 			if (columnStyleList.size() > 0 && !column.getField().equals("opt")) {
@@ -1280,7 +1291,7 @@ public class DataGridTag extends TagSupport {
 			}
 			
 		}
-		org.jeecgframework.core.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
+		//org.jeecgframework.core.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
 		return sb.toString(); 
 	}
 	
@@ -1408,14 +1419,13 @@ public class DataGridTag extends TagSupport {
 	public void setLangArg(String langArg) {
 		this.langArg = langArg;
 	}
-
-	//-----author:jg_longjb----start-----date:20150408--------for:新增ace 界面下的button class样式
 	public StringBuffer aceStyleTable() {
 		String grid = "";
 		StringBuffer sb = new StringBuffer();
 		width = (width == null) ? "auto" : width;
 		height = (height == null) ? "auto" : height;
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/metro/main.css\" /><script type=\"text/javascript\">");
+//		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/metro/main.css\" />");
+		sb.append("<script type=\"text/javascript\">");
 		sb.append("$(function(){  storage=$.localStorage;if(!storage)storage=$.cookieStorage;");
 		sb.append(this.getNoAuthOperButton());
 		if (treegrid) {
@@ -1635,12 +1645,12 @@ public class DataGridTag extends TagSupport {
 							}else if(col.isAutocomplete()){
 								sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 							}else{
-								sb.append("<input class=\"inuptxt\" onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  />");
+								sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 							}
 						}else if("group".equals(col.getQueryMode())){
-							sb.append("<input class=\"inuptxt\" type=\"text\" name=\""+col.getField()+"_begin\"   "+extendAttribute(col.getExtend())+"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"   "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input class=\"inuptxt\" type=\"text\" name=\""+col.getField()+"_end\"   "+extendAttribute(col.getExtend())+"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"   "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 
 						}
 						sb.append("</span>");
@@ -1703,9 +1713,6 @@ public class DataGridTag extends TagSupport {
 		}
 		return sb;
 	}
-	
-	
-	//-----author:jg_longjb----start-----date:20150427--------for:新增高级查询器queryBuilder
 	private void appendLine(StringBuffer sb,String str) {
 		String format = "\r\n"; //调试  格式化
 		sb.append(str).append(format);
@@ -1784,7 +1791,11 @@ appendLine(sb,"					}}\">关系</th>");
 		for (int i=0;i<columnList.size();i++){
 			DataGridColumn col =columnList.get(i);
 			if("opt".equals(col.getField()))continue;//忽略操作虚拟字段
-			fieldArray.append("	{'fieldId':'"+getDBFieldName(col.getField())+"','fieldName':'"+col.getTitle()+"'}");
+			fieldArray.append("	{'fieldId':'"+getDBFieldName(col.getField())+"','fieldName':'"+col.getTitle()+"'");
+			if(col.getEditor()!=null){
+				fieldArray.append(",editor:'"+col.getEditor()+"'");
+			}
+			fieldArray.append("}");
 			if(i<columnList.size()-1){
 				fieldArray.append(",");
 			}
@@ -1806,10 +1817,20 @@ appendLine(sb,"					}}\">关系</th>");
 		appendLine(sb,"data:  ");
 		sb.append(fieldArray);
 		appendLine(sb," , ");
-		appendLine(sb,"							required:true");
-		appendLine(sb,"				}}\">字段</th>");
-		sb
-				.append("<th data-options=\"field:'condition',width:20,align:'right',formatter:function(value,row){");
+		appendLine(sb, "required:true,onSelect : function(record) {");
+		appendLine(sb,"var opts = $('#"+name+"tg').treegrid('getColumnOption','value');");
+		appendLine(sb, "	if(record.editor){");
+		appendLine(sb, "			opts.editor=record.editor;");
+		appendLine(sb, "	}else{");
+		appendLine(sb, "			opts.editor='text';");
+		appendLine(sb, "	}");
+		appendLine(sb, "	var tr = $(this).closest('tr.datagrid-row');");
+		appendLine(sb, "	var index = parseInt(tr.attr('node-id'));");
+		appendLine(sb, "	$('#"+name+"tg').treegrid('endEdit', index);");
+		appendLine(sb, "	$('#"+name+"tg').treegrid('beginEdit', index);");
+		appendLine(sb, "}");
+		appendLine(sb,"}}\">字段</th>");
+		appendLine(sb,"<th data-options=\"field:'condition',width:20,align:'right',formatter:function(value,row){");
 		appendLine(sb,"							var data=  ");
 		appendLine(sb,"					[  ");
 		Map<String, List<TSType>> typedatas = TSTypegroup.allTypes;
@@ -2051,5 +2072,4 @@ appendLine(sb,"					}}\">关系</th>");
 		}
 		return sb.toString();
 	}
-//----author:jg_longjb----start-----date:20150427--------for:新增封装查询器组件----
 }

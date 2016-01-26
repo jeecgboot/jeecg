@@ -21,6 +21,7 @@ import org.jeecgframework.web.system.pojo.base.TSUser;
 public class ResourceUtil {
 
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
+	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
 
 	/**
 	 * 获取session定义名称
@@ -144,7 +145,6 @@ public class ResourceUtil {
 	public static final String getJdbcUrl() {
 		return DBTypeUtil.getDBType().toLowerCase();
 	}
-
     /**
      * 获取随机码的长度
      *
@@ -190,6 +190,8 @@ public class ResourceUtil {
 		} else {
 			key = key;
 		}
+		
+		 //----------------------------------------------------------------
 	
 		//替换为系统的登录用户账号
 //		if (key.equals(DataBaseConstant.CREATE_BY)
@@ -211,6 +213,7 @@ public class ResourceUtil {
 			) {
 			returnValue =  getSessionUserName().getRealName();
 		}
+		//---------------------------------------------------------------- 
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
 			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
@@ -236,5 +239,8 @@ public class ResourceUtil {
 		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
 		org.jeecgframework.core.util.LogUtil.info(getSysPath());
 
+	}
+	public static boolean isFuzzySearch(){
+		return "1".equals(bundle.getString("fuzzySearch"));
 	}
 }

@@ -87,11 +87,12 @@
 				<th data-options="field:'field',width:30,formatter:function(value,row){
 								var data=  
 								[  
-								{'fieldId':'office_Phone','fieldName':'办公电话'},
-								{'fieldId':'user_name','fieldName':'用户名'},
+								{'fieldId':'officePhone','fieldName':'办公电话'},
+								{'fieldId':'userName','fieldName':'用户名'},
 								{'fieldId':'age','fieldName':'年龄'},
 								{'fieldId':'email','fieldName':'邮箱'},
-								{'fieldId':'mobile_Phone','fieldName':'手机号'}
+								{'fieldId':'mobilePhone','fieldName':'手机号'},
+								{'fieldId':'createDate','fieldName':'创建日期'}
 								];
 							for(var i=0;i<data.length;i++){
 								if(value == data[i]['fieldId']){
@@ -106,13 +107,26 @@
 								textField:'fieldName',
 								data:  
 								[  
-								{'fieldId':'office_Phone','fieldName':'办公电话'},
-								{'fieldId':'user_name','fieldName':'用户名'},
-								{'fieldId':'age','fieldName':'年龄'},
+								{'fieldId':'officePhone','fieldName':'办公电话'},
+								{'fieldId':'userName','fieldName':'用户名' },
+								{'fieldId':'age','fieldName':'年龄',editor:'numberbox'},
 								{'fieldId':'email','fieldName':'邮箱'},
-								{'fieldId':'mobile_Phone','fieldName':'手机号'}
+								{'fieldId':'mobilePhone','fieldName':'手机号'},
+								{'fieldId':'createDate','fieldName':'创建日期',editor:'datebox'}
 								],  
 								required:true
+                                ,  onSelect : function(record) {
+                                    	var opts = $('#tg').treegrid('getColumnOption','value');
+										if(record.editor){
+												opts.editor=record.editor;
+										}else{
+											return ;
+										}
+										var tr = $(this).closest('tr.datagrid-row');
+										var index = parseInt(tr.attr('node-id'));
+										$('#tg').treegrid('endEdit', index);
+										$('#tg').treegrid('beginEdit', index);
+                                    }
 							}}">字段</th>
 				<th data-options="field:'condition',width:20,align:'right',formatter:function(value,row){
 								var data=  
@@ -205,7 +219,7 @@
 			$('#tg').treegrid('append',{
 				data: [{
 					id: idIndex,
-					field: 'user_name',
+					field: 'userName',
 					condition:'like',
 					value: '%王%',
 					relation: 'and'
@@ -213,11 +227,12 @@
 			});
 			$('#tg').treegrid('beginEdit',idIndex);
 		}
+		
 		function removeIt( id){
-var node = $('#tg').treegrid('getSelected');
-if(id){
-$('#tg').treegrid('remove', id);
-}else if (node){
+			var node = $('#tg').treegrid('getSelected');
+			if(id){
+			$('#tg').treegrid('remove', id);
+			}else if (node){
 				$('#tg').treegrid('remove', node.id);
 			}
 			
