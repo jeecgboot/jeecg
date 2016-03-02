@@ -20,6 +20,9 @@ public class PageValueConvertRuleEnum {
 		if (value == null) {
 			return null;
 		}
+		if(value instanceof Number){
+			return HqlRuleEnum.EQ;
+		}
 		String val = (value + "").toString().trim();
 		if (val.length() == 0) {
 			return null;
