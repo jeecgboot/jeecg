@@ -1,5 +1,7 @@
 package org.jeecgframework.web.system.pojo.base;
 
+import org.jeecgframework.poi.excel.annotation.Excel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,8 +20,11 @@ import javax.persistence.Table;
 public class TSUser extends TSBaseUser implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private String signatureFile;// 签名文件
+	@Excel(name = "手机")
 	private String mobilePhone;// 手机
+	@Excel(name = "办公电话")
 	private String officePhone;// 办公电话
+	@Excel(name = "邮箱")
 	private String email;// 邮箱
 	/**创建时间*/
 	private java.util.Date createDate;

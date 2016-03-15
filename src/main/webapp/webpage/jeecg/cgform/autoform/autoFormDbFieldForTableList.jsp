@@ -22,6 +22,13 @@
     	$(".datagrid-toolbar").parent().css("width","auto");
     	if(location.href.indexOf("load=detail")!=-1){
 			$(":input").attr("disabled","true");
+			//update by jg_renjie at:2015/12/15 for: #776 【表单数据源】查看模式下可以点击删除按钮
+			$("a").each(function(){
+				$(this).css("cursor", "default");
+				$(this).removeAttr("href");
+				$(this).removeAttr("onclick");
+			});
+			//update by jg_renjie at:2015/12/15 for: #776 【表单数据源】查看模式下可以点击删除按钮
 			$(".datagrid-toolbar").hide();
 		}
 		//将表格的表头固定

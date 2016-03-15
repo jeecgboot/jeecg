@@ -626,7 +626,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 						map.put("operationCodesReadOnly",true);
 					}
 				}
-				if (!"textarea".equals((String) map.get("show_type"))) {
+				if (!"textarea".equals((String) map.get("show_type"))&&!"umeditor".equals((String) map.get("show_type"))) {
 					list.add(map);
 				} else {
 					textareaList.add(map);

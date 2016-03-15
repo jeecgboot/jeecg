@@ -13,7 +13,7 @@
 	<!-- 自动扫描dao和service包(自动注入) -->
 	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
-	<context:component-scan base-package="com.buss.*" />
+	<context:component-scan base-package="org.jeecgframework.web.image.service.*" />
 
 	<!-- 加载service,此时要排除要controller,因为controller已经spring-mvc中加载过了 -->
 	<context:component-scan base-package="org.jeecgframework.web.*">
@@ -104,9 +104,10 @@
 				<value>org.jeecgframework.web.test.entity.*</value>
 				<value>org.jeecgframework.web.cgform.entity.*</value>
 				<value>org.jeecgframework.web.cgreport.entity.*</value>
+				<value>org.jeecgframework.web.cgdynamgraph.entity.*</value>
 				<value>org.jeecgframework.web.rank.*</value>
 				<value>org.jeecgframework.web.sms.*</value>
-				<value>com.buss.*</value>
+				<value>org.jeecgframework.web.image.*</value>
 			</list>
 		</property>
 	</bean>

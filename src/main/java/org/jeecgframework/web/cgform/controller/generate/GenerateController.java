@@ -155,12 +155,14 @@ public class GenerateController extends BaseController {
 			//step.2 判断表是否存在
 			boolean tableexist = new JeecgReadTable().checkTableExist(tableName);
 			if(tableexist){
+
 				//step.3 判断是不是用用户自定义界面
 				CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
 				if(createFileProperty.getJspMode().equals("04")){
 					String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
 					generate.setCgformJspHtml(formhtml);
 				}
+
 				//step.4 调用代码生成器
 				generate.generateToFile();
 				

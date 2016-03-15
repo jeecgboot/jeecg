@@ -56,6 +56,7 @@ public final class Globals {
 	  */
 	 public static String Function_Order_ONE="ofun";//一级权限
 	 public static String Function_Order_TWO="tfun";//二级权限
+
 	 /**
 	  * 权限类型
 	  */
@@ -86,6 +87,7 @@ public final class Globals {
 	  * 数据权限 - 菜单数据规则sql
 	  */
 	 public static String MENU_DATA_AUTHOR_RULE_SQL ="MENU_DATA_AUTHOR_RULE_SQL";
+
 	 /**
 	  * 新闻法规
 	  */

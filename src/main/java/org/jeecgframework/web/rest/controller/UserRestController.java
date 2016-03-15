@@ -42,6 +42,7 @@ public class UserRestController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
+	//访问地址：http://localhost:8080/jeecg/rest/user
 	public List<TSUser> list() {
 		List<TSUser> listUsers=userService.getList(TSUser.class);
 		return listUsers;
@@ -49,7 +50,7 @@ public class UserRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> get(@PathVariable("id") Long id) {
+	public ResponseEntity<?> get(@PathVariable("id") String id) {
 		TSUser task = userService.get(TSUser.class, id);
 		if (task == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -95,7 +96,7 @@ public class UserRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable("id") String id) {
 		userService.deleteEntityById(TSUser.class, id);
 	}
 }

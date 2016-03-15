@@ -42,7 +42,7 @@
 						</label>
 					</td>
 					<td class="value">
-				     <textarea id="styleContent" name="styleContent" rows="30" cols="295" datatype="*">${autoFormStylePage.styleContent}</textarea>
+				     <textarea id="styleContent" name="styleContent" rows="30" cols="245" datatype="*">${autoFormStylePage.styleContent}</textarea>
 					</td>
 				</tr>
 		</table>

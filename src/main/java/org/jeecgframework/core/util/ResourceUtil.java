@@ -1,5 +1,6 @@
 package org.jeecgframework.core.util;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
+import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 
@@ -19,9 +21,12 @@ import org.jeecgframework.web.system.pojo.base.TSUser;
  * 
  */
 public class ResourceUtil {
-
+	public static final String LOCAL_CLINET_USER = "LOCAL_CLINET_USER";
+	
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
+
 	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
+
 
 	/**
 	 * 获取session定义名称
@@ -35,7 +40,16 @@ public class ResourceUtil {
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
+
+		}else{
+			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
+			Client client = new Client();
+	        client.setIp("");
+	        client.setLogindatetime(new Date());
+	        client.setUser(u);
+	        ClientManager.getInstance().addClinet(session.getId(), client);
 		}
+
 		return null;
 	}
 	@Deprecated
@@ -145,6 +159,7 @@ public class ResourceUtil {
 	public static final String getJdbcUrl() {
 		return DBTypeUtil.getDBType().toLowerCase();
 	}
+
     /**
      * 获取随机码的长度
      *
@@ -162,6 +177,7 @@ public class ResourceUtil {
     public static String getRandCodeType() {
         return bundle.getString("randCodeType");
     }
+
 
     /**
      * 获取组织机构编码长度的类型
@@ -190,8 +206,7 @@ public class ResourceUtil {
 		} else {
 			key = key;
 		}
-		
-		 //----------------------------------------------------------------
+
 	
 		//替换为系统的登录用户账号
 //		if (key.equals(DataBaseConstant.CREATE_BY)
@@ -213,7 +228,6 @@ public class ResourceUtil {
 			) {
 			returnValue =  getSessionUserName().getRealName();
 		}
-		//---------------------------------------------------------------- 
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
 			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
@@ -234,13 +248,59 @@ public class ResourceUtil {
 		if(returnValue!=null){returnValue = returnValue + moshi;}
 		return returnValue;
 	}
+	//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+    /**
+     * 获取用户session 中的变量
+     * @param key
+     * 			Session 中的值
+     * @return
+     */
+	private static String getSessionData(String key) {
+		//${myVar}%
+		//得到${} 后面的值
+		String moshi = "";
+		if(key.indexOf("}")!=-1){
+			 moshi = key.substring(key.indexOf("}")+1);
+		}
+		String returnValue = null;
+//---author:jg_xugj----start-----date:20151226--------for：修改bug 1、key.contains("${")  应改为 key.contains("#{") 2、StringUtil.isEmpty(key) 判断 不为空
+		if (key.contains("#{")) {
+			key = key.substring(2,key.indexOf("}"));
+		}
+		//从session中取得值
+		if (!StringUtil.isEmpty(key)) {
+			HttpSession session = ContextHolderUtils.getSession();
+			returnValue = (String) session.getAttribute(key);
+		}
+//---author:jg_xugj----end-----date:20151226--------for：修改bug 1、key.contains("${")  应改为 key.contains("#{") 2、StringUtil.isEmpty(key) 判断 不为空
+
+		//结果加上${} 后面的值
+		if(returnValue!=null){returnValue = returnValue + moshi;}
+		return returnValue;
+	}
 	
+    /**
+     * 处理数据权限规则变量
+     * 以用户变量为准  先得到用户变量，如果用户没有设置，则获到 系统变量
+     * @param key
+     * 			Session 中的值
+     * @return
+     */
+	public static String converRuleValue(String ruleValue) {
+		String value = ResourceUtil.getSessionData(ruleValue);
+		if(StringUtil.isEmpty(value))
+			value = ResourceUtil.getUserSystemData(ruleValue);
+		return value!= null ? value : ruleValue;
+	}
+	//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+
 	public static void main(String[] args) {
 		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
 		org.jeecgframework.core.util.LogUtil.info(getSysPath());
-
 	}
+
 	public static boolean isFuzzySearch(){
 		return "1".equals(bundle.getString("fuzzySearch"));
 	}
+
 }

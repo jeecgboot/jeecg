@@ -13,9 +13,11 @@
 	  
 	  var setting = {
 			  check: {
-					enable: true
-					//chkStyle: "radio",
-					//radioType: "level"
+					enable: true,
+
+					chkStyle: "radio",
+					radioType: "level"
+
 				},
 				data: {
 					simpleData: {
@@ -44,24 +46,25 @@
 	  function initMainTableSourceSelect(){
 		  var ztree = $.fn.zTree.getZTreeObj("dbSelect");
 		  var node = ztree.getNodesByParam("pid", 0, null);
-		  var data=new Array();
+
+		  var options = "<option value=''>请选择主数据源</option>";
 		  $.each(node,function(i,f){
-			  var obj={}
-			  obj["id"]= f.dbCode;
-			  obj["text"]= f.name;
-			  data.push(obj);
+			  options += "<option value='"+f.dbCode+"'>"+f.name+"</option>";
 		  })
-		  $("#mainTableSource").combobox("loadData",data);
-		  $("#mainTableSource").combobox("select","${autoFormPage.mainTableSource}");
+		  $("#mainTableSource").html(options);
+		  $("#mainTableSource").val("${autoFormPage.mainTableSource}");
+
 	  }
 	 $(function(){
 		 var dbDate = eval('${dbDate}');
 		 $.fn.zTree.init($("#dbSelect"), setting, dbDate);
 		 var styleDate = eval('${styleSelect}');
+
 		 var iconPath = "plug-in/ztree/css/img/diy/2.png";
 		 $(styleDate).each(function(i){
 			this.icon = iconPath;
 		 });
+
 		 $.fn.zTree.init($("#styleSelect"), stylesetting, styleDate);
 		 initMainTableSourceSelect();
 		//自定义easyui表单验证规则
@@ -311,9 +314,9 @@
 	  	<div data-options="region:'north',split:false,border:false" >
 	  		<div class="panel-header">
 	  		&nbsp;
-	  		<a href="#" class="easyui-linkbutton" onclick="javascript:doExit();">关闭</a>
+	  		<a href="#" class="easyui-linkbutton" onclick="javascript:doExit();">&nbsp;关 闭&nbsp;</a>
 	  		&nbsp;&nbsp;
-	  		<a href="#" class="easyui-linkbutton" onclick="javascript:doSubmit();">保存</a> 
+	  		<a href="#" class="easyui-linkbutton" onclick="javascript:doSubmit();">&nbsp;保 存&nbsp;</a> 
 			</div>
 	  	</div>   
 	  	<div data-options="region:'west',title:'表单数据源',split:true" style="width:200px;">
@@ -324,9 +327,9 @@
 		  				<li style="width:15%;"><a href="#" onclick="javascript:doUpdate();"><img src="plug-in/easyui/themes/icons/pencil.png"/></a></li>
 		  				<li style="width:15%;"><a href="#" onclick="javascript:doDelete();"><img src="plug-in/easyui/themes/icons/cancel.png"/></a></li>
 		  				<li style="width:15%;"><a href="#" onclick="javascript:doReload();"><img src="plug-in/easyui/themes/icons/reload.png"/></a></li>
-		  				<li><a href="#" class="easyui-linkbutton c1" id="createCode">生成</a></li>
+		  				<li><a href="#" class="easyui-linkbutton c1" id="createCode">&nbsp;生 成&nbsp; </a></li>
 		  			</ul>
-			       	<ul id="dbSelect" class="ztree" style="margin-top:25px;"></ul>
+			       	<ul id="dbSelect" class="ztree" style="margin-top:30px;"></ul>
 			    </div>
 			</div>
 			<div region="south" border="false" style="overflow: hidden;">
@@ -360,7 +363,7 @@
 						<td align="right" style="width: 8%;"><label class="Validform_label"> 表单名: </label></td>
 						<td class="value" style="width: 20%;"><input id="formDesc" name="formDesc" type="text" style="width: 75%;" class="easyui-validatebox" required="true" value='${autoFormPage.formDesc}'> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;">表单名</label></td>
 						<td align="right" style="width: 8%;"><label class="Validform_label"> 主数据源: </label></td>
-						<td class="value" style="width: 20%;"><select id="mainTableSource" value='${autoFormPage.mainTableSource}' name="mainTableSource" required="true" data-options="valueField:'id',textField:'text'" style="width: 180%;" class="easyui-combobox"></select> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;">表单名</label></td>
+						<td class="value" style="width: 20%;"><select id="mainTableSource" name="mainTableSource" required="true"></select> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;">表单名</label></td>
 					</tr>
 					<tr>
 						<td class="value" colspan=6><input id="formContent" name="formContent" type="hidden"> <script id="content" type="text/plain" style="width:99%;">${autoFormPage.formContent == NULL || autoFormPage.formContent == '' ? '' : autoFormPage.formContent}</script></td>
@@ -608,8 +611,6 @@ var leipiFormDesign = {
 
 	        if(formEditor.hasContents()){
 	            formEditor.sync();/*同步内容*/
-
-	            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 	            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
 	            if( typeof type!=='undefined' ){

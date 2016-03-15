@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;">
+<div region="center" style="padding:0px;border:0px">
 	<t:datagrid name="timeTaskList" title="schedule.task.manage" actionUrl="timeTaskController.do?datagrid" 
 	    idField="id" fit="true" sortName="createDate" sortOrder="desc">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>

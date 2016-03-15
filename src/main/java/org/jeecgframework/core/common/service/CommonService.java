@@ -247,6 +247,7 @@ public interface CommonService {
 	public void parserXml(String fileName);
 
 	public List<ComboTree> comTree(List<TSDepart> all, ComboTree comboTree);
+
 	/**
 	 * 根据模型生成JSON
 	 * 
@@ -256,6 +257,7 @@ public interface CommonService {
      * @return List<ComboTree>
 	 */
 	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
+
 
     /**
      * 构建树形数据表
@@ -349,6 +351,7 @@ public interface CommonService {
 			int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
+
 	/**
 	 * 执行存储过程
 	 * @param executeSql
@@ -356,4 +359,5 @@ public interface CommonService {
 	 * @return
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params);
+
 }

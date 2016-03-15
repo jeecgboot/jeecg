@@ -28,6 +28,8 @@ public class MutiLangUtil {
 		String message = getMutiLangInstance().getLang("common.delete.success.param", param_lang_key);
 		return message;
 	}
+
+    // add-begin--Author:zhangguoming  Date:20140727 for：通用删除消息方法
 	/**
 	 * 通用删除消息方法
 	 *
@@ -38,6 +40,7 @@ public class MutiLangUtil {
 		String message = getMutiLangInstance().getLang("common.delete.fail.param", param_lang_key);
 		return message;
 	}
+    // add-end--Author:zhangguoming  Date:20140727 for：通用删除消息方法
 	
 	/**
 	 * 通用更新成功消息方法
@@ -108,6 +111,24 @@ public class MutiLangUtil {
 	}
 	
 	/**
+	 * 检查国际化内容或lang_key是否已经存在
+	 * 
+	 * @param lang_key
+	 * @return 如果存在则返回true，否则false
+	 */
+	public static boolean existLangKey(String lang_key,String langCode)
+	{
+		String hql = "from MutiLangEntity where langKey = '"+lang_key+"' and langCode = '"+langCode+"'";
+		List<MutiLangEntity> langKeyList = getMutiLangInstance().findByQueryString(hql);
+		if(!langKeyList.isEmpty())
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * 检查国际化内容或context是否已经存在
 	 * 
 	 * @param lang_context
@@ -142,6 +163,8 @@ public class MutiLangUtil {
 		String context = getMutiLangInstance().getLang(title, langArg);
 		return context;
 	}
+
+    // add-begin--Author:zhangguoming  Date:20140928 for：多语言
     /**
      * 处理列表中对象的多语言属性值，即为列表中实体对象的属性值替换为多语言所对应的值
      * @param list 对象列表
@@ -176,5 +199,6 @@ public class MutiLangUtil {
         list.clear();
         list.addAll(newList);
     }
+    // add-end--Author:zhangguoming  Date:20140928 for：多语言
 
 }

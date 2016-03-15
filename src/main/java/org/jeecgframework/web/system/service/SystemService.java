@@ -149,5 +149,7 @@ public interface SystemService extends CommonService{
 	 * @param dataId		数据ID
 	 * @param dataContent	内容(JSON格式)
 	 */
+
 	public void addDataLog(String tableName, String dataId, String dataContent);
+
 }

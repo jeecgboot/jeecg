@@ -1,5 +1,6 @@
 package org.jeecgframework.web.system.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -19,6 +20,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 
 	@Override
 	public void saveCategory(TSCategoryEntity category) {
+
 		String parentCode = null;
 		if(category.getParent()!=null&&oConvertUtils.isNotEmpty(category.getParent().getCode())){
 			parentCode = category.getParent().getCode();
@@ -29,6 +31,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 			category.setParent(null);
 			category.setCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 		}
+
 		this.save(category);
 	}
 	
@@ -43,12 +46,14 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  code like '").append(parentCode).append("%'");
 		}
-		sb.append(" ORDER BY code DESC LIMIT 1");
-		Map<String, Object> objMap = this.findOneForJdbc(sb.toString());
+
+		sb.append(" ORDER BY code DESC ");
+		List<Map<String, Object>> objMapList = this.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
-		if(objMap!=null){
-			returnCode = (String)objMap.get("code");
+		if(objMapList!=null&& objMapList.size()>0){
+			returnCode = (String)objMapList.get(0).get("code");
 		}
+
 		return returnCode;
 	}
 

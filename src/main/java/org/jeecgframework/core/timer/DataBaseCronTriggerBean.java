@@ -1,8 +1,9 @@
 package org.jeecgframework.core.timer;
 
+import java.text.ParseException;
+
 import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.service.TimeTaskServiceI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 /**
@@ -20,13 +21,20 @@ public class DataBaseCronTriggerBean extends CronTriggerBean{
 	/**
 	 * 读取数据库更新文件
 	 */
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 		TSTimeTaskEntity task = timeTaskService.findUniqueByProperty
 				(TSTimeTaskEntity.class,"taskId",this.getName());
 		if(task!=null&&task.getIsEffect().equals("1")
 				&&!task.getCronExpression().equals(this.getCronExpression())){
-			this.setCronExpression(task.getCronExpression());
+
+			try {
+				this.setCronExpression(task.getCronExpression());
+			} catch (ParseException e) {
+				// TODO 异常必须被处理
+				e.printStackTrace();
+			}
+
 			DynamicTask.updateSpringMvcTaskXML(this,task.getCronExpression());
 		}
 	}

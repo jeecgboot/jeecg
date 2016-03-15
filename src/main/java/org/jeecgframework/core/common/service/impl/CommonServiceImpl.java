@@ -413,9 +413,11 @@ public class CommonServiceImpl implements CommonService {
 	public Long getCountForJdbc(String sql) {
 		return commonDao.getCountForJdbc(sql);
 	}
+
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
+
 
 	
 	public <T> void batchSave(List<T> entitys) {
@@ -441,10 +443,12 @@ public class CommonServiceImpl implements CommonService {
 	public <T> List<T> findByDetached(DetachedCriteria dc) {
 		return this.commonDao.findByDetached(dc);
 	}
+
 	/**
 	 * 调用存储过程
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params) {
 		return this.commonDao.executeProcedure(procedureSql, params);
 	}
+
 }

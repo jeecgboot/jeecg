@@ -875,7 +875,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC
 	 */
 	public Long getCountForJdbc(String sql) {
-		return this.jdbcTemplate.queryForLong(sql);
+		return this.jdbcTemplate.queryForObject(sql,Long.class);
 	}
 
 	/**
@@ -883,7 +883,10 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 *
 	 */
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
-		return this.jdbcTemplate.queryForLong(sql, objs);
+
+		return this.jdbcTemplate.queryForObject(sql, objs,Long.class);
+
+
 	}
 
 	public List<Map<String, Object>> findForJdbc(String sql, Object... objs) {
@@ -905,6 +908,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		Object keyValue = null;
 		KeyHolder keyHolder = null;
 		SqlParameterSource sqlp  = new MapSqlParameterSource(param);
+
 		if (StringUtil.isNotEmpty(param.get("id"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
 			this.namedParameterJdbcTemplate.update(sql,sqlp);
 		}else{//NATIVE or SEQUENCE
@@ -915,11 +919,15 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				keyValue = keyHolder.getKey().longValue();
 			}
 		}
+
 		return keyValue;
 	}
 
 	public Integer countByJdbc(String sql, Object... param) {
-		return this.jdbcTemplate.queryForInt(sql, param);
+
+		return this.jdbcTemplate.queryForObject(sql, param,Integer.class);
+
+
 	}
 
 	public Map<String, Object> findOneForJdbc(String sql, Object... objs) {
@@ -973,6 +981,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> List<T> findByDetached(DetachedCriteria dc) {
 		return dc.getExecutableCriteria(getSession()).list();
 	}
+
 	/**
 	 * 调用存储过程
 	 */
@@ -986,4 +995,5 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		
 		return sqlQuery.list();
 	}
+
 }

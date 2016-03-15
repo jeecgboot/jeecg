@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp" %>
 
 <div class="easyui-layout" fit="true">
-    <div region="center" style="padding: 1px;">
+    <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeValueList" title="common.type.list"
                     actionUrl="systemController.do?typeGrid&typegroupid=${typegroupid}" idField="id"
                     queryMode="group">

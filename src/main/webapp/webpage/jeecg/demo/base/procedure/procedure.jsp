@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;">
+<div region="center" style="padding:0px;border:0px">
 <t:datagrid name="jeecgDemoList" title="DEMO示例列表" autoLoadData="true" actionUrl="jeecgProcedureController.do?datagrid" sortName="userName" fitColumns="true" idField="id" fit="true" queryMode="group" checkbox="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="用户名" field="userName" query="true" frozenColumn="true"  width="120"></t:dgCol>

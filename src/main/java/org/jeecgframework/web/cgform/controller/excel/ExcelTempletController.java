@@ -369,7 +369,9 @@ public class ExcelTempletController extends BaseController {
 						String value = String.valueOf(r.get(bean.getFieldName()));
 						for (DictEntity dictEntity : dicDataList) {
 							if (value.equalsIgnoreCase(dictEntity.getTypecode())) {
+
 								r.put(bean.getFieldName(), MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
+
 							}
 						}
 					}

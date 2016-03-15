@@ -9,6 +9,10 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
@@ -19,12 +23,17 @@ import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -108,7 +117,9 @@ public class RoleController extends BaseController {
 		if (count == 0) {
 			// 删除角色之前先删除角色权限关系
 			delRoleFunction(role);
+
             systemService.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
+
             role = systemService.getEntity(TSRole.class, role.getId());
 			userService.delete(role);
 			message = "角色: " + role.getRoleName() + "被删除成功";
@@ -200,6 +211,7 @@ public class RoleController extends BaseController {
 		request.setAttribute("roleId", roleId);
 		return new ModelAndView("system/role/roleSet");
 	}
+
 	/**
 
 	 * 角色所有用户信息列表页面跳转
@@ -208,7 +220,9 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(params = "userList")
 	public ModelAndView userList(HttpServletRequest request) {
+
 		request.setAttribute("roleId", request.getParameter("roleId"));
+
 		return new ModelAndView("system/role/roleUserList");
 	}
 	
@@ -221,6 +235,7 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "roleUserDatagrid")
 	public void roleUserDatagrid(TSUser user,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+
 		//查询条件组装器
         String roleId = request.getParameter("roleId");
         List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSRole.id", roleId);
@@ -233,6 +248,7 @@ public class RoleController extends BaseController {
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
         */
+
 		Criterion cc = null;
 		if (roleUser.size() > 0) {
 			for(int i = 0; i < roleUser.size(); i++){
@@ -280,6 +296,7 @@ public class RoleController extends BaseController {
 		comboTrees = systemService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
+
 	/**
 	 * 角色树列表页面跳转
 	 * 
@@ -358,6 +375,7 @@ public class RoleController extends BaseController {
 		}
 		return j;
 	}
+
 
 	/**
 	 * 设置权限
@@ -628,7 +646,9 @@ public class RoleController extends BaseController {
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class);
 		cq.eq("TSFunction.id", functionId);
+
 		cq.eq("status", Short.valueOf("0"));
+
 		cq.add();
 		List<TSOperation> operationList = this.systemService
 				.getListByCriteriaQuery(cq, false);
@@ -652,6 +672,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
+
 		String operationcodes = null;
 		try {
 			operationcodes = URLDecoder.decode(
@@ -659,6 +680,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -713,6 +735,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
+
 		String dataRulecodes = null;
 		try {
 			dataRulecodes = URLDecoder.decode(
@@ -720,6 +743,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -813,4 +837,95 @@ public class RoleController extends BaseController {
             systemService.batchSave(roleUserList);
         }
     }
+
+	/**
+	 * 导入功能跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "upload")
+	public ModelAndView upload(HttpServletRequest req) {
+		req.setAttribute("controller_name","roleController");
+		return new ModelAndView("common/upload/pub_excel_upload");
+	}
+
+	/**
+	 * 导出excel
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXls")
+	public String exportXls(TSRole tsRole,HttpServletRequest request,HttpServletResponse response
+			, DataGrid dataGrid,ModelMap modelMap) {
+		tsRole.setRoleName(null);
+		CriteriaQuery cq = new CriteriaQuery(TSRole.class, dataGrid);
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, tsRole, request.getParameterMap());
+		List<TSRole> tsRoles = systemService.getListByCriteriaQuery(cq,false);
+		modelMap.put(NormalExcelConstants.FILE_NAME,"角色表");
+		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("角色表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+				"导出信息"));
+		modelMap.put(NormalExcelConstants.DATA_LIST,tsRoles);
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+	/**
+	 * 导出excel 使模板
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXlsByT")
+	public String exportXlsByT(TSRole tsRole,HttpServletRequest request,HttpServletResponse response
+			, DataGrid dataGrid,ModelMap modelMap) {
+		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+				"导出信息"));
+		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(2);
+			params.setHeadRows(1);
+			params.setNeedSave(true);
+			try {
+				List<TSRole> tsRoles = ExcelImportUtil.importExcel(file.getInputStream(),TSRole.class,params);
+				for (TSRole tsRole : tsRoles) {
+					String roleCode = tsRole.getRoleCode();
+					List<TSRole> roles = systemService.findByProperty(TSRole.class,"roleCode",roleCode);
+					if(roles.size()!=0){
+						TSRole role = roles.get(0);
+						MyBeanUtils.copyBeanNotNull2Bean(tsRole,role);
+						systemService.saveOrUpdate(role);
+					}else {
+						systemService.save(tsRole);
+					}
+				}
+				j.setMsg("文件导入成功！");
+			} catch (Exception e) {
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return j;
+	}
 }

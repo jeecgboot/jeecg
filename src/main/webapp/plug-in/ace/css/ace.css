@@ -1996,9 +1996,9 @@ pre.prettyprint {
   line-height: 17px;
   padding-left: 7px;
   text-shadow: none !important;
-  /*update-begin--Author:jg_renjie  Date:20150613 for£ºÔö¼ÓÔÚËõĞ¡Ä£Ê½ÏÂ²Ëµ¥µÄ¿í¶È£¬´Ó¶øÊ¹µÃ²»»áÔÙ×îÏÂÃæ³öÏÖ²Ëµ¥Ãû×Ö*/
+  /*update-begin--Author:jg_renjie  Date:20150613 forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡Ä£Ê½ï¿½Â²Ëµï¿½ï¿½Ä¿ï¿½È£ï¿½ï¿½Ó¶ï¿½Ê¹ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²Ëµï¿½ï¿½ï¿½ï¿½ï¿½*/
   /*font-size: 13px;*/
-  /*update-end--Author:jg_renjie  Date:20150613 for£ºÔö¼ÓÔÚËõĞ¡Ä£Ê½ÏÂ²Ëµ¥µÄ¿í¶È£¬´Ó¶øÊ¹µÃ²»»áÔÙ×îÏÂÃæ³öÏÖ²Ëµ¥Ãû×Ö*/
+  /*update-end--Author:jg_renjie  Date:20150613 forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡Ä£Ê½ï¿½Â²Ëµï¿½ï¿½Ä¿ï¿½È£ï¿½ï¿½Ó¶ï¿½Ê¹ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²Ëµï¿½ï¿½ï¿½ï¿½ï¿½*/
   text-decoration: none;
 }
 .nav-list > li > a > .menu-icon {
@@ -2661,7 +2661,7 @@ body.mob-safari .sidebar.sidebar-fixed {
     display: block;
   }
 }
-/*update-begin--Author:jg_renjie  Date:20150613 for£ºÔö¼ÓÔÚËõĞ¡Ä£Ê½ÏÂ²Ëµ¥µÄ¿í¶È£¬´Ó¶øÊ¹µÃ²»»áÔÙ×îÏÂÃæ³öÏÖ²Ëµ¥Ãû×Ö*/
+/*update-begin--Author:jg_renjie  Date:20150613 forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡Ä£Ê½ï¿½Â²Ëµï¿½ï¿½Ä¿ï¿½È£ï¿½ï¿½Ó¶ï¿½Ê¹ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²Ëµï¿½ï¿½ï¿½ï¿½ï¿½*/
 .sidebar.menu-min,
 .sidebar.menu-min.compact,
 .sidebar.menu-min.navbar-collapse {
@@ -2670,7 +2670,7 @@ body.mob-safari .sidebar.sidebar-fixed {
 .sidebar.menu-min + .main-content {
   margin-left: 51px;
 }
- /*update-end--Author:jg_renjie  Date:20150613 for£ºÔö¼ÓÔÚËõĞ¡Ä£Ê½ÏÂ²Ëµ¥µÄ£¬´Ó¶øÊ¹µÃ²»»áÔÙ×îÏÂÃæ³öÏÖ²Ëµ¥Ãû×Ö*/
+ /*update-end--Author:jg_renjie  Date:20150613 forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡Ä£Ê½ï¿½Â²Ëµï¿½ï¿½Ä£ï¿½ï¿½Ó¶ï¿½Ê¹ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²Ëµï¿½ï¿½ï¿½ï¿½ï¿½*/
 .sidebar.menu-min .nav-list a .badge,
 .sidebar.menu-min .nav-list a .label {
   position: relative;
@@ -9543,7 +9543,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-5:checked + .lbl::before {
 }
 .tab-content {
   border: 1px solid #c5d0dc;
-  padding: 16px 12px;
+  padding: 2px 2px;
   position: relative;
 }
 .tab-content.no-padding {

@@ -14,6 +14,12 @@ import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.TemplateExportParams;
+import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
+import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.datatable.DataTables;
@@ -24,10 +30,13 @@ import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
@@ -338,6 +347,7 @@ public class UserController extends BaseController {
 
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
+
         String orgIds = request.getParameter("orgIds");
         List<String> orgIdList = extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
@@ -350,8 +360,10 @@ public class UserController extends BaseController {
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
 
+
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
+
         List<TSUser> cfeList = new ArrayList<TSUser>();
         for (Object o : dataGrid.getResults()) {
             if (o instanceof TSUser) {
@@ -370,6 +382,7 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
+
         TagUtil.datagrid(response, dataGrid);
     }
 
@@ -395,7 +408,9 @@ public class UserController extends BaseController {
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
+
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
+
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -461,9 +476,11 @@ public class UserController extends BaseController {
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
+
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
+
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -500,6 +517,7 @@ public class UserController extends BaseController {
 
 		return j;
 	}
+
     /**
      * 保存 用户-组织机构 关系信息
      * @param request request
@@ -525,6 +543,7 @@ public class UserController extends BaseController {
         }
     }
 
+
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
 		for (int i = 0; i < roleids.length; i++) {
@@ -549,6 +568,7 @@ public class UserController extends BaseController {
 		String ids = oConvertUtils.getString(request.getParameter("ids"));
 		mv.addObject("ids", ids);
 		return mv;
+		//--author：zhoujf-----end------date:20150531--------for: 编辑用户，选择角色,弹出的角色列表页面，默认没选中
 	}
 
 	/**
@@ -585,6 +605,7 @@ public class UserController extends BaseController {
 			departList.addAll((List)systemService.getList(TSDepart.class));
 		}
 		req.setAttribute("departList", departList);
+
         List<String> orgIdList = new ArrayList<String>();
 		if (StringUtil.isNotEmpty(user.getId())) {
 			user = systemService.getEntity(TSUser.class, user.getId());
@@ -596,8 +617,10 @@ public class UserController extends BaseController {
 		}
         req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
 
+
         return new ModelAndView("system/user/user");
 	}
+
     /**
      * 用户的登录后的组织机构选择页面
      * @param request request
@@ -619,6 +642,7 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
+
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -886,6 +910,7 @@ public class UserController extends BaseController {
 		if(user!=null){
 			String indexStyle = request.getParameter("indexStyle");
 //			String cssTheme = request.getParameter("cssTheme");
+
 //			if(StringUtils.isNotEmpty(cssTheme)){
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", cssTheme);
 //				cookie4css.setMaxAge(3600*24*30);
@@ -896,12 +921,14 @@ public class UserController extends BaseController {
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:metro");
+
 //			}else {
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", "");
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:default");
 //			}
+
 			
 			if(StringUtils.isNotEmpty(indexStyle)){
 				Cookie cookie = new Cookie("JEECGINDEXSTYLE", indexStyle);
@@ -912,9 +939,176 @@ public class UserController extends BaseController {
 				j.setSuccess(Boolean.TRUE);
 				j.setMsg("样式修改成功，请刷新页面");
 			}
+
             ClientManager.getInstance().getClient().getFunctions().clear();
+
 		}else{
 			j.setMsg("请登录后再操作");
+		}
+		return j;
+	}
+
+	/**
+	 * 导入功能跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "upload")
+	public ModelAndView upload(HttpServletRequest req) {
+		req.setAttribute("controller_name","userController");
+		return new ModelAndView("common/upload/pub_excel_upload");
+	}
+
+	/**
+	 * 导出excel
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXls")
+	public String exportXls(TSUser tsUser,HttpServletRequest request,HttpServletResponse response
+			, DataGrid dataGrid,ModelMap modelMap) {
+		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, tsUser, request.getParameterMap());
+		List<TSUser> tsUsers = this.userService.getListByCriteriaQuery(cq,false);
+		//导出的时候处理一下组织机构编码和角色编码
+		for(int i=0;i<tsUsers.size();i++){
+			TSUser user = tsUsers.get(i);
+			//托管
+			systemService.getSession().evict(user);
+			String id = user.getId();
+			List<TSRole> roles = systemService.getSession().createSQLQuery("select * from t_s_role where id in (select roleid from t_s_role_user where userid=:userid)")
+					.addEntity(TSRole.class).setString("userid",id).list();
+			String roleCodes = "";
+			for(TSRole role:roles){
+				roleCodes += role.getRoleCode()+",";
+			}
+			user.setUserKey(roleCodes.substring(0,roleCodes.length()-1));
+			List<TSDepart> departs = systemService.getSession().createSQLQuery("select * from t_s_depart where id in (select org_id from t_s_user_org where user_id=:userid)")
+					.addEntity(TSDepart.class).setString("userid",id).list();
+			String departCodes = "";
+			for(TSDepart depart:departs){
+				departCodes += depart.getOrgCode()+",";
+			}
+			user.setDepartid(departCodes.substring(0,departCodes.length()-1));
+		}
+		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+				"导出信息"));
+		modelMap.put(NormalExcelConstants.DATA_LIST,tsUsers);
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+	/**
+	 * 导出excel 使模板
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(params = "exportXlsByT")
+	public String exportXlsByT(TSUser tsUser,HttpServletRequest request,HttpServletResponse response
+			, DataGrid dataGrid,ModelMap modelMap) {
+		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+				"导出信息"));
+		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(2);
+			params.setHeadRows(1);
+			params.setNeedSave(true);
+			try {
+				List<TSUser> tsUsers = ExcelImportUtil.importExcel(file.getInputStream(),TSUser.class,params);
+				for (TSUser tsUser : tsUsers) {
+					String username = tsUser.getUserName();
+					String roleCodes = tsUser.getUserKey();
+					String[] roles = roleCodes.split(",");
+					String deptCodes = tsUser.getDepartid();
+					String[] depts = deptCodes.split(",");
+
+					if((username==null||username.equals(""))||(roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
+						j.setMsg("用户名、角色编码和组织机构编码为必填字段，导入失败");
+					}else{
+						boolean flag = true;
+						//判断组织机构编码和角色编码是否存在，如果不存在，也不能导入
+						for(String roleCode:roles){
+							List<TSRole> roleList = systemService.findByProperty(TSRole.class,"roleCode",roleCode);
+							if(roleList.size()==0){
+								flag = false;
+							}
+						}
+
+						for(String deptCode:depts){
+							List<TSDepart> departList = systemService.findByProperty(TSDepart.class,"orgCode",deptCode);
+							if(departList.size()==0){
+								flag = false;
+							}
+						}
+
+						if(flag){
+							//判断用户是否存在
+							List<TSUser> users = systemService.findByProperty(TSUser.class,"userName",username);
+							if(users.size()!=0){
+								//用户存在更新
+								TSUser user = users.get(0);
+								MyBeanUtils.copyBeanNotNull2Bean(tsUser,user);
+								systemService.saveOrUpdate(user);
+
+								String id = user.getId();
+								systemService.executeSql("delete from t_s_role_user where userid='"+id+"'");
+								for(String roleCode:roles){
+									//根据角色编码得到roleid
+									List<TSRole> roleList = systemService.findByProperty(TSRole.class,"roleCode",roleCode);
+									TSRoleUser tsRoleUser = new TSRoleUser();
+									tsRoleUser.setTSUser(user);
+									tsRoleUser.setTSRole(roleList.get(0));
+									systemService.save(tsRoleUser);
+								}
+							}else{
+								//不存在则保存
+								TSUser user = users.get(0);
+								systemService.save(user);
+								for(String roleCode:roles){
+									//根据角色编码得到roleid
+									List<TSRole> roleList = systemService.findByProperty(TSRole.class,"roleCode",roleCode);
+									TSRoleUser tsRoleUser = new TSRoleUser();
+									tsRoleUser.setTSUser(user);
+									tsRoleUser.setTSRole(roleList.get(0));
+									systemService.save(tsRoleUser);
+								}
+							}
+						}else {
+							j.setMsg("组织机构编码和角色编码不能匹配");
+						}
+					}
+
+					userService.save(tsUser);
+				}
+				j.setMsg("文件导入成功！");
+			} catch (Exception e) {
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return j;
 	}

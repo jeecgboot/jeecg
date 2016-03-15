@@ -122,10 +122,12 @@ public class MutiLangController extends BaseController {
 				message = MutiLangUtil.paramUpdFail("common.language");
 			}
 		} else {
-			if(MutiLangUtil.existLangContext( mutiLang.getLangContext()))
+
+			if(MutiLangUtil.existLangKey( mutiLang.getLangKey(),mutiLang.getLangCode()))
 			{
-				message = mutiLangService.getLang("common.langcontext.exist");
+				message = mutiLangService.getLang("common.langkey.exist");
 			}
+
 			if(StringUtil.isEmpty(message))
 			{
 				mutiLangService.save(mutiLang);

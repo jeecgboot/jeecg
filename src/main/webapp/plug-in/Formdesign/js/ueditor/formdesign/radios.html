@@ -19,6 +19,7 @@
 	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link>
     <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
     <script type="text/javascript">
+
 	$(function(){
 		//1.从参数中获取ID
 		var id = '';
@@ -36,6 +37,7 @@
 		});
 		
 		//2.2 绑定change事件,并填充字段
+
 		$("#datasource").change(function(){
 			var dbId = $(this).val();
 			$.post(
@@ -51,7 +53,9 @@
             if(this.value!='')
                 $G('orgname').value= $(this).find("option:selected")[0].text;
         });
+
 	});
+
 function createElement(type, name)
 {     
     var element = null;     
@@ -213,14 +217,18 @@ function fnParseOptions(gName,gChecked)
         <th><span>字段</span> </th>
     </tr>
     <tr>
+        <!-- update-begin--Author:jg_renjie  Date:20150717 for：将input修改为select-->
         <td>
            <select id="datasource"></select>
         </td>
         <td>
            <select id="field">
+           <!-- update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            	  <option selected value=''>请先选择数据源</option>
+           <!-- update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            </select>
         </td>
+     	<!-- update-end--Author:jg_renjie  Date:20150717 for：将input修改为select -->
     </tr>
         <tr>
         <th  ><span>数据字典</span></th>
@@ -292,6 +300,7 @@ window.onload = function() {
 		if(arr1){
 			arr1= arr1.split('.');
 			var field= arr1[1]==null?'':arr1[1];
+
         	var id = '';
 			editor.ready(function() {
 				id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
@@ -306,6 +315,7 @@ window.onload = function() {
    					$('#field').val(field);
    					$("#datasource").val(arr1[0]);
    			});
+
 			//$G('datasource').value = arr1[0];
         	//$G('field').value = field;
         }
@@ -339,6 +349,7 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
+    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -355,6 +366,7 @@ dialog.onok = function (){
             return false;
         }
     }
+    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     var gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
  	var datasource=$G('datasource').value;
     var field=$G('field').value;
@@ -412,6 +424,7 @@ dialog.onok = function (){
 
 //longjinbo 增加支持系统字典
 var systemCache=null;
+
 function initCombox(val){
 	$('#selector').append('<option selected value="">请选择数据字典</option>');
 	var curl= "systemController.do?typeGroupGrid&field=id,typegroupname,typegroupcode";
@@ -437,6 +450,7 @@ function initCombox(val){
 $('#selector').change(function(){
 	onselectCode($(this).val());
 });
+
 function onselectCode(id){
 var curl= "systemController.do?typeGrid&field=id,typename,typecode&typegroupid="+id;
 $.ajax({

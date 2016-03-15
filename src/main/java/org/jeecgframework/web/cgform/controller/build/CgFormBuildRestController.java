@@ -81,6 +81,7 @@ public class CgFormBuildRestController extends BaseController {
 		try {
 			long start = System.currentTimeMillis();
 			String tableName = configId;
+
 			String mode=request.getParameter("mode");
 			String templateName=tableName+"_";
 			if(StringUtils.isBlank(id)){
@@ -90,8 +91,10 @@ public class CgFormBuildRestController extends BaseController {
 			}else{
 				templateName+=TemplateUtil.TemplateType.UPDATE.getName();
 			}
+
 			String ftlVersion =request.getParameter("ftlVersion");
 			Template template = templetContext.getTemplate(templateName, ftlVersion);
+
 			StringWriter stringWriter = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(stringWriter);
 	        Map<String, Object> data = new HashMap<String, Object>();
@@ -133,7 +136,9 @@ public class CgFormBuildRestController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
+
 	    	data.put("head", head);
+
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));

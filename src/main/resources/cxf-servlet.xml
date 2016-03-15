@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<!-- /JeecgWService -->
+	<jaxws:endpoint id="jeecgWServiceI" implementor="org.jeecgframework.web.demo.ws.test.JeecgWServiceImpl" address="/JeecgWService" />
+	<!-- /JeecgWDemoService -->
+	<jaxws:endpoint id="jeecgWDemoServiceI" implementor="org.jeecgframework.web.demo.ws.test.JeecgWDemoServiceImpl" address="/JeecgWDemoService" />
+</beans>

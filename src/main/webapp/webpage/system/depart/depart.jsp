@@ -68,6 +68,19 @@
                 <option value="3" <c:if test="${orgType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="common.position"/></option>
             </select>
         </div>
+        <div class="form">
+            <label class="Validform_label"> <t:mutiLang langKey="common.mobile"/>: </label>
+            <input name="mobile" class="inputxt" value="${depart.mobile }">
+        </div>
+        <div class="form">
+            <label class="Validform_label"> <t:mutiLang langKey="common.fax"/>: </label>
+            <input name="fax" class="inputxt" value="${depart.fax }">
+        </div>
+        <div class="form">
+            <label class="Validform_label"> <t:mutiLang langKey="common.address"/>: </label>
+            <input name="address" class="inputxt" value="${depart.address }" datatype="s1-50">
+            <span class="Validform_checktip"><t:mutiLang langKey="departmentaddress.rang1to50"/></span>
+        </div>
 	</fieldset>
 </t:formvalid>
 </body>

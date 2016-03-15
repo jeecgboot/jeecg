@@ -41,7 +41,7 @@
 						</label>
 					</td>
 					<td class="value">
-				      <textarea id="styleContent" name="styleContent" rows="30" cols="295" datatype="*"></textarea>
+				      <textarea id="styleContent" name="styleContent" rows="30" cols="245" datatype="*"></textarea>
 					</td>
 				</tr>
 			</table>

@@ -23,6 +23,7 @@ public class OpenOfficePDFConverter implements PDFConverter {
 	private static int[] port = { 8100 };
 
 	public void convert2PDF(String inputFile, String pdfFile, String extend) {
+
 //		if (extend.equals("txt")) {
 //
 //			String odtFile = FileUtils.getFilePrefix(inputFile) + ".odt";
@@ -40,6 +41,7 @@ public class OpenOfficePDFConverter implements PDFConverter {
 //			}
 //
 //		}
+
 		
 		startService();
 		//pdfFile = pdfFile.replaceAll(" ", "").replaceAll("　", "");

@@ -126,7 +126,7 @@ a:hover {
 </head>
 <body class="easyui-layout" style="overflow-y: hidden" scroll="no">
 <!-- 顶部-->
-<div region="north" border="false" title=" JEECG Framework -3.6" style="BACKGROUND: #E6E6FA; height: 85px; padding: 1px; overflow: hidden;">
+<div region="north" border="false" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>" style="BACKGROUND: #E6E6FA; height: 85px; padding: 1px; overflow: hidden;">
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td align="left" style="vertical-align: text-bottom;"><img src="plug-in/login/images/head.png;"> <img src="plug-in/login/images/foot.png"></td>
@@ -228,9 +228,9 @@ a:hover {
     <div align="center" style="color: #CC99FF; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title=" JEECG Framework -3.6"> JEECG Framework -3.6</a>
+            <a href="http://www.jeecg.org" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>"> JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
             <t:mutiLang langKey="common.copyright"/>:
-            <a href="#" title=" JEECG Framework -3.6">JEECG Framework -3.6</a>
+            <a href="#" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
         </span>
     </div>
 </div>

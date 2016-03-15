@@ -20,6 +20,7 @@ function setFieldText(){
 		}
 	})
 }
+<!--update-begin--Author:zzl  Date:20151110 for：解决自定义表单重新sql解析后 查询参数 参数文本、默认值丢失-->
 var autoFormParams={};//存储查询参数
 function storeParams(){
  	var paramNames=$("#add_autoFormParam_table").find("input[name$='paramName']");
@@ -57,6 +58,7 @@ function setParams(){
 		}
 	}
 }
+<!--update-end--Author:zzl  Date:20151110 for：解决自定义表单重新sql解析后 -->
 
 $(function(){
 	$("body").append("<link href=\"plug-in/lhgDialog/skins/default.css\" rel=\"stylesheet\" id=\"lhgdialoglink\">");
@@ -271,6 +273,7 @@ function decode(value, id) {//value传入值,id接受值
 	var filename = value.substring(last + 1, value.length);
 	$("#" + id).text(decodeURIComponent(filename));
 }
+<!--update-begin--Author:zzl  Date:20151101 for：sql解析获取数据库表名填充数据源 -->
 function getTableName(){
 	var sql=$("#dbDynSql").val().toLowerCase();
 	if(sql.length==0)

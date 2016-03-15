@@ -3,7 +3,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 
 <div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
+  <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="dbSourceList" title="common.datasource.manage" actionUrl="dynamicDataSourceController.do?datagrid" idField="id" fit="true">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.dbname" field="dbName" hidden="false"></t:dgCol>

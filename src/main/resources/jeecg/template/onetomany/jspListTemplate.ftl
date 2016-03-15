@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
+  <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="${entityName?uncap_first}List" fitColumns="true" title="${ftl_description}" actionUrl="${entityName?uncap_first}Controller.do?datagrid" idField="id" fit="true">
    <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
   <#list columns as po>

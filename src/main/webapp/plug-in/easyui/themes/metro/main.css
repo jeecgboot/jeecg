@@ -19,6 +19,17 @@ img,form,ul,dl,input,fieldset,.clear,dt,dd,dl {
 	border: 0px;
 }
 
+input[type="text"] {
+	background-color: #fff;
+    border: 1px solid #D7D7D7;
+    border-radius: 3PX;
+    height: 30PX;
+    padding:  0 2px;
+    line-height: 14PX;
+    font-size: 12px;
+    display: inline-block;
+}
+
 select {
 	padding: 6px 0 6px 5px;
 }
@@ -871,12 +882,13 @@ a:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7,
 		endcolorstr=#f2f2f2, gradientType=0);
 	height: 24px;
-	padding: 0 20px;
+	padding: 0 3px;
 	cursor: pointer;
 	line-height: 24px;
 	display: inline-block;
 	color: #666666;
-	margin-right:5px;
+	/* margin-right:5px; */
+	white-space:nowrap;
 	
 }
 a.l-btn span.l-btn-left .icon-ok{

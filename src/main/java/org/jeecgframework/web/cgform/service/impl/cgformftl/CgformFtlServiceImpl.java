@@ -13,6 +13,7 @@ import java.util.Map;
 @Service("cgformFtlService")
 @Transactional
 public class CgformFtlServiceImpl extends CommonServiceImpl implements CgformFtlServiceI {
+
     @Override
     public Map<String, Object> getCgformFtlByTableName(String tableName, String ftlVersion) {
         StringBuilder sql = new StringBuilder("");
@@ -26,6 +27,7 @@ public class CgformFtlServiceImpl extends CommonServiceImpl implements CgformFtl
         }
         return null;
     }
+
 
     /**
 	 * 根据tableName获取form模板信息

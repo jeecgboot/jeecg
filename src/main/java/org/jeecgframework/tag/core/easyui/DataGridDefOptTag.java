@@ -17,13 +17,14 @@ public class DataGridDefOptTag extends TagSupport {
 	protected String title;
 	private String exp;//判断链接是否显示的表达式
 	private String operationCode;//按钮的操作Code
+	private String urlStyle;//样式
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
 	public int doEndTag() throws JspTagException {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setDefUrl(url, title, exp,operationCode);
+		parent.setDefUrl(url, title, exp,operationCode,urlStyle);
 		return EVAL_PAGE;
 	}
 	
@@ -38,6 +39,12 @@ public class DataGridDefOptTag extends TagSupport {
 	}
 	public void setOperationCode(String operationCode) {
 		this.operationCode = operationCode;
+	}
+	public void setUrlStyle(String urlStyle) {
+		this.urlStyle = urlStyle;
+	}
+	public String getUrlStyle() {
+		return urlStyle;
 	}
 	
 }

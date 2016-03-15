@@ -51,7 +51,9 @@ $(function(){$('#${config_id}List').datagrid(
 	function ${config_id}Listsearchbox(value,name){var queryParams=$('#${config_id}List').datagrid('options').queryParams;queryParams[name]=value;queryParams.searchfield=name;$('#${config_id}List').datagrid('reload');}$('#${config_id}Listsearchbox').searchbox({searcher:function(value,name){${config_id}Listsearchbox(value,name);},menu:'#${config_id}Listmm',prompt:'请输入查询关键字'});
 	function searchReset_${config_id}(name){ $("#"+name+"tb").find(":input").val("");${config_id}Listsearch();}
 	function getSelectRows(){
+
 		//return $('#${config_id}List').datagrid('getSelections');
+
 		
 		/**
 		 * 解决popup功能多选只能返回一个值的错误

@@ -48,17 +48,13 @@ public class TuiSongMsgUtil {
 	private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private static Configuration configuration;
 	/**
-	 * 
 	  * sendMessage 统一消息发送接口
 	  *
-	  * @Title: sendMessage 
-	  * @Description: TODO
 	  * @param @param msgType 消息类型
-	  * @param @param code
-	  * @param @param map
-	  * @param @param sentTo
-	  * @param @return    设定文件
-	  * @return String    返回类型
+	  * @param @param code   业务配置CODE
+	  * @param @param map    数据参数
+	  * @param @param sentTo 发送给谁
+	  * @param @return       发送结果
 	  * @throws
 	 */
 	public static String sendMessage(String title,String msgType, String code,

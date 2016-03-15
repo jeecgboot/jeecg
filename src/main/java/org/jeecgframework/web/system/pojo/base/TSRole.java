@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.jeecgframework.core.common.entity.IdEntity;
+import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**
  * 角色表
@@ -19,7 +20,9 @@ import org.jeecgframework.core.common.entity.IdEntity;
 @Entity
 @Table(name = "t_s_role")
 public class TSRole extends IdEntity implements java.io.Serializable {
+	@Excel(name = "角色名称")
 	private String roleName;//角色名称
+	@Excel(name = "角色编码")
 	private String roleCode;//角色编码
 	/**创建时间*/
 	private java.util.Date createDate;

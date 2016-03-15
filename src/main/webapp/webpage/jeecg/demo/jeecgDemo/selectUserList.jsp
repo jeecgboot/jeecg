@@ -17,7 +17,7 @@
 	<option value="297e5a493d9f2cbc013d9f4450530001">研发室</option>
 </select> </span> <span style="display: -moz-inline-box; display: inline-block;"> <span style="display: -moz-inline-box; display: inline-block; width: 80px; text-align: right;">真实姓名：</span> <input type="text"
 	style="width: 100px" id="realName"> </span> <span style="display: -moz-inline-box; display: inline-block;"> <input type="button" value="查询" onclick="searchUserList();"> </span></div>
-<div region="center" style="padding: 1px;"><t:datagrid name="userList" title="用户管理" actionUrl="userController.do?datagrid" checkbox="true" fit="true" fitColumns="true" idField="id">
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="userList" title="用户管理" actionUrl="userController.do?datagrid" checkbox="true" fit="true" fitColumns="true" idField="id">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="用户名" sortable="false" field="userName" query="true"></t:dgCol>
 	<t:dgCol title="部门" field="TSDepart_departname" query="true" queryMode="single" replace="${departsReplace}"></t:dgCol>

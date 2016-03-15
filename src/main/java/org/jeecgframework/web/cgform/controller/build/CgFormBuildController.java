@@ -1,15 +1,29 @@
 package org.jeecgframework.web.cgform.controller.build;
 
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.ContextHolderUtils;
+import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
 import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
@@ -20,7 +34,6 @@ import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +42,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.*;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * @ClassName: formBuildController
@@ -65,6 +73,39 @@ public class CgFormBuildController extends BaseController {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	@RequestMapping(params = "goAddFtlForm")
+	public void goAddFtlForm(HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(request,response);
+	}
+	@RequestMapping(params = "goUpdateFtlForm")
+	public void goUpdateFtlForm(HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(request,response);
+	}
+	@RequestMapping(params = "goDatilFtlForm")
+	public void goDatilFtlForm(HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(request,response);
+	}
+
+	
+	//add-start--Author:scott Date:20160301 for：online表单移动样式单独配置
+	/**
+	 * Online表单移动端，访问页面
+	 */
+	@RequestMapping(params = "mobileForm")
+	public void mobileForm(HttpServletRequest request,HttpServletResponse response) {
+		String tableName =request.getParameter("tableName");
+		String sql = "select form_template_mobile from cgform_head where table_name = '"+tableName+"'";
+		Map<String, Object> mp = cgFormFieldService.findOneForJdbc(sql);
+		if(mp.containsKey("form_template_mobile") && oConvertUtils.isNotEmpty(mp.get("form_template_mobile"))){
+			String urlTemplateName=request.getParameter("olstylecode");
+			if(oConvertUtils.isEmpty(urlTemplateName)){
+				request.setAttribute("olstylecode", mp.get("form_template_mobile").toString().trim());
+			}
+		}
+		ftlForm(request,response);
+	}
+	//add-end--Author:scott Date:20160301 for：online表单移动样式单独配置
 	
 	/**
 	 * form表单页面跳转
@@ -77,8 +118,10 @@ public class CgFormBuildController extends BaseController {
 			String tableName =request.getParameter("tableName");
 	        Map<String, Object> data = new HashMap<String, Object>();
 	        String id = request.getParameter("id");
+
 			String mode=request.getParameter("mode");
 			String templateName=tableName+"_";
+
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
 				templateName+=TemplateUtil.TemplateType.ADD.getName();
@@ -101,6 +144,7 @@ public class CgFormBuildController extends BaseController {
 	        if(StringUtils.isNotEmpty(id)){
 	        	dataForm = dataBaseService.findOneForJdbc(tableName, id);
 	        }
+
 	        Iterator it=dataForm.entrySet().iterator();
 		    while(it.hasNext()){
 		    	Map.Entry entry=(Map.Entry)it.next();
@@ -108,6 +152,7 @@ public class CgFormBuildController extends BaseController {
 		        Object ov=entry.getValue();
 		        data.put(ok, ov);
 		    }
+
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
 	        tableData.put(tableName, dataForm);
@@ -128,22 +173,35 @@ public class CgFormBuildController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
+
 	    	data.put("head", head);
+
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
 	    	//装载附件信息数据
 	    	pushFiles(data, id);
+	    	pushImages(data, id);
 			String content =null;
 			response.setContentType("text/html;charset=utf-8");
-			String urlTemplateName=request.getParameter("olstylecode");
+
+			String urlTemplateName = request.getParameter("olstylecode");
+
+			if(oConvertUtils.isEmpty(urlTemplateName)){
+				urlTemplateName = (String) request.getAttribute("olstylecode");
+			}
+
+			
 			if(StringUtils.isNotBlank(urlTemplateName)){
 				data.put("this_olstylecode",urlTemplateName);
+				LogUtil.info("-------------urlTemplateName-----------"+urlTemplateName);
 				content=getUrlTemplate(urlTemplateName,templateType,data);
 			}else{
 				data.put("this_olstylecode",head.getFormTemplate());
+				LogUtil.info("-------------formTemplate-----------"+head.getFormTemplate());
 				content=getTableTemplate(templateName,request,data);
 			}
+
 			response.getWriter().print(content);
 			long end = System.currentTimeMillis();
 			logger.debug("自定义表单生成耗时："+(end-start)+" ms");
@@ -152,6 +210,7 @@ public class CgFormBuildController extends BaseController {
 		}
 
 	}
+
 	/**
 	 * 获取url指定模板
 	 * @param templateName
@@ -164,6 +223,9 @@ public class CgFormBuildController extends BaseController {
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(templateName);
 		if(entity!=null){
 			FreemarkerHelper viewEngine = new FreemarkerHelper();
+
+			dataMap.put("DictData", ApplicationContextUtil.getContext().getBean("dictDataTag"));
+
 			content = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, templateType), dataMap);
 		}
 		return content;
@@ -179,10 +241,17 @@ public class CgFormBuildController extends BaseController {
 	private String getTableTemplate(String templateName,HttpServletRequest request,Map data){
 		StringWriter stringWriter = new StringWriter();
 		BufferedWriter writer = new BufferedWriter(stringWriter);
-//		String ftlVersion =request.getParameter("ftlVersion");
-		String ftlVersion = oConvertUtils.getString(data.get("version"));
+
+		String ftlVersion =request.getParameter("ftlVersion");
+//		String ftlVersion = oConvertUtils.getString(data.get("version"));
+
 		Template template = templetContext.getTemplate(templateName, ftlVersion);
 		try {
+
+			template.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
+			template.setDateFormat("yyyy-MM-dd");  
+			template.setTimeFormat("HH:mm:ss");
+
 			template.process(data, writer);
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -191,6 +260,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		return stringWriter.toString();
 	}
+
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
@@ -225,6 +295,11 @@ public class CgFormBuildController extends BaseController {
 		sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
 		//tablefrom.css
 		sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
+		//umedit
+		sb.append("<link rel=\"stylesheet\" href=\"plug-in/umeditor/themes/default/css/umeditor.css\" type=\"text/css\"></link>");
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/umeditor.config.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/umeditor.min.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/lang/zh-cn/zh-cn.js\"></script>");
 		
 		return sb.toString();
 	}
@@ -250,6 +325,29 @@ public class CgFormBuildController extends BaseController {
 			files.add(file);
 		}
 		data.put("filesList", files);
+	}
+
+	/**
+	 * 如果表单带有 附件(图片),则查询出来传递到页面
+	 * @param data 传往页面的数据容器
+	 * @param id 表单主键,用户查找附件数据
+	 */
+	private void pushImages(Map<String, Object> data, String id) {
+		List<CgUploadEntity> uploadBeans = cgFormFieldService.findByProperty(CgUploadEntity.class, "cgformId", id);
+		List<Map<String,Object>> images = new ArrayList<Map<String,Object>>(0);
+		for(CgUploadEntity b:uploadBeans){
+			String title = b.getAttachmenttitle();//附件名
+			String fileKey = b.getId();//附件主键
+			String path = b.getRealpath();//附件路径
+			String field = b.getCgformField();//表单中作为附件控件的字段
+			Map<String, Object> image = new HashMap<String, Object>();
+			image.put("title", title);
+			image.put("fileKey", fileKey);
+			image.put("path", path);
+			image.put("field", field==null?"":field);
+			images.add(image);
+		}
+		data.put("imageList", images);
 	}
 
 	/**
@@ -415,7 +513,9 @@ public class CgFormBuildController extends BaseController {
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
+
 				dataBaseService.executeJavaExtend(formId, buttonCode, data);
+
 			}
 			j.setSuccess(true);
 			message = "操作成功";

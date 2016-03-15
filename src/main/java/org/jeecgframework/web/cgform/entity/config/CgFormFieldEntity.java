@@ -94,8 +94,10 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	private java.lang.String oldFieldName;
 	/**字段默认值*/
 	private java.lang.String fieldDefault;
+	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 	/**扩展参数**/
 	private java.lang.String extendJson;
+	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -549,6 +551,8 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	public void setFieldDefault(java.lang.String fieldDefault) {
 		this.fieldDefault = fieldDefault;
 	}
+
+	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 	@Column(name ="extend_json",nullable=true,length=500)
 	public java.lang.String getExtendJson() {
 		return extendJson;
@@ -557,4 +561,5 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	public void setExtendJson(java.lang.String extendJson) {
 		this.extendJson = extendJson;
 	}
+	//add-end--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 }

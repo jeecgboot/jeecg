@@ -263,6 +263,7 @@ public class ListtoMenu {
 		return menuString.toString();
 	}
 
+
     /**
      * 拼装EASYUI 多级 菜单  下级菜单为树形
      * @param map  the map of Map<Integer, List<TSFunction>>
@@ -310,6 +311,7 @@ public class ListtoMenu {
 
 		return menuString.toString();
 	}
+
 
 	/**
 	 * 获取顶级菜单的下级菜单-----面板式菜单
@@ -414,15 +416,19 @@ public class ListtoMenu {
 		menuString.append(getMutiLang(function.getFunctionName()));
 		menuString.append("\',\'");
 		menuString.append(function.getFunctionUrl());
+
 		//如果是外部链接，则不加菜单ID
 		if(function.getFunctionUrl().indexOf("http:")==-1){
+
 			if(function.getFunctionUrl().indexOf("?") == -1){
 				menuString.append("?clickFunctionId=");
 			} else {
 				menuString.append("&clickFunctionId=");
 			}
+
 			menuString.append(function.getId());
 		}
+
 		menuString.append("\',\'");
 		menuString.append(icon);
 		menuString.append("\')\"  title=\"");
@@ -509,6 +515,7 @@ public class ListtoMenu {
 		menuString.append("		</ul> ");
 		return menuString.toString();
 	}
+
 	/**
 	 * 拼装webos头部菜单
 	 * @param pFunctions
@@ -637,8 +644,10 @@ public class ListtoMenu {
 				dataString.append("'"+function.getId()+"':{ ");
 				dataString.append("appid:'"+function.getId()+"',");
 				dataString.append("url:'"+function.getFunctionUrl()+"',");
+
 //				dataString.append(getIconandName(function.getFunctionName()));
 				dataString.append(getIconAndNameForDesk(function));
+
 				dataString.append("asc :"+function.getFunctionOrder());
 				dataString.append(" },");
 			}
@@ -647,6 +656,7 @@ public class ListtoMenu {
 		data = dataString.toString();
 		return data;
 	}
+
     private static String getIconAndNameForDesk(TSFunction function) {
         StringBuffer dataString = new StringBuffer();
 
@@ -726,6 +736,69 @@ public class ListtoMenu {
 		String lang_context = mutiLangService.getLang(functionName);
 		return lang_context;
 	}
+
+	
+	public static String getDIYMultistageTree(Map<Integer, List<TSFunction>> map) {
+		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
+		StringBuffer menuString = new StringBuffer();
+		List<TSFunction> list = map.get(0);
+        int curIndex = 0;
+            for (TSFunction function : list) {
+                menuString.append("<li>");
+                menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
+                .append(getMutiLang(function.getFunctionName()));
+               /* int submenusize = function.getSubFunctionSize();
+                if (submenusize == 0) {
+                    menuString.append("</a></li>");
+                }
+                if (submenusize > 0) {
+                    menuString.append("<b class=\"arrow\"></b><ul  class=\"submenu\" >");
+                }
+                menuString.append(getSubMenu(function,1,map));
+                if (submenusize > 0) {
+                    menuString.append("</ul></li>");
+                }*/
+                if(!function.hasSubFunction(map)){
+                	menuString.append("</a></li>");
+                	menuString.append(getDIYSubMenu(function,1,map));
+                }else{
+                	menuString.append("<b class=\"arrow\"></b><ul  class=\"submenu\" >");
+                	menuString.append(getDIYSubMenu(function,1,map));
+                	menuString.append("</ul></li>");
+                }
+                curIndex++;
+            }
+
+		return menuString.toString();
+	}
+	
+	private static String getDIYSubMenu(TSFunction parent,int level,Map<Integer, List<TSFunction>> map){
+		StringBuffer menuString = new StringBuffer();
+		List<TSFunction> list = map.get(level);
+		for (TSFunction function : list) {
+			if (function.getTSFunction().getId().equals(parent.getId())){
+				if(!function.hasSubFunction(map)){
+					menuString.append(getLeafOfDIYTree(function));
+				}else if(map.containsKey(level+1)){
+					String icon = "folder";
+					try{
+						if (function.getTSIcon() != null) {
+							icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+						}
+					}catch(Exception e){
+						//TODO handle icon load exception
+					}
+					menuString.append("<li><a href=\"#\" ><i class=\"menu-icon fa fa-eye pink\" iconCls=\"" 
+							+ icon+"\" ></i>"+ getMutiLang(function.getFunctionName()) +"<b class=\"arrow\"></b>");
+					menuString.append("<ul class=\"submenu\">");
+					menuString.append(getChildOfTree(function,level+1,map));
+					menuString.append("</ul></li>");
+				}
+			}
+		}
+		return menuString.toString();
+	}
+
 	public static String getAceMultistageTree(Map<Integer, List<TSFunction>> map) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
 		StringBuffer menuString = new StringBuffer();
@@ -786,6 +859,33 @@ public class ListtoMenu {
 		return menuString.toString();
 	}
 	private static String getLeafOfACETree(TSFunction function){
+		StringBuffer menuString = new StringBuffer();
+		String icon = "folder";
+		if (function.getTSIcon() != null) {
+			icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+		}
+		//addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
+		String name = getMutiLang(function.getFunctionName()) ;
+		menuString.append("<li iconCls=\"");
+		menuString.append(icon);
+		menuString.append("\"> <a href=\"javascript:addTabs({id:\'").append(function.getId());
+		menuString.append("\',title:\'").append(name).append("\',close: true,url:\'");
+		menuString.append(function.getFunctionUrl());
+		menuString.append("&clickFunctionId=");
+		menuString.append(function.getId());
+//		menuString.append("\',\'");
+//		menuString.append(icon);
+		menuString.append("\'})\"  title=\"");
+		menuString.append(name);
+		menuString.append("\" url=\"");
+		menuString.append(function.getFunctionUrl());
+		menuString.append("\"  >");
+		menuString.append(name);
+		menuString.append("</a></li>");
+		return menuString.toString();
+	}
+	
+	private static String getLeafOfDIYTree(TSFunction function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {

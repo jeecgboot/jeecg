@@ -66,7 +66,7 @@
 							</label>
 						</td>
 						<td class="value">
-							<textarea rows="10" cols="90" id="esContent" name="esContent">${tSSmsPage.esContent}</textarea>
+							<textarea rows="10" cols="70" id="esContent" name="esContent">${tSSmsPage.esContent}</textarea>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">内容</label>
 						</td>

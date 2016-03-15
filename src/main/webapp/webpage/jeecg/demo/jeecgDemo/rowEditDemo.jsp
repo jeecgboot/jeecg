@@ -81,6 +81,7 @@
 			$('#'+gname).datagrid('beginEdit', index);
 		}
 	}
+
 	//取消编辑
 	function reject(title,addurl,gname){
 		$('#'+gname).datagrid('clearChecked');

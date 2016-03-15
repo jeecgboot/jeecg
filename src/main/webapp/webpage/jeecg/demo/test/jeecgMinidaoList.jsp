@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;">
+<div region="center"  style="padding:0px;border:0px">
 <t:datagrid name="jeecgMinidaoList" title="menu.minidao.example" actionUrl="jeecgMinidaoController.do?datagrid" idField="id" fit="true" queryMode="group">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.username" field="userName" query="true" width="120"></t:dgCol>

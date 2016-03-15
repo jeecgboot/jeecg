@@ -81,8 +81,8 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework -3.6">JEECG Framework -3.6</a></li>
-	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework -3.6" href="http://www.jeecg.org">JEECG Framework -3.6</a></li>
+	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a></li>
+	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>" href="http://www.jeecg.org">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a></li>
 </ul>
 </div>
 </footer>

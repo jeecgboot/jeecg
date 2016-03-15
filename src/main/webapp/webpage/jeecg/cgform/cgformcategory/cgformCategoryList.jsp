@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	<div id="tt"></div>
-	<div region="center" style="padding: 1px;">
+	<div region="center"  style="padding:0px;border:0px">
 		<t:datagrid name="cgformCategoryList" title="Online Table 分类"
 			actionUrl="cgformCategoryController.do?datagrid&category.code=cgformCategoryController"
 			idField="id" fit="true">

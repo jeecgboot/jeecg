@@ -14,7 +14,7 @@
 	}
 </script>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="jpPersonList" title="Excel导出" actionUrl="jpPersonController.do?datagrid" idField="id" fit="true">
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="jpPersonList" title="Excel导出" actionUrl="jpPersonController.do?datagrid" idField="id" fit="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="年龄" field="age"></t:dgCol>
 	<t:dgCol title="生日" field="birthday" formatter="yyyy-MM-dd"></t:dgCol>

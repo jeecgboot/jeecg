@@ -79,8 +79,8 @@
 	});   
 </script>
 <div class="easyui-layout" fit="true">
-    <div region="center" style="padding: 1px;">
-        <div class="easyui-panel" style="padding: 1px;" fit="true" border="false" id="functionListPanel">
+    <div region="center" style="padding:0px;border:0px">
+        <div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false" id="functionListPanel">
             <input type="hidden" name="orgId" value="${orgId}" id="orgId">
             <a id="selecrAllBtn" onclick="selecrAll();"><t:mutiLang langKey="select.all"/></a>
             <a id="resetBtn" onclick="reset();"><t:mutiLang langKey="common.reset"/></a>

@@ -107,8 +107,10 @@ public class JpPersonController extends BaseController {
         List<JpPersonEntity> listPersons;
         try {
             boolean isSuccess = true;
+
             listPersons =   ExcelImportUtil.importExcel(
                     file.getInputStream(), JpPersonEntity.class,new ImportParams());
+
             for (JpPersonEntity person : listPersons) {
                 person.setId(UUIDGenerator.generate());
                 if (person.getAge() == null || person.getCreatedt() == null || person.getSalary() == null) {

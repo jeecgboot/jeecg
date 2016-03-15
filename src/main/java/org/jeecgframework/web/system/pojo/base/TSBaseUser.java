@@ -2,6 +2,7 @@ package org.jeecgframework.web.system.pojo.base;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jeecgframework.core.common.entity.IdEntity;
+import org.jeecgframework.poi.excel.annotation.Excel;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,17 +17,34 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	@Excel(name = "用户名")
 	private String userName;// 用户名
+	@Excel(name = "真实姓名")
 	private String realName;// 真实姓名
 	private String browser;// 用户使用浏览器类型
+	/*@Excel(name = "角色编码")*/
 	private String userKey;// 用户验证唯一标示
 	private String password;//用户密码
 	private Short activitiSync;//是否同步工作流引擎
+	@Excel(name = "状态")
 	private Short status;// 状态1：在线,2：离线,0：禁用
 	private byte[] signature;// 签名文件
+
+	/*@Excel(name = "组织机构编码")*/
+	private String departid;
+
+	public void setDepartid(String departid){
+		this.departid = departid;
+	}
+	@Column(name = "departid",length=32)
+	public String getDepartid(){
+		return departid;
+	}
+
     //	private TSDepart TSDepart = new TSDepart();// 部门
     private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
 	private TSDepart currentDepart = new TSDepart();// 当前部门
+
 
 	@Column(name = "signature",length=3000)
 	public byte[] getSignature() {
@@ -105,6 +123,7 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
+
     @Transient
     public TSDepart getCurrentDepart() {
         return currentDepart;
@@ -123,4 +142,5 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
     public void setUserOrgList(List<TSUserOrg> userOrgList) {
         this.userOrgList = userOrgList;
     }
+
 }

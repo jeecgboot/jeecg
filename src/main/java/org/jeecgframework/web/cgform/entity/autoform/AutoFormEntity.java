@@ -71,7 +71,9 @@ public class AutoFormEntity implements java.io.Serializable {
 	private java.lang.String dbId;
 	
 	private java.lang.String autoFormId;
+
 	private String mainTableSource;
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -309,6 +311,7 @@ public class AutoFormEntity implements java.io.Serializable {
 	public void setAutoFormId(java.lang.String autoFormId) {
 		this.autoFormId = autoFormId;
 	}
+
 	@Column(name ="main_table_source",nullable=true)
 	public String getMainTableSource() {
 		return mainTableSource;
@@ -317,4 +320,5 @@ public class AutoFormEntity implements java.io.Serializable {
 	public void setMainTableSource(String mainTableSource) {
 		this.mainTableSource = mainTableSource;
 	}
+
 }

@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="webOfficeList" title="WebOffice例子" actionUrl="webOfficeController.do?datagrid" idField="id" fit="true">
+<div region="center"  style="padding:0px;border:0px"><t:datagrid name="webOfficeList" title="WebOffice例子" actionUrl="webOfficeController.do?datagrid" idField="id" fit="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="文档编号" field="docid"></t:dgCol>
 	<t:dgCol title="文档标题" field="doctitle"></t:dgCol>

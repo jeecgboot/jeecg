@@ -18,8 +18,19 @@
 	}
 	var dataDiffWindow ;
 	function dataDiff(){
+		var rowsData = $('#datalogList').datagrid('getSelections');
+		if (rowsData.length!=2) {
+			tip('<t:mutiLang langKey="common.please.select.two.item"/>');
+			return;
+		}
+		var tableName = rowsData[0].tableName;
+		var dataId = rowsData[0].dataId;
+		var versionNumber1 = rowsData[0].versionNumber;
+		var versionNumber2 = rowsData[1].versionNumber;
+		var id1 = rowsData[0].id;
+		var id2 = rowsData[1].id;
 		dataDiffWindow = $.dialog({
-			content: "url:systemController.do?dataDiff",
+			content: "url:systemController.do?dataDiff&tableName="+tableName+"&dataId="+dataId+"&versionNumber1="+versionNumber1+"&versionNumber2="+versionNumber2+"&id1="+id1+"&id2="+id2,
 			drag :false,
 			lock : true,
 			title:'数据比较',
@@ -39,7 +50,7 @@
 	}
 </script>
 <div class="easyui-layout" fit="true">
-	<div region="center" style="padding:1px;">
+	<div region="center" style="padding:0px;border:0px">
 		<t:datagrid name="datalogList" checkbox="true" fitColumns="false" title="数据日志" actionUrl="systemController.do?datagridDataLog" idField="id" fit="true" queryMode="group">
 			<t:dgCol title="主键" field="id" hidden="true" queryMode="single" width="120"></t:dgCol>
 			<t:dgCol title="创建人名称" field="createName" hidden="false" queryMode="single" width="120"></t:dgCol>

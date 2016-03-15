@@ -152,9 +152,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 	}
 
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
-
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param roleId
@@ -210,9 +207,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return operationCodes;
 	}
 
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
-
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -232,10 +226,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 
     public String generateOrgCode(String id, String pid) {
+
         int orgCodeLength = 2; // 默认编码长度
         if ("3".equals(ResourceUtil.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
             orgCodeLength = 3;
         }
+
 
         String  newOrgCode = "";
         if(!StringUtils.hasText(pid)) { // 第一级编码
@@ -335,6 +331,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public  void delTSIcons(TSIcon icon) {
 		TSIcon.allTSIcons.remove(icon.getId());
 	}
+
 	@Override
 	public void addDataLog(String tableName, String dataId, String dataContent) {
 
@@ -352,4 +349,5 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		tsDatalogEntity.setVersionNumber(versionNumber + 1);
 		commonDao.save(tsDatalogEntity);
 	}
+
 }

@@ -1,9 +1,6 @@
 package org.jeecgframework.web.sms.controller;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
-import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
@@ -37,8 +34,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.JsonArray;
 
 
 
@@ -370,6 +365,9 @@ public class TSSmsController extends BaseController {
 //		}
 		return j;
 	}
+	
+	
+	//add-begin--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】	
 	/**
 	 * 今天需要提醒的【系统信息】
 	 * 
@@ -425,6 +423,9 @@ public class TSSmsController extends BaseController {
 		}
 		return j;
 	}
+	//add-end--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】
+	
+	//add-start--Author:jg_renjie  Date:20150611 for：今天需要提醒的【系统信息】的详细信息
 	/**
 	 * 当前登录人当日【系统信息】详细信息
 	 * 
@@ -444,5 +445,110 @@ public class TSSmsController extends BaseController {
 		
 		return new ModelAndView("system/sms/tSSmsDetailList");
 	}
+	//add-end--Author:jg_renjie  Date:20150611 for：今天需要提醒的【系统信息】的详细信息
 	
+	/**
+	 * 取得可读的消息
+	 * 
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(params = "getMessageList")
+	@ResponseBody
+	public AjaxJson getNoticeList(HttpServletRequest req) {
+		AjaxJson j = new AjaxJson();
+		try {
+			j.setObj(0);
+			List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
+			//1. 取得系统当前登录人ID
+			String curUser = ResourceUtil.getSessionUserName().getUserName();
+			//2.查询当前登录人的消息类型为"3"
+			//当前时间
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String curDate = sdf.format(new Date());		
+		
+			String isSend = ResourceUtil.getConfigByName("sms.tip.control");
+			if("1".equals(isSend)){
+				list = this.tSSmsService.getMsgsList(curUser,curDate);
+				//将List转换成JSON存储
+				JSONArray result = new JSONArray();
+		        if(list!=null && list.size()>0){
+		        	for(int i=0;i<list.size();i++){
+		    			JSONObject jsonParts = new JSONObject();
+		    			jsonParts.put("id", list.get(i).getId());
+		    			jsonParts.put("esTitle", list.get(i).getEsTitle());
+		    			jsonParts.put("esSender", list.get(i).getEsSender());
+		    			jsonParts.put("esContent", list.get(i).getEsContent());
+		    			jsonParts.put("esSendtime", list.get(i).getEsSendtime());
+		    			jsonParts.put("esStatus", list.get(i).getEsStatus());
+		    			if(list.get(i).getEsSendtime()!=null){
+		    				SimpleDateFormat sdformat = new SimpleDateFormat("h:mm a");
+		    				jsonParts.put("esSendtimeTxt", sdformat.format(list.get(i).getEsSendtime()));
+		    			}
+		    			result.add(jsonParts);	
+		    		}
+		        	j.setObj(list.size());
+				}
+				
+				Map<String,Object> attrs = new HashMap<String, Object>();
+				attrs.put("messageList", result);
+				String tip = MutiLangUtil.getMutiLangInstance().getLang("message.tip");
+				attrs.put("tip", tip);
+				String seeAll = MutiLangUtil.getMutiLangInstance().getLang("message.seeAll");
+				attrs.put("seeAll", seeAll);
+				j.setAttributes(attrs);
+		    }
+		} catch (Exception e) {
+			j.setSuccess(false);
+		}
+		return j;
+	}
+	
+	/**
+	 * 阅读消息(消息状态置成已提醒)
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(params = "readMessage")
+	@ResponseBody
+	public AjaxJson readMessage(String messageId,HttpServletRequest req) {
+		AjaxJson j = new AjaxJson();
+		try {
+			if(StringUtil.isNotEmpty(messageId)){
+				TSSmsEntity tSSmsEntity = this.systemService.get(TSSmsEntity.class, messageId);
+				if(tSSmsEntity!=null){
+					tSSmsEntity.setEsStatus("2");
+					this.tSSmsService.saveOrUpdate(tSSmsEntity);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return j;
+	}
+	
+	/**
+	 * 获取消息
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(params = "getMsg")
+	@ResponseBody
+	public AjaxJson getMsg(String msgId,HttpServletRequest req) {
+		AjaxJson j = new AjaxJson();
+		try {
+			if(StringUtil.isNotEmpty(msgId)){
+				TSSmsEntity tSSmsEntity = this.systemService.get(TSSmsEntity.class, msgId);
+				Map<String,Object> attrs = new HashMap<String, Object>();
+				attrs.put("msginfo", tSSmsEntity);
+				j.setAttributes(attrs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return j;
+	}
 }

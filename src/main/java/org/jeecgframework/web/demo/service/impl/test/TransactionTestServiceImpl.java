@@ -45,7 +45,7 @@ public class TransactionTestServiceImpl  implements TransactionTestServiceI {
     public Map<String,Integer> insertData(JeecgMinidaoEntity entity, JeecgDemo demo, JeecgOrderCustomEntity customEntity, boolean rollback)throws Exception{
         Map<String,Integer> counts = new HashMap<String, Integer>();
         entity.setUserName("test");
-        jeecgMinidaoDao.saveByHiber(entity);
+        //jeecgMinidaoDao.saveByHiber(entity);
         counts.put("minidao",1);
         demo.setId(new Date().getTime()+"");
         counts.put("jdbc",jdbcDao.executeForObject("insert into jeecg_demo (ID,MOBILE_PHONE,OFFICE_PHONE,EMAIL,AGE,USER_NAME) values(:id,:mobilePhone,:officePhone,:email,:age,'test')", demo));

@@ -107,6 +107,7 @@ public class DynamicDBUtil {
 		}
 		return list;
 	}
+	//add-begin--Author:luobaoli  Date:20150620 for：增加返回值为List的方法
 	public static <T> List<T> findList(final String dbKey, String sql, Class<T> clazz,Object... param) {
 		List<T> list;
 		JdbcTemplate jdbcTemplate = getJdbcTemplate(dbKey);
@@ -118,6 +119,7 @@ public class DynamicDBUtil {
 		}
 		return list;
 	}
+	//add-end--Author:luobaoli  Date:20150620 for：增加返回值为List的方法
 		
 	public static void main(String[] args) {
 		DynamicDataSourceEntity dynamicSourceEntity = new DynamicDataSourceEntity();

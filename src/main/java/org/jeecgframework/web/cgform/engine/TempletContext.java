@@ -65,9 +65,11 @@ public class TempletContext {
 			return null;
 		}
 		String oldTableName = tableName;
+
         if (ftlVersion != null && ftlVersion.length() > 0) {
             tableName = tableName + "&ftlVersion=" + ftlVersion;
         }
+
         try {
 			if(CgAutoListConstant.SYS_MODE_DEV.equalsIgnoreCase(_sysMode)){//开发模式
 				template = freemarker.getTemplate(tableName,freemarker.getLocale(), ENCODING);
@@ -126,6 +128,7 @@ public class TempletContext {
 	public void setTags(Map<String, TemplateDirectiveModel> tags) {
 		this.tags = tags;
 	}
+
 	public void clearCache(){
 		try{
 			ehCache.removeAll();
@@ -133,4 +136,5 @@ public class TempletContext {
 
 		}
 	}
+
 }

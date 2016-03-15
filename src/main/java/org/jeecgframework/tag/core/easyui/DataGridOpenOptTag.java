@@ -19,6 +19,7 @@ public class DataGridOpenOptTag extends TagSupport {
 	protected String title;//链接标题
 	private String exp;//判断链接是否显示的表达式
 	private String operationCode;//按钮的操作Code
+	private String urlStyle;//样式
 	
 	private String openModel = "OpenWin";	//弹出方式
 	public int doStartTag() throws JspTagException {
@@ -27,7 +28,7 @@ public class DataGridOpenOptTag extends TagSupport {
 	public int doEndTag() throws JspTagException {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setOpenUrl(url,title,width,height,exp,operationCode,openModel);
+		parent.setOpenUrl(url,title,width,height,exp,operationCode,openModel,urlStyle);
 		return EVAL_PAGE;
 	}
 	public void setWidth(String width) {
@@ -51,6 +52,12 @@ public class DataGridOpenOptTag extends TagSupport {
 	}
 	public void setOpenModel(String openModel) {
 		this.openModel = openModel;
+	}
+	public void setUrlStyle(String urlStyle) {
+		this.urlStyle = urlStyle;
+	}
+	public String getUrlStyle() {
+		return urlStyle;
 	}
 	
 }

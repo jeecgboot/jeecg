@@ -7,6 +7,7 @@
 		<meta charset="utf-8" />
 		<title><t:mutiLang langKey="jeect.platform"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
 		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" />
@@ -62,7 +63,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<!-- <i class="fa fa-leaf"></i> -->
-							JEECG 演示系统
+							<t:mutiLang langKey="jeect.platform"/>
 						</small>
 					</a>
 					<!-- /section:basics/navbar.layout.brand -->
@@ -155,66 +156,26 @@
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span class="badge badge-important">8</span>
+								<span class="badge badge-important" id="noticeCount">0</span>
 							</a>
-
-							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close" >
+								<li class="dropdown-header" id="noticeTip">
 									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									8 Notifications
+									  0 Notifications
+										<!-- ajax加载 -->
 								</li>
-
+								
 								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar navbar-pink">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-														New Comments
-													</span>
-													<span class="pull-right badge badge-info">+12</span>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<i class="btn btn-xs btn-primary fa fa-user"></i>
-												Bob just signed up as an editor ...
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
-														New Orders
-													</span>
-													<span class="pull-right badge badge-success">+8</span>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
-														Followers
-													</span>
-													<span class="pull-right badge badge-info">+11</span>
-												</div>
-											</a>
-										</li>
+									<ul class="dropdown-menu dropdown-navbar navbar-pink" id="noticeContent">
+										<!-- ajax加载 -->
 									</ul>
 								</li>
 
 								<li class="dropdown-footer">
-									<a href="#">
+									<a href="javascript:goAllNotice();" id="noticeFooter">
 										See all notifications
 										<i class="ace-icon fa fa-arrow-right"></i>
+										<!-- ajax加载 -->
 									</a>
 								</li>
 							</ul>
@@ -223,108 +184,27 @@
 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-								<span class="badge badge-success">5</span>
+								<span class="badge badge-success" id="messageCount">0</span>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
+								<li class="dropdown-header" id="messageTip">
 									<i class="ace-icon fa fa-envelope-o"></i>
-									5 Messages
+									0 Messages
+									<!-- ajax加载 -->
 								</li>
 
 								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#" class="clearfix">
-												<img src="plug-in/ace/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Alex:</span>
-														Ciao sociis natoque penatibus et auctor ...
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>a moment ago</span>
-													</span>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="clearfix">
-												<img src="plug-in/ace/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Susan:</span>
-														Vestibulum id ligula porta felis euismod ...
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>20 minutes ago</span>
-													</span>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="clearfix">
-												<img src="plug-in/ace/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Bob:</span>
-														Nullam quis risus eget urna mollis ornare ...
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>3:15 pm</span>
-													</span>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="clearfix">
-												<img src="plug-in/ace/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Kate:</span>
-														Ciao sociis natoque eget urna mollis ornare ...
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>1:33 pm</span>
-													</span>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="clearfix">
-												<img src="plug-in/ace/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
-												<span class="msg-body">
-													<span class="msg-title">
-														<span class="blue">Fred:</span>
-														Vestibulum id penatibus et auctor  ...
-													</span>
-
-													<span class="msg-time">
-														<i class="ace-icon fa fa-clock-o"></i>
-														<span>10:09 am</span>
-													</span>
-												</span>
-											</a>
-										</li>
+									<ul class="dropdown-menu dropdown-navbar" id="messageContent">
+										<!-- ajax加载 -->
 									</ul>
 								</li>
 
 								<li class="dropdown-footer">
-									<a href="ajax.html#page/inbox">
+									<a href="javascript:goAllMessage();" id="messageFooter">
 										See all messages
 										<i class="ace-icon fa fa-arrow-right"></i>
+										<!-- ajax加载 -->
 									</a>
 								</li>
 							</ul>
@@ -333,12 +213,10 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="plug-in/ace/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="plug-in/ace/avatars/avatar2.png" alt="Jason's Photo" />
 								<span class="user-info">
-									<small>Welcome,${userName }</small>
-									<span style="color: #CC33FF">
-                    <span style="color: #CC33FF"><t:mutiLang langKey="common.role"/>:</span>
-                    <span style="color: #666633">${roleName }</span>
+									<small>${userName }</small>
+				                    <span style="color: #666633">${roleName }</span>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -365,7 +243,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,200)">
+									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)">
 										<i class="ace-icon fa fa-user"></i>
 										 <t:mutiLang langKey="common.my.style"/>
 									</a>
@@ -444,7 +322,7 @@
 
 				<ul class="nav nav-list">
 					<li class="">
-						<a  href="javascript:loadModule('首页','loginController.do?home')">
+						<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> 首页 </span>
 						</a>
@@ -584,8 +462,8 @@
 					</div><!-- /.ace-settings-container -->
 
 					<!-- /section:settings.box -->
-					<div class="page-content-area" data-ajax-content="false"  >
-					<div  id="tabs" >
+				 <div class="page-content-area" data-ajax-content="false"  >
+					<!-- <div  id="tabs" >
 											<ul style="height:0px">
 												<li>
 													<a href="#tabs-1" id="mainTitle">首页</a>
@@ -594,8 +472,22 @@
 							<div id="tabs-1" style="padding:0px">
 						 		<iframe style="width:100%;height:700px;margin:0px;padding:0px" scrolling="auto" frameborder="0" id="center"  src="loginController.do?home" ></iframe>
 							</div>
-					</div>
-					</div><!-- /.page-content-area -->
+					</div> -->
+					
+					
+                        <div class="col-xs-12" style="width: 99%;padding-left:2px;padding-right: 2px;" id="tabs">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <!-- <li class="active"><a href="#Index" role="tab" data-toggle="tab">首页</a></li> -->
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="Index">
+                                </div>
+                            </div>
+                        </div>
+                    
+					</div> <!-- /.page-content-area -->
+					
+					
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
 
@@ -606,7 +498,7 @@
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">JEECG</span>
-							Application &copy; 2013-2014
+							 Application &copy; <t:mutiLang langKey="system.version.number"/>
 						</span>
 
 						&nbsp; &nbsp;
@@ -652,9 +544,11 @@
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
 			-->
+			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="shortcut" name="indexStyle" /> <span>ShortCut风格</span></td>
 			</tr>
+			<!-- update-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="sliding" name="indexStyle"  /><span>Sliding云桌面</span></td>
 			</tr>
@@ -701,7 +595,7 @@
 		
 
 	  	function logout(){
-	  		bootbox.confirm("Are you sure to logout?", function(result) {
+	  		bootbox.confirm("<t:mutiLang langKey="common.exit.confirm"/>", function(result) {
 	  			if(result)
 		  			location.href="loginController.do?logout";
 	  		});
@@ -799,6 +693,7 @@
 			}});
   			
   	}
+
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -807,6 +702,152 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
+
+
+
+	$(document).ready(function(){
+		//加载公告
+		var url = "noticeController.do?getNoticeList";
+		$.ajax({
+    		url:url,
+    		type:"GET",
+    		dataType:"JSON",
+    		async: false,
+    		success:function(data){
+    			if(data.success){
+    				var noticeList = data.attributes.noticeList;
+    				var noticeCount = data.obj;
+    				//加载公告条数
+    				if(noticeCount>99){
+    					$("#noticeCount").html("99+");
+    				}else{
+    					$("#noticeCount").html(noticeCount);
+    				}
+    				//加载公告提示
+    				var noticeTip = "";
+    				noticeTip += "<i class='ace-icon fa fa-exclamation-triangle'></i>";
+    				noticeTip += noticeCount+" "+data.attributes.tip;
+    				$("#noticeTip").html(noticeTip);
+    				
+    				//加载公告条目
+    				var noticeContent = "";
+    				if(noticeList.length > 0){
+    					for(var i=0;i<noticeList.length;i++){
+    						noticeContent +="<li><a href='javascript:goNotice(&quot;"+noticeList[i].id+"&quot;)' ";
+    						noticeContent +="style='word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>";
+    						noticeContent +="<i class='btn btn-xs btn-primary fa fa-user'></i>";
+    						noticeContent +="&nbsp;"+noticeList[i].noticeTitle + "</a></li></ul></li>";
+        				}
+    				}
+    				$("#noticeContent").html(noticeContent);
+    				
+    				//加载公告底部文字
+    				var noticeSeeAll = data.attributes.seeAll +"<i class='ace-icon fa fa-arrow-right'></i>";
+    				$("#noticeFooter").html(noticeSeeAll);
+    			}
+    		}
+    	});
+		
+		
+		//加载消息
+		var url = "tSSmsController.do?getMessageList";
+		$.ajax({
+    		url:url,
+    		type:"GET",
+    		dataType:"JSON",
+    		async: false,
+    		success:function(data){
+    			if(data.success){
+    				var messageList = data.attributes.messageList;
+    				var messageCount = data.obj;
+    				//加载消息条数
+    				if(messageCount>99){
+    					$("#messageCount").html("99+");
+    				}else{
+    					$("#messageCount").html(messageCount);
+    				}
+    				//加载消息tip提示
+    				var messageTip = "";
+					messageTip += "<i class='ace-icon fa fa-envelope-o'></i>";
+					messageTip += messageCount+" "+data.attributes.tip;
+    				$("#messageTip").html(messageTip);
+    				
+    				//加载消息条目（有限）
+    				var messageContent = "";
+    				if(messageList.length > 0){
+    					for(var i=0;i<messageList.length;i++){
+    						messageContent +="<li><a href='javascript:goMessage(&quot;"+messageList[i].id+"&quot;)' class='clearfix'>";
+    						messageContent +="<img src='plug-in/ace/avatars/avatar3.png' class='msg-photo' alt='Alex’s Avatar' />";
+    						messageContent +="<span class='msg-body'><span class='msg-title'>";
+    						messageContent +="<span class='blue'>"+messageList[i].esSender+":</span>";
+    						messageContent += messageList[i].esTitle + "</span>";
+    						messageContent +="<span class='msg-time'><i class='ace-icon fa fa-clock-o'></i><span>"+messageList[i].esSendtimeTxt+"</span></span>";
+    						messageContent +="</span></a><input id='"+messageList[i].id+"_title' type='hidden' value='"+messageList[i].esTitle+"'>";
+    						messageContent +="<input id='"+messageList[i].id+"_status' type='hidden' value='"+messageList[i].esStatus+"'>";
+    						messageContent +="<input id='"+messageList[i].id+"_content' type='hidden' value='"+messageList[i].esContent+"'></li>";
+        				}
+    				}
+    				$("#messageContent").html(messageContent);
+    				
+    				//加载消息底部文字
+    				var messageSeeAll = data.attributes.seeAll +"<i class='ace-icon fa fa-arrow-right'></i>";
+    				$("#messageFooter").html(messageSeeAll);
+    			}
+    		}
+    	});
+		
+	});
+
+    function goAllNotice(){
+    	var addurl = "noticeController.do?noticeList";
+  		createdetailwindow("公告", addurl, 800, 400);
+    }
+
+    function goNotice(id){
+  		var addurl = "noticeController.do?goNotice&id="+id;
+		createdetailwindow("通知公告详情", addurl, 750, 600);
+    }
+    
+    function goAllMessage(){
+    	var addurl = "tSSmsController.do?getSysInfos";
+  		createdetailwindow("消息", addurl, 800, 400);
+    }
+    
+    function goMessage(id){
+    	var title = $("#"+id+"_title").val();
+    	var content = $("#"+id+"_content").val();
+    	$("#msgId").val(id);
+    	$("#msgTitle").html(title);
+    	$("#msgContent").html(content);
+    	var status = $("#"+id+"_status").val();
+    	if(status==1){
+    		$("#msgStatus").html("未读");
+    	}else{
+    		$("#msgStatus").html("已读");
+    	}
+
+    	$('.theme-popover-mask').fadeIn(100);
+    	$('.theme-popover').slideDown(200);
+    }
+    
+    function readMessage(){
+    	var msgId = $("#msgId").val();
+  		  var url = "tSSmsController.do?readMessage";
+  			$.ajax({
+  	    		url:url,
+  	    		type:"GET",
+  	    		dataType:"JSON",
+  	    		data:{
+  	    			messageId:msgId
+  	    		},
+  	    		success:function(data){
+  	    			if(data.success){
+  	    				$("#msgStatus").html("已读");
+  	    				$("#"+msgId+"_status").val('2');
+  	    			}
+  	    		}
+  	    	});
+    }
 		</script>
 		<script src="plug-in/ace/js/bootstrap.js"></script>
 <script src="plug-in/ace/js/bootbox.js"></script>
@@ -837,8 +878,40 @@
 		<script src="plug-in/ace/js/ace/ace.searchbox-autocomplete.js"></script>
 		<t:base type="tools"></t:base>
 		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
-		<script>jQuery(function($) {
-			$( "#tabs" ).tabs();
-			});</script>
+		<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
+		<script src="plug-in/layer/layer.js"></script>
+		<script>
+		jQuery(function($) {
+			//$( "#tabs" ).tabs();
+			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
+			$('.theme-poptit .close').click(function(){
+	    		$('.theme-popover-mask').fadeOut(100);
+	    		$('.theme-popover').slideUp(200);
+	    	});
+	    	$('#closeBtn').click(function(){
+	    		$('.theme-popover-mask').fadeOut(100);
+	    		$('.theme-popover').slideUp(200);
+	    	});
+		});
+		</script>
+		
+<link rel="stylesheet" href="plug-in/ace/css/poptip.css" />
+<div class="theme-popover">
+     <div class="theme-poptit">
+          <a href="javascript:;" title="关闭" class="close">×</a>
+          <h3>消息[<span id="msgStatus"></span>]</h3>
+     </div>
+     <div class="theme-popbod">
+     	<input id="msgId" type="hidden" value="">
+            <h1 style="text-align:center;" id="msgTitle"></h1>
+      <p id="msgContent" style='overflow : hidden;text-overflow: ellipsis; display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;'></p> 
+     </div>
+	 <div style="text-align:center;">
+	 <a href="javascript:readMessage();" class="btn2 btn-primary btn-large" style="color: #0088DB;">已读</a>
+	 <a href="#" class="btn2 btn-primary btn-large gray" id="closeBtn" style="color: #0088DB;">关闭</a>
+	 </div>
+</div>
+<div class="theme-popover-mask"></div>	
 	</body>
 </html>

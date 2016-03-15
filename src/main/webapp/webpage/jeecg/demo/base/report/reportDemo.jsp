@@ -182,6 +182,7 @@
 <span id="containerline" style="float: left; width: 30%; height: 60%"></span>
 <span id="containerCol" style="float: left; width: 38%; height: 60%"></span>
 <span id="containerPie" style="width: 30%; height: 60%"></span>
+<!-- update-begin--Author:jg_renjie  Date:20150613 for：页面自适应页面，不会出现左右滚动条 -->
 <div style="width: 100%; height: 38%;">
 	<t:datagrid name="studentStatisticList" title="class.count.statistics" actionUrl="reportDemoController.do?listAllStatisticByJdbc" idField="id" fit="true">
 		<t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>

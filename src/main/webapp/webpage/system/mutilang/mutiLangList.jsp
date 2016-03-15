@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools"/>
-<div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
   <t:datagrid name="mutiLangList" title="lang.maintain" actionUrl="mutiLangController.do?datagrid" 
       idField="id" fit="true" queryMode="group" sortName="createDate" sortOrder="desc">
    <t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
@@ -20,5 +18,3 @@
    <t:dgToolBar title="common.view" icon="icon-search" url="mutiLangController.do?addorupdate" funname="detail"></t:dgToolBar>
    <t:dgToolBar title="common.refresh" icon="icon-search" url="mutiLangController.do?refreshCach" funname="doSubmit"></t:dgToolBar>
   </t:datagrid>
- </div>
-</div> 

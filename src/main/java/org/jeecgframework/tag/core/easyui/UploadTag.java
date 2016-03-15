@@ -31,6 +31,7 @@ public class UploadTag extends TagSupport {
 	protected boolean auto=false;//是否自动上传
 	protected String onUploadSuccess;//上传成功处理函数
 	protected boolean view=false;//生成查看删除链接
+
 	protected String formId;//参数名称
 	
 	public String getFormId() {
@@ -39,6 +40,7 @@ public class UploadTag extends TagSupport {
 	public void setFormId(String formId) {
 		this.formId = formId;
 	}
+
 
 	public void setView(boolean view) {
 		this.view = view;
@@ -133,6 +135,7 @@ public class UploadTag extends TagSupport {
 						}
 					}
 			        sb.append("});");
+
 				}else if (formId!=null) {
 					sb.append(" var o = {};");
             		sb.append("    var _array = $('#"+formId+"').serializeArray();");
@@ -148,6 +151,7 @@ public class UploadTag extends TagSupport {
             		sb.append("    });");
             		sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", o);");
 				};
+
 		       sb.append("} ," 	          
 				+"onQueueComplete : function(queueData) { ");
 				if(dialog)

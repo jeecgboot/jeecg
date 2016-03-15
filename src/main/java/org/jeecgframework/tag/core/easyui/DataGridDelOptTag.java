@@ -26,6 +26,7 @@ public class DataGridDelOptTag extends TagSupport {
 	
 	private String operationCode;//按钮的操作Code
 	private String langArg;
+	private String urlStyle;//样式
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -35,7 +36,7 @@ public class DataGridDelOptTag extends TagSupport {
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setDelUrl(url, title, message, exp, funname,operationCode);
+		parent.setDelUrl(url, title, message, exp, funname,operationCode,urlStyle);
 		return EVAL_PAGE;
 	}
 	public void setFunname(String funname) {
@@ -59,5 +60,11 @@ public class DataGridDelOptTag extends TagSupport {
 	
 	public void setLangArg(String langArg) {
 		this.langArg = langArg;
+	}
+	public void setUrlStyle(String urlStyle) {
+		this.urlStyle = urlStyle;
+	}
+	public String getUrlStyle() {
+		return urlStyle;
 	}
 }

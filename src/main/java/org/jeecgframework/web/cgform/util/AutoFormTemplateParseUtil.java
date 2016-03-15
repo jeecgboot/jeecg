@@ -226,10 +226,12 @@ public class AutoFormTemplateParseUtil {
 		List<String> listlength = Arrays.asList(lenths.split("`"));
 		
 		int tdCount = listTitle.size();
+
 		String tableId = name + "_table";
 		String dsName = getListDsName(listAutofield);
 		//是否有合计行
 		boolean isExistSum = false;
+
 		String listfk = "<input type=\"hidden\" name=\"listctrl_fk_"+dsName+"\" value=\""+pkid+"\">";
 		String listfkdsid = "<input type=\"hidden\" name=\"listctrl_fkdsid_"+dsName+"\" value=\""+fkdsid+"\">";
 		String rowTemplet = getListctrlRowTemplet(name,atrrMap);
@@ -237,7 +239,7 @@ public class AutoFormTemplateParseUtil {
 				+ name
 				+ "_table\" bindTable=\"true\" cellspacing=\"0\" class=\"table table-bordered table-condensed\" style=\""
 				+ style + "\"><thead>{0}</thead><tbody>{1}</tbody>{2}</table><input type=\"hidden\" id=\"tableId\" name=\"tableId\" value=\""+tableId+"\">";
-		String btnAdd = "<span class=\"pull-right\"><button id='listAdd' class=\"btn btn-small btn-success listAdd\" type=\"button\" tbname=\""
+		String btnAdd = "<span class=\"pull-right\"><button id='"+name+"_listAdd' class=\"btn btn-small btn-success listAdd\" type=\"button\" tbname=\""
 				+ name + "\">添加一行</button></span>"; // 添加按钮
 		String theader = "<tr><th colspan=\"{0}\">{1}{2}</th></tr>{3}";// 头部模版
 		
@@ -477,11 +479,13 @@ public class AutoFormTemplateParseUtil {
 				
 				if ((i+1) == tdCount)// 最后一列不显示
 				{
+
 //					if(row == 0){
 //						tr += "<td></td>";
 //					} else {
 						tr += "<td><button class=\"btn btn-small btn-success delrow\" type=\"button\">删除</button></td>";
 //					}
+
 				}
 
 				if (row == 0)// 统计的行只有一行
@@ -489,7 +493,9 @@ public class AutoFormTemplateParseUtil {
 					// region
 					if(!"1".equals(flag)){
 						if (sum != "") {
+
 							    isExistSum = true;
+
 							    tdSum += MessageFormat
 									.format(
 											"<td>合计：<input class=\"input-small\" type=\"text\" value=\"value{0}\" name=\"{1}[total]\" {2}\">{3}</td>",
@@ -518,27 +524,28 @@ public class AutoFormTemplateParseUtil {
 
 		temp_html = MessageFormat.format(temp, theader, sbTr.toString(), tdSum);
 		String divId = name+"_row_templet";
+
 		temp_html += "<script type=\"text/javascript\">";
 		temp_html += "$(function(){";
-		temp_html += "$(\"#listAdd\").click(function(){";
+		temp_html += "$(\"#"+name+"_listAdd\").click(function(){";
 //		temp_html += "var tbHtml ='<tr>'+ $(\"#"+tableId+" tbody\").eq(0).find(\"tr\").eq(0).html().replace('<td></td>',\"<td><button class='btn btn-small btn-success delrow' type='button'>删除</button></td>\")+'</tr>';";
 		temp_html += "var tbHtml ='<tr>'+ $(\"#"+divId+"\").val().replace(/#textarea#/g,'textarea')+'</tr>';";
 		if(isExistSum){//存在合计行，则将行插入到倒数第二行的后面
-			temp_html +="$(\"#"+tableId+" tbody\").eq(0).append(tbHtml);";
+			temp_html +="$(\"#"+name+"_table"+" tbody\").eq(0).append(tbHtml);";
 			//temp_html +="$(\"#"+tableId+" tbody\").eq(0).find(\"tr:first\").find(\"input\").each(function(){$(this).val(\"\");});";
 		} else {//不存在合计行，则将行插入到最后一行
-			temp_html +="$(\"#"+tableId+" tbody\").eq(0).append(tbHtml);";
+			temp_html +="$(\"#"+name+"_table"+" tbody\").eq(0).append(tbHtml);";
 			//temp_html +="$(\"#"+tableId+" tbody\").eq(0).find(\"tr:first\").find(\"input\").each(function(){$(this).val(\"\");});";
 		}
 		//为新增的行绑定删除方法，不然新增的行不会绑定
-		temp_html += "$(\".delrow\").die().live(\"click\",function(){$(this).parent().parent().remove();resetTrNum();});resetTrNum();";
+		temp_html += "$(\".delrow\").die().live(\"click\",function(){$(this).parent().parent().remove();"+name+"_resetTrNum();});"+name+"_resetTrNum();";
 		temp_html += "});";
 	    //添加删除按钮的方法
-		temp_html +="$(\".delrow\").click(function(){$(this).parent().parent().remove();resetTrNum();});";
+		temp_html +="$(\".delrow\").click(function(){$(this).parent().parent().remove();"+name+"_resetTrNum();});";
 		temp_html += "});";
-		temp_html +="function resetTrNum() {";
-		temp_html +="var tableId = $(\"#tableId\").val();";
-		temp_html +="$(\"#"+tableId + " tbody tr\").each(function(i) {";
+
+		temp_html +="function "+name+"_resetTrNum() {";
+		temp_html +="$(\"#"+name + "_table tbody tr\").each(function(i) {";
 	    temp_html +="	$(':input, select,a', this).each(function() {";
 	    temp_html +="	var $this = $(this), name = $this.attr('name'), val = $this.val();";
 		temp_html +="	if (name != null) {";
@@ -555,6 +562,7 @@ public class AutoFormTemplateParseUtil {
 		temp_html +="});";
 		temp_html +="}";
 		temp_html +="</script>";
+
 		return temp_html;
 	}
 	
@@ -758,7 +766,9 @@ public class AutoFormTemplateParseUtil {
 //		String leipiplugins = (String)atrrMap.get("leipiplugins");
 		String orgtype = (String)atrrMap.get("orgtype");
 		String autofield = (String)atrrMap.get("autofield");
+
 		String datatype = (String)atrrMap.get("datatype");
+
 		StringBuilder sb = new StringBuilder();
 		//add by jg_renjie at 20151029 for:自定义单行文本控件实现日历选项及datatype无值时提示错误
 		sb.append("<input ");
@@ -779,9 +789,11 @@ public class AutoFormTemplateParseUtil {
 		sb.append(" title=").append("\"").append(title).append("\"");
 		sb.append(" name=").append("\"").append(name).append("\"");
 		sb.append(" value=").append("\"").append(getSingleValue(autofield,paras)).append("\"");
+
 		if(StringUtils.isNotBlank(datatype)){
 			sb.append(" datatype=").append("\"").append(datatype).append("\"");
 		}
+
 		sb.append(" />");
 		html = sb.toString();
 		return html;

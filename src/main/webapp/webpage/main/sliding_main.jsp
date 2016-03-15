@@ -4,7 +4,9 @@
 <html>
 	<head>
 		<title>JEECG 微云快速开发平台</title>
+<%--update-begin--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 <t:base type="jquery-webos,easyui,tools,DatePicker,autocomplete"></t:base>
+<%--update-end--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 <link rel="shortcut icon" href="images/favicon.ico">
 		<link href="plug-in/sliding/css/main.css" rel="stylesheet" type="text/css" />
 		<link href="plug-in/sliding/css/themesetting.css" rel="stylesheet"  type="text/css" >
@@ -12,8 +14,12 @@
 		<link href="plug-in/sliding/css/powerFloat.css" rel="stylesheet" type="text/css"/>	
 		<link href="plug-in/sliding/css/smartMenu.css" rel="stylesheet"  type="text/css" />
 		<link href="plug-in/sliding/css/skins/opera.css" rel="stylesheet"  type="text/css" />
+        <%--update-begin--Author:zhangguoming  Date:20140604 for：云桌面全局视图，添加纵向滚动条--%>
         <link href="plug-in/sliding/css/scrollStyle.css" rel="stylesheet"  type="text/css" />
+        <%--update-end--Author:zhangguoming  Date:20140604 for：云桌面全局视图，添加纵向滚动条--%>
+        <%--update-begin--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 		<%--<script  type="text/javascript" src="plug-in/webos1.2/js/jquery-1.7.1.min.js"></script>--%>
+        <%--update-end--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-powerFloat-min.js"></script>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-smartMenu-min.js"></script>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-class.js"></script>
@@ -33,10 +39,12 @@
 //                var $script = $("script[src='plug-in/jquery/jquery-1.8.3.js']");
 //                $($script).remove();
 //                alert($script.attr("src"));
+
 			  $(".dock_tool_theme").live("click",function(){
 				  $("#themeSetting_wrap2").append("<div id='themeSetting_wrap' style='display:none;'></div>");
 				  $("#themeSetting_wrap").html($("#themeSetting_wrap1").html());
 				  $("#themeSetting_wrap").show();
+
 			  })
             });
         </script>

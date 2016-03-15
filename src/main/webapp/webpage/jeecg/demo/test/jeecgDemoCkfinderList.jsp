@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="jeecgDemoCkfinderList" title="ckeditor+ckfinder例子" actionUrl="jeecgDemoCkfinderController.do?datagrid" idField="id" fit="true">
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="jeecgDemoCkfinderList" title="ckeditor+ckfinder例子" actionUrl="jeecgDemoCkfinderController.do?datagrid" idField="id" fit="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="图片" field="image" imageSize="90,50"></t:dgCol>
 	<t:dgCol title="附件" field="attachment" downloadName="点击下载"></t:dgCol>

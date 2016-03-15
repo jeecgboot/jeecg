@@ -3,6 +3,7 @@ package org.jeecgframework.core.extend.hqlsearch;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,7 +52,6 @@ public class HqlGenerateUtil {
 	 * @throws Exception
 	 */
 	public static void installHql(CriteriaQuery cq, Object searchObj) {
-//		--author：龙金波 ------start---date：20150519--------for：统一函数处理sqlbuilder---------------------------------- 
 		installHql(cq,searchObj,null);
 
 	}
@@ -67,7 +67,6 @@ public class HqlGenerateUtil {
 	public static void installHql(CriteriaQuery cq, Object searchObj,
 			Map<String, String[]> parameterMap) {
 		installHqlJoinAlias(cq, searchObj, getRuleMap(), parameterMap, "");
-//		--author：龙金波 ------start---date：20150422--------for：增加一个特殊sql参数处理---------------------------------- 
 		try{
 			String json= null;
 			if(StringUtil.isNotEmpty(cq.getDataGrid().getSqlbuilder())){
@@ -87,7 +86,6 @@ public class HqlGenerateUtil {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-//		--author：龙金波 ------start---date：201504022--------for：增加一个特殊sql参数处理---------------------------------- 
 
 		cq.add();
 	}
@@ -139,22 +137,57 @@ public class HqlGenerateUtil {
 				// 根据类型分类处理
 				if (type.contains("class java.lang")
 						|| type.contains("class java.math")) {
+
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum
 								.convert(value);
+
 						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))){
 							value="*%"+value+"%*";
 						}
+
 						value = PageValueConvertRuleEnum.replaceValue(rule,
 								value);
 						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
 					} else if (parameterMap != null) {
+
+						Object beginValue_=null , endValue_ =null;
+						if ("class java.lang.Integer".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ = Integer.parseInt(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ =Integer.parseInt(endValue);
+						} else if ("class java.math.BigDecimal".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ = new BigDecimal(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ = new BigDecimal(endValue);
+						} else if ("class java.lang.Short".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ =Short.parseShort(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ =Short.parseShort(endValue);
+						} else if ("class java.lang.Long".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ = Long.parseLong(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ =Long.parseLong(endValue);
+						} else if ("class java.lang.Float".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ = Float.parseFloat(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ =Float.parseFloat(endValue);
+						}else{
+							 beginValue_ = beginValue;
+							 endValue_ = endValue;
+						}
 						ObjectParseUtil.addCriteria(cq, aliasName,
-								HqlRuleEnum.GE, beginValue);
+								HqlRuleEnum.GE, beginValue_);
 						ObjectParseUtil.addCriteria(cq, aliasName,
-								HqlRuleEnum.LE, endValue);
+								HqlRuleEnum.LE, endValue_);
 					}
+
 					// for：查询拼装的替换
 				} else if ("class java.util.Date".equals(type)) {
 					QueryTimeFormat format = origDescriptors[i].getReadMethod()
@@ -193,9 +226,11 @@ public class HqlGenerateUtil {
 					if (isHaveRuleData(ruleMap, aliasName) ||( isNotEmpty(param)
 							&& itIsNotAllEmpty(param))) {
 						// 如果是实体类,创建别名,继续创建查询条件
+
 						// for：用户反馈
 						cq.createAlias(aliasName,
 								aliasName.replaceAll("\\.", "_"));
+						// ------------end--Author:JueYue Date:20140521 for：用户反馈
 						installHqlJoinAlias(cq, param, ruleMap, parameterMap,
 								aliasName);
 					}
@@ -251,7 +286,10 @@ public class HqlGenerateUtil {
 	}
 
 	private static String converRuleValue(String ruleValue) {
-		String value = ResourceUtil.getUserSystemData(ruleValue);
+		//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+		//这个方法建议去掉，直接调用ResourceUtil.converRuleValue(ruleValue)
+		String value = ResourceUtil.converRuleValue(ruleValue);
+		//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		return value!= null ? value : ruleValue;
 	}
 
@@ -355,6 +393,8 @@ public class HqlGenerateUtil {
 		}
 		return sb.toString();
 	}
+
+//	--author：龙金波 ------end---date：20150628--------for：sql组装
 	/**
 	 * 根据字段名称,获取字段的类型字符串
 	 * return: java.lang.Integer
@@ -393,5 +433,70 @@ public class HqlGenerateUtil {
 			return column;
 		}
 		return column;
+	}
+//	--author：陈璞 ------end---date：20150612--------for：sql组装
+	
+	
+	
+	/**
+	 * 获取装载数据权限条件的HQL
+	 * @return cq
+	 * @param cq
+	 * @param searchObj
+	 */
+	public static CriteriaQuery getDataAuthorConditionHql(CriteriaQuery cq, Object searchObj) {
+		Map<String, TSDataRule> ruleMap = getRuleMap();
+		PropertyDescriptor origDescriptors[] = PropertyUtils.getPropertyDescriptors(searchObj);
+		String aliasName, name, type;
+		for (int i = 0; i < origDescriptors.length; i++) {
+			aliasName = origDescriptors[i].getName();
+			name = origDescriptors[i].getName();
+			type = origDescriptors[i].getPropertyType().toString();
+			try {
+				if (judgedIsUselessField(name) || !PropertyUtils.isReadable(searchObj, name)) {
+					continue;
+				}
+				// 如果规则包含这个属性
+				if (ruleMap.containsKey(aliasName)) {
+					addRuleToCriteria(ruleMap.get(aliasName), aliasName, origDescriptors[i].getPropertyType(), cq);
+				}
+
+				Object value = PropertyUtils.getSimpleProperty(searchObj, name);
+				// 根据类型分类处理
+				if (type.contains("class java.lang") || type.contains("class java.math")) {
+
+					// for：查询拼装的替换
+					if (value != null && !value.equals("")) {
+						HqlRuleEnum rule = PageValueConvertRuleEnum.convert(value);
+						value = PageValueConvertRuleEnum.replaceValue(rule, value);
+						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
+					}
+
+					// for：查询拼装的替换
+				} else if ("class java.util.Date".equals(type)) {
+					QueryTimeFormat format = origDescriptors[i].getReadMethod().getAnnotation(QueryTimeFormat.class);
+					SimpleDateFormat userDefined = null;
+					if (format != null) {
+						userDefined = new SimpleDateFormat(format.format());
+					}
+					if (isNotEmpty(value)) {
+						cq.eq(aliasName, value);
+					}
+				} else if (!StringUtil.isJavaClass(origDescriptors[i].getPropertyType())) {
+					Object param = PropertyUtils.getSimpleProperty(searchObj, name);
+					if (isHaveRuleData(ruleMap, aliasName) || (isNotEmpty(param) && itIsNotAllEmpty(param))) {
+						// 如果是实体类,创建别名,继续创建查询条件
+
+						// for：用户反馈
+						cq.createAlias(aliasName, aliasName.replaceAll("\\.", "_"));
+						// ------------end--Author:JueYue Date:20140521 for：用户反馈
+						getDataAuthorConditionHql(cq, param);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return cq;
 	}
 }

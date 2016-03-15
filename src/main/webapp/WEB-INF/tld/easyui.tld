@@ -403,6 +403,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮操作Code</description>
 		</attribute>
+		<attribute>
+			<name>urlStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgDefOpt</name>
@@ -431,6 +436,11 @@
 			<name>operationCode</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮操作Code</description>
+		</attribute>
+		<attribute>
+			<name>urlStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -476,6 +486,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>弹出方式[OpenWin/OpenTab]</description>
 		</attribute>
+		<attribute>
+			<name>urlStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgFunOpt</name>
@@ -512,6 +527,11 @@
 			<name>operationCode</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮操作Code</description>
+		</attribute>
+		<attribute>
+			<name>urlStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -603,6 +623,11 @@
 			<name>operationCode</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮操作Code</description>
+		</attribute>
+		<attribute>
+			<name>urlStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -1392,6 +1417,14 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>校验字段,默认为非空校验</description>
 		</attribute>
+		<!-- update-begin- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
+		<attribute>
+			<name>readonly</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否可编辑-默认是可以编辑</description>
+		</attribute>
+		<!-- update-end- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
+		
 	</tag>
 	<!-- 按钮权限标签 -->
 	<tag>
@@ -1404,6 +1437,45 @@
 			<name>name</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮容器的ID</description>
+		</attribute>
+	</tag>
+	<!-- 选择下拉框 -->
+	<tag>
+		<name>departSelect</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.DepartSelectTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>组织机构选择控件-弹出框方式</display-name>
+		<small-icon>111</small-icon>
+		<description>组织机构选择控件-弹出框方式</description>
+		<attribute>
+			<name>selectedIdsInputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于显示已选择部门名称的input的id</description>
+		</attribute>
+		<attribute>
+			<name>selectedNamesInputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于记录已选择部门编号的input的id</description>
+		</attribute>
+		<attribute>
+			<name>departNameInputWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>已选择机构输入框宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口高度</description>
 		</attribute>
 	</tag>
 </taglib>

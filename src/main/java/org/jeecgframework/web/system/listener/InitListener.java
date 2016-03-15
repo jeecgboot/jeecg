@@ -38,23 +38,23 @@ public class InitListener  implements javax.servlet.ServletContextListener {
 		systemService.initAllTSIcons();
 		
 		
-		/**
-		 * 第二部分：自动加载新增菜单和菜单操作权限
-		 * 说明：只会添加，不会删除（添加在代码层配置，但是在数据库层未配置的）
-		 */
-		if("true".equals(ResourceUtil.getConfigByName("auto.scan.menu.flag").toLowerCase())){
-			menuInitService.initMenu();
-		}
+//		/**
+//		 * 第二部分：自动加载新增菜单和菜单操作权限
+//		 * 说明：只会添加，不会删除（添加在代码层配置，但是在数据库层未配置的）
+//		 */
+//		if("true".equals(ResourceUtil.getConfigByName("auto.scan.menu.flag").toLowerCase())){
+//			menuInitService.initMenu();
+//		}
 		
 		/**
 		 * 第三部分：加载多语言内容
 		 */
 		mutiLangService.initAllMutiLang();
 		
-		/**
-		 * 第四部分：加载配置的数据源信息
-		 */
-		dynamicDataSourceService.initDynamicDataSource();
+//		/**
+//		 * 第四部分：加载配置的数据源信息
+//		 */
+//		dynamicDataSourceService.initDynamicDataSource();
 	}
 
 }

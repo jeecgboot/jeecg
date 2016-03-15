@@ -12,8 +12,9 @@ import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 public interface JeecgMinidaoServiceI {
 	public List<JeecgMinidaoEntity> listAll(JeecgMinidaoEntity jeecgMinidao, int page, int rows);
 	
+	/**
 	public JeecgMinidaoEntity getEntity(Class clazz, String id);
-	
+
 	public void insert(JeecgMinidaoEntity jeecgMinidao);
 	
 	public void update(JeecgMinidaoEntity jeecgMinidao);
@@ -21,7 +22,7 @@ public interface JeecgMinidaoServiceI {
 	public void delete(JeecgMinidaoEntity jeecgMinidao);
 	
 	public void deleteAllEntitie(List<JeecgMinidaoEntity> entities);
-	
+	*/
 	public Integer getCount();
 	
 	public Integer getSumSalary();

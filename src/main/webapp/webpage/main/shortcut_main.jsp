@@ -125,6 +125,41 @@ a:hover {
         $(".easyui-layout").layout('collapse','north');
     }
 	
+	$(document).ready(function(){
+		var url = "noticeController.do?getNoticeList";
+		var roll = false;
+		$.ajax({
+    		url:url,
+    		type:"GET",
+    		dataType:"JSON",
+    		async: false,
+    		success:function(data){
+    			if(data.success){
+    				var noticeList = data.attributes.noticeList;
+    				var noticehtml = "";
+    				if(noticeList.length > 0){
+    					noticehtml = noticehtml + "<marquee behavior='scroll'><a href='javascript:goNotice(1);'>";
+        				for(var i=0;i<noticeList.length;i++){
+        					noticehtml = noticehtml + noticeList[i].noticeTitle + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        				}
+        				noticehtml = noticehtml + "</a></marquee>";
+        				$("#notice").html(noticehtml);
+    					roll = true;
+    					$("#noticeTitle").show();
+    					$("#notice").show();
+    				}else{
+    					$("#noticeTitle").hide();
+    					$("#notice").hide();
+    				}
+    			}
+    		}
+    	});
+	});
+    
+    function goNotice(id){
+    	var addurl = "noticeController.do?noticeList";
+  		createdetailwindow("通知公告", addurl, 800, 400);
+    }
 </SCRIPT>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden" scroll="no">
@@ -136,7 +171,7 @@ a:hover {
     <img src="plug-in/login/images/logo.jpg"> 
     <!--
         <img src="plug-in/login/images/toplogo.png" width="550" height="52" alt="">-->
-        <div style="position: absolute; top: 75px; left: 33px;">JEECG Framework <span style="letter-spacing: -1px;">-3.6</span></div>
+        <div style="position: absolute; top: 75px; left: 33px;">JEECG Framework <span style="letter-spacing: -1px;"> <t:mutiLang langKey="system.version.number"/></span></div>
     </td>
     <td align="right" nowrap>
         <table border="0" cellpadding="0" cellspacing="0">
@@ -144,7 +179,11 @@ a:hover {
                 <td style="" colspan="2">
                     <div style="background: url(plug-in/login/images/top_bg.jpg) no-repeat right center; float: right;">
                     <div style="float: left; line-height: 25px; margin-left: 70px;">
-                        <span style="color: #386780"><t:mutiLang langKey="common.user"/>:</span>
+                    	<div style="float: left; line-height: 25px; margin-left: 70px;">
+							<div id="noticeTitle" style="display:none;float:left;text-align:center;color: rgb(255, 255, 255);width: 40px; background: rgb(90, 166, 40);">公告</div>
+							<div id="notice" style="display:none;float:left;width: 240px; background: rgb(0, 160, 160);margin-right: 20px; height: 25px;">	
+						</div>
+                        <span style="color: #386780"><img src="${webRoot}/plug-in/login/images/user.png"></span> 
                         <span style="color: #FFFFFF">${userName }</span>&nbsp;&nbsp;&nbsp;&nbsp;
                         <span style="color: #386780"><t:mutiLang langKey="current.org"/>:</span>
                         <span style="color: #FFFFFF">${currentOrgName }</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -186,10 +225,12 @@ a:hover {
                             </div>
                         </div>
                     </div>
+                    <%--update-begin--Author:JueYue  Date:20140616 for：首页上方可以折叠--%>
                     <div style="float: left; margin-left: 8px;margin-right: 5px; margin-top: 5px;">
                         <img src="plug-in/easyui/themes/default/images/layout_button_up.gif"
                              style="cursor:pointer" onclick="panelCollapase()" />
                     </div>
+                    <%--update-end--Author:JueYue  Date:20140616 for：首页上方可以折叠--%>
                     </div>
                 </td>
             </tr>
@@ -251,9 +292,9 @@ a:hover {
     <div align="center" style="color: #1fa3e5; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title="JEECG Framework -3.6">JEECG Framework -3.6</a>
+            <a href="http://www.jeecg.org" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
             (推荐谷歌浏览器，获得更快响应速度) 技术支持:
-            <a href="#" title="JEECG Framework -3.6">JEECG Framework -3.6</a>
+            <a href="#" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
         </span>
     </div>
 </div>

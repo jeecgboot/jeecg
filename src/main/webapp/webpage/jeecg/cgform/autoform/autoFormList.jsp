@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
+  <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="autoFormList" checkbox="true" fitColumns="false" title="自定义表单列表" actionUrl="autoFormController.do?datagrid" idField="id" fit="true" queryMode="group">
    <t:dgCol title=""  field="id"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="auto.form.formName"  field="formDesc"    queryMode="single"  width="300"></t:dgCol>

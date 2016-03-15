@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("jeecgProcedureServiceImpl")
 @Transactional
 public class JeecgProcedureServiceImpl extends CommonServiceImpl implements JeecgProcedureServiceI{
+
 	@Autowired
 	private JeecgProcedureDao jeecgProcedureDao;
 	@Override
 	public List queryDataByProcedure(String tableName, String fields, String whereSql) {
 		return jeecgProcedureDao.queryDataByProcedure(tableName, fields, whereSql);
 	}
+
 }

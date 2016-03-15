@@ -53,8 +53,10 @@ public class AutoFormDbFieldEntity implements java.io.Serializable {
 	/**字段名*/
 	@Excel(name="字段名")
 	private java.lang.String fieldName;
+
 	@Excel(name="字段文本")
 	private String fieldText;
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -234,6 +236,7 @@ public class AutoFormDbFieldEntity implements java.io.Serializable {
 	public void setFieldName(java.lang.String fieldName){
 		this.fieldName = fieldName;
 	}
+
 	@Column(name ="FIELD_Text",nullable=true,length=50)
 	public String getFieldText() {
 		return fieldText;
@@ -242,5 +245,6 @@ public class AutoFormDbFieldEntity implements java.io.Serializable {
 	public void setFieldText(String fieldText) {
 		this.fieldText = fieldText;
 	}
+
 
 }

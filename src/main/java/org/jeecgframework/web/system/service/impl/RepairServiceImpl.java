@@ -213,7 +213,9 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	private void repairJdbcEntity(){
 		JeecgJdbcEntity entity = new JeecgJdbcEntity();
 		entity.setAge(12);
+
 		entity.setBirthday(DateUtils.str2Date("2014-02-14",new SimpleDateFormat("yyyy-MM-dd")));
+
 		entity.setDepId("123");
 		entity.setEmail("demo@jeecg.com");
 		entity.setMobilePhone("13111111111");
@@ -3108,10 +3110,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 */
 	private void repairDemo() {
 		TSDemo demo = new TSDemo();
-		// -------------------------------------------------
 		// 复杂字符串文本读取，采用文件方式存储
 		String html = new FreemarkerHelper().parseTemplate("/org/jeecgframework/web/system/txt/valid-code-demo.ftl", null);
-		// -------------------------------------------------
 		demo.setDemocode(html);
 		demo.setDemotitle("表单验证");
 		commonDao.saveOrUpdate(demo);
@@ -3127,6 +3127,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 				"信息部").get(0);
 		TSDepart RAndD = commonDao.findByProperty(TSDepart.class, "departname",
 				"研发室").get(0);
+
 		TSUser admin = new TSUser();
 		admin.setSignatureFile("images/renfang/qm/licf.gif");
 		admin.setStatus((short) 1);
@@ -3182,6 +3183,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
         approverUserOrg.setTsUser(approver);
         approverUserOrg.setTsDepart(eiu);
         commonDao.save(approverUserOrg);
+
     }
 
 	/**
@@ -3727,6 +3729,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		folder.setExtend("png");
 		commonDao.saveOrUpdate(folder);
 	}
+
     /**
      * 修复桌面默认图标
      * @param iconName 图标名称
@@ -3745,6 +3748,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 
         return deskIncon;
     }
+
 
 	/**
 	 * @Description 修复菜单权限

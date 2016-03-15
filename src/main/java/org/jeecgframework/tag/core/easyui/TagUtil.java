@@ -74,6 +74,7 @@ public class TagUtil {
 		}
 		value = reflectHelper.getMethodValue(fieldName)==null?"":reflectHelper.getMethodValue(fieldName);
 		if (value !=""&&value != null && (FiledName.indexOf("_") != -1||FiledName.indexOf(".") != -1)) {
+
             if(value instanceof List) {
                 Object tempValue = "";
                 for (Object listValue : (List)value) {
@@ -83,8 +84,10 @@ public class TagUtil {
             } else {
                 value = fieldNametoValues(childFieldName, value);
             }
+
 		}
 		if(value != "" && value != null) {
+
 			value = converunicode(value.toString());
 		}
 		return value;
@@ -94,6 +97,7 @@ public class TagUtil {
         for (int i=0; i<jsonValue.length(); i++) {
         char c = jsonValue.charAt(i);  
           switch (c){
+
 //         case '\"':      
 //                 sb.append("\\\"");      
 //                 break;      
@@ -106,6 +110,7 @@ public class TagUtil {
 //             case '/':      
 //                 sb.append("\\/");      
 //                 break;   
+
              case '\b':      
                  sb.append("\\b");      
                  break;      
@@ -127,6 +132,7 @@ public class TagUtil {
          }    
         return sb.toString();   
 }
+
 
 	/**
 	 * 对象转数组
@@ -590,6 +596,7 @@ public class TagUtil {
 		param += "'\"+index+\"'";// 传出行索引号参数
 		return param;
 	}
+
 	public static String getJson(List fields,List datas){
 		if(datas!=null && datas.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -609,4 +616,5 @@ public class TagUtil {
 			return "{\"total\":\"0\",\"rows\":[]}";
 		}
 	}
+
 }

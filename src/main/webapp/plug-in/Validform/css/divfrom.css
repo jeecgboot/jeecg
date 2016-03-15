@@ -156,7 +156,7 @@ span.error{
     margin-right:15px;
     line-height:20px;
     color:#666;
-    text-shadow:1px 1px 1px #fff;
+    text-shadow:0px 0px 0px #fff;
 }
 
 /*==========@周俊峰    定义form textarea的样式去掉 width: 157px; 解决textarea不能通过cols来设置宽度的问题===========*/

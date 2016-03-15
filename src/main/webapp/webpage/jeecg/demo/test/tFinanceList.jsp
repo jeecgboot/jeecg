@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;">
+<div region="center" style="padding:0px;border:0px">
 <t:datagrid name="tFinanceList" title="多附件管理" actionUrl="tFinanceController.do?datagrid" fitColumns="true" idField="id" fit="true" queryMode="group">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="类别" field="category" query="true"></t:dgCol>

@@ -99,7 +99,7 @@ function typeGridTree_UpdateType() {
 
 <%--// add-start--Author:zhangguoming  Date:20140928 for：数据字典修改--%>
 <div id="main_typegroup_list" class="easyui-layout" fit="true">
-    <div region="center" style="padding: 1px;">
+    <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid"
                     idField="id" treegrid="false" pagination="false" onLoadSuccess="loadSuccess">
             <t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
@@ -127,7 +127,7 @@ function typeGridTree_UpdateType() {
 	    li_east = 0;
 	}"
      style="width: 400px; overflow: hidden;" id="eastPanel">
-    <div class="easyui-panel" style="padding: 1px;" fit="true" border="false" id="userListpanel"></div>
+    <div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false" id="userListpanel"></div>
 </div>
 
 <script type="text/javascript">

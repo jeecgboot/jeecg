@@ -30,6 +30,7 @@ public class JeecgProcedureController extends BaseController{
 	public String procudure(HttpServletRequest request) {
 		return "jeecg/demo/base/procedure/procedure";
 	}
+
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo demo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		List dealFields = new ArrayList();
@@ -40,7 +41,14 @@ public class JeecgProcedureController extends BaseController{
 		StringBuffer dbFields = SqlGenerateUtil.generateDBFields(demo,field,dealFields);//sql中需要查询的列
 		StringBuffer whereSql = SqlGenerateUtil.generateWhere(demo, request.getParameterMap());//sql查询的条件
 		
-		List datas = jeecgProcedureService.queryDataByProcedure(tableName,dbFields.toString(),whereSql.toString());
+		List datas = null;
+		//scott 201602229 存储过程暂时不支持
+		try {
+			datas = jeecgProcedureService.queryDataByProcedure(tableName,dbFields.toString(),whereSql.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
 		try {
@@ -50,4 +58,5 @@ public class JeecgProcedureController extends BaseController{
 			e.printStackTrace();
 		}
 	}
+
 }

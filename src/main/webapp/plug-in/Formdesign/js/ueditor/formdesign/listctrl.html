@@ -2,14 +2,18 @@
 <html>
 <head>
     <title>列表控件属性</title>
+    <!-- update-begin--Author:jg_renjie  Date:20150725 for：添加页面相对路径-->
     <base href="../../../../../"/>
+    <!-- update-end--Author:jg_renjie  Date:20150725 for：添加页面相对路径-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
     <meta name="generator" content="www.leipi.org" />
+    <!-- update-begin--Author:jg_renjie  Date:20150725 for：修改文件的引用路径-->
     <link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/leipi.style.css">
     <script type="text/javascript" src="plug-in/Formdesign/js/ueditor/formdesign/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="plug-in/Formdesign/js/ueditor/dialogs/internal.js"></script>
+    <!-- update-end--Author:jg_renjie  Date:20150725 for：修改文件的引用路径-->
 <script type="text/javascript">
 function createElement(type, name)
 {     
@@ -37,13 +41,16 @@ function createElement(type, name)
             </td>
             <td> 
                 <span> 数据源 ：</span> 
+                 <!-- update-begin--Author:jg_renjie  Date:20150725 for：将 datasource 由input输入框修改为select下拉框-->
            	  		<select id="datasource"></select>
+                 <!-- update-end--Author:jg_renjie  Date:20150725 for：将 datasource 由input输入框修改为select下拉框 -->
             </td>
              <td>
                                       宽 <input id="orgwidth" type="text" value="100%" class="input-small span1" placeholder="auto"/> % 或 px
             </td>
             
         </tr>
+        <!-- update-begin--Author:jg_renjie  Date:20151013 for：增加fkdsid字段 -->
         <tr>
         	<td>
         		<span> 外键字段  ：</span>
@@ -54,6 +61,7 @@ function createElement(type, name)
         		<input type="text" id="fkdsid" placeholder="无则不填" style="width: 200px" class="input-medium"> 
         	</td>
         </tr>
+        <!-- update-end--Author:jg_renjie  Date:20151013 for：增加fkdsid字段 -->
     </thead>
 </table>
 
@@ -250,6 +258,7 @@ window.onload = function() {
    	editor.ready(function() {
     	 id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
  	});
+
    	
     if( UE.plugins[thePlugins].editdom ){
         oNode = UE.plugins[thePlugins].editdom;
@@ -359,6 +368,7 @@ window.onload = function() {
     } else {
     	  initDataSource(id);
     }
+
     //合计，强制选择 int
     $(".csum").click(function(){
         if($(this).attr("checked"))
@@ -375,6 +385,7 @@ if( UE.plugins[thePlugins].editdom ) {
 }
 };
 dialog.onok = function (){
+    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#tbl1').children().eq(0).children().eq(3).children().find("option:selected");
         var flag=false;
@@ -391,6 +402,7 @@ dialog.onok = function (){
             return false;
         }
     }
+    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
 	 var gName=$G('orgname').value.replace(/\"/g,"&quot;"),gWidth=$G('orgwidth').value;
 	
     if( gName == '') {
@@ -402,7 +414,9 @@ dialog.onok = function (){
 	var datasource = $('#datasource').val();
     var gTitle = '',gColType = '' ,gUnitValue='' ,gSum = '' ,gColValue = '' ,
         nCount = 0,autofield='' ,isHide='' ,ruletype='',dict='',length='';
+
     rows_count = $('#tbl1 tr').length;
+
     
     for (var i = 1;i <= rows_count; i ++ ) {
         var oItem  = $G( "item_" + i ) ,
@@ -467,7 +481,7 @@ dialog.onok = function (){
     if( !oNode ) {
 
         try {
-            oNode = createElement('input','leipiNewField');
+            oNode = createElement('input',datasource);
             oNode.setAttribute('leipiPlugins',thePlugins );
             oNode.setAttribute('type','text');
             oNode.setAttribute('value','{列表控件}');
@@ -544,6 +558,7 @@ function initDataSource(id){
 				
    			}});
 }
+
 $(function(){
 	
 	//绑定change事件,并填充字段
@@ -601,6 +616,7 @@ function content(){
 	resetTrNum();
 	$(".delrow").click(function(){$(this).parent().parent().remove();resetTrNum();});
 }
+
 </script>
 </body>
 </html>

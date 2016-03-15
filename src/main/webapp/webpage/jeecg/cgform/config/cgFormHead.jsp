@@ -50,11 +50,14 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.name"/>: </label></td>
-			<td class="value" colspan="3">
+			<td class="value">
 			  <input class="inputxt" id="tableName" name="tableName" value="${cgFormHeadPage.tableName}"
 				prefixName="" <c:if test="${not empty cgFormHeadPage.tableName}">readonly="readonly"</c:if> datatype="*" validType="cgform_head,table_Name,id" nullmsg=<t:mutiLang langKey="please.input.table.name"/>> 
-				<span class="Validform_checktip"></span></td>
-			</tr>
+				<span class="Validform_checktip"></span>
+			</td>
+			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.description"/>: </label></td>
+			<td class="value"><input class="inputxt" id="content" name="content" value="${cgFormHeadPage.content}" datatype="s2-100"> <span class="Validform_checktip"></span></td>
+		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="pk.strategies"/>:</label></td>
 			<td class="value" id="jformPkTypeTd" <c:if test="${cgFormHeadPage.jformPkType ne 'SEQUENCE'}">colspan="3"</c:if>>
@@ -101,13 +104,15 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 				</td>
 		</tr>
 		<tr>
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.description"/>: </label></td>
-			<td class="value"><input class="inputxt" id="content" name="content" value="${cgFormHeadPage.content}" datatype="s2-100"> <span class="Validform_checktip"></span></td>
 			<!--add-start--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
-			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style"/>:</label></td>
-			<td class="value"><select id="formTemplate" name="formTemplate" temVal="${cgFormHeadPage.formTemplate}">
-				</select></td>
+			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style_pc" />:</label></td>
+			<td class="value"><select id="formTemplate" name="formTemplate" temVal="${cgFormHeadPage.formTemplate}"></select></td>
 			<!--add-end--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
+			
+			<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style_mobile" />:</label></td>
+			<td class="value"><select id="formTemplateMobile" name="formTemplateMobile" temVal="${cgFormHeadPage.formTemplateMobile}"></select></td>
+			<!--add-start--Author:scott  Date:20160301 for：online表单移动样式单独配置-->
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="show.checkbox"/>: </label></td>
@@ -200,6 +205,9 @@ $(function() {
 		isTreeHandle();
 	});
 	getFormTemplateName();
+	<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+	getFormTemplateName2();
+	<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 }); 
 //根据是否为树形菜单隐藏或显示tree输入框
 function isTreeHandle() {
@@ -237,10 +245,40 @@ function getFormTemplateName(){
 		}
 	});
 }
+
+<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+//获取表单风格模板名称
+function getFormTemplateName2(){
+ var type=$("#jformType").val();
+	$.ajax({
+		url:"${pageContext.request.contextPath}/cgformTemplateController.do?getTemplate",
+		type:"post",
+		data:{type:type},
+		dataType:"json",
+		success:function(data){
+			if(data.success){
+				$("#formTemplateMobile").empty();
+				$("#formTemplateMobile").append("<option value='' ><t:mutiLang langKey="common.please.select"/></option>");
+				$.each(data.obj,function(i,tem){
+					$("#formTemplateMobile").append("<option value='"+tem.templateCode+"' >"+tem.templateName+"</option>");
+				});
+				var temVal=$("#formTemplateMobile").attr("temVal");
+				if(temVal.length>0){
+					var len=$("#formTemplateMobile").find("[value='"+temVal+"']").attr("selected","selected");
+				}
+			}
+		}
+	});
+}
+<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+
 //表单类型改变 调用
 	function formTypeChange(){
 		jformTypeChange();
 		getFormTemplateName();
+		<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+		getFormTemplateName2();
+		<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	}
 <!--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
 </script>

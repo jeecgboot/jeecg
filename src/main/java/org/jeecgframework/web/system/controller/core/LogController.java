@@ -97,6 +97,7 @@ public class LogController extends BaseController {
 			cq.eq("loglevel", oConvertUtils.getShort(loglevel));
 			cq.add();
 		}
+//        add-begin--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间
         String operatetime_begin = request.getParameter("operatetime_begin");
         if(operatetime_begin != null) {
             Timestamp beginValue = null;
@@ -121,6 +122,7 @@ public class LogController extends BaseController {
             cq.le("operatetime", endValue);
         }
         cq.add();
+//        add-end--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间
         this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -196,7 +198,9 @@ public class LogController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
+
 		hc.setName(MutiLangUtil.getMutiLangInstance().getLang(USER_BROWSER_ANALYSIS));
+
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

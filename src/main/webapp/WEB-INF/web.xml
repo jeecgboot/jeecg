@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>jeecg-framework-3.6</display-name>
+	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg</param-value>
+		<param-value>jeecg-3.6.2</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -17,7 +17,7 @@
 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-*.xml</param-value>
+		<param-value>classpath*:spring-*.xml</param-value>
 	</context-param>
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>
@@ -31,10 +31,12 @@
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	<!--update  begin  Author:luobaoli  Date:20150703 for：使rest风格url对应的controller支持延迟加载-->
 	<filter-mapping>
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
+	<!--update  end   Author:luobaoli  Date:20150703 for：使rest风格url对应的controller支持延迟加载-->
 	<filter>
 		<description>字符集过滤器</description>
 		<filter-name>encodingFilter</filter-name>
@@ -93,6 +95,8 @@
 		<description>系统初始化监听器</description>
 		<listener-class>org.jeecgframework.web.system.listener.InitListener</listener-class>
 	</listener>
+
+	<!-- 在线用户监听器 add by duanql 20130607 -->
 	<listener>
 		<listener-class>org.jeecgframework.web.system.listener.OnlineListener</listener-class>
 	</listener>
@@ -104,7 +108,7 @@
 		<init-param>
 			<description>spring mvc 配置文件</description>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>classpath*:spring-mvc.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -112,6 +116,19 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	<!--update  begin  Author:huangzq  Date:20151231 for：集成cxf webservice接口，并实现一个 服务端和客户端调用的demo-->
+	 <servlet>  
+        <description>Apache CXF Endpoint</description>  
+        <display-name>cxf</display-name>  
+        <servlet-name>cxf</servlet-name>  
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>  
+        <load-on-startup>2</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>cxf</servlet-name>  
+        <url-pattern>/cxf/*</url-pattern>  
+    </servlet-mapping> 
+	<!--update  end  Author:huangzq  Date:20151231 for：集成cxf webservice接口，并实现一个 服务端和客户端调用的demo-->
 	<servlet>
 		<servlet-name>druidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -120,6 +137,7 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
+	<!-- update begin Author:liuht Date:20131228 -->
 	<!-- restUrl风格配置 -->
 	<servlet>
 		<servlet-name>restSpringMvc</servlet-name>
@@ -127,7 +145,7 @@
 		<init-param>
 			<description>spring mvc 配置文件</description>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>classpath*:spring-mvc.xml</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -164,6 +182,7 @@
 		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
 	</servlet-mapping>
 
+    <!--update-begin-Author:zhangguoming  Date:20140226 for：添加验证码-->
     <servlet>
         <servlet-name>RandCodeImage</servlet-name>
         <servlet-class>org.jeecgframework.web.system.servlet.RandCodeImageServlet</servlet-class>
@@ -172,6 +191,7 @@
         <servlet-name>RandCodeImage</servlet-name>
         <url-pattern>/randCodeImage</url-pattern>
     </servlet-mapping>
+    <!--update-end-Author:zhangguoming  Date:20140226 for：添加验证码-->
 
 	<filter>
 		<filter-name>FileUploadFilter</filter-name>
@@ -190,10 +210,12 @@
 		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
 	</filter-mapping>
 	<!-- ckfinder配置 END -->
+    <!-- update-start-Author:zhangguoming  Date:20140623 for：添加404页面-->
     <error-page>
         <error-code>404</error-code>
         <location>/webpage/common/404.jsp</location>
     </error-page>
+    <!-- update-end-Author:zhangguoming  Date:20140623 for：添加404页面-->
 
 	<!-- session超时设置30分钟 add by zhoujunfeng 20130830 -->
 	<session-config>

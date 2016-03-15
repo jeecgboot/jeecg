@@ -3,14 +3,11 @@ package org.jeecgframework.web.demo.dao.test;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
-
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.minidao.annotation.MiniDao;
 import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.minidao.annotation.Sql;
-import org.jeecgframework.minidao.hibernate.MiniDaoSupportHiber;
-import org.springframework.stereotype.Repository;
+import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 
 /**
  * Minidao例子
@@ -19,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 //@Repository("jeecgMinidaoDao")
 @MiniDao
-public interface JeecgMinidaoDao extends MiniDaoSupportHiber<JeecgMinidaoEntity> {
+public interface JeecgMinidaoDao {
 	@Arguments({"jeecgMinidao", "page", "rows"})
 	public List<Map> getAllEntities(JeecgMinidaoEntity jeecgMinidao, int page, int rows);
 

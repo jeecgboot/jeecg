@@ -191,11 +191,13 @@ public class CgformTransController {
 							cgFormField.setLength(Integer.valueOf(columnt
 									.getPrecision()));
 						}
+
 						else{
 							if(cgFormField.getType().equals(DataBaseConst.INT)){
 								cgFormField.setLength(10);
 							}
 						}
+
 						if (StringUtil.isNotEmpty(columnt.getScale()))
 							cgFormField.setPointLength(Integer.valueOf(columnt
 									.getScale()));

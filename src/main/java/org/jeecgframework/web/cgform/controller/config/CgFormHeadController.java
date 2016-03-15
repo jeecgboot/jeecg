@@ -1,14 +1,30 @@
 package org.jeecgframework.web.cgform.controller.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
+import org.jeecgframework.web.cgform.entity.config.CgFormFieldVO;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
@@ -16,23 +32,16 @@ import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
-import org.apache.log4j.Logger;
-import org.jeecgframework.core.common.controller.BaseController;
-import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -90,6 +99,7 @@ public class CgFormHeadController extends BaseController {
 	public ModelAndView goCgFormSynChoice(HttpServletRequest request) {
 		return new ModelAndView("jeecg/cgform/config/cgformSynChoice");
 	}
+
 	@RequestMapping(params = "popmenulink")
 	public ModelAndView popmenulink(ModelMap modelMap,
                                     @RequestParam String url,
@@ -98,6 +108,7 @@ public class CgFormHeadController extends BaseController {
         modelMap.put("url",url);
 		return new ModelAndView("jeecg/cgform/config/popmenulink");
 	}
+
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -113,11 +124,13 @@ public class CgFormHeadController extends BaseController {
 			DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(CgFormHeadEntity.class,
 				dataGrid);
+
 		String jformCategory = request.getParameter("jformCategory");
 		if(StringUtil.isNotEmpty(jformCategory)){
 			cq.eq("jformCategory", jformCategory);
 			cq.add();
 		}
+
 		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
@@ -237,7 +250,9 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
+
 		templetContext.clearCache();
+
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -350,8 +365,10 @@ public class CgFormHeadController extends BaseController {
 			//cgFormHead.setTableName(cgFormHead.getTableName().replace(CgAutoListConstant.jform_, ""));
 			req.setAttribute("cgFormHeadPage", cgFormHead);
 		}
+
 		List<TSType> typeList = TSTypegroup.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
+
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -405,8 +422,12 @@ public class CgFormHeadController extends BaseController {
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
 		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
 		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
+
 		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
 		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
+
+		columnList.add(initCgFormFieldEntityBpmStatus());
+
 		return columnList;
 	}
 	/**
@@ -426,6 +447,28 @@ public class CgFormHeadController extends BaseController {
 		field.setIsShow("N");
 		field.setIsShowList("N");
 		field.setFieldLength(120);
+		return field;
+	}
+	
+	/**
+	 * 添加默认id
+	 * @return
+	 */
+	private  CgFormFieldEntity  initCgFormFieldEntityBpmStatus(){
+		CgFormFieldEntity field = new CgFormFieldEntity();
+		field.setFieldName("bpm_status");
+		field.setLength(32);
+		field.setContent("流程状态");
+		field.setIsKey("N");
+		field.setIsNull("Y");
+		field.setOrderNum(1);
+		field.setType("string");
+		field.setPointLength(0);
+		field.setIsShow("N");
+		field.setIsShowList("Y");
+		field.setFieldLength(120);
+		field.setDictField("bpm_status");
+		field.setFieldDefault("1");
 		return field;
 	}
 
@@ -547,6 +590,126 @@ public class CgFormHeadController extends BaseController {
 		AjaxJson j =  new AjaxJson();
 		j.setMsg(message);
 		return j;
+	}
+	
+	
+	@RequestMapping(params = "importExcel")
+	@ResponseBody
+	public AjaxJson importExcel(String headId,HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(0);
+			params.setHeadRows(1);
+			params.setNeedSave(false);
+			try {
+				CgFormHeadEntity cgFormHead = systemService.getEntity(CgFormHeadEntity.class,headId);
+				if(cgFormHead==null){
+					j.setMsg("表数据异常！");
+					return j;
+				}
+				List<CgFormFieldVO> fieldList =  ExcelImportUtil.importExcel(file.getInputStream(),CgFormFieldVO.class,params);
+				//根据headid查询该表下的字段信息
+				String hql = "from CgFormFieldEntity where table.id = ? ";
+				List<CgFormFieldEntity> list = systemService.findHql(hql, headId);
+				if(list==null){
+					list = new ArrayList<CgFormFieldEntity>();
+				}
+				CgFormFieldEntity fieldEntity = null;
+				StringBuilder sb = new StringBuilder("");
+				List<CgFormFieldEntity> saveList =  new ArrayList<CgFormFieldEntity>();
+				for (CgFormFieldVO field : fieldList) {
+					System.out.println("-------------field------------"+field);
+					if(StringUtil.isEmpty(field.getFieldName())){
+						continue;
+					}
+					if(existField(field.getFieldName(),list)){
+						sb.append(field.getFieldName()).append(",");
+						continue;
+					}
+					fieldEntity = new CgFormFieldEntity();
+					fieldEntity.setTable(cgFormHead);
+					fieldEntity.setFieldName(field.getFieldName());
+					String content = field.getContent();
+					if(StringUtil.isEmpty(content)){
+						content = field.getFieldName();
+					}
+					fieldEntity.setContent(content);
+					String type = field.getType();
+					if(StringUtil.isEmpty(type)){
+						type = "string";
+					}
+					fieldEntity.setType(type);
+					String length = field.getLength();
+					if(StringUtil.isEmpty(length)){
+						length = "32";
+					}
+					fieldEntity.setLength(Integer.valueOf(length));
+					String pointLength = field.getPointLength();
+					if(StringUtil.isEmpty(pointLength)){
+						pointLength = "0";
+					}
+					fieldEntity.setPointLength(Integer.valueOf(pointLength));
+					fieldEntity.setFieldDefault(field.getFieldDefault());
+					fieldEntity.setIsKey("N");
+					String isNull = field.getIsNull();
+					if("否".equals(isNull)){
+						isNull = "N";
+					}else{
+						isNull = "Y";
+					}
+					fieldEntity.setIsNull(isNull);
+					fieldEntity.setOrderNum(1);
+					fieldEntity.setIsShow("Y");
+					fieldEntity.setIsShowList("Y");
+					fieldEntity.setFieldLength(120);
+					list.add(fieldEntity);
+					saveList.add(fieldEntity);
+				}
+				systemService.batchSave(saveList);
+				if(StringUtil.isEmpty(sb.toString())){
+					j.setMsg("文件导入成功！");
+				}else{
+					j.setMsg("文件导入成功！重复字段【"+sb.toString()+"】忽略");
+				}
+				
+			} catch (Exception e) {
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return j;
+	}
+	
+	private boolean existField(String field,List<CgFormFieldEntity> list){
+		boolean flag = false;
+		for(CgFormFieldEntity entity :list){
+			if(field.equalsIgnoreCase(entity.getFieldName())){
+				flag = true;
+				break;
+			}
+		}
+		return flag;
+	}
+	
+	/**
+	 * excel导入页面
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "upload")
+	public String upload(String id,HttpServletRequest request) {
+        request.setAttribute("headId", id);
+		return "jeecg/cgform/config/cgformColUpload";
 	}
 	
 }

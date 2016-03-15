@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="optimisticLockingList" title="乐观锁测试" actionUrl="optimisticLockingController.do?datagrid" idField="id" fit="true">
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="optimisticLockingList" title="乐观锁测试" actionUrl="optimisticLockingController.do?datagrid" idField="id" fit="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="name" field="name"></t:dgCol>
 	<t:dgCol title="age" field="age"></t:dgCol>

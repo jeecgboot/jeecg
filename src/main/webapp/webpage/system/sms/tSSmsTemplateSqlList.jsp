@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
+  <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="tSSmsTemplateSqlList" checkbox="true" fitColumns="false" title="common.sqlDataTable" actionUrl="tSSmsTemplateSqlController.do?datagrid" idField="id" fit="true" queryMode="group">
    <t:dgCol title="common.esId"  field="id"  hidden="true"   queryMode="single"  ></t:dgCol>
    <t:dgCol title="common.createName"  field="createName"  hidden="true"   queryMode="single"  ></t:dgCol>

@@ -23,7 +23,7 @@
 </script>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="courseList" title="课程" actionUrl="courseController.do?datagrid" idField="id" fit="true" queryMode="group">
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="courseList" title="课程" actionUrl="courseController.do?datagrid" idField="id" fit="true" queryMode="group">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="课程名称" field="name" query="true" autocomplete="true"></t:dgCol>
 	<t:dgCol title="老师姓名" field="teacher_name" query="true" autocomplete="true"></t:dgCol>

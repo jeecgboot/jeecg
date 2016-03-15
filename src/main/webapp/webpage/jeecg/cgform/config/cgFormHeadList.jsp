@@ -25,13 +25,15 @@
 </script>
 <!--add-end--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <div class="easyui-layout" fit="true">
+<!--update-start--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
 <div region="west" style="width: 150px;" title="表单分类" split="true" collapsed="true">
-<div class="easyui-panel" style="padding: 1px;" fit="true" border="false">
+<!--update-end--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
+<div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false">
 <ul id="formtree">
 </ul>
 </div>
 </div>
-<div region="center" style="padding: 1px;">
+<div region="center" style="padding:0px;border:0px">
 <t:datagrid sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config" 
             fitColumns="false" actionUrl="cgFormHeadController.do?datagrid" idField="id" fit="true" 
             queryMode="group" checkbox="true" >
@@ -43,18 +45,19 @@
 	<!--add-end--Author:luobaoli  Date:20150607 for：增加表单分类展现-->
 	<t:dgCol title="table.description" field="content"></t:dgCol>
 	<t:dgCol title="common.version" field="jformVersion"></t:dgCol>
-	<t:dgCol title="is.tree" field="isTree" replace="common.yes_Y,common.no_N"></t:dgCol>
-	<t:dgCol title="is.page" field="isPagination" replace="common.yes_Y,common.no_N"></t:dgCol>
+	<t:dgCol title="is.tree" field="isTree" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
+	<t:dgCol title="is.page" field="isPagination" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
 	<t:dgCol title="sync.db" field="isDbSynch" replace="has.sync_Y,have.nosync_N" style="background:red;_N" query="true"></t:dgCol>
-	<t:dgCol title="show.checkbox" field="isCheckbox" replace="common.yes_Y,common.no_N"></t:dgCol>
-	<t:dgCol title="common.query.module" field="querymode"></t:dgCol>
-	<t:dgCol title="common.createby" field="createBy" hidden="false"></t:dgCol>
-	<t:dgCol title="common.createtime" field="createDate" formatter="yyyy/MM/dd" hidden="false"></t:dgCol>
-	<t:dgCol title="common.updateby" field="updateBy" hidden="false"></t:dgCol>
-	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="false"></t:dgCol>
+	<t:dgCol title="show.checkbox" field="isCheckbox" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
+	<t:dgCol title="common.query.module" field="querymode" hidden="true"></t:dgCol>
+	<t:dgCol title="common.createby" field="createBy" hidden="true"></t:dgCol>
+	<t:dgCol title="common.createtime" field="createDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
+	<t:dgCol title="common.updateby" field="updateBy" hidden="true"></t:dgCol>
+	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt"></t:dgCol>
 	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete"></t:dgFunOpt>
 	<t:dgFunOpt funname="remCgForm(id)" title="common.remove"></t:dgFunOpt>
+	<t:dgFunOpt funname="importFields(id,content)" title="导入字段"></t:dgFunOpt>
 	<t:dgFunOpt exp="isDbSynch#eq#N" title="sync.db" funname="doDbsynch(id,content)" />
 	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addbytab(id,content)" title="form.template"></t:dgFunOpt>
 	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test"></t:dgFunOpt>
@@ -76,7 +79,7 @@
 
 <script type="text/javascript">
 	function addbytab(id,content) {
-		addOneTab('<t:mutiLang langKey="form.template"/>' , "cgformFtlController.do?cgformFtl2&formid="+id);
+		addOneTab('<t:mutiLang langKey="form.template"/>['+content+']' , "cgformFtlController.do?cgformFtl2&formid="+id);
 	}
 
 	//数据库表生成表单
@@ -186,7 +189,9 @@
 	*/
 	function popMenuLink(tableName,content){
         $.dialog({
+
 			content: "url:cgFormHeadController.do?popmenulink&url=cgAutoListController.do?list&title="+tableName,
+
 			drag :false,
 			lock : true,
 			title:'<t:mutiLang langKey="common.menu.link"/>' + '['+content+']',
@@ -272,6 +277,8 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
+	
+	//add-begin--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
 	//java增强
 	function javaEnhance(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');
@@ -301,6 +308,7 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
+	//add-end--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
 
 	//表单 sql导出
 	function doMigrateOut(title,url,id){
@@ -412,9 +420,14 @@
 		}).zindex();
 	}
 	
-	$(function(){
-		if($.cookie("JEECGINDEXSTYLE") == "ace"){
-			$("#tablePropertyListtb").css("height","125");
-		}
-	})
+	//$(function(){
+		//if($.cookie("JEECGINDEXSTYLE") == "ace"){
+			//$("#tablePropertyListtb").css("height","125");
+		//}
+	//})
+	
+	
+	function importFields(id,content) {
+		openuploadwin('【'+content+'】Excel导入Online字段', 'cgFormHeadController.do?upload&id='+id, "tablePropertyList");
+	}
 </script>

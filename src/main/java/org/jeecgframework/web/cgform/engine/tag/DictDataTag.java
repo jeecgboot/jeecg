@@ -63,10 +63,12 @@ public class DictDataTag implements TemplateDirectiveModel {
 			if (dataList == null) {
 				dataList = new ArrayList<TSType>();
 			}
+
 			for(TSType s:dataList){
 				String names = s.getTypename();
 				s.setTypename(MutiLangUtil.getMutiLangInstance().getLang(names));
 			}
+
 			env.setGlobalVariable(var, new SimpleCollection(dataList));
 		} else {
 			// table表查询

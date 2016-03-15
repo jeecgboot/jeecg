@@ -71,8 +71,10 @@ public class CgReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap,request);
+
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlist.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -127,8 +129,10 @@ public class CgReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap,request);
+
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -286,6 +290,7 @@ public class CgReportController extends BaseController {
 		//step.4 进行查询返回结果
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
+
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -302,6 +307,7 @@ public class CgReportController extends BaseController {
             result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
             size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
         }
+
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -333,7 +339,16 @@ public class CgReportController extends BaseController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			String errorInfo = "解析失败!<br><br>失败原因：";
-			errorInfo += e.getMessage();
+
+			//无法直接捕捉到:java.net.ConnectException异常
+			int i = e.getMessage().indexOf("Connection refused: connect");
+			
+			if (i != -1) {//非链接异常
+				errorInfo += "数据源连接失败.";
+			}else{
+				errorInfo += "SQL语法错误.";
+			}
+
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

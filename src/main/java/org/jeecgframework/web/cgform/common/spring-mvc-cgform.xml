@@ -14,6 +14,14 @@
 		<property name="defaultEncoding" value="UTF-8"></property>
 		<property name="numberFormat" value="0"></property>
 	</bean>
+	<!-- Template Context -->
+	<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">
+		<property name="tags">
+			<map>
+				<entry key="DictData" value-ref="dictDataTag" />
+			</map>
+		</property>
+	</bean>
 	
 	<!-- update begin  online代码生成器支持 自定义word改造 -->
 	<!-- FreeMarker 自定义word代码生成器 -->
@@ -27,19 +35,11 @@
 		<property name="tags">
 			<map>
 				<entry key="DictData" value-ref="dictDataTag" />
+				<entry key="mutiLang" value-ref="mutiLangTag" />
 			</map>
 		</property>
 	</bean>
 	<!-- update end  online代码生成器支持 自定义word改造 -->
-	
-	<!-- Template Context -->
-	<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">
-		<property name="tags">
-			<map>
-				<entry key="DictData" value-ref="dictDataTag" />
-			</map>
-		</property>
-	</bean>
 
 	<!-- 拦截器 -->
 	<mvc:interceptors>

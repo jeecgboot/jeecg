@@ -1,4 +1,6 @@
 ${config_iframe}
+
+<!--update-start--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->
 <script type="text/javascript">
 /**
 *表单的高度,表单的宽度
@@ -264,13 +266,17 @@ function createDataGrid${config_id}(){
 	}
 	//新增
 	function ${config_id}add(){
+
 		//add('${config_name}录入','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
+
 		
 		add('${config_name}录入','cgFormBuildController.do?ftlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
+
 		//update('${config_name}编辑','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh,true);
+
 		
 		update('${config_name}编辑','cgFormBuildController.do?ftlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}

@@ -95,6 +95,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				} 
 				//String functionId=oConvertUtils.getString(request.getParameter("clickFunctionId"));
 				String functionId="";
+
 				//onlinecoding的访问地址有规律可循，数据权限链接篡改
 				if(requestPath.equals("cgAutoListController.do?datagrid")) {
 					requestPath += "&configId=" +  request.getParameter("configId");
@@ -105,8 +106,20 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?ftlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
+
+				if(requestPath.equals("cgFormBuildController.do?goAddFtlForm")) {
+					requestPath += "&tableName=" +  request.getParameter("tableName");
+				}
+				if(requestPath.equals("cgFormBuildController.do?goUpdateFtlForm")) {
+					requestPath += "&tableName=" +  request.getParameter("tableName");
+				}
+				if(requestPath.equals("cgFormBuildController.do?goDatilFtlForm")) {
+					requestPath += "&tableName=" +  request.getParameter("tableName");
+				}
+
 				//这个地方用全匹配？应该是模糊查询吧
 				//TODO
+
 				String uri= request.getRequestURI().substring(request.getContextPath().length() + 1);
 				String realRequestPath = null;
 				if(uri.endsWith(".do")||uri.endsWith(".action")){
@@ -115,6 +128,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					realRequestPath=uri;
 				}
 				List<TSFunction> functions = systemService.findByProperty(TSFunction.class, "functionUrl", realRequestPath);
+
 				if (functions.size()>0){
 					functionId = functions.get(0).getId();
 				}
@@ -126,6 +140,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				}
 				if(!oConvertUtils.isEmpty(functionId)){
+
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'"); 
 					List<TSOperation> allOperation=this.systemService.findByProperty(TSOperation.class, "TSFunction.id", functionId);
 					
@@ -134,9 +149,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 						for(TSOperation s:allOperation){ 
 						    //s=s.replaceAll(" ", "");
 							newall.add(s); 
-						}						 
+						}
+//---author:jg_xugj----start-----date:20151210--------for：#781  【oracle兼容】兼容问题fun.operation!='' 在oracle 数据下不正确
 						String hasOperSql="SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
-							"fun.functionid='"+functionId+"' AND fun.operation!=''  AND fun.roleid=role.roleid AND role.userid='"+client.getUser().getId()+"' ";
+							"fun.functionid='"+functionId+"' AND fun.operation is not null  AND fun.roleid=role.roleid AND role.userid='"+client.getUser().getId()+"' ";
+//---author:jg_xugj----end-----date:20151210--------for：#781  【oracle兼容】兼容问题fun.operation!='' 在oracle 数据下不正确
 						List<String> hasOperList = this.systemService.findListbySql(hasOperSql); 
 					    for(String operationIds:hasOperList){
 							    for(String operationId:operationIds.split(",")){
@@ -191,7 +208,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 		boolean bMgrUrl = false;
 		if (functionList == null) {
 //			functionList = systemService.loadAll(TSFunction.class);
+
 			functionList = systemService.findHql("from TSFunction where functionType = ? ", (short)0);
+
 		}
 		for (TSFunction function : functionList) {
 			if (function.getFunctionUrl() != null && function.getFunctionUrl().startsWith(requestPath)) {
@@ -215,12 +234,15 @@ public class AuthInterceptor implements HandlerInterceptor {
 					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";
 		List list = this.systemService.findListbySql(sql);
 		if(list.size()==0){
+
             String orgId = currLoginUser.getCurrentDepart().getId();
+
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
                     "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
                     "AND ro.org_id='" +orgId+ "' AND f.functionurl like '"+requestPath+"%'";
             List functionOfOrgList = this.systemService.findListbySql(functionOfOrgSql);
 			return functionOfOrgList.size() > 0;
+
         }else{
 			return true;
 		}

@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;">
+<div region="center" style="padding:0px;border:0px">
 <t:datagrid fitColumns="false" checkbox="true" name="cgreportConfigHeadList" title="dynamic.table.head" 
             actionUrl="cgreportConfigHeadController.do?datagrid" idField="id" fit="true" queryMode="group"
             sortName="createDate" sortOrder="desc">

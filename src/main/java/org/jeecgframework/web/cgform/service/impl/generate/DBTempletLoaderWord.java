@@ -73,16 +73,14 @@ public class DBTempletLoaderWord implements TemplateLoader {
     }
     
     private Object getObject(String name) throws IOException {
-//        update-start--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+
         String ftlVersion = "";
         String ftlVersionParam = "&ftlVersion=";
         if(name.contains(ftlVersionParam)) {
             ftlVersion = name.substring(name.indexOf(ftlVersionParam) + ftlVersionParam.length());
             name = name.substring(0, name.indexOf(ftlVersionParam));
         }
-//        update-end--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
-        
-      //update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 		TemplateUtil.TemplateType templateType= null;
 		if(name.lastIndexOf(".ftl")==-1&&name.lastIndexOf("_")!=-1){
 			templateType=TemplateUtil.TemplateType.getVal(name.substring(name.lastIndexOf("_")+1));
@@ -91,20 +89,20 @@ public class DBTempletLoaderWord implements TemplateLoader {
 		if(templateType==null){
 			templateType= TemplateUtil.TemplateType.UPDATE;
 		}
-		//update-end--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 		
     	PathMatchingResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
     	if(name.lastIndexOf(".ftl")==-1){//判断是否为include的模板
 	    	//如果是主表直接走一对多模板
 	    	CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(name);
 	    	if(head==null)return null;
-			//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 			CgformTemplateEntity entity=cgformTemplateService.findByCode(head.getFormTemplate());
-			//update-end--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 			if(head.getJformType()==CgAutoListConstant.JFORM_TYPE_MAIN_TALBE){
-				//update-begin--Author:张忠亮  Date:20150623 for：自定义模板
+
 				Resource[] resources = patternResolver.getResources(TemplateUtil.getTempletPath(entity, head.getJformType(), templateType));
-				//update-end--Author:张忠亮  Date:20150623 for：自定义模板
+
 	    		InputStreamReader inputStreamReader =null;
 	    		if (resources != null && resources.length > 0) {
 	    			 inputStreamReader = new InputStreamReader(resources[0].getInputStream(),"UTF-8");
@@ -113,14 +111,14 @@ public class DBTempletLoaderWord implements TemplateLoader {
 			}
 	    	//1、根据table name 查询cgformftl 有则获取模板内容
 	    	//2、没有cgformftl 则查询cgformfield 根据cgformfield生成模板
-//            update-start--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+
 	    	Map<String,Object> cgformFtlEntity = new HashMap<String, Object>();
             if (ftlVersion != null && ftlVersion.length() > 0) {
                 cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name, ftlVersion);
             } else {
                 cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name);
             }
-//            update-end--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+
             if(cgformFtlEntity!=null){
 	    		String content = (String) (cgformFtlEntity.get("ftl_content")==null?"":cgformFtlEntity.get("ftl_content"));
 	    		content = initFormHtml( content, name);
@@ -129,9 +127,9 @@ public class DBTempletLoaderWord implements TemplateLoader {
 //	    		org.jeecgframework.core.util.LogUtil.info(content);
 	    		return new StringBuilder(content);
 	    	}else{
-				//update-begin--Author:张忠亮  Date:20150623 for：自定义模板
+
 	    		Resource[] resources = patternResolver.getResources(TemplateUtil.getTempletPath(entity, head.getJformType(),templateType));
-	    		//update-end--Author:张忠亮  Date:20150623 for：自定义模板
+
 				InputStreamReader inputStreamReader =null;
 	    		if (resources != null && resources.length > 0) {
 	    			 inputStreamReader = new InputStreamReader(resources[0].getInputStream(),"UTF-8");

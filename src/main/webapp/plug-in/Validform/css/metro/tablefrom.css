@@ -4,7 +4,7 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 	font-size:12px;
-	background-image: url(resources/fc/images/bj.jpg);
+	/* background-image: url(resources/fc/images/bj.jpg); */
 }
 .formtable .inputxt{
 	border: 1px solid #D7D7D7;
@@ -29,6 +29,7 @@ body {
 	font-size: 12px;
 /* 	font-weight: bold;
 	color: #5E7595; */
+	white-space:nowrap;
 }
 .formtable
 {

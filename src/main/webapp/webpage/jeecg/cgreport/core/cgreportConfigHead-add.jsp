@@ -113,6 +113,7 @@
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.description"/>:</label></td>
 			<td class="value" colspan="5"><textarea rows="3" cols="150" id="content" name="content" datatype="*"></textarea> <span class="Validform_checktip"></span></td>
 		</tr>
+		<!--update-begin--Author:huangzq  Date:20151129 for：[753]【在线报表】扩展增加俩字段，非必填-->
 		<tr>
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.returnvalfield"/>:</label></td>
 			<td class="value"><input id="returnValField" name="returnValField" type="text" style="width: 150px" class="inputxt"> <span class="Validform_checktip"></span></td>

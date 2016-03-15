@@ -7,9 +7,12 @@
 <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:datagrid name="departList" title="common.department.list" actionUrl="departController.do?departSelectDataGrid" idField="id" checkbox="true" showRefresh="false">
-	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="common.department.name" field="departname" width="50"></t:dgCol>
+<%--update-start--Author:lijun  Date:20160301 for：组织机构查询显示为树形结构--%>
+<t:datagrid name="departList" title="common.department.list" actionUrl="departController.do?departgrid" checkbox="true" showRefresh="false"
+ treegrid="true" idField="id" pagination="false">
+	<t:dgCol title="common.id" field="id"  treefield="id"  hidden="true"></t:dgCol>
+	<t:dgCol title="common.department.name" field="departname" width="50"  treefield="text"></t:dgCol>
 </t:datagrid>
+<%--update-end--Author:lijun  Date:20160301 for：组织机构查询显示为树形结构--%>
 </body>
 </html>

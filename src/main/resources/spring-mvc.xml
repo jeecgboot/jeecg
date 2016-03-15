@@ -7,10 +7,12 @@
        http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
          http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+		http://cxf.apache.org/jaxws 
+   		http://cxf.apache.org/schemas/jaxws.xsd">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="org.jeecgframework.web.*,com.buss.*">
+	<context:component-scan base-package="org.jeecgframework.web.*,com.buss.*,com.jeecg.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -95,6 +97,7 @@
                         <value>loginController.do?login2</value>
 						<value>loginController.do?login3</value>
 						<value>loginController.do?checkuser</value>
+						<value>loginController.do?checkuser=</value>
 						<value>repairController.do?repair</value>
 						<value>repairController.do?deleteAndRepair</value>
 						<!--add-start-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
@@ -106,7 +109,9 @@
                         <!--add-end-Author:zhangguoming  Date:20140825 for：用户选择组织机构的url-->
 						<!--add-start-Author: zzl Date:20150709 for：社区介绍-->
 						<value>tSTeamPersonController.do?introduce</value>
-						<!--add-end-Author: zzl Date:20150709 for：社区介绍-->
+						<!--移动图表-->
+						<value>cgDynamGraphController.do?design</value>
+						<value>cgDynamGraphController.do?datagrid</value>
 					</list>
 				</property>
 			</bean>
@@ -115,5 +120,8 @@
 
 	<!-- 智能表单配置引入 -->
 	<import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml" />
-
+	<!--集成cxf webservice接口-->
+	<import resource="classpath:cxf-servlet.xml" />
+	<!-- jeecg plugin dev -->
+	<import resource="classpath:config/spring-config-p3.xml" />
 </beans>

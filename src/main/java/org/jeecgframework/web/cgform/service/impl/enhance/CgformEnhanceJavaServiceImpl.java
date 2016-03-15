@@ -106,6 +106,7 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 	public boolean checkClassOrSpringBeanIsExist(CgformEnhanceJavaEntity cgformEnhanceJavaEntity) {
 		String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
 		String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
+
 		if(StringUtil.isNotEmpty(cgJavaValue)){
 			try {
 				if("class".equals(cgJavaType)){
@@ -124,6 +125,7 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

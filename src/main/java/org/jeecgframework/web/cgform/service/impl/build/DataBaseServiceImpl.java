@@ -90,13 +90,17 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
+
 		key = this.executeSqlReturnKey(sql,data);
+
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
+
 			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
+
 		}
 	}
 	/**
@@ -175,9 +179,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						data.put(String.valueOf(key), newV);
 					}
 				}
+
 			} else if(oConvertUtils.isNotEmpty(fieldConfigs.get(key).getFieldDefault())) {
 				data.remove(key.toString().toLowerCase());
 			}
+
 		}
 		return data;
 	}
@@ -188,6 +194,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param id 表数据id
 	 * @param data 修改的数据map
 	 */
+
 	public int updateTable(String tableName, Object id, Map<String, Object> data) throws BusinessException {
 		fillUpdateSysVar(data);
 		dataAdapter(tableName,data);
@@ -216,10 +223,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
+
 			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
+
 		}
 		return num;
 	}
+
 
 	/**
 	 * 查询表单
@@ -294,8 +304,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
+
 //            sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
+
 		}
 		return sql;
 	}
@@ -578,6 +590,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return flag;
 	}
+
 	/**
 	 * 执行JAVA增强实现类
 	 */
@@ -587,6 +600,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		if(cgformEnhanceJavaEntity!=null){
 			String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
 			String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
+
 			if(StringUtil.isNotEmpty(cgJavaValue)){
 				Object obj = null;
 				try {
@@ -606,6 +620,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					throw new BusinessException("执行JAVA增强出现异常！");
 				} 
 			}
+
 		}
 	}
 	
@@ -620,5 +635,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return null;
 	}
+
 }
 

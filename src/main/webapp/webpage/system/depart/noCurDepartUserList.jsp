@@ -3,7 +3,7 @@
 <%--非当前组织机构的用户列表--%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div id="main_depart_list" class="easyui-layout" fit="true">
-    <div region="center" style="padding: 1px;">
+    <div region="center"  style="padding:0px;border:0px">
         <t:datagrid name="noCurDepartUserList" title="common.operation"
                     actionUrl="departController.do?addUserToOrgList&orgId=${orgId}" fit="true" fitColumns="true"
                     idField="id" checkbox="true" queryMode="group">

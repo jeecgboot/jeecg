@@ -3,7 +3,7 @@
 <%--非当前角色的用户列表--%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div id="main_role_list" class="easyui-layout" fit="true">
-    <div region="center" style="padding: 1px;">
+    <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="noCurRoleUserList" title="common.operation"
                     actionUrl="roleController.do?addUserToRoleList&roleId=${param.roleId}" fit="true" fitColumns="true"
                     idField="id" checkbox="true" queryMode="group">

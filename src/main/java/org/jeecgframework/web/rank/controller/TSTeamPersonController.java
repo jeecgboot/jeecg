@@ -88,6 +88,7 @@ public class TSTeamPersonController extends BaseController {
 	public ModelAndView tSTeamPerson(HttpServletRequest request) {
 		return new ModelAndView("system/rank/tSTeamPersonList");
 	}
+
 	/**
 	 * 外网-师资列表
 	 * @param request
@@ -145,6 +146,7 @@ public class TSTeamPersonController extends BaseController {
 			e.printStackTrace();
 		}
 	}
+
 	
 	/**
 	 * easyui AJAX请求数据
@@ -371,6 +373,7 @@ public class TSTeamPersonController extends BaseController {
 		}
 		return j;
 	}
+
 	/**
 	 * 社区介绍
 	 * @param
@@ -394,4 +397,5 @@ public class TSTeamPersonController extends BaseController {
 			e.printStackTrace();
 		}
 	}
+
 }

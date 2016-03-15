@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="jeecgJdbcList" title="通过JDBC访问数据库" actionUrl="jeecgJdbcController.do?datagrid" idField="id" fit="true"
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="jeecgJdbcList" title="通过JDBC访问数据库" actionUrl="jeecgJdbcController.do?datagrid" idField="id" fit="true"
 	onDblClick="jeecgJdbcList_edit">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="姓名" field="userName" query="true"></t:dgCol>

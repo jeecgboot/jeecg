@@ -67,7 +67,7 @@ public class JeecgMinidaoController extends BaseController {
 	}
 
 	/**
-	 * easyui AJAX请求数据
+	 * 通过Minidao SQL方式查询数据，进行列表展现
 	 * 
 	 * @param request
 	 * @param response
@@ -98,9 +98,9 @@ public class JeecgMinidaoController extends BaseController {
 	@ResponseBody
 	public AjaxJson del(JeecgMinidaoEntity jeecgMinidao, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		jeecgMinidao = jeecgMinidaoService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
+		jeecgMinidao = systemService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
 		message = "Minidao例子删除成功";
-		jeecgMinidaoService.delete(jeecgMinidao);
+		systemService.delete(jeecgMinidao);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		
 		j.setMsg(message);
@@ -120,10 +120,10 @@ public class JeecgMinidaoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgMinidao.getId())) {
 			message = "Minidao例子更新成功";
-			JeecgMinidaoEntity t = jeecgMinidaoService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
+			JeecgMinidaoEntity t = systemService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(jeecgMinidao, t);
-				jeecgMinidaoService.update(t);
+				systemService.updateEntitie(t);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -132,7 +132,7 @@ public class JeecgMinidaoController extends BaseController {
 		} else {
 			message = "Minidao例子添加成功";
 			jeecgMinidao.setStatus("0");
-			jeecgMinidaoService.insert(jeecgMinidao);
+			systemService.save(jeecgMinidao);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
 		j.setMsg(message);
@@ -151,7 +151,7 @@ public class JeecgMinidaoController extends BaseController {
 		req.setAttribute("departList", departList);
 		
 		if (StringUtil.isNotEmpty(jeecgMinidao.getId())) {
-			jeecgMinidao = jeecgMinidaoService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
+			jeecgMinidao = systemService.getEntity(JeecgMinidaoEntity.class, jeecgMinidao.getId());
 			req.setAttribute("jeecgMinidaoPage", jeecgMinidao);
 		}
 		return new ModelAndView("jeecg/demo/test/jeecgMinidao");

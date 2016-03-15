@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-  <div region="center" style="padding:1px;">
+  <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="jformGraphreportHeadList" checkbox="true" fitColumns="false" title="图表配置" actionUrl="jformGraphreportHeadController.do?datagrid" idField="id" fit="true" queryMode="group">
    <t:dgCol title="id"  field="id"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="名称"  field="name"   query="true" queryMode="single"  width="120"></t:dgCol>
@@ -18,8 +18,8 @@
    <t:dgFunOpt  funname="addlisttab(code,content)" title="function.test"></t:dgFunOpt>
    <t:dgFunOpt  funname="popMenuLinkGraph(code,content)" title="config.place"></t:dgFunOpt>
 
-   <t:dgToolBar title="录入" icon="icon-add" url="jformGraphreportHeadController.do?goAdd" funname="add" width="900" height="550"></t:dgToolBar>
-   <t:dgToolBar title="编辑" icon="icon-edit" url="jformGraphreportHeadController.do?goUpdate" funname="update" width="900" height="550"></t:dgToolBar>
+   <t:dgToolBar title="录入" icon="icon-add" url="jformGraphreportHeadController.do?goAdd" funname="add" width="100%" height="100%"></t:dgToolBar>
+   <t:dgToolBar title="编辑" icon="icon-edit" url="jformGraphreportHeadController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformGraphreportHeadController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
    <t:dgToolBar title="查看" icon="icon-search" url="jformGraphreportHeadController.do?goUpdate" funname="detail"></t:dgToolBar>
    <t:dgToolBar title="EXCEL导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>

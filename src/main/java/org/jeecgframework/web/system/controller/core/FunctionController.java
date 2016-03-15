@@ -9,6 +9,7 @@ import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.NumberComparator;
 import org.jeecgframework.core.util.StringUtil;
@@ -21,6 +22,7 @@ import org.jeecgframework.web.system.pojo.base.TSDataRule;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,11 +90,7 @@ public class FunctionController extends BaseController {
 	 */
 	@RequestMapping(params = "operation")
 	public ModelAndView operation(HttpServletRequest request, String functionId) {
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		request.setAttribute("functionId", functionId);
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		return new ModelAndView("system/operation/operationList");
 	}
 
@@ -104,11 +102,7 @@ public class FunctionController extends BaseController {
 	@RequestMapping(params = "dataRule")
 	public ModelAndView operationData(HttpServletRequest request,
 			String functionId) {
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		request.setAttribute("functionId", functionId);
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		return new ModelAndView("system/dataRule/ruleDataList");
 	}
 
@@ -140,14 +134,10 @@ public class FunctionController extends BaseController {
 	public void opdategrid(HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class, dataGrid);
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		String functionId = oConvertUtils.getString(request
 				.getParameter("functionId"));
 		cq.eq("TSFunction.id", functionId);
 		cq.add();
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -167,12 +157,14 @@ public class FunctionController extends BaseController {
 		systemService
 				.updateBySqlString("delete from t_s_role_function where functionid='"
 						+ function.getId() + "'");
+
 		try{
 			systemService.delete(function);
 		}catch (Exception e){
 			e.printStackTrace();
 			message=MutiLangUtil.getMutiLangInstance().getLang("common.menu.del.fail");
 		}
+
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
 
@@ -197,7 +189,7 @@ public class FunctionController extends BaseController {
 
 	/**
 	 * 删除操作
-	 * 
+	 * 删除操作时同步更新已分配此操作的的  角色功能记录中的oeration 字段。
 	 * @param operation
 	 * @return
 	 */
@@ -209,6 +201,20 @@ public class FunctionController extends BaseController {
 				operation.getId());
 		message = MutiLangUtil.paramDelSuccess("common.operation");
 		userService.delete(operation);
+//		---author:jg_xugj----start-----date:20151211--------for：#779 【菜单问题】当删了t_s_operation表中记录时， t_s_role_function 表中operation 字段应该同步更新。
+		String operationId = operation.getId();
+		String hql = "from TSRoleFunction rolefun where rolefun.operation like '%"+operationId+"%'";
+		List<TSRoleFunction> roleFunctions= userService.findByQueryString(hql);
+		for(TSRoleFunction roleFunction:roleFunctions){
+			String newOper =roleFunction.getOperation().replace(operationId+",", "");
+			if(roleFunction.getOperation().length()==newOper.length()){
+				newOper = roleFunction.getOperation().replace(operationId, "");
+			}
+			roleFunction.setOperation(newOper);
+			userService.updateEntitie(roleFunction);
+		}
+//		---author:jg_xugj----start-----date:20151211--------for：#779 【菜单问题】当删了t_s_operation表中记录时， t_s_role_function 表中operation 字段应该同步更新。
+
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
 
@@ -246,15 +252,11 @@ public class FunctionController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveFunction(TSFunction function, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		function.setFunctionUrl(function.getFunctionUrl().trim());
 		String functionOrder = function.getFunctionOrder();
 		if (StringUtils.isEmpty(functionOrder)) {
 			function.setFunctionOrder("0");
 		}
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		if (function.getTSFunction().getId().equals("")) {
 			function.setTSFunction(null);
 		} else {
@@ -268,15 +270,11 @@ public class FunctionController extends BaseController {
 			userService.saveOrUpdate(function);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
+
 			List<TSFunction> subFunction = systemService.findByProperty(TSFunction.class, "TSFunction.id", function.getId());
 			updateSubFunction(subFunction,function);
-			// ----------------------------------------------------------------
-			// ----------------------------------------------------------------
 
 			systemService.flushRoleFunciton(function.getId(), function);
-
-			// ----------------------------------------------------------------
-			// ----------------------------------------------------------------
 
 		} else {
 			if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {
@@ -345,6 +343,7 @@ public class FunctionController extends BaseController {
 		List<TSFunction> fuinctionlist = systemService
 				.getList(TSFunction.class);
 		req.setAttribute("flist", fuinctionlist);
+
 		// List<TSIcon> iconlist = systemService.getList(TSIcon.class);
 		List<TSIcon> iconlist = systemService
 				.findByQueryString("from TSIcon where iconType != 3");
@@ -352,6 +351,7 @@ public class FunctionController extends BaseController {
 		List<TSIcon> iconDeskList = systemService
 				.findByQueryString("from TSIcon where iconType = 3");
 		req.setAttribute("iconDeskList", iconDeskList);
+
 		if (functionid != null) {
 			function = systemService.getEntity(TSFunction.class, functionid);
 			req.setAttribute("function", function);
@@ -407,8 +407,16 @@ public class FunctionController extends BaseController {
 		}
 		cq.addOrder("functionOrder", SortDirection.asc);
 		cq.add();
+
+		//获取装载数据权限的条件HQL
+		cq = HqlGenerateUtil.getDataAuthorConditionHql(cq, new TSFunction());
+		cq.add();
+
+		
 		List<TSFunction> functionList = systemService.getListByCriteriaQuery(cq, false);
+
         Collections.sort(functionList, new NumberComparator());
+
         List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
 		TreeGridModel treeGridModel = new TreeGridModel();
 		treeGridModel.setIcon("TSIcon_iconPath");
@@ -478,6 +486,7 @@ public class FunctionController extends BaseController {
 		MutiLangUtil.setMutiTree(comboTrees);
 		return comboTrees;
 	}
+
 	/**
 	 * 菜单模糊检索功能
 	 * 
@@ -545,6 +554,7 @@ public class FunctionController extends BaseController {
 		req.setAttribute("menuListMap", menuListMap);
 		return new ModelAndView("system/function/menuAppList");
 	}
+
 
 	/**
 	 * 

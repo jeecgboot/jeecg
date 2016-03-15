@@ -33,7 +33,7 @@
 	type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
 <div region="center" style="padding: 3px;" class="easyui-panel" id="demopanle"></div>
 <div region="west" style="width: 150px;" title="DEMO分类" split="true">
-<div class="easyui-panel" style="padding: 1px;" fit="true" border="false">
+<div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false">
 <ul id="demotree">
 </ul>
 </div>

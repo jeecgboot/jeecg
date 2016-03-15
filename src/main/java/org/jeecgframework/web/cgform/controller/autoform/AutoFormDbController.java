@@ -68,10 +68,12 @@ public class AutoFormDbController extends BaseController {
 	 */
 	@RequestMapping(params = "autoFormDb")
 	public ModelAndView autoFormDb(HttpServletRequest request) {
+
 		String autoFormId = request.getParameter("autoFormId");
 		if(oConvertUtils.isNotEmpty(autoFormId)){
 			request.setAttribute("autoFormId", autoFormId);
 		}
+
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDbList");
 	}
 
@@ -208,15 +210,19 @@ public class AutoFormDbController extends BaseController {
 		if (StringUtil.isNotEmpty(autoFormDb.getId())) {
 			autoFormDb = autoFormDbService.getEntity(AutoFormDbEntity.class, autoFormDb.getId());
 		}
+
 		req.setAttribute("autoFormDbPage", autoFormDb);
+
 		Collection<DynamicDataSourceEntity> dynamicDataSourceEntitys = DynamicDataSourceEntity.DynamicDataSourceMap.values();
 		req.setAttribute("dynamicDataSourceEntitys", dynamicDataSourceEntitys);
+
 		try {
 			List<String> tableNames = new JeecgReadTable().readAllTableNames();
 			req.setAttribute("tableNames", tableNames);
 		} catch (SQLException e) {
 			logger.info(e.getMessage());
 		}
+
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDb-add");
 	}
 	
@@ -229,16 +235,21 @@ public class AutoFormDbController extends BaseController {
 	public ModelAndView goUpdate(AutoFormDbEntity autoFormDb, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(autoFormDb.getId())) {
 			autoFormDb = autoFormDbService.getEntity(AutoFormDbEntity.class, autoFormDb.getId());
+
 			List<String> tableNames = null;
 			if(StringUtils.isNotBlank(autoFormDb.getDbKey()) && "table".equals(autoFormDb.getDbType())){
+
 				DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(autoFormDb.getDbKey());
 				if(dynamicDataSourceEntity!=null){
 					tableNames = DynamicDBUtil.findList(autoFormDb.getDbKey(),SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'"+dynamicDataSourceEntity.getDbName()+"'"),String.class);
 				}
+
 					
 			}
+
 			Collection<DynamicDataSourceEntity> dynamicDataSourceEntitys = DynamicDataSourceEntity.DynamicDataSourceMap.values();
 			req.setAttribute("dynamicDataSourceEntitys", dynamicDataSourceEntitys);
+
 			//数据源类型
 			String dbKey = null;
 			if(CgAutoListConstant.DB_TYPE_TABLE.equals(autoFormDb.getDbType())){
@@ -246,6 +257,7 @@ public class AutoFormDbController extends BaseController {
 			}else if(CgAutoListConstant.DB_TYPE_SQL.equals(autoFormDb.getDbType())){
 				dbKey = autoFormDb.getTbDbKey();
 			}
+
 			if(StringUtils.isBlank(dbKey)){
 				//默认当前平台数据源
 				try {
@@ -259,7 +271,9 @@ public class AutoFormDbController extends BaseController {
 					tableNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 				}
 			}
+
 			req.setAttribute("tableNames", tableNames);
+
 			req.setAttribute("autoFormDbPage", autoFormDb);
 			
 		}
@@ -338,6 +352,8 @@ public class AutoFormDbController extends BaseController {
 		reJson.put("params", params);
 		return reJson;
 	}
+	
+	//add-begin--Author:luobaoli  Date:20150621 for：当数据库类型选择为Table时，增加表属性列表
 	/**
 	 * 加载明细列表[表属性]
 	 * 
@@ -358,6 +374,9 @@ public class AutoFormDbController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDbFieldForTableList");
 	}
+	//add-end--Author:luobaoli  Date:20150621 for：当数据库类型选择为Table时，增加表属性列表
+	
+	//add-begin--Author:luobaoli  Date:20150621 for：获取数据源类型对应数据库的所有表
 	/**
 	 * 根据数据源获取所有表
 	 * @param db_key
@@ -370,10 +389,12 @@ public class AutoFormDbController extends BaseController {
 		List<String> tableNames = null;
 		try{
 			if(StringUtils.isNotBlank(dbKey)){
+
 				DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 				if(dynamicDataSourceEntity!=null){
 					tableNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 				}
+
 			}else{
 				tableNames = new JeecgReadTable().readAllTableNames();
 			}
@@ -387,6 +408,9 @@ public class AutoFormDbController extends BaseController {
 		
 		return reJson;
 	}
+	//add-end--Author:luobaoli  Date:20150621 for：获取数据源类型对应数据库的所有表
+	
+	//add-begin--Author:luobaoli  Date:20150621 for：获取指定表的所有列
 	/**
 	 * 根据数据源和表获取所有属性
 	 * @param sql
@@ -399,10 +423,12 @@ public class AutoFormDbController extends BaseController {
 		Map reJson = new HashMap<String, Object>();
 		List<String> columnsNames = null;
 		if(StringUtils.isNotBlank(dbKey)){
+
 			DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 			if(dynamicDataSourceEntity!=null){
 				columnsNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllCloumnSql(dynamicDataSourceEntity.getDbType(), "'" + tableName + "'", "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 			}
+
 		}else{
 			try {
 				List<Columnt> columns = new JeecgReadTable().readOriginalTableColumn(tableName);
@@ -422,6 +448,9 @@ public class AutoFormDbController extends BaseController {
 		
 		return reJson;
 	}
+	//add-end--Author:luobaoli  Date:20150621 for：获取指定表的所有列
+	
+	//add-begin--Author:luobaoli  Date:20150626 for：新增数据源展示页面
 	/**
 	 * 数据源展示
 	 * @param id
@@ -446,6 +475,9 @@ public class AutoFormDbController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDb-view");
 	}
+	//add-end--Author:luobaoli  Date:20150626 for：新增数据源展示页面
+	
+	//add-begin--Author:luobaoli  Date:20150626 for：新增通过动态SQL或者数据源表动态获取相关数据功能
 	/**
 	 * 数据展示
 	 * @param id
@@ -475,10 +507,12 @@ public class AutoFormDbController extends BaseController {
 		    			hqlTable.append(autoFormDbFieldEntity.getFieldName()+",");
 			    	}
 		    		hqlTable.deleteCharAt(hqlTable.length()-1).append(" from "+dbTableName);
+
 					if("".equals(dbKey)){
 						//当前上下文中的DB环境，获取数据库表中的所有数据
 						map = systemService.findForJdbc(hqlTable.toString());
 					}
+
 					else{
 						DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 						if(dynamicDataSourceEntity!=null){
@@ -525,6 +559,12 @@ public class AutoFormDbController extends BaseController {
 		j.setMsg(msg);
 		return j;
 	}
+	
+	//add-end--Author:luobaoli  Date:20150626 for：新增通过动态SQL或者数据源表动态获取相关数据功能
+
+
+	//add-begin--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验
+
 	/**
 	 * 判断数据源名称是否重复
 	 */
@@ -552,6 +592,8 @@ public class AutoFormDbController extends BaseController {
 		jsonObject.put("status", "y");
     	return jsonObject;
 	}
+
+	//add-end--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验
 
 	
 }

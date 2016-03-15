@@ -2,7 +2,7 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding: 1px;"><t:datagrid name="jeecgMatterBomList" title="物料Bom列表" actionUrl="jeecgMatterBomController.do?doTreeGrid" treegrid="true" idField="id"
+<div region="center" style="padding:0px;border:0px"><t:datagrid name="jeecgMatterBomList" title="物料Bom列表" actionUrl="jeecgMatterBomController.do?doTreeGrid" treegrid="true" idField="id"
 	pagination="false">
 	<t:dgCol title="编号" field="id" treefield="id" hidden="true" />
 	<t:dgCol title="名称" field="name" treefield="text" />

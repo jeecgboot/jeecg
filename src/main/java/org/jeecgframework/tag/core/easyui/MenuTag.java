@@ -62,18 +62,22 @@ public class MenuTag extends TagSupport {
 
 	public StringBuffer end() {	
 		StringBuffer sb = new StringBuffer();
+
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
             sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
             sb.append("</ul>");
         }
 		if(style.equals("shortcut"))
+
 //		{	sb.append("<div id=\"nav\" style=\"display:none;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
 		{
             sb.append("<div id=\"nav\" style=\"display:block;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
+
 			sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
 			sb.append("</div>");
 		}
+
 		if(style.equals("bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootMenu(parentFun, childFun));
@@ -91,6 +95,10 @@ public class MenuTag extends TagSupport {
 		if(style.equals("ace"))
 		{
 			sb.append(ListtoMenu.getAceMultistageTree(menuFun));
+		}
+		if(style.equals("diy"))
+		{
+			sb.append(ListtoMenu.getDIYMultistageTree(menuFun));
 		}
 		return sb;
 	}

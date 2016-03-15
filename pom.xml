@@ -3,16 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.6</version>
+	<version>3.6.2</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <codegenerate.version>3.6-SNAPSHOT</codegenerate.version>
-        <minidao.version>1.5.4</minidao.version>
+        <minidao.version>1.5.5</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
-		<!-- 主要依赖库的版本定义 -->
-		<spring.version>3.1.1.RELEASE</spring.version>
+		<spring.version>4.0.9.RELEASE</spring.version>
 		<hibernate.version>4.1.0.Final</hibernate.version>
 		<hibernate-common-annotations.version>4.0.2.Final</hibernate-common-annotations.version>
 		<hibernate-jpa.version>1.0.1.Final</hibernate-jpa.version>
@@ -28,13 +27,11 @@
 		<javassist.version>3.15.0-GA</javassist.version>
 		<ant.version>1.6.5</ant.version>
 
-		<!-- todo 没有用到 <spring-jpa.versoin>2.0.8</spring-jpa.versoin>-->
 		<mybatis-spring.version>1.1.1</mybatis-spring.version>
 
 		<!-- 工具包 -->
         <!-- json start -->
 		<jackson.version>1.8.4</jackson.version>
-        <!-- todo 没有用到 <jackson2.version>2.1.2</jackson2.version>-->
         <jacksonframework.version>1.84</jacksonframework.version>
 		<json-lib.version>2.1</json-lib.version>
 		<fastjson-lib.version>1.2.6</fastjson-lib.version>
@@ -84,14 +81,7 @@
 
 		<!-- 测试依赖包 -->
 		<junit.version>4.7</junit.version>
-        <!-- todo 没有用到 <hamcrest.version>1.3</hamcrest.version>-->
-		<!-- todo 没有用到 <mockito.version>1.9.5</mockito.version>-->
-		<!-- todo 没有用到 <powermock.version>1.5</powermock.version>-->
-		<!-- todo 没有用到 <selenium.version>2.28.0</selenium.version>-->
-		<!-- todo 没有用到 <jetty.version>7.6.8.v20121106</jetty.version>-->
-		<!-- Plugin的属性定义 -->
-		<!-- todo 没有用到 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-        <!-- todo 没有用到 <jdk.version>1.6</jdk.version>-->
+        <hamcrest.version>1.3</hamcrest.version>
 
 		<CKFinder.version>2.4</CKFinder.version>
         <!-- java生成缩略图 -->
@@ -104,6 +94,7 @@
 		<groovy.version>2.3.3</groovy.version>
         <!--poi 工具类 -->
         <easypoi.version>2.1.4</easypoi.version>
+		<cxf.version>3.0.2</cxf.version>
 	</properties>
 
 	<repositories>
@@ -190,8 +181,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
-			<artifactId>minidao</artifactId>
+			<artifactId>minidao-pe</artifactId>
 			<version>${minidao.version}</version>
+			<exclusions>
+            	<exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit</groupId>
+                    <artifactId>com.springsource.org.junit</artifactId>
+                </exclusion>
+             </exclusions>
 		</dependency>
 		<!-- ckfinder start -->
 		<dependency>
@@ -328,19 +329,6 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!--工作流依赖包 -->
-		<!--
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-engine</artifactId>
-			<version>${activiti.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring</artifactId>
-			<version>${activiti.version}</version>
-		</dependency>
-		-->
 		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -360,7 +348,6 @@
             <groupId>com.cloudhopper.proxool</groupId>
             <artifactId>proxool</artifactId>
             <version>${proxool.version}</version>
-             <!-- 许仙明加入 geronimo-javamail_1.4_spec后删除-->
             <exclusions>
             	<exclusion>
             		<artifactId>geronimo-spec-javamail</artifactId>
@@ -449,11 +436,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!-- web依赖包 -->
+		<!-- web begin Spring MVC Test Framework 需要 servlet-api 3.0 以上  -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -461,6 +448,12 @@
 			<artifactId>jsp-api</artifactId>
 			<version>2.0</version>
 			<scope>provided</scope>
+			<exclusions>
+            	<exclusion>
+            		<groupId>javax.servlet</groupId>
+            		<artifactId>servlet-api</artifactId>
+            	</exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -639,6 +632,12 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>${commons-logging.version}</version>
+			<exclusions>
+            	<exclusion>
+            		<groupId>javax.servlet</groupId>
+            		<artifactId>servlet-api</artifactId>
+            	</exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -760,11 +759,17 @@
 			<version>${junit.version}</version>
 		</dependency>
         <!-- hamcrest -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest.version}</version>
-        </dependency>-->
+        </dependency>
+        <dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>0.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- spring -->
 		<dependency>
@@ -852,7 +857,6 @@
 		</dependency>
 		<!-- baidu ueditor-->
 		
-		<!-- jsoup HTML parser library @ http://jsoup.org/ -->
 		<dependency>
 		  <groupId>org.jsoup</groupId>
 		  <artifactId>jsoup</artifactId>
@@ -864,10 +868,40 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
+		<!-- huangzq add cxf webservice 20151231-->
+		<dependency> 
+			<groupId>org.apache.cxf</groupId> 
+			<artifactId>cxf-rt-frontend-jaxws</artifactId> 
+			<version>${cxf.version}</version> 
+		</dependency> 
+		<dependency> 
+			<groupId>org.apache.cxf</groupId> 
+			<artifactId>cxf-rt-transports-http</artifactId> 
+			<version>${cxf.version}</version> 
+		</dependency>
+
+		<!-- jeecg plugin begin  -->
+		<dependency>
+			<groupId>org.p3framework</groupId>
+			<artifactId>jeecg-p3-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.p3framework</groupId>
+			<artifactId>jeecg-p3-ui</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.p3framework</groupId>
+			<artifactId>jeecg-p3-biz-actInvite</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- jeecg plugin end  -->
 	</dependencies>
 
 	<organization>
-		<name>JEECG 智能快速开发平台</name>
+		<name>JEECG 微云快速开发平台</name>
 		<url>www.jeecg.org</url>
 	</organization>
 	<build>

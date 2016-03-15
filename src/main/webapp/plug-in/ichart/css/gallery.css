@@ -1,0 +1,320 @@
+﻿body {
+	padding: 0px;
+	margin: 0px;
+	font-size: 12px;
+	font-family: '微软雅黑', Trebuchet MS, Verdana, Helvetica, Arial, sans-serif;
+	background-image: url("../images/gallery_bg.png");
+	background-repeat: repeat;
+}
+
+article,aside,dialog,figure,footer,header,hgroup,nav,section {
+	display: block;
+}
+
+header {
+	height: 100px;
+	background-image: url("../images/gallery_t_bg.png");
+	background-repeat: repeat-x;
+}
+
+#gallery_logo {
+	height: 100px;
+	width: 200px;
+	float: left;
+	background-image: url("../images/gallery_logo.png");
+	background-repeat: no-repeat;
+}
+
+#gallery_watchword {
+	color: #ffffff;
+	float: right;
+	font-size: 30px;
+	padding-right: 20px;
+	padding-top: 40px;
+}
+
+nav {
+	background-color: #f3f6f9;
+	background-image: -moz-linear-gradient(top, #fafafa, #f0f4f8);
+	/* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafafa),
+		color-stop(1, #f0f4f8) ); /* Saf4+, Chrome */
+	height: 40px;
+	border-bottom: 1px solid #ced1da;
+	-webkit-box-shadow: 0px 1px 2px #f1f1f1;
+	-moz-box-shadow: 0px 1px 2px #f1f1f1;
+	box-shadow: 0px 1px 2px #f1f1f1;
+}
+#gallery_tools{
+	margin-left:270px;
+	padding-top:5px;
+	height: 30px;
+	line-height:30px;
+}
+.gallery_tool .gallery_too{
+	margin:0px 4px;
+	display:inline-block;
+}
+.gallery_too a{
+    text-decoration: none;
+}
+.gallery_check{
+	position: relative;
+	top:2px;
+}
+.gallery_bg{
+	width:60px;
+	height:20px;
+	position: relative;
+	display:inline-block;
+	top:6px;
+	border: 1px solid #ced1da;
+	cursor:pointer;
+	background-color: #FEFEFE;
+	z-index: 99;
+}
+.gallery_bg_list{
+	border: 1px solid #ced1da;
+	background-color: #FEFEFE;
+	position: absolute;
+	display:inline-block;
+	width:60px;
+	top:20px;
+	left:-1px;
+	margin:0px;
+	display:none;
+	-webkit-box-shadow: 2px 1px 1px #eeeeee;
+	-moz-box-shadow: 2px 1px 1px #eeeeee;
+	box-shadow: 2px 1px 1px #eeeeee;
+}
+.gallery_color{
+	width:54px;
+	height:20px;
+	margin:2px 1px;
+	border: 1px solid #ced1da;
+}
+.gallery_color_hover{
+	border-color: #f8c122;
+}
+#gallery_color_picker{
+	display: none;
+	position: absolute;
+	top:0px;
+	left:254px;
+	width:92px;
+	height:92px;
+	background-color: #FEFEFE;
+	border: 1px solid #ced1da;
+	-webkit-box-shadow: 2px 1px 1px #eeeeee;
+	-moz-box-shadow: 2px 1px 1px #eeeeee;
+	box-shadow: 2px 1px 1px #eeeeee;
+	z-index: 9999;
+}
+#gallery_color_picker .color{
+	width:24px;
+	height:24px;
+	float: left;
+	margin:2px;
+	border: 1px solid #ced1da;
+	cursor: pointer;
+}
+#form_tr_temlate{
+	display:none;
+}
+#dialog-form{
+	background-color: #FEFEFE;
+	position: relative;
+	display: none;
+}
+#validateTips{
+	color:#1987a8;
+}
+#custom-data,#download{
+	position: relative;
+	height:25px;
+	top:0px;
+	font-family: '微软雅黑', Trebuchet MS, Verdana, Helvetica, Arial, sans-serif;
+    font-size:12px;
+    cursor: pointer;
+}
+.form_table{
+	width: 340px;
+	margin:0px;
+	border: 1px solid #dadee4;
+	border-collapse:collapse;
+	float: left;
+}
+.dialog-form a:link{
+	color:#0e708d;
+}
+
+.form_table thead{
+	background-color: #eeeeee;
+}
+.form_table td{
+	padding:4px;
+	border: 1px solid #dadee4;
+}
+.form_table thead td{
+	text-align: center;
+	font-size: 12px;
+	font-weight: 600;
+}
+.form_text{
+	width:80px;
+}
+.ui-widget {
+    font-family: '微软雅黑', Trebuchet MS, Verdana, Helvetica, Arial, sans-serif;
+    font-size:12px;
+}
+
+#gallery_container {
+	height: 450px;
+	position: relative;
+}
+
+#gallery_left_container {
+	width: 260px;
+	height: 100%;
+}
+.gallery_section{
+	margin: 5px; 
+	border: 1px solid #ced1da;
+	background-color: #FEFEFE;
+	-moz-border-radius-topleft:6px;
+	-moz-border-radius-topright:6px;
+	-webkit-border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-khtml-border-radius-topleft:6px;
+	-khtml-border-radius-topright:6px;
+	border-top-left-radius:6px;
+	border-top-right-radius:6px; 
+}
+.gallery_bar{
+	border-bottom: 1px solid #ced1da;
+	height:30px;
+	line-height: 30px;
+	background-color: #f3f6f9;
+	background-image: -moz-linear-gradient(top, #fafafa, #f0f4f8);
+	/* Firefox */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafafa),
+		color-stop(1, #f0f4f8) ); /* Saf4+, Chrome */
+	-moz-border-radius-topleft:6px;
+	-moz-border-radius-topright:6px;
+	-webkit-border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-khtml-border-radius-topleft:6px;
+	-khtml-border-radius-topright:6px;
+	border-top-left-radius:6px;
+	border-top-right-radius:6px; 
+	color:#393b3c;
+	font-weight:600;
+	padding-left:10px;
+}
+
+#gallery_ichart {
+	height: 160px;
+}
+.gallery_draggable {
+	width: 48px;
+	height: 48px;
+	float:left;
+	margin:5px;
+	background-image: url("../images/gallery_chart.png");
+	border: 1px solid #ced1da;
+	cursor:pointer;
+	z-index: 100;
+}
+.pie2d{
+	background-position: 0px 0px;
+}
+.pie3d{
+	background-position: -48px 0px;
+}
+.column2d{
+	background-position: -96px 0px;
+}
+.column3d{
+	background-position: -144px 0px;
+}
+.bar2d{
+	background-position: -192px 0px;
+}
+.area2d{
+	background-position: -240px 0px;
+}
+.line2d{
+	background-position: -288px 0px;
+}
+.sline2d{
+	background-position: -336px 0px;
+}
+
+.gallery_hover{
+	background-color: #c2e2eb !important;
+}
+#gallery_data {
+	height: 288px;
+}
+.draggable_table{
+	width: 238px;
+	margin:8px 5px 0px 5px;
+	cursor:move;
+	border: 1px solid #dadee4;
+	border-collapse:collapse;
+	z-index:999;
+}
+.draggable_table thead{
+	background-color: #eeeeee;
+}
+.draggable_table td{
+	padding:2px;
+	border: 1px solid #dadee4;
+}
+
+#gallery_right_container {
+	position: absolute;
+	top: 0px;
+	left: 260px;
+}
+#canvasDiv{
+	position: absolute;
+	top: 20px;
+	left: 290px;
+	width:800px;
+	height:400px;
+}
+.right_container{
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	border: 1px solid #ced1da;
+	background-color: #FEFEFE;
+}
+p{
+	margin: 10px;
+}
+#ichart-weibo{
+	position: relative;
+	top: 8px;
+}
+footer{
+	height: 20px;
+	line-height:20px;
+	padding-left:5px;
+}
+footer a:LINK{
+	color:#114c3f;
+	text-decoration: none;
+}
+footer a:VISITED{
+	color:#114c3f;
+}
+footer a:HOVER{
+	color:#359280;
+	text-decoration:underline;
+}
+footer a:ACTIVE{
+	color:#277564;
+}

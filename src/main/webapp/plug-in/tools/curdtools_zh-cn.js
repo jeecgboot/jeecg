@@ -39,6 +39,7 @@ function addTreeNode(title,addurl,gname) {
  * @param addurl//目标页面地址
  * @param id//主键字段
  */
+
 function update(title,url, id,width,height,isRestful) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
@@ -57,6 +58,7 @@ function update(title,url, id,width,height,isRestful) {
 	}
 	createwindow(title,url,width,height);
 }
+
 
 /**
  * 如果页面是详细查看页面，无效化所有表单元素，只能进行查看
@@ -721,12 +723,28 @@ function getCookie(c_name)
 	}
 	return ""
 }
+
+function createTabId(str){
+　　　　var val="";
+　　　　for(var i = 0; i < str.length; i++){
+　　　　　　　　val += str.charCodeAt(i).toString(16);
+　　　　}
+　　　　return val;
+　　}
 // 添加标签
 function addOneTab(subtitle, url, icon) {
 	var indexStyle = getCookie("JEECGINDEXSTYLE");
-	if(indexStyle=='sliding'||indexStyle=='bootstrap'||indexStyle=='ace'){
+	if(indexStyle=='sliding'||indexStyle=='bootstrap'){
 		//shortcut和bootstrap风格的tab跳转改为直接跳转
 		window.location.href=url;
+	}else if(indexStyle=='acele'||indexStyle=='ace'){
+		var id = "";
+		//if(url.indexOf("=")!=-1){
+		//	id = url.substring(url.indexOf("=")+1);
+		//}else{
+			id = createTabId(subtitle);
+		//}
+		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
 	}else{
 		if (icon == '') {
 			icon = 'icon folder';
@@ -994,3 +1012,5 @@ function jeecgAutoParse(data){
     	});
 			return parsed;
 }
+
+

@@ -10,8 +10,10 @@
 	$(function() {
 		$('#cc').combotree({
 			url : 'functionController.do?setPFunction&selfId=${function.id}',
+
 			panelHeight: 200,
 			width: 157,
+
 			onClick: function(node){
 				$("#functionId").val(node.id);
 			}
@@ -101,6 +103,7 @@
             </c:forEach>
         </select>
     </div>
+    <%--update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
     <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
         <select name="TSIconDesk.id">
@@ -111,6 +114,7 @@
             </c:forEach>
         </select>
     </div>
+    <%--update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
 	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${function.functionOrder}" datatype="n1-3"></div>
 	</fieldset>
 </t:formvalid> 

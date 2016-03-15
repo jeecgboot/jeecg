@@ -25,9 +25,11 @@
 					if(pro)
 						window.top.$.messager.progress('close');
 					$('#demo').html(d.msg);
+
 					if(id=="ThreeLevelLinkage"){
 						init_select();
 					}
+
 				}
 			}
 		});
@@ -51,6 +53,7 @@
 		</tr>
 	</table>
 </t:formvalid>
+<!--update-begin--Author:huangzq  Date:20151127 for：三级联调 -->
 <script type="text/javascript">
 	var province_city_county_data=[ 	
 	{

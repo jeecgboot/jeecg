@@ -271,10 +271,12 @@ public class AutoFormDbPage implements java.io.Serializable {
 	public void setAutoFormId(java.lang.String autoFormId){
 		this.autoFormId = autoFormId;
 	}
+	//add-begin--Author:luobaoli  Date:20150620 for：增加数据源字段
 	public java.lang.String getDbKey() {
 		return dbKey;
 	}
 	public void setDbKey(java.lang.String dbKey) {
 		this.dbKey = dbKey;
 	}
+	//add-end--Author:luobaoli  Date:20150620 for：增加数据源字段
 }

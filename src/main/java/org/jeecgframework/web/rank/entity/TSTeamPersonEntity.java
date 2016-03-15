@@ -51,8 +51,10 @@ public class TSTeamPersonEntity implements java.io.Serializable {
 	/**加入时间*/
 	@Excel(name="加入时间", importFormat="yyyy-MM-dd HH:mm:ss")
 	private java.util.Date jionDate;
+
 	/**是否参与*/
     private Integer isJoin;
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -264,6 +266,7 @@ public class TSTeamPersonEntity implements java.io.Serializable {
 	public void setJionDate(java.util.Date jionDate){
 		this.jionDate = jionDate;
 	}
+
     @Column(name ="is_join")
     public Integer getIsJoin() {
         return isJoin;
@@ -272,4 +275,5 @@ public class TSTeamPersonEntity implements java.io.Serializable {
     public void setIsJoin(Integer isJoin) {
         this.isJoin = isJoin;
     }
+
 }

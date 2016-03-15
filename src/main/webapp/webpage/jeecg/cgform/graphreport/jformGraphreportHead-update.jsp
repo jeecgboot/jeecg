@@ -84,7 +84,7 @@
 				<label class="Validform_label">查询数据SQL:</label>
 			</td>
 			<td class="value" colspan="3">
-				<textarea id="cgrSql" style="width:600px;" class="inputxt" rows="6" name="cgrSql">${jformGraphreportHeadPage.cgrSql}</textarea>
+				<textarea id="cgrSql" style="width:600px;" class="inputxt" rows="4" name="cgrSql">${jformGraphreportHeadPage.cgrSql}</textarea>
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">查询数据SQL</label>
 			</td>
@@ -96,7 +96,7 @@
 				<label class="Validform_label">扩展JS:</label>
 			</td>
 			<td class="value" colspan="3">
-				 <textarea id="xpageJs" style="width:600px;" class="inputxt" rows="6" name="xpageJs">${jformGraphreportHeadPage.xpageJs}</textarea>
+				 <textarea id="xpageJs" style="width:600px;" class="inputxt" rows="4" name="xpageJs">${jformGraphreportHeadPage.xpageJs}</textarea>
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">扩展JS</label>
 			</td>
@@ -192,4 +192,4 @@
 		 </tbody>
 		</table>
  </body>
- <script src = "graphReportController.do?list&id=undefined/jformGraphreportHead.js"></script>
+  <script src = "webpage/jeecg/cgform/graphreport/jformGraphreportHead.js"></script>

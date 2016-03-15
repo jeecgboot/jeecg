@@ -23,7 +23,6 @@
   <link rel="stylesheet" href="plug-in/ace/css/jquery-ui.css" />
   <!-- ace styles -->
   <link rel="stylesheet" href="plug-in/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
-
   <!--[if lte IE 9]>
   <link rel="stylesheet" href="plug-in/ace/css/ace-part2.css" class="ace-main-stylesheet" />
   <![endif]-->
@@ -42,14 +41,14 @@
   <![endif]-->
 
 </head>
-<body class="login-layout">
+<body class="login-layout light-login">
 <div class="main-container">
   <div class="main-content">
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1">
         <div class="login-container">
           <div class="center">
-            <h1 id="id-text2" class="red">
+            <h1 id="id-text2" class="grey">
               <i class="ace-icon fa fa-leaf green"></i>
                JEECG 演示系统
             </h1>
@@ -63,7 +62,7 @@
                 <div class="widget-main">
                   <h4 class="header blue lighter bigger">
                     <i class="ace-icon fa fa-coffee green"></i>
-                    请输入用户信息
+                	    请输入用户信息
                   </h4>
                   <div class="space-6"></div>
                       <label class="block clearfix">
@@ -80,7 +79,7 @@
                       </label>
                       <label class="block clearfix">
                         <div class="input-group">
-                          <input type="text" style="width:150px" name="randCode" class="form-control" placeholder="请输入验证码"  id="randCode" />
+                          <input type="text" style="width:150px" name="randCode" class="form-control" placeholder="请输入验证码"  id="randCode" onkeydown="randCodeKeyDown()"/>
                           <span class="input-group-addon" style="padding: 0px;"><img id="randCodeImage" src="randCodeImage"  /></span>
                         </div>
                       </label>
@@ -101,9 +100,9 @@
                 <div class="toolbar clearfix">
                   <div style="float: right">
                     <a href="#"  class="forgot-password-link">
-                      语言
+                    	  语言
                       <i class="ace-icon fa fa-arrow-right"></i>
-                      <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" defaultVal="zh-cn"></t:dictSelect>
+                      <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" extendJson="{style:'padding:2px; width:80px;'}" defaultVal="zh-cn"></t:dictSelect>
                     </a>
                   </div>
                 </div>
@@ -163,6 +162,15 @@
 <script type="text/javascript" src="plug-in/login/js/login.js"></script>
 <t:base type="tools" ></t:base>
 <script type="text/javascript">
+  //验证码输入框按下回车
+  function randCodeKeyDown(){
+	  var lKeyCode = (navigator.appname=="Netscape")?event.which:window.event.keyCode; //event.keyCode按的建的代码，13表示回车
+		if(lKeyCode == 13){
+			checkUser();
+		}else{
+			return false;
+		}
+  }
   //验证用户信息
   function checkUser(){
     if(!validForm()){
@@ -199,7 +207,9 @@
       formData[this.name] =$("#"+this.name ).val();
     });
     formData['orgId'] = orgId ? orgId : "";
+
     formData['langCode']=$("#langCode").val();
+
     formData['langCode'] = $("#langCode option:selected").val();
     $.ajax({
       async : false,

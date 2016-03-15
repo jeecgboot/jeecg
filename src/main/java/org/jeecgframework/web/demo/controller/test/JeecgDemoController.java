@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 /**   
  * @Title: Controller
  * @Description: 单表模型（DEMO）
@@ -103,7 +105,13 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "ckeditor")
 	public ModelAndView ckeditor(HttpServletRequest request) {
 //		CKEditorEntity t = jeecgDemoService.get(CKEditorEntity.class, "1");
-		CKEditorEntity t = jeecgDemoService.loadAll(CKEditorEntity.class).get(0);
+		CKEditorEntity t = null;
+		List<CKEditorEntity> ls = jeecgDemoService.loadAll(CKEditorEntity.class);
+		if(ls!=null && ls.size()>0){
+			t = ls.get(0);
+		}else{
+			t = new CKEditorEntity();
+		}
 		request.setAttribute("cKEditorEntity", t);
 		if(t.getContents() == null ){
 			request.setAttribute("contents", "");
@@ -267,6 +275,10 @@ public class JeecgDemoController extends BaseController {
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(jeecgDemo, t);
 				jeecgDemoService.saveOrUpdate(t);
+				//-----数据修改日志[类SVN]------------
+				Gson gson = new Gson();
+				systemService.addDataLog("jeecg_demo", t.getId(), gson.toJson(t));
+				//-----数据修改日志[类SVN]------------
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -275,6 +287,10 @@ public class JeecgDemoController extends BaseController {
 			message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被添加成功";
 			jeecgDemo.setStatus("0");
 			jeecgDemoService.save(jeecgDemo);
+			//-----数据修改日志[类SVN]------------
+			Gson gson = new Gson();
+			systemService.addDataLog("jeecg_demo", jeecgDemo.getId(), gson.toJson(jeecgDemo));
+			//-----数据修改日志[类SVN]------------
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
 		
@@ -400,6 +416,7 @@ public class JeecgDemoController extends BaseController {
 		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
 	}
 
+
 	/**
 	 * 保存新增/更新的行数据
 	 * @param page
@@ -432,4 +449,5 @@ public class JeecgDemoController extends BaseController {
 		}
 		return j;
 	}
+
 }

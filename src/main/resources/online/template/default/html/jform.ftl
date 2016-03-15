@@ -5,7 +5,7 @@
   <title></title>
   ${config_iframe}
  </head>
- <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
+ <body>
   <#--update-start--Author:luobaoli  Date:20150614 for：表单单表属性中增加了扩展参数 ${po.extend_json?if_exists}-->
   <form id="formobj" action="cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
@@ -29,6 +29,7 @@
 						</label>
 					</td>
 					<td class="value">
+						<!--update-begin--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
@@ -72,6 +73,7 @@
 				                    	}
 				                    }
 				            ">
+				        <!--update-end--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#elseif po.show_type=='text'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
@@ -170,10 +172,10 @@
 						
 						<#elseif po.show_type=='file'>
 								<table>
-									<#list filesList as fileB>
-										<#if fileB['field'] == po.field_name>
+									<#list imageList as imageB>
+										<#if imageB['field'] == po.field_name>
 										<tr style="height:34px;">
-										<td>${fileB['title']}</td>
+										<td>${imageB['title']}</td>
 										<td><a href="commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
 										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
 										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
@@ -213,6 +215,53 @@
 								</div>
 								<div class="form" id="filediv_${po.field_name}"> </div>
 							</#if>
+						<#--update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
+						<#elseif po.show_type=='image'>
+								<table>
+									<#list filesList as fileB>
+										<#if fileB['field'] == po.field_name>
+										<tr style="height:34px;">
+										<td>${fileB['title']}</td>
+										<td><a href="commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
+										</tr>
+										</#if>
+									</#list>
+								</table>
+								<#if !(po.operationCodesReadOnly ??)>
+							    <div class="form jeecgDetail">
+									<script type="text/javascript">
+									var serverMsg="";
+									var m = new Map();
+									$(function(){$('#${po.field_name}').uploadify(
+										{buttonText:'添加图片',
+										auto:false,
+										progressData:'speed',
+										multi:true,
+										height:25,
+										overrideEvents:['onDialogClose'],
+										fileTypeDesc:'图片格式:',
+										queueID:'imagediv_${po.field_name}',
+										fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;*.bmp',
+										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
+										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
+										onUploadStart : function(file) { 
+											var cgFormId=$("input[name='id']").val();
+											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
+										onQueueComplete : function(queueData) {
+											 var win = frameElement.api.opener;
+											 win.reloadTable();
+											 win.tip(serverMsg);
+											 frameElement.api.close();},
+										onUploadSuccess : function(file, data, response) {var d=$.parseJSON(data);if(d.success){var win = frameElement.api.opener;serverMsg = d.msg;}},onFallback : function(){tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")},onSelectError : function(file, errorCode, errorMsg){switch(errorCode) {case -100:tip("上传的文件数量已经超出系统限制的"+$('#${po.field_name}').uploadify('settings','queueSizeLimit')+"个文件！");break;case -110:tip("文件 ["+file.name+"] 大小超出系统限制的"+$('#${po.field_name}').uploadify('settings','fileSizeLimit')+"大小！");break;case -120:tip("文件 ["+file.name+"] 大小异常！");break;case -130:tip("文件 ["+file.name+"] 类型不正确！");break;}},
+										onUploadProgress : function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) { }});});
+									
+										</script><span id="image_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
+								</div>
+								<div class="form" id="imagediv_${po.field_name}"> </div>
+							</#if>
+							<#--update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->							
 						<#else>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
@@ -268,6 +317,12 @@
 				               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 						<span class="Validform_checktip"></span>
 						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+						<#if po.show_type=='umeditor'>
+						<script type="text/javascript">
+					    //实例化编辑器
+					    var ${po.field_name}_um = UM.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
+					    </script>
+					    </#if>
 					</td>
 				</tr>
 				<#else>
@@ -279,7 +334,7 @@
 					</td>
 					<td class="value">
 						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
-						       style="width: 300px" class="inputxt" rows="6"
+						        class="inputxt" rows="7"
 						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
@@ -288,6 +343,12 @@
 				               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 						<span class="Validform_checktip"></span>
 						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+						<#if po.show_type=='umeditor'>
+						<script type="text/javascript">
+					    //实例化编辑器
+					    var ${po.field_name}_um = UM.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
+					    </script>
+					    </#if>
 					</td>
 				</tr>
 				</#if>
@@ -322,6 +383,9 @@
   		<#if po.show_type=='file'>
   		$('#${po.field_name}').uploadify('upload', '*');		
   		</#if>
+  		<#if po.show_type=='image'>
+  		$('#${po.field_name}').uploadify('upload', '*');		
+  		</#if>
   	</#list>
   }
   var neibuClickFlag = false;
@@ -334,13 +398,18 @@
   		<#if po.show_type=='file'>
  	 $('#${po.field_name}').uploadify('cancel', '*');
  	 	</#if>
+ 	 	<#if po.show_type=='image'>
+ 	 $('#${po.field_name}').uploadify('cancel', '*');
+ 	 	</#if>
   	</#list>
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
+  			<!--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
+  			<!--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();

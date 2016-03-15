@@ -87,9 +87,11 @@ public class CgAutoListController extends BaseController{
 		//step.3 封装页面数据
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
+
 		String template=request.getParameter("olstylecode");
 		if(StringUtils.isBlank(template)){
 				CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
+
 				template=head.getFormTemplate();
 			paras.put("_olstylecode","");
 		}else{
@@ -98,6 +100,7 @@ public class CgAutoListController extends BaseController{
         paras.put("this_olstylecode",template);
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
+
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -138,6 +141,7 @@ public class CgAutoListController extends BaseController{
 			QueryParamUtil.loadQueryParams(request,b,params);
 			fieldMap.put(b.getFieldName(), new String[]{b.getType(), b.getFieldDefault()});
 		}
+
 		//参数处理
 		boolean isTree = configs.get(CgAutoListConstant.CONFIG_ISTREE) == null ? false
 				: CgAutoListConstant.BOOL_TRUE.equalsIgnoreCase(configs.get(CgAutoListConstant.CONFIG_ISTREE).toString());
@@ -165,10 +169,12 @@ public class CgAutoListController extends BaseController{
 				params.put(parentIdFieldName, "=" + treeId);
 			}
 		}
+
 		
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
 		//step.3 进行查询返回结果，如果为tree的下级数据，则不需要分页
+
 		List<Map<String, Object>> result = null;
 		if(isTree && treeId !=null) {
 			//防止下级数据太大，最大只取500条
@@ -182,6 +188,7 @@ public class CgAutoListController extends BaseController{
 			cgTableService.treeFromResultHandle(table, parentIdFieldName, parentIdFieldType,
 					result);
 		}
+
 		
 		//处理页面中若存在checkbox只能显示code值而不能显示text值问题
 		Map<String, Object> dicMap = new HashMap<String, Object>();
@@ -217,12 +224,14 @@ public class CgAutoListController extends BaseController{
 		PrintWriter writer;
 		try {
 			writer = response.getWriter();
+
 			if(isTree && treeId !=null) {
 				//下级列表
 				writer.println(QueryParamUtil.getJson(result));
 			}else {
 				writer.println(QueryParamUtil.getJson(result,size));
 			}
+
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -260,7 +269,9 @@ public class CgAutoListController extends BaseController{
 //						}
 						for(DictEntity dictEntity:dicDataList){
 							if(value.equalsIgnoreCase(dictEntity.getTypecode())){
+
 								r.put(bean.getFieldName(),MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
+
 							}
 						}
 					}
@@ -331,6 +342,7 @@ public class CgAutoListController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
+
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -346,6 +358,7 @@ public class CgAutoListController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
+
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());
@@ -423,7 +436,8 @@ public class CgAutoListController extends BaseController{
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 //			sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
 			sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
-			sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
+			sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
+//			sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
@@ -612,7 +626,9 @@ public class CgAutoListController extends BaseController{
 			sysVarName = sysVarName.replaceAll("\\{", "");
 			sysVarName = sysVarName.replaceAll("\\}", "");
 			sysVarName =sysVarName.replace("sys.", "");
-			return ResourceUtil.getUserSystemData(sysVarName);
+			//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+			return ResourceUtil.converRuleValue(sysVarName); 		
+			//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		}else{
 			return sysVarName;
 		}

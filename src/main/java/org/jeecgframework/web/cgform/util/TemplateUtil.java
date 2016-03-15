@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class TemplateUtil {
     public static final String BASE_DIR="online/template/";
-    public static final String TEMPLET_CODE_DEFAULT="default";
+    public static final String TEMPLET_CODE_DEFAULT="ledefault";
     public static final String TEMPLET_ONE_DEFAULT="jform.ftl";
     public static final String TEMPLET_ONE_MANY_DEFAULT="jformunion.ftl";
     public static final String TEMPLET_VIEW_DIR_DEFAULT="html";
@@ -106,6 +106,8 @@ public class TemplateUtil {
         buffer.append(templateName);
         return buffer.toString();
     }
+    
+    //add-start--Author:jg_renjie  Date:20150706 for：解析经过leipiFormDesign.parse_form()格式化的表单模板html
     /**
      * 解析经过leipiFormDesign.parse_form()格式化的表单模板html
      * @param content
@@ -155,6 +157,9 @@ public class TemplateUtil {
 		}
 		return map;
 	}
+	//add-start--Author:jg_renjie  Date:20150706 for：解析经过leipiFormDesign.parse_form()格式化的表单模板html
+	
+	//add-start--Author:jg_renjie  Date:20150719 for：列表控件的展示功能
 	private static String GetListctrl(JSONObject item,
 			Map<String, Object> formData, String action) {
 		String valuetest = "{\"data_110\":[\"1\",\"2\"],\"data_111\":[\"21\",\"22\",\"22\"]}";
@@ -271,11 +276,13 @@ public class TemplateUtil {
 				}
 				if ((i+1) == tdCount)// 最后一列不显示 && 第一列也不显示
 				{   
+
 					if(row == 0){
 						tr += "<td></td>";
 					} else {
 						tr += "<td><a href=\"javascript:void(0);\" class=\"delrow \">删除</a></td>";
 					}
+
 				}
 				if (row == 0)// 统计的行只有一行
 				{
@@ -327,4 +334,5 @@ public class TemplateUtil {
 		
 		return temp_html;
 	}
+	//add-end--Author:jg_renjie  Date:20150719 for：列表控件的展示功能
 }

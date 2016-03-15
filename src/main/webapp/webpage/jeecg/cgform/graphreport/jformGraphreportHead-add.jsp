@@ -84,7 +84,7 @@
 				<label class="Validform_label">查询数据SQL:</label>
 			</td>
 			<td class="value" colspan="3">
-				<textarea id="cgrSql" style="width:600px;" class="inputxt" rows="6" name="cgrSql"></textarea>
+				<textarea id="cgrSql" style="width:600px;" class="inputxt" rows="4" name="cgrSql"></textarea>
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">查询数据SQL</label>
 			</td>
@@ -96,7 +96,7 @@
 				<label class="Validform_label">扩展JS:</label>
 			</td>
 			<td class="value" colspan="3">
-				 <textarea id="xpageJs" style="width:600px;" class="inputxt" rows="6" name="xpageJs"></textarea>
+				 <textarea id="xpageJs" style="width:600px;" class="inputxt" rows="4" name="xpageJs"></textarea>
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">扩展JS</label>
 			</td>
@@ -132,28 +132,28 @@
 				  </td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[#index#].orderNum" maxlength="10" 
-					  		type="text" class="inputxt"  style="width:120px;"
+					  		type="text" class="inputxt"  style="width:40px;"
 					               
 					               >
 					  <label class="Validform_label" style="display: none;">排序</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].fieldType"
+							<t:dictSelect field="jformGraphreportItemList[#index#].fieldType" extendJson="{style:'width:100px'}"
 										typeGroupCode="fieldtype" defaultVal="" hasLabel="false"  title="字段类型"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">字段类型</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].isShow" type="list"
+							<t:dictSelect field="jformGraphreportItemList[#index#].isShow" type="list" extendJson="{style:'width:100px'}"
 										typeGroupCode="sf_yn" defaultVal="" hasLabel="false"  title="是否显示"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">是否显示</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].searchFlag" type="list"
+							<t:dictSelect field="jformGraphreportItemList[#index#].searchFlag" type="list" extendJson="{style:'width:100px'}"
 										typeGroupCode="sf_yn" defaultVal="" hasLabel="false"  title="是否查询"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">是否查询</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].searchMode" type="list"
+							<t:dictSelect field="jformGraphreportItemList[#index#].searchMode" type="list" extendJson="{style:'width:100px'}"
 										typeGroupCode="searchmode" defaultVal="" hasLabel="false"  title="查询模式"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">查询模式</label>
 				  </td>
@@ -165,12 +165,12 @@
 					  <label class="Validform_label" style="display: none;">字典Code</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].isGraph" type="list"
+							<t:dictSelect field="jformGraphreportItemList[#index#].isGraph" type="list" extendJson="{style:'width:100px'}"
 										typeGroupCode="sf_yn" defaultVal="" hasLabel="false"  title="显示图表"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">显示图表</label>
 				  </td>
 				  <td align="left">
-							<t:dictSelect field="jformGraphreportItemList[#index#].graphType" type="list"
+							<t:dictSelect field="jformGraphreportItemList[#index#].graphType" type="list" extendJson="{style:'width:100px'}"
 										typeGroupCode="tblx" defaultVal="" hasLabel="false"  title="图表类型"></t:dictSelect>     
 					  <label class="Validform_label" style="display: none;">图表类型</label>
 				  </td>

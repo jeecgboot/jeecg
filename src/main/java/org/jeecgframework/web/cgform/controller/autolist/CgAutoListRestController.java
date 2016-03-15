@@ -79,8 +79,10 @@ public class CgAutoListRestController extends BaseController{
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
 		CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
+
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(head.getFormTemplate());
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity, 0, TemplateUtil.TemplateType.LIST), paras);
+
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -153,6 +155,7 @@ public class CgAutoListRestController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
+
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -168,6 +171,7 @@ public class CgAutoListRestController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
+
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());
@@ -435,7 +439,10 @@ public class CgAutoListRestController extends BaseController{
 			sysVarName = sysVarName.replaceAll("\\{", "");
 			sysVarName = sysVarName.replaceAll("\\}", "");
 			sysVarName =sysVarName.replace("sys.", "");
-			return ResourceUtil.getUserSystemData(sysVarName);
+			//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+			return ResourceUtil.converRuleValue(sysVarName); 		
+			//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+	
 		}else{
 			return sysVarName;
 		}
