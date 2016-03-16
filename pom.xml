@@ -98,49 +98,6 @@
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>http://repo.maven.apache.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>sonatype-snapshots</id>
-			<name>sonatype-snapshots</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>spy</id>
-			<name>Spy Repository</name>
-			<url>http://files.couchbase.com/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>xerces</id>
-			<name>xerces</name>
-			<url>https://xerces.apache.org/xerces2-j/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>proxool</id>
-			<name>proxool</name>
-			<url>http://proxool.cvs.sourceforge.net/viewvc/proxool/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
         <repository>
             <id>jeecg</id>
             <name>jeecg Repository</name>
