@@ -85,7 +85,7 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
-* [JEECG 搭建环境手把手入门](http://wiki.jeecg.org/pages/viewpage.action?pageId=5439521)
+* [JEECG 开发环境手把手入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG 开发入门视频](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
 * [JEECG 更多文档](http://wiki.jeecg.org/display/12/Home)
 * [JEECG 在线演示DEMO](http://demo.jeecg.org)
