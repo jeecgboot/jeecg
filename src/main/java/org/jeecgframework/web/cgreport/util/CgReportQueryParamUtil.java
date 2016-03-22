@@ -29,6 +29,7 @@ public class CgReportQueryParamUtil extends  org.jeecgframework.web.cgform.util.
 	@SuppressWarnings("unchecked")
 	public static void loadQueryParams(HttpServletRequest request, Map item, Map params) {
 		String filedName = (String) item.get(CgReportConstant.ITEM_FIELDNAME);
+		filedName=filedName.toLowerCase();
 		String queryMode = (String) item.get(CgReportConstant.ITEM_QUERYMODE);
 		String filedType = (String) item.get(CgReportConstant.ITEM_FIELDTYPE);
 		if("single".equals(queryMode)){
