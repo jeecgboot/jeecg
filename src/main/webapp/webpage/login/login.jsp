@@ -60,6 +60,10 @@
               <div class="widget-body">
                 <form id="loinForm" class="form-horizontal"  check="loginController.do?checkuser"  role="form" action="loginController.do?login"  method="post">
                 <div class="widget-main">
+                 <div class="alert alert-warning alert-dismissible" role="alert" id="errMsgContiner">
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  <div id="showErrMsg"></div>
+				</div>
                   <h4 class="header blue lighter bigger">
                     <i class="ace-icon fa fa-coffee green"></i>
                 	    用户登录
@@ -163,6 +167,17 @@
 <script type="text/javascript" src="plug-in/login/js/login.js"></script>
 <t:base type="tools" ></t:base>
 <script type="text/javascript">
+//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
+	$(function(){
+		optErrMsg();
+	});
+	$("#errMsgContiner").hide();
+	function optErrMsg(){
+		$("#showErrMsg").html('');
+		$("#errMsgContiner").hide();
+	}
+//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改	
+
   //验证码输入框按下回车
   function randCodeKeyDown(){
 	  var lKeyCode = (navigator.appname=="Netscape")?event.which:window.event.keyCode; //event.keyCode按的建的代码，13表示回车
@@ -273,11 +288,15 @@
       }
     });
   }
-
+//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
   function showErrorMsg(msg){
-    tip(msg);
-  }
+    //tip(msg);
+    $("#errMsgContiner").show();
+    $("#showErrMsg").html(msg);
 
+    window.setTimeout(optErrMsg,3000); 
+  }
+//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
   function darkStyle(){
     $('body').attr('class', 'login-layout');
     $('#id-text2').attr('class', 'red');
