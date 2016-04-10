@@ -25,11 +25,11 @@
 					if(pro)
 						window.top.$.messager.progress('close');
 					$('#demo').html(d.msg);
-
+// 					<!--update-begin--Author:huangzq  Date:20151127 for：三级联调 -->
 					if(id=="ThreeLevelLinkage"){
 						init_select();
 					}
-
+// 					<!--update-end--Author:huangzq  Date:20151127 for：三级联调 -->
 				}
 			}
 		});

@@ -276,13 +276,13 @@ public class TemplateUtil {
 				}
 				if ((i+1) == tdCount)// 最后一列不显示 && 第一列也不显示
 				{   
-
+					//update-begin--Author:jg_renjie  Date:20150806 for：第一列不显示删除功能
 					if(row == 0){
 						tr += "<td></td>";
 					} else {
 						tr += "<td><a href=\"javascript:void(0);\" class=\"delrow \">删除</a></td>";
 					}
-
+					//update-end--Author:jg_renjie  Date:20150806 for：第一列不显示删除功能
 				}
 				if (row == 0)// 统计的行只有一行
 				{

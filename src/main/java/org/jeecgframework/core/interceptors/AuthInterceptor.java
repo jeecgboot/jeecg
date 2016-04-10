@@ -95,7 +95,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				} 
 				//String functionId=oConvertUtils.getString(request.getParameter("clickFunctionId"));
 				String functionId="";
-
+				//update-begin--Author:JueYue  Date:20140831 for：onlinecodeing 的URL判断--------------------
 				//onlinecoding的访问地址有规律可循，数据权限链接篡改
 				if(requestPath.equals("cgAutoListController.do?datagrid")) {
 					requestPath += "&configId=" +  request.getParameter("configId");
@@ -106,7 +106,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?ftlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
-
+	
+				//update-begin--Author:许国杰  Date:20151219 for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 				if(requestPath.equals("cgFormBuildController.do?goAddFtlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
@@ -116,10 +117,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?goDatilFtlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
-
+				//update-end--Author:许国杰  Date:20151219 for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
+				
+				//update-end--Author:JueYue  Date:20140831 for：onlinecodeing 的URL判断--------------------
 				//这个地方用全匹配？应该是模糊查询吧
 				//TODO
-
+				//update-begin--Author:张忠亮  Date:20150717 for：解决rest风格下 权限失效问题
 				String uri= request.getRequestURI().substring(request.getContextPath().length() + 1);
 				String realRequestPath = null;
 				if(uri.endsWith(".do")||uri.endsWith(".action")){
@@ -128,7 +131,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					realRequestPath=uri;
 				}
 				List<TSFunction> functions = systemService.findByProperty(TSFunction.class, "functionUrl", realRequestPath);
-
+				//update-end--Author:张忠亮  Date:20150717 for：解决rest风格下 权限失效问题
 				if (functions.size()>0){
 					functionId = functions.get(0).getId();
 				}
@@ -140,7 +143,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				}
 				if(!oConvertUtils.isEmpty(functionId)){
-
+					//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'"); 
 					List<TSOperation> allOperation=this.systemService.findByProperty(TSOperation.class, "TSFunction.id", functionId);
 					
@@ -208,9 +211,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 		boolean bMgrUrl = false;
 		if (functionList == null) {
 //			functionList = systemService.loadAll(TSFunction.class);
-
+//          update-start--Author:zhoujf  Date:20150521 for：只查询菜单类型的权限
 			functionList = systemService.findHql("from TSFunction where functionType = ? ", (short)0);
-
+//          update---end--Author:zhoujf  Date:20150521 for：只查询菜单类型的权限
 		}
 		for (TSFunction function : functionList) {
 			if (function.getFunctionUrl() != null && function.getFunctionUrl().startsWith(requestPath)) {
@@ -234,15 +237,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";
 		List list = this.systemService.findListbySql(sql);
 		if(list.size()==0){
-
+//            update-start--Author:zhangguoming  Date:20140821 for：判断当前用户组织机构下角色所拥有的权限
+//            update-start--Author:zhangguoming  Date:20140825 for：获取当前用户登录时选择的组织机构代码
             String orgId = currLoginUser.getCurrentDepart().getId();
-
+//            update-end--Author:zhangguoming  Date:20140825 for：获取当前用户登录时选择的组织机构代码
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
                     "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
                     "AND ro.org_id='" +orgId+ "' AND f.functionurl like '"+requestPath+"%'";
             List functionOfOrgList = this.systemService.findListbySql(functionOfOrgSql);
 			return functionOfOrgList.size() > 0;
-
+//            update-end--Author:zhangguoming  Date:20140821 for：判断当前用户组织机构下角色所拥有的权限
         }else{
 			return true;
 		}

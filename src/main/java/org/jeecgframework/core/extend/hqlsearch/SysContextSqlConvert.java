@@ -35,6 +35,8 @@ public class SysContextSqlConvert {
 		return "";
 		String sqlValue="";
 		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleConditions());
+
+		//-----------------------------------------------------------------------
 		//#{sys_user_code}%
 		String ValueTemp = dataRule.getRuleValue();
 		String moshi = "";
@@ -48,6 +50,7 @@ public class SysContextSqlConvert {
 		} else {
 			ValueTemp = ValueTemp;
 		}
+		//-----------------------------------------------------------------------
 		String tempValue = null;
 		//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		tempValue = ResourceUtil.converRuleValue(ValueTemp);
@@ -69,7 +72,7 @@ public class SysContextSqlConvert {
 			sqlValue+=" and "+dataRule.getRuleColumn()+" <'"+tempValue+"'";
 			break;
 		case LE:
-			sqlValue+=" and "+dataRule.getRuleColumn()+" =>'"+tempValue+"'";
+			sqlValue+=" and "+dataRule.getRuleColumn()+" <= '"+tempValue+"'";
 			break;
 		case  EQ:
 			sqlValue+=" and "+dataRule.getRuleColumn()+" ='"+tempValue+"'";

@@ -23,6 +23,26 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
+<#-- restful 通用方法生成 -->
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.jeecgframework.core.beanvalidator.BeanValidators;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.net.URI;
+import org.springframework.http.MediaType;
+import org.springframework.web.util.UriComponentsBuilder;
+<#-- restful 通用方法生成 -->
+
 import ${bussiPackage}.entity.${entityPackage}.${entityName}Entity;
 import ${bussiPackage}.page.${entityPackage}.${entityName}Page;
 import ${bussiPackage}.service.${entityPackage}.${entityName}ServiceI;
@@ -50,6 +70,11 @@ public class ${entityName}Controller extends BaseController {
 	private ${entityName}ServiceI ${entityName?uncap_first}Service;
 	@Autowired
 	private SystemService systemService;
+	<#-- restful 通用方法生成 -->
+	@Autowired
+	private Validator validator;
+	<#-- restful 通用方法生成 -->
+	
 	private String message;
 	
 	public String getMessage() {
@@ -180,5 +205,64 @@ public class ${entityName}Controller extends BaseController {
 	}
 	</#list>
 	
+	<#-- restful 通用方法生成 -->
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public List<${entityName}Entity> list() {
+		List<${entityName}Entity> list${entityName}s=${entityName?uncap_first}Service.getList(${entityName}Entity.class);
+		return list${entityName}s;
+	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<?> get(@PathVariable("id") String id) {
+		${entityName}Entity task = ${entityName?uncap_first}Service.get(${entityName}Entity.class, id);
+		if (task == null) {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity(task, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<?> create(@RequestBody ${entityName}Entity ${entityName?uncap_first}, UriComponentsBuilder uriBuilder) {
+		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+		Set<ConstraintViolation<${entityName}Entity>> failures = validator.validate(${entityName?uncap_first});
+		if (!failures.isEmpty()) {
+			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+		}
+
+		//保存
+		${entityName?uncap_first}Service.save(${entityName?uncap_first});
+
+		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
+		String id = ${entityName?uncap_first}.getId();
+		URI uri = uriBuilder.path("/rest/${entityName?uncap_first}Controller/" + id).build().toUri();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(uri);
+
+		return new ResponseEntity(headers, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@RequestBody ${entityName}Entity ${entityName?uncap_first}) {
+		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+		Set<ConstraintViolation<${entityName}Entity>> failures = validator.validate(${entityName?uncap_first});
+		if (!failures.isEmpty()) {
+			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+		}
+
+		//保存
+		${entityName?uncap_first}Service.saveOrUpdate(${entityName?uncap_first});
+
+		//按Restful约定，返回204状态码, 无内容. 也可以返回200状态码.
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable("id") String id) {
+		${entityName?uncap_first}Service.deleteEntityById(${entityName}Entity.class, id);
+	}
+	<#-- restful 通用方法生成 -->
 }

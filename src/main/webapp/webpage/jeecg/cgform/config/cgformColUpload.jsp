@@ -12,6 +12,7 @@
 	<fieldset class="step">
 	<div class="form"><t:upload name="fiels" buttonText="选择要导入的文件" uploader="cgFormHeadController.do?importExcel" extend="*.xls;*.xlsx" id="file_upload" formData="headId"></t:upload></div>
 	<div class="form" id="filediv" style="height: 50px"></div>
+	<div class="form" style="height: 50px;"><a href="export/template/online_import_template.xls"><span style="color:blue">模板下载</span></a></div>
 	</fieldset>
 </t:formvalid>
 </body>

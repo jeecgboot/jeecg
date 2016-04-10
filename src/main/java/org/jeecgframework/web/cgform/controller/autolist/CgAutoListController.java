@@ -87,11 +87,11 @@ public class CgAutoListController extends BaseController{
 		//step.3 封装页面数据
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
-
+		//update-begin--Author:张忠亮  Date:20151019 for：url中加入olstylecode 可指定风格
 		String template=request.getParameter("olstylecode");
 		if(StringUtils.isBlank(template)){
 				CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
-
+				//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
 				template=head.getFormTemplate();
 			paras.put("_olstylecode","");
 		}else{
@@ -100,7 +100,7 @@ public class CgAutoListController extends BaseController{
         paras.put("this_olstylecode",template);
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
-
+		//update-end--Author:张忠亮  Date:20151019 for：url中加入olstylecode 可指定风格
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -141,7 +141,8 @@ public class CgAutoListController extends BaseController{
 			QueryParamUtil.loadQueryParams(request,b,params);
 			fieldMap.put(b.getFieldName(), new String[]{b.getType(), b.getFieldDefault()});
 		}
-
+		
+		//------------------update-begin-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 		//参数处理
 		boolean isTree = configs.get(CgAutoListConstant.CONFIG_ISTREE) == null ? false
 				: CgAutoListConstant.BOOL_TRUE.equalsIgnoreCase(configs.get(CgAutoListConstant.CONFIG_ISTREE).toString());
@@ -169,12 +170,12 @@ public class CgAutoListController extends BaseController{
 				params.put(parentIdFieldName, "=" + treeId);
 			}
 		}
-
+		//------------------update-end-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 		
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
 		//step.3 进行查询返回结果，如果为tree的下级数据，则不需要分页
-
+		//------------------update-start-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 		List<Map<String, Object>> result = null;
 		if(isTree && treeId !=null) {
 			//防止下级数据太大，最大只取500条
@@ -188,7 +189,7 @@ public class CgAutoListController extends BaseController{
 			cgTableService.treeFromResultHandle(table, parentIdFieldName, parentIdFieldType,
 					result);
 		}
-
+		//------------------update-end-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 		
 		//处理页面中若存在checkbox只能显示code值而不能显示text值问题
 		Map<String, Object> dicMap = new HashMap<String, Object>();
@@ -224,14 +225,14 @@ public class CgAutoListController extends BaseController{
 		PrintWriter writer;
 		try {
 			writer = response.getWriter();
-
+			//------------------update-start-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 			if(isTree && treeId !=null) {
 				//下级列表
 				writer.println(QueryParamUtil.getJson(result));
 			}else {
 				writer.println(QueryParamUtil.getJson(result,size));
 			}
-
+			//------------------update-end-------2015年6月1日----author:zhongsy------for:表单配置支持树形------------
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -269,9 +270,9 @@ public class CgAutoListController extends BaseController{
 //						}
 						for(DictEntity dictEntity:dicDataList){
 							if(value.equalsIgnoreCase(dictEntity.getTypecode())){
-
+								//------------------update-begin------for:-国际化处理-----------------------author:zhagndaihao------------
 								r.put(bean.getFieldName(),MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
-
+								//------------------update-end-----for:-国际化处理----------------------------author:zhagndaihao---------
 							}
 						}
 					}
@@ -342,7 +343,7 @@ public class CgAutoListController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
-
+		//------------------update-begin-------2014年9月3日----author:JueYue------for:-列表数据隐藏权限------------
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -358,7 +359,7 @@ public class CgAutoListController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
-
+			//------------------update-end---2014年9月3日----author:JueYue------for:-列表数据隐藏权限------------
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());

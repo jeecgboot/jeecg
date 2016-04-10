@@ -51,9 +51,9 @@
 		openuploadwin('Xml导入', 'transdata.do?toMigrate', "jeecgDemoList");
 	}
 	$(document).ready(function(){
-		$("input[name='createDate_begin']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
-		$("input[name='createDate_end']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
-		$("input[name='birthday']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+		$("input[name='createDate_begin']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+		$("input[name='createDate_end']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+		$("input[name='birthday']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
 		//此处的默认值可以通过Controller中传过来,可以做一个map,过来循环进行默认值设定
 		//$("*[name='createDate_begin']").val("2015-12-12");
 		//$("*[name='sex']").val("${sex}");

@@ -258,7 +258,8 @@ window.onload = function() {
    	editor.ready(function() {
     	 id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
  	});
-
+    
+  //update-begin--Author:jg_renjie  Date:20151013 for：增加fkdsid字段，并且能够随控件维护;修改数据源初次进入时不能初始化的错误
    	
     if( UE.plugins[thePlugins].editdom ){
         oNode = UE.plugins[thePlugins].editdom;
@@ -368,7 +369,7 @@ window.onload = function() {
     } else {
     	  initDataSource(id);
     }
-
+    //update-end--Author:jg_renjie  Date:20151013 for：增加fkdsid字段，并且能够随控件维护;修改数据源初次进入时不能初始化的错误
     //合计，强制选择 int
     $(".csum").click(function(){
         if($(this).attr("checked"))
@@ -414,9 +415,9 @@ dialog.onok = function (){
 	var datasource = $('#datasource').val();
     var gTitle = '',gColType = '' ,gUnitValue='' ,gSum = '' ,gColValue = '' ,
         nCount = 0,autofield='' ,isHide='' ,ruletype='',dict='',length='';
-
+    //update-begin--Author:jg_renjie  Date:20150725 for：rows_count默认为8,在提交时重新计算
     rows_count = $('#tbl1 tr').length;
-
+    //update-end--Author:jg_renjie  Date:20150725 for：rows_count默认为8,在提交时重新计算
     
     for (var i = 1;i <= rows_count; i ++ ) {
         var oItem  = $G( "item_" + i ) ,
@@ -558,7 +559,7 @@ function initDataSource(id){
 				
    			}});
 }
-
+//update-begin--Author:jg_renjie  Date:20151013 for：数据源与字段联动效果实现
 $(function(){
 	
 	//绑定change事件,并填充字段
@@ -616,7 +617,7 @@ function content(){
 	resetTrNum();
 	$(".delrow").click(function(){$(this).parent().parent().remove();resetTrNum();});
 }
-
+//update-end--Author:jg_renjie  Date:Date:20151013 for：数据源与字段联动效果实现
 </script>
 </body>
 </html>

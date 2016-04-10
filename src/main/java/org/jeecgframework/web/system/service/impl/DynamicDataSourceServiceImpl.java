@@ -37,14 +37,14 @@ public class DynamicDataSourceServiceImpl extends CommonServiceImpl implements D
 
 	//add-begin--Author:luobaoli  Date:20150620 for：增加通过数据源Key获取数据源Type
 	@Override
-
+	//update-begin--Author:luobaoli  Date:20150623 for：增加通过数据源Key获取数据源
 	public DynamicDataSourceEntity getDynamicDataSourceEntityForDbKey(String dbKey){
 		List<DynamicDataSourceEntity> dynamicDataSourceEntitys = commonDao.findHql("from DynamicDataSourceEntity where dbKey = ?", dbKey);
 		if(dynamicDataSourceEntitys.size()>0)
 			return dynamicDataSourceEntitys.get(0);
 		return null;
 	}
-
+	//update-end--Author:luobaoli  Date:20150623 for：增加通过数据源Key获取数据源
 	//add-end--Author:luobaoli  Date:20150620 for：增加通过数据源Key获取数据源Type
 
 }

@@ -621,7 +621,7 @@ public class CgformFtlController extends BaseController {
 //			System.out.println(json.getString("data"));
 //			// 判断有没有激活过的模板
 //			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
-
+			//update-begin--Author:jg_renjie  Date:20150706 for：更改解析前台传来的html
 			if(StringUtils.isNotBlank(parseForm)){
 				TemplateUtil tool = new TemplateUtil();
 				Map<String,Object> map = tool.processor(parseForm);
@@ -629,7 +629,7 @@ public class CgformFtlController extends BaseController {
 			} else {
 				j.setMsg("");
 			}
-
+			//update-end--Author:jg_renjie  Date:20150706 for：更改解析前台传来的html
 			j.setSuccess(true);
 		} catch (Exception e) {
 			logger.info(e.getMessage());

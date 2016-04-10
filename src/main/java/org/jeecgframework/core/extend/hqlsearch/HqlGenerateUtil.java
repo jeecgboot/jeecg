@@ -52,7 +52,9 @@ public class HqlGenerateUtil {
 	 * @throws Exception
 	 */
 	public static void installHql(CriteriaQuery cq, Object searchObj) {
+//		--author：龙金波 ------start---date：20150519--------for：统一函数处理sqlbuilder---------------------------------- 
 		installHql(cq,searchObj,null);
+//		--author：龙金波 ------end---date：20150519--------for：统一函数处理sqlbuilder---------------------------------- 
 
 	}
 
@@ -67,6 +69,7 @@ public class HqlGenerateUtil {
 	public static void installHql(CriteriaQuery cq, Object searchObj,
 			Map<String, String[]> parameterMap) {
 		installHqlJoinAlias(cq, searchObj, getRuleMap(), parameterMap, "");
+//		--author：龙金波 ------start---date：20150422--------for：增加一个特殊sql参数处理---------------------------------- 
 		try{
 			String json= null;
 			if(StringUtil.isNotEmpty(cq.getDataGrid().getSqlbuilder())){
@@ -86,6 +89,7 @@ public class HqlGenerateUtil {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+//		--author：龙金波 ------start---date：201504022--------for：增加一个特殊sql参数处理---------------------------------- 
 
 		cq.add();
 	}
@@ -137,21 +141,27 @@ public class HqlGenerateUtil {
 				// 根据类型分类处理
 				if (type.contains("class java.lang")
 						|| type.contains("class java.math")) {
-
+					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum
 								.convert(value);
-
-						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))){
-							value="*%"+value+"%*";
+						//update-begin--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
+						
+						//update-begin--Author:jg_renjie  Date:20150328 for：#1003:【bug】单表模式年龄查询报错
+						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))&&!"class java.lang.Integer".contains(type)){
+							value="*%"+String.valueOf(value.toString())+"%*";
+						} else {
+							rule = HqlRuleEnum.EQ;
 						}
-
+						//update-end--Author:jg_renjie  Date:20150328 for：#1003:【bug】单表模式年龄查询报错
+						
+						//update-end--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
 						value = PageValueConvertRuleEnum.replaceValue(rule,
 								value);
 						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
 					} else if (parameterMap != null) {
-
+						//update-end--Author:ll3231@126.com  Date:20151222 for：支持所有类型数据
 						Object beginValue_=null , endValue_ =null;
 						if ("class java.lang.Integer".equals(type)) {
 							if(!"".equals(beginValue)&&null!=beginValue)
@@ -187,7 +197,7 @@ public class HqlGenerateUtil {
 						ObjectParseUtil.addCriteria(cq, aliasName,
 								HqlRuleEnum.LE, endValue_);
 					}
-
+					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 				} else if ("class java.util.Date".equals(type)) {
 					QueryTimeFormat format = origDescriptors[i].getReadMethod()
@@ -226,7 +236,7 @@ public class HqlGenerateUtil {
 					if (isHaveRuleData(ruleMap, aliasName) ||( isNotEmpty(param)
 							&& itIsNotAllEmpty(param))) {
 						// 如果是实体类,创建别名,继续创建查询条件
-
+						// ------------update--Author:JueYue Date:20140521
 						// for：用户反馈
 						cq.createAlias(aliasName,
 								aliasName.replaceAll("\\.", "_"));
@@ -356,7 +366,10 @@ public class HqlGenerateUtil {
 		Map<String, TSDataRule> ruleMap = new HashMap<String, TSDataRule>();
 		List<TSDataRule> list =JeecgDataAutorUtils.loadDataSearchConditonSQL(); //(List<TSDataRule>) ContextHolderUtils
 			//	.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULES);
-		if(list != null){
+		if(list != null&&list.size()>0){
+			if(list.get(0)==null){
+				return ruleMap;
+			}
 			for (TSDataRule rule : list) {
 				ruleMap.put(rule.getRuleColumn(), rule);
 			}
@@ -395,6 +408,7 @@ public class HqlGenerateUtil {
 	}
 
 //	--author：龙金波 ------end---date：20150628--------for：sql组装
+//	--author：陈璞 ------begin---date：20150612--------for：sql组装
 	/**
 	 * 根据字段名称,获取字段的类型字符串
 	 * return: java.lang.Integer
@@ -464,14 +478,14 @@ public class HqlGenerateUtil {
 				Object value = PropertyUtils.getSimpleProperty(searchObj, name);
 				// 根据类型分类处理
 				if (type.contains("class java.lang") || type.contains("class java.math")) {
-
+					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum.convert(value);
 						value = PageValueConvertRuleEnum.replaceValue(rule, value);
 						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
 					}
-
+					// ------------update--Author:JueYue Date:2014-8-23
 					// for：查询拼装的替换
 				} else if ("class java.util.Date".equals(type)) {
 					QueryTimeFormat format = origDescriptors[i].getReadMethod().getAnnotation(QueryTimeFormat.class);
@@ -486,7 +500,7 @@ public class HqlGenerateUtil {
 					Object param = PropertyUtils.getSimpleProperty(searchObj, name);
 					if (isHaveRuleData(ruleMap, aliasName) || (isNotEmpty(param) && itIsNotAllEmpty(param))) {
 						// 如果是实体类,创建别名,继续创建查询条件
-
+						// ------------update--Author:JueYue Date:20140521
 						// for：用户反馈
 						cq.createAlias(aliasName, aliasName.replaceAll("\\.", "_"));
 						// ------------end--Author:JueYue Date:20140521 for：用户反馈

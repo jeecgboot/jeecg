@@ -138,9 +138,10 @@ public class CategoryController extends BaseController {
 			j.setMsg("分类管理更新成功");
 			TSCategoryEntity t = categoryService.get(TSCategoryEntity.class,
 					category.getId());
-
+			
+			//update-start--Author:luobaoli  Date:20150606 for：修改分类时将空值转为NULL值
 			category.getParent().setCode("".equals(t.getParent().getCode())?null:t.getParent().getCode());
-
+			//update-end--Author:luobaoli  Date:20150606 for：修改分类时将空值转为NULL值
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(category, t);
 				categoryService.saveOrUpdate(t);

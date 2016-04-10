@@ -25,7 +25,7 @@ public class JeecgOneToMainUtil {
 		CodeParamEntity codeParamEntityIn = new CodeParamEntity();
 		codeParamEntityIn.setTableName("jform_order_main");//表名
 		codeParamEntityIn.setEntityName("TestOrderMain");	 //实体名
-		codeParamEntityIn.setEntityPackage("jeecg");	 //包名
+		codeParamEntityIn.setEntityPackage("test");	 //包名
 		codeParamEntityIn.setFtlDescription("订单");	 //描述
 		
 		//第二步：设置子表集合配置
@@ -34,7 +34,7 @@ public class JeecgOneToMainUtil {
 		SubTableEntity po = new SubTableEntity();
 		po.setTableName("jform_order_customer");//表名
 		po.setEntityName("TestOrderCustom");	    //实体名
-		po.setEntityPackage("jeecg");	        //包名
+		po.setEntityPackage("test");	        //包名
 		po.setFtlDescription("客户明细");       //描述
 		//子表外键参数配置
 		/*说明: 
@@ -48,7 +48,7 @@ public class JeecgOneToMainUtil {
 		SubTableEntity po2 = new SubTableEntity();
 		po2.setTableName("jform_order_ticket");		//表名
 		po2.setEntityName("TestOrderTicket");			//实体名
-		po2.setEntityPackage("jeecg"); 				//包名
+		po2.setEntityPackage("test"); 				//包名
 		po2.setFtlDescription("产品明细");			//描述
 		//子表外键参数配置
 		/*说明: 

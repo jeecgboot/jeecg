@@ -594,7 +594,7 @@ public class SystemController extends BaseController {
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
 		} else {
-
+//	      update-start--Author:zhoujf  Date:20150615 for：组织机构管理编码规则生成
 //			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
 //			depart.setOrgCode(orgCode);
 			if(oConvertUtils.isNotEmpty(pid)){
@@ -605,7 +605,7 @@ public class SystemController extends BaseController {
 				String localMaxCode  = getMaxLocalCode(null);
 				depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 			}
-
+//	      update-start--Author:zhoujf  Date:20150615 for：组织机构管理编码规则生成
 			userService.save(depart);
             message = MutiLangUtil.paramAddSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -626,14 +626,14 @@ public class SystemController extends BaseController {
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
 		}
-
+		//update-begin-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 		sb.append(" ORDER BY org_code DESC");
 		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null && objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("org_code");
 		}
-
+		//update-end-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 		return returnCode;
 	}
 
@@ -666,9 +666,13 @@ public class SystemController extends BaseController {
 		if (StringUtil.isNotEmpty(comboTree.getId())) {
 			cq.eq("TSPDepart.id", comboTree.getId());
 		}
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		if (StringUtil.isEmpty(comboTree.getId())) {
 			cq.isNull("TSPDepart.id");
 		}
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		cq.add();
 		List<TSDepart> departsList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
@@ -1071,7 +1075,7 @@ public class SystemController extends BaseController {
 	 *
 	 * @return
 	 */
-
+	//update-begin--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能
 	@RequestMapping(params = "editFiles")
 	public ModelAndView editFiles(TSDocument doc, ModelMap map) {
 		if (StringUtil.isNotEmpty(doc.getId())) {
@@ -1080,7 +1084,7 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/document/files");
 	}
-
+	//update-end--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能
 	/**
 	 * 保存文件
 	 *
@@ -1218,6 +1222,7 @@ public class SystemController extends BaseController {
     	return j;
     }
 
+	//update-begin--Author: jg_huangxg  Date:20150701 for：修改数据日志Diff功能
 	@RequestMapping(params = "diffDataVersion")
 	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2){
 		String hql1 = "from TSDatalogEntity where id = '" + id1 + "'";
@@ -1253,7 +1258,8 @@ public class SystemController extends BaseController {
 			for (String string : set) {
 				DataLogDiff dataLogDiff = new DataLogDiff();
 				dataLogDiff.setName(string);
-
+				
+				//update-begin--Author:	jg_huangxg Date: 20150723 for：修复key找不到的bug
 				if (map1.containsKey(string)) {
 					value1 = map1.get(string).toString();
 					if (value1 == null) {
@@ -1275,7 +1281,7 @@ public class SystemController extends BaseController {
 				}else {
 					dataLogDiff.setValue2("");
 				}
-
+				//update-end--Author:	jg_huangxg Date: 20150723 for：修复key找不到的bug
 				
 				if (value1 == null && value2 == null) {
 					dataLogDiff.setDiff("N");
@@ -1304,6 +1310,6 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/dataLog/diffDataVersion");
 	}
-
+	//update-end--Author: jg_huangxg  Date:20150701 for：修改数据日志Diff功能
 	//add-end--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
 }

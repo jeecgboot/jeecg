@@ -97,11 +97,11 @@ public class QueryParamUtil {
 		if(!StringUtil.isEmpty(value)){
 			String result = "";
 			if(CgAutoListConstant.TYPE_STRING.equalsIgnoreCase(fieldType)){
-
+				//update-begin--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
 				if(ResourceUtil.fuzzySearch&&(!value.contains("*"))){
 					value="*"+value+"*";
 				}
-
+				//update-end--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
 				result = "'" +value+ "'";
 			}else if(CgAutoListConstant.TYPE_DATE.equalsIgnoreCase(fieldType)){
 				result = getDateFunction(value, "yyyy-MM-dd");

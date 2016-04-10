@@ -155,14 +155,14 @@ public class GenerateController extends BaseController {
 			//step.2 判断表是否存在
 			boolean tableexist = new JeecgReadTable().checkTableExist(tableName);
 			if(tableexist){
-
+				//update--begin-------author:scott------date:20151118----for:online生成器支持自定义word模板生成---------------
 				//step.3 判断是不是用用户自定义界面
 				CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
 				if(createFileProperty.getJspMode().equals("04")){
 					String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
 					generate.setCgformJspHtml(formhtml);
 				}
-
+				//update--end-------author:scott------date:20151118----for:online生成器支持自定义word模板生成---------------
 				//step.4 调用代码生成器
 				generate.generateToFile();
 				
@@ -199,7 +199,7 @@ public class GenerateController extends BaseController {
 	 */
 	@RequestMapping(params = "dogenerateOne2Many")
 	@ResponseBody
-	public void dogenerateOne2Many(CodeParamEntity codeParamEntityIn,GenerateSubListEntity subTableListEntity,HttpServletRequest request,HttpServletResponse response){
+	public void dogenerateOne2Many(CodeParamEntity codeParamEntityIn,GenerateSubListEntity subTableListEntity,String jspMode,HttpServletRequest request,HttpServletResponse response){
 		AjaxJson j =  new AjaxJson();
 		//step.1 设置主表
 		//从前台获取：codeParamEntityIn
@@ -237,7 +237,13 @@ public class GenerateController extends BaseController {
 			}
 			codeParamEntityIn.setSubTabParam(subTabParamIn);
 			//step.5 一对多(父子表)数据模型,代码生成
-			CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			//update--begin-------author:zhoujf------date:20160318----for:online生成器支持bootstrap风格生成---------------
+			if("06".equals(jspMode)){
+				CgformCodeGenerateOneToMany.oneToManyCreateBootstap(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			}else{
+				CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			}
+			//update--end-------author:zhoujf------date:20160318----for:online生成器支持bootstrap风格生成---------------
 			//j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
 			j.setMsg(codeParamEntityIn.getFtlDescription()+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(codeParamEntityIn.getEntityName())+"Controller.do?list");
 		}catch (Exception e) {

@@ -86,6 +86,22 @@ public class DepartSelectTag extends TagSupport {
 		this.windowHeight = windowHeight;
 	}
 	
+	private String departId;
+	private String departName;
+
+	public String getDepartId() {
+		return departId;
+	}
+	public void setDepartId(String departId) {
+		this.departId = departId;
+	}
+	public String getDepartName() {
+		return departName;
+	}
+	public void setDepartName(String departName) {
+		this.departName = departName;
+	}
+	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
@@ -130,8 +146,16 @@ public class DepartSelectTag extends TagSupport {
 		sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: " + departNameInputWidth + ";text-align:right;\" title=\"" + lblDepartment + "\"/>");
 		sb.append(lblDepartment + "：");
 		sb.append("</span>");
-		sb.append("<input readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: 300px\" onclick=\"openDepartmentSelect()\"/>");
-		sb.append("<input id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\">");   
+		sb.append("<input readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: 300px\" onclick=\"openDepartmentSelect()\" ");
+		if(StringUtils.isNotBlank(departId)){
+			sb.append(" value=\""+departName+"\"");
+		}
+		sb.append(" />");
+		sb.append("<input id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
+		if(StringUtils.isNotBlank(departName)){
+			sb.append(" value=\""+departId+"\"");
+		}
+		sb.append(">");
 		sb.append("</span>");		
 		
 		String commonDepartmentList = MutiLangUtil.getMutiLangInstance().getLang("common.department.list");
@@ -140,19 +164,31 @@ public class DepartSelectTag extends TagSupport {
 		
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("function openDepartmentSelect() {");
+		sb.append("    $.dialog.setting.zIndex = 9999; ");
 		sb.append("    $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '" + commonDepartmentList + "', lock: true, width: '" + windowWidth + "', height: '" + windowHeight + "', opacity: 0.4, button: [");
 		sb.append("       {name: '" + commonConfirm + "', callback: callbackDepartmentSelect, focus: true},");
 		sb.append("       {name: '" + commonCancel + "', callback: function (){}}");
-		sb.append("   ]});");
+		sb.append("   ]}).zindex();");
 		sb.append("}");
 		
 		sb.append("function callbackDepartmentSelect() {");
 		sb.append("    var iframe = this.iframe.contentWindow;");
-		sb.append("    var departname = iframe.getdepartListSelections('text');");		
-		sb.append("    $('#" + selectedNamesInputId + "').val(departname);");
-		sb.append("    $('#" + selectedNamesInputId + "').blur();");		
-		sb.append("    var id = iframe.getdepartListSelections('id');");		
-		sb.append("    $('#" + selectedIdsInputId + "').val(id);");		
+		//update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+		//sb.append("    var departname = iframe.getdepartListSelections('text');");
+		sb.append(" var treeObj = iframe.$.fn.zTree.getZTreeObj(\"departSelect\");");
+		sb.append(" var nodes = treeObj.getCheckedNodes(true);");
+		sb.append(" if(nodes.length>0){");
+		sb.append(" var ids='',names='';");
+		sb.append("for(i=0;i<nodes.length;i++){");
+		sb.append(" var node = nodes[i];");
+		sb.append(" ids += node.id+',';");
+		sb.append(" names += node.name+',';");
+		sb.append("}");
+		sb.append(" $('#" + selectedNamesInputId + "').val(names);");
+		sb.append(" $('#" + selectedNamesInputId + "').blur();");		
+		sb.append(" $('#" + selectedIdsInputId + "').val(ids);");
+		sb.append("}");
+		//update--end--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
 		sb.append("}");
 		sb.append("</script>");
 		return sb;

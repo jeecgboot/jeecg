@@ -12,7 +12,7 @@
    		http://cxf.apache.org/schemas/jaxws.xsd">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="org.jeecgframework.web.*,com.buss.*,com.jeecg.*">
+	<context:component-scan base-package="org.jeecgframework.web.*,com.jeecg.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
@@ -112,6 +112,12 @@
 						<!--移动图表-->
 						<value>cgDynamGraphController.do?design</value>
 						<value>cgDynamGraphController.do?datagrid</value>
+						
+						<!--online表单对外接口-->
+						<value>cgFormDataController.do?getFormInfo</value>
+						<value>cgFormDataController.do?deleteFormInfo</value>
+						<value>cgFormDataController.do?addFormInfo</value>
+						<value>cgFormDataController.do?updateFormInfo</value>
 					</list>
 				</property>
 			</bean>

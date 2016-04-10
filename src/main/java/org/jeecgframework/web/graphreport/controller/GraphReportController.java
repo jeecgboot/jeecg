@@ -76,10 +76,10 @@ public class GraphReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap);
-
+//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/graphreport/engine/core/graphreportlist.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -140,10 +140,10 @@ public class GraphReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap);
-
+//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -234,9 +234,9 @@ public class GraphReportController extends BaseController {
 		List<Map<String, Object>> dicDatas = null;
 		dictCodeOrSQL = dictCodeOrSQL.trim();
 		if(dictCodeOrSQL.toLowerCase().startsWith("select ")) {
-
+			//update-begin-----author:scott----date:20151105-------for:改造支持oracle--------
 			dictCodeOrSQL = dictCodeOrSQL.replaceAll("'[kK][eE][yY]'", "typecode").replaceAll("'[vV][aA][lL][uU][eE]'", "typename");
-
+			//update-end-----author:scott----date:20151105-------for:改造支持oracle--------
 			dicDatas = systemService.findForJdbc(dictCodeOrSQL, null);
 		}else {
 			dicDatas = queryDic(dictCodeOrSQL);

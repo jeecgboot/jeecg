@@ -114,9 +114,9 @@ public class ReportDemoController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_student WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-
+        //update-begin--Author:JueYue  Date:20140724 for：国际化--------------------
 		hc.setName(mutiLangService.getLang(CLASS_STUDENT_COUNT_ANALYSIS));
-
+        //update-end--Author:JueYue  Date:20140724 for：国际化--------------------
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

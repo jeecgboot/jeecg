@@ -17,10 +17,11 @@
 			}
 		});
 
+		//update-start--Author:luobaoli  Date:20150606 for：不能修改分类的上下级
 		if ($('#id').val()) {
 			$('#categoryTree').combotree('disable');
 		}
-
+		//update-end--Author:luobaoli  Date:20150606 for：不能修改分类的上下级
 	});
 </script>
 </head>

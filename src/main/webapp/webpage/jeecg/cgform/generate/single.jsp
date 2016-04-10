@@ -110,6 +110,7 @@ function browseFolder(path) {
 				<option value="01">Table风格(form)</option>
 				<option value="02">Div风格(form)</option>
 				<option value="04">自定义word(form)</option>
+				<option value="05">bootstrap风格(form)</option>
 			</select> <span class="Validform_checktip"></span></td>
 		</tr>
 	</table>

@@ -13,12 +13,12 @@
 	<!-- 自动扫描dao和service包(自动注入) -->
 	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
-	<context:component-scan base-package="org.jeecgframework.web.image.service.*" />
-
+	<context:component-scan base-package="com.jeecg.*">
+			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 	<!-- 加载service,此时要排除要controller,因为controller已经spring-mvc中加载过了 -->
 	<context:component-scan base-package="org.jeecgframework.web.*">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
 	<!-- 引入属性文件 -->
@@ -108,6 +108,9 @@
 				<value>org.jeecgframework.web.rank.*</value>
 				<value>org.jeecgframework.web.sms.*</value>
 				<value>org.jeecgframework.web.image.*</value>
+				<value>org.jeecgframework.web.onlinedoc.*</value>
+				<value>org.jeecgframework.web.onlinedocsort.*</value>
+				<value>com.jeecg.*</value>
 			</list>
 		</property>
 	</bean>

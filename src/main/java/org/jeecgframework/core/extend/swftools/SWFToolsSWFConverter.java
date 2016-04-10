@@ -25,10 +25,10 @@ public class SWFToolsSWFConverter implements SWFConverter {
 			return;
 		}
 		String command = ConStant.getSWFToolsPath(extend) + " \"" + inputFile
-
+		//---update-for--文件预览无效------ scott@2013/05/22 ADD START
 				+ "\" -o " +" \""+ swfFile +" \""+ " -s languagedir=D:\\xpdf-chinese-simplified -T 9 -f";
 //				+ "\" -o " + swfFile + " -s languagedir=D:\\xpdf-chinese-simplified -T 9 -f";
-
+//		---update-for--文件预览无效----- scott@2013/05/22 ADD END
 		try {
 			// 开始转换文档
 			Process process = Runtime.getRuntime().exec(command);

@@ -84,6 +84,7 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	    String hql${sub_index} = "from ${sub.entityName}Entity where 1 = 1<#list sub.foreignKeys as key> AND ${key?uncap_first} = ? </#list>";
 	    List<${sub.entityName}Entity> ${sub.entityName?uncap_first}OldList = this.findHql(hql${sub_index},<#list sub.foreignKeys as key><#if key?lower_case?index_of("${jeecg_table_id}")!=-1>${jeecg_table_id}${sub_index}<#else>${key?uncap_first}${sub_index}</#if><#if key_has_next>,</#if></#list>);
 		//2.筛选更新明细数据-${sub.ftlDescription}
+		if(${sub.entityName?uncap_first}List!=null&&${sub.entityName?uncap_first}List.size()>0){
 		for(${sub.entityName}Entity oldE:${sub.entityName?uncap_first}OldList){
 			boolean isUpdate = false;
 				for(${sub.entityName}Entity sendE:${sub.entityName?uncap_first}List){
@@ -120,6 +121,7 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 					this.save(${sub.entityName?uncap_first});
 				}
 			}
+		}
 		</#list>
 		//执行更新操作配置的sql增强
  		this.doUpdateSql(${entityName?uncap_first});

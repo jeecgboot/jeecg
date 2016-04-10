@@ -48,7 +48,7 @@ $('.userload').click(function(e) {
 		$('.userbox').hide();
 	});
 });
-
+//update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
 $('#randCodeImage').click(function(){
     reloadRandCodeImage();
 });
@@ -60,7 +60,7 @@ function reloadRandCodeImage() {
     var img = document.getElementById("randCodeImage");
     img.src='randCodeImage?a=' + date.getTime();
 }
-
+//update-end--Author:zhangguoming  Date:20140226 for：添加验证码
 // 重置
 $('#forgetpass').click(function(e) {
 	$(":input").each(function() {
@@ -112,9 +112,9 @@ function Login(orgId) {
 		 formData[this.name] =$("#"+this.name ).val();
 	});
     formData['orgId'] = orgId ? orgId : "";
-
+	// update-begin--Author:ken  Date:20140629 for：添加语言选择
 	formData['langCode']=$("#langCode").val();
-
+	// update-end--Author:ken  Date:20140629 for：添加语言选择
 	formData['langCode'] = $("#langCode option:selected").val();
 	$.ajax({
 		async : false,
@@ -128,7 +128,7 @@ function Login(orgId) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				loginsuccess();
-
+//                update-start--Author:zhangguoming  Date:20140825 for：用户有多个组织机构，则弹出选择组织架构页面
                 // todo zhanggm 没有处理多语言，暂时这样判断下吧
                 var title, okButton;
                 if($("#langCode").val() == 'en') {
@@ -166,7 +166,7 @@ function Login(orgId) {
                 } else {
                     setTimeout("window.location.href='"+actionurl+"'", 1000);
                 }
-
+//                update-end--Author:zhangguoming  Date:20140825 for：用户有多个组织机构，则弹出选择组织架构页面
 			} else {
 				if(d.msg == "a"){
 					$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
@@ -202,14 +202,14 @@ function getCookie()
 	if (COOKIE_NAME !=null) {
 		$("input[iscookie='true']").each(function() {
 			$($("#"+this.name).val( $.cookie(this.name)));
-
+//            update-begin--Author:zhangguoming  Date:20140429 for：是否记住用户名优化
             if("admin" == $.cookie(this.name)) {
                 $("#randCode").focus();
             } else {
                 $("#password").val("");
                 $("#password").focus();
             }
-
+//            update-end--Author:zhangguoming  Date:20140429 for：是否记住用户名优化
         });
 		$("#on_off").attr("checked", true);
 		$("#on_off").val("1");
@@ -218,9 +218,9 @@ function getCookie()
 	{
 		$("#on_off").attr("checked", false);
 		$("#on_off").val("0");
-
+//      update-begin--Author:zhangguoming  Date:20140429 for：是否记住用户名优化
         $("#randCode").focus();
-
+//      update-end--Author:zhangguoming  Date:20140429 for：是否记住用户名优化
 	}
 }
 //点击消息关闭提示

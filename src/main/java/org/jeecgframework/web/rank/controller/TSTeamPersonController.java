@@ -88,7 +88,8 @@ public class TSTeamPersonController extends BaseController {
 	public ModelAndView tSTeamPerson(HttpServletRequest request) {
 		return new ModelAndView("system/rank/tSTeamPersonList");
 	}
-
+	
+	//update-begin--Author: jg_huangxg  Date:20150707 for: 增加团队人员榜外网网页
 	/**
 	 * 外网-师资列表
 	 * @param request
@@ -146,7 +147,7 @@ public class TSTeamPersonController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-
+	//update-end--Author: jg_huangxg  Date:20150707 for: 增加团队人员榜外网网页
 	
 	/**
 	 * easyui AJAX请求数据
@@ -373,7 +374,7 @@ public class TSTeamPersonController extends BaseController {
 		}
 		return j;
 	}
-
+	//update-begin--Author:张忠亮  Date:20150709 for：增加社区介绍
 	/**
 	 * 社区介绍
 	 * @param
@@ -397,5 +398,5 @@ public class TSTeamPersonController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-
+	//update-end--Author:张忠亮  Date:20150709 for：增加社区介绍
 }

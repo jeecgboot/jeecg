@@ -92,10 +92,14 @@ public class JeecgEasyUIController extends BaseController {
 		this.jeecgJdbcService.getDatagrid1(jeecgJdbc, dataGrid);
 		TagUtil.datagrid(response, dataGrid);
 		// end of 方式1 ========================================= */ 
+		
+		// 方式2, 取值自己处理(代码量多一些，但执行效率应该会稍高一些)  -------------------------------
 		/*
 		this.jeecgJdbcService.getDatagrid2(jeecgJdbc, dataGrid);
 		TagUtil.datagrid(response, dataGrid);
 		// end of 方式2 ========================================= */ 
+		
+		// 方式3, 取值进一步自己处理(直接转换成easyUI的datagrid需要的东西，执行效率最高，最自由)  -------------------------------
 		//*
 		JSONObject jObject = this.jeecgJdbcService.getDatagrid3(jeecgJdbc, dataGrid);
 		responseDatagrid(response, jObject);
@@ -167,7 +171,11 @@ public class JeecgEasyUIController extends BaseController {
 		req.setAttribute("departList", departList);
 		return new ModelAndView("jeecg/demo/notag/jeecgEasyUI");
 	}
+	
+	
+	// -----------------------------------------------------------------------------------
 	// 以下各函数可以提成共用部件 (Add by Quainty)
+	// -----------------------------------------------------------------------------------
 	public void responseDatagrid(HttpServletResponse response, JSONObject jObject) {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");

@@ -52,6 +52,41 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
+
+<#-- restful 通用方法生成 -->
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.jeecgframework.core.beanvalidator.BeanValidators;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.net.URI;
+import org.springframework.http.MediaType;
+import org.springframework.web.util.UriComponentsBuilder;
+<#-- restful 通用方法生成 -->
+
+<#-- 列为文件类型的文件代码生成 -->
+<#assign fileFlag = false />
+<#list columns as filePo>
+	<#if filePo.showType=='file'>
+		<#assign fileFlag = true />
+	</#if>
+</#list>
+
+<#if fileFlag==true>
+import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
+import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import java.util.HashMap;
+</#if>
+<#-- 列为文件类型的文件代码生成 -->
 /**   
  * @Title: Controller
  * @Description: ${ftl_description}
@@ -73,7 +108,14 @@ public class ${entityName}Controller extends BaseController {
 	private ${entityName}ServiceI ${entityName?uncap_first}Service;
 	@Autowired
 	private SystemService systemService;
-
+	@Autowired
+	private Validator validator;
+	<#-- 列为文件类型的文件代码生成 -->
+	<#if fileFlag==true>
+	@Autowired
+	private CgFormFieldServiceI cgFormFieldService;
+	</#if>
+	<#-- 列为文件类型的文件代码生成 -->
 
 	/**
 	 * ${ftl_description}列表 页面跳转
@@ -210,6 +252,11 @@ public class ${entityName}Controller extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
+		<#-- 列为文件类型的文件代码生成 -->
+		<#if fileFlag==true>
+		j.setObj(${entityName?uncap_first});
+		</#if>
+		<#-- 列为文件类型的文件代码生成 -->
 		return j;
 	}
 	/**
@@ -436,4 +483,117 @@ public class ${entityName}Controller extends BaseController {
 	}
  	</#if>
  	</#list> 
+ 	
+ 	<#-- restful 通用方法生成 -->
+ 	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public List<${entityName}Entity> list() {
+		List<${entityName}Entity> list${entityName}s=${entityName?uncap_first}Service.getList(${entityName}Entity.class);
+		return list${entityName}s;
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<?> get(@PathVariable("id") String id) {
+		${entityName}Entity task = ${entityName?uncap_first}Service.get(${entityName}Entity.class, id);
+		if (task == null) {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity(task, HttpStatus.OK);
+	}
+ 	
+ 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<?> create(@RequestBody ${entityName}Page ${entityName?uncap_first}Page, UriComponentsBuilder uriBuilder) {
+		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+		Set<ConstraintViolation<${entityName}Page>> failures = validator.validate(${entityName?uncap_first}Page);
+		if (!failures.isEmpty()) {
+			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+		}
+
+		//保存
+		<#list subTab as sub>
+		List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List =  ${entityName?uncap_first}Page.get${sub.entityName}List();
+		</#list>
+		
+		${entityName}Entity ${entityName?uncap_first} = new ${entityName}Entity();
+		try{
+			MyBeanUtils.copyBeanNotNull2Bean(${entityName?uncap_first},${entityName?uncap_first}Page);
+		}catch(Exception e){
+            logger.info(e.getMessage());
+        }
+		${entityName?uncap_first}Service.addMain(${entityName?uncap_first}, <#list subTab as sub>${sub.entityName?uncap_first}List<#if sub_has_next>,</#if></#list>);
+
+		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
+		String id = ${entityName?uncap_first}Page.getId();
+		URI uri = uriBuilder.path("/rest/${entityName?uncap_first}Controller/" + id).build().toUri();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(uri);
+
+		return new ResponseEntity(headers, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@RequestBody ${entityName}Page ${entityName?uncap_first}Page) {
+		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+		Set<ConstraintViolation<${entityName}Page>> failures = validator.validate(${entityName?uncap_first}Page);
+		if (!failures.isEmpty()) {
+			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+		}
+
+		//保存
+		<#list subTab as sub>
+		List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List =  ${entityName?uncap_first}Page.get${sub.entityName}List();
+		</#list>
+		
+		${entityName}Entity ${entityName?uncap_first} = new ${entityName}Entity();
+		try{
+			MyBeanUtils.copyBeanNotNull2Bean(${entityName?uncap_first},${entityName?uncap_first}Page);
+		}catch(Exception e){
+            logger.info(e.getMessage());
+        }
+		${entityName?uncap_first}Service.updateMain(${entityName?uncap_first}, <#list subTab as sub>${sub.entityName?uncap_first}List<#if sub_has_next>,</#if></#list>);
+
+		//按Restful约定，返回204状态码, 无内容. 也可以返回200状态码.
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable("id") String id) {
+		${entityName}Entity ${entityName?uncap_first} = ${entityName?uncap_first}Service.get(${entityName}Entity.class, id);
+		${entityName?uncap_first}Service.delMain(${entityName?uncap_first});
+	}
+	<#-- restful 通用方法生成 -->
+	
+	<#-- 列为文件类型的文件代码生成 -->
+	<#if fileFlag==true>
+	/**
+	 * 获取文件附件信息
+	 * 
+	 * @param id ${entityName?uncap_first}主键id
+	 */
+	@RequestMapping(params = "getFiles")
+	@ResponseBody
+	public AjaxJson getFiles(String id){
+		List<CgUploadEntity> uploadBeans = cgFormFieldService.findByProperty(CgUploadEntity.class, "cgformId", id);
+		List<Map<String,Object>> files = new ArrayList<Map<String,Object>>(0);
+		for(CgUploadEntity b:uploadBeans){
+			String title = b.getAttachmenttitle();//附件名
+			String fileKey = b.getId();//附件主键
+			String path = b.getRealpath();//附件路径
+			String field = b.getCgformField();//表单中作为附件控件的字段
+			Map<String, Object> file = new HashMap<String, Object>();
+			file.put("title", title);
+			file.put("fileKey", fileKey);
+			file.put("path", path);
+			file.put("field", field==null?"":field);
+			files.add(file);
+		}
+		AjaxJson j = new AjaxJson();
+		j.setObj(files);
+		return j;
+	}
+	</#if>
+	<#-- 列为文件类型的文件代码生成 -->
 }

@@ -20,12 +20,12 @@ body{
 	padding:3px 2px;*/
 			border: 1px solid #D7D7D7;
 	border-radius: 3PX;
-	/*height: 14PX;*/
-	padding: 7px 0 7px 5px;
+	height: 14px;
+	padding: 7px 0 7px 5px!important;
 	line-height: 14PX;
 	font-size: 12px;
 	display: inline-block;
-	width:200px;
+	width:150px;
 }
 #wrapper{
     -moz-box-shadow:0px 0px 3px #aaa;
@@ -187,7 +187,9 @@ span.error{
     -webkit-border-radius: 2px;
     border-radius: 2px;
     outline: none;
+    /*
     padding:3px 2px;
+    */
     width: 157px;
     float:left;
 }

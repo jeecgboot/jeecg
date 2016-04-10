@@ -27,14 +27,14 @@ public class DataBaseCronTriggerBean extends CronTriggerBean{
 				(TSTimeTaskEntity.class,"taskId",this.getName());
 		if(task!=null&&task.getIsEffect().equals("1")
 				&&!task.getCronExpression().equals(this.getCronExpression())){
-
+			//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本   
 			try {
 				this.setCronExpression(task.getCronExpression());
 			} catch (ParseException e) {
 				// TODO 异常必须被处理
 				e.printStackTrace();
 			}
-
+			//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本   
 			DynamicTask.updateSpringMvcTaskXML(this,task.getCronExpression());
 		}
 	}

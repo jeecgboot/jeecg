@@ -81,7 +81,7 @@ public class CgFormBuildRestController extends BaseController {
 		try {
 			long start = System.currentTimeMillis();
 			String tableName = configId;
-
+			//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
 			String mode=request.getParameter("mode");
 			String templateName=tableName+"_";
 			if(StringUtils.isBlank(id)){
@@ -92,9 +92,11 @@ public class CgFormBuildRestController extends BaseController {
 				templateName+=TemplateUtil.TemplateType.UPDATE.getName();
 			}
 
+//            update-start--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
 			String ftlVersion =request.getParameter("ftlVersion");
 			Template template = templetContext.getTemplate(templateName, ftlVersion);
-
+//            update-end--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+			//update-end--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
 			StringWriter stringWriter = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(stringWriter);
 	        Map<String, Object> data = new HashMap<String, Object>();
@@ -136,9 +138,9 @@ public class CgFormBuildRestController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
-
+	    	//update-begin--Author:钟世云  Date:20150610 for：online支持树配置--------------------
 	    	data.put("head", head);
-
+			//update-end--Author:钟世云  Date:20150610 for：online支持树配置----------------------
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));

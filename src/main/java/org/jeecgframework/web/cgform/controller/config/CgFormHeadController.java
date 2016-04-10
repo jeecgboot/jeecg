@@ -100,6 +100,8 @@ public class CgFormHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgform/config/cgformSynChoice");
 	}
 
+	//update-begin--Author:luobaoli  Date:20150705 for：取消title参数，修改"配置地址"生成的URL为REST风格
+	//update-begin--Author: jg_huangxg  Date:20150806 for：恢复title参数，修改"配置地址"生成的URL为 .do风格
 	@RequestMapping(params = "popmenulink")
 	public ModelAndView popmenulink(ModelMap modelMap,
                                     @RequestParam String url,
@@ -108,7 +110,8 @@ public class CgFormHeadController extends BaseController {
         modelMap.put("url",url);
 		return new ModelAndView("jeecg/cgform/config/popmenulink");
 	}
-
+	//update-end--Author: jg_huangxg  Date:20150806 for：恢复title参数，修改"配置地址"生成的URL为 .do风格
+	//update-end--Author:luobaoli  Date:20150705 for：取消title参数，修改"配置地址"生成的URL为REST风格
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -124,13 +127,13 @@ public class CgFormHeadController extends BaseController {
 			DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(CgFormHeadEntity.class,
 				dataGrid);
-
+		//update-start--Author:luobaoli  Date:20150607 for：添加表单查询过滤条件
 		String jformCategory = request.getParameter("jformCategory");
 		if(StringUtil.isNotEmpty(jformCategory)){
 			cq.eq("jformCategory", jformCategory);
 			cq.add();
 		}
-
+		//update-end--Author:luobaoli  Date:20150607 for：添加表单查询过滤条件
 		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
@@ -250,9 +253,9 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
-
+		//update-begin--Author:张忠亮  Date:20151121 for：清除缓存
 		templetContext.clearCache();
-
+		//update-end--Author:张忠亮  Date:20151121 for：清除缓存
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -365,10 +368,10 @@ public class CgFormHeadController extends BaseController {
 			//cgFormHead.setTableName(cgFormHead.getTableName().replace(CgAutoListConstant.jform_, ""));
 			req.setAttribute("cgFormHeadPage", cgFormHead);
 		}
-
+		//update-start--Author:luobaoli  Date:20150607 for：增加表单分类列表
 		List<TSType> typeList = TSTypegroup.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
-
+		//update-end--Author:luobaoli  Date:20150607 for：增加表单分类列表
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -422,12 +425,13 @@ public class CgFormHeadController extends BaseController {
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
 		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
 		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
-
+		//update-begin--Author:张忠亮  Date:20150613 for：新增默认字段
 		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
 		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
-
+		//update-end--Author:张忠亮  Date:20150613 for：新增默认字段
+		//update-begin--Author:zhoujf  Date:20160115 for：新增流程状态默认字段
 		columnList.add(initCgFormFieldEntityBpmStatus());
-
+		//update-end--Author:zhoujf  Date:20160115 for：新增流程状态默认字段
 		return columnList;
 	}
 	/**

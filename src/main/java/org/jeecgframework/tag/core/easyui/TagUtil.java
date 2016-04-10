@@ -74,7 +74,7 @@ public class TagUtil {
 		}
 		value = reflectHelper.getMethodValue(fieldName)==null?"":reflectHelper.getMethodValue(fieldName);
 		if (value !=""&&value != null && (FiledName.indexOf("_") != -1||FiledName.indexOf(".") != -1)) {
-
+//            update-start--Author:zhangguoming  Date:20140827 for：功能增强，添加处理对象中List<Object>属性字段的解析
             if(value instanceof List) {
                 Object tempValue = "";
                 for (Object listValue : (List)value) {
@@ -84,10 +84,10 @@ public class TagUtil {
             } else {
                 value = fieldNametoValues(childFieldName, value);
             }
-
+//            update-end--Author:zhangguoming  Date:20140827 for：功能增强，添加处理对象中List<Object>属性字段的解析
 		}
 		if(value != "" && value != null) {
-
+//          update-begin--Author:jb_longjb 龙金波  Date:20150313 for：处理json中可能包含的特殊字符，防止页面加载出错
 			value = converunicode(value.toString());
 		}
 		return value;
@@ -97,7 +97,7 @@ public class TagUtil {
         for (int i=0; i<jsonValue.length(); i++) {
         char c = jsonValue.charAt(i);  
           switch (c){
-
+//        update-begin--Author:zhoujf  Date:20150615 for：菜单图片不显示的问题
 //         case '\"':      
 //                 sb.append("\\\"");      
 //                 break;      
@@ -110,7 +110,7 @@ public class TagUtil {
 //             case '/':      
 //                 sb.append("\\/");      
 //                 break;   
-
+//               update-end--Author:zhoujf  Date:20150615 for：菜单图片不显示的问题
              case '\b':      
                  sb.append("\\b");      
                  break;      
@@ -132,7 +132,7 @@ public class TagUtil {
          }    
         return sb.toString();   
 }
-
+//  update-end--Author:jb_longjb 龙金波  Date:20150313 for：处理json中可能包含的特殊字符，防止页面加载出错
 
 	/**
 	 * 对象转数组
@@ -596,7 +596,8 @@ public class TagUtil {
 		param += "'\"+index+\"'";// 传出行索引号参数
 		return param;
 	}
-
+	
+	//update-begin--Author:luobaoli  Date:20150711 for：新增方法，将存储过程返回的数据解析为json格式
 	public static String getJson(List fields,List datas){
 		if(datas!=null && datas.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -616,5 +617,32 @@ public class TagUtil {
 			return "{\"total\":\"0\",\"rows\":[]}";
 		}
 	}
+	//update-begin--Author:luobaoli  Date:20150711 for：新增方法，将存储过程返回的数据解析为json格式
 
+	public static String getJsonByMap(List fields,List<Map<String,Object>> datas){
+		if(datas!=null && datas.size()>0){
+			StringBuffer sb = new StringBuffer();
+			sb.append("{\"total\":\""+datas.size()+"\",\"rows\":[");
+			for(int i=0;i<datas.size();i++){
+				Map<String,Object> values = (Map<String,Object>) datas.get(i);
+				sb.append("{");
+				//for(int j=0;j<values.size();){
+				int j=0;
+				for (Object value : values.values()) {
+					sb.append("\""+fields.get(j)+"\":\""+(value==null?"":value)+"\""+(j==values.size()-1?"":","));
+					j++;
+				}
+					//sb.append("\""+fields.get(j)+"\":\""+(values.get(j)==null?"":values.get(j))+"\""+(j==values.size()-1?"":","));
+				//}
+
+				sb.append("}"+(i==datas.size()-1?"":","));
+			}
+
+			sb.append("]}");
+
+			return sb.toString();
+		}else{
+			return "{\"total\":\"0\",\"rows\":[]}";
+		}
+	}
 }

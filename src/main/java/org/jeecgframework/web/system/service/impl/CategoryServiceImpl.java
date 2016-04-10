@@ -20,7 +20,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 
 	@Override
 	public void saveCategory(TSCategoryEntity category) {
-
+//      update-start--Author:zhoujf  Date:20150615 for：分类管理编码规则生成
 		String parentCode = null;
 		if(category.getParent()!=null&&oConvertUtils.isNotEmpty(category.getParent().getCode())){
 			parentCode = category.getParent().getCode();
@@ -31,7 +31,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 			category.setParent(null);
 			category.setCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 		}
-
+//      update-end--Author:zhoujf  Date:20150615 for：分类管理编码规则生成
 		this.save(category);
 	}
 	
@@ -46,14 +46,14 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  code like '").append(parentCode).append("%'");
 		}
-
+		//update-begin-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 		sb.append(" ORDER BY code DESC ");
 		List<Map<String, Object>> objMapList = this.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null&& objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("code");
 		}
-
+		//update-end-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 		return returnCode;
 	}
 

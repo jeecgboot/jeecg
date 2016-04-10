@@ -11,7 +11,7 @@
 	<fieldset class="step">
 	<div class="form">
 		<label class="Validform_label"> 文件标题: </label> 
-		<input name="documentTitle" id="documentTitle" datatype="s3-50" value="${doc.documentTitle}"> 
+		<input name="documentTitle" id="documentTitle" datatype="s3-50" value="${doc.documentTitle}" type="text"> 
 		<span class="Validform_checktip">标题名称在3~50位字符,且不为空</span>
 	</div>
 	<div class="form">

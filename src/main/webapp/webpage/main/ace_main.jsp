@@ -3,151 +3,136 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
 		<title><t:mutiLang langKey="jeect.platform"/></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<meta name="keywords" content="<t:mutiLang langKey="jeect.platform"/>" />
+		<meta name="description" content="<t:mutiLang langKey="jeect.platform"/>" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
-		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" />
-		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
-		<!-- text fonts -->
-		<link rel="stylesheet" href="plug-in/ace/css/ace-fonts.css" />
+		<!-- basic styles -->
+		<link href="plug-in/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
 
-		<link rel="stylesheet" href="plug-in/ace/css/jquery-ui.css" />
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+
+		<!--  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />  -->
+
 		<!-- ace styles -->
-		<link rel="stylesheet" href="plug-in/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
-	
-		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="plug-in/ace/css/ace-part2.css" class="ace-main-stylesheet" />
+
+		<link rel="stylesheet" href="plug-in/ace/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="plug-in/ace/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="plug-in/ace/assets/css/ace-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="plug-in/ace/assets/css/ace-ie.min.css" />
 		<![endif]-->
 
-		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="plug-in/ace/css/ace-ie.css" />
-		<![endif]-->
+		<!-- inline styles related to this page -->
+
 		<!-- ace settings handler -->
-		<script src="plug-in/ace/js/ace-extra.js"></script>
+
+		<script src="plug-in/ace/assets/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
-		<!--[if lte IE 8]>
-		<script src="plug-in/ace/js/html5shiv.js"></script>
-		<script src="plug-in/ace/js/respond.js"></script>
+		<!--[if lt IE 9]>
+		<script src="plug-in/ace/assets/js/html5shiv.js"></script>
+		<script src="plug-in/ace/assets/js/respond.min.js"></script>
 		<![endif]-->
-
 	</head>
 
-	<body class="no-skin">
-		<!-- #section:basics/navbar.layout -->
-		<div id="navbar" class="navbar navbar-default">
+	<body>
+		<div class="navbar navbar-default" id="navbar">
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
 			</script>
 
 			<div class="navbar-container" id="navbar-container">
-				<!-- #section:basics/sidebar.mobile.toggle -->
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-					<span class="sr-only">Toggle sidebar</span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-				</button>
-
-				<!-- /section:basics/sidebar.mobile.toggle -->
 				<div class="navbar-header pull-left">
-					<!-- #section:basics/navbar.layout.brand -->
 					<a href="#" class="navbar-brand">
 						<small>
-							<!-- <i class="fa fa-leaf"></i> -->
-							<t:mutiLang langKey="jeect.platform"/>
+							<i class="icon-leaf"></i>
+							JEECG 微云快速开发平台
 						</small>
-					</a>
-					<!-- /section:basics/navbar.layout.brand -->
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
 
-					<!-- #section:basics/navbar.toggle -->
-
-					<!-- /section:basics/navbar.toggle -->
-				</div>
-
-				<!-- #section:basics/navbar.dropdown -->
-				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-tasks"></i>
+								<i class="icon-tasks"></i>
 								<span class="badge badge-grey">4</span>
 							</a>
 
-							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
-									<i class="ace-icon fa fa-check"></i>
-									4 Tasks to complete
+									<i class="icon-ok"></i>
+									还有4个任务完成
 								</li>
 
-								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">Software Update</span>
-													<span class="pull-right">65%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:65%" class="progress-bar"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">Hardware Upgrade</span>
-													<span class="pull-right">35%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">Unit Testing</span>
-													<span class="pull-right">15%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">Bug Fixes</span>
-													<span class="pull-right">90%</span>
-												</div>
-
-												<div class="progress progress-mini progress-striped active">
-													<div style="width:90%" class="progress-bar progress-bar-success"></div>
-												</div>
-											</a>
-										</li>
-									</ul>
-								</li>
-
-								<li class="dropdown-footer">
+								<li>
 									<a href="#">
-										See tasks with details
-										<i class="ace-icon fa fa-arrow-right"></i>
+										<div class="clearfix">
+											<span class="pull-left">软件更新</span>
+											<span class="pull-right">65%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:65%" class="progress-bar "></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">硬件更新</span>
+											<span class="pull-right">35%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">单元测试</span>
+											<span class="pull-right">15%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">错误修复</span>
+											<span class="pull-right">90%</span>
+										</div>
+
+										<div class="progress progress-mini progress-striped active">
+											<div style="width:90%" class="progress-bar progress-bar-success"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										查看任务详情
+										<i class="icon-arrow-right"></i>
 									</a>
 								</li>
 							</ul>
@@ -155,14 +140,14 @@
 
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<i class="icon-bell-alt icon-animated-bell"></i>
 								<span class="badge badge-important" id="noticeCount">0</span>
 							</a>
-							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close" >
+
+							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header" id="noticeTip">
-									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									  0 Notifications
-										<!-- ajax加载 -->
+									<i class="icon-warning-sign"></i>
+									0条公告
 								</li>
 								
 								<li class="dropdown-content">
@@ -171,11 +156,15 @@
 									</ul>
 								</li>
 
-								<li class="dropdown-footer">
+								<li>
+									<a href="#" id="noticeContent">
+									</a>
+								</li>
+
+								<li>
 									<a href="javascript:goAllNotice();" id="noticeFooter">
-										See all notifications
-										<i class="ace-icon fa fa-arrow-right"></i>
-										<!-- ajax加载 -->
+										查看全部
+										<i class="icon-arrow-right"></i>
 									</a>
 								</li>
 							</ul>
@@ -183,34 +172,33 @@
 
 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+								<i class="icon-envelope icon-animated-vertical"></i>
 								<span class="badge badge-success" id="messageCount">0</span>
 							</a>
 
-							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header" id="messageTip">
-									<i class="ace-icon fa fa-envelope-o"></i>
-									0 Messages
-									<!-- ajax加载 -->
+									<i class="icon-envelope-alt"></i>
+									0条消息
 								</li>
 
-								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar" id="messageContent">
-										<!-- ajax加载 -->
-									</ul>
+								<li>
+									<a href="#" id="messageContent">
+										
+									</a>
 								</li>
 
-								<li class="dropdown-footer">
+								
+
+								<li>
 									<a href="javascript:goAllMessage();" id="messageFooter">
-										See all messages
-										<i class="ace-icon fa fa-arrow-right"></i>
-										<!-- ajax加载 -->
+										查看所有消息
+										<i class="icon-arrow-right"></i>
 									</a>
 								</li>
 							</ul>
 						</li>
 
-						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="plug-in/ace/avatars/avatar2.png" alt="Jason's Photo" />
@@ -219,39 +207,39 @@
 				                    <span style="color: #666633">${roleName }</span>
 								</span>
 
-								<i class="ace-icon fa fa-caret-down"></i>
+								<i class="icon-caret-down"></i>
 							</a>
 
-							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
 									<a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
-										<i class="ace-icon fa fa-cog"></i>
+										<i class="icon-cog"></i>
 										 <t:mutiLang langKey="common.change.password"/>
 									</a>
 								</li>
 
 								<li>
 									<a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')">
-										<i class="ace-icon fa fa-user"></i>
+										<i class="icon-user"></i>
 										 <t:mutiLang langKey="common.profile"/>
 									</a>
 								</li>
 								<li>
 									<a href="javascript:openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')">
-										<i class="ace-icon fa fa-user"></i>
+										<i class="icon-cog"></i>
 										 <t:mutiLang langKey="common.ssms.getSysInfos"/>
 									</a>
 								</li>
 								<li>
 									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)">
-										<i class="ace-icon fa fa-user"></i>
+										<i class="icon-cog"></i>
 										 <t:mutiLang langKey="common.my.style"/>
 									</a>
 								</li>
 
 								<li>
 									<a href="javascript:clearLocalstorage()">
-										<i class="ace-icon fa fa-warning"></i>
+										<i class="icon-cog"></i>
 										<t:mutiLang langKey="common.clear.localstorage"/>
 									</a>
 								</li>
@@ -260,280 +248,154 @@
 
 								<li>
 									<a href="javascript:logout()">
-										<i class="ace-icon fa fa-power-off"></i>
+										<i class="icon-off"></i>
 										 <t:mutiLang langKey="common.logout"/>
 									</a>
 								</li>
 							</ul>
 						</li>
-
-						<!-- /section:basics/navbar.user_menu -->
-					</ul>
-				</div>
-
-				<!-- /section:basics/navbar.dropdown -->
-			</div><!-- /.navbar-container -->
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
 		</div>
 
-		<!-- /section:basics/navbar.layout -->
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 			</script>
 
-			<!-- #section:basics/sidebar -->
-			<div id="sidebar" class="sidebar                  responsive">
-				<script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-				</script>
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
 
-				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<button class="btn btn-success">
-							<i class="ace-icon fa fa-signal"></i>
-						</button>
-
-						<button class="btn btn-info">
-							<i class="ace-icon fa fa-pencil"></i>
-						</button>
-
-						<!-- #section:basics/sidebar.layout.shortcuts -->
-						<button class="btn btn-warning">
-							<i class="ace-icon fa fa-users"></i>
-						</button>
-
-						<button class="btn btn-danger">
-							<i class="ace-icon fa fa-cogs"></i>
-						</button>
-
-						<!-- /section:basics/sidebar.layout.shortcuts -->
-					</div>
-
-					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-
-						<span class="btn btn-info"></span>
-
-						<span class="btn btn-warning"></span>
-
-						<span class="btn btn-danger"></span>
-					</div>
-				</div><!-- /.sidebar-shortcuts -->
-
-				<ul class="nav nav-list">
-					<li class="">
-						<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});">
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text"> 首页 </span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-				<t:menu style="ace" menuFun="${menuMap}"></t:menu>
-				</ul><!-- /.nav-list -->
-
-				<!-- #section:basics/sidebar.layout.minimize -->
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-
-				<!-- /section:basics/sidebar.layout.minimize -->
-				<script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-				</script>
-			</div>
-			<div class="main-content" >
-			    <!-- /section:basics/sidebar -->
-				<!-- #section:basics/content.breadcrumbs -->
-				<div class="breadcrumbs" id="breadcrumbs" style="display:none">
+				<div class="sidebar" id="sidebar">
 					<script type="text/javascript">
-						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 					</script>
 
-					<ul class="breadcrumb">
-						<li>
-							<i class="ace-icon fa fa-home home-icon"></i>
-							<a href="#">Home</a>
-						</li>
-					</ul><!-- /.breadcrumb -->
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<i class="icon-signal"></i>
+							</button>
 
-					<!-- #section:basics/content.searchbox -->
-					<div class="nav-search" id="nav-search">
-						<form class="form-search">
-							<span class="input-icon">
-								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-								<i class="ace-icon fa fa-search nav-search-icon"></i>
-							</span>
-						</form>
-					</div><!-- /.nav-search -->
+							<button class="btn btn-info">
+								<i class="icon-pencil"></i>
+							</button>
 
-					<!-- /section:basics/content.searchbox -->
-				</div>
+							<button class="btn btn-warning">
+								<i class="icon-group"></i>
+							</button>
 
-				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content" style="padding:0px" >
-					<!-- #section:settings.box -->
-					<div class="ace-settings-container" id="ace-settings-container">
-						<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-							<i class="ace-icon fa fa-cog bigger-130"></i>
+							<button class="btn btn-danger">
+								<i class="icon-cogs"></i>
+							</button>
 						</div>
 
-						<div class="ace-settings-box clearfix" id="ace-settings-box">
-							<div class="pull-left width-50">
-								<!-- #section:settings.skins -->
-								<div class="ace-settings-item">
-									<div class="pull-left">
-										<select id="skin-colorpicker" class="hide">
-											<option data-skin="no-skin" value="#438EB9">#438EB9</option>
-											<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-											<option data-skin="skin-2" value="#C6487E">#C6487E</option>
-											<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-										</select>
-									</div>
-									<span>&nbsp; Choose Skin</span>
-								</div>
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
 
-								<!-- /section:settings.skins -->
+							<span class="btn btn-info"></span>
 
-								<!-- #section:settings.navbar -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
-									<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-								</div>
+							<span class="btn btn-warning"></span>
 
-								<!-- /section:settings.navbar -->
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
 
-								<!-- #section:settings.sidebar -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
-									<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-								</div>
-
-								<!-- /section:settings.sidebar -->
-
-								<!-- #section:settings.breadcrumbs -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
-									<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-								</div>
-
-								<!-- /section:settings.breadcrumbs -->
-
-								<!-- #section:settings.rtl -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
-									<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-								</div>
-
-								<!-- /section:settings.rtl -->
-
-								<!-- #section:settings.container -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
-									<label class="lbl" for="ace-settings-add-container">
-										Inside
-										<b>.container</b>
-									</label>
-								</div>
-
-								<!-- /section:settings.container -->
-							</div><!-- /.pull-left -->
-
-							<div class="pull-left width-50">
-								<!-- #section:basics/sidebar.options -->
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
-									<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-								</div>
-
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
-									<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-								</div>
-
-								<div class="ace-settings-item">
-									<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
-									<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-								</div>
-
-								<!-- /section:basics/sidebar.options -->
-							</div><!-- /.pull-left -->
-						</div><!-- /.ace-settings-box -->
-					</div><!-- /.ace-settings-container -->
-
-					<!-- /section:settings.box -->
-				 <div class="page-content-area" data-ajax-content="false"  >
-					<!-- <div  id="tabs" >
-											<ul style="height:0px">
-												<li>
-													<a href="#tabs-1" id="mainTitle">首页</a>
-												</li>
-											</ul>
-							<div id="tabs-1" style="padding:0px">
-						 		<iframe style="width:100%;height:700px;margin:0px;padding:0px" scrolling="auto" frameborder="0" id="center"  src="loginController.do?home" ></iframe>
-							</div>
-					</div> -->
-					
-					
-                        <div class="col-xs-12" style="width: 99%;padding-left:2px;padding-right: 2px;" id="tabs">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <!-- <li class="active"><a href="#Index" role="tab" data-toggle="tab">首页</a></li> -->
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="Index">
-                                </div>
-                            </div>
-                        </div>
-                    
-					</div> <!-- /.page-content-area -->
-					
-					
-				</div><!-- /.page-content -->
-			</div><!-- /.main-content -->
-
-
-			<div class="footer">
-				<div class="footer-inner">
-					<!-- #section:basics/footer -->
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">JEECG</span>
-							 Application &copy; <t:mutiLang langKey="system.version.number"/>
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+					<ul class="nav nav-list">
+						<li class="active">
+							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?acehome'});">
+								<i class="icon-dashboard"></i>
+								<span class="menu-text"> 首页 </span>
 							</a>
+						</li>
+						<t:menu style="ace" menuFun="${menuMap}"></t:menu>
+					</ul><!-- /.nav-list -->
 
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
 					</div>
 
-					<!-- /section:basics/footer -->
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
 				</div>
-			</div>
+
+				<div class="main-content">
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12" style="width: 99%;padding-left:2px;padding-right: 2px;" id="tabs">
+	                            <ul class="nav nav-tabs" role="tablist">
+	                                <!-- <li class="active"><a href="#Index" role="tab" data-toggle="tab">首页</a></li> -->
+	                            </ul>
+	                            <div class="tab-content">
+	                                <div role="tabpanel" class="tab-pane active" id="Index">
+	                                </div>
+	                            </div>
+	                        </div>
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+				<div class="ace-settings-container" id="ace-settings-container">
+					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+						<i class="icon-cog bigger-150"></i>
+					</div>
+
+					<div class="ace-settings-box" id="ace-settings-box">
+						<div>
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">
+									<option data-skin="default" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>&nbsp; 选择皮肤</span>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+							<label class="lbl" for="ace-settings-navbar"> 固定导航条</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+							<label class="lbl" for="ace-settings-sidebar"> 固定滑动条</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+							<label class="lbl" for="ace-settings-breadcrumbs">固定面包屑</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+							<label class="lbl" for="ace-settings-rtl">切换到左边</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+							<label class="lbl" for="ace-settings-add-container">
+								切换窄屏
+								<b></b>
+							</label>
+						</div>
+					</div>
+				</div><!-- /#ace-settings-container -->
+			</div><!-- /.main-container-inner -->
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->
-		<!-- basic scripts -->
 
-		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='plug-in/ace/js/jquery.js'>"+"<"+"/script>");
-		</script>
 
-		<!-- <![endif]-->
-<div id="changestylePanel" style="display:none" ><form id="formobj"  action="userController.do?savestyle" name="formobj" method="post">
+<div id="changestylePanel" style="display:none" >
+	<form id="formobj"  action="userController.do?savestyle" name="formobj" method="post">
 	<table style="width: 550px" cellpadding="0" cellspacing="1" class="formtable">
 		<tr><td >风格</td></tr>
 			<tr>
@@ -556,7 +418,8 @@
 			<tr>
 				<td class="value"><input type="radio" value="ace" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>
-	</table></form>
+	</table>
+	</form>
 </div>
 <div id="changepassword" style="display:none">
 
@@ -578,14 +441,267 @@
 			</tr>
 		</tbody>
 	</table>
-	</div>
-		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='plug-in/ace/js/jquery1x.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
+</div>
+		<!-- basic scripts -->
+
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='plug-in/ace/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+			window.jQuery || document.write("<script src='plug-in/ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
+		</script>
+
+		<!--[if IE]>
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='plug-in/ace/assets/js/jquery-1.10.2.min.js'>"+"<"+"script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='plug-in/ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
+		</script>
+		<script src="plug-in/ace/assets/js/bootstrap.min.js"></script>
+		<script src="plug-in/ace/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!--[if lte IE 8]>
+		  <script src="plug-in/ace/assets/js/excanvas.min.js"></script>
+		<![endif]-->
+
+		<script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="plug-in/ace/assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="plug-in/ace/assets/js/jquery.slimscroll.min.js"></script>
+		<script src="plug-in/ace/assets/js/jquery.easy-pie-chart.min.js"></script>
+		<script src="plug-in/ace/assets/js/jquery.sparkline.min.js"></script>
+		<script src="plug-in/ace/assets/js/flot/jquery.flot.min.js"></script>
+		<script src="plug-in/ace/assets/js/flot/jquery.flot.pie.min.js"></script>
+		<script src="plug-in/ace/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+		<!-- ace scripts -->
+
+		<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
+		<script src="plug-in/ace/assets/js/ace.min.js"></script>
+		
+		<t:base type="tools"></t:base>
+		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script type="text/javascript" src="plug-in/ace/assets/js/bootstrap-tab.js"></script>
+		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
+		<script src="plug-in/layer/layer.js"></script>
+	    <script src="plug-in/ace/js/bootbox.js"></script>
+		<!-- inline scripts related to this page -->
+		<script>
+		jQuery(function($) {
+			//$( "#tabs" ).tabs();
+			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?acehome'});
+			$('.theme-poptit .close').click(function(){
+	    		$('.theme-popover-mask').fadeOut(100);
+	    		$('.theme-popover').slideUp(200);
+	    	});
+	    	$('#closeBtn').click(function(){
+	    		$('.theme-popover-mask').fadeOut(100);
+	    		$('.theme-popover').slideUp(200);
+	    	});
+	    	//$('#ace-settings-sidebar').click();
+	    	//$('#sidebar').addClass('compact');
+			$('#sidebar li').addClass('hover').filter('.open').removeClass('open').find('> .submenu').css('display', 'none');
+		});
+		</script>
+
+		<script type="text/javascript">
+			jQuery(function($) {
+				$('.easy-pie-chart.percentage').each(function(){
+					var $box = $(this).closest('.infobox');
+					var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+					var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+					var size = parseInt($(this).data('size')) || 50;
+					$(this).easyPieChart({
+						barColor: barColor,
+						trackColor: trackColor,
+						scaleColor: false,
+						lineCap: 'butt',
+						lineWidth: parseInt(size/10),
+						animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
+						size: size
+					});
+				})
+			
+				$('.sparkline').each(function(){
+					var $box = $(this).closest('.infobox');
+					var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+					$(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
+				});
+			
+			
+			
+			
+			  var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
+			  var data = [
+				{ label: "social networks",  data: 38.7, color: "#68BC31"},
+				{ label: "search engines",  data: 24.5, color: "#2091CF"},
+				{ label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
+				{ label: "direct traffic",  data: 18.6, color: "#DA5430"},
+				{ label: "other",  data: 10, color: "#FEE074"}
+			  ]
+			  function drawPieChart(placeholder, data, position) {
+			 	  $.plot(placeholder, data, {
+					series: {
+						pie: {
+							show: true,
+							tilt:0.8,
+							highlight: {
+								opacity: 0.25
+							},
+							stroke: {
+								color: '#fff',
+								width: 2
+							},
+							startAngle: 2
+						}
+					},
+					legend: {
+						show: true,
+						position: position || "ne", 
+						labelBoxBorderColor: null,
+						margin:[-30,15]
+					}
+					,
+					grid: {
+						hoverable: true,
+						clickable: true
+					}
+				 })
+			 }
+			 drawPieChart(placeholder, data);
+			
+			 /**
+			 we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
+			 so that's not needed actually.
+			 */
+			 placeholder.data('chart', data);
+			 placeholder.data('draw', drawPieChart);
+			
+			
+			
+			  var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+			  var previousPoint = null;
+			
+			  placeholder.on('plothover', function (event, pos, item) {
+				if(item) {
+					if (previousPoint != item.seriesIndex) {
+						previousPoint = item.seriesIndex;
+						var tip = item.series['label'] + " : " + item.series['percent']+'%';
+						$tooltip.show().children(0).text(tip);
+					}
+					$tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+				} else {
+					$tooltip.hide();
+					previousPoint = null;
+				}
+				
+			 });
+			
+			
+			
+			
+			
+			
+				var d1 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.5) {
+					d1.push([i, Math.sin(i)]);
+				}
+			
+				var d2 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.5) {
+					d2.push([i, Math.cos(i)]);
+				}
+			
+				var d3 = [];
+				for (var i = 0; i < Math.PI * 2; i += 0.2) {
+					d3.push([i, Math.tan(i)]);
+				}
+				
+			
+				var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
+				$.plot("#sales-charts", [
+					{ label: "Domains", data: d1 },
+					{ label: "Hosting", data: d2 },
+					{ label: "Services", data: d3 }
+				], {
+					hoverable: true,
+					shadowSize: 0,
+					series: {
+						lines: { show: true },
+						points: { show: true }
+					},
+					xaxis: {
+						tickLength: 0
+					},
+					yaxis: {
+						ticks: 10,
+						min: -2,
+						max: 2,
+						tickDecimals: 3
+					},
+					grid: {
+						backgroundColor: { colors: [ "#fff", "#fff" ] },
+						borderWidth: 1,
+						borderColor:'#555'
+					}
+				});
+			
+			
+				$('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('.tab-content')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+			
+					var off2 = $source.offset();
+					var w2 = $source.width();
+			
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+			
+			
+				$('.dialogs,.comments').slimScroll({
+					height: '300px'
+			    });
+				
+				
+				//Android's default browser somehow is confused when tapping on label which will lead to dragging the task
+				//so disable dragging when clicking on label
+				var agent = navigator.userAgent.toLowerCase();
+				if("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
+				  $('#tasks').on('touchstart', function(e){
+					var li = $(e.target).closest('#tasks li');
+					if(li.length == 0)return;
+					var label = li.find('label.inline').get(0);
+					if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
+				});
+			
+				$('#tasks').sortable({
+					opacity:0.8,
+					revert:true,
+					forceHelperSize:true,
+					placeholder: 'draggable-placeholder',
+					forcePlaceholderSize:true,
+					tolerance:'pointer',
+					stop: function( event, ui ) {//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+						$(ui.item).css('z-index', 'auto');
+					}
+					}
+				);
+				$('#tasks').disableSelection();
+				$('#tasks input:checkbox').removeAttr('checked').on('click', function(){
+					if(this.checked) $(this).closest('li').addClass('selected');
+					else $(this).closest('li').removeClass('selected');
+				});
+				
+			
+			})
+		</script>
+		
+		<script type="text/javascript">
 
 		function loadModule(title,url,target){
 			//TODO addTab(title,url);
@@ -693,7 +809,7 @@
 			}});
   			
   	}
-
+//update-begin--Author:张忠亮  Date:20150605 for：清除浏览器缓存
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -702,13 +818,13 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
-
+//update-end--Author:张忠亮  Date:20150605 for：清除浏览器缓存
 
 
 	$(document).ready(function(){
 		//加载公告
 		var url = "noticeController.do?getNoticeList";
-		$.ajax({
+		jQuery.ajax({
     		url:url,
     		type:"GET",
     		dataType:"JSON",
@@ -725,7 +841,7 @@
     				}
     				//加载公告提示
     				var noticeTip = "";
-    				noticeTip += "<i class='ace-icon fa fa-exclamation-triangle'></i>";
+    				noticeTip += "<i class='icon-warning-sign'></i>";
     				noticeTip += noticeCount+" "+data.attributes.tip;
     				$("#noticeTip").html(noticeTip);
     				
@@ -739,6 +855,7 @@
     						noticeContent +="&nbsp;"+noticeList[i].noticeTitle + "</a></li></ul></li>";
         				}
     				}
+    				alert(noticeContent);
     				$("#noticeContent").html(noticeContent);
     				
     				//加载公告底部文字
@@ -849,69 +966,6 @@
   	    	});
     }
 		</script>
-		<script src="plug-in/ace/js/bootstrap.js"></script>
-<script src="plug-in/ace/js/bootbox.js"></script>
-
-		<script src="plug-in/ace/js/jquery-ui.js"></script>
-		<script src="plug-in/ace/js/jquery.ui.touch-punch.js"></script>
-		<!-- ace scripts -->
-		<script src="plug-in/ace/js/ace/elements.scroller.js"></script>
-		<script src="plug-in/ace/js/ace/elements.colorpicker.js"></script>
-		<script src="plug-in/ace/js/ace/elements.fileinput.js"></script>
-		<script src="plug-in/ace/js/ace/elements.typeahead.js"></script>
-		<script src="plug-in/ace/js/ace/elements.wysiwyg.js"></script>
-		<script src="plug-in/ace/js/ace/elements.spinner.js"></script>
-		<script src="plug-in/ace/js/ace/elements.treeview.js"></script>
-		<script src="plug-in/ace/js/ace/elements.wizard.js"></script>
-		<script src="plug-in/ace/js/ace/elements.aside.js"></script>
-		<script src="plug-in/ace/js/ace/ace.js"></script>
-		<script src="plug-in/ace/js/ace/ace.ajax-content.js"></script>
-		<script src="plug-in/ace/js/ace/ace.touch-drag.js"></script>
-		<script src="plug-in/ace/js/ace/ace.sidebar.js"></script>
-		<script src="plug-in/ace/js/ace/ace.sidebar-scroll-1.js"></script>
-		<script src="plug-in/ace/js/ace/ace.submenu-hover.js"></script>
-		<script src="plug-in/ace/js/ace/ace.widget-box.js"></script>
-		<script src="plug-in/ace/js/ace/ace.settings.js"></script>
-		<script src="plug-in/ace/js/ace/ace.settings-rtl.js"></script>
-		<script src="plug-in/ace/js/ace/ace.settings-skin.js"></script>
-		<script src="plug-in/ace/js/ace/ace.widget-on-reload.js"></script>
-		<script src="plug-in/ace/js/ace/ace.searchbox-autocomplete.js"></script>
-		<t:base type="tools"></t:base>
-		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
-		<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
-		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
-		<script src="plug-in/layer/layer.js"></script>
-		<script>
-		jQuery(function($) {
-			//$( "#tabs" ).tabs();
-			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
-			$('.theme-poptit .close').click(function(){
-	    		$('.theme-popover-mask').fadeOut(100);
-	    		$('.theme-popover').slideUp(200);
-	    	});
-	    	$('#closeBtn').click(function(){
-	    		$('.theme-popover-mask').fadeOut(100);
-	    		$('.theme-popover').slideUp(200);
-	    	});
-		});
-		</script>
-		
-<link rel="stylesheet" href="plug-in/ace/css/poptip.css" />
-<div class="theme-popover">
-     <div class="theme-poptit">
-          <a href="javascript:;" title="关闭" class="close">×</a>
-          <h3>消息[<span id="msgStatus"></span>]</h3>
-     </div>
-     <div class="theme-popbod">
-     	<input id="msgId" type="hidden" value="">
-            <h1 style="text-align:center;" id="msgTitle"></h1>
-      <p id="msgContent" style='overflow : hidden;text-overflow: ellipsis; display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;'></p> 
-     </div>
-	 <div style="text-align:center;">
-	 <a href="javascript:readMessage();" class="btn2 btn-primary btn-large" style="color: #0088DB;">已读</a>
-	 <a href="#" class="btn2 btn-primary btn-large gray" id="closeBtn" style="color: #0088DB;">关闭</a>
-	 </div>
-</div>
-<div class="theme-popover-mask"></div>	
-	</body>
+</body>
 </html>
+

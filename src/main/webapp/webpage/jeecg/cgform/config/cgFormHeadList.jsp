@@ -189,9 +189,11 @@
 	*/
 	function popMenuLink(tableName,content){
         $.dialog({
-
+        	//update-begin--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
+        	//update-begin--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
 			content: "url:cgFormHeadController.do?popmenulink&url=cgAutoListController.do?list&title="+tableName,
-
+			//update-end--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
+			//update-end--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
 			drag :false,
 			lock : true,
 			title:'<t:mutiLang langKey="common.menu.link"/>' + '['+content+']',

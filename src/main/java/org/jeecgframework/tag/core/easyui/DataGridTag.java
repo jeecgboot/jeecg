@@ -79,7 +79,8 @@ public class DataGridTag extends TagSupport {
 	private boolean autoLoadData=true; // 列表是否自动加载数据
 	//private boolean frozenColumn=false; // 是否是冰冻列    默认不是
 	private String langArg;
-
+	
+//	update-start--Author:zhoujf  Date:20150608 for：修改增加easyui css主题目录切换的属性，默认default兼容前版本
 	protected String cssTheme ;
 	
 	public String getCssTheme() {
@@ -88,7 +89,7 @@ public class DataGridTag extends TagSupport {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
+//	update-end--Author:zhoujf  Date:20150608 for：修改增加easyui css主题目录切换的属性
 
 	private boolean queryBuilder = false;// 高级查询器
 	public boolean isQueryBuilder() {
@@ -313,7 +314,7 @@ public class DataGridTag extends TagSupport {
 		dataGridColumn.setExtendParams(extendParams);
 		dataGridColumn.setEditor(editor);
 		columnList.add(dataGridColumn);
-
+		//update-begin--Author:anchao  Date:20140826 for：[bugfree号]数据列权限控制--------------------
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
 			for (String MyoperationCode : operationCodes) {
@@ -327,7 +328,7 @@ public class DataGridTag extends TagSupport {
 				}
 			}
 		}
-
+		//update-end--Author:anchao  Date:20140826 for：[bugfree号]数据列权限控制--------------------
 
 		
 		
@@ -525,9 +526,9 @@ public class DataGridTag extends TagSupport {
 				sb.append(",\"mData\":\"" + column.getField() + "\"");
 				sb.append(",\"sWidth\":\"" + colwidth + "\"");
 				sb.append(",\"bSortable\":" + column.isSortable() + "");
-
+//                update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 				sb.append(",\"bVisible\":" + !column.isHidden() + "");
-
+//                update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 				sb.append(",\"bSearchable\":" + column.isQuery() + "");
 			}
 			sb.append("}");
@@ -642,10 +643,12 @@ public class DataGridTag extends TagSupport {
 		sb.append("}");
 		sb.append("});");
 		this.setPager(sb, grid);
-
+		//update-begin longjb 20150515 for:新增表头恢复函数调用
+		//update-begin SCOTT 20150525 for: 特殊情况下，导致页面错乱，做下异常处理
 		sb.append("try{restoreheader();}catch(ex){}");
 		sb.append("});");
-
+		//update-end SCOTT 20150525 for: 特殊情况下，导致页面错乱，做下异常处理
+		//update-begin longjb 20150515 for:新增表头恢复函数调用
 		sb.append("function reloadTable(){");
 		sb.append("try{");
 		sb.append("	$(\'#\'+gridname).datagrid(\'reload\');" );
@@ -659,7 +662,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');");
 		sb.append("}");
-
+		//update-begin longjb 20150515 for:新增表头定义存储和恢复函数
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -694,7 +697,7 @@ public class DataGridTag extends TagSupport {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
-
+		//update-end longjb 201515 for:新增表头定义存储和恢复函数
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
@@ -708,19 +711,21 @@ public class DataGridTag extends TagSupport {
 			sb.append("function dosearch(params){");
 			sb.append("var jsonparams=$.parseJSON(params);");
 			sb.append("$(\'#" + name + "\')." + grid + "({url:'" + actionUrl + "&field=" + searchFields + "',queryParams:jsonparams});" + "}");
-
+			
+			//update-begin chenxu 20140423 for:修改在弹出界面中使用single查询模式时，查询条件不起作用
 			 //searchbox框执行方法
 			  searchboxFun(sb,grid);
-
+			//update-end chenxu 20140423 for:修改在弹出界面中使用single查询模式时，查询条件不起作用
 			//生成重置按钮功能js
-
+			  
+			//update-begin Robin 20140426 for:回车事件
 			//回车事件
 			sb.append("function EnterPress(e){");
 			sb.append("var e = e || window.event;");
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
-
+			//update-begin Robin 20140426 for:回车事件
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#\"+name+\"tb\").find(\":input\").val(\"\");");
@@ -813,7 +818,8 @@ public class DataGridTag extends TagSupport {
 							}else if(col.isAutocomplete()){
 								sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 							}else{
-
+								//update-begin Robin 20140426 for:回车事件 兼容IE,FF
+				//	update-start--Author:longjb  Date:20150323 for：增加class属性便于样式控制
 
 								sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" />");
 							}
@@ -821,7 +827,7 @@ public class DataGridTag extends TagSupport {
 							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
 							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
-
+			//	update-end--Author:longjb  Date:20150323 for：增加class属性便于样式控制
 						}
 						sb.append("</span>");
 					}
@@ -947,7 +953,7 @@ public class DataGridTag extends TagSupport {
 			Gson gson = new Gson();
 			Map<String, String> mp = gson.fromJson(field, Map.class);
 			for(Map.Entry<String, String> entry: mp.entrySet()) { 
-
+				//update-author：scott     for:jeecg-bpm修改-    date:20151557
 				sb.append(entry.getKey()+"=" + gson.toJson(entry.getValue()) + "\"");
 				} 
 		}
@@ -1043,6 +1049,7 @@ public class DataGridTag extends TagSupport {
 				}
 			}
 
+			//update-start--Author: jg_huangxg  Date:20151204 for：增加styke属性便于样式控制
 			StringBuffer style = new StringBuffer();
 			if (!StringUtil.isEmpty(dataGridUrl.getUrlStyle())) {
 				style.append(" style=\'");
@@ -1067,7 +1074,7 @@ public class DataGridTag extends TagSupport {
 			if (OptTypeDirection.Deff.equals(dataGridUrl.getType())) {
 				sb.append("href+=\"[<a href=\'" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
 			}
-
+			//update-end--Author: jg_huangxg  Date:20151204 for：增加styke属性便于样式控制
 			if (OptTypeDirection.OpenTab.equals(dataGridUrl.getType())) {
 				sb.append("href+=\"[<a href=\'#\' onclick=addOneTab('" + dataGridUrl.getTitle() + "','" + url  + "')>\";");
 			}
@@ -1149,7 +1156,7 @@ public class DataGridTag extends TagSupport {
 		int i = 0;
 		for (DataGridColumn column : columnList) {
 			i++;
-			if((column.isFrozenColumn()&&frozen==0)||(!column.isFrozenColumn()&&frozen==1)){ 
+			if((column.isFrozenColumn()&&frozen==0)||(!column.isFrozenColumn()&&frozen==1)){
 			String field;
 			if (treegrid) {
 				field = column.getTreefield();
@@ -1167,12 +1174,12 @@ public class DataGridTag extends TagSupport {
 				sb.append(","+column.getExtendParams().substring(0,
 						column.getExtendParams().length()-1));
 			}
-
+//             update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 			// 隐藏字段
 			if (column.isHidden()) {
 				sb.append(",hidden:true");
 			}
-
+//            update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 			if (!treegrid) {
 				// 字段排序
 				if ((column.isSortable()) && (field.indexOf("_") <= 0 && field != "opt")) {
@@ -1209,6 +1216,10 @@ public class DataGridTag extends TagSupport {
 					// sb.append("return \"");
 					this.getOptUrl(sb);
 					sb.append("}");
+				}else if(column.getFormatter()!=null)
+				{
+					sb.append(",formatter:function(value,rec,index){");
+					sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
 				}else if (columnValueList.size() > 0 && !column.getField().equals("opt")) {// 值替換
 					String testString = "";
 					for (ColumnValue columnValue : columnValueList) {
@@ -1237,10 +1248,6 @@ public class DataGridTag extends TagSupport {
 							sb.append("}");
 						}
 					}
-				}else if(column.getFormatter()!=null)
-				{
-					sb.append(",formatter:function(value,rec,index){");
-					sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
 				}
 			}
 			// 背景设置
@@ -1316,7 +1323,7 @@ public class DataGridTag extends TagSupport {
 	}
   
 	public String getNoAuthOperButton(){
-
+		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		StringBuffer sb = new StringBuffer();
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
@@ -1342,7 +1349,7 @@ public class DataGridTag extends TagSupport {
 			}
 			
 		}
-
+		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		//org.jeecgframework.core.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
 		return sb.toString(); 
 	}
@@ -1580,7 +1587,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("function get" + name + "Selections(field){" + "var ids = [];" + "var rows = $(\'#" + name + "\')." + grid + "(\'getSelections\');" + "for(var i=0;i<rows.length;i++){" + "ids.push(rows[i][field]);" + "}" + "ids.join(\',\');" + "return ids" + "};");
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');}");
-
+		//update-begin longjb 20150515 for:新增表头定义存储和恢复函数
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -1615,7 +1622,7 @@ public class DataGridTag extends TagSupport {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
-
+		//update-end longjb 201515 for:新增表头定义存储和恢复函数
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			sb.append("var queryParams=$(\'#" + name + "\').datagrid('options').queryParams;");
@@ -1634,7 +1641,7 @@ public class DataGridTag extends TagSupport {
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
-
+			//update-begin Robin 20140426 for:回车事件
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#"+name+"tb\").find(\":input\").val(\"\");");

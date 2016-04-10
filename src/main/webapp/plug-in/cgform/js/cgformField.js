@@ -58,12 +58,12 @@ function initData() {
 	addTableHead();
 	$.get("cgFormHeadController.do?getColumnList&id=" + $("#id").val(),
 			getDataHanlder);
-
+	//update---start--author：JueYue---------date：20140824---------for：table adapter size 
 	$('.t_table').height($(window).height()-300);
 	$(window).resize(function(){
 		$('.t_table').height($(window).height()-300);
 	});
-
+	//update---start--end：JueYue---------date：20140824---------for：table adapter size 
 	
 }
 
@@ -78,10 +78,10 @@ function addTableHead() {
 	}
 }
 // 兼容不同浏览器获取iframe 内容
-
+//update-begin--Author:JueYue  Date:20140213 for：因为Iframe获取失败,而导致详情看不到的情况
 //主要情况是ie11下的版本是火狐的标识倒是出差错
 function getIframeDocument(id){
-
+	//update-begin--Author:zhoujf  Date:20150522 for：解决火狐不兼容的问题
 	try {
 		if (window.frames["iframe_" + id].contentDocument) {
 			return window.frames["iframe_" + id].contentDocument;
@@ -90,9 +90,9 @@ function getIframeDocument(id){
 	} catch (e) {
 	}
 	return document.getElementById("iframe_" + id).contentDocument;
-
+	//update-end--Author:zhoujf  Date:20150522 for：解决火狐不兼容的问题
 }
-
+//update-begin--Author:JueYue  Date:20140213 for：因为Iframe获取失败,而导致详情看不到的情况
 
 /**
  * 获取数据的回调
@@ -139,7 +139,9 @@ function initTrData(item, filedType, orderMin) {
 			$this.attr("name", name.replace('#index#',rownumber));
 			
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
-				$this.val(item[fieldName]);
+				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
+				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
+				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);

@@ -160,14 +160,14 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 	//add-begin--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
 	public List<TSSmsEntity> getMsgsList(String curUser,String curDate) {
 		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
-
+		//update-begin--Author:haungzq  Date:20151215 for：[690]兼容sqlserver--------------------
 		String hql=null;
 		if("sqlserver".equals(DBTypeUtil.getDBType())){
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and CONVERT(varchar(20),t.esSendtime) like ?";
 		}else{
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and str(t.esSendtime) like ?";
 		}
-
+		//update-end--Author:haungzq  Date:20151215 for：[690]兼容sqlserver--------------------
 		list = this.findHql(hql, new Object[] {curUser,curDate+'%'});
 		return list;
 	}

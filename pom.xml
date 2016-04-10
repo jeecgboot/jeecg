@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.6.2</version>
+	<version>3.6.3</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,7 +11,10 @@
         <minidao.version>1.5.5</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
+		<!-- 主要依赖库的版本定义 -->
+		<!-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 		<spring.version>4.0.9.RELEASE</spring.version>
+		<!-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 		<hibernate.version>4.1.0.Final</hibernate.version>
 		<hibernate-common-annotations.version>4.0.2.Final</hibernate-common-annotations.version>
 		<hibernate-jpa.version>1.0.1.Final</hibernate-jpa.version>
@@ -27,11 +30,13 @@
 		<javassist.version>3.15.0-GA</javassist.version>
 		<ant.version>1.6.5</ant.version>
 
+		<!-- todo 没有用到 <spring-jpa.versoin>2.0.8</spring-jpa.versoin>-->
 		<mybatis-spring.version>1.1.1</mybatis-spring.version>
 
 		<!-- 工具包 -->
         <!-- json start -->
 		<jackson.version>1.8.4</jackson.version>
+        <!-- todo 没有用到 <jackson2.version>2.1.2</jackson2.version>-->
         <jacksonframework.version>1.84</jacksonframework.version>
 		<json-lib.version>2.1</json-lib.version>
 		<fastjson-lib.version>1.2.6</fastjson-lib.version>
@@ -81,7 +86,16 @@
 
 		<!-- 测试依赖包 -->
 		<junit.version>4.7</junit.version>
+		<!-- update-begin author： xugj date:20160103  for: #851 controller 单元测试使用DEMO    -->
         <hamcrest.version>1.3</hamcrest.version>
+        <!-- update-end author： xugj date:20160103  for:#851 controller 单元测试DEMO    -->
+		<!-- todo 没有用到 <mockito.version>1.9.5</mockito.version>-->
+		<!-- todo 没有用到 <powermock.version>1.5</powermock.version>-->
+		<!-- todo 没有用到 <selenium.version>2.28.0</selenium.version>-->
+		<!-- todo 没有用到 <jetty.version>7.6.8.v20121106</jetty.version>-->
+		<!-- Plugin的属性定义 -->
+		<!-- todo 没有用到 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <!-- todo 没有用到 <jdk.version>1.6</jdk.version>-->
 
 		<CKFinder.version>2.4</CKFinder.version>
         <!-- java生成缩略图 -->
@@ -95,10 +109,15 @@
         <!--poi 工具类 -->
         <easypoi.version>2.1.4</easypoi.version>
 		<cxf.version>3.0.2</cxf.version>
+		<!--maven插件变量-->
+		<tomcat.version>2.2</tomcat.version>
+		<jetty.version>7.6.14.v20131031</jetty.version>
+		<webserver.port>8080</webserver.port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
-        <repository>
+		<repository>
             <id>jeecg</id>
             <name>jeecg Repository</name>
             <url>http://maven.jeecg.org/nexus/content/repositories/jeecg</url>
@@ -114,7 +133,7 @@
 				<enabled>true</enabled>
 			</snapshots>
         </repository>
-	</repositories>
+    </repositories>
 
 	<dependencies>
 		<!-- activation -->
@@ -140,16 +159,20 @@
 			<groupId>org.jeecgframework</groupId>
 			<artifactId>minidao-pe</artifactId>
 			<version>${minidao.version}</version>
+			<!-- update-begin author： xugj date:20160103  for: #851 升级spring 到4.0.9 后不需要再引入 spring-asm   -->
 			<exclusions>
             	<exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-asm</artifactId>
                 </exclusion>
+               <!-- update-start author： xugj date:20160125 -->
                 <exclusion>
                     <groupId>org.junit</groupId>
                     <artifactId>com.springsource.org.junit</artifactId>
                 </exclusion>
+               <!-- update-end author： xugj date:20160125 -->
              </exclusions>
+			<!-- update-end author： xugj date:20160103  for: #851 升级spring 到4.0.9 后不需要再引入 spring-asm   -->
 		</dependency>
 		<!-- ckfinder start -->
 		<dependency>
@@ -286,6 +309,19 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!--工作流依赖包 -->
+		<!--
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		-->
 		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -305,6 +341,7 @@
             <groupId>com.cloudhopper.proxool</groupId>
             <artifactId>proxool</artifactId>
             <version>${proxool.version}</version>
+             <!-- 许仙明加入 geronimo-javamail_1.4_spec后删除-->
             <exclusions>
             	<exclusion>
             		<artifactId>geronimo-spec-javamail</artifactId>
@@ -716,17 +753,21 @@
 			<version>${junit.version}</version>
 		</dependency>
         <!-- hamcrest -->
+        <!-- update-begin author： xugj date:20160103  for: #851  Spring MVC Test Framework 需要 -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest.version}</version>
         </dependency>
+        <!-- update-end author： xugj date:20160103  for: #851  Spring MVC Test Framework 需要 -->
+        <!-- update-begin author： xugj date:20160103  for: #851  Spring MVC controller 测试 解析json需要 -->
         <dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>0.8.1</version>
 			<scope>test</scope>
 		</dependency>
+        <!-- update-end  author： xugj date:20160103  for: #851  Spring MVC controller 测试 解析json需要 -->
 
 		<!-- spring -->
 		<dependency>
@@ -814,6 +855,7 @@
 		</dependency>
 		<!-- baidu ueditor-->
 		
+		<!-- jsoup HTML parser library @ http://jsoup.org/ -->
 		<dependency>
 		  <groupId>org.jsoup</groupId>
 		  <artifactId>jsoup</artifactId>
@@ -846,23 +888,24 @@
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-ui</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-biz-actInvite</artifactId>
-			<version>1.0.0</version>
+			<artifactId>jeecg-p3-biz-demo</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 		<!-- jeecg plugin end  -->
 	</dependencies>
 
 	<organization>
-		<name>JEECG 微云快速开发平台</name>
+		<name>JEECG 智能快速开发平台</name>
 		<url>www.jeecg.org</url>
 	</organization>
 	<build>
 		<plugins>
+		   <!-- tomcat插件 -->
 	       <plugin>
 	                <groupId>org.codehaus.mojo</groupId>
 	                <artifactId>tomcat-maven-plugin</artifactId>
@@ -883,7 +926,40 @@
                     <target>1.6</target>  
                     <encoding>UTF-8</encoding>
                 </configuration>  
-            </plugin> 
+            </plugin>
+            <!-- tomcat7插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${tomcat.version}</version> 
+				<configuration>
+					<port>${webserver.port}</port>
+					<path>/${project.artifactId}</path>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+				</configuration>
+			</plugin>
+			<!-- jetty插件 -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>${webserver.port}</port>
+						</connector>
+					</connectors>
+					<webAppConfig>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webAppConfig>
+					<systemProperties>  
+						<systemProperty>
+							<name>org.mortbay.util.URI.charset</name>
+							<value>${project.build.sourceEncoding}</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
 	    </plugins>
 		<finalName>jeecg</finalName>
 		<resources>

@@ -37,8 +37,8 @@
 </div>
 <table border="0" cellpadding="2" cellspacing="0" id="${entityName?uncap_first}_table">
 	<tr bgcolor="#E6E6E6">
-		<td align="center" bgcolor="#EEEEEE">序号</td>
-		<td align="center" bgcolor="#EEEEEE">操作</td>
+		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">序号</td>
+		<td align="center" bgcolor="#EEEEEE" style="width: 25px;">操作</td>
 		 <#list pageColumns as po>
 				 <#assign check = 0 >
 				  <#list foreignKeys as key>
@@ -48,14 +48,15 @@
 				  </#if>
 				  </#list>
 				  <#if check==0>
-				  <td align="left" bgcolor="#EEEEEE">
+				  <td align="left" bgcolor="#EEEEEE" style="width: 126px;">
 						${po.content}
 				  </td>
 				  </#if>
 	      </#list>
 	</tr>
-	<tbody id="add_${entityName?uncap_first}_table">	
-	<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  <= 0 }">
+	<tbody id="add_${entityName?uncap_first}_table">
+	<#-- --author: jg_renjie ------start----date:20160328-------for: #1004 [代码生成器] coding生成一对多代码多个bug和解决办法 -->	
+	<#--<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  <= 0 }">
 			<tr>
 				<td align="center"><div style="width: 25px;" name="xh">1</div></td>
 				<td align="center"><input style="width:20px;"  type="checkbox" name="ck"/></td>
@@ -81,7 +82,7 @@
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" 
 					  		type="password" class="inputxt"  style="width:120px;" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else> <#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
-							<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
+							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}"
 										<#if po.dictTable?if_exists?html != ''>dictTable="po.dictTable" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 						<#elseif po.showType=='date'>
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" 
@@ -104,7 +105,8 @@
 				  </#if>
 	            </#list>
    			</tr>
-	</c:if>
+	</c:if>-->
+	<#-- --author: jg_renjie ------end----date:20160328-------for: #1004 [代码生成器] coding生成一对多代码多个bug和解决办法 -->	
 	<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  > 0 }">
 		<c:forEach items="${"$"}{${entityName?uncap_first}List}" var="poVal" varStatus="stuts">
 			<tr>

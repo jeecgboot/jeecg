@@ -1,7 +1,6 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -10,8 +9,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -168,7 +165,11 @@ public class ChooseTag extends TagSupport {
 	private void clearAll(StringBuffer sb,String methodname) {
 		String[] textnames=null;
 		String[] inputTextnames=null;
-		textnames = textname.split(",");
+		//update-begin--Author: jg_huangxg  Date: 20160330 for： 防止空指针
+		if (!StringUtil.isEmpty(this.textname)) {
+			textnames = textname.split(",");
+		}
+		//update-end--Author: jg_huangxg  Date: 20160330 for： 防止空指针
 		if(StringUtil.isNotEmpty(inputTextname)){
 			inputTextnames = inputTextname.split(",");
 		}else{

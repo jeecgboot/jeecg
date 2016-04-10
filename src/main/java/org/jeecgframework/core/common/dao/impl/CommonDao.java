@@ -53,7 +53,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		queryObject.setParameter("username", user.getUserName());
 		queryObject.setParameter("passowrd", password);
 		List<TSUser> users = queryObject.list();
-
+		//update-start-Author:jg_renjie  Date:20151220 for：配合TASK #804 【基础权限】切换用户，session刷新后，重新调用该方法时，password值为加密后的值,故不需要加密
 		if (users != null && users.size() > 0) {
 			return users.get(0);
 		} else {
@@ -65,7 +65,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				return users.get(0);
 			}
 		}
-
+		//update-end-Author:jg_renjie  Date:20151220 for：配合TASK #804 【基础权限】切换用户，session刷新后，重新调用该方法时，password值为加密后的值，故不需要加密
 		return null;
 	}
 	
@@ -191,7 +191,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				}
 				saveOrUpdate(object);
 				// 文件拷贝到指定硬盘目录
-
+		//update-begin--Author:jg_renjie  Date:20150607 for：上传下载功能上传UTF-8字符集TXT文件预览出现乱码的错误
 					if("txt".equals(extend)){
 						//利用utf-8字符集的固定首行隐藏编码原理
 						//Unicode:FF FE   UTF-8:EF BB   
@@ -210,13 +210,13 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 									out.close();
 								}
 							}  else {
-
+								//update-begin--Author:zhoujf  Date:20150610 for：TXT文件预览出现乱码的错误
 								//GBK
 								String contents = new String(mf.getBytes(),"GBK");
 								OutputStream out = new FileOutputStream(savePath);
 								out.write(contents.getBytes());
 								out.close();
-
+								//update-end--Author:zhoujf  Date:20150610 for：TXT文件预览出现乱码的错误
 							}
 						  } catch(Exception e){
 							  String contents = new String(mf.getBytes(),"UTF-8");
@@ -229,7 +229,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				} else {
 					FileCopyUtils.copy(mf.getBytes(), savefile);
 				}
-
+		  //update-begin--Author:jg_renjie  Date:20150607 for：上传下载功能上传UTF-8字符集TXT文件预览出现乱码的错误
 				
 //				if (uploadFile.getSwfpath() != null) {
 //					// 转SWF
@@ -523,15 +523,16 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				for (Object inobj : in) {
 					ReflectHelper reflectHelper2 = new ReflectHelper(inobj);
 					String inId = oConvertUtils.getString(reflectHelper2.getMethodValue(comboTreeModel.getIdField()));
-
+					//update-begin--Author:JueYue  Date:20140514 for：==不起作用--------------------
                     if (inId.equals(id)) {
 						tree.setChecked(true);
 					}
-
+                    //update-end--Author:JueYue  Date:20140514 for：==不起作用--------------------
 				}
 			}
 		}
 
+//            update-begin--Author:zhangguoming  Date:20140819 for：递归子节点属性
 		List curChildList = (List) reflectHelper.getMethodValue(comboTreeModel.getChildField());
 		if (curChildList != null && curChildList.size() > 0) {
 			tree.setState("closed");
@@ -547,7 +548,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
                 tree.setChildren(children);
             }
         }
-
+//            update-end--Author:zhangguoming  Date:20140819 for：递归子节点属性
 
 		return tree;
 	}
@@ -643,12 +644,12 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
                     tg.getFieldMap().put(entry.getKey(), fieldValue);
                 }
             }
-
+            //update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
             if (treeGridModel.getFunctionType() != null) {
             	String functionType = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
             	tg.setFunctionType(functionType);
             }
-
+          //update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 			treegrid.add(tg);
 		}
 		return treegrid;

@@ -3,7 +3,9 @@ package org.jeecgframework.web.demo.controller.test;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +32,8 @@ public class JeecgProcedureController extends BaseController{
 	public String procudure(HttpServletRequest request) {
 		return "jeecg/demo/base/procedure/procedure";
 	}
-
+	
+	//update-begin--Author:luobaoli  Date:20150711 for：优化数据读取和解析过程
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo demo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		List dealFields = new ArrayList();
@@ -41,8 +44,8 @@ public class JeecgProcedureController extends BaseController{
 		StringBuffer dbFields = SqlGenerateUtil.generateDBFields(demo,field,dealFields);//sql中需要查询的列
 		StringBuffer whereSql = SqlGenerateUtil.generateWhere(demo, request.getParameterMap());//sql查询的条件
 		
-		List datas = null;
-		//scott 201602229 存储过程暂时不支持
+		List<Map<String,Object>> datas = null;
+		//scott 采用springjdbc 直接调用存储过程
 		try {
 			datas = jeecgProcedureService.queryDataByProcedure(tableName,dbFields.toString(),whereSql.toString());
 		} catch (Exception e) {
@@ -53,10 +56,9 @@ public class JeecgProcedureController extends BaseController{
 		response.setHeader("Cache-Control", "no-store");
 		try {
 			PrintWriter pw = response.getWriter();
-			pw.write(TagUtil.getJson(dealFields,datas));
+			pw.write(TagUtil.getJsonByMap(dealFields,datas));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

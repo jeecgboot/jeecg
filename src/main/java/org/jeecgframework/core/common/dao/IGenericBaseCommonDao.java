@@ -322,11 +322,12 @@ public interface IGenericBaseCommonDao {
 			int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
-
+	
+	//update-begin--Author:luobaoli  Date:20150708 for：增加执行存储过程方法
 	/**
 	 * 执行存储过程
 	 * @param execute
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params);
-
+	//update-end--Author:luobaoli  Date:20150708 for：增加执行存储过程方法
 }

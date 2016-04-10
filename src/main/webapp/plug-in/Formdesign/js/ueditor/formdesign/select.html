@@ -19,7 +19,7 @@
 	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link>
     <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
     <script type="text/javascript">
-
+	//update-begin--Author:jg_renjie  Date:20150717 for：数据源与字段联动效果实现
 	$(function(){
 		//1.从参数中获取ID
 		var id = '';
@@ -37,7 +37,7 @@
 		});
 		
 		//2.2 绑定change事件,并填充字段
-
+		//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
 		$("#datasource").change(function(){
 			var dbId = $(this).val();
 			$.post(
@@ -53,9 +53,9 @@
             if(this.value!='')
                 $G('orgname').value= $(this).find("option:selected")[0].text;
         });
-
+		//update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
 	});
-
+	//update-end--Author:jg_renjie  Date:20150717 for：数据源与字段联动效果实现
     
 function createElement(type, name)
 {     
@@ -323,6 +323,7 @@ window.onload = function() {
 			arr1= arr1.split('.');
 			var field = arr1[1]==null?'':arr1[1];
 
+        	//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
         	var id = '';
 			editor.ready(function() {
 				id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
@@ -337,7 +338,7 @@ window.onload = function() {
    					$('#field').val(field);
    					$("#datasource").val(arr1[0]);
    			});
-
+           //update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
 			//$G('datasource').value = arr1[0];
         	//$G('field').value = field;
         }
@@ -486,7 +487,7 @@ dialog.onok = function (){
 
 //longjinbo 增加支持系统字典
 var systemCache=null;
-
+//update-start--Author: jg_huangxg  Date:20151105 for：修改easyui样式为boostrap风格
 function initCombox(val){
 	$('#selector').append('<option selected value="">请选择数据字典</option>');
 	var curl= "systemController.do?typeGroupGrid&field=id,typegroupname,typegroupcode";
@@ -512,7 +513,7 @@ function initCombox(val){
 $('#selector').change(function(){
 	onselectCode($(this).val());
 });
-
+//update-end--Author: jg_huangxg  Date:20151105 for：修改easyui样式为boostrap风格
 function onselectCode(id){
 var curl= "systemController.do?typeGrid&field=id,typename,typecode&typegroupid="+id;
 $.ajax({

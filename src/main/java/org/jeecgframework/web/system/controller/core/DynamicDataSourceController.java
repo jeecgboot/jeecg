@@ -157,7 +157,7 @@ public class DynamicDataSourceController extends BaseController {
 		}
 		return new ModelAndView("system/dbsource/dbSource");
 	}
-
+    //update-begin--Author:张忠亮  Date:20150608 for：获取数据源列表
 
     /**
      * 获取数据源列表
@@ -178,11 +178,11 @@ public class DynamicDataSourceController extends BaseController {
         }
         return  comboBoxes;
     }
-
+    //update-end--Author:张忠亮  Date:20150608 for：获取数据源列表
 
 
     //add-begin--Author:	jg_huangxg Date: 20150625 for：[bugfree号]根据字典表数据库类型获取数据源对象
-
+    //update-begin--Author:	jg_huangxg Date: 20150628 for：获取动态数据源的默认值
     @RequestMapping(params = "getDynamicDataSourceParameter")
 	@ResponseBody
     public AjaxJson getDynamicDataSourceParameter(@RequestParam String dbType){
@@ -201,6 +201,6 @@ public class DynamicDataSourceController extends BaseController {
 
     	return j;
     }
-
+    //update-begin--Author:	jg_huangxg Date: 20150628 for：获取动态数据源的默认值
 	//add-end--Author: jg_huangxg Date: 20150625 for：[bugfree号]根据字典表数据库类型获取数据源对象
 }

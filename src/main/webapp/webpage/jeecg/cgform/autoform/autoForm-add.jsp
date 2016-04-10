@@ -42,23 +42,23 @@
 	  function initMainTableSourceSelect(){
 		  var ztree = $.fn.zTree.getZTreeObj("dbSelect");
 		  var node = ztree.getNodesByParam("pid", 0, null);
-
+		//update-begin--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
 		  var options = "<option value=''>请选择主数据源</option>";
 		  $.each(node,function(i,f){
 			  options += "<option value='"+f.dbCode+"'>"+f.name+"</option>";
 		  })
 		  $("#mainTableSource").html(options);
-
+		//update-end--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
 	  }
 	 $(function(){
 		 $.fn.zTree.init($("#dbSelect"), setting, []);
 		 var styleDate = eval('${styleSelect}');
-
+		 //update-begin--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
 		 var iconPath = "plug-in/ztree/css/img/diy/2.png";
 		 $(styleDate).each(function(i){
 			this.icon = iconPath;
 		 });
-
+		//update-end--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
 		 $.fn.zTree.init($("#styleSelect"), stylesetting, styleDate);
 		 initMainTableSourceSelect();
 		 
@@ -358,8 +358,12 @@
 <body>
 <div id="cc" class="easyui-layout" fit="true">
 <div data-options="region:'north',split:false,border:false">
-<div class="panel-header">&nbsp;<a href="#" class="easyui-linkbutton" onclick="javascript:doExit();">&nbsp;关 闭&nbsp;</a> &nbsp;&nbsp;
-								<a href="#" class="easyui-linkbutton" onclick="javascript:doSubmit();">&nbsp;保 存&nbsp;</a> </div>
+<!--author: xugj-start-date:20160331 for:#1028 【页面优化】按钮优化，参考发邮件  -->
+	<div class="panel-header" align="left">
+		<a href="#" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-save" onclick="javascript:doSubmit();">保存</a>			
+		<a href="#" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-cancel" onclick="javascript:doExit();">关闭</a>
+	</div>
+<!--author: xugj-end-date:20160331 for:#1028 【页面优化】按钮优化，参考发邮件  -->
 </div>
 <div data-options="region:'west',title:'表单数据源',split:true" style="width: 200px;">
 <div region="north" border="false" style="overflow: hidden;" fit="true">
@@ -632,6 +636,8 @@ var leipiFormDesign = {
 
 	        if(formEditor.hasContents()){
 	            formEditor.sync();/*同步内容*/
+
+	            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 	            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
 	            if( typeof type!=='undefined' ){

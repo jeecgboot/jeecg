@@ -93,6 +93,14 @@ function browseFolder(path) {
 			<td align="right"><label class="Validform_label">主包名(小写): </label></td>
 			<td class="value"><input class="inputxt" id="entityPackage" name="entityPackage" datatype="*"> <span class="Validform_checktip"></span></td>
 		</tr>
+		<tr>
+			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
+			<td class="value">
+			<select id="jspMode" name="jspMode">
+				<option value="03">Table风格(form)</option>
+				<option value="06">bootstrap风格(form)</option>
+			</select></td>
+		</tr>
 	</table>
 	<table>
 		<tr>

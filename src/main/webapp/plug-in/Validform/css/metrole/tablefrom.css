@@ -11,12 +11,12 @@ body {
 	border-radius: 3PX;
 	height: 14px;
 	/*height: 14PX;*/
-	/* padding: 7px 0 7px 5px; */
-	padding: 10px 0px 2px 5px;
+	 padding: 7px 0 7px 5px; 
+	/*padding: 10px 0px 2px 5px;*/
 	line-height: 14PX;
 	font-size: 12px;
 	display: inline-block;
-	width:200px;
+	width:150px;
 	
 }
 .formtable  .input_text:focus{
@@ -29,8 +29,9 @@ body {
 }
 .Validform_label {
 	font-size: 12px;
-/* 	font-weight: bold;
-	color: #5E7595; */
+	font-weight: 700;
+/* 	color: #5E7595; */
+	padding: 5px;
 	white-space:nowrap;
 }
 .formtable
@@ -44,7 +45,7 @@ body {
 .table_title{background:#f7f7f7; padding:6px; text-align:center; font-weight:bold}
 .formtable tr 
 { 
-	background-color:#FAFAFA;
+	background-color:#f5f5f5;
 	align:right;
 }
 .value

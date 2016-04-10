@@ -45,7 +45,8 @@ public class DictSelectTag extends TagSupport {
 	private String dictField;// 自定义字典表的匹配字段-字典的编码值
 	private String dictText;// 自定义字典表的显示文本-字典的显示值
 	private String extendJson;//扩展参数
-
+    
+	//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 	private String readonly;// 只读属性
     public String getReadonly() {
 		return readonly;
@@ -53,7 +54,9 @@ public class DictSelectTag extends TagSupport {
 	public void setReadonly(String readonly) {
 		this.readonly = readonly;
 	}
+    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 
+	//  update-begin--Author:jg_longjb龙金波  Date:20150313 for：增加查询条件属性
 	private String dictCondition;
 	public String getDictCondition() {
 		return dictCondition;
@@ -62,7 +65,8 @@ public class DictSelectTag extends TagSupport {
 	public void setDictCondition(String dicCondition) {
 		this.dictCondition = dicCondition;
 	}
-
+//  update-end--Author:jg_longjb龙金波  Date:20150313 for：增加查询条件属性
+//	update-start--Author:jg_huangxg  Date:20151116 for：增加datatype属性
 	private String datatype;
 	public String getDatatype() {
 		return datatype;
@@ -71,7 +75,7 @@ public class DictSelectTag extends TagSupport {
 	public void setDatatype(String datatype) {
 		this.datatype = datatype;
 	}
-
+//	update-end--Author:jg_longjb龙金波  Date:20150313 for：增加datatype属性	
 	@Autowired
 	private static SystemService systemService;
 
@@ -117,9 +121,10 @@ public class DictSelectTag extends TagSupport {
 				}
 			}else {
 				sb.append("<select name=\"" + field + "\"");
-
+				
+				//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 				this.readonly(sb);
-
+			    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 				
 				//增加扩展属性
 				if (!StringUtils.isBlank(this.extendJson)) {
@@ -133,9 +138,9 @@ public class DictSelectTag extends TagSupport {
 					sb.append(" id=\"" + id + "\"");
 				}
 				sb.append(">");
-
+				//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
 				select("common.please.select", "", sb);
-
+				//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 				for (Map<String, Object> map : list) {
 					select(map.get("text").toString(), map.get("field").toString(), sb);
 				}
@@ -170,9 +175,9 @@ public class DictSelectTag extends TagSupport {
 					}
 				} else {
 					sb.append("<select name=\"" + field + "\"");
-
+					//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 					this.readonly(sb);
-
+				    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 					
 					//增加扩展属性
 					if (!StringUtils.isBlank(this.extendJson)) {
@@ -187,9 +192,9 @@ public class DictSelectTag extends TagSupport {
 					}
 					this.datatype(sb);
 					sb.append(">");
-
+					//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
 					select("common.please.select", "", sb);
-
+					//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 					for (TSType type : types) {
 						select(type.getTypename(), type.getTypecode(), sb);
 					}
@@ -233,9 +238,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
+			//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 			this.readonly(sb);
-
+		    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 
 			this.datatype(sb);
 			sb.append(" />");
@@ -245,9 +250,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
+			//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 			this.readonly(sb);
-
+		    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -280,9 +285,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
+			//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 			this.readonly(sb);
-
+		    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 			this.datatype(sb);
 			sb.append(" />");
 		} else {
@@ -291,9 +296,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
+			//update-begin--Author:jg_xugj  许国杰  Date:20151209 for：#775 增加只读属性
 			this.readonly(sb);
-
+		    //update-end--Author:jg_xugj 许国杰  Date:20151209 for：#775 增加只读属性
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -327,11 +332,11 @@ public class DictSelectTag extends TagSupport {
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
 				+ " as text from " + dictTable;
-
+//  update-begin--Author:jg_longjb龙金波  Date:20150313 for：增加查询条件属性 例如：where type='xxx'
 	       if(dictCondition!=null){
 	           sql+=dictCondition;
 	       }
-
+//  update--end--Author:jg_longjb龙金波  Date:20150313 for：增加查询条件属性
 		systemService = ApplicationContextUtil.getContext().getBean(
 				SystemService.class);
 		List<Map<String, Object>> list = systemService.findForJdbc(sql);

@@ -50,7 +50,14 @@
 			</td>
 			<td style="width: 160px; border-top-style: none; border-left-style: none; border-bottom-color: rgb(165, 165, 165); border-bottom-width: 1pt; border-right-color: rgb(165, 165, 165); border-right-width: 1pt; padding: 0cm 5.4pt; height: 24px; white-space: nowrap;">
 			<p align="left" class="MsoNormal"><span lang="EN-US">
-			<input type="text" name="sex" id="sex" datatype="*" class="inputxt" value="${data['${tableName}']['sex']?if_exists?html}" ignore="ignore">
+			<select id="sex" name="sex" datatype="*" ignore="ignore" style="width: 206px;">
+				<option value="">请选择</option>
+				<@DictData name="sex" var="dataList">
+					<#list dataList as dictdata>
+						<option value="${dictdata.typecode?if_exists?html}" <#if dictdata.typecode?if_exists?html=="${data['${tableName}']['sex']?if_exists?html}">selected</#if>>${dictdata.typename?if_exists?html}</option>
+					</#list>
+				</@DictData>
+			</select>
 			<span class="Validform_checktip"></span>
 			<label class="Validform_label" style="display: none;">性别</label>
 			</span></p>
@@ -166,7 +173,7 @@
 						<tr>
 							<td colspan="6" style="padding: 1px;border:solid #add9c0; border-left-width: 1px; border-left-color: rgb(164, 164, 164); border-right-width: 1px; border-right-color: rgb(164, 164, 164); border-top-style: none; border-bottom-width: 1px; border-bottom-color: rgb(164, 164, 164);" valign="top" width="689">
 							<p class="MsoNormal" style="mso-pagination:widow-orphan;text-align:right;vertical-align:middle;"><span style="mso-spacerun:'yes';font-family:微软雅黑;color:rgb(0,0,0);font-style:normal;font-size:11.0000pt;mso-font-kerning:0.0000pt;">
-								<button class="btn btn-small btn-success listAdd" type="button" onclick="addRow('degreeTab','add_degreeTab_template')">添加一行</button>
+								<button class="btn btn-small btn-success listAdd" type="button" onclick="addDegree('degreeTab','add_degreeTab_template')">添加一行</button>
 							</span></p>
 							</td>
 						</tr>
@@ -223,7 +230,7 @@
 										<input type="text" name="jform_resume_degree_info[${subTableData_index}].degree"  datatype="*" class="inputxt"  value="${subTableData['degree']?if_exists?html}" ignore="ignore">
 									</span></p>
 								</td>
-								<td style="width:15%;"><button class='btn btn-small btn-success delrow' type='button'>删除</button></td>
+								<td style="width:15%;"><button class='btn btn-small btn-success degreeRow' type='button'>删除</button></td>
 							</tr>
 						</#list>
 						<#elseif sub?index_of("degree")!=-1 >
@@ -253,7 +260,7 @@
 										<input type="text" name="jform_resume_degree_info[0].degree"  datatype="*" class="inputxt"  value="" ignore="ignore">
 									</span></p>
 								</td>
-								<td style="width:15%;"><button class='btn btn-small btn-success delrow' type='button'>删除</button></td>
+								<td style="width:15%;"><button class='btn btn-small btn-success degreeRow' type='button'>删除</button></td>
 							</tr>
 						</#if>
 					  </#list>
@@ -482,7 +489,7 @@
 			</td>
 			<td style="width: 160px; border-top-style: none; border-left-style: none; border-bottom-color: rgb(165, 165, 165); border-bottom-width: 1pt; border-right-color: rgb(165, 165, 165); border-right-width: 1pt; padding: 0cm 5.4pt; height: 24px; white-space: nowrap;">
 				<p align="left" class="MsoNormal"><span lang="EN-US">
-				<input type="text" name="arrival" id="arrival" datatype="*" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  value="${data['${tableName}']['arrival']?if_exists?html}" ignore="ignore">
+				<input type="text" name="arrival_time" id="arrival_time" datatype="*" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  value="${data['${tableName}']['arrival_time']?if_exists?html}" ignore="ignore">
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">到岗时间</label>
 				</span></p>
@@ -539,6 +546,12 @@
 		}
 		
 		$(".delrow").click(function(){
+			var tabid = $(this).parent().parent().parent().parent().parent().parent().parent().parent().attr('id');
+			console.debug(tabid);
+			$(this).parent().parent().parent().parent().parent().parent().parent().remove();resetTrNum(tabid);
+		});
+		
+		$(".degreeRow").click(function(){
 			var tabid = $(this).parent().parent().parent().attr('id');
 			$(this).parent().parent().remove();resetTrNum(tabid);
 		});
@@ -549,6 +562,17 @@
 	  		var tbHtml =$("#"+templateid).html();
 	  		$("#"+tabid).append(tbHtml);
 			$(".delrow").die().live("click",function(){
+				var curtabid = $(this).parent().parent().parent().parent().parent().parent().parent().parent().attr('id');
+				console.debug(curtabid);
+			    $(this).parent().parent().parent().parent().parent().parent().parent().remove();resetTrNum(curtabid);
+			});
+			resetTrNum(tabid);
+	  }
+	  
+	  function addDegree(tabid,templateid){
+	  		var tbHtml =$("#"+templateid).html();
+	  		$("#"+tabid).append(tbHtml);
+			$(".degreeRow").die().live("click",function(){
 				var curtabid = $(this).parent().parent().parent().attr('id');
 			    $(this).parent().parent().remove();resetTrNum(curtabid);
 			});
@@ -666,7 +690,7 @@
 						<input type="text" name="jform_resume_degree_info[#index#].degree"  datatype="*" class="inputxt"   ignore="ignore">
 					</span></p>
 				</td>
-				<td style="width:15%;"><button class='btn btn-small btn-success delrow' type='button'>删除</button></td>
+				<td style="width:15%;"><button class='btn btn-small btn-success degreeRow' type='button'>删除</button></td>
 			</tr>
 		</tbody>
 		<tbody id="add_expTab_template">

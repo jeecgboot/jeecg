@@ -10,10 +10,10 @@
 	$(function() {
 		$('#cc').combotree({
 			url : 'functionController.do?setPFunction&selfId=${function.id}',
-
+//            update-start--Author:zhangguoming  Date:20140901 for：为combotree下拉框的添加滚动条
 			panelHeight: 200,
 			width: 157,
-
+//            update-end--Author:zhangguoming  Date:20140901 for：为combotree下拉框的添加滚动条
 			onClick: function(node){
 				$("#functionId").val(node.id);
 			}

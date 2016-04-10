@@ -19,6 +19,7 @@ body {
 	font-size: 12px;
 	font-weight: bold;
 	color: #5E7595;
+	padding: 5px;
 	white-space:nowrap;
 }
 .formtable

@@ -9,15 +9,22 @@
     $(function() {
         var datagrid = $("#userListtb");
         //datagrid.find("div[name='searchColums']").append($("#tempSearchColums div[name='searchColums']").html());
+		datagrid.find("div[name='searchColums']").find("form#userListForm").append($("#realNameSearchColums div[name='searchColumsRealName']").html());
+		$("#realNameSearchColums").html('');
         datagrid.find("div[name='searchColums']").find("form#userListForm").append($("#tempSearchColums div[name='searchColums']").html());
         $("#tempSearchColums").html('');
-    });
+	});
 </script>
-<div id="tempSearchColums" style="display: ">
+<div id="realNameSearchColums" style="display: none;">
+	<div name="searchColumsRealName">
+		<t:userSelect windowWidth="1000px" windowHeight="600px" title="用户列表"></t:userSelect>
+	</div>
+</div>
+<div id="tempSearchColums" style="display: none;">
     <div name="searchColums">
-       <t:departSelect></t:departSelect> 
+       <t:departSelect></t:departSelect>
     </div>
-</div>  
+</div>
 <%--update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件--%>
 <%--update-end--Author:lijun  Date:20160302 for：组织机构查询条件修改为使用departSelect标签--%>
 
@@ -29,7 +36,7 @@
 	<%--<t:dgCol title="common.department" field="TSDepart_id" query="true" replace="${departsReplace}"></t:dgCol>--%>
 	<t:dgCol title="common.department" sortable="false" field="userOrgList.tsDepart.departname" query="false"></t:dgCol>
     <%--update-end--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
-	<t:dgCol title="common.real.name" field="realName" query="true"></t:dgCol>
+	<t:dgCol title="common.real.name" field="realName" query="false"></t:dgCol>
 	<t:dgCol title="common.role" field="userKey" ></t:dgCol>
 	<t:dgCol title="common.createby" field="createBy" hidden="true"></t:dgCol>
 	<t:dgCol title="common.createtime" field="createDate" formatter="yyyy-MM-dd" hidden="true"></t:dgCol>

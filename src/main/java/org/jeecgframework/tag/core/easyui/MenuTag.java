@@ -62,22 +62,22 @@ public class MenuTag extends TagSupport {
 
 	public StringBuffer end() {	
 		StringBuffer sb = new StringBuffer();
-
+//        update-begin--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
             sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
             sb.append("</ul>");
         }
 		if(style.equals("shortcut"))
-
+//            update-begin--Author:zhangguoming  Date:20140429 for：在IE7下 导航显示问题
 //		{	sb.append("<div id=\"nav\" style=\"display:none;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
 		{
             sb.append("<div id=\"nav\" style=\"display:block;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
-
+//            update-end--Author:zhangguoming  Date:20140429 for：在IE7下 导航显示问题
 			sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
 			sb.append("</div>");
 		}
-
+//        update-end--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
 		if(style.equals("bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootMenu(parentFun, childFun));

@@ -79,10 +79,10 @@ public class CgAutoListRestController extends BaseController{
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
 		CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
-
+		//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(head.getFormTemplate());
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity, 0, TemplateUtil.TemplateType.LIST), paras);
-
+		//update-end--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -155,7 +155,7 @@ public class CgAutoListRestController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
-
+		//------------------update-begin-------2014年9月3日----author:JueYue------for:-列表数据隐藏权限------------
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -171,7 +171,7 @@ public class CgAutoListRestController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
-
+			//------------------update-end---2014年9月3日----author:JueYue------for:-列表数据隐藏权限------------
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());

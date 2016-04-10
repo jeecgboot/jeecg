@@ -175,24 +175,24 @@ public class DemoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = StringUtil.getEncodePra(req.getParameter("id"));
 		String floor = "";
-
+		//update-begin--Author:huangzq  Date:20151127 for：三级联调
 		if(StringUtil.isNotEmpty(id)){
 			if("ThreeLevelLinkage".equals(id)){
 				floor += "省：<select name=\"province\" id=\"provinceid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "市：<select name=\"city\" id=\"cityid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "县：<select name=\"county\" id=\"countyid\">"+"</select>" + "&nbsp;&nbsp;";
-
+				//update-end--Author:huangzq  Date:20151127 for：三级联调
 			}else{
 				CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 				cq.eq("TSFunction.id", id);
 				cq.add();
 				List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
 				if (functions.size() > 0) {
-
+				//update-begin--Author:张忠亮  Date:20150606 for：优化国际化
 					for (TSFunction function : functions) {
 						floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + MutiLangUtil.getMutiLangInstance().getLang(function.getFunctionName()) + "&nbsp;&nbsp;";
 					}
-
+				//update-end--Author:张忠亮  Date:20150606 for：优化国际化
 				} else {
 					floor += "没有子项目!";
 				}
@@ -322,7 +322,8 @@ public class DemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-
+	
+	//update-begin--Author:luobaoli  Date:20150707 for：增加表单特殊布局DEMO，新增/修改功能在当前页显示
 	/**
 	 * demo页面跳转
 	 */
@@ -348,10 +349,12 @@ public class DemoController extends BaseController {
 		return new ModelAndView("jeecg/demo/base/layout/demoLayout");
 
 	}
-
+	//update-end--Author:luobaoli  Date:20150707 for：增加表单特殊布局DEMO，新增/修改功能在当前页显示
+	
+	//update-begin--Author:huangzq  Date:2016-01-27 for：TASK #866=>huangzq 【新功能】集成电子签章
 	@RequestMapping(params = "eSign")
 	public ModelAndView eSignDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/test/zsign");
 	}
-
+	//update-end--Author:huangzq  Date:2016-01-27 for：TASK #866=>huangzq 【新功能】集成电子签章
 }

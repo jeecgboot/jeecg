@@ -81,7 +81,7 @@
 			$('#'+gname).datagrid('beginEdit', index);
 		}
 	}
-
+	//update-begin--Author:张忠亮  Date:20150709 for：修正 取消编辑后再次点击录入不进入编辑状态
 	//取消编辑
 	function reject(title,addurl,gname){
 		$('#'+gname).datagrid('clearChecked');

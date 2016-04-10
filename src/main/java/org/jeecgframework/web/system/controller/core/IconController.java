@@ -90,12 +90,12 @@ public class IconController extends BaseController {
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
         IconImageUtil.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
-
+      //update-begin--Author:zhoujf  Date:20150821 for：图标管理名称国际化问题--------------------
         List<TSIcon> list = dataGrid.getResults();
         for(TSIcon tsicon:list){
         	tsicon.setIconName(MutiLangUtil.doMutiLang(tsicon.getIconName(), ""));
 		}
-
+      //update-end--Author:zhoujf  Date:20150821 for：图标管理名称国际化问题--------------------
         TagUtil.datagrid(response, dataGrid);
 	}
 

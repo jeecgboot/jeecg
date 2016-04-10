@@ -69,10 +69,11 @@
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label">附件:</label></td>
-			<td colspan="3" class="value"><input type="hidden" value="${tFinancePage.id}" id="financeId" name="financeId" />
+			<td colspan="3" class="value">
 			<table>
 				<c:forEach items="${tFinancePage.financeFiles}" var="financeFile">
 					<tr style="height: 34px;">
+<!--xugj---begin---2016年3月19号    for:TASK #820 【常用示例】多附件上传报错 -->
 						<td>${financeFile.attachmenttitle}</td>
 						<td><a href="commonController.do?viewFile&fileid=${financeFile.id}&subclassname=org.jeecgframework.web.demo.entity.test.TFinanceFilesEntity" title="下载">下载</a></td>
 						<td><a href="javascript:void(0);"
@@ -111,11 +112,14 @@
 					</script>
 			<div class="form" id="filediv"></div>
 			<div class="form jeecgDetail">
-			<t:upload name="fiels" id="file_upload" extend="*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;" buttonText="添加文件" formId="formobj" uploader="tFinanceController.do?saveFiles">
+			<t:upload name="fiels" id="file_upload" extend="*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;" buttonText="添加文件" formId="uploadForm" uploader="tFinanceController.do?saveFiles">
 			</t:upload>
 				</div>
 			</td>
 		</tr>
 	</table>
 </t:formvalid>
+<form action="" id ="uploadForm"> <input type="hidden" value="${tFinancePage.id}" id="financeId" name="financeId" /> </form>
+<!--xugj---end---2016年3月19号    for:TASK #820 【常用示例】多附件上传报错 -->
+
 </body>

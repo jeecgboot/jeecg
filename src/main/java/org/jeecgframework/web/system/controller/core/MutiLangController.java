@@ -122,12 +122,12 @@ public class MutiLangController extends BaseController {
 				message = MutiLangUtil.paramUpdFail("common.language");
 			}
 		} else {
-
+			//---update--begin----author:scott----date:20160224---for:国际化配置不允许重复添加（通过语言和key）----------
 			if(MutiLangUtil.existLangKey( mutiLang.getLangKey(),mutiLang.getLangCode()))
 			{
 				message = mutiLangService.getLang("common.langkey.exist");
 			}
-
+			//---update--end----author:scott----date:20160224---for:国际化配置不允许重复添加（通过语言和key）----------
 			if(StringUtil.isEmpty(message))
 			{
 				mutiLangService.save(mutiLang);

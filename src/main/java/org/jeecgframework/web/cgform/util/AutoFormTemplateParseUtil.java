@@ -226,12 +226,13 @@ public class AutoFormTemplateParseUtil {
 		List<String> listlength = Arrays.asList(lenths.split("`"));
 		
 		int tdCount = listTitle.size();
-
+		
+		//update-start--Author:luobaoli  Date:20150806 for：拼接tableId及初始化判断是否有合计行
 		String tableId = name + "_table";
 		String dsName = getListDsName(listAutofield);
 		//是否有合计行
 		boolean isExistSum = false;
-
+		//update-start--Author:luobaoli  Date:20150806 for：如果数据源为空，那么以当前上下文中的DB配置为准，查询出表数据
 		String listfk = "<input type=\"hidden\" name=\"listctrl_fk_"+dsName+"\" value=\""+pkid+"\">";
 		String listfkdsid = "<input type=\"hidden\" name=\"listctrl_fkdsid_"+dsName+"\" value=\""+fkdsid+"\">";
 		String rowTemplet = getListctrlRowTemplet(name,atrrMap);
@@ -479,13 +480,13 @@ public class AutoFormTemplateParseUtil {
 				
 				if ((i+1) == tdCount)// 最后一列不显示
 				{
-
+					//update-begin--Author:jg_renjie  Date:20150806 for：第一列不显示删除功能
 //					if(row == 0){
 //						tr += "<td></td>";
 //					} else {
 						tr += "<td><button class=\"btn btn-small btn-success delrow\" type=\"button\">删除</button></td>";
 //					}
-
+					//update-end--Author:jg_renjie  Date:20150806 for：第一列不显示删除功能
 				}
 
 				if (row == 0)// 统计的行只有一行
@@ -493,9 +494,9 @@ public class AutoFormTemplateParseUtil {
 					// region
 					if(!"1".equals(flag)){
 						if (sum != "") {
-
+							//update-begin--Author:jg_renjie  Date:20150806 for：当有合计时，将是否有合计行标识置为true
 							    isExistSum = true;
-
+							//update-end--Author:jg_renjie  Date:20150806 for：当有合计时，将是否有合计行标识置为true
 							    tdSum += MessageFormat
 									.format(
 											"<td>合计：<input class=\"input-small\" type=\"text\" value=\"value{0}\" name=\"{1}[total]\" {2}\">{3}</td>",
@@ -524,7 +525,7 @@ public class AutoFormTemplateParseUtil {
 
 		temp_html = MessageFormat.format(temp, theader, sbTr.toString(), tdSum);
 		String divId = name+"_row_templet";
-
+		//update-begin--Author:jg_renjie  Date:20150806 for：添加“添加一行”及“删除”按钮的click方法
 		temp_html += "<script type=\"text/javascript\">";
 		temp_html += "$(function(){";
 		temp_html += "$(\"#"+name+"_listAdd\").click(function(){";
@@ -543,7 +544,9 @@ public class AutoFormTemplateParseUtil {
 	    //添加删除按钮的方法
 		temp_html +="$(\".delrow\").click(function(){$(this).parent().parent().remove();"+name+"_resetTrNum();});";
 		temp_html += "});";
-
+		//update-end--Author:jg_renjie  Date:20150806 for：当有合计时，将是否有合计行标识置为true
+		
+		//update-begin--Author:jg_renjie  Date:20151017 for：重置各行的序列号
 		temp_html +="function "+name+"_resetTrNum() {";
 		temp_html +="$(\"#"+name + "_table tbody tr\").each(function(i) {";
 	    temp_html +="	$(':input, select,a', this).each(function() {";
@@ -562,7 +565,7 @@ public class AutoFormTemplateParseUtil {
 		temp_html +="});";
 		temp_html +="}";
 		temp_html +="</script>";
-
+		//update-end--Author:jg_renjie  Date:20151017 for：重置各行的序列号
 		return temp_html;
 	}
 	
@@ -766,9 +769,9 @@ public class AutoFormTemplateParseUtil {
 //		String leipiplugins = (String)atrrMap.get("leipiplugins");
 		String orgtype = (String)atrrMap.get("orgtype");
 		String autofield = (String)atrrMap.get("autofield");
-
+		//update-begin--Author:jg_renjie  Date:20151025 for：增加datatype属性
 		String datatype = (String)atrrMap.get("datatype");
-
+		//update-end--Author:jg_renjie  Date:20151025 for：增加datatype属性
 		StringBuilder sb = new StringBuilder();
 		//add by jg_renjie at 20151029 for:自定义单行文本控件实现日历选项及datatype无值时提示错误
 		sb.append("<input ");
@@ -789,11 +792,11 @@ public class AutoFormTemplateParseUtil {
 		sb.append(" title=").append("\"").append(title).append("\"");
 		sb.append(" name=").append("\"").append(name).append("\"");
 		sb.append(" value=").append("\"").append(getSingleValue(autofield,paras)).append("\"");
-
+		//update-begin--Author:jg_renjie  Date:20151025 for：增加datatype属性
 		if(StringUtils.isNotBlank(datatype)){
 			sb.append(" datatype=").append("\"").append(datatype).append("\"");
 		}
-
+		//update-end--Author:jg_renjie  Date:20151025 for：增加datatype属性
 		sb.append(" />");
 		html = sb.toString();
 		return html;

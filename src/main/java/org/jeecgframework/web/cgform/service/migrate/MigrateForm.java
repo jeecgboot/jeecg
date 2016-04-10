@@ -245,9 +245,9 @@ public class MigrateForm<T> {
 		DBTable<T> dbTable = new DBTable<T>();
 		dbTable.setTableName(PublicUtil.getTableName(sql));
 		dbTable.setClass1(clazz);
-
+		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试 升级spring 引起的变化
 		List<T> dataList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(clazz));
-
+		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试 升级spring 引起的变化
 		dbTable.setTableData(dataList);
 		return dbTable;
 	}

@@ -26,10 +26,10 @@
 	background:url('icons/cancel.png') no-repeat center center;
 }
 .icon-reload{
-	background:url('icons/reload.png') no-repeat center center;
+	background:url('icons/le_reload.png') no-repeat center center;
 }
 .icon-search{
-	background:url('icons/search.png') no-repeat center center;
+	background:url('icons/le_search.png') no-repeat center center;
 }
 .icon-print{
 	background:url('icons/print.png') no-repeat center center;
@@ -64,10 +64,10 @@
 }
 
 .icon-put{
-	background:url('icons/basket_put.png') no-repeat center center;
+	background:url('icons/le_basket_put.png') no-repeat center center;
 }
 .icon-putout{
-	background:url('icons/basket_remove.png') no-repeat center center;
+	background:url('icons/le_basket_remove.png') no-repeat center center;
 }
 .icon-comturn{
 	background:url('icons/comturn.png') no-repeat center center;

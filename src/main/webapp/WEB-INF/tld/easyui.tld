@@ -1477,5 +1477,71 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
+		<!-- update-begin- Author:jg_renjie  Date:20160320 for：增加传入值 -->
+		<attribute>
+			<name>departId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>部门ID</description>
+		</attribute>
+		<attribute>
+			<name>departName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>部门名称</description>
+		</attribute>
+		<!-- update-end- Author:jg_renjie  Date:20160320 for：增加传入值  -->
+	</tag>
+	<tag>
+		<name>userSelect</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.UserSelectTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>用户选择控件-弹出框方式</display-name>
+		<small-icon>111</small-icon>
+		<description>用户选择控件-弹出框方式</description>
+		<attribute>
+			<name>selectedNamesInputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于记录已选择用户的input的id</description>
+		</attribute>
+		<attribute>
+			<name>userNameInputWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>已选择用户输入框宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口高度</description>
+		</attribute>
+		<!-- update-begin- Author:wangkun  Date:20160327 for：增加传入值 -->
+		<attribute>
+			<name>userName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用户名称</description>
+		</attribute>
+		<attribute>
+			<name>lblName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>组件名称</description>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>弹出框标头</description>
+		</attribute>
+		<!-- update-end- Author:wangkun  Date:20160327 for：增加传入值  -->
 	</tag>
 </taglib>

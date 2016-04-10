@@ -30,7 +30,7 @@
 	 	$("#autoFormParam").load("autoFormDbController.do?autoFormParamList&id=${autoFormDbPage.id}"); 
 	 if($("#autoFormDbFieldForTable").length>0)
 	 	$("#autoFormDbFieldForTable").load("autoFormDbController.do?autoFormDbFieldForTableList&id=${autoFormDbPage.id}");
-
+	//--update-begin--Author: jg_huangxg  Date:20151111 for：增加table类型下,数据库表名选择时,字段自动变化
 	if($('#dbTableName').length > 0){
 		$('#dbTableName').change(function(){
 			$.ajax({
@@ -55,7 +55,7 @@
 			});
 		});
 	}
-
+	//--update-end--Author: jg_huangxg  Date:20151111 for：增加table类型下,数据库表名选择时,字段自动变化
 	  hideDataSourceAndDataTable();
   });
   <!--update-begin--Author:zzl  Date:20151113 for：数据源类型是数据库表时,隐藏填报数据源和填报数据库表 -->
@@ -145,7 +145,7 @@
 		</tr>
 		<!--update-begin--Author: jg_huangxg  Date:20150723 for：增加填报数据源和填报数据库表显示 -->
 		<tr id="dataSourceTr">
-			<td align="center">
+			<td align="right">
 				<label class="Validform_label"><t:mutiLang langKey="form.tb.db.key"/>:</label>
 			</td>
 			<td class="value">

@@ -57,7 +57,7 @@ public class AuthFilterTag extends TagSupport{
 	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-
+		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
@@ -82,7 +82,7 @@ public class AuthFilterTag extends TagSupport{
 			}
 			
 		}
-
+		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		out.append("});");
 		out.append("</script>");
 	}

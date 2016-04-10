@@ -32,8 +32,8 @@
  <script type="text/javascript">
  $(document).ready(function(){
  		//给时间控件加上样式
- 			$("#tYdServiceScoreListtb").find("input[name='createDate']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
- 			$("#tYdServiceScoreListtb").find("input[name='updateDate']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+ 			$("#tYdServiceScoreListtb").find("input[name='createDate']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+ 			$("#tYdServiceScoreListtb").find("input[name='updateDate']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
  });
  
 //导入

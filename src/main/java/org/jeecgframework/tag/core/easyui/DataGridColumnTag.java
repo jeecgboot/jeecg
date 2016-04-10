@@ -26,9 +26,9 @@ public class DataGridColumnTag extends TagSupport {
 	protected boolean checkbox;
 	protected String formatter;
 	protected String formatterjs;//自定义函数名称(调用页面自定义js方法 参数为(value,row,index)
-
+//    update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 	protected boolean hidden=false;
-
+//    update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 	protected String replace;
 	protected String treefield;
 	protected boolean image;

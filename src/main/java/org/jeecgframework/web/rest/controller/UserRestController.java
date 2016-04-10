@@ -40,14 +40,22 @@ public class UserRestController {
 	@Autowired
 	private Validator validator;
 
+	/**
+	 * 访问地址：http://localhost:8080/jeecg/rest/user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	//访问地址：http://localhost:8080/jeecg/rest/user
 	public List<TSUser> list() {
 		List<TSUser> listUsers=userService.getList(TSUser.class);
 		return listUsers;
 	}
 
+	/**
+	 * 访问地址：http://localhost:8080/jeecg/rest/user/{id}
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?> get(@PathVariable("id") String id) {

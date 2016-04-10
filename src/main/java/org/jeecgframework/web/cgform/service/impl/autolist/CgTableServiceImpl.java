@@ -86,9 +86,9 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(head.getId(), "delete", data);
-
+				//update-start--Author:luobaoli  Date:20150630 for：  增加delete按纽java增强逻辑处理
 				dataBaseService.executeJavaExtend(head.getId(), "delete", data);
-
+				//update-start--Author:luobaoli  Date:20150630 for：  增加delete按纽java增强逻辑处理
 			}
 			//step.1 删除表
 			StringBuilder deleteSql = new StringBuilder();
@@ -153,7 +153,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 				}
 			}
 		}
-
+		//update-begin--Author:JueYue  Date:20140831 for：onlinecoding 数据权限
 		Object dataRuleSql = JeecgDataAutorUtils.loadDataSearchConditonSQLString();//ContextHolderUtils.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL);
 		if(dataRuleSql != null && !dataRuleSql.equals("")){
 			if(params.size() == 0) {
@@ -161,7 +161,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			}
 			sqlB.append(dataRuleSql);
 		}
-
+		//update-end--Author:JueYue  Date:20140831 for：onlinecoding 数据权限
 	}
 
 

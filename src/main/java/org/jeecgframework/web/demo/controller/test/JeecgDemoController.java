@@ -9,13 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
-import org.jeecgframework.web.demo.entity.test.JeecgDemo;
-import org.jeecgframework.web.demo.entity.test.JeecgDemoPage;
-import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.service.SystemService;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.annotation.config.AutoMenu;
 import org.jeecgframework.core.annotation.config.AutoMenuOperation;
@@ -27,10 +20,16 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
+import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
+import org.jeecgframework.web.demo.entity.test.JeecgDemo;
+import org.jeecgframework.web.demo.entity.test.JeecgDemoPage;
+import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -203,6 +202,9 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(JeecgDemo.class, dataGrid);
+		//多字段排序
+		cq.addOrder("mobilePhone",SortDirection.asc);
+		cq.addOrder("age",SortDirection.asc);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgDemo,request.getParameterMap());
 		this.jeecgDemoService.getDataGridReturn(cq, true);
@@ -415,7 +417,7 @@ public class JeecgDemoController extends BaseController {
 	public ModelAndView goDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
 	}
-
+	//update-begin--Author:张忠亮  Date:20150701 for：保存新增/更新的行数据
 
 	/**
 	 * 保存新增/更新的行数据
@@ -449,5 +451,5 @@ public class JeecgDemoController extends BaseController {
 		}
 		return j;
 	}
-
+	//update-end--Author:张忠亮  Date:20150701 for：保存新增/更新的行数据
 }

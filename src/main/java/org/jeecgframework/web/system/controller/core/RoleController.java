@@ -117,9 +117,9 @@ public class RoleController extends BaseController {
 		if (count == 0) {
 			// 删除角色之前先删除角色权限关系
 			delRoleFunction(role);
-
+//            update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑
             systemService.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
-
+//            update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑
             role = systemService.getEntity(TSRole.class, role.getId());
 			userService.delete(role);
 			message = "角色: " + role.getRoleName() + "被删除成功";
@@ -211,7 +211,7 @@ public class RoleController extends BaseController {
 		request.setAttribute("roleId", roleId);
 		return new ModelAndView("system/role/roleSet");
 	}
-
+	// update-start--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
 	/**
 
 	 * 角色所有用户信息列表页面跳转
@@ -220,9 +220,9 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(params = "userList")
 	public ModelAndView userList(HttpServletRequest request) {
-
+        //        update-start--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
 		request.setAttribute("roleId", request.getParameter("roleId"));
-
+        //        update-end--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
 		return new ModelAndView("system/role/roleUserList");
 	}
 	
@@ -235,7 +235,7 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "roleUserDatagrid")
 	public void roleUserDatagrid(TSUser user,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
-
+//        update-start--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
 		//查询条件组装器
         String roleId = request.getParameter("roleId");
         List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSRole.id", roleId);
@@ -248,7 +248,7 @@ public class RoleController extends BaseController {
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
         */
-
+//        update-end--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
 		Criterion cc = null;
 		if (roleUser.size() > 0) {
 			for(int i = 0; i < roleUser.size(); i++){
@@ -296,7 +296,8 @@ public class RoleController extends BaseController {
 		comboTrees = systemService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
-
+	// update-end--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
+	// update-start--Author:zhangguoming Date:20140821 for：为组织机构设置角色
 	/**
 	 * 角色树列表页面跳转
 	 * 
@@ -376,6 +377,7 @@ public class RoleController extends BaseController {
 		return j;
 	}
 
+	// update-end--Author:zhangguoming Date:20140821 for：为组织机构设置角色
 
 	/**
 	 * 设置权限
@@ -646,9 +648,9 @@ public class RoleController extends BaseController {
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class);
 		cq.eq("TSFunction.id", functionId);
-
+		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		cq.eq("status", Short.valueOf("0"));
-
+		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		cq.add();
 		List<TSOperation> operationList = this.systemService
 				.getListByCriteriaQuery(cq, false);
@@ -672,7 +674,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-
+		// update-begin--Author:chenxu Date:201403024 for：410
 		String operationcodes = null;
 		try {
 			operationcodes = URLDecoder.decode(
@@ -680,7 +682,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		// update-end--Author:chenxu Date:20140324 for：410
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -735,7 +737,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-
+		// update-begin--Author:chenxu Date:201403024 for：410
 		String dataRulecodes = null;
 		try {
 			dataRulecodes = URLDecoder.decode(
@@ -743,7 +745,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		// update-end--Author:chenxu Date:20140324 for：410
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);

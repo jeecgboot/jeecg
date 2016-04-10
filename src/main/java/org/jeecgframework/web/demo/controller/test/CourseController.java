@@ -282,9 +282,9 @@ public class CourseController extends BaseController {
 			params.setHeadRows(2);
 			params.setNeedSave(true);
 			try {
-
+				//update-begin--Author:JueYue  Date:20150523 for：EasyPoi升级
 				List<CourseEntity> listCourses =  ExcelImportUtil.importExcel(file.getInputStream(),CourseEntity.class,params);
-
+				//update-end--Author:JueYue  Date:20150523 for：EasyPoi升级
 				for (CourseEntity course : listCourses) {
 					if(course.getName()!=null){
 						courseService.saveCourse(course);

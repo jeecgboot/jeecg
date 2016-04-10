@@ -22,7 +22,7 @@ import org.jeecgframework.core.util.oConvertUtils;
 public class BaseTag extends TagSupport {
 	private static final long serialVersionUID = 1L;
 	protected String type = "default";// 加载类型
-
+//	update-start--Author:longjb  Date:20150317 for：修改增加easyui css主题目录切换的属性，默认default兼容前版本
 	protected String cssTheme ;
 	
 	public String getCssTheme() {
@@ -33,7 +33,7 @@ public class BaseTag extends TagSupport {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
+//	update-end--Author:longjb  Date:20150317 for：修改增加easyui css主题目录切换的属性
 
 	public void setType(String type) {
 		this.type = type;
@@ -62,7 +62,7 @@ public class BaseTag extends TagSupport {
 					}
 				}
 			//}
-
+//			update-start--Author:longjb  Date:20150408 for：手动设置指定主题属性优先
 			if(cssTheme==null||"".equals(cssTheme)){
 				cssTheme="default";
 			}*/
@@ -78,17 +78,18 @@ public class BaseTag extends TagSupport {
 			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 			String langjs = StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/mutiLang/{0}.js\"></script>", "{0}", lang);
 			sb.append(langjs);
-
+			
+//            update-begin--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面
 			if (oConvertUtils.isIn("jquery-webos", types)) {
                 sb.append("<script type=\"text/javascript\" src=\"plug-in/sliding/js/jquery-1.7.1.min.js\"></script>");
 			} else if (oConvertUtils.isIn("jquery", types)) {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
-
+//	            update-begin--Author:longjb1   Date:20150515 for：增加jquery cookie缓存和localstorage插件
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery.cookie.js\" ></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>");
-
+//	            update-end--Author:longjb1   Date:20150515 for：增加jquery cookie缓存和localstorage插件
 			}
-
+//            update-end--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面
 			if (oConvertUtils.isIn("ckeditor", types)) {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/ckeditor/ckeditor.js\"></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/ckeditorTool.js\"></script>");
@@ -99,11 +100,11 @@ public class BaseTag extends TagSupport {
 			}
 			if (oConvertUtils.isIn("easyui", types)) {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
-
+//				update-start--Author:longjb  Date:20150317 for：修改增加easyui css主题目录切换的属性 
 //				sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
 				sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
 				sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
-
+//				update-end--Author:longjb  Date:20150317 for：修改增加easyui css主题目录切换的属性
 				sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
 //				sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
@@ -171,10 +172,10 @@ public class BaseTag extends TagSupport {
 
 			}
 			if (oConvertUtils.isIn("tools", types)) {
-
+//				update-start--Author:longjb  Date:20150317 for：修改增加common css 重新定义了ace样式下的inputtxt 
 //				sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/"+("metro".equals(cssTheme)?"metro/":"")+"common.css\" type=\"text/css\"></link>");
 				sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
-
+//				update-end--Author:longjb  Date:20150317 for：修改增加common css 重新定义了ace样式下的inputtxt 
 //				sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js"+("metro".equals(cssTheme)?"?skin=metro":"")+"\"></script>");
 				sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
 				sb.append(SysThemesUtil.getBootstrapTabTheme(sysThemesEnum));

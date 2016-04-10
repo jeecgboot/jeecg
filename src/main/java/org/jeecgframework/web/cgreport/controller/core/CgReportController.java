@@ -71,10 +71,10 @@ public class CgReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap,request);
-
+//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlist.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -129,10 +129,10 @@ public class CgReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap,request);
-
+//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		try {
 			response.setContentType("text/html");
@@ -290,7 +290,7 @@ public class CgReportController extends BaseController {
 		//step.4 进行查询返回结果
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
-
+        //update-begin--Author:张忠亮  Date:20150608 for：多数据源支持
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -307,7 +307,7 @@ public class CgReportController extends BaseController {
             result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
             size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
         }
-
+        //update-end--Author:张忠亮  Date:20150608 for：多数据源支持
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -339,7 +339,7 @@ public class CgReportController extends BaseController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			String errorInfo = "解析失败!<br><br>失败原因：";
-
+			//update-start--Author: jg_huangxg  Date:20151210 for：修改提示内容
 			//无法直接捕捉到:java.net.ConnectException异常
 			int i = e.getMessage().indexOf("Connection refused: connect");
 			
@@ -348,7 +348,7 @@ public class CgReportController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
-
+			//update-end--Author: jg_huangxg  Date:20151210 for：修改提示内容
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

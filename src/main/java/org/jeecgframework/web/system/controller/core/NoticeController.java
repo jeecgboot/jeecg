@@ -77,10 +77,10 @@ public class NoticeController extends BaseController{
 			sql += " OR (t.notice_level = '2' AND EXISTS (SELECT 1 FROM t_s_notice_authority_role r,t_s_role_user ru WHERE r.role_id = ru.roleid AND t.id = r.notice_id AND ru.userid = '"+user.getId()+"'))";
 			sql += " OR (t.notice_level = '3' AND EXISTS (SELECT 1 FROM t_s_notice_authority_user u WHERE t.id = u.notice_id AND u.user_id = '"+user.getId()+"'))";
 			sql += " ) AND NOT EXISTS (SELECT 1 FROM t_s_notice_read_user rd WHERE t.id = rd.notice_id AND rd.user_id = '"+user.getId()+"')";
-
+			//update-begin-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 			sql += " ORDER BY t.create_time DESC ";		
 			List<Map<String, Object>> noticeList =  systemService.findForJdbc(sql,1,10);
-
+			//update-end-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
 			
 			//将List转换成JSON存储
 			JSONArray result = new JSONArray();
@@ -153,7 +153,6 @@ public class NoticeController extends BaseController{
 	 */
 	@RequestMapping(params = "datagrid")
 	public void datagrid(TSNotice notice,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		try {
 //			CriteriaQuery cq = new CriteriaQuery(TSNotice.class, dataGrid);
 //			//查询条件组装器
 //			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, notice, request.getParameterMap());
@@ -168,30 +167,29 @@ public class NoticeController extends BaseController{
 			sql = sql + " ORDER BY t.create_time DESC";
 			
 			List<Map<String, Object>> resultList =  systemService.findForJdbc(sql,dataGrid.getPage(),dataGrid.getRows());
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 			//将List转换成JSON存储
-			List<TSNotice> noticeList = new ArrayList<TSNotice>();
+			//update-begin--Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对
+			List<Map<String, Object>> noticeList = new ArrayList<Map<String, Object>>();
 			if(resultList!=null && resultList.size()>0){
 				for(int i=0;i<resultList.size();i++){
 					Map<String, Object> obj =  resultList.get(i);
-					TSNotice n = new TSNotice();
-					n.setId(String.valueOf(obj.get("id")));
-					n.setNoticeTitle(String.valueOf(obj.get("notice_title")));
-					n.setNoticeContent(String.valueOf(obj.get("notice_content")));
-					if(obj.get("create_time")!=null){
-						n.setCreateTime(format.parse(obj.get("create_time").toString()));
-					}
-					
-					List<Map<String, Object>> readinfo =  systemService.findForJdbc("select * from t_s_notice_read_user where notice_id = ? and user_id = ? ",n.getId(),user.getId());
+					Map<String, Object> n = new HashMap<String, Object>();
+					n.put("id",String.valueOf(obj.get("id")));
+					n.put("noticeTitle", String.valueOf(obj.get("notice_title")));
+					n.put("noticeContent", String.valueOf(obj.get("notice_content")));
+					n.put("createTime", String.valueOf(obj.get("create_time")));
+
+					List<Map<String, Object>> readinfo =  systemService.findForJdbc("select * from t_s_notice_read_user where notice_id = ? and user_id = ? ",n.get("id"),user.getId());
 					if(readinfo!=null && readinfo.size()>0){
-						n.setIsRead("1"); //已读
+						n.put("isRead","1"); //已读
 					}else{
-						n.setIsRead("0");//未读
+						n.put("isRead","0");//未读
 					}
 					noticeList.add(n);	
 				}
 			}
-			
+			//update-end--Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对
+
 			dataGrid.setResults(noticeList);
 			String sql2 = "";
 			sql2 = sql2 + " SELECT count(*) AS count FROM  t_s_notice t WHERE";
@@ -202,9 +200,6 @@ public class NoticeController extends BaseController{
 			Object count = resultList2.get(0).get("count");
 			dataGrid.setTotal(Integer.valueOf(count.toString()));
 			TagUtil.datagrid(response, dataGrid);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 	/**
 	 * 阅读通知公告

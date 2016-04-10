@@ -30,11 +30,11 @@
  		//给时间控件加上样式
  		<#list columns as po>
  		<#if (po.showType?index_of("datetime")!=-1 || po.showType?index_of("date")!=-1) && po.queryMode=="single">
- 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+ 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
  		<#else>
  		<#if (po.showType?index_of("datetime")!=-1 || po.showType?index_of("date")!=-1) && po.queryMode=="group">
- 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}_begin']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
- 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}_end']").attr("class","Wdate").attr("style","height:20px;width:90px;").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+ 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}_begin']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+ 			$("#${entityName?uncap_first}Listtb").find("input[name='${po.fieldName}_end']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
  		</#if>
  		</#if>
 		</#list>

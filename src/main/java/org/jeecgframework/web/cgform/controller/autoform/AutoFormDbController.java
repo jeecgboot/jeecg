@@ -68,12 +68,12 @@ public class AutoFormDbController extends BaseController {
 	 */
 	@RequestMapping(params = "autoFormDb")
 	public ModelAndView autoFormDb(HttpServletRequest request) {
-
+		//update--begin---author:scott---date:20151029-----for:通过自定义表单筛选数据源-------
 		String autoFormId = request.getParameter("autoFormId");
 		if(oConvertUtils.isNotEmpty(autoFormId)){
 			request.setAttribute("autoFormId", autoFormId);
 		}
-
+		//update--begin---author:scott---date:20151029-----for:通过自定义表单筛选数据源-------
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDbList");
 	}
 
@@ -210,19 +210,23 @@ public class AutoFormDbController extends BaseController {
 		if (StringUtil.isNotEmpty(autoFormDb.getId())) {
 			autoFormDb = autoFormDbService.getEntity(AutoFormDbEntity.class, autoFormDb.getId());
 		}
-
+		//update-begin--Author:jg_renjie  Date:20150620 for：能够将参数传递到前台页面
 		req.setAttribute("autoFormDbPage", autoFormDb);
-
+		//update-end--Author:jg_renjie  Date:20150620 for：能够将参数传递到前台页面
+		
+		//update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据源显示
 		Collection<DynamicDataSourceEntity> dynamicDataSourceEntitys = DynamicDataSourceEntity.DynamicDataSourceMap.values();
 		req.setAttribute("dynamicDataSourceEntitys", dynamicDataSourceEntitys);
-
+		//update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据源显示
+		
+		//update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据表显示
 		try {
 			List<String> tableNames = new JeecgReadTable().readAllTableNames();
 			req.setAttribute("tableNames", tableNames);
 		} catch (SQLException e) {
 			logger.info(e.getMessage());
 		}
-
+		//update-end--Author:luobaoli  Date:20150701 for：增加初始化数据表显示
 		return new ModelAndView("jeecg/cgform/autoform/autoFormDb-add");
 	}
 	
@@ -235,21 +239,25 @@ public class AutoFormDbController extends BaseController {
 	public ModelAndView goUpdate(AutoFormDbEntity autoFormDb, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(autoFormDb.getId())) {
 			autoFormDb = autoFormDbService.getEntity(AutoFormDbEntity.class, autoFormDb.getId());
-
+			//update-begin--Author:luobaoli  Date:20150620 for：当数据库类型选择为Table时，需要返回所有表用于展现
 			List<String> tableNames = null;
 			if(StringUtils.isNotBlank(autoFormDb.getDbKey()) && "table".equals(autoFormDb.getDbType())){
-
+				//update-start--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 				DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(autoFormDb.getDbKey());
 				if(dynamicDataSourceEntity!=null){
 					tableNames = DynamicDBUtil.findList(autoFormDb.getDbKey(),SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'"+dynamicDataSourceEntity.getDbName()+"'"),String.class);
 				}
-
+				//update-end--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 					
 			}
-
+			
+			//update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据源显示
 			Collection<DynamicDataSourceEntity> dynamicDataSourceEntitys = DynamicDataSourceEntity.DynamicDataSourceMap.values();
 			req.setAttribute("dynamicDataSourceEntitys", dynamicDataSourceEntitys);
-
+			//update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据源显示
+			
+			//update-start--Author:luobaoli  Date:20150701 for：数据库为默认的时候数据库表为当前DB环境中的表
+			//update-begin--Author:scott  Date:20151116 for：数据源-表-字段加载（注意数据库表类型和SQL类型冲突）---------
 			//数据源类型
 			String dbKey = null;
 			if(CgAutoListConstant.DB_TYPE_TABLE.equals(autoFormDb.getDbType())){
@@ -257,7 +265,7 @@ public class AutoFormDbController extends BaseController {
 			}else if(CgAutoListConstant.DB_TYPE_SQL.equals(autoFormDb.getDbType())){
 				dbKey = autoFormDb.getTbDbKey();
 			}
-
+			//update-end--Author:scott  Date:20151116 for：数据源-表-字段加载（注意数据库表类型和SQL类型冲突）---------
 			if(StringUtils.isBlank(dbKey)){
 				//默认当前平台数据源
 				try {
@@ -271,9 +279,9 @@ public class AutoFormDbController extends BaseController {
 					tableNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 				}
 			}
-
+			//update-start--Author:luobaoli  Date:20150701 for：数据库为默认的时候数据库表为当前DB环境中的表
 			req.setAttribute("tableNames", tableNames);
-
+			//update-end--Author:luobaoli  Date:20150620 for：当数据库类型选择为Table时，需要返回所有表用于展现
 			req.setAttribute("autoFormDbPage", autoFormDb);
 			
 		}
@@ -389,12 +397,12 @@ public class AutoFormDbController extends BaseController {
 		List<String> tableNames = null;
 		try{
 			if(StringUtils.isNotBlank(dbKey)){
-
+				//update-start--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 				DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 				if(dynamicDataSourceEntity!=null){
 					tableNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllTableSql(dynamicDataSourceEntity.getDbType(), "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 				}
-
+				//update-end--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 			}else{
 				tableNames = new JeecgReadTable().readAllTableNames();
 			}
@@ -423,12 +431,12 @@ public class AutoFormDbController extends BaseController {
 		Map reJson = new HashMap<String, Object>();
 		List<String> columnsNames = null;
 		if(StringUtils.isNotBlank(dbKey)){
-
+			//update-end--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 			DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 			if(dynamicDataSourceEntity!=null){
 				columnsNames = DynamicDBUtil.findList(dbKey,SqlUtil.getAllCloumnSql(dynamicDataSourceEntity.getDbType(), "'" + tableName + "'", "'" + dynamicDataSourceEntity.getDbName() + "'"),String.class);
 			}
-
+			//update-end--Author:luobaoli  Date:20150623 for：调整了获取数据库类型和数据库名称的逻辑
 		}else{
 			try {
 				List<Columnt> columns = new JeecgReadTable().readOriginalTableColumn(tableName);
@@ -507,12 +515,13 @@ public class AutoFormDbController extends BaseController {
 		    			hqlTable.append(autoFormDbFieldEntity.getFieldName()+",");
 			    	}
 		    		hqlTable.deleteCharAt(hqlTable.length()-1).append(" from "+dbTableName);
-
+		    		
+		    		//update-start--Author:luobaoli  Date:20150701 for：如果数据源为空，那么以当前上下文中的DB配置为准，查询出表数据
 					if("".equals(dbKey)){
 						//当前上下文中的DB环境，获取数据库表中的所有数据
 						map = systemService.findForJdbc(hqlTable.toString());
 					}
-
+					//update-end--Author:luobaoli  Date:20150701 for：如果数据源为空，那么以当前上下文中的DB配置为准，查询出表数据
 					else{
 						DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(dbKey);
 						if(dynamicDataSourceEntity!=null){
@@ -564,7 +573,7 @@ public class AutoFormDbController extends BaseController {
 
 
 	//add-begin--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验
-
+	//update-begin--Author:zzl  Date:20151102 for：检查数据源编码是否重复
 	/**
 	 * 判断数据源名称是否重复
 	 */
@@ -592,7 +601,7 @@ public class AutoFormDbController extends BaseController {
 		jsonObject.put("status", "y");
     	return jsonObject;
 	}
-
+	//update-end--Author:zzl  Date:20151102 for：检查数据源编码是否重复
 	//add-end--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验
 
 	

@@ -348,6 +348,7 @@ public class UserController extends BaseController {
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
 
+//        update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
         String orgIds = request.getParameter("orgIds");
         List<String> orgIdList = extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
@@ -359,11 +360,11 @@ public class UserController extends BaseController {
 
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
-
+//        update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
 
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
-
+        // update-start--Author:gaofeng Date:20140822 for：添加用户的角色展示
         List<TSUser> cfeList = new ArrayList<TSUser>();
         for (Object o : dataGrid.getResults()) {
             if (o instanceof TSUser) {
@@ -382,7 +383,7 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
-
+//		update-end--Author:gaofeng Date:20140822 for：添加用户的角色展示
         TagUtil.datagrid(response, dataGrid);
     }
 
@@ -408,9 +409,9 @@ public class UserController extends BaseController {
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
-
+//                update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-
+//                update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -476,11 +477,11 @@ public class UserController extends BaseController {
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
-
+//            update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
-
+//            update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -518,6 +519,7 @@ public class UserController extends BaseController {
 		return j;
 	}
 
+//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 保存 用户-组织机构 关系信息
      * @param request request
@@ -542,7 +544,7 @@ public class UserController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-
+//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
 
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
@@ -597,30 +599,34 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSUser user, HttpServletRequest req) {
-		List<TSDepart> departList = new ArrayList<TSDepart>();
+		//update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+		/*		List<TSDepart> departList = new ArrayList<TSDepart>();
 		String departid = oConvertUtils.getString(req.getParameter("departid"));
 		if(!StringUtil.isEmpty(departid)){
 			departList.add((TSDepart)systemService.getEntity(TSDepart.class,departid));
 		}else {
 			departList.addAll((List)systemService.getList(TSDepart.class));
 		}
-		req.setAttribute("departList", departList);
-
+		req.setAttribute("departList", departList);*/
+//		        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
         List<String> orgIdList = new ArrayList<String>();
+        TSDepart tsDepart = new TSDepart();
 		if (StringUtil.isNotEmpty(user.getId())) {
 			user = systemService.getEntity(TSUser.class, user.getId());
 			
 			req.setAttribute("user", user);
 			idandname(req, user);
-
-            orgIdList = systemService.findHql("select d.id from TSDepart d,TSUserOrg uo where d.id=uo.tsDepart.id and uo.tsUser.id=?", new String[]{user.getId()});
+			getOrgInfos(req, user);
 		}
-        req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
-
+		req.setAttribute("tsDepart", tsDepart);
+        //req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
+//		        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
+		//update--end--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
 
         return new ModelAndView("system/user/user");
 	}
 
+//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 用户的登录后的组织机构选择页面
      * @param request request
@@ -642,7 +648,7 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
-
+//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -658,7 +664,22 @@ public class UserController extends BaseController {
 		req.setAttribute("roleName", roleName);
 
 	}
+	
+	public void getOrgInfos(HttpServletRequest req, TSUser user) {
+		List<TSUserOrg> tSUserOrgs = systemService.findByProperty(TSUserOrg.class, "tsUser.id", user.getId());
+		String orgIds = "";
+		String departname = "";
+		if (tSUserOrgs.size() > 0) {
+			for (TSUserOrg tSUserOrg : tSUserOrgs) {
+				orgIds += tSUserOrg.getTsDepart().getId() + ",";
+				departname += tSUserOrg.getTsDepart().getDepartname() + ",";
+			}
+		}
+		req.setAttribute("orgIds", orgIds);
+		req.setAttribute("departname", departname);
 
+	}
+	
 	/**
 	 * 根据部门和角色选择用户跳转页面
 	 */
@@ -910,7 +931,7 @@ public class UserController extends BaseController {
 		if(user!=null){
 			String indexStyle = request.getParameter("indexStyle");
 //			String cssTheme = request.getParameter("cssTheme");
-
+//			update-start--Author:longjb  Date:20150408 for：ACE风格未指定情况下默认主题为metro
 //			if(StringUtils.isNotEmpty(cssTheme)){
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", cssTheme);
 //				cookie4css.setMaxAge(3600*24*30);
@@ -921,14 +942,15 @@ public class UserController extends BaseController {
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:metro");
-
+////				update-start--Author:longjb  Date:20150317 for：切换回其他主题风格时变成default
 //			}else {
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", "");
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:default");
 //			}
-
+//			update-end--Author:longjb  Date:20150317 for：切换回回其他主题风格时变成default 
+//			update-start--Author:longjb  Date:20150408 for：ACE风格未指定情况下主题为metro
 			
 			if(StringUtils.isNotEmpty(indexStyle)){
 				Cookie cookie = new Cookie("JEECGINDEXSTYLE", indexStyle);
@@ -939,9 +961,9 @@ public class UserController extends BaseController {
 				j.setSuccess(Boolean.TRUE);
 				j.setMsg("样式修改成功，请刷新页面");
 			}
-
+            //update-start--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
             ClientManager.getInstance().getClient().getFunctions().clear();
-
+            //update-end--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
 		}else{
 			j.setMsg("请登录后再操作");
 		}
@@ -1034,15 +1056,28 @@ public class UserController extends BaseController {
 			try {
 				List<TSUser> tsUsers = ExcelImportUtil.importExcel(file.getInputStream(),TSUser.class,params);
 				for (TSUser tsUser : tsUsers) {
+					tsUser.setStatus(new Short("1"));
 					String username = tsUser.getUserName();
 					String roleCodes = tsUser.getUserKey();
-					String[] roles = roleCodes.split(",");
 					String deptCodes = tsUser.getDepartid();
-					String[] depts = deptCodes.split(",");
 
-					if((username==null||username.equals(""))||(roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
-						j.setMsg("用户名、角色编码和组织机构编码为必填字段，导入失败");
+					if(username==null||username.equals("")){
+						j.setMsg("用户名为必填字段，导入失败");
+					}else if((roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
+						List<TSUser> users = systemService.findByProperty(TSUser.class,"userName",username);
+						if(users.size()!=0){
+							//用户存在更新
+							TSUser user = users.get(0);
+							MyBeanUtils.copyBeanNotNull2Bean(tsUser,user);
+							user.setDepartid(null);
+							systemService.saveOrUpdate(user);
+						}else{
+							tsUser.setDepartid(null);
+							systemService.save(tsUser);
+						}
 					}else{
+						String[] roles = roleCodes.split(",");
+						String[] depts = deptCodes.split(",");
 						boolean flag = true;
 						//判断组织机构编码和角色编码是否存在，如果不存在，也不能导入
 						for(String roleCode:roles){
@@ -1066,6 +1101,7 @@ public class UserController extends BaseController {
 								//用户存在更新
 								TSUser user = users.get(0);
 								MyBeanUtils.copyBeanNotNull2Bean(tsUser,user);
+								user.setDepartid(null);
 								systemService.saveOrUpdate(user);
 
 								String id = user.getId();
@@ -1078,27 +1114,45 @@ public class UserController extends BaseController {
 									tsRoleUser.setTSRole(roleList.get(0));
 									systemService.save(tsRoleUser);
 								}
+
+								systemService.executeSql("delete from t_s_user_org where user_id='"+id+"'");
+								for(String orgCode:depts){
+									//根据角色编码得到roleid
+									List<TSDepart> departList = systemService.findByProperty(TSDepart.class,"orgCode",orgCode);
+									TSUserOrg tsUserOrg = new TSUserOrg();
+									tsUserOrg.setTsDepart(departList.get(0));
+									tsUserOrg.setTsUser(user);
+									systemService.save(tsUserOrg);
+								}
 							}else{
 								//不存在则保存
-								TSUser user = users.get(0);
-								systemService.save(user);
+								//TSUser user = users.get(0);
+								tsUser.setDepartid(null);
+								systemService.save(tsUser);
 								for(String roleCode:roles){
 									//根据角色编码得到roleid
 									List<TSRole> roleList = systemService.findByProperty(TSRole.class,"roleCode",roleCode);
 									TSRoleUser tsRoleUser = new TSRoleUser();
-									tsRoleUser.setTSUser(user);
+									tsRoleUser.setTSUser(tsUser);
 									tsRoleUser.setTSRole(roleList.get(0));
 									systemService.save(tsRoleUser);
 								}
+
+								for(String orgCode:depts){
+									//根据角色编码得到roleid
+									List<TSDepart> departList = systemService.findByProperty(TSDepart.class,"orgCode",orgCode);
+									TSUserOrg tsUserOrg = new TSUserOrg();
+									tsUserOrg.setTsDepart(departList.get(0));
+									tsUserOrg.setTsUser(tsUser);
+									systemService.save(tsUserOrg);
+								}
 							}
+							j.setMsg("文件导入成功！");
 						}else {
 							j.setMsg("组织机构编码和角色编码不能匹配");
 						}
 					}
-
-					userService.save(tsUser);
 				}
-				j.setMsg("文件导入成功！");
 			} catch (Exception e) {
 				j.setMsg("文件导入失败！");
 				logger.error(ExceptionUtil.getExceptionMessage(e));
@@ -1111,5 +1165,15 @@ public class UserController extends BaseController {
 			}
 		}
 		return j;
+	}
+
+	/**
+	 * 选择用户跳转页面
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "userSelect")
+	public String userSelect() {
+		return "system/user/userSelect";
 	}
 }

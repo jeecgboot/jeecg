@@ -266,17 +266,17 @@ function createDataGrid${config_id}(){
 	}
 	//新增
 	function ${config_id}add(){
-
+		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		//add('${config_name}录入','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
-
+		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		
 		add('${config_name}录入','cgFormBuildController.do?ftlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
-
+		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		//update('${config_name}编辑','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh,true);
-
+		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		
 		update('${config_name}编辑','cgFormBuildController.do?ftlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}

@@ -39,12 +39,12 @@
 //                var $script = $("script[src='plug-in/jquery/jquery-1.8.3.js']");
 //                $($script).remove();
 //                alert($script.attr("src"));
-
+			//update-end--Author:gaofeng  Date:20140615 for：云桌面主题功能修复
 			  $(".dock_tool_theme").live("click",function(){
 				  $("#themeSetting_wrap2").append("<div id='themeSetting_wrap' style='display:none;'></div>");
 				  $("#themeSetting_wrap").html($("#themeSetting_wrap1").html());
 				  $("#themeSetting_wrap").show();
-
+			//update-end--Author:gaofeng  Date:20140615 for：云桌面主题功能修复
 			  })
             });
         </script>

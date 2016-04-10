@@ -48,7 +48,7 @@
 	<fieldset class="step">
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="common.department.name"/>: </label>
-            <input name="departname" class="inputxt" value="${depart.departname }"  datatype="s1-20">
+            <input name="departname" class="inputxt" type="text" value="${depart.departname }"  datatype="s1-20">
             <span class="Validform_checktip"><t:mutiLang langKey="departmentname.rang1to20"/></span>
         </div>
         <div class="form">
