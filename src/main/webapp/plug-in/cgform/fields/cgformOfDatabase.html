@@ -10,6 +10,9 @@
 	var langurl = parentObj.document.getElementById("langurl").value;
 	var mutiLangScript = "<script type='text/javascript' src='" + langurl + "'><\/script>";
 	document.write(mutiLangScript);
+	window.onload = function() {
+		window.parent.iframeLoaded();
+	}
 </script>
 
 </head>

@@ -33,7 +33,7 @@ public class OnlineListener implements ServletContextListener,HttpSessionListene
 		try {
 			ClientManager.getInstance().removeClinet(httpSessionEvent.getSession().getId());
 		} catch (Exception e) {
-			LogUtil.error(e.toString());
+			//LogUtil.error(e.toString());
 		}
 	}
 

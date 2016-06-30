@@ -25,10 +25,6 @@ import org.hibernate.annotations.GenericGenerator;
 @DynamicInsert(true)
 @SuppressWarnings("serial")
 public class DynamicDataSourceEntity implements java.io.Serializable {
-	
-	public static Map<String, DynamicDataSourceEntity> DynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>(); 
-	
-	//用于将code,name放入到缓存中
 		
 	/**id*/
 	private java.lang.String id;

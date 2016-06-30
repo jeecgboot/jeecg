@@ -46,7 +46,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jformInnerMailController")
 public class JformInnerMailController extends BaseController {
@@ -54,27 +54,11 @@ public class JformInnerMailController extends BaseController {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(JformInnerMailController.class);
-	
-	private static final String MAIL_STATUS_UNSEND ="00"; //草稿
-	private static final String MAIL_STATUS_SEND ="01"; //已发送
-	private static final String MAIL_STATUS_DEL ="02"; //删除   已发送的邮件不能真正删除，不然接收人就看不到邮件了。
-
-	private static final String MAILRECEIVER_STATUS_UNREAD ="00"; //未读
-	private static final String MAILRECEIVER_STATUS_READ ="01";//已读
 
 	@Autowired
 	private JformInnerMailServiceI jformInnerMailService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -85,6 +69,7 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doSave")
 	@ResponseBody
 	public AjaxJson doSave(JformInnerMailEntity jformInnerMail,HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "内部邮件添加成功";
 		//更新
@@ -135,7 +120,7 @@ public class JformInnerMailController extends BaseController {
 			JformInnerMailReceiverEntity mailReceiver = new JformInnerMailReceiverEntity();
 			mailReceiver.setJMail(mail);
 			mailReceiver.setCreateDate(new Date());
-			mailReceiver.setStatus(MAILRECEIVER_STATUS_UNREAD);
+			mailReceiver.setStatus(Globals.MAILRECEIVER_STATUS_UNREAD);
 			TSUser tsUser = new TSUser(); 
 			tsUser.setId(userids[i]);
 			mailReceiver.setTSUser(tsUser);
@@ -194,7 +179,7 @@ public class JformInnerMailController extends BaseController {
 	public List<Map<String,Object>> getSendMails(String title){
 			String account = ClientManager.getInstance().getClient().getUser().getUserName();
 			
-			StringBuffer sqlb =new StringBuffer("from JformInnerMailEntity where status ='"+JformInnerMailController.MAIL_STATUS_SEND+"' and  createBy ='"+account +"'");
+			StringBuffer sqlb =new StringBuffer("from JformInnerMailEntity where status ='"+Globals.MAIL_STATUS_SEND+"' and  createBy ='"+account +"'");
 			if(StringUtils.isNotEmpty(title)){
 				sqlb.append(" and title like '%"+title+"%'");
 			}
@@ -232,7 +217,7 @@ public class JformInnerMailController extends BaseController {
 	public List<Map<String,Object>> getUnSendMails(String title){
 			String account = ClientManager.getInstance().getClient().getUser().getUserName();
 			
-			StringBuffer sqlb =new StringBuffer("from JformInnerMailEntity where status ='"+JformInnerMailController.MAIL_STATUS_UNSEND+"' and  createBy ='"+account +"'");
+			StringBuffer sqlb =new StringBuffer("from JformInnerMailEntity where status ='"+Globals.MAIL_STATUS_UNSEND+"' and  createBy ='"+account +"'");
 			if(StringUtils.isNotEmpty(title)){
 				sqlb.append(" and title like '%"+title+"%'");
 			}
@@ -248,6 +233,7 @@ public class JformInnerMailController extends BaseController {
 				m.put("status", mails.get(i).getStatus());
 				ret.add(m);
 			}
+			sqlb.setLength(0);
 			return ret;
 	}
 	
@@ -260,18 +246,19 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doDelMail")
 	@ResponseBody
 	public AjaxJson doDelMail(JformInnerMailEntity innerMailEntity, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		innerMailEntity = systemService.getEntity(JformInnerMailEntity.class, innerMailEntity.getId());
 		message = "删除成功";
 		try{
 			// 未发送 直接删除
-			if(innerMailEntity.getStatus().equals(JformInnerMailController.MAIL_STATUS_UNSEND)){
+			if(innerMailEntity.getStatus().equals(Globals.MAIL_STATUS_UNSEND)){
 				systemService.delete(innerMailEntity);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			}
 			// 已经发送的 更新状态
 			else{
-				innerMailEntity.setStatus(MAIL_STATUS_DEL);
+				innerMailEntity.setStatus(Globals.MAIL_STATUS_DEL);
 				systemService.updateEntitie(innerMailEntity);
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			}
@@ -292,18 +279,19 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doDelMails")
 	@ResponseBody
 	public AjaxJson doDelMails(String ids, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "删除成功";
 		try{
 			for(String id :ids.split(",")){
 				JformInnerMailEntity innerMailEntity = systemService.getEntity(JformInnerMailEntity.class, id);
 					// 未发送 直接删除
-					if(innerMailEntity.getStatus().equals(JformInnerMailController.MAIL_STATUS_UNSEND)){
+					if(innerMailEntity.getStatus().equals(Globals.MAIL_STATUS_UNSEND)){
 						systemService.delete(innerMailEntity);
 					}
 					// 已经发送的 更新状态
 					else{
-						innerMailEntity.setStatus(MAIL_STATUS_DEL);
+						innerMailEntity.setStatus(Globals.MAIL_STATUS_DEL);
 						systemService.updateEntitie(innerMailEntity);
 					}
 				}
@@ -335,7 +323,7 @@ public class JformInnerMailController extends BaseController {
 	@ResponseBody
 	public List<Map<String,Object>> getReceivedMails(HttpServletRequest request, String senderName,String title,DataGrid dataGrid){
 			String userId = ClientManager.getInstance().getClient().getUser().getId();
-			StringBuffer sqlb =new StringBuffer("from JformInnerMailReceiverEntity where TSUser.id ='"+userId +"'and JMail.status !='"+JformInnerMailController.MAIL_STATUS_UNSEND+"'");
+			StringBuffer sqlb =new StringBuffer("from JformInnerMailReceiverEntity where TSUser.id ='"+userId +"'and JMail.status !='"+Globals.MAIL_STATUS_UNSEND+"'");
 
 			if(StringUtils.isNotEmpty(senderName)){
 				sqlb.append(" and JMail.createName like '%"+senderName+"%'");
@@ -369,6 +357,7 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doDelReceivedMail")
 	@ResponseBody
 	public AjaxJson doDelReceivedMail(JformInnerMailReceiverEntity jformInnerMailReceiverEntity, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		jformInnerMailReceiverEntity = systemService.getEntity(JformInnerMailReceiverEntity.class, jformInnerMailReceiverEntity.getId());
 		message = "删除成功";
@@ -391,6 +380,7 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doDelReceivedMails")
 	@ResponseBody
 	public AjaxJson doDelReceivedMails(String ids, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "删除成功";
 
@@ -412,6 +402,7 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "delFile")
 	@ResponseBody
 	public AjaxJson delFile(JformInnerMailAttach jformInnerMailAttach, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String id  = request.getParameter("id");
 		JformInnerMailAttach file = systemService.getEntity(JformInnerMailAttach.class, id);
@@ -463,6 +454,7 @@ public class JformInnerMailController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(JformInnerMailEntity jformInnerMail, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		jformInnerMail = systemService.getEntity(JformInnerMailEntity.class, jformInnerMail.getId());
 		message = "内部邮件删除成功";
@@ -486,6 +478,7 @@ public class JformInnerMailController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "内部邮件删除成功";
 		try{

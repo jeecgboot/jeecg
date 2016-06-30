@@ -39,12 +39,12 @@
 //                var $script = $("script[src='plug-in/jquery/jquery-1.8.3.js']");
 //                $($script).remove();
 //                alert($script.attr("src"));
-			//update-end--Author:gaofeng  Date:20140615 for：云桌面主题功能修复
+
 			  $(".dock_tool_theme").live("click",function(){
 				  $("#themeSetting_wrap2").append("<div id='themeSetting_wrap' style='display:none;'></div>");
 				  $("#themeSetting_wrap").html($("#themeSetting_wrap1").html());
 				  $("#themeSetting_wrap").show();
-			//update-end--Author:gaofeng  Date:20140615 for：云桌面主题功能修复
+
 			  })
             });
         </script>
@@ -186,10 +186,13 @@
 			<div class="startMenuImg taskbar_start_menu_body" id="taskbar_start_menu_body">          
 			<div uin="0" class="taskbar_start_menu_selfinfo" id="startMenuSelfInfo">       
 				<div style="float: left; line-height: 15px;">
-                     <span style="color: #6DB6D9">当前用户: </span>
+                     <span style="color: #6DB6D9">用户: </span>
                      <span style="color: #FFFFFF">${userName }</span><br>
-                     <span style="color: #6DB6D9">当前岗位: </span>
+                     <!-- 
+                     <span style="color: #6DB6D9">岗位: </span>
                      <span style="color: #FFFFFF">${currentOrgName }</span><br>
+                      -->
+                      
                      <span style="color: #6DB6D9">职务: </span>
                      <span style="color: #FFFFFF">${roleName }</span>
 				</div>
@@ -212,6 +215,10 @@
 				<li cmd="favorite">
 					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
                          onclick="add('修改首页风格','userController.do?changestyle',null,560,200)">首页风格 </div>
+				</li>
+				<li cmd="favorite">
+					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
+                         onclick="window.open('http://yun.jeecg.org')">云应用中心 </div>
 				</li>
 				<li cmd="logout">
 					<div class="startMenuImg logout_botton" title="注销当前用户"

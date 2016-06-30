@@ -8,8 +8,12 @@
 var iframe;// iframe操作对象
 var win;//窗口对象
 var gridname="";//操作datagrid对象名称
-var windowapi = frameElement.api, W = windowapi.opener;//内容页中调用窗口实例对象接口
-
+var windowapi;
+var W;
+try {
+	windowapi = frameElement.api, W = windowapi.opener;//内容页中调用窗口实例对象接口
+} catch (e) {
+}
 /**
  * 设置 window的 zIndex
  * @param flag true: 不增量(因为 tip提示经常使用 zIndex, 所以如果是 tip的话 ,则不增量)
@@ -57,7 +61,7 @@ function addTreeNode(title,addurl,gname) {
  * @param addurl//目标页面地址
  * @param id//主键字段
  */
-//update-begin--Author:luobaoli  Date:20150705 for：增加了一个判断是否需要转换为restful风格URL的参数，如果该参数为true，那么转换为restful风格
+
 function update(title,url, id,width,height,isRestful) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
@@ -77,7 +81,7 @@ function update(title,url, id,width,height,isRestful) {
 	}
 	createwindow(title,url,width,height);
 }
-//update-end--Author:luobaoli  Date:20150705 for：增加了一个判断是否需要转换为restful风格URL的参数，如果该参数为true，那么转换为restful风格
+
 
 /**
  * 如果页面是详细查看页面，无效化所有表单元素，只能进行查看
@@ -790,6 +794,10 @@ function addOneTab(subtitle, url, icon) {
 			id = createTabId(subtitle);
 		//}
 		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
+	}else if(indexStyle=='hplus'){
+		var id = "";
+		id = createTabId(subtitle);
+		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
 	}else{
 		if (icon == '') {
 			icon = 'icon folder';
@@ -1061,3 +1069,52 @@ function jeecgAutoParse(data){
     	});
 			return parsed;
 }
+//add--start--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+/**
+ * 更新跳转新页面
+ * @param title 编辑框标题 未实现标题改变
+ * @param addurl//目标页面地址
+ * @param id//主键字段
+ */
+function updateNotCreateWin(title,url, id,isRestful) {
+	var rowsData = $('#'+id).datagrid('getSelections');
+	if (!rowsData || rowsData.length==0) {
+		tip('Please select edit item');
+		return;
+	}
+	if (rowsData.length>1) {
+		tip('Please one item to edit');
+		return;
+	}
+	if(isRestful!='undefined'&&isRestful){
+		url += '/'+rowsData[0].id;
+	}else{
+		url += '&id='+rowsData[0].id;
+	}
+	window.location.href=url
+}
+/**
+ * 查看详情跳转新页面
+ * @param title 编辑框标题 未实现标题改变
+ * @param id//主键字段
+ */
+function viewNotCreateWin(title,url, id,isRestful)
+{
+
+	var rowsData = $('#'+id).datagrid('getSelections');
+	if (!rowsData || rowsData.length==0) {
+		tip('Please select edit item');
+		return;
+	}
+	if (rowsData.length>1) {
+		tip('Please one item to edit');
+		return;
+	}
+	if(isRestful!='undefined'&&isRestful){
+		url += '/'+rowsData[0].id;
+	}else{
+		url += '&id='+rowsData[0].id;
+	}
+	window.location.href=url
+}
+//add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式

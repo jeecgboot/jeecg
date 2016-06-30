@@ -179,8 +179,12 @@ function doChart() {
 	 */
 	DEFAULT_.listeners = {};
 	DEFAULT_.listeners[ANIMATION_ ? 'afterAnimation' : 'draw'] = function(c) {
-		download.disabled = false;
-		IMAGE_DATA = this.target.canvas.toDataURL();
+		try {
+			download.disabled = false;
+			IMAGE_DATA = this.target.canvas.toDataURL();
+		} catch (e) {
+			// TODO: handle exception
+		}
 	}
 
 	new iChart[TYPE_](DEFAULT_).draw();

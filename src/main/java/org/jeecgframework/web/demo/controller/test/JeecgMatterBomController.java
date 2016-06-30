@@ -1,5 +1,11 @@
 package org.jeecgframework.web.demo.controller.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -15,16 +21,10 @@ import org.jeecgframework.web.demo.entity.test.JeecgMatterBom;
 import org.jeecgframework.web.demo.service.test.JeecgMatterBomServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <li>类型名称：
@@ -34,7 +34,7 @@ import java.util.List;
  * <li>修改人：
  * <li>修改日期：
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgMatterBomController")
 public class JeecgMatterBomController extends BaseController {
@@ -45,15 +45,6 @@ public class JeecgMatterBomController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	/**
 	 * <li>方法名：goList
@@ -187,6 +178,7 @@ public class JeecgMatterBomController extends BaseController {
 	@RequestMapping(params = "doSave")
 	@ResponseBody
 	public AjaxJson doSave(JeecgMatterBom entity, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		//设置上级物料Bom
 		String parentId = request.getParameter("parent.id");
@@ -227,6 +219,7 @@ public class JeecgMatterBomController extends BaseController {
 	@RequestMapping(params = "doDelete")
 	@ResponseBody
 	public AjaxJson doDelete(JeecgMatterBom entity, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 
 		jeecgMatterBomService.deleteEntityById(JeecgMatterBom.class, entity.getId());

@@ -213,9 +213,9 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	private void repairJdbcEntity(){
 		JeecgJdbcEntity entity = new JeecgJdbcEntity();
 		entity.setAge(12);
-//		update-begin--Author:yangyong  Date:20140214 for：[bugfree号]当前时间获取调整--------------------
+
 		entity.setBirthday(DateUtils.str2Date("2014-02-14",new SimpleDateFormat("yyyy-MM-dd")));
-//		update-end--Author:yangyong  Date:20140214 for：[bugfree号]当前时间获取调整--------------------
+
 		entity.setDepId("123");
 		entity.setEmail("demo@jeecg.com");
 		entity.setMobilePhone("13111111111");
@@ -3110,10 +3110,8 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	 */
 	private void repairDemo() {
 		TSDemo demo = new TSDemo();
-		// -------------------------------------------------
 		// 复杂字符串文本读取，采用文件方式存储
 		String html = new FreemarkerHelper().parseTemplate("/org/jeecgframework/web/system/txt/valid-code-demo.ftl", null);
-		// -------------------------------------------------
 		demo.setDemocode(html);
 		demo.setDemotitle("表单验证");
 		commonDao.saveOrUpdate(demo);
@@ -3130,7 +3128,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		TSDepart RAndD = commonDao.findByProperty(TSDepart.class, "departname",
 				"研发室").get(0);
 
-//        update-start--Author:zhangguoming  Date:20140825 for：用户表字段修改后，用户与部门的关系为多对多，这里修改初始化数据
 		TSUser admin = new TSUser();
 		admin.setSignatureFile("images/renfang/qm/licf.gif");
 		admin.setStatus((short) 1);
@@ -3186,7 +3183,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
         approverUserOrg.setTsUser(approver);
         approverUserOrg.setTsDepart(eiu);
         commonDao.save(approverUserOrg);
-//        update-end--Author:zhangguoming  Date:20140825 for：用户表字段修改后，用户与部门的关系为多对多，这里修改初始化数据
+
     }
 
 	/**
@@ -3733,7 +3730,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.saveOrUpdate(folder);
 	}
 
-//    update-begin--Author:zhangguoming  Date:20140522 for：云桌面默认图标初始化
     /**
      * 修复桌面默认图标
      * @param iconName 图标名称
@@ -3752,7 +3748,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 
         return deskIncon;
     }
-//    update-end--Author:zhangguoming  Date:20140522 for：云桌面默认图标初始化
+
 
 	/**
 	 * @Description 修复菜单权限

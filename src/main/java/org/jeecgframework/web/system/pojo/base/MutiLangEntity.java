@@ -47,9 +47,6 @@ public class MutiLangEntity implements java.io.Serializable {
 	private java.lang.String updateBy;
 	/**更新人姓名*/
 	private java.lang.String updateName;
-	
-	/**key:common.dash_board_en_us, value:Dashboard **/
-	public static Map<String, String> mutiLangMap = new HashMap<String, String>(); 
 
 	
 	/**

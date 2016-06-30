@@ -13,7 +13,6 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 <t:base type="jquery,easyui,jqueryui-sortable,tools"></t:base>
 <script type="text/javascript" src="plug-in/cgform/js/cgformField.js"></script>
 
-
 <style type="text/css">
 .table-list {
 	margin: 0;
@@ -195,6 +194,22 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
         <br><br><br>
       </div>
     </div>
+    <!--  add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
+	<div title='<t:mutiLang langKey="common.index"/>' style="overflow: hidden;">
+	  <div style="height: 25px;" class="datagrid-toolbar">
+	  	<a id="addColumnBtn1" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addIndexBtnClick();" href="#"><t:mutiLang langKey="common.add.to"/></a> 
+	  	<a id="delColumnBtn1" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="delIndexBtnClick();" href="#"><t:mutiLang langKey="common.delete"/></a>
+	  </div>
+	  <table id="tab_div_index_title" class="table-list" style="height: 25px;">
+	  </table>
+	  <div class="t_table" id="t_table_index">
+		  <table id="tab_div_index" class="table-list">
+
+		  </table>
+		  <br><br><br>
+	  </div>
+	</div>
+	<!--  add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
   </div>
 </t:formvalid>
 <script type="text/javascript">
@@ -281,9 +296,81 @@ function getFormTemplateName2(){
 		<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	}
 <!--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
+
+//add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
+function getShowType(obj){
+	var $this = $(obj),value = obj.value;
+	if(value == 'umeditor'){
+		$this.parent().next().eq(0).find("input[name$=fieldLength]").val('500');
+	} else {
+		$this.parent().next().eq(0).find("input[name$=fieldLength]").val('120');
+	}
+}
+//add-end--Author:jg_renjie Date:20160301 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
+
+function selectField(select){
+	var selected = select.val().split(",");
+	var fieldArray = new Array();
+	$("#tab_div_database tr").each(function(){
+		fieldArray.push($(this).find("td:eq(3)>input").val());
+	})
+	var content = "<table id='field'>";
+	for(var i=0;i<fieldArray.length;i++){
+		if(selected.indexOf(fieldArray[i])!=-1){
+			content += "<tr><td align='left'><input style='width: 30px' type='checkbox' name='ck' checked='checked'/></td>";
+		}else{
+			content += "<tr><td align='left'><input style='width: 30px' type='checkbox' name='ck'/></td>";
+		}
+		content += "<td>"+fieldArray[i]+"</td></tr>";
+	}
+	content += "</table>";
+	$.dialog({
+		content: content, 
+		zIndex: 2200, 
+		title: '字段', 
+		lock: false, 
+		width: 250, 
+		height: 250, 
+		opacity: 0.4,
+		button: [
+        	{	
+        		name: '<t:mutiLang langKey="common.confirm"/>', 
+        		callback: function(){
+        			var s = "";
+        			parent.$("input[name='ck']").each(function(){
+        				if($(this).attr("checked")){
+        					s += $(this).parent().next("td").text()+",";
+        				}
+        			});
+				    /* if(nodes.length>0){
+				        var ids='',names='';
+				        for(i=0;i<nodes.length;i++){
+				            var node = nodes[i];
+				            ids += node.id+',';
+				            names += node.name+',';
+				        }
+				        $("#" + selectedNamesInputId_depart).val(names);
+				        $("#" + selectedNamesInputId_depart).blur();
+				        $("#" + selectedIdsInputId_depart).val(ids);
+				    } */
+				    
+        			select.val(s.substring(0,s.length-1));
+        		}, 
+        		focus: true
+        	},
+        	{
+        		name: '<t:mutiLang langKey="common.cancel"/>', 
+        		callback: function () {
+        	}
+        }
+    ]});
+}
 </script>
 <iframe id="iframe_check" name="iframe_check" src="plug-in/cgform/fields/cgformOfCheck.html" style="display: none"></iframe>
 <iframe id="iframe_database" src="plug-in/cgform/fields/cgformOfDatabase.html" style="display: none"></iframe>
 <iframe id="iframe_key" src="plug-in/cgform/fields/cgformOfForeignKey.html" style="display: none"></iframe>
 <iframe id="iframe_page" src="plug-in/cgform/fields/cgformOfPage.html" style="display: none"></iframe>
+<!--  add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
+<iframe id="iframe_index" src="plug-in/cgform/fields/cgformOfIndex.html" style="display: none"></iframe>
+<!--  add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
 </body>

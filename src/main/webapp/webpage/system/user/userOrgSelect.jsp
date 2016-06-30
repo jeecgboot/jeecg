@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>用户的角色选择页面</title>
+<title>选择登录身份部门</title>
 <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">

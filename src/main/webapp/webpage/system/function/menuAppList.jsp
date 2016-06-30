@@ -7,7 +7,7 @@
 		<link href="plug-in/sliding/css/main.css" rel="stylesheet" type="text/css" />
 
         <script>
-        //update-end--Author:gaofeng  Date:20140620 for：修改云桌面的搜索功能中的系统中应用内搜索
+
             $(function(){
             	$(".menuSearch_Info").live("click",function(){
             		//$(this).blur();
@@ -19,7 +19,7 @@
             			createwindow(title,url,1000,500);
             		})
             });
-        //update-end--Author:gaofeng  Date:20140620 for：修改云桌面的搜索功能中的系统中应用内搜索
+
         </script>
 	</head>
 	<body>

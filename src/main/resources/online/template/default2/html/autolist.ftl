@@ -82,6 +82,24 @@ function createDataGrid${config_id}(){
 						 		return href;
 						 	},
 						 	</#if>
+						 	<#-- update-start--Author: scott  Date:20160503 for：列表加时间格式化 -->
+						 	<#if x['field_showType']=="date">
+						 	formatter:function(value,rec,index){
+						 		if (value == undefined) {
+						            return "";
+						        }
+						        return new Date().format('yyyy-MM-dd', value);
+						 	},
+						 	</#if>
+						 	<#if x['field_showType']=="datetime">
+						 	formatter:function(value,rec,index){
+						 		if (value == undefined) {
+						            return "";
+						        }
+						        return new Date().format('yyyy-MM-dd hh:mm:ss', value);
+						 	},
+						 	</#if>
+						 	<#-- update-end--Author: scott  Date:20160503 for：列表加时间格式化 -->
 						 	<#-- update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
 						 	<#if x['field_showType']=="image">
 						 	formatter:function(value,rec,index){
@@ -282,17 +300,17 @@ function createDataGrid${config_id}(){
     //----author:jg_xugj---start----date:20151219-------- for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 	//新增
 	function ${config_id}add(){
-		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
+
 		//add('${config_name}录入','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
-		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
+
 		
 		add('${config_name}录入','cgFormBuildController.do?goAddFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
-		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
+
 		//update('${config_name}编辑','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh,true);
-		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
+
 		
 		update('${config_name}编辑','cgFormBuildController.do?goUpdateFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}

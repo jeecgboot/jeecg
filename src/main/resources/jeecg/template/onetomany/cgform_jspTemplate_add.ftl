@@ -85,7 +85,7 @@
 										$('#${po.fieldName}').uploadify("settings", "formData", {
 											'cgFormId':cgFormId,
 											'cgFormName':'${tableName}',
-											'cgFormField':'${po.fieldName}'
+											'cgFormField':'${fieldMeta[po.fieldName]}'
 										});
 									} ,
 									onQueueComplete : function(queueData) {
@@ -123,6 +123,15 @@
 						<span id="file_uploadspan"><input type="file" name="${po.fieldName}" id="${po.fieldName}" /></span> 
 					</div> 
 					<div class="form" id="filediv_file"></div>
+				<#--update-start--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
+				<#elseif po.showType='umeditor'>
+					<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+					<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+			    	<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px"></textarea>
+				    <script type="text/javascript">
+				        var editor = UE.getEditor('${po.fieldName}');
+				    </script>
+				<#--update-end--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 		      	<#else>
 		      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if>>
 				</#if>

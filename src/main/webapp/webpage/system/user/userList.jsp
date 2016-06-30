@@ -29,7 +29,7 @@
 <%--update-end--Author:lijun  Date:20160302 for：组织机构查询条件修改为使用departSelect标签--%>
 
 <t:datagrid name="userList" title="common.operation" actionUrl="userController.do?datagrid" 
-    fit="true" fitColumns="true" idField="id" queryMode="group" sortName="createDate" sortOrder="desc">
+    fit="true" fitColumns="true" idField="id" queryMode="group" sortName="id" sortOrder="desc">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.username" sortable="false" field="userName" query="true"></t:dgCol>
     <%--update-start--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>

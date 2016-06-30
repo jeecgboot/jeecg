@@ -9,6 +9,7 @@
 		<meta name="description" content="<t:mutiLang langKey="jeect.platform"/>" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
+		<link rel="shortcut icon" href="images/favicon.ico">
 		<!-- basic styles -->
 		<link href="plug-in/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
@@ -236,14 +237,21 @@
 										 <t:mutiLang langKey="common.my.style"/>
 									</a>
 								</li>
-
+								
+								<li>
+									<a href="http://yun.jeecg.org" target="_blank">
+										<i class="icon-cloud"></i>
+										 云应用中心
+									</a>
+								</li>
+								
 								<li>
 									<a href="javascript:clearLocalstorage()">
 										<i class="icon-cog"></i>
 										<t:mutiLang langKey="common.clear.localstorage"/>
 									</a>
 								</li>
-
+		
 								<li class="divider"></li>
 
 								<li>
@@ -443,7 +451,6 @@
 	</table>
 </div>
 		<!-- basic scripts -->
-
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='plug-in/ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
 		</script>
@@ -457,6 +464,7 @@
 		<script type="text/javascript">
 			if("ontouchend" in document) document.write("<script src='plug-in/ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
 		</script>
+		<script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="plug-in/ace/assets/js/bootstrap.min.js"></script>
 		<script src="plug-in/ace/assets/js/typeahead-bs2.min.js"></script>
 
@@ -465,23 +473,11 @@
 		<!--[if lte IE 8]>
 		  <script src="plug-in/ace/assets/js/excanvas.min.js"></script>
 		<![endif]-->
-
-		<script src="plug-in/ace/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script src="plug-in/ace/assets/js/jquery.ui.touch-punch.min.js"></script>
-		<script src="plug-in/ace/assets/js/jquery.slimscroll.min.js"></script>
-		<script src="plug-in/ace/assets/js/jquery.easy-pie-chart.min.js"></script>
-		<script src="plug-in/ace/assets/js/jquery.sparkline.min.js"></script>
-		<script src="plug-in/ace/assets/js/flot/jquery.flot.min.js"></script>
-		<script src="plug-in/ace/assets/js/flot/jquery.flot.pie.min.js"></script>
-		<script src="plug-in/ace/assets/js/flot/jquery.flot.resize.min.js"></script>
-
 		<!-- ace scripts -->
-
-		<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
-		<script src="plug-in/ace/assets/js/ace.min.js"></script>
-		
 		<t:base type="tools"></t:base>
 		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
+		<script src="plug-in/ace/assets/js/ace.min.js"></script>
 		<script type="text/javascript" src="plug-in/ace/assets/js/bootstrap-tab.js"></script>
 		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
 		<script src="plug-in/layer/layer.js"></script>
@@ -528,156 +524,7 @@
 					var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
 					$(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
 				});
-			
-			
-			
-			
-			  var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
-			  var data = [
-				{ label: "social networks",  data: 38.7, color: "#68BC31"},
-				{ label: "search engines",  data: 24.5, color: "#2091CF"},
-				{ label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
-				{ label: "direct traffic",  data: 18.6, color: "#DA5430"},
-				{ label: "other",  data: 10, color: "#FEE074"}
-			  ]
-			  function drawPieChart(placeholder, data, position) {
-			 	  $.plot(placeholder, data, {
-					series: {
-						pie: {
-							show: true,
-							tilt:0.8,
-							highlight: {
-								opacity: 0.25
-							},
-							stroke: {
-								color: '#fff',
-								width: 2
-							},
-							startAngle: 2
-						}
-					},
-					legend: {
-						show: true,
-						position: position || "ne", 
-						labelBoxBorderColor: null,
-						margin:[-30,15]
-					}
-					,
-					grid: {
-						hoverable: true,
-						clickable: true
-					}
-				 })
-			 }
-			 drawPieChart(placeholder, data);
-			
-			 /**
-			 we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
-			 so that's not needed actually.
-			 */
-			 placeholder.data('chart', data);
-			 placeholder.data('draw', drawPieChart);
-			
-			
-			
-			  var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-			  var previousPoint = null;
-			
-			  placeholder.on('plothover', function (event, pos, item) {
-				if(item) {
-					if (previousPoint != item.seriesIndex) {
-						previousPoint = item.seriesIndex;
-						var tip = item.series['label'] + " : " + item.series['percent']+'%';
-						$tooltip.show().children(0).text(tip);
-					}
-					$tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
-				} else {
-					$tooltip.hide();
-					previousPoint = null;
-				}
 				
-			 });
-			
-			
-			
-			
-			
-			
-				var d1 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d1.push([i, Math.sin(i)]);
-				}
-			
-				var d2 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.5) {
-					d2.push([i, Math.cos(i)]);
-				}
-			
-				var d3 = [];
-				for (var i = 0; i < Math.PI * 2; i += 0.2) {
-					d3.push([i, Math.tan(i)]);
-				}
-				
-			
-				var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
-				$.plot("#sales-charts", [
-					{ label: "Domains", data: d1 },
-					{ label: "Hosting", data: d2 },
-					{ label: "Services", data: d3 }
-				], {
-					hoverable: true,
-					shadowSize: 0,
-					series: {
-						lines: { show: true },
-						points: { show: true }
-					},
-					xaxis: {
-						tickLength: 0
-					},
-					yaxis: {
-						ticks: 10,
-						min: -2,
-						max: 2,
-						tickDecimals: 3
-					},
-					grid: {
-						backgroundColor: { colors: [ "#fff", "#fff" ] },
-						borderWidth: 1,
-						borderColor:'#555'
-					}
-				});
-			
-			
-				$('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-				function tooltip_placement(context, source) {
-					var $source = $(source);
-					var $parent = $source.closest('.tab-content')
-					var off1 = $parent.offset();
-					var w1 = $parent.width();
-			
-					var off2 = $source.offset();
-					var w2 = $source.width();
-			
-					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-					return 'left';
-				}
-			
-			
-				$('.dialogs,.comments').slimScroll({
-					height: '300px'
-			    });
-				
-				
-				//Android's default browser somehow is confused when tapping on label which will lead to dragging the task
-				//so disable dragging when clicking on label
-				var agent = navigator.userAgent.toLowerCase();
-				if("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
-				  $('#tasks').on('touchstart', function(e){
-					var li = $(e.target).closest('#tasks li');
-					if(li.length == 0)return;
-					var label = li.find('label.inline').get(0);
-					if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
-				});
 			
 				$('#tasks').sortable({
 					opacity:0.8,
@@ -809,7 +656,7 @@
 			}});
   			
   	}
-//update-begin--Author:张忠亮  Date:20150605 for：清除浏览器缓存
+
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -818,7 +665,7 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
-//update-end--Author:张忠亮  Date:20150605 for：清除浏览器缓存
+
 
 
 	$(document).ready(function(){
@@ -855,7 +702,7 @@
     						noticeContent +="&nbsp;"+noticeList[i].noticeTitle + "</a></li></ul></li>";
         				}
     				}
-    				alert(noticeContent);
+    				//alert(noticeContent);
     				$("#noticeContent").html(noticeContent);
     				
     				//加载公告底部文字

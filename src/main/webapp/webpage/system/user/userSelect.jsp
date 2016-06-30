@@ -39,7 +39,14 @@
                     if (d.success) {
                         var dbDate = eval(d.msg);
                         var tree = $.fn.zTree.getZTreeObj("departSelect");
-                        tree.addNodes(treeNode, dbDate);
+
+                        if (!treeNode.zAsync){
+                            tree.addNodes(treeNode, dbDate);
+                            treeNode.zAsync = true;
+                        } else{
+                            tree.reAsyncChildNodes(treeNode, "refresh");
+                        }
+                        //tree.addNodes(treeNode, dbDate);
                     }
                 }
         );
@@ -64,7 +71,7 @@
         <ul id="departSelect" class="ztree" style="margin-top: 30px;"></ul>
     </div>
     <div data-options="region:'center'">
-        <t:datagrid name="userList1" title="common.user.select" actionUrl="userController.do?datagrid"
+        <t:datagrid checkbox="true" name="userList1" title="common.user.select" actionUrl="userController.do?datagrid"
                     fit="true" fitColumns="true" idField="id" queryMode="group" sortName="createDate" sortOrder="desc">
             <t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="common.username" sortable="false" field="userName" query="true"></t:dgCol>

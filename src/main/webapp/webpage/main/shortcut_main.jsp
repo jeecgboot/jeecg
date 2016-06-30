@@ -219,6 +219,9 @@ a:hover {
                             <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,200)">
                                 <t:mutiLang langKey="common.change.style"/>
                             </div>
+                            <div onclick="window.open('http://yun.jeecg.org')">
+                       		 	云应用中心
+                   			 </div>
                              <div onclick="clearLocalstorage()">
                        		 	<t:mutiLang langKey="common.clear.localstorage"/>
                    			 </div>

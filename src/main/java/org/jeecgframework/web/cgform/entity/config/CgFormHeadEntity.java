@@ -76,6 +76,10 @@ public class CgFormHeadEntity implements java.io.Serializable {
 	 * 表格列属性
 	 */
 	private List<CgFormFieldEntity> columns;
+	/**
+	 * 索引
+	 */
+	private List<CgFormIndexEntity> indexes;
 	
 	/**树形列表 父id列名*/
 	private java.lang.String treeParentIdFieldName;
@@ -335,6 +339,16 @@ public class CgFormHeadEntity implements java.io.Serializable {
 	public void setColumns(List<CgFormFieldEntity> columns) {
 		this.columns = columns;
 	}
+	
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="table")
+	public List<CgFormIndexEntity> getIndexes() {
+		return indexes;
+	}
+
+	public void setIndexes(List<CgFormIndexEntity> indexes) {
+		this.indexes = indexes;
+	}
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  表单版本号

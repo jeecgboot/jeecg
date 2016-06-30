@@ -74,8 +74,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	/**
 	 * 初始化Log4j的一个实例
 	 */
-	private static final Logger logger = Logger
-			.getLogger(GenericBaseCommonDao.class);
+	private static final Logger logger = Logger.getLogger(GenericBaseCommonDao.class);
 	/**
 	 * 注入一个sessionFactory属性,并注入到父类(HibernateDaoSupport)
 	 * **/
@@ -173,7 +172,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> Serializable save(T entity) {
 		try {
 			Serializable id = getSession().save(entity);
-			getSession().flush();
+			//getSession().flush();
 			if (logger.isDebugEnabled()) {
 				logger.debug("保存实体成功," + entity.getClass().getName());
 			}
@@ -195,13 +194,13 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> void batchSave(List<T> entitys) {
 		for (int i = 0; i < entitys.size(); i++) {
 			getSession().save(entitys.get(i));
-			if (i % 20 == 0) {
-				// 20个对象后才清理缓存，写入数据库
+			if (i % 1000 == 0) {
+				// 1000个对象批量写入数据库，后才清理缓存
 				getSession().flush();
 				getSession().clear();
 			}
 		}
-		// 最后清理一下----防止大于20小于40的不保存
+		//最后页面的数据，进行提交手工清理
 		getSession().flush();
 		getSession().clear();
 	}
@@ -217,7 +216,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> void saveOrUpdate(T entity) {
 		try {
 			getSession().saveOrUpdate(entity);
-			getSession().flush();
+			//getSession().flush();
 			if (logger.isDebugEnabled()) {
 				logger.debug("添加或更新成功," + entity.getClass().getName());
 			}
@@ -233,7 +232,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> void delete(T entity) {
 		try {
 			getSession().delete(entity);
-			getSession().flush();
+			//getSession().flush();
 			if (logger.isDebugEnabled()) {
 				logger.debug("删除成功," + entity.getClass().getName());
 			}
@@ -251,7 +250,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> void deleteEntityById(Class entityName, Serializable id) {
 		delete(get(entityName, id));
-		getSession().flush();
+		//getSession().flush();
 	}
 
 	/**
@@ -264,7 +263,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	public <T> void deleteAllEntitie(Collection<T> entitys) {
 		for (Object entity : entitys) {
 			getSession().delete(entity);
-			getSession().flush();
+			//getSession().flush();
 		}
 	}
 
@@ -290,7 +289,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 		T t = (T) getSession().get(entityName, id);
 		if (t != null) {
-			getSession().flush();
+			//getSession().flush();
 		}
 		return t;
 	}
@@ -303,7 +302,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> void updateEntitie(T pojo) {
 		getSession().update(pojo);
-		getSession().flush();
+		//getSession().flush();
 	}
 
 	/**
@@ -314,7 +313,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 */
 	public <T> void updateEntitie(String className, Object id) {
 		getSession().update(className, id);
-		getSession().flush();
+		//getSession().flush();
 	}
 
 	/**
@@ -335,9 +334,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 
 		Query queryObject = getSession().createQuery(query);
 		List<T> list = queryObject.list();
-		if (list.size() > 0) {
-			getSession().flush();
-		}
+//		if (list.size() > 0) {
+			//getSession().flush();
+//		}
 		return list;
 
 	}
@@ -354,7 +353,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		Query queryObject = getSession().createQuery(hql);
 		List<T> list = queryObject.list();
 		if (list.size() == 1) {
-			getSession().flush();
+			//getSession().flush();
 			t = list.get(0);
 		} else if (list.size() > 0) {
 			throw new BusinessException("查询结果数:" + list.size() + "大于1");
@@ -883,9 +882,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 *
 	 */
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
-		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 		return this.jdbcTemplate.queryForObject(sql, objs,Long.class);
-		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 
 	}
 
@@ -909,7 +908,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		KeyHolder keyHolder = null;
 		SqlParameterSource sqlp  = new MapSqlParameterSource(param);
 
-		//update-begin--Author:	jg_huangxg Date: 20150625 for：[bugfree号]oc时,录入数据在Oracle下 数据写入错误--------------------
 		if (StringUtil.isNotEmpty(param.get("id"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
 			this.namedParameterJdbcTemplate.update(sql,sqlp);
 		}else{//NATIVE or SEQUENCE
@@ -920,14 +918,14 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				keyValue = keyHolder.getKey().longValue();
 			}
 		}
-		//update-end--Author: jg_huangxg Date: 20150625 for：[bugfree号]oc时,录入数据在Oracle下 数据写入错误----------------------
+
 		return keyValue;
 	}
 
 	public Integer countByJdbc(String sql, Object... param) {
-		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 		return this.jdbcTemplate.queryForObject(sql, param,Integer.class);
-		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 
 	}
 
@@ -983,7 +981,6 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		return dc.getExecutableCriteria(getSession()).list();
 	}
 
-	//update-begin--Author:luobaoli  Date:20150710 for：增加执行存储过程方法
 	/**
 	 * 调用存储过程
 	 */
@@ -997,5 +994,5 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		
 		return sqlQuery.list();
 	}
-	//update-end--Author:luobaoli  Date:20150710 for：增加执行存储过程方法
+
 }

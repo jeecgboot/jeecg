@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("jeecgProcedureServiceImpl")
 @Transactional
 public class JeecgProcedureServiceImpl extends JdbcDaoSupport implements JeecgProcedureServiceI{
-	
-	//update-begin--Author:luobaoli  Date:20150711 for：新增调用存储过程的service方法
+
 	@Autowired
 	private JeecgProcedureDao jeecgProcedureDao;
 	@Override
@@ -24,5 +23,5 @@ public class JeecgProcedureServiceImpl extends JdbcDaoSupport implements JeecgPr
 		String sql = "call formDataList('"+tableName+"','"+fields+"','"+whereSql+"')";
 		return this.getJdbcTemplate().queryForList(sql);
 	}
-	//update-end--Author:luobaoli  Date:20150711 for：新增调用存储过程的service方法
+
 }

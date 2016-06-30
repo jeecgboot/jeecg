@@ -66,8 +66,7 @@ public class CgDynamGraphController extends BaseController {
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgDynamGraphMap,request);
 		String html;
-		
-	    //update-begin--Author:xuguojie  Date:20160303 for： #959 【报表功能】在线配置图表改造，支持移动端单独展示
+
 		//判断是否为综合类
 		Map<String, Object> mainConfig = (Map<String, Object> )cgDynamGraphMap.get(CgReportConstant.MAIN);
 		String defaultGtype =mainConfig.get("graph_type")==null?null:(String)mainConfig.get("graph_type");
@@ -82,7 +81,7 @@ public class CgDynamGraphController extends BaseController {
 			//设置gtype
 			html = viewEngine.parseTemplate("/org/jeecgframework/web/cgdynamgraph/engine/core/cgDynamGraphDesignMobile.ftl", cgDynamGraphMap);
 		}
-	    //update-end--Author:xuguojie  Date:20160303 for： #959 【报表功能】在线配置图表改造，支持移动端单独展示
+
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -91,6 +90,12 @@ public class CgDynamGraphController extends BaseController {
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 		
 	}
@@ -259,7 +264,7 @@ public class CgDynamGraphController extends BaseController {
 			}
 		}
 		//step.4 进行查询返回结果
-        //update-begin--Author:张忠亮  Date:20150608 for：多数据源支持
+
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -277,18 +282,24 @@ public class CgDynamGraphController extends BaseController {
             result= cgDynamGraphService.queryByCgDynamGraphSql(querySql, queryparams);
             size = cgDynamGraphService.countQueryByCgDynamGraphSql(querySql, queryparams);
         }
-        //update-end--Author:张忠亮  Date:20150608 for：多数据源支持
+
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter writer;
+		PrintWriter writer = null;
 		try {
 			writer = response.getWriter();
 			writer.println(CgReportQueryParamUtil.getJson(result,size));
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	/**
@@ -309,7 +320,7 @@ public class CgDynamGraphController extends BaseController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			String errorInfo = "解析失败!<br><br>失败原因：";
-			//update-start--Author: jg_huangxg  Date:20151210 for：修改提示内容
+
 			//无法直接捕捉到:java.net.ConnectException异常
 			int i = e.getMessage().indexOf("Connection refused: connect");
 			
@@ -318,7 +329,7 @@ public class CgDynamGraphController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
-			//update-end--Author: jg_huangxg  Date:20151210 for：修改提示内容
+
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;
@@ -351,10 +362,10 @@ public class CgDynamGraphController extends BaseController {
 		Matcher m = p.matcher(sql);
 		while(m.find()){
 			String whereParam = m.group();
-			System.out.println(whereParam);
+			//System.out.println(whereParam);
 			sql = sql.replace(whereParam, "'' or 1=1 or 1=''");
 			sql = sql.replace("'''", "''");
-			System.out.println(sql);
+			//System.out.println(sql);
 		}
 		//兼容图表
 		regex = "\\{\\w+\\}";
@@ -362,9 +373,9 @@ public class CgDynamGraphController extends BaseController {
 		m = p.matcher(sql);
 		while(m.find()){
 			String whereParam = m.group();
-			System.out.println(whereParam);
+			//System.out.println(whereParam);
 			sql = sql.replace(whereParam, " 1=1 ");
-			System.out.println(sql);
+			//System.out.println(sql);
 		}
 		return sql;
 	}

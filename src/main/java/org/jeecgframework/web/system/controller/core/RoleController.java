@@ -1,14 +1,41 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.*;
+import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.ComboTree;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.common.model.json.TreeGrid;
+import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.NumberComparator;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.SetListSort;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -16,12 +43,18 @@ import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.pojo.base.*;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
+import org.jeecgframework.web.system.pojo.base.TSDataRule;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSOperation;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleOrg;
+import org.jeecgframework.web.system.pojo.base.TSRoleUser;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,20 +64,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
-
 /**
  * 角色处理类
  * 
  * @author 张代浩
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/roleController")
 public class RoleController extends BaseController {
@@ -54,10 +80,7 @@ public class RoleController extends BaseController {
 	private static final Logger logger = Logger.getLogger(RoleController.class);
 	private UserService userService;
 	private SystemService systemService;
-	private String message = null;
 
-	@Autowired
-	private MutiLangServiceI mutiLangService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -112,14 +135,15 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "delRole")
 	@ResponseBody
 	public AjaxJson delRole(TSRole role, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		int count = userService.getUsersOfThisRole(role.getId());
 		if (count == 0) {
 			// 删除角色之前先删除角色权限关系
 			delRoleFunction(role);
-//            update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑
+
             systemService.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
-//            update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑
+
             role = systemService.getEntity(TSRole.class, role.getId());
 			userService.delete(role);
 			message = "角色: " + role.getRoleName() + "被删除成功";
@@ -184,6 +208,7 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "saveRole")
 	@ResponseBody
 	public AjaxJson saveRole(TSRole role, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(role.getId())) {
 			message = "角色: " + role.getRoleName() + "被更新成功";
@@ -211,7 +236,7 @@ public class RoleController extends BaseController {
 		request.setAttribute("roleId", roleId);
 		return new ModelAndView("system/role/roleSet");
 	}
-	// update-start--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
+
 	/**
 
 	 * 角色所有用户信息列表页面跳转
@@ -220,9 +245,9 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(params = "userList")
 	public ModelAndView userList(HttpServletRequest request) {
-        //        update-start--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
+
 		request.setAttribute("roleId", request.getParameter("roleId"));
-        //        update-end--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
+
 		return new ModelAndView("system/role/roleUserList");
 	}
 	
@@ -235,7 +260,7 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "roleUserDatagrid")
 	public void roleUserDatagrid(TSUser user,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
-//        update-start--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
+
 		//查询条件组装器
         String roleId = request.getParameter("roleId");
         List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSRole.id", roleId);
@@ -248,7 +273,7 @@ public class RoleController extends BaseController {
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
         */
-//        update-end--Author:zhangguoming  Date:20140828 for：bug修复：角色列表，查看用户列表报错
+
 		Criterion cc = null;
 		if (roleUser.size() > 0) {
 			for(int i = 0; i < roleUser.size(); i++){
@@ -296,8 +321,7 @@ public class RoleController extends BaseController {
 		comboTrees = systemService.ComboTree(loginActionlist,comboTreeModel,loginActionlist, false);
 		return comboTrees;
 	}
-	// update-end--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
-	// update-start--Author:zhangguoming Date:20140821 for：为组织机构设置角色
+
 	/**
 	 * 角色树列表页面跳转
 	 * 
@@ -377,7 +401,6 @@ public class RoleController extends BaseController {
 		return j;
 	}
 
-	// update-end--Author:zhangguoming Date:20140821 for：为组织机构设置角色
 
 	/**
 	 * 设置权限
@@ -408,23 +431,24 @@ public class RoleController extends BaseController {
 		List<TSFunction> loginActionlist = new ArrayList<TSFunction>();// 已有权限菜单
 		role = this.systemService.get(TSRole.class, roleId);
 		if (role != null) {
-			List<TSRoleFunction> roleFunctionList = systemService
-					.findByProperty(TSRoleFunction.class, "TSRole.id",
-							role.getId());
+			List<TSRoleFunction> roleFunctionList = systemService.findByProperty(TSRoleFunction.class, "TSRole.id",role.getId());
 			if (roleFunctionList.size() > 0) {
 				for (TSRoleFunction roleFunction : roleFunctionList) {
-					TSFunction function = (TSFunction) roleFunction
-							.getTSFunction();
+					TSFunction function = (TSFunction) roleFunction.getTSFunction();
 					loginActionlist.add(function);
 				}
 			}
+			roleFunctionList.clear();
 		}
-		ComboTreeModel comboTreeModel = new ComboTreeModel("id",
-				"functionName", "TSFunctions");
-		comboTrees = systemService.ComboTree(functionList, comboTreeModel,
-				loginActionlist, false);
+		ComboTreeModel comboTreeModel = new ComboTreeModel("id","functionName", "TSFunctions");
+		//author:xugj-----start-----date:20160516 ------- for: TASK  #1071 【平台】优化角色权限这块功能
+		comboTrees = systemService.ComboTree(functionList, comboTreeModel,loginActionlist, true);
+		MutiLangUtil.setMutiComboTree(comboTrees);
+		//author:xugj-----start-----date:20160516 ------- for: TASK  #1071 【平台】优化角色权限这块功能
 
-		MutiLangUtil.setMutiTree(comboTrees);
+		functionList.clear();
+		loginActionlist.clear();
+
 		return comboTrees;
 	}
 
@@ -648,9 +672,9 @@ public class RoleController extends BaseController {
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class);
 		cq.eq("TSFunction.id", functionId);
-		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+
 		cq.eq("status", Short.valueOf("0"));
-		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+
 		cq.add();
 		List<TSOperation> operationList = this.systemService
 				.getListByCriteriaQuery(cq, false);
@@ -674,7 +698,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-		// update-begin--Author:chenxu Date:201403024 for：410
+
 		String operationcodes = null;
 		try {
 			operationcodes = URLDecoder.decode(
@@ -682,7 +706,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		// update-end--Author:chenxu Date:20140324 for：410
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -737,7 +761,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-		// update-begin--Author:chenxu Date:201403024 for：410
+
 		String dataRulecodes = null;
 		try {
 			dataRulecodes = URLDecoder.decode(
@@ -745,7 +769,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		// update-end--Author:chenxu Date:20140324 for：410
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -806,6 +830,7 @@ public class RoleController extends BaseController {
     @RequestMapping(params = "doAddUserToRole")
     @ResponseBody
     public AjaxJson doAddUserToOrg(HttpServletRequest req) {
+    	String message = null;
         AjaxJson j = new AjaxJson();
         TSRole role = systemService.getEntity(TSRole.class, req.getParameter("roleId"));
         saveRoleUserList(req, role);

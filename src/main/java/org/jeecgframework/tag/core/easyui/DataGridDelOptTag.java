@@ -4,10 +4,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 

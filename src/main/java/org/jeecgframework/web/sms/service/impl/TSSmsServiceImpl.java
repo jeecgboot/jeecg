@@ -11,6 +11,7 @@ import javax.mail.AuthenticationFailedException;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.DBTypeUtil;
+import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.PropertiesUtil;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -102,7 +103,7 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 	@Override
 	@Transactional
 	public void send() {
-		System.out.println("===============消息发扫描开始=================");
+		LogUtil.info("===============消息发扫描开始=================");
 		//List<TSSmsEntity> smsSendList = findHql("from TSSmsEntity e where e.esStatus = ? or e.esStatus = ? ", Constants.SMS_SEND_STATUS_1,Constants.SMS_SEND_STATUS_3);
 		List<TSSmsEntity> smsSendList = findHql("from TSSmsEntity e where e.esStatus = ?", Constants.SMS_SEND_STATUS_1);
 		if(smsSendList==null || smsSendList.size()==0){
@@ -155,19 +156,19 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 			tsSmsEntity.setEsSendtime(new Date());
 			updateEntitie(tsSmsEntity);
 		}
-		System.out.println("===============消息发扫描结束=================");
+		LogUtil.info("===============消息发扫描结束=================");
 	}
 	//add-begin--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
 	public List<TSSmsEntity> getMsgsList(String curUser,String curDate) {
 		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
-		//update-begin--Author:haungzq  Date:20151215 for：[690]兼容sqlserver--------------------
+
 		String hql=null;
 		if("sqlserver".equals(DBTypeUtil.getDBType())){
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and CONVERT(varchar(20),t.esSendtime) like ?";
 		}else{
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and str(t.esSendtime) like ?";
 		}
-		//update-end--Author:haungzq  Date:20151215 for：[690]兼容sqlserver--------------------
+
 		list = this.findHql(hql, new Object[] {curUser,curDate+'%'});
 		return list;
 	}

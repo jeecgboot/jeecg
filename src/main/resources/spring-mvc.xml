@@ -94,11 +94,13 @@
 						<value>loginController.do?goPwdInit</value>
 						<value>loginController.do?pwdInit</value>
 						<value>loginController.do?login</value>
+						<value>loginController.do?changeDefaultOrg</value>
                         <value>loginController.do?login2</value>
 						<value>loginController.do?login3</value>
 						<value>loginController.do?checkuser</value>
 						<value>loginController.do?checkuser=</value>
 						<value>repairController.do?repair</value>
+						<value>systemController.do?saveFiles</value>
 						<value>repairController.do?deleteAndRepair</value>
 						<!--add-start-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
 						<value>tSTeamPersonController.do?getTeacherList</value>

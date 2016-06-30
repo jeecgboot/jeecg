@@ -1,5 +1,10 @@
 package org.jeecgframework.web.demo.controller.test;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -15,15 +20,10 @@ import org.jeecgframework.web.demo.page.JeecgOrderMainPage;
 import org.jeecgframework.web.demo.service.test.JeecgOrderMainServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**   
  * @Title: Controller
@@ -33,7 +33,7 @@ import java.util.List;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgOrderMainPTabController")
 public class JeecgOrderMainPTabController extends BaseController {
@@ -46,15 +46,6 @@ public class JeecgOrderMainPTabController extends BaseController {
 	private JeecgOrderMainServiceI jeecgOrderMainService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -91,6 +82,7 @@ public class JeecgOrderMainPTabController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgOrderMainEntity jeecgOrderMain, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		jeecgOrderMain = systemService.getEntity(JeecgOrderMainEntity.class, jeecgOrderMain.getId());
 		message = "删除成功";
@@ -111,6 +103,7 @@ public class JeecgOrderMainPTabController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(JeecgOrderMainEntity jeecgOrderMain ,JeecgOrderMainPage jeecgOrderMainPage,	
 			HttpServletRequest request) {
+		String message = null;
 		List<JeecgOrderProductEntity> jeecgOrderProducList =  jeecgOrderMainPage.getJeecgOrderProductList();
 		List<JeecgOrderCustomEntity>  jeecgOrderCustomList = jeecgOrderMainPage.getJeecgOrderCustomList();
 		Boolean jeecgOrderCustomShow = "true".equals(request.getParameter("jeecgOrderCustomShow"));

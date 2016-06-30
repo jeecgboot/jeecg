@@ -28,19 +28,19 @@ $(function(){
          data : {'action' :'edit','parseForm':html},
          success : function(msg){
              if(msg.success){
-            	//update-begin--Author:jg_renjie  Date:20150706 for：更改解析参数的方式
+
             	var d = msg.msg;
             	if(d != null && d != ''){
             		$('#preview').html(msg.msg.replace(new RegExp(/(&quot;)/g),"'"));
             	}
-            	//update-end--Author:jg_renjie  Date:20150706 for：更改解析参数的方式
+
 			}else{
 				tip(msg.msg);
 			}
          }
      });
 });
-//update-begin--Author:jg_renjie  Date:20150706 for：更新parse_form，与官网同步
+
 function parse_form(template,fields)
     {
 	//正则  radios|checkboxs|select 匹配的边界 |--|  因为当使用 {} 时js报错 (plugins|fieldname|fieldflow)
@@ -221,7 +221,7 @@ function parse_form(template,fields)
         'add_fields':add_fields//新增控件
     });
     return JSON.stringify(parse_form);
-  //update-end--Author:jg_renjie  Date:20150706 for：更新parse_form，与官网同步
+
     }</script></body>
 		
 </html>

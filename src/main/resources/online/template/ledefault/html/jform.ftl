@@ -14,6 +14,9 @@
   
   <link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css"/>
   <link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css">
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css">
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css">
   
   <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
@@ -34,6 +37,21 @@
   <script type="text/javascript" src="plug-in/umeditor/umeditor.config.js"></script>
   <script type="text/javascript" src="plug-in/umeditor/umeditor.min.js"></script>
   <script type="text/javascript" src="plug-in/umeditor/lang/zh-cn/zh-cn.js"></script>
+  
+  
+  <style type="text/css">
+  	.combo_self{height: 30px !important;}
+  </style>
+  
+  <script type="text/javascript">
+  		$(function(){
+  			$(".combo").removeClass("combo").addClass("combo combo_self");
+  			$(".combo").each(function(){
+  				$(this).parent().css("line-height","0px");
+  			});   
+  		});
+  </script>
+  
 </head>
 
  <body>
@@ -69,7 +87,7 @@
 			          	<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							        class="form-control easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							        class="inputxt easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -212,9 +230,9 @@
 										<#if imageB['field'] == po.field_name>
 										<tr style="height:34px;">
 										<td>${imageB['title']}</td>
-										<td><a href="commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
+										<td><a href="commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>

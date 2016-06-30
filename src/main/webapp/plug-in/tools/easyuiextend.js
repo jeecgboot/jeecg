@@ -1,6 +1,6 @@
+try {
 $.fn.panel.defaults.onBeforeDestroy = function() {/* tab关闭时回收内存 */
 	var frame = $('iframe', this);
-	try {
 		if (frame.length > 0) {
 			frame[0].contentWindow.document.write('');
 			frame[0].contentWindow.close();
@@ -14,14 +14,16 @@ $.fn.panel.defaults.onBeforeDestroy = function() {/* tab关闭时回收内存 */
 				panel.panel('destroy');
 			});
 		}
-	} catch (e) {
-	}
 };
+
 $.parser.onComplete = function() {/* 页面所有easyui组件渲染成功后，隐藏等待信息 */
 	if ($.browser.msie && $.browser.version < 7) {/* 解决IE6的PNG背景不透明BUG */
 	}
 	window.setTimeout(function() {
-		window.top.$.messager.progress('close');
+		try {
+			window.top.$.messager.progress('close');
+		} catch (e) {
+		}
 	}, 200);
 };
 /**
@@ -133,4 +135,5 @@ function setvar(flag, varobj, iframe) {
 	$("#types", iframe.document).val(types);
 }
 
-
+} catch (e) {
+}

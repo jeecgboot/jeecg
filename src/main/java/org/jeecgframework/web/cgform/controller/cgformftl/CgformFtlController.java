@@ -55,7 +55,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgformFtlController")
 public class CgformFtlController extends BaseController {
@@ -72,15 +72,6 @@ public class CgformFtlController extends BaseController {
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	/**
 	 * 模板展示
@@ -175,6 +166,7 @@ public class CgformFtlController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(CgformFtlEntity cgformFtl, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgformFtl = systemService.getEntity(CgformFtlEntity.class,
 				cgformFtl.getId());
@@ -195,6 +187,7 @@ public class CgformFtlController extends BaseController {
 	@RequestMapping(params = "active")
 	@ResponseBody
 	public AjaxJson active(CgformFtlEntity cgformFtl, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 			// 判断有没有激活过的模板
@@ -231,6 +224,7 @@ public class CgformFtlController extends BaseController {
 	@ResponseBody
 	public AjaxJson cancleActive(CgformFtlEntity cgformFtl,
 			HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 			cgformFtl = systemService.getEntity(CgformFtlEntity.class,
@@ -260,6 +254,7 @@ public class CgformFtlController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(CgformFtlEntity cgformFtl, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(cgformFtl.getId())) {
 			message = "更新成功";
@@ -366,6 +361,7 @@ public class CgformFtlController extends BaseController {
 	@ResponseBody
 	public AjaxJson saveWordFiles(HttpServletRequest request,
 			HttpServletResponse response, CgformFtlEntity cgformFtl) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
@@ -591,11 +587,12 @@ public class CgformFtlController extends BaseController {
 	@RequestMapping(params = "parseUeditorOld")
 	@ResponseBody
 	public AjaxJson parseUeditorOld(String parseForm,String action,HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 			JSONObject json = new JSONObject().fromObject(parseForm);
-			System.out.println(json.getString("parse"));
-			System.out.println(json.getString("data"));
+			//System.out.println(json.getString("parse"));
+			//System.out.println(json.getString("data"));
 			// 判断有没有激活过的模板
 			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
 			j.setMsg(message);
@@ -612,6 +609,7 @@ public class CgformFtlController extends BaseController {
 	@RequestMapping(params = "parseUeditor")
 	@ResponseBody
 	public AjaxJson parseUeditor(String parseForm,String action,HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 //			System.out.println(parseForm);
@@ -621,7 +619,7 @@ public class CgformFtlController extends BaseController {
 //			System.out.println(json.getString("data"));
 //			// 判断有没有激活过的模板
 //			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
-			//update-begin--Author:jg_renjie  Date:20150706 for：更改解析前台传来的html
+
 			if(StringUtils.isNotBlank(parseForm)){
 				TemplateUtil tool = new TemplateUtil();
 				Map<String,Object> map = tool.processor(parseForm);
@@ -629,7 +627,7 @@ public class CgformFtlController extends BaseController {
 			} else {
 				j.setMsg("");
 			}
-			//update-end--Author:jg_renjie  Date:20150706 for：更改解析前台传来的html
+
 			j.setSuccess(true);
 		} catch (Exception e) {
 			logger.info(e.getMessage());

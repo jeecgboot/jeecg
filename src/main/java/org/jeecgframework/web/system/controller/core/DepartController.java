@@ -52,7 +52,7 @@ import java.util.Map;
  * @author 张代浩
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/departController")
 public class DepartController extends BaseController {
@@ -62,15 +62,6 @@ public class DepartController extends BaseController {
 	private static final Logger logger = Logger.getLogger(DepartController.class);
 	private UserService userService;
 	private SystemService systemService;
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -111,7 +102,6 @@ public class DepartController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-    // update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑；添加类注释；
 	/**
 	 * 删除部门：
 	 * <ul>
@@ -132,6 +122,7 @@ public class DepartController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSDepart depart, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		depart = systemService.getEntity(TSDepart.class, depart.getId());
         message = MutiLangUtil.paramDelSuccess("common.department");
@@ -150,7 +141,7 @@ public class DepartController extends BaseController {
         j.setMsg(message);
 		return j;
 	}
-    // update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑；添加类注释；
+
 
 	public void upEntity(TSDepart depart) {
 		List<TSUser> users = systemService.findByProperty(TSUser.class, "TSDepart.id", depart.getId());
@@ -172,6 +163,7 @@ public class DepartController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(TSDepart depart, HttpServletRequest request) {
+		String message = null;
 		// 设置上级部门
 		String pid = request.getParameter("TSPDepart.id");
 		if (pid.equals("")) {
@@ -342,14 +334,14 @@ public class DepartController extends BaseController {
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
 		String departid = oConvertUtils.getString(request.getParameter("departid"));
 		if (!StringUtil.isEmpty(departid)) {
-//            update-start--Author:zhangguoming  Date:20140825 for：用户表字段变更后的查询字段修改
+
 			DetachedCriteria dc = cq.getDetachedCriteria();
 			DetachedCriteria dcDepart = dc.createCriteria("userOrgList");
 			dcDepart.add(Restrictions.eq("tsDepart.id", departid));
             // 这种方式也是可以的
 //            DetachedCriteria dcDepart = dc.createAlias("userOrgList", "userOrg");
 //            dcDepart.add(Restrictions.eq("userOrg.tsDepart.id", departid));
-//            update-end--Author:zhangguoming  Date:20140825 for：用户表字段变更后的查询字段修改
+
 		}
 		Short[] userstate = new Short[] { Globals.User_Normal, Globals.User_ADMIN };
 		cq.in("status", userstate);
@@ -359,7 +351,6 @@ public class DepartController extends BaseController {
 	}
 	//----
 
-//    update-start--Author:zhangguoming  Date:20140826 for：获取机构树；
     /**
      * 获取机构树-combotree
      * @param request
@@ -376,10 +367,7 @@ public class DepartController extends BaseController {
         comboTrees = systemService.ComboTree(departsList, comboTreeModel, null, true);
         return comboTrees;
     }
-//    update-end--Author:zhangguoming  Date:20140826 for：获取机构树；
 
-
-//    update-start--Author:zhangguoming  Date:20140826 for：添加已有用户到组织机构；
     /**
      * 添加 用户到组织机构 的页面  跳转
      * @param req request
@@ -422,6 +410,7 @@ public class DepartController extends BaseController {
     @RequestMapping(params = "doAddUserToOrg")
     @ResponseBody
     public AjaxJson doAddUserToOrg(HttpServletRequest req) {
+    	String message = null;
         AjaxJson j = new AjaxJson();
         TSDepart depart = systemService.getEntity(TSDepart.class, req.getParameter("orgId"));
         saveOrgUserList(req, depart);
@@ -455,16 +444,17 @@ public class DepartController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-//    update-end--Author:zhangguoming  Date:20140826 for：添加已有用户到组织机构
 
-//    update-start--Author:zhangguoming  Date:20140827 for：用户列表页面 组织机构查询条件：选择组织机构列表 相关操作
     /**
      * 用户选择机构列表跳转页面
      *
      * @return
      */
     @RequestMapping(params = "departSelect")
-    public String departSelect() {
+    public String departSelect(HttpServletRequest req) {
+    	
+    	req.setAttribute("orgIds", req.getParameter("orgIds"));
+    	
         return "system/depart/departSelect";
     }
     /**
@@ -480,7 +470,6 @@ public class DepartController extends BaseController {
         TagUtil.datagrid(response, dataGrid);
     }
 
-//    update-end--Author:zhangguoming  Date:20140827 for：用户列表页面 组织机构查询条件：选择组织机构列表 相关操作
 	/**
 	 * 导入功能跳转
 	 *
@@ -600,15 +589,21 @@ public class DepartController extends BaseController {
 		}
 		return j;
 	}
-	
-	//update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 	@RequestMapping(params = "getDepartInfo")
 	@ResponseBody
 	public AjaxJson getDepartInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		AjaxJson j = new AjaxJson();
 		
-		//String level = request.getParameter("level");
+		String orgIds = request.getParameter("orgIds");
+		
+		String[] ids = new String[]{}; 
+		if(StringUtils.isNotBlank(orgIds)){
+			orgIds = orgIds.substring(0, orgIds.length()-1);
+			ids = orgIds.split("\\,");
+		}
+		
 		String parentid = request.getParameter("parentid");
 		
 		List<TSDepart> tSDeparts = new ArrayList<TSDepart>();
@@ -633,6 +628,15 @@ public class DepartController extends BaseController {
 				map = new HashMap<String,Object>();
 				map.put("id", depart.getId());
 				map.put("name", depart.getDepartname());
+				
+				if(ids.length>0){
+					for(String id:ids){
+						if(id.equals(depart.getId())){
+							map.put("checked", true);
+						}
+					}
+				}
+				
 				if(StringUtils.isNotBlank(parentid)){
 					map.put("pId", parentid);
 				} else{
@@ -652,5 +656,5 @@ public class DepartController extends BaseController {
 		j.setMsg(jsonArray.toString());
 		return j;
 	}
-	//update--end--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 }

@@ -23,8 +23,7 @@ public class OpenOfficePDFConverter implements PDFConverter {
 	private static int[] port = { 8100 };
 
 	public void convert2PDF(String inputFile, String pdfFile, String extend) {
-		
-		//update-begin--Author:zhoujf  Date:20150610 for：TXT文件预览出现乱码的错误
+
 //		if (extend.equals("txt")) {
 //
 //			String odtFile = FileUtils.getFilePrefix(inputFile) + ".odt";
@@ -42,7 +41,7 @@ public class OpenOfficePDFConverter implements PDFConverter {
 //			}
 //
 //		}
-		//update-begin--Author:zhoujf  Date:20150610 for：TXT文件预览出现乱码的错误
+
 		
 		startService();
 		//pdfFile = pdfFile.replaceAll(" ", "").replaceAll("　", "");

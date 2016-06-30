@@ -28,6 +28,9 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private Short activitiSync;//是否同步工作流引擎
 	/*@Excel(name = "状态")*/
 	private Short status;// 状态1：在线,2：离线,0：禁用
+	
+	private Short deleteFlag;// 状态: 0:不删除  1：删除
+	
 	private byte[] signature;// 签名文件
 
 	@Excel(name = "组织机构编码(多个组织机构编码用逗号分隔，非必填)")
@@ -40,11 +43,11 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	public String getDepartid(){
 		return departid;
 	}
-//    update-start--Author:zhangguoming  Date:20140825 for：添加非表字段currentDepart 和 添加userOrgList属性
+
     //	private TSDepart TSDepart = new TSDepart();// 部门
     private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
 	private TSDepart currentDepart = new TSDepart();// 当前部门
-//    update-end--Author:zhangguoming  Date:20140825 for：添加非表字段currentDepart 和 添加userOrgList属性
+
 
 	@Column(name = "signature",length=3000)
 	public byte[] getSignature() {
@@ -124,7 +127,6 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 		this.realName = realName;
 	}
 
-//    update-start--Author:zhangguoming  Date:20140825 for：添加非表字段currentDepart 和 添加userOrgList属性
     @Transient
     public TSDepart getCurrentDepart() {
         return currentDepart;
@@ -143,5 +145,14 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
     public void setUserOrgList(List<TSUserOrg> userOrgList) {
         this.userOrgList = userOrgList;
     }
-//    update-end--Author:zhangguoming  Date:20140825 for：添加非表字段currentDepart 和 添加userOrgList属性
+
+	public void setDeleteFlag(Short deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	
+	@Column(name = "delete_flag")
+	public Short getDeleteFlag() {
+		return deleteFlag;
+	}
+
 }

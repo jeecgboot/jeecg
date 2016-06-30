@@ -34,7 +34,7 @@ import org.jeecgframework.web.sms.service.TSSmsTemplateServiceI;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tSSmsTemplateController")
 public class TSSmsTemplateController extends BaseController {
@@ -47,15 +47,6 @@ public class TSSmsTemplateController extends BaseController {
 	private TSSmsTemplateServiceI tSSmsTemplateService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -100,6 +91,7 @@ public class TSSmsTemplateController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(TSSmsTemplateEntity tSSmsTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		tSSmsTemplate = systemService.getEntity(TSSmsTemplateEntity.class, tSSmsTemplate.getId());
 		message = "消息模本表删除成功";
@@ -123,6 +115,7 @@ public class TSSmsTemplateController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息模本表删除成功";
 		try{
@@ -152,6 +145,7 @@ public class TSSmsTemplateController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TSSmsTemplateEntity tSSmsTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息模本表添加成功";
 		try{
@@ -175,6 +169,7 @@ public class TSSmsTemplateController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(TSSmsTemplateEntity tSSmsTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息模本表更新成功";
 		TSSmsTemplateEntity t = tSSmsTemplateService.get(TSSmsTemplateEntity.class, tSSmsTemplate.getId());

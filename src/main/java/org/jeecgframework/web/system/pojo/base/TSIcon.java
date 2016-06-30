@@ -1,24 +1,10 @@
 package org.jeecgframework.web.system.pojo.base;
 // default package
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.jeecgframework.core.common.entity.IdEntity;
 
 /**
@@ -28,8 +14,6 @@ import org.jeecgframework.core.common.entity.IdEntity;
 @Entity
 @Table(name = "t_s_icon")
 public class TSIcon extends IdEntity implements java.io.Serializable {
-	public static Map<String, TSIcon> allTSIcons = new HashMap<String,TSIcon>();
-
 	private String iconName;
 	private Short iconType;
 	private String iconPath;

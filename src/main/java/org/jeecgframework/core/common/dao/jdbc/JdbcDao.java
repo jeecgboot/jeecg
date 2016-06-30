@@ -193,18 +193,18 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC
 	 */
 	public Long getCountForJdbc(String  sql) {
-		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 		return  jdbcTemplate.queryForObject(sql,Long.class);
-		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 	}
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC-采用预处理方式
 	 * 
 	 */
 	public Long getCountForJdbcParam(String  sql,Object... objs) {
-		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 		return  jdbcTemplate.queryForObject(sql, objs,Long.class);
-		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 	}
 
 	public Integer executeSql2(String sql,List<Object> param) {
@@ -216,9 +216,9 @@ public class JdbcDao extends SimpleJdbcTemplate{
 	}
 
 	public Integer countByJdbc(String sql, Object... param) {
-		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 		return this.jdbcTemplate.queryForObject(sql, param,Integer.class);
-		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
+
 	}
 
 	/**

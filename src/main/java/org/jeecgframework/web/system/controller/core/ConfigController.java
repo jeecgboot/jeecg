@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author 张代浩
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/configController")
 public class ConfigController extends BaseController {
@@ -39,15 +39,7 @@ public class ConfigController extends BaseController {
 	private static final Logger logger = Logger
 			.getLogger(ConfigController.class);
 	private SystemService systemService;
-	private String message;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -89,6 +81,7 @@ public class ConfigController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSConfig config, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		config = systemService.getEntity(TSConfig.class, config.getId());
 		message = "配置信息: " + config.getName() + "被删除 成功";
@@ -109,6 +102,7 @@ public class ConfigController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(TSConfig tsConfig,HttpServletRequest request) {
+		String message = null;
 		if (StringUtil.isEmpty(tsConfig.getId())) {
 			TSConfig tsConfig2=systemService.findUniqueByProperty(TSConfig.class, "code", tsConfig.getCode());
 			if(tsConfig2!=null){

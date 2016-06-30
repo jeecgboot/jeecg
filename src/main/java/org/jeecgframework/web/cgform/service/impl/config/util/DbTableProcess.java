@@ -160,15 +160,14 @@ public class DbTableProcess {
 			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(
 					session.getSessionFactory()).getConnection());
 			dbExport.execute(true, true, false, true);
-			
-			//update-begin--Author:Robin  Date:20140507 for：TASK #409 字段长度未注明时，显示同步数据库成功，但实则未创建数据表
+
 			//抛出执行异常，抛出第一个即可  
 			@SuppressWarnings("unchecked")
 			List<Exception> exceptionList = dbExport.getExceptions();
 			for (Exception exception : exceptionList) {
 				throw new DBException(exception.getMessage());
 			}
-			//update-end--Author:Robin  Date:20140507 for：TASK #409 字段长度未注明时，显示同步数据库成功，但实则未创建数据表
+
 	}
 
 	/**

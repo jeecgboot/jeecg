@@ -122,13 +122,13 @@ public abstract class SignatureUtil {
     		if(param.indexOf("=")!=-1){
     			String[] values = param.split("=");
     			if(values!=null&&values.length==2){
-    				//update----begin---author:scott----date:20160115----for:昵称转码，签名问题处理----
+
     				if ("nickname".equals(values[0])) {
     					paramMap.put(values[0],URLDecoder.decode(values[1]));
 					}else{
 						paramMap.put(values[0], values[1]);
 					}
-    				//update----begin---author:scott----date:20160115----for:昵称转码，签名问题处理----
+
     			}
     		}
     	}

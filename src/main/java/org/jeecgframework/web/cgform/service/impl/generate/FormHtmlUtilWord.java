@@ -79,9 +79,9 @@ public class FormHtmlUtilWord {
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      //update--begin---author:scott------date:20151118---for:online代码生成自定义word模板----------------------
+
       html.append("value=\"\\@{onlineCodeGenereateEntityKey@.").append(cgFormFieldEntity.getFieldName()).append("}\" ");
-      //update--begin---author:scott------date:20151118---for:online代码生成自定义word模板---------------------
+
       if("Y".equals(cgFormFieldEntity.getIsNull())){
     	  html.append("ignore=\"ignore\" ");
       }

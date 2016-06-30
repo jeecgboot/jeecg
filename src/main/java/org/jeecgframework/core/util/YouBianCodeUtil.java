@@ -11,9 +11,8 @@ public class YouBianCodeUtil {
 
 	// 数字位数(默认生成3位的数字)
 
-	//----update-begin--------autor:张肖江----------date:20150120--- for:postcode生成方式一位字符加四位数字，----
 	private static final int numLength = 2;//代表数字位数
-	//----update-end  --------autor:张肖江----------date:20150120--- for:postcode生成方式一位字符加四位数字，----
+
 	public static final int zhanweiLength = 1+numLength;
 
 	/**
@@ -78,10 +77,9 @@ public class YouBianCodeUtil {
 	public static synchronized String getSubYouBianCode(String parentCode,String localCode) {
 		if(localCode!=null && localCode!=""){
 
-			//----update-begin--------autor:张肖江----------date:20150120--- for:解决postcode生成bug，----
 //			return parentCode + getNextYouBianCode(localCode);
 			return getNextYouBianCode(localCode);
-			//----update-end----------autor:张肖江----------date:20150120--- for:解决postcode生成bug，----
+
 		}else{
 			parentCode = parentCode + "A"+ getNextStrNum(0);
 		}

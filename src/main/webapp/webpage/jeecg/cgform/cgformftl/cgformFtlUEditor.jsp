@@ -275,7 +275,6 @@ var leipiEditor = UE.getEditor('ftlContent',{
             alert("你点击了保存,这里可以异步提交，请自行处理....");
 			$("#ftl").val(leipiEditor.getContent());
             return false;
-            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
             var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
             if( typeof type!=='undefined' ){

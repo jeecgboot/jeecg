@@ -11,6 +11,9 @@ public class DataGridColumn {
 	protected String title;//表格列名
 	protected String field;//数据库对应字段
 	protected Integer width;//宽度
+	//author：xugj start date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
+	protected Integer showLen; //显示长度
+	//author：xugj end date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
 	protected String rowspan;//跨列
 	protected String colspan;//跨行
 	protected String align;//对齐方式
@@ -104,6 +107,14 @@ public class DataGridColumn {
 
 	public void setWidth(Integer width) {
 		this.width = width;
+	}
+
+	public Integer getShowLen() {
+		return showLen;
+	}
+
+	public void setShowLen(Integer showLen) {
+		this.showLen = showLen;
 	}
 
 	public void setRowspan(String rowspan) {

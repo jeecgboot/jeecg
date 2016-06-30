@@ -22,6 +22,7 @@ import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
 import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableProcess;
@@ -71,9 +72,11 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
 	@Autowired
 	private CgFormFieldDao cgFormFieldDao;
+	@Autowired
+	private CgFormIndexServiceI cgFormIndexService;
 
 	
-	public synchronized void updateTable(CgFormHeadEntity t, String sign) {
+	public synchronized void updateTable(CgFormHeadEntity t, String sign,boolean isChange) {
 		CgFormFieldEntity column;
 		boolean databaseFieldIsChange = false;
 		for (int i = 0; i < t.getColumns().size(); i++) {
@@ -101,6 +104,9 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 				this.saveOrUpdate(c);
 			}
 		}
+
+		t.setIsDbSynch(isChange ? "N" : t.getIsDbSynch());
+
 		t.setIsDbSynch(databaseFieldIsChange ? "N" : t.getIsDbSynch());
 		
 		//表单配置修改，版本号未升级
@@ -236,6 +242,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 						throw new BusinessException("同步失败:创建新表出错");
 					}
 				}
+				cgFormIndexService.createIndexes(cgFormHead);
 				cgFormHead.setIsDbSynch("Y");
 				this.saveOrUpdate(cgFormHead);	
 			}else if(SYN_FORCE.equals(synMethod)){
@@ -249,6 +256,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 						logger.error(e.getMessage());
 					}
 					DbTableProcess.createOrDropTable(cgFormHead, getSession());
+					cgFormIndexService.createIndexes(cgFormHead);
 					cgFormHead.setIsDbSynch("Y");
 					this.saveOrUpdate(cgFormHead);
 				} catch (Exception e) {
@@ -429,7 +437,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 							+ mainE.getSubTableStr());
 				}
 				// step.7 更新主表的表配置
-				this.updateTable(mainE, "sign");
+				this.updateTable(mainE, "sign",false);
 			}
 		}
 		return true;
@@ -528,7 +536,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 			}
 			subTableStr = subTableStr.substring(0, subTableStr.length() - 1);
 			main.setSubTableStr(subTableStr);
-			this.updateTable(main, "sign");
+			this.updateTable(main, "sign",false);
 		}
 	}
 

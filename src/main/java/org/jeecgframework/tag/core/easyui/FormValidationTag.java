@@ -30,9 +30,9 @@ public class FormValidationTag extends TagSupport {
 	protected String action;// 表单提交路径
 	protected String tabtitle;// 表单选项卡
 	protected String tiptype = "4";//校验方式
-//	update-start--Author:longjb  Date:20150317 for：修改增加css样式类属性
+
 	protected String styleClass ;//table 样式
-//	update-start--Author:longjb  Date:20150323 for：修改增加css主题类属性
+
 	protected String cssTheme;//主题样式目录默认为空
 	
 	public String getCssTheme() {
@@ -42,7 +42,7 @@ public class FormValidationTag extends TagSupport {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-//	update-end--Author:longjb  Date:20150323 for：修改增加css主题类属性
+
 	public String getStyleClass() {
 		return styleClass;
 	}
@@ -50,7 +50,7 @@ public class FormValidationTag extends TagSupport {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-//	update-end--Author:longjb  Date:20150317 for：修改增加css样式类属性
+
 	public void setTabtitle(String tabtitle) {
 		this.tabtitle = tabtitle;
 	}
@@ -81,8 +81,10 @@ public class FormValidationTag extends TagSupport {
 
 	
 	public int doStartTag() throws JspException {
+		JspWriter out = null;
+		StringBuffer sb = new StringBuffer();
 		try {
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 /*//			if(cssTheme==null){//手工设置值优先
 				Cookie[] cookies = ((HttpServletRequest) super.pageContext
 						.getRequest()).getCookies();
@@ -96,18 +98,17 @@ public class FormValidationTag extends TagSupport {
 				}
 //			}
 			if(cssTheme==null||"default".equals(cssTheme))cssTheme="";*/
-			StringBuffer sb = new StringBuffer();
 			if ("div".equals(layout)) {
 				sb.append("<div id=\"content\">");
 				sb.append("<div id=\"wrapper\">");
 				sb.append("<div id=\"steps\">");
 			}
 			sb.append("<form id=\"" + formid + "\" " );
-//			update-start--Author:longjb  Date:20150317 for：修改增加css样式类属性
+
 			if(this.getStyleClass()!=null){
 				sb.append("class=\""+this.getStyleClass()+"\" ");
 			}
-//			update-end--Author:longjb  Date:20150317 for：修改增加css样式类属性
+
 					sb.append(" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
 			if ("btn_sub".equals(btnsub) && dialog)
 				sb.append("<input type=\"hidden\" id=\"" + btnsub + "\" class=\"" + btnsub + "\"/>");
@@ -121,6 +122,8 @@ public class FormValidationTag extends TagSupport {
 
 	
 	public int doEndTag() throws JspException {
+		StringBuffer sb = new StringBuffer();
+		JspWriter out = null;
 		try {
 			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 			SysThemesEnum sysThemesEnum = null;
@@ -129,10 +132,9 @@ public class FormValidationTag extends TagSupport {
 			}else{
 				sysThemesEnum = SysThemesEnum.toEnum(cssTheme);
 			}
-			JspWriter out = this.pageContext.getOut();
-			StringBuffer sb = new StringBuffer();
+			out = this.pageContext.getOut();
 			if (layout.equals("div")) {
-			//	update-start--Author:longjb  Date:20150323 for：修改增加css主题类属性
+
 //				if("metro".equals(cssTheme)){
 //					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/divfrom.css\" type=\"text/css\"/>");
 //				}else{
@@ -154,8 +156,7 @@ public class FormValidationTag extends TagSupport {
 			sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
 			//tablefrom.css
 			sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
-			
-			//	update-end--Author:longjb  Date:20150323 for：修改增加css主题类属性
+
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
@@ -231,7 +232,7 @@ public class FormValidationTag extends TagSupport {
 					passsb.append("}");// trigger结尾
 					passsb.append("}");// passwordstrength结尾
 				}
-//				 update-start--Author:gaofeng  Date:20140711 for：修改在使用jptransform时的逗号","拼接错误
+
 				sb.append("usePlugin:{");
 				if (usePlugin.indexOf("password") >= 0) {
 					sb.append(passsb);
@@ -243,7 +244,7 @@ public class FormValidationTag extends TagSupport {
 					}
 					jqsb.append("jqtransform :{selector:\"select\"}");
 				}
-//				update-end--Author:gaofeng  Date:20140711 for：修改在使用jptransform时的逗号","拼接错误
+
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append(jqsb);
 				}
@@ -294,6 +295,14 @@ public class FormValidationTag extends TagSupport {
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+
+				sb.setLength(0);
+
+				out.clearBuffer();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}

@@ -87,14 +87,14 @@
 		<tr>
 			<td></td>
 			<td colspan="3" class="value"><script type="text/javascript">
-					$.dialog.setting.zIndex =1990;
+					$.dialog.setting.zIndex =2990;
 					function del(url,obj){
 						$.dialog.confirm("确认删除该条记录?", function(){
 						  	$.ajax({
 								async : false,
 								cache : false,
 								type : 'POST',
-								url : url,// 请求的action路径
+								url : url,// 请求的action路径 
 								error : function() {// 请求失败处理函数
 								},
 								success : function(data) {

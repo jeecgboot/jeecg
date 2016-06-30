@@ -78,3 +78,7 @@ var sqlParse = "SQLParse";
 var extendJson = "extendJson";
 var extendJsonTip = "Please input JSON style，adjust the form attribute";
 /*add-end--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/
+
+var indexname = "indexname";
+var indexfield = "indexfield";
+var indextype = "indextype";

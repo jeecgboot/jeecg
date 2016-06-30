@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/noticeAuthorityUserController")
 public class NoticeAuthorityUserController extends BaseController {
@@ -44,15 +44,6 @@ public class NoticeAuthorityUserController extends BaseController {
 	private NoticeAuthorityUserServiceI noticeAuthorityUserService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -98,6 +89,7 @@ public class NoticeAuthorityUserController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(TSNoticeAuthorityUser noticeAuthorityUser, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		noticeAuthorityUser = systemService.getEntity(TSNoticeAuthorityUser.class, noticeAuthorityUser.getId());
 		message = "通知公告用户授权删除成功";
@@ -121,6 +113,7 @@ public class NoticeAuthorityUserController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告用户授权删除成功";
 		try{
@@ -150,6 +143,7 @@ public class NoticeAuthorityUserController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TSNoticeAuthorityUser noticeAuthorityUser, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告用户授权添加成功";
 		try{
@@ -173,6 +167,7 @@ public class NoticeAuthorityUserController extends BaseController {
 	@RequestMapping(params = "doSave")
 	@ResponseBody
 	public AjaxJson doSave(TSNoticeAuthorityUser noticeAuthorityUser, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告用户授权保存成功";
 		try{
@@ -200,6 +195,7 @@ public class NoticeAuthorityUserController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(TSNoticeAuthorityUser noticeAuthorityUser, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告用户授权更新成功";
 		TSNoticeAuthorityUser t = noticeAuthorityUserService.get(TSNoticeAuthorityUser.class, noticeAuthorityUser.getId());

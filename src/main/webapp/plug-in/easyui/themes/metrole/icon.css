@@ -75,4 +75,10 @@
 .icon-exit{
 	background:url('icons/exit.png') no-repeat center center;
 }
+.icon-le-ok{
+	background:url('icons/le-ok.png') no-repeat center center;
+}
+.icon-le-back{
+	background:url('icons/le-back.png') no-repeat center center;
+}
 

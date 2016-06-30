@@ -1,24 +1,13 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.jeecgframework.web.system.service.SystemService;
-
 import org.apache.commons.lang.StringUtils;
-import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.gson.Gson;
 
 /**
  * 
@@ -107,11 +96,19 @@ public class DepartSelectTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 			out.print(end().toString());
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clear();
+				out.close();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}
@@ -173,7 +170,7 @@ public class DepartSelectTag extends TagSupport {
 		
 		sb.append("function callbackDepartmentSelect() {");
 		sb.append("    var iframe = this.iframe.contentWindow;");
-		//update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 		//sb.append("    var departname = iframe.getdepartListSelections('text');");
 		sb.append(" var treeObj = iframe.$.fn.zTree.getZTreeObj(\"departSelect\");");
 		sb.append(" var nodes = treeObj.getCheckedNodes(true);");
@@ -188,7 +185,7 @@ public class DepartSelectTag extends TagSupport {
 		sb.append(" $('#" + selectedNamesInputId + "').blur();");		
 		sb.append(" $('#" + selectedIdsInputId + "').val(ids);");
 		sb.append("}");
-		//update--end--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 		sb.append("}");
 		sb.append("</script>");
 		return sb;

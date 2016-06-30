@@ -50,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/onlineDocController")
 public class OnlineDocController extends BaseController {
@@ -63,15 +63,6 @@ public class OnlineDocController extends BaseController {
 	private OnlineDocServiceI onlineDocService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -116,6 +107,7 @@ public class OnlineDocController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(OnlineDocEntity onlineDoc, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		onlineDoc = systemService.getEntity(OnlineDocEntity.class, onlineDoc.getId());
 		message = "在线文档删除成功";
@@ -139,6 +131,7 @@ public class OnlineDocController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "在线文档删除成功";
 		try{
@@ -168,6 +161,7 @@ public class OnlineDocController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(OnlineDocEntity onlineDoc, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "在线文档添加成功";
 		try{
@@ -191,6 +185,7 @@ public class OnlineDocController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(OnlineDocEntity onlineDoc, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "在线文档更新成功";
 		OnlineDocEntity t = onlineDocService.get(OnlineDocEntity.class, onlineDoc.getId());

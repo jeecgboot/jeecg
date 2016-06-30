@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author tanghan
  * @date 2013-7-19 下午01:23:08
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/repairController")
 public class RepairController extends BaseController {
@@ -31,15 +31,6 @@ public class RepairController extends BaseController {
     
 	private RepairService repairService;
 	
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	@Autowired
 	public void setRepairService(RepairService repairService) {

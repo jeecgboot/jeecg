@@ -22,9 +22,9 @@ import org.jeecgframework.core.common.entity.IdEntity;
  */
 @Entity
 @Table(name = "t_s_function")
-//update-begin--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
 @org.hibernate.annotations.Proxy(lazy = false)
-//update-end--Author:jp_renjie  Date:20150604 for：TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
 
 public class TSFunction extends IdEntity implements java.io.Serializable {
 	private TSFunction TSFunction;//父菜单
@@ -35,16 +35,15 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	private String functionOrder;//菜单排序
 	private Short functionType;//菜单类型
 	private TSIcon TSIcon = new TSIcon();//菜单图标
-    //        update-begin--Author:zhangguoming  Date:20140509 for：添加云桌面图标实体
+
 	private TSIcon TSIconDesk;// 云桌面菜单图标
-	
-//  update-begin--Author:jg_longjb龙金波  Date:20150313 for：增加子菜单个数虚拟属性，避免使用getTSFunctions().size()导致过多sql
+
 	/*private int subFunctionSize;
 	@Formula(value = "(SELECT count(t_s_function.id) FROM t_s_function where t_s_function.parentfunctionid = id)")
 	public int getSubFunctionSize() {
 		return subFunctionSize;
 	}*/
-//  update-begin--Author:jg_gudongli辜栋利  Date:20150516 for：判断是否有子节点，利用已有数据不需要查询数据库	
+
 
 	/**创建时间*/
 	private java.util.Date createDate;
@@ -160,7 +159,7 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 		}
 		return false;
 	}
-//  update-begin--Author:jg_gudongli辜栋利  Date:20150516 for：判断是否有子节点，利用已有数据不需要查询数据库	
+
 	public boolean hasSubFunction(List<TSFunction> functions) {
 		for (TSFunction f : functions) {
 			if(f.getTSFunction().getId().equals(this.getId())){
@@ -172,12 +171,9 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	/*public void setSubFunctionSize(int subFunctionSize) {
 		this.subFunctionSize = subFunctionSize;
 	}*/
-//  update-end--Author:jg_longjb龙金波  Date:20150313 for：增加子菜单个数虚拟属性，避免使用getTSFunctions().size()导致过多sql
-	
-	
-	//update-begin--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
     @ManyToOne(fetch = FetchType.EAGER)
-    //update-end--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
     @JoinColumn(name = "desk_iconid")
     public TSIcon getTSIconDesk() {
         return TSIconDesk;
@@ -185,12 +181,12 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
     public void setTSIconDesk(TSIcon TSIconDesk) {
         this.TSIconDesk = TSIconDesk;
     }
-    //        update-end--Author:zhangguoming  Date:20140509 for：添加云桌面图标实体
+
     
 	private List<TSFunction> TSFunctions = new ArrayList<TSFunction>();
-	//update-begin--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	//update-end--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
 	@JoinColumn(name = "iconid")
 	public TSIcon getTSIcon() {
 		return TSIcon;
@@ -198,10 +194,9 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	public void setTSIcon(TSIcon tSIcon) {
 		TSIcon = tSIcon;
 	}
-	
-	//update-begin--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
     @ManyToOne(fetch = FetchType.EAGER)
-    //update-end--Author:jp_renjie  Date:20150604 for： for:TSFunction关闭lazy，使得TSFunction在session关闭之后能够继续取得相关数据从而解决切换到云桌面时不能正常加载的错误
+
 	@JoinColumn(name = "parentfunctionid")
 	public TSFunction getTSFunction() {
 		return this.TSFunction;

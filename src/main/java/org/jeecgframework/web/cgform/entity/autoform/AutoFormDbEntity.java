@@ -54,9 +54,9 @@ public class AutoFormDbEntity implements java.io.Serializable {
 	private java.lang.String tbDbKey;
 	/**填报数据表*/
 	private java.lang.String tbDbTableName;
-	//update-begin--Author:zzl  Date:20151028 for：数据源名称
+
 	private String dbChName;
-	//update-end--Author:zzl  Date:20151028 for：数据源名称
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -347,7 +347,7 @@ public class AutoFormDbEntity implements java.io.Serializable {
 		return tbDbTableName;
 	}
 	//add-end--Author: jg_huangxg  Date:20150723 for：增加填报数据源字段和填报数据表字段
-    //update-begin--Author:zzl  Date:20151028 for：数据源名称
+
 	@Column(name ="DB_CH_NAME",nullable=true,length=32)
 	public String getDbChName() {
 		return dbChName;
@@ -356,5 +356,5 @@ public class AutoFormDbEntity implements java.io.Serializable {
 	public void setDbChName(String dbChName) {
 		this.dbChName = dbChName;
 	}
-	//update-end--Author:zzl  Date:20151028 for：数据源名称
+
 }

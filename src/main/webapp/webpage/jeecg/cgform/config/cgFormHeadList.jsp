@@ -34,7 +34,7 @@
 </div>
 </div>
 <div region="center" style="padding:0px;border:0px">
-<t:datagrid sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config" 
+<t:datagrid queryBuilder="true" sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config"
             fitColumns="false" actionUrl="cgFormHeadController.do?datagrid" idField="id" fit="true" 
             queryMode="group" checkbox="true" >
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
@@ -189,11 +189,9 @@
 	*/
 	function popMenuLink(tableName,content){
         $.dialog({
-        	//update-begin--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
-        	//update-begin--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
+
 			content: "url:cgFormHeadController.do?popmenulink&url=cgAutoListController.do?list&title="+tableName,
-			//update-end--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
-			//update-end--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
+
 			drag :false,
 			lock : true,
 			title:'<t:mutiLang langKey="common.menu.link"/>' + '['+content+']',

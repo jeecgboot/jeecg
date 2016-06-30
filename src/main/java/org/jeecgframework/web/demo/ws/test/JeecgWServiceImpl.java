@@ -1,5 +1,7 @@
 package org.jeecgframework.web.demo.ws.test;
 
+import org.jeecgframework.core.util.LogUtil;
+
 public class JeecgWServiceImpl implements JeecgWServiceI {
 
 	@Override
@@ -17,7 +19,7 @@ public class JeecgWServiceImpl implements JeecgWServiceI {
 	@Override
 	public void sayUI() {
 		// TODO Auto-generated method stub
-		System.out.println("UI");
+		LogUtil.info("UI");
 	}
 
 }

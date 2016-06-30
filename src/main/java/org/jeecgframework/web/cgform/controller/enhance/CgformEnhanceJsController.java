@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgformEnhanceJsController")
 public class CgformEnhanceJsController extends BaseController {
@@ -44,15 +44,6 @@ public class CgformEnhanceJsController extends BaseController {
 	private CgformEnhanceJsServiceI cgformenhanceJsService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -92,6 +83,7 @@ public class CgformEnhanceJsController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(CgformEnhanceJsEntity cgformenhanceJs, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgformenhanceJs = systemService.getEntity(CgformEnhanceJsEntity.class, cgformenhanceJs.getId());
 		message = "删除成功";
@@ -130,6 +122,7 @@ public class CgformEnhanceJsController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(CgformEnhanceJsEntity cgformenhanceJs, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(cgformenhanceJs.getId())) {
 			message = "更新成功";

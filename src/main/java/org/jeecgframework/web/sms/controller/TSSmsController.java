@@ -45,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tSSmsController")
 public class TSSmsController extends BaseController {
@@ -58,16 +58,6 @@ public class TSSmsController extends BaseController {
 	private TSSmsServiceI tSSmsService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 
 	/**
 	 * 消息发送记录表列表 页面跳转
@@ -111,6 +101,7 @@ public class TSSmsController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(TSSmsEntity tSSms, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		tSSms = systemService.getEntity(TSSmsEntity.class, tSSms.getId());
 		message = "消息发送记录表删除成功";
@@ -134,6 +125,7 @@ public class TSSmsController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息发送记录表删除成功";
 		try{
@@ -163,6 +155,7 @@ public class TSSmsController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TSSmsEntity tSSms, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息发送记录表添加成功";
 		try{
@@ -186,6 +179,7 @@ public class TSSmsController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(TSSmsEntity tSSms, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "消息发送记录表更新成功";
 		TSSmsEntity t = tSSmsService.get(TSSmsEntity.class, tSSms.getId());

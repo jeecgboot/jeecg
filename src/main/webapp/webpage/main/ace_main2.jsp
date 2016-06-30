@@ -693,7 +693,7 @@
 			}});
   			
   	}
-//update-begin--Author:张忠亮  Date:20150605 for：清除浏览器缓存
+
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -702,7 +702,7 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
-//update-end--Author:张忠亮  Date:20150605 for：清除浏览器缓存
+
 
 
 	$(document).ready(function(){
@@ -850,7 +850,7 @@
     }
 		</script>
 		<script src="plug-in/ace/js/bootstrap.js"></script>
-<script src="plug-in/ace/js/bootbox.js"></script>
+		<script src="plug-in/ace/js/bootbox.js"></script>
 
 		<script src="plug-in/ace/js/jquery-ui.js"></script>
 		<script src="plug-in/ace/js/jquery.ui.touch-punch.js"></script>

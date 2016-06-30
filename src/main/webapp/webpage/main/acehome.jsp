@@ -12,7 +12,8 @@
 
     <title>Jeecg 微云快速开发平台</title>
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="plug-in-ui/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
 
     <link href="plug-in-ui/hplus/css/animate.css" rel="stylesheet">
@@ -278,9 +279,6 @@
 
     <!-- 自定义js -->
     <script src="plug-in-ui/hplus/js/content.js"></script>
-
-    <!-- 欢迎信息 -->
-    <script src="plug-in-ui/hplus/js/welcome.js"></script>
 </body>
 
 </html>

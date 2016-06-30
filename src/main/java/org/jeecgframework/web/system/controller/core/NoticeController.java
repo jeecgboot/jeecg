@@ -42,7 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author alax
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/noticeController")
 public class NoticeController extends BaseController{
@@ -50,7 +50,6 @@ public class NoticeController extends BaseController{
 	
 	@Autowired
 	private NoticeService noticeService;
-	private String message;
 	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -77,10 +76,10 @@ public class NoticeController extends BaseController{
 			sql += " OR (t.notice_level = '2' AND EXISTS (SELECT 1 FROM t_s_notice_authority_role r,t_s_role_user ru WHERE r.role_id = ru.roleid AND t.id = r.notice_id AND ru.userid = '"+user.getId()+"'))";
 			sql += " OR (t.notice_level = '3' AND EXISTS (SELECT 1 FROM t_s_notice_authority_user u WHERE t.id = u.notice_id AND u.user_id = '"+user.getId()+"'))";
 			sql += " ) AND NOT EXISTS (SELECT 1 FROM t_s_notice_read_user rd WHERE t.id = rd.notice_id AND rd.user_id = '"+user.getId()+"')";
-			//update-begin-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
+
 			sql += " ORDER BY t.create_time DESC ";		
 			List<Map<String, Object>> noticeList =  systemService.findForJdbc(sql,1,10);
-			//update-end-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
+
 			
 			//将List转换成JSON存储
 			JSONArray result = new JSONArray();
@@ -168,7 +167,7 @@ public class NoticeController extends BaseController{
 			
 			List<Map<String, Object>> resultList =  systemService.findForJdbc(sql,dataGrid.getPage(),dataGrid.getRows());
 			//将List转换成JSON存储
-			//update-begin--Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对
+
 			List<Map<String, Object>> noticeList = new ArrayList<Map<String, Object>>();
 			if(resultList!=null && resultList.size()>0){
 				for(int i=0;i<resultList.size();i++){
@@ -188,7 +187,7 @@ public class NoticeController extends BaseController{
 					noticeList.add(n);	
 				}
 			}
-			//update-end--Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对
+
 
 			dataGrid.setResults(noticeList);
 			String sql2 = "";
@@ -267,6 +266,7 @@ public class NoticeController extends BaseController{
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(TSNotice tSNotice, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		tSNotice = systemService.getEntity(TSNotice.class, tSNotice.getId());
 		message = "通知公告删除成功";
@@ -290,6 +290,7 @@ public class NoticeController extends BaseController{
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告删除成功";
 		try{
@@ -319,6 +320,7 @@ public class NoticeController extends BaseController{
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TSNotice tSNotice, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告添加成功";
 		try{
@@ -342,6 +344,7 @@ public class NoticeController extends BaseController{
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(TSNotice tSNotice, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "通知公告更新成功";
 		TSNotice t = noticeService.get(TSNotice.class, tSNotice.getId());

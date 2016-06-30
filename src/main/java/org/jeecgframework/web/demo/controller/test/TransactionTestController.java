@@ -1,5 +1,11 @@
 package org.jeecgframework.web.demo.controller.test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -8,23 +14,15 @@ import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
 import org.jeecgframework.web.demo.entity.test.JeecgOrderCustomEntity;
 import org.jeecgframework.web.demo.service.test.TransactionTestServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 事务回滚测试
  * Created by zzl on 2015/8/6.
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/transactionTestController")
 public class TransactionTestController {

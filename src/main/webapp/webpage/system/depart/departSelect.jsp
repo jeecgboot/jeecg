@@ -31,13 +31,20 @@
 		 var treeNodeId = treeNode.id;
 		 $.post(
 			'departController.do?getDepartInfo',
-			{parentid:treeNodeId},
+			{parentid:treeNodeId,orgIds:$("#orgIds").val()},
 			function(data){
 				var d = $.parseJSON(data);
 				if (d.success) {
 					var dbDate = eval(d.msg);
 					var tree = $.fn.zTree.getZTreeObj("departSelect");
-					tree.addNodes(treeNode, dbDate);
+
+					if (!treeNode.zAsync){
+						tree.addNodes(treeNode, dbDate);
+						treeNode.zAsync = true;
+					} else{
+						tree.reAsyncChildNodes(treeNode, "refresh");
+					}
+					//tree.addNodes(treeNode, dbDate);
 				}
 			}
 		);
@@ -47,6 +54,7 @@
 	$(function(){
 		$.post(
 			'departController.do?getDepartInfo',
+		    {orgIds:$("#orgIds").val()},
 			function(data){
 				var d = $.parseJSON(data);
 				if (d.success) {
@@ -59,6 +67,7 @@
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
+<input id="orgIds" name="orgIds" type="hidden" value="${orgIds}">
 <ul id="departSelect" class="ztree" style="margin-top: 30px;"></ul>
 <%-- <t:datagrid name="departList" title="common.department.list" actionUrl="departController.do?departSelectDataGrid" idField="id" checkbox="true" showRefresh="false">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>

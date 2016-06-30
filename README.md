@@ -1,7 +1,7 @@
 JEECG 微云快速开发平台
 ===============
 
-当前最新版本： 3.6.3（发布日期：20160410）
+当前最新版本： 3.6.4（发布日期：20160701）
 
 前言：
 -----------------------------------
@@ -73,7 +73,7 @@ JEECG 功能特点
 *   <b>技术点十七：</b>插件开发，业务功能组件以插件方式集成平台，也可以单独部署发发布，有力支撑了SAAS云应用系统需求</br>
 
 
-* 	JEECG V3.6.2, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
+* 	JEECG V3.6.4, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
 * 	支持多种浏览器: IE, 火狐, Google 等</br>
 * 	支持数据库: Mysql,Oracle10g,Postgre,SqlServer等</br>
 * 	基础权限: 用户，角色，菜单权限，按钮权限，数据权限</br>
@@ -85,28 +85,59 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
-* [JEECG 开发环境手把手入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
-* [JEECG 常见问题大全](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG 本地Maven仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
-* [JEECG Lib包下载，供改造非maven工程](http://git.oschina.net/jeecg/jeecg-local-maven)
-* [JEECG 非maven版本下载](http://git.oschina.net/jeecg/jeecg-no_maven)
+* [JEECG 开发环境搭建入门必读](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG 开发入门视频](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
-* [JEECG 更多文档](http://wiki.jeecg.org/display/12/Home)
-* [JEECG 在线演示DEMO](http://demo.jeecg.org)
+* [JEECG 入门常见问题必读](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
+* [在线演示](http://demo.jeecg.org)
+* [JEECG云应用平台中心](http://yun.jeecg.org)
+
+* maven依赖下载有问题的，可以直接下载官方提供的 => [JEECG本地Maven仓库](http://git.oschina.net/jeecg/jeecg-local-maven)
+* 不熟悉maven的同学，直接用 => [myeclipse非maven版本](http://git.oschina.net/jeecg/jeecg-no_maven)
+
+
+JEECG云插件中心
+-----------------------------------
+* JEECG从V_3.6.3版本开始，采用插件开发模式，JEECG走简化轻量级路线，后续升级和功能模块，采用插件开发模式，进行集成。
+* 更多插件下载地址：[http://yun.jeecg.org/](http://yun.jeecg.org)
+![github](http://img.blog.csdn.net/20160623162220022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 
 
     
 技术交流
 -----------------------------------
-* 	作者：[张代浩](http://www.jeecg.org/forum.php?mod=viewthread&tid=1047)</br>
-* 	邮箱：jeecg@sina.com</br>
-* 	QQ交流群： 106838471（二群）、106259349（一群）</br>
-*   论坛：[www.jeecg.org](http://www.jeecg.org)
+* 	作者：[张代浩](http://blog.csdn.net/zhangdaiscott)</br>
+* 	QQ交流群： 176031980、106838471（满）、106259349（满）</br>
 
+
+社区荣誉
+-----------------------------------
+* 开源社区：http://www.jeecg.org
+
+* ★2012年JEECG在Google Code上开源;
+* ★2012年底开源项目JEECG被"ITeye专家访谈";
+* ★2012年底开源项目JEECG被"CSDN专家访谈";
+* ★2013年应邀参加"第八届开源中国开源世界高峰论坛"（该论坛由中国开源软件推进联盟主办、全球最大中文IT社区CSDN与程序员杂志协办）；
+* ★2013年应邀参加"开源群英会2013”的开源英雄;
+* ★2013年度中国优秀开源项目评选-公开投票,“JEECG以887票位居第九"（该项目中国开源软件推进联盟主办、全球最大中文IT社区CSDN与程序员杂志协办）；
+* ★2013年度成立JEECG开源团队，创立JEECG开源社区;
+* ★2013年度JEECG参加“云计算成就创业梦想”第二届阿里云开发者大赛";
+* ★2013年度应邀参加了"SDCC 2013中国软件开发者大会" （大会由CSDN和《程序员》杂志倾力打造）
+* ★2013年下半年推出开源项目"MiniDao(持久层解决方案）"超越了Mybatis和Hibernate；
+* ★2014年5月应邀参加中国科学院大学创新创业年度论坛，探讨“创业企业发展、创新创业孵化”的主题，成为中国科学院大学创新创业和风险投资协会副会长。
+* ★2014年推出当前最火的开源项目“JeeWx(捷微:敏捷微信开发平台）”，并获得CSDN举办的“2014年开发者大会”公开投票第一名
+* ★2014年8月份捷微jeewx2.0与百度达成战略合作，集成百度地图，增加地图功能，附近商家团购等信息搜索。
+* ★2014年12月份捷微jeewx与联通集团达成战略合作，负责联通集团微信公众账号集团化运营。
+* ★2015年3月份捷微jeewx推出集团化微信运营版本，专注微信应用一体化，企业系统集成，实现公众账号上下级，类似组织机构权限模式。
+* ★2015年6月份捷微jeewx推出集企业号版本，与中国移动打成战略合作，推出企业号营销新模式。
+* ★2015开源中国最火开源项目,TOP5独占2位(jeewx\jeecg),TOP50占4位（jeewx\jeecg\easypoi\jeewx-api) 
+* ★2016年2月JEECG推出移动能力版本，在线配置移动报表，在线配置移动表单，微信OA一体化集成
+* ★2016年3月JEECG插件开发机制，采用插件方式为用户提供插件服务，目前插件：OA、微信企业号、文档云盘
+* ★2016年4月捷微H5活动平台与微盟达成战略合作伙伴
 
 系统演示
 -----------------------------------
 ###  [1].多套首页风格，支持自定义（Bootstrap风格|云桌面风格|经典风格|Shortcut风格等）
+![github](http://img.blog.csdn.net/20160428121122932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214324659?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214353113?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 

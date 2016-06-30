@@ -2,8 +2,8 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center"  style="padding:0px;border:0px"><t:datagrid name="${typegroup.typegroupcode}List" title="类型列表" actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id"
-	queryMode="group">
+<div region="center"  style="padding:0px;border:0px">
+<t:datagrid name="${typegroup.typegroupcode}List" title="类型列表" actionUrl="systemController.do?typeGrid&typegroupid=${typegroup.id}" idField="id" queryMode="group" sortOrder="desc" sortName="id">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="类型名称" field="typename"></t:dgCol>
 	<t:dgCol title="类型编码" field="typecode"></t:dgCol>

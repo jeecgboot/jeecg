@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.BrowserUtils;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.pojo.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
@@ -25,7 +26,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 		List<MutiLangEntity> mutiLang = this.commonDao.loadAll(MutiLangEntity.class);
 		
 		for (MutiLangEntity mutiLangEntity : mutiLang) {
-			MutiLangEntity.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
+			ResourceUtil.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
 		}
 	}
 	
@@ -33,14 +34,14 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 	 * 更新缓存，插入缓存
 	 */
 	public void putMutiLang(String langKey,String langCode,String langContext) {
-		MutiLangEntity.mutiLangMap.put(langKey + "_" + langCode, langContext);
+		ResourceUtil.mutiLangMap.put(langKey + "_" + langCode, langContext);
 	}
 	
 	/**
 	 * 更新缓存，插入缓存
 	 */
 	public void putMutiLang(MutiLangEntity mutiLangEntity) {
-		MutiLangEntity.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
+		ResourceUtil.mutiLangMap.put(mutiLangEntity.getLangKey() + "_" + mutiLangEntity.getLangCode(), mutiLangEntity.getLangContext());
 	}
 	
 	
@@ -54,11 +55,11 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 			language = (String)request.getSession().getAttribute("lang");
 		}
 		
-		String langContext = MutiLangEntity.mutiLangMap.get(langKey + "_" + language); 
+		String langContext = ResourceUtil.mutiLangMap.get(langKey + "_" + language); 
 		
 		if(StringUtil.isEmpty(langContext))
 		{
-			langContext = MutiLangEntity.mutiLangMap.get("common.notfind.langkey" + "_" + request.getSession().getAttribute("lang"));
+			langContext = ResourceUtil.mutiLangMap.get("common.notfind.langkey" + "_" + request.getSession().getAttribute("lang"));
 			if("null".equals(langContext)||langContext==null ||langKey.startsWith("?")){
 				langContext = "";
 			}
@@ -89,7 +90,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 
 	/** 刷新多语言cach **/
 	public void refleshMutiLangCach() {
-		MutiLangEntity.mutiLangMap.clear();
+		ResourceUtil.mutiLangMap.clear();
 		initAllMutiLang();
 	}
 	

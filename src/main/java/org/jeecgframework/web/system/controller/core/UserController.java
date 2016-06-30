@@ -1,6 +1,17 @@
 package org.jeecgframework.web.system.controller.core;
 
-import com.alibaba.fastjson.JSON;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Property;
@@ -13,22 +24,34 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.ListtoMenu;
+import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.PasswordUtil;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.RoletoJson;
+import org.jeecgframework.core.util.SetListSort;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.SysThemesUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.datatable.DataTables;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleUser;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.TSUserOrg;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
@@ -39,31 +62,23 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
-
 
 /**
  * @ClassName: UserController
  * @Description: TODO(用户管理处理类)
  * @author 张代浩
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/userController")
 public class UserController extends BaseController {
 	/**
 	 * Logger for this class
 	 */
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(UserController.class);
 
 	private UserService userService;
 	private SystemService systemService;
-	private String message = null;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -82,12 +97,13 @@ public class UserController extends BaseController {
 	 * @param request
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "menu")
 	public void menu(HttpServletRequest request, HttpServletResponse response) {
 		SetListSort sort = new SetListSort();
 		TSUser u = ResourceUtil.getSessionUserName();
 		// 登陆者的权限
-		Set<TSFunction> loginActionlist = new HashSet();// 已有权限菜单
+		Set<TSFunction> loginActionlist = new HashSet<TSFunction>();// 已有权限菜单
 		List<TSRoleUser> rUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", u.getId());
 		for (TSRoleUser ru : rUsers) {
 			TSRole role = ru.getTSRole();
@@ -99,8 +115,8 @@ public class UserController extends BaseController {
 				}
 			}
 		}
-		List<TSFunction> bigActionlist = new ArrayList();// 一级权限菜单
-		List<TSFunction> smailActionlist = new ArrayList();// 二级权限菜单
+		List<TSFunction> bigActionlist = new ArrayList<TSFunction>();// 一级权限菜单
+		List<TSFunction> smailActionlist = new ArrayList<TSFunction>();// 二级权限菜单
 		if (loginActionlist.size() > 0) {
 			for (TSFunction function : loginActionlist) {
 				if (function.getFunctionLevel() == 0) {
@@ -117,8 +133,15 @@ public class UserController extends BaseController {
 		// request.setAttribute("loginMenu",logString);
 		try {
 			response.getWriter().write(logString);
+			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -146,6 +169,7 @@ public class UserController extends BaseController {
 		// 给部门查询条件中的下拉框准备数据
 		List<TSDepart> departList = systemService.getList(TSDepart.class);
 		request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
+		departList.clear();
 		return "system/user/userList";
 	}
 
@@ -217,7 +241,7 @@ public class UserController extends BaseController {
 			user = systemService.getEntity(TSUser.class, user.getId());
 			req.setAttribute("user", user);
 			idandname(req, user);
-			System.out.println(user.getPassword()+"-----"+user.getRealName());
+			//System.out.println(user.getPassword()+"-----"+user.getRealName());
 		}
 		return new ModelAndView("system/user/adminchangepwd");
 	}
@@ -227,12 +251,13 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "savenewpwdforuser")
 	@ResponseBody
 	public AjaxJson savenewpwdforuser(HttpServletRequest req) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String id = oConvertUtils.getString(req.getParameter("id"));
 		String password = oConvertUtils.getString(req.getParameter("password"));
 		if (StringUtil.isNotEmpty(id)) {
 			TSUser users = systemService.getEntity(TSUser.class,id);
-			System.out.println(users.getUserName());
+			//System.out.println(users.getUserName());
 			users.setPassword(PasswordUtil.encrypt(users.getUserName(), password, PasswordUtil.getStaticSalt()));
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(users.getActivitiSync());
@@ -255,7 +280,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson lock(String id, HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
-		
+		String message = null;
 		TSUser user = systemService.getEntity(TSUser.class, id);
 		if("admin".equals(user.getUserName())){
 			message = "超级管理员[admin]不可操作";
@@ -291,7 +316,7 @@ public class UserController extends BaseController {
 	public List<ComboBox> role(HttpServletResponse response, HttpServletRequest request, ComboBox comboBox) {
 		String id = request.getParameter("id");
 		List<ComboBox> comboBoxs = new ArrayList<ComboBox>();
-		List<TSRole> roles = new ArrayList();
+		List<TSRole> roles = new ArrayList<TSRole>();
 		if (StringUtil.isNotEmpty(id)) {
 			List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", id);
 			if (roleUser.size() > 0) {
@@ -302,6 +327,10 @@ public class UserController extends BaseController {
 		}
 		List<TSRole> roleList = systemService.getList(TSRole.class);
 		comboBoxs = TagUtil.getComboBox(roleList, roles, comboBox);
+
+		roleList.clear();
+		roles.clear();
+
 		return comboBoxs;
 	}
 
@@ -348,7 +377,8 @@ public class UserController extends BaseController {
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
 
-//        update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
+        cq.eq("deleteFlag", Globals.Delete_Normal);
+
         String orgIds = request.getParameter("orgIds");
         List<String> orgIdList = extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
@@ -360,11 +390,11 @@ public class UserController extends BaseController {
 
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
-//        update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构 查询条件
+
 
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
-        // update-start--Author:gaofeng Date:20140822 for：添加用户的角色展示
+
         List<TSUser> cfeList = new ArrayList<TSUser>();
         for (Object o : dataGrid.getResults()) {
             if (o instanceof TSUser) {
@@ -383,7 +413,7 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
-//		update-end--Author:gaofeng Date:20140822 for：添加用户的角色展示
+
         TagUtil.datagrid(response, dataGrid);
     }
 
@@ -397,6 +427,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSUser user, HttpServletRequest req) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if("admin".equals(user.getUserName())){
 			message = "超级管理员[admin]不可删除";
@@ -404,14 +435,21 @@ public class UserController extends BaseController {
 			return j;
 		}
 		user = systemService.getEntity(TSUser.class, user.getId());
-		List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
+//		List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 		if (!user.getStatus().equals(Globals.User_ADMIN)) {
+
+			user.setDeleteFlag(Globals.Delete_Forbidden);
+			userService.updateEntitie(user);
+			message = "用户：" + user.getUserName() + "删除成功";
+
+			
+/**
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
-//                update-start--Author:zhangguoming  Date:20140825 for：添加业务逻辑
+
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-//                update-end--Author:zhangguoming  Date:20140825 for：添加业务逻辑
+
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -419,6 +457,7 @@ public class UserController extends BaseController {
 				userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 			}
+**/	
 		} else {
 			message = "超级管理员不可删除";
 		}
@@ -468,6 +507,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "saveUser")
 	@ResponseBody
 	public AjaxJson saveUser(HttpServletRequest req, TSUser user) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		// 得到用户的角色
 		String roleid = oConvertUtils.getString(req.getParameter("roleid"));
@@ -477,11 +517,11 @@ public class UserController extends BaseController {
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
-//            update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
+
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
-//            update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑
+
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -503,6 +543,7 @@ public class UserController extends BaseController {
 //					user.setTSDepart(null);
 //				}
 				user.setStatus(Globals.User_Normal);
+				user.setDeleteFlag(Globals.Delete_Normal);
 				systemService.save(user);
                 // todo zhanggm 保存多个组织机构
                 saveUserOrgList(req, user);
@@ -519,7 +560,6 @@ public class UserController extends BaseController {
 		return j;
 	}
 
-//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 保存 用户-组织机构 关系信息
      * @param request request
@@ -544,7 +584,7 @@ public class UserController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
+
 
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
@@ -599,7 +639,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "addorupdate")
 	public ModelAndView addorupdate(TSUser user, HttpServletRequest req) {
-		//update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 		/*		List<TSDepart> departList = new ArrayList<TSDepart>();
 		String departid = oConvertUtils.getString(req.getParameter("departid"));
 		if(!StringUtil.isEmpty(departid)){
@@ -608,7 +648,7 @@ public class UserController extends BaseController {
 			departList.addAll((List)systemService.getList(TSDepart.class));
 		}
 		req.setAttribute("departList", departList);*/
-//		        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
+
         List<String> orgIdList = new ArrayList<String>();
         TSDepart tsDepart = new TSDepart();
 		if (StringUtil.isNotEmpty(user.getId())) {
@@ -620,13 +660,11 @@ public class UserController extends BaseController {
 		}
 		req.setAttribute("tsDepart", tsDepart);
         //req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
-//		        update-start--Author:zhangguoming  Date:20140825 for：往request作用域中添加数据：组装页面中组织机构combobox多选框的数据
-		//update--end--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式
+
 
         return new ModelAndView("system/user/user");
 	}
 
-//    update-start--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
     /**
      * 用户的登录后的组织机构选择页面
      * @param request request
@@ -648,7 +686,7 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
-//    update-end--Author:zhangguoming  Date:20140825 for：添加新的业务逻辑方法
+
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -853,6 +891,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "savesign", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson savesign(HttpServletRequest req) {
+		String message = null;
 		UploadFile uploadFile = new UploadFile(req);
 		String id = uploadFile.get("id");
 		TSUser user = systemService.getEntity(TSUser.class, id);
@@ -931,7 +970,7 @@ public class UserController extends BaseController {
 		if(user!=null){
 			String indexStyle = request.getParameter("indexStyle");
 //			String cssTheme = request.getParameter("cssTheme");
-//			update-start--Author:longjb  Date:20150408 for：ACE风格未指定情况下默认主题为metro
+
 //			if(StringUtils.isNotEmpty(cssTheme)){
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", cssTheme);
 //				cookie4css.setMaxAge(3600*24*30);
@@ -942,28 +981,30 @@ public class UserController extends BaseController {
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:metro");
-////				update-start--Author:longjb  Date:20150317 for：切换回其他主题风格时变成default
+
 //			}else {
 //				Cookie cookie4css = new Cookie("JEECGCSSTHEME", "");
 //				cookie4css.setMaxAge(3600*24*30);
 //				response.addCookie(cookie4css);
 //				logger.info("cssTheme:default");
 //			}
-//			update-end--Author:longjb  Date:20150317 for：切换回回其他主题风格时变成default 
-//			update-start--Author:longjb  Date:20150408 for：ACE风格未指定情况下主题为metro
+
 			
 			if(StringUtils.isNotEmpty(indexStyle)){
 				Cookie cookie = new Cookie("JEECGINDEXSTYLE", indexStyle);
 				//设置cookie有效期为一个月
 				cookie.setMaxAge(3600*24*30);
 				response.addCookie(cookie);
-				logger.info("indexStyle:"+indexStyle);
+				logger.debug(" ----- 首页样式: indexStyle ----- "+indexStyle);
 				j.setSuccess(Boolean.TRUE);
 				j.setMsg("样式修改成功，请刷新页面");
 			}
-            //update-start--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
-            ClientManager.getInstance().getClient().getFunctions().clear();
-            //update-end--Author:JueYue  Date:2014-5-28 for:风格切换,菜单懒加载失效的问题
+
+			try {
+				 ClientManager.getInstance().getClient().getFunctions().clear();
+			} catch (Exception e) {
+			}
+
 		}else{
 			j.setMsg("请登录后再操作");
 		}

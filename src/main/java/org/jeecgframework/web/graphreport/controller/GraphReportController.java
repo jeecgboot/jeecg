@@ -76,19 +76,26 @@ public class GraphReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap);
-//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
+
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/graphreport/engine/core/graphreportlist.ftl", cgReportMap);
+		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	
@@ -140,19 +147,26 @@ public class GraphReportController extends BaseController {
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgReportMap);
-//      update-start--Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
+
 		//step.4 页面css js引用
 		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-//      update-end----Author:zhoujf  Date:20150605 for：页面css js引用 多风格切换
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
+		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	/**
@@ -234,9 +248,9 @@ public class GraphReportController extends BaseController {
 		List<Map<String, Object>> dicDatas = null;
 		dictCodeOrSQL = dictCodeOrSQL.trim();
 		if(dictCodeOrSQL.toLowerCase().startsWith("select ")) {
-			//update-begin-----author:scott----date:20151105-------for:改造支持oracle--------
+
 			dictCodeOrSQL = dictCodeOrSQL.replaceAll("'[kK][eE][yY]'", "typecode").replaceAll("'[vV][aA][lL][uU][eE]'", "typename");
-			//update-end-----author:scott----date:20151105-------for:改造支持oracle--------
+
 			dicDatas = systemService.findForJdbc(dictCodeOrSQL, null);
 		}else {
 			dicDatas = queryDic(dictCodeOrSQL);
@@ -297,6 +311,7 @@ public class GraphReportController extends BaseController {
 		}catch (Exception e) {
 			throw new CgReportNotFoundException("查找动态报表配置失败!"+e.getMessage());
 		}
+		PrintWriter writer = null;
 		try {
 			//step.2 获取该配置的查询SQL
 			Map configM = (Map) cgReportMap.get(CgReportConstant.MAIN);
@@ -330,7 +345,6 @@ public class GraphReportController extends BaseController {
 			
 			response.setContentType("application/json");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer;
 		
 			writer = response.getWriter();
 			writer.println(CgReportQueryParamUtil.getJson(result, -1L));
@@ -338,6 +352,12 @@ public class GraphReportController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	/**
@@ -383,13 +403,19 @@ public class GraphReportController extends BaseController {
 		dealReplace(result,items);
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter writer;
+		PrintWriter writer = null;
 		try {
 			writer = response.getWriter();
 			writer.println(CgReportQueryParamUtil.getJson(result,size));
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	/**

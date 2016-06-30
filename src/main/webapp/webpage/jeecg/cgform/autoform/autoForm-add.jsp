@@ -42,23 +42,23 @@
 	  function initMainTableSourceSelect(){
 		  var ztree = $.fn.zTree.getZTreeObj("dbSelect");
 		  var node = ztree.getNodesByParam("pid", 0, null);
-		//update-begin--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
+
 		  var options = "<option value=''>请选择主数据源</option>";
 		  $.each(node,function(i,f){
 			  options += "<option value='"+f.dbCode+"'>"+f.name+"</option>";
 		  })
 		  $("#mainTableSource").html(options);
-		//update-end--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
+
 	  }
 	 $(function(){
 		 $.fn.zTree.init($("#dbSelect"), setting, []);
 		 var styleDate = eval('${styleSelect}');
-		 //update-begin--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
+
 		 var iconPath = "plug-in/ztree/css/img/diy/2.png";
 		 $(styleDate).each(function(i){
 			this.icon = iconPath;
 		 });
-		//update-end--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
+
 		 $.fn.zTree.init($("#styleSelect"), stylesetting, styleDate);
 		 initMainTableSourceSelect();
 		 
@@ -636,8 +636,6 @@ var leipiFormDesign = {
 
 	        if(formEditor.hasContents()){
 	            formEditor.sync();/*同步内容*/
-
-	            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 	            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
 	            if( typeof type!=='undefined' ){

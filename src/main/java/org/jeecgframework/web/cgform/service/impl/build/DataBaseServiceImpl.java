@@ -90,17 +90,17 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
-		//update-begin--Author:	jg_huangxg Date: 20150626 for：[bugfree号]删除异常捕获
+
 		key = this.executeSqlReturnKey(sql,data);
-		//update-end--Author: jg_huangxg Date: 20150626 for：[bugfree号]删除异常捕获
+
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
-			//update-start--Author:luobaoli  Date:20150630 for：    增加add按纽java增强逻辑处理
+
 			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
-			//update-end--Author:luobaoli  Date:20150630 for：    增加add按纽java增强逻辑处理
+
 		}
 	}
 	/**
@@ -179,11 +179,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						data.put(String.valueOf(key), newV);
 					}
 				}
-			//update---start--author：JueYue---------date：20140824---------for：默认值无效
+
 			} else if(oConvertUtils.isNotEmpty(fieldConfigs.get(key).getFieldDefault())) {
 				data.remove(key.toString().toLowerCase());
 			}
-			//update---end--author：JueYue---------date：20140824---------for：默认值无效
+
 		}
 		return data;
 	}
@@ -194,7 +194,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param id 表数据id
 	 * @param data 修改的数据map
 	 */
-	//update-start--Author:luobaoli  Date:20150630 for：   抛出异常到controller中
+
 	public int updateTable(String tableName, Object id, Map<String, Object> data) throws BusinessException {
 		fillUpdateSysVar(data);
 		dataAdapter(tableName,data);
@@ -223,13 +223,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
-			//update-start--Author:luobaoli  Date:20150630 for：   增加update按纽java增强逻辑处理
+
 			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
-			//update-end--Author:luobaoli  Date:20150630 for：   增加update按纽java增强逻辑处理
+
 		}
 		return num;
 	}
-	//update-end--Author:luobaoli  Date:20150630 for：   抛出异常到controller中
+
 
 	/**
 	 * 查询表单
@@ -258,8 +258,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			if(StringUtils.isNotEmpty(sqlPlugin)){
 				String [] sqls = sqlPlugin.split(";");
 				for(String sql:sqls){
-					if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
-							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){
+
+					/*if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
+							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){*/
+					if(true){
+
 						//执行sql
 						logger.debug("sql plugin -------->"+sql);
 						sql = formateSQl(sql,  data);
@@ -304,10 +307,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
-            //update-begin--Author:JueYue  Date:20140425 for：String不能强转
+
 //            sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
-            //update-end--Author:JueYue  Date:20140425 for：String不能强转
+
 		}
 		return sql;
 	}
@@ -592,8 +595,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return flag;
 	}
-	
-	//update-start--Author:luobaoli  Date:20150630 for： 增加JAVA业务增强功能
+
 	/**
 	 * 执行JAVA增强实现类
 	 */
@@ -603,7 +605,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		if(cgformEnhanceJavaEntity!=null){
 			String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
 			String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
-			//update-start--Author:luobaoli  Date:20150701 for： 允许springKey或者javaClass为空
+
 			if(StringUtil.isNotEmpty(cgJavaValue)){
 				Object obj = null;
 				try {
@@ -623,7 +625,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					throw new BusinessException("执行JAVA增强出现异常！");
 				} 
 			}
-			//update-end--Author:luobaoli  Date:20150701 for： 允许springKey或者javaClass为空
+
 		}
 	}
 	
@@ -638,6 +640,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return null;
 	}
-	//update-end--Author:luobaoli  Date:20150630 for：  增加JAVA业务增强功能
+
 }
 

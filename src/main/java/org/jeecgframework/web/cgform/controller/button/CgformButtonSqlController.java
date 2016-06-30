@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgformButtonSqlController")
 public class CgformButtonSqlController extends BaseController {
@@ -51,15 +51,6 @@ public class CgformButtonSqlController extends BaseController {
 	private CgformButtonServiceI cgformButtonService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -103,6 +94,7 @@ public class CgformButtonSqlController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(CgformButtonSqlEntity cgformButtonSql, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgformButtonSql = systemService.getEntity(CgformButtonSqlEntity.class, cgformButtonSql.getId());
 		message = "删除成功";
@@ -142,6 +134,7 @@ public class CgformButtonSqlController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(CgformButtonSqlEntity cgformButtonSql, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		List<CgformButtonSqlEntity> list =  cgformButtonSqlService.checkCgformButtonSql(cgformButtonSql);
 		if(list!=null&&list.size()>0){

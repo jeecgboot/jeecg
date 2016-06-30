@@ -1,6 +1,7 @@
 package org.jeecgframework.web.cgform.service.impl.autoform;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -123,7 +124,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 			    	 }
 			    	 String tbDbTableName = autoFormDbEntity.getTbDbTableName();
 			    	//系统上下文变量赋值
-//			 		fillInsertSysVar(data);
+			 		fillInsertSysVar(data);
 			    	String comma = "";
 			 		StringBuffer insertKey = new StringBuffer();
 					StringBuffer insertValue = new StringBuffer();
@@ -133,6 +134,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 							if(entry2.getValue()!=null && entry2.getValue().toString().length()>0){
 								insertValue.append(comma + ":"+entry2.getKey());
 							}else{
+								
 								insertValue.append(comma + "null");
 							}
 							comma = ", ";
@@ -150,17 +152,17 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 	        }
 		}
 	}
-	
+	//add-start--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值
 	/**
 	 * 插入操作时将系统变量约定的字段赋值
 	 * @param data
 	 */
 	private void fillInsertSysVar(Map<String, Object> data) {
 		if(data.containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
-			data.put(DataBaseConstant.CREATE_DATE_TABLE, DateUtils.formatDate());
+			data.put(DataBaseConstant.CREATE_DATE_TABLE, DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
 		}
 		if(data.containsKey(DataBaseConstant.CREATE_TIME_TABLE)){
-			data.put(DataBaseConstant.CREATE_TIME_TABLE, DateUtils.formatTime());
+			data.put(DataBaseConstant.CREATE_TIME_TABLE, DateUtils.formatTime(new Date()));
 		}
 		if(data.containsKey(DataBaseConstant.CREATE_BY_TABLE)){
 			data.put(DataBaseConstant.CREATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
@@ -178,8 +180,25 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 			data.put(DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
 	}
-	
-
+	/**
+	 * 修改操作时将系统变量约定的字段赋值
+	 * @param data
+	 */
+	private void fillUpdateSysVar(Map<String, Object> data){
+		if(data.containsKey(DataBaseConstant.UPDATE_DATE_TABLE)){
+			data.put(DataBaseConstant.UPDATE_DATE_TABLE, DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
+		}
+		if(data.containsKey(DataBaseConstant.UPDATE_TIME_TABLE)){
+			data.put(DataBaseConstant.UPDATE_TIME_TABLE, DateUtils.formatTime(new Date()));
+		}
+		if(data.containsKey(DataBaseConstant.UPDATE_BY_TABLE)){
+			data.put(DataBaseConstant.UPDATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		}
+		if(data.containsKey(DataBaseConstant.UPDATE_NAME_TABLE)){
+			data.put(DataBaseConstant.UPDATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
+		}
+	}
+	//add-end--Author:chenchunpeng Date:chenchunpeng Date:20160613 for：自定义表单设定默认值
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public String doUpdateTable(String formName,
@@ -213,7 +232,15 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 			    	 }
 			    	 String tbDbTableName = autoFormDbEntity.getTbDbTableName();
 			    	//系统上下文变量赋值
-//			 		fillInsertSysVar(data);
+			    	//add-start--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值
+			    	 Object val=data.get("id");
+		             //通过判断id是否有值确定是添加还是修改
+	            	 if(StringUtil.isNotEmpty(val)){
+	            		 fillUpdateSysVar(data);
+	            	 }else{
+	            		 fillInsertSysVar(data);
+	            	 }
+			    	//add-end--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值 
 			    	String id = null;
 			    	String comma = "";
 			    	StringBuffer updateSqlBuffer = new StringBuffer();

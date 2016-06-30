@@ -1,21 +1,22 @@
 package org.jeecgframework.web.demo.controller.test;
 
-import org.jeecgframework.web.system.controller.core.UserController;
-import org.jeecgframework.web.system.pojo.base.*;
-import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.web.system.service.UserService;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.system.controller.core.UserController;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * @ClassName: NoPageController
@@ -31,17 +32,11 @@ public class UserNoPageController {
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(UserController.class);
 
-	private UserService userService;
 	private SystemService systemService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
 	}
     /**
      * 用户列表页面跳转

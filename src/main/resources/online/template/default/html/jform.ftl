@@ -176,9 +176,9 @@
 										<#if imageB['field'] == po.field_name>
 										<tr style="height:34px;">
 										<td>${imageB['title']}</td>
-										<td><a href="commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
+										<td><a href="commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>
@@ -493,8 +493,6 @@
 								
 									        if(formEditor.hasContents()){
 									            formEditor.sync();/*同步内容*/
-								
-									            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 									            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 								
 									            if( typeof type!=='undefined' ){

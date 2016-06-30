@@ -100,8 +100,7 @@ function typeGridTree_UpdateType() {
 <%--// add-start--Author:zhangguoming  Date:20140928 for：数据字典修改--%>
 <div id="main_typegroup_list" class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
-        <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid"
-                    idField="id" treegrid="false" pagination="false" onLoadSuccess="loadSuccess">
+        <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid" idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="id" onLoadSuccess="loadSuccess">
             <t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="dict.name" field="typegroupname" width="100" query="true"></t:dgCol>
             <t:dgCol title="dict.code" field="typegroupcode" width="100" treefield="code"></t:dgCol>

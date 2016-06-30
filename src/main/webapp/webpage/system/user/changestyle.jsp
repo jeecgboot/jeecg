@@ -36,7 +36,10 @@
 			<tr>
 				<td class="value"><input type="radio" value="diy" name="indexStyle"  /><span>DIY平面风格</span></td>
 			</tr>
-			  -->	
+			  -->
+			<tr>
+				<td class="value"><input type="radio" value="hplus" name="indexStyle"  /><span>H+平面风格</span></td>
+			</tr>
 		</tbody>
 	</table>
 </t:formvalid>

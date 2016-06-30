@@ -42,12 +42,11 @@ import freemarker.template.TemplateException;
  * @Description: 读取模板生成填报表单（添加、修改）-执行表单数据添加和修改操作（rest风格）
  * @author 周俊峰、luobaoli
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgform")
 public class CgFormBuildRestController extends BaseController {
 	private static final Logger logger = Logger.getLogger(CgFormBuildRestController.class);
-	private String message;
 	
 	@Autowired
 	private TempletContext templetContext;
@@ -57,13 +56,6 @@ public class CgFormBuildRestController extends BaseController {
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	
 	/**
 	 * form表单页面跳转
@@ -81,7 +73,7 @@ public class CgFormBuildRestController extends BaseController {
 		try {
 			long start = System.currentTimeMillis();
 			String tableName = configId;
-			//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 			String mode=request.getParameter("mode");
 			String templateName=tableName+"_";
 			if(StringUtils.isBlank(id)){
@@ -92,11 +84,9 @@ public class CgFormBuildRestController extends BaseController {
 				templateName+=TemplateUtil.TemplateType.UPDATE.getName();
 			}
 
-//            update-start--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
 			String ftlVersion =request.getParameter("ftlVersion");
 			Template template = templetContext.getTemplate(templateName, ftlVersion);
-//            update-end--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
-			//update-end--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 			StringWriter stringWriter = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(stringWriter);
 	        Map<String, Object> data = new HashMap<String, Object>();
@@ -138,9 +128,9 @@ public class CgFormBuildRestController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
-	    	//update-begin--Author:钟世云  Date:20150610 for：online支持树配置--------------------
+
 	    	data.put("head", head);
-			//update-end--Author:钟世云  Date:20150610 for：online支持树配置----------------------
+
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
@@ -150,12 +140,18 @@ public class CgFormBuildRestController extends BaseController {
 			String content = stringWriter.toString();
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print(content);
+			response.getWriter().flush();
 			long end = System.currentTimeMillis();
 			logger.debug("自定义表单生成耗时："+(end-start)+" ms");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TemplateException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (Exception e2) {
+			}
 		}
 
 	}

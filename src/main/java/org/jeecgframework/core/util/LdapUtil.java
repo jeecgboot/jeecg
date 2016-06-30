@@ -117,13 +117,13 @@ public class LdapUtil {
 		try {
 			ne = dc.search(base, filter, sc);
 			while (ne.hasMore()) {
-				System.out.println();
+				//System.out.println();
 				SearchResult sr = (SearchResult) ne.next();
 				String name = sr.getName();
 				if (base != null && !base.equals("")) {
-					System.out.println("entry: " + name + "," + base);
+					LogUtil.info("entry: " + name + "," + base);
 				} else {
-					System.out.println("entry: " + name);
+					LogUtil.info("entry: " + name);
 				}
 				dn = name + "," + base;
 				break;
@@ -149,7 +149,7 @@ public class LdapUtil {
 			dc.createSubcontext("ou=" + newUserName + "," + ROOT, attrs);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception in add():" + e);
+			//System.out.println("Exception in add():" + e);
 		}
 	}
 
@@ -162,8 +162,7 @@ public class LdapUtil {
 		try {
 			dc.destroySubcontext(dn);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Exception in delete():" + e);
+			LogUtil.error("Exception in delete():" + e);
 		}
 	}
 
@@ -256,13 +255,13 @@ public class LdapUtil {
 			// Use the NamingEnumeration object to cycle through
 			// the result set.
 			while (ne.hasMore()) {
-				System.out.println();
+				//System.out.println();
 				SearchResult sr = (SearchResult) ne.next();
 				String name = sr.getName();
 				if (base != null && !base.equals("")) {
-					System.out.println("entry: " + name + "," + base);
+					LogUtil.info("entry: " + name + "," + base);
 				} else {
-					System.out.println("entry: " + name);
+					LogUtil.info("entry: " + name);
 				}
 
 				Attributes at = sr.getAttributes();
@@ -276,11 +275,9 @@ public class LdapUtil {
 					while (values.hasMore()) {
 						Object oneVal = values.nextElement();
 						if (oneVal instanceof String) {
-							System.out.println(attrType + ": "
-									+ (String) oneVal);
+							LogUtil.info(attrType + ": "+ (String) oneVal);
 						} else {
-							System.out.println(attrType + ": "
-									+ new String((byte[]) oneVal));
+							LogUtil.info(attrType + ": "+ new String((byte[]) oneVal));
 						}
 					}
 				}
@@ -316,28 +313,26 @@ public class LdapUtil {
 		try {
 			NamingEnumeration<?> answer = dc.search(searchBase, searchFilter, searchCtls);
 			if (answer == null || answer.equals(null)) {
-				System.out.println("answer is null");
+				LogUtil.info("answer is null");
 			} else {
-				System.out.println("answer not null");
+				LogUtil.info("answer not null");
 			}
 			while (answer.hasMoreElements()) {
 				SearchResult sr = (SearchResult) answer.next();
-				System.out.println("************************************************");
-				System.out.println("getname=" + sr.getName());
+				//System.out.println("************************************************");
+				//System.out.println("getname=" + sr.getName());
 				Attributes Attrs = sr.getAttributes();
 				if (Attrs != null) {
 					try {
 
-						for (NamingEnumeration<?> ne = Attrs.getAll(); ne
-								.hasMore();) {
+						for (NamingEnumeration<?> ne = Attrs.getAll(); ne.hasMore();) {
 							Attribute Attr = (Attribute) ne.next();
-							System.out.println("AttributeID="
-									+ Attr.getID().toString());
+							//System.out.println("AttributeID="+ Attr.getID().toString());
 							// 读取属性值
 							for (NamingEnumeration<?> e = Attr.getAll(); e
 									.hasMore(); totalResults++) {
 								String user = e.next().toString(); // 接受循环遍历读取的userPrincipalName用户属性
-								System.out.println(user);
+								//System.out.println(user);
 							}
 							
 							// System.out.println(" ---------------");
@@ -356,7 +351,7 @@ public class LdapUtil {
 					}
 				}
 			}
-			System.out.println("Number: " + totalResults);
+			//System.out.println("Number: " + totalResults);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Throw Exception : " + e);
@@ -371,7 +366,7 @@ public class LdapUtil {
 			try {
 				dc.close();
 			} catch (NamingException e) {
-				System.out.println("NamingException in close():" + e);
+				LogUtil.error("NamingException in close():" + e);
 			}
 		}
 	}
@@ -391,7 +386,7 @@ public class LdapUtil {
 		DirContext dc = getDirContext(adAdmin, adAdminPassword);
 
 		if (dc == null) {
-			System.out.println("User or password incorrect!");
+			//System.out.println("User or password incorrect!");
 			return;
 		}
 

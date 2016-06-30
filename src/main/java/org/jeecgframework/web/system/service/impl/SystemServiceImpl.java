@@ -129,9 +129,9 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public void initAllTypeGroups() {
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
 		for (TSTypegroup tsTypegroup : typeGroups) {
-			TSTypegroup.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), tsTypegroup);
+			ResourceUtil.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), tsTypegroup);
 			List<TSType> types = this.commonDao.findByProperty(TSType.class, "TSTypegroup.id", tsTypegroup.getId());
-			TSTypegroup.allTypes.put(tsTypegroup.getTypegroupcode().toLowerCase(), types);
+			ResourceUtil.allTypes.put(tsTypegroup.getTypegroupcode().toLowerCase(), types);
 		}
 	}
 
@@ -140,20 +140,17 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		TSTypegroup tsTypegroup = type.getTSTypegroup();
 		TSTypegroup typeGroupEntity = this.commonDao.get(TSTypegroup.class, tsTypegroup.getId());
 		List<TSType> types = this.commonDao.findByProperty(TSType.class, "TSTypegroup.id", tsTypegroup.getId());
-		TSTypegroup.allTypes.put(typeGroupEntity.getTypegroupcode().toLowerCase(), types);
+		ResourceUtil.allTypes.put(typeGroupEntity.getTypegroupcode().toLowerCase(), types);
 	}
 
 
 	public void refleshTypeGroupCach() {
-		TSTypegroup.allTypeGroups.clear();
+		ResourceUtil.allTypeGroups.clear();
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
 		for (TSTypegroup tsTypegroup : typeGroups) {
-			TSTypegroup.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), tsTypegroup);
+			ResourceUtil.allTypeGroups.put(tsTypegroup.getTypegroupcode().toLowerCase(), tsTypegroup);
 		}
 	}
-
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
 
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
@@ -210,9 +207,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return operationCodes;
 	}
 
-	// ----------------------------------------------------------------
-	// ----------------------------------------------------------------
-
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -232,12 +226,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	}
 
     public String generateOrgCode(String id, String pid) {
-//        update-start--Author:zhangguoming  Date:20140901 for：修改编码长度的定义
+
         int orgCodeLength = 2; // 默认编码长度
         if ("3".equals(ResourceUtil.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
             orgCodeLength = 3;
         }
-//        update-end--Author:zhangguoming  Date:20140901 for：修改编码长度的定义
+
 
         String  newOrgCode = "";
         if(!StringUtils.hasText(pid)) { // 第一级编码
@@ -320,7 +314,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	public  void initAllTSIcons() {
 		List<TSIcon> list = this.loadAll(TSIcon.class);
 		for (TSIcon tsIcon : list) {
-			TSIcon.allTSIcons.put(tsIcon.getId(), tsIcon);
+			ResourceUtil.allTSIcons.put(tsIcon.getId(), tsIcon);
 		}
 	}
 	/**
@@ -328,18 +322,16 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param icon
 	 */
 	public  void upTSIcons(TSIcon icon) {
-		TSIcon.allTSIcons.put(icon.getId(), icon);
+		ResourceUtil.allTSIcons.put(icon.getId(), icon);
 	}
 	/**
 	 * 更新图标
 	 * @param icon
 	 */
 	public  void delTSIcons(TSIcon icon) {
-		TSIcon.allTSIcons.remove(icon.getId());
+		ResourceUtil.allTSIcons.remove(icon.getId());
 	}
 
-	//update-begin--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
-	//update-begin--Author: jg_huangxg  Date:20150630 for：修改数据日志功能
 	@Override
 	public void addDataLog(String tableName, String dataId, String dataContent) {
 
@@ -357,6 +349,5 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		tsDatalogEntity.setVersionNumber(versionNumber + 1);
 		commonDao.save(tsDatalogEntity);
 	}
-	//update-end--Author: jg_huangxg  Date:20150630 for：修改数据日志功能
-	//update-end--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
+
 }

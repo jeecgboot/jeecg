@@ -1,5 +1,12 @@
 package org.jeecgframework.web.demo.controller.test;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -18,7 +25,6 @@ import org.jeecgframework.web.demo.entity.test.JpPersonEntity;
 import org.jeecgframework.web.demo.service.test.JpPersonServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author 张代浩
  * @version V1.0
@@ -41,7 +41,7 @@ import java.util.Map;
  * @Description: Excel导出
  * @date 2013-03-23 21:45:28
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jpPersonController")
 public class JpPersonController extends BaseController {
@@ -54,15 +54,6 @@ public class JpPersonController extends BaseController {
     private JpPersonServiceI jpPersonService;
     @Autowired
     private SystemService systemService;
-    private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
 
     /**
@@ -107,10 +98,10 @@ public class JpPersonController extends BaseController {
         List<JpPersonEntity> listPersons;
         try {
             boolean isSuccess = true;
-            //update-begin--Author:JueYue  Date:20150523 for：EasyPoi升级
+
             listPersons =   ExcelImportUtil.importExcel(
                     file.getInputStream(), JpPersonEntity.class,new ImportParams());
-            //update-end--Author:JueYue  Date:20150523 for：EasyPoi升级
+
             for (JpPersonEntity person : listPersons) {
                 person.setId(UUIDGenerator.generate());
                 if (person.getAge() == null || person.getCreatedt() == null || person.getSalary() == null) {
@@ -176,7 +167,13 @@ public class JpPersonController extends BaseController {
                 response.getWriter().flush();
             }
         } catch (IOException e) {
-        }
+        }finally{
+			try {
+				response.getWriter().close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
     }
 
     /**
@@ -203,6 +200,7 @@ public class JpPersonController extends BaseController {
     @RequestMapping(params = "del")
     @ResponseBody
     public AjaxJson del(JpPersonEntity jpPerson, HttpServletRequest request) {
+    	String message = null;
         AjaxJson j = new AjaxJson();
         jpPerson = systemService.getEntity(JpPersonEntity.class, jpPerson.getId());
         message = "删除成功";
@@ -223,6 +221,7 @@ public class JpPersonController extends BaseController {
     @RequestMapping(params = "save")
     @ResponseBody
     public AjaxJson save(JpPersonEntity jpPerson, HttpServletRequest request) {
+    	String message = null;
         AjaxJson j = new AjaxJson();
         if (StringUtil.isNotEmpty(jpPerson.getId())) {
             message = "更新成功";

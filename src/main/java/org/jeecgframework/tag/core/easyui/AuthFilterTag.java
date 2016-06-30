@@ -1,8 +1,6 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
@@ -25,17 +23,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version V1.0
  */
 public class AuthFilterTag extends TagSupport{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**列表容器的ID*/
 	protected String name;
 	@Autowired
-	private static SystemService systemService;
+	private SystemService systemService;
 	public int doStartTag() throws JspException {
 		return super.doStartTag();
 	}
 	
 	public int doEndTag() throws JspException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
+				out = this.pageContext.getOut();
 				out.print(end().toString());
 				out.flush();
 		} catch (IOException e) {
@@ -57,7 +60,7 @@ public class AuthFilterTag extends TagSupport{
 	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
@@ -65,8 +68,7 @@ public class AuthFilterTag extends TagSupport{
 				for (String MyoperationCode : operationCodes) {
 					if (oConvertUtils.isEmpty(MyoperationCode))
 						break;
-					systemService = ApplicationContextUtil.getContext().getBean(
-								SystemService.class);
+					systemService = ApplicationContextUtil.getContext().getBean(SystemService.class);
 					TSOperation operation = systemService.getEntity(TSOperation.class, MyoperationCode);
 					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
 						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
@@ -82,7 +84,7 @@ public class AuthFilterTag extends TagSupport{
 			}
 			
 		}
-		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+
 		out.append("});");
 		out.append("</script>");
 	}

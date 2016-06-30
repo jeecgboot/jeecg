@@ -42,9 +42,10 @@ public class ChooseTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
 			title = MutiLangUtil.doMutiLang(title, langArg);
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
@@ -165,11 +166,11 @@ public class ChooseTag extends TagSupport {
 	private void clearAll(StringBuffer sb,String methodname) {
 		String[] textnames=null;
 		String[] inputTextnames=null;
-		//update-begin--Author: jg_huangxg  Date: 20160330 for： 防止空指针
+
 		if (!StringUtil.isEmpty(this.textname)) {
 			textnames = textname.split(",");
 		}
-		//update-end--Author: jg_huangxg  Date: 20160330 for： 防止空指针
+
 		if(StringUtil.isNotEmpty(inputTextname)){
 			inputTextnames = inputTextname.split(",");
 		}else{

@@ -73,7 +73,7 @@ public class CgExportExcelController extends BaseController {
 				}
 			}
 			//step.3 进行查询返回结果
-            //update-begin--Author:张忠亮  Date:20150608 for：多数据源支持
+
             String dbKey=(String)configM.get("db_source");
             List<Map<String, Object>> result=null;
             if(StringUtils.isNotBlank(dbKey)){

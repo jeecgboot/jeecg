@@ -14,7 +14,8 @@ public enum SysThemesEnum {
 	SLIDING_STYLE("sliding","main/sliding_main","default", "Sliding云桌面"),
 	ACE_STYLE("ace","main/ace_main","metro", "ACE平面风格"),
 	ACE_LE_STYLE("acele","main/ace_main","metrole", "ACE2风格"),
-	DIY("diy","main/diy","default","diy风格");
+	DIY("diy","main/diy","default","diy风格"),
+	HPLUS("hplus","main/hplus_main","metrole","H+风格");
 
 
     /**
@@ -78,7 +79,7 @@ public enum SysThemesEnum {
 	public static SysThemesEnum toEnum(String style) {
 		if (StringUtil.isEmpty(style)) {
 			//默认风格
-			return ACE_LE_STYLE;
+			return HPLUS;
         }
 		for(SysThemesEnum item : SysThemesEnum.values()) {
 			if(item.getStyle().equals(style)) {
@@ -86,7 +87,7 @@ public enum SysThemesEnum {
 			}
 		}
 		//默认风格
-		return ACE_LE_STYLE;
+		return HPLUS;
 	}
 
     public String toString() {

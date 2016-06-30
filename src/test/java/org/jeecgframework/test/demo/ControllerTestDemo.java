@@ -3,14 +3,13 @@ package org.jeecgframework.test.demo;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import org.hamcrest.Matchers;
-import org.jeecgframework.AbstractUnitTest;
+import org.jeecgframework.core.junit.AbstractUnitTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -62,7 +61,7 @@ public class ControllerTestDemo  extends AbstractUnitTest{
 	//使用jsonPath 验证返回json 的属性
 	@Test
 	public void testPDemoList() throws Exception{
-		//-- update-begin author： xugj date:20160105  for:修改测试demo使用action,修复数据为空报错的问题
+
 		MockHttpServletRequestBuilder requestBuilder = post("/userController.do?datagrid=")
 	    .param("field", "id")
 		.header("USER-AGENT", "")  // 设置USER-AGENT： 浏览器 
@@ -71,7 +70,7 @@ public class ControllerTestDemo  extends AbstractUnitTest{
 		this.mockMvc.perform(requestBuilder)
 		.andDo(print()) //打印报文
 		.andExpect(jsonPath("$.rows[0].id").exists()); // 验证id 属性是否存在
-		//-- update-end author： xugj date:20160105  for:修改测试demo使用action,修复数据为空报错的问题
+
 
 	}
 }

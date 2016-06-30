@@ -38,7 +38,6 @@
 			<input id="autoFormDbTableName" name="dbTableName" type="hidden" value="${autoFormDbEntity.dbTableName }">
 			<input id="autoFormDbType" name="dbType" type="hidden" value="${autoFormDbEntity.dbType }">
 			<input id="autoFormDbName" name="dbName" type="hidden" value="${autoFormDbEntity.dbName }">
-							
 			<table cellpadding="0" cellspacing="1" class="formtable" style="width: 100%">
 				<c:if test="${fn:length(autoFormParamList)  > 0 }">
 					<c:forEach items="${autoFormParamList}" var="poVal" varStatus="status">

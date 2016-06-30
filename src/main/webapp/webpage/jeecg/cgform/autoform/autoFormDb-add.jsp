@@ -119,11 +119,25 @@
 				<td align="center" width="100px">
 					<label class="Validform_label"><t:mutiLang langKey="form.db.type"/>:</label>
 				</td>
-				<td class="value" colspan="4">
+				<td class="value" >
 						<t:dictSelect field="dbType" type="radio"
 							typeGroupCode="formDbType"  hasLabel="false"  title="form.db.type" defaultVal="sql"></t:dictSelect>     
 					<span class="Validform_checktip"></span>
 				</td>
+				<!--add-start--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
+				<td align="center" width="100px">
+					<label class="Validform_label"><b><t:mutiLang langKey="动态数据源"/>:</b></label>
+				</td>
+				<td class="value" >
+					<select id="dbKey" name="dbKey">
+						<option value="" selected="selected">--动态数据源--</option>
+						<c:forEach items="${dynamicDataSourceEntitys}" var="dynamicDataSourceEntity">
+							<option value="${dynamicDataSourceEntity.dbKey}">${dynamicDataSourceEntity.dbKey}</option>
+						</c:forEach>
+					</select> 
+					<span class="Validform_checktip"></span>
+				</td>
+				<!--add-end--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 			</tr>
 			<!--update-begin--Author: jg_huangxg  Date:20150723 for：增加填报数据源和填报数据库表显示 -->
 			<tr id="dataSourceTr">

@@ -10,15 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jeecgframework.web.cgform.service.migrate.MigrateForm;
-import org.jeecgframework.web.demo.entity.test.JeecgDemo;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -30,10 +26,9 @@ import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.web.cgform.service.migrate.MigrateForm;
+import org.jeecgframework.web.demo.entity.test.JeecgDemo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thoughtworks.xstream.XStream;
 
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/transdata")
 public class JeecgDemoTransDataForXml extends BaseController {
@@ -52,22 +47,10 @@ public class JeecgDemoTransDataForXml extends BaseController {
 	private static final Logger logger = Logger.getLogger(JeecgDemoTransDataForXml.class);
 
 	@Autowired
-	@Qualifier("jdbcTemplate")
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
 	private JdbcDao jdbcDao ;
 	@Autowired
 	private CommonService commonService;
 
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	/**
 	 * 导出数据为xml
 	 * @param request
@@ -153,6 +136,7 @@ public class JeecgDemoTransDataForXml extends BaseController {
 	@ResponseBody
 	@RequestMapping(params = "doMigrateIn")
 	public AjaxJson doMigrateIn(HttpServletRequest request,HttpServletResponse response){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String ls_file = "";
 		UploadFile uploadFile = new UploadFile(request, ls_file);

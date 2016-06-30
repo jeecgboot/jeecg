@@ -27,11 +27,14 @@
             $("#orgSelect").combobox("setValues", ${orgIdList});
             $("#orgSelect").combotree("setValues", ${orgIdList});
         }); --%>
-//       update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
+
 
 		function openDepartmentSelect() {
 			$.dialog.setting.zIndex = 9999; 
-			$.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '组织机构列表', lock: true, width: '400px', height: '350px', opacity: 0.4, button: [
+			
+			var orgIds = $("#orgIds").val();
+			
+			$.dialog({content: 'url:departController.do?departSelect&orgIds='+orgIds, zIndex: 2100, title: '组织机构列表', lock: true, width: '400px', height: '350px', opacity: 0.4, button: [
 			   {name: '<t:mutiLang langKey="common.confirm"/>', callback: callbackDepartmentSelect, focus: true},
 			   {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){}}
 		   ]}).zindex();

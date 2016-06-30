@@ -30,12 +30,14 @@
 	 	$("#autoFormParam").load("autoFormDbController.do?autoFormParamList&id=${autoFormDbPage.id}"); 
 	 if($("#autoFormDbFieldForTable").length>0)
 	 	$("#autoFormDbFieldForTable").load("autoFormDbController.do?autoFormDbFieldForTableList&id=${autoFormDbPage.id}");
-	//--update-begin--Author: jg_huangxg  Date:20151111 for：增加table类型下,数据库表名选择时,字段自动变化
+
 	if($('#dbTableName').length > 0){
 		$('#dbTableName').change(function(){
 			$.ajax({
 				url:"autoFormDbController.do?getTableFields",
-			    data:{dbKey:$("#dbKey").val(),tableName:$("#dbTableName").val()},
+
+			    data:{dbKey:$("#tbDbKey").val(),tableName:$("#dbTableName").val()},
+
 				type:"Post",
 			    dataType:"json",
 			    success:function(data){
@@ -55,7 +57,7 @@
 			});
 		});
 	}
-	//--update-end--Author: jg_huangxg  Date:20151111 for：增加table类型下,数据库表名选择时,字段自动变化
+
 	  hideDataSourceAndDataTable();
   });
   <!--update-begin--Author:zzl  Date:20151113 for：数据源类型是数据库表时,隐藏填报数据源和填报数据库表 -->
@@ -72,7 +74,7 @@
   function setDataSourceVal(){
 	  var checkedVal=$("input[name='dbType']:checked").val();
 	  if(checkedVal=='table'){
-		  $("#tbDbKey").val($("#dbKey").find("option:selected").val());
+		  $("#tbDbKey").val($("#dbKey").find("option:selected").val()); 
 		  $("#tbDbTableName").val($("#dbTableName").find("option:selected").val());
 	  }
   }
@@ -137,11 +139,25 @@
 			<td align="right">
 					<label class="Validform_label"><t:mutiLang langKey="form.db.type"/>:</label>
 			</td>
-			<td class="value" colspan="4" >
+			<td class="value" >
 					<t:dictSelect field="dbType" type="radio"
 						typeGroupCode="formDbType"  hasLabel="false"  title="form.db.type" defaultVal="${autoFormDbPage.dbType}"></t:dictSelect>     
 				<span class="Validform_checktip"></span>
 			</td>
+			<!--add-start--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
+			<td align="center" width="100px">
+					<label class="Validform_label"><b><t:mutiLang langKey="动态数据源"/>:</b></label>
+				</td>
+				<td class="value" colspan="2" >
+					<select id="dbKey" name="dbKey">
+						<option value="" selected="selected">--动态数据源--</option>
+						<c:forEach items="${dynamicDataSourceEntitys}" var="dynamicDataSourceEntity">
+							<option value="${dynamicDataSourceEntity.dbKey}" <c:if test="${autoFormDbPage.dbKey eq dynamicDataSourceEntity.dbKey}">selected="selected"</c:if>>${dynamicDataSourceEntity.dbKey}</option>
+						</c:forEach>
+					</select> 
+					<span class="Validform_checktip"></span>
+				</td>
+			<!--add-end--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 		</tr>
 		<!--update-begin--Author: jg_huangxg  Date:20150723 for：增加填报数据源和填报数据库表显示 -->
 		<tr id="dataSourceTr">

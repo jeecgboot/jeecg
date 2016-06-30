@@ -1,14 +1,11 @@
 package org.jeecgframework.core.util;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.enums.SysACEIconEnum;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,7 +36,7 @@ public class ListtoMenu {
 		for (TSFunction node : set) {
 			String iconClas = "default";// 权限图标样式
 			if (node.getTSIcon() != null) {
-				iconClas = TSIcon.allTSIcons.get(node.getTSIcon().getId()).getIconClas();
+				iconClas = ResourceUtil.allTSIcons.get(node.getTSIcon().getId()).getIconClas();
 			}
 			buffer.append("{\"menuid\":\"" + node.getId() + "\",\"icon\":\""
 					+ iconClas + "\"," + "\"menuname\":\""
@@ -75,7 +72,7 @@ public class ListtoMenu {
 
 			{
 				buffer.append("{\"menuid\":\"" + node.getId()
-						+ " \",\"icon\":\"" + TSIcon.allTSIcons.get(node.getTSIcon().getId()).getIconClas()
+						+ " \",\"icon\":\"" + ResourceUtil.allTSIcons.get(node.getTSIcon().getId()).getIconClas()
 						+ "\"," + "\"menuname\":\"" + getMutiLang(node.getFunctionName())
 						+ "\",\"url\":\"" + node.getFunctionUrl() + "\"");
 				if (count == set1.size()) {
@@ -158,7 +155,7 @@ public class ListtoMenu {
 		StringBuffer menuString = new StringBuffer();
 		for (TSFunction pFunction : pFunctions) {
 			menuString.append("<div  title=\"" + getMutiLang(pFunction.getFunctionName())
-					+ "\" iconCls=\"" + TSIcon.allTSIcons.get(pFunction.getTSIcon().getId()).getIconClas()
+					+ "\" iconCls=\"" + ResourceUtil.allTSIcons.get(pFunction.getTSIcon().getId()).getIconClas()
 					+ "\">");
 			/*int submenusize = pFunction.getSubFunctionSize();
 			if (submenusize == 0) {
@@ -172,7 +169,7 @@ public class ListtoMenu {
 				if (function.getTSFunction().getId().equals(pFunction.getId())) {
 					String icon = "folder";
 					if (function.getTSIcon() != null) {
-						icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+						icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 					}
 					menuString.append("<li><div onclick=\"addTab(\'"
 							+ getMutiLang(function.getFunctionName()) + "\',\'"
@@ -202,7 +199,7 @@ public class ListtoMenu {
 				if (function.getTSFunction().getId().equals(pFunction.getId())) {
 					String icon = "folder";
 					if (function.getTSIcon() != null) {
-						icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+						icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 					}
 					menuString.append("<li><div onclick=\"addTab(\'"
 							+ getMutiLang(function.getFunctionName()) + "\',\'"
@@ -239,7 +236,7 @@ public class ListtoMenu {
 		List<TSFunction> list = map.get(0);
 		for (TSFunction function : list) {
 			menuString.append("<div   title=\"" + getMutiLang(function.getFunctionName())
-					+ "\" iconCls=\"" + TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
+					+ "\" iconCls=\"" + ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
 					+ "\">");
 			/*int submenusize = function.getSubFunctionSize();
 			if (submenusize == 0) {
@@ -264,7 +261,6 @@ public class ListtoMenu {
 		return menuString.toString();
 	}
 
-//        update-start--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
 
     /**
      * 拼装EASYUI 多级 菜单  下级菜单为树形
@@ -298,7 +294,7 @@ public class ListtoMenu {
         } else if("shortcut".equals(style)) {
             for (TSFunction function : list) {
                 menuString.append("<div   title=\"" + getMutiLang(function.getFunctionName())
-                        + "\" iconCls=\"" + TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
+                        + "\" iconCls=\"" + ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
                         + "\">");
                 if(!function.hasSubFunction(map)){
                 	menuString.append("</div>");
@@ -313,7 +309,7 @@ public class ListtoMenu {
 
 		return menuString.toString();
 	}
-//        update-end--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
+
 
 	/**
 	 * 获取顶级菜单的下级菜单-----面板式菜单
@@ -333,7 +329,7 @@ public class ListtoMenu {
 					menuString.append("<div  class=\"easyui-accordion\"  fit=\"false\" border=\"false\">");
 					menuString.append("<div></div>");//easy ui 默认展开第一级,所以这里设置一个控制,就不展开了
 					menuString.append("<div title=\"" + getMutiLang(function.getFunctionName())
-							+ "\" iconCls=\"" + TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
+							+ "\" iconCls=\"" + ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas()
 							+ "\"><ul>");
 					menuString.append(getChild(function,level+1,map));
 					menuString.append("</ul></div>");
@@ -358,7 +354,7 @@ public class ListtoMenu {
 				if(!function.hasSubFunction(map)){
 					menuString.append(getLeafOfTree(function));
 				}else if(map.containsKey(level+1)){
-					menuString.append("<li state=\"closed\" iconCls=\"" + TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas()+"\" ><span>"+ getMutiLang(function.getFunctionName()) +"</span>");
+					menuString.append("<li state=\"closed\" iconCls=\"" + ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas()+"\" ><span>"+ getMutiLang(function.getFunctionName()) +"</span>");
 					menuString.append("<ul >");
 					menuString.append(getChildOfTree(function,level+1,map));
 					menuString.append("</ul></li>");
@@ -376,7 +372,7 @@ public class ListtoMenu {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
-			icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+			icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 		}
 		menuString.append("<li><div onclick=\"addTab(\'");
 		menuString.append(getMutiLang(function.getFunctionName()));
@@ -410,7 +406,7 @@ public class ListtoMenu {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
-			icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+			icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 		}
 		menuString.append("<li iconCls=\"");
 		menuString.append(icon);
@@ -418,19 +414,19 @@ public class ListtoMenu {
 		menuString.append(getMutiLang(function.getFunctionName()));
 		menuString.append("\',\'");
 		menuString.append(function.getFunctionUrl());
-		//update-begin ---author:scott---for:外部链接在系统中配置无效----date:20150325
+
 		//如果是外部链接，则不加菜单ID
 		if(function.getFunctionUrl().indexOf("http:")==-1){
-		  //update-begin--Author:jg_renjie  Date:20150715 for：解决rest风格时，传入id错误的问题
+
 			if(function.getFunctionUrl().indexOf("?") == -1){
 				menuString.append("?clickFunctionId=");
 			} else {
 				menuString.append("&clickFunctionId=");
 			}
-		  //update-end--Author:jg_renjie  Date:20150715 for：解决rest风格时，传入id错误的问题
+
 			menuString.append(function.getId());
 		}
-		//update-end ---author:scott---for:外部链接在系统中配置无效----date:20150325
+
 		menuString.append("\',\'");
 		menuString.append(icon);
 		menuString.append("\')\"  title=\"");
@@ -462,7 +458,7 @@ public class ListtoMenu {
 			//绘制一级菜单
 			menuString.append("	<li class=\"dropdown\"> ");
 			menuString.append("		<a href=\"javascript:;\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"> ");
-			menuString.append("			<span class=\"bootstrap-icon\" style=\"background-image: url('"+TSIcon.allTSIcons.get(pFunction.getTSIcon().getId()).getIconPath()+"')\"></span> "+pFunction.getFunctionName()+" ");
+			menuString.append("			<span class=\"bootstrap-icon\" style=\"background-image: url('"+ResourceUtil.allTSIcons.get(pFunction.getTSIcon().getId()).getIconPath()+"')\"></span> "+pFunction.getFunctionName()+" ");
 			if(hasSub){
 				menuString.append("			<b class=\"caret\"></b> ");
 			}
@@ -517,9 +513,7 @@ public class ListtoMenu {
 		menuString.append("		</ul> ");
 		return menuString.toString();
 	}
-	
-	
-	//update-start--Author:gaofeng  Date:2014-02-14：新增webos头部菜单导航,多级菜单
+
 	/**
 	 * 拼装webos头部菜单
 	 * @param pFunctions
@@ -554,7 +548,7 @@ public class ListtoMenu {
 //			menuString.append("{ ");
 			menuString.append("\""+ pFunction.getId() + "\":");
 			menuString.append("{\"id\":\""+pFunction.getId()+"\",\"name\":\""+pFunction.getFunctionName()
-					+"\",\"path\":\""+TSIcon.allTSIcons.get(pFunction.getTSIcon().getId()).getIconPath()+"\",\"level\":\""+pFunction.getFunctionLevel()+"\",");
+					+"\",\"path\":\""+ResourceUtil.allTSIcons.get(pFunction.getTSIcon().getId()).getIconPath()+"\",\"level\":\""+pFunction.getFunctionLevel()+"\",");
 			menuString.append("\"child\":{");
 
 			//绘制Deskpanel数组
@@ -648,10 +642,10 @@ public class ListtoMenu {
 				dataString.append("'"+function.getId()+"':{ ");
 				dataString.append("appid:'"+function.getId()+"',");
 				dataString.append("url:'"+function.getFunctionUrl()+"',");
-                //        update-begin--Author:zhangguoming  Date:20140509 for：添加云桌面图标
+
 //				dataString.append(getIconandName(function.getFunctionName()));
 				dataString.append(getIconAndNameForDesk(function));
-                //        update-end--Author:zhangguoming  Date:20140509 for：添加云桌面图标
+
 				dataString.append("asc :"+function.getFunctionOrder());
 				dataString.append(" },");
 			}
@@ -661,7 +655,6 @@ public class ListtoMenu {
 		return data;
 	}
 
-    //        update-begin--Author:zhangguoming  Date:20140512 for：添加云桌面图标管理
     private static String getIconAndNameForDesk(TSFunction function) {
         StringBuffer dataString = new StringBuffer();
 
@@ -741,8 +734,7 @@ public class ListtoMenu {
 		String lang_context = mutiLangService.getLang(functionName);
 		return lang_context;
 	}
-    //        update-end--Author:zhangguoming  Date:20140512 for：添加云桌面图标管理
-	//update-start--Author:gaofeng  Date:2014-02-14：新增Webos头部菜单导航，多级菜单
+
 	
 	public static String getDIYMultistageTree(Map<Integer, List<TSFunction>> map) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
@@ -789,7 +781,7 @@ public class ListtoMenu {
 					String icon = "folder";
 					try{
 						if (function.getTSIcon() != null) {
-							icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+							icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 						}
 					}catch(Exception e){
 						//TODO handle icon load exception
@@ -804,8 +796,7 @@ public class ListtoMenu {
 		}
 		return menuString.toString();
 	}
-	
-	//update-start--Author:龙金波  Date:2015-03-16：新增ACE左侧菜单导航，多级
+
 	public static String getAceMultistageTree(Map<Integer, List<TSFunction>> map) {
 		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
 		StringBuffer menuString = new StringBuffer();
@@ -857,7 +848,7 @@ public class ListtoMenu {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
-			icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+			icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 		}
 		//addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
 		String name = getMutiLang(function.getFunctionName()) ;
@@ -883,7 +874,7 @@ public class ListtoMenu {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
-			icon = TSIcon.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+			icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
 		}
 		String name = getMutiLang(function.getFunctionName()) ;
 		menuString.append("<li iconCls=\"");
@@ -901,6 +892,61 @@ public class ListtoMenu {
 		menuString.append("\" url=\"");
 		menuString.append(function.getFunctionUrl());
 		menuString.append("\"  >");
+		menuString.append(name);
+		menuString.append("</a></li>");
+		return menuString.toString();
+	}
+
+	public static String getHplusMultistageTree(Map<Integer, List<TSFunction>> map) {
+		if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
+		StringBuffer menuString = new StringBuffer();
+		List<TSFunction> list = map.get(0);
+		int curIndex = 0;
+		for (TSFunction function : list) {
+			menuString.append("<li>");
+			menuString.append("<a href=\"#\" class=\"\" ><i class=\"fa fa-columns\"></i>");
+			menuString.append("<span class=\"menu-text\">");
+			menuString.append(getMutiLang(function.getFunctionName()));
+			menuString.append("</span>");
+			menuString.append("<span class=\"fa arrow\">");
+			menuString.append("</span>");
+			if(!function.hasSubFunction(map)){
+				menuString.append("</a></li>");
+				//menuString.append(getSubMenu(function,1,map));
+			}else{
+				//menuString.append("<b class=\"arrow icon-angle-down\"></b></a><ul  class=\"submenu\" >");
+				menuString.append("</a><ul  class=\"nav nav-second-level\" >");
+				menuString.append(getHplusSubMenu(function,1,map));
+				menuString.append("</ul></li>");
+			}
+			curIndex++;
+		}
+
+		return menuString.toString();
+	}
+
+	private static String getHplusSubMenu(TSFunction parent, int level, Map<Integer, List<TSFunction>> map) {
+		StringBuffer menuString = new StringBuffer();
+		List<TSFunction> list = map.get(level);
+		for (TSFunction function : list) {
+			if (function.getTSFunction().getId().equals(parent.getId())){
+				if(!function.hasSubFunction(map)){
+					menuString.append(getLeafOfHplusTree(function));
+				}
+			}
+		}
+		return menuString.toString();
+	}
+
+	private static String getLeafOfHplusTree(TSFunction function) {
+		StringBuffer menuString = new StringBuffer();
+		String icon = "folder";
+		if (function.getTSIcon() != null) {
+			icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+		}
+		//addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
+		String name = getMutiLang(function.getFunctionName()) ;
+		menuString.append("<li> <a class=\"J_menuItem\" href=\"").append(function.getFunctionUrl()).append("\">");
 		menuString.append(name);
 		menuString.append("</a></li>");
 		return menuString.toString();

@@ -11,6 +11,9 @@
 	var langurl = parentObj.document.getElementById("langurl").value;
 	var mutiLangScript = "<script type='text/javascript' src='" + langurl + "'><\/script>";
 	document.write(mutiLangScript);
+	window.onload = function() {
+		window.parent.iframeLoaded();
+	}
 </script>
 
 </head>
@@ -44,7 +47,8 @@
 					name="columns[#index#].isShow" style="width: 50px;"></td>
 				<td align="left"><input type="checkbox" checked="checked"
 					name="columns[#index#].isShowList" style="width: 50px;"></td>
-				<td align="left"><select name="columns[#index#].showType">
+				<!-- add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。 -->	
+				<td align="left"><select name="columns[#index#].showType" onchange="getShowType(this)">
 						<option value="text">文本框</option>
 						<option value="password">密码</option>
 						<option value="radio">单选框</option>
@@ -58,6 +62,7 @@
 						<option value="image">图片</option>
 						<option value="umeditor">UE编辑器</option>
 				</select></td>
+				<!-- add-end--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。 -->
 				<td align="left"><input name="columns[#index#].fieldLength"
 					value="120" type="text" style="width: 60px;"></td>
 				<td align="left"><input type="checkbox"

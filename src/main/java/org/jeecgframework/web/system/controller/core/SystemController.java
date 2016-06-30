@@ -1,28 +1,61 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Array;
 import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
-import org.jeecgframework.core.common.model.json.*;
+import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.ComboTree;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.common.model.json.TreeGrid;
+import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.JSONHelper;
+import org.jeecgframework.core.util.ListUtils;
+import org.jeecgframework.core.util.MutiLangSqlCriteriaUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyClassLoader;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.SetListSort;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.YouBianCodeUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.demo.entity.test.CourseEntity;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.manager.ClientSort;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.Client;
+import org.jeecgframework.web.system.pojo.base.DataLogDiff;
+import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSDocument;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
+import org.jeecgframework.web.system.pojo.base.TSVersion;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,18 +65,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.*;
-
 /**
  * 类型字段处理类
  *
  * @author 张代浩
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/systemController")
 public class SystemController extends BaseController {
@@ -52,15 +80,6 @@ public class SystemController extends BaseController {
 	private SystemService systemService;
 	private MutiLangServiceI mutiLangService;
 
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -156,10 +175,10 @@ public class SystemController extends BaseController {
 	@ResponseBody
 	public List<ComboTree> formTree(HttpServletRequest request,final ComboTree rootCombotree) {
 		String typegroupCode = request.getParameter("typegroupCode");
-		TSTypegroup group = TSTypegroup.allTypeGroups.get(typegroupCode.toLowerCase());
+		TSTypegroup group = ResourceUtil.allTypeGroups.get(typegroupCode.toLowerCase());
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 
-		for(TSType tsType : TSTypegroup.allTypes.get(typegroupCode.toLowerCase())){
+		for(TSType tsType : ResourceUtil.allTypes.get(typegroupCode.toLowerCase())){
 			ComboTree combotree = new ComboTree();
 			combotree.setId(tsType.getTypecode());
 			combotree.setText(tsType.getTypename());
@@ -337,6 +356,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delTypeGridTree")
 	@ResponseBody
 	public AjaxJson delTypeGridTree(String id, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (id.startsWith("G")) {//分组
 			TSTypegroup typegroup = systemService.getEntity(TSTypegroup.class, id.substring(1));
@@ -362,6 +382,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delTypeGroup")
 	@ResponseBody
 	public AjaxJson delTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.getEntity(TSTypegroup.class, typegroup.getId());
 //        add-begin--Author:zhangguoming  Date:20140929 for：数据字典修改
@@ -387,6 +408,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delType")
 	@ResponseBody
 	public AjaxJson delType(TSType type, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		type = systemService.getEntity(TSType.class, type.getId());
 		message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
@@ -427,6 +449,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "saveTypeGroup")
 	@ResponseBody
 	public AjaxJson saveTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(typegroup.getId())) {
 			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被更新成功";
@@ -475,6 +498,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "saveType")
 	@ResponseBody
 	public AjaxJson saveType(TSType type, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(type.getId())) {
 			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被更新成功";
@@ -564,6 +588,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delDepart")
 	@ResponseBody
 	public AjaxJson delDepart(TSDepart depart, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		depart = systemService.getEntity(TSDepart.class, depart.getId());
 		message = "部门: " + depart.getDepartname() + "被删除 成功";
@@ -582,6 +607,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "saveDepart")
 	@ResponseBody
 	public AjaxJson saveDepart(TSDepart depart, HttpServletRequest request) {
+		String message = null;
 		// 设置上级部门
 		String pid = request.getParameter("TSPDepart.id");
 		if (pid.equals("")) {
@@ -594,7 +620,7 @@ public class SystemController extends BaseController {
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
 		} else {
-//	      update-start--Author:zhoujf  Date:20150615 for：组织机构管理编码规则生成
+
 //			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
 //			depart.setOrgCode(orgCode);
 			if(oConvertUtils.isNotEmpty(pid)){
@@ -605,7 +631,7 @@ public class SystemController extends BaseController {
 				String localMaxCode  = getMaxLocalCode(null);
 				depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 			}
-//	      update-start--Author:zhoujf  Date:20150615 for：组织机构管理编码规则生成
+
 			userService.save(depart);
             message = MutiLangUtil.paramAddSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -622,18 +648,24 @@ public class SystemController extends BaseController {
 		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT org_code FROM t_s_depart");
-		sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
+
+		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
+			sb.append(" where LEN(org_code) = ").append(localCodeLength);
+		}else{
+			sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
+		}
+
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
 		}
-		//update-begin-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
+
 		sb.append(" ORDER BY org_code DESC");
 		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null && objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("org_code");
 		}
-		//update-end-Alex 20160310 for:去除LIMIT,解决数据库兼容性问题
+
 		return returnCode;
 	}
 
@@ -666,13 +698,9 @@ public class SystemController extends BaseController {
 		if (StringUtil.isNotEmpty(comboTree.getId())) {
 			cq.eq("TSPDepart.id", comboTree.getId());
 		}
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		if (StringUtil.isEmpty(comboTree.getId())) {
 			cq.isNull("TSPDepart.id");
 		}
-		// ----------------------------------------------------------------
-		// ----------------------------------------------------------------
 		cq.add();
 		List<TSDepart> departsList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
@@ -718,6 +746,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delRole")
 	@ResponseBody
 	public AjaxJson delRole(TSRole role, String ids, HttpServletRequest request) {
+		String message = null;
 		message = "角色: " + role.getRoleName() + "被删除成功";
 		AjaxJson j = new AjaxJson();
 		role = systemService.getEntity(TSRole.class, role.getId());
@@ -736,6 +765,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "saveRole")
 	@ResponseBody
 	public AjaxJson saveRole(TSRole role, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (role.getId() != null) {
 			message = "角色: " + role.getRoleName() + "被更新成功";
@@ -984,6 +1014,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delVersion")
 	@ResponseBody
 	public AjaxJson delVersion(TSVersion version, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		version = systemService.getEntity(TSVersion.class, version.getId());
 		message = "版本：" + version.getVersionName() + "被删除 成功";
@@ -1048,6 +1079,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delDocument")
 	@ResponseBody
 	public AjaxJson delDocument(TSDocument document, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		document = systemService.getEntity(TSDocument.class, document.getId());
 		message = "" + document.getDocumentTitle() + "被删除成功";
@@ -1075,7 +1107,7 @@ public class SystemController extends BaseController {
 	 *
 	 * @return
 	 */
-	//update-begin--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能
+
 	@RequestMapping(params = "editFiles")
 	public ModelAndView editFiles(TSDocument doc, ModelMap map) {
 		if (StringUtil.isNotEmpty(doc.getId())) {
@@ -1084,7 +1116,7 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/document/files");
 	}
-	//update-end--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能
+
 	/**
 	 * 保存文件
 	 *
@@ -1112,6 +1144,7 @@ public class SystemController extends BaseController {
 		document.setTSType(tsType);
 		UploadFile uploadFile = new UploadFile(request, document);
 		uploadFile.setCusPath("files");
+		//设置weboffice转化【不设置该字段，则不做在线预览转化】
 		uploadFile.setSwfpath("swfpath");
 		document = systemService.uploadFile(uploadFile);
 		attributes.put("url", document.getRealpath());
@@ -1222,7 +1255,6 @@ public class SystemController extends BaseController {
     	return j;
     }
 
-	//update-begin--Author: jg_huangxg  Date:20150701 for：修改数据日志Diff功能
 	@RequestMapping(params = "diffDataVersion")
 	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2){
 		String hql1 = "from TSDatalogEntity where id = '" + id1 + "'";
@@ -1258,8 +1290,7 @@ public class SystemController extends BaseController {
 			for (String string : set) {
 				DataLogDiff dataLogDiff = new DataLogDiff();
 				dataLogDiff.setName(string);
-				
-				//update-begin--Author:	jg_huangxg Date: 20150723 for：修复key找不到的bug
+
 				if (map1.containsKey(string)) {
 					value1 = map1.get(string).toString();
 					if (value1 == null) {
@@ -1281,7 +1312,7 @@ public class SystemController extends BaseController {
 				}else {
 					dataLogDiff.setValue2("");
 				}
-				//update-end--Author:	jg_huangxg Date: 20150723 for：修复key找不到的bug
+
 				
 				if (value1 == null && value2 == null) {
 					dataLogDiff.setDiff("N");
@@ -1310,6 +1341,6 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/dataLog/diffDataVersion");
 	}
-	//update-end--Author: jg_huangxg  Date:20150701 for：修改数据日志Diff功能
+
 	//add-end--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
 }

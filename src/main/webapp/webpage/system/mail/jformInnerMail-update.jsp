@@ -209,7 +209,7 @@ String style = sysTheme.getStyle();
 							</label>
 						</td>
 						<td class="value">
-					    		 <input id="content" name="content" value="${jformInnerMailPage.content }" type="hidden">
+					    		 <div style="display: none;"><input id="content" name="content" type="hidden"></div>
 							  	 <script id="mailcontent" type="text/plain" style="width:100%;" ></script>
 							  	 <script type="text/javascript">
 							        	var editor = UE.getEditor('mailcontent',{

@@ -3,7 +3,6 @@ package org.jeecgframework.web.demo.controller.test;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +16,10 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.demo.entity.test.JeecgDemo;
 import org.jeecgframework.web.demo.service.test.JeecgProcedureServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgProcedureController")
 public class JeecgProcedureController extends BaseController{
@@ -32,8 +30,7 @@ public class JeecgProcedureController extends BaseController{
 	public String procudure(HttpServletRequest request) {
 		return "jeecg/demo/base/procedure/procedure";
 	}
-	
-	//update-begin--Author:luobaoli  Date:20150711 for：优化数据读取和解析过程
+
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo demo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		List dealFields = new ArrayList();
@@ -54,11 +51,18 @@ public class JeecgProcedureController extends BaseController{
 		
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
+		PrintWriter pw = null;
 		try {
-			PrintWriter pw = response.getWriter();
+			pw = response.getWriter();
 			pw.write(TagUtil.getJsonByMap(dealFields,datas));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				pw.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 }

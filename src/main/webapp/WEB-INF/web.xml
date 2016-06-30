@@ -6,7 +6,7 @@
 	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg-3.6.3</param-value>
+		<param-value>jeecg-3.6.4</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -31,12 +31,12 @@
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	<!--update  begin  Author:luobaoli  Date:20150703 for：使rest风格url对应的controller支持延迟加载-->
+	<!--使rest风格url对应的controller支持延迟加载-->
 	<filter-mapping>
 		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
-	<!--update  end   Author:luobaoli  Date:20150703 for：使rest风格url对应的controller支持延迟加载-->
+
 	<filter>
 		<description>字符集过滤器</description>
 		<filter-name>encodingFilter</filter-name>
@@ -95,8 +95,7 @@
 		<description>系统初始化监听器</description>
 		<listener-class>org.jeecgframework.web.system.listener.InitListener</listener-class>
 	</listener>
-
-	<!-- 在线用户监听器 add by duanql 20130607 -->
+	<!-- 在线用户监听器-->
 	<listener>
 		<listener-class>org.jeecgframework.web.system.listener.OnlineListener</listener-class>
 	</listener>
@@ -116,7 +115,13 @@
 		<servlet-name>springMvc</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	<!--update  begin  Author:huangzq  Date:20151231 for：集成cxf webservice接口，并实现一个 服务端和客户端调用的demo-->
+	<servlet-mapping>
+		<servlet-name>springMvc</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
+	
+
+	<!-- 集成cxf webservice接口 -->
 	 <servlet>  
         <description>Apache CXF Endpoint</description>  
         <display-name>cxf</display-name>  
@@ -128,16 +133,7 @@
         <servlet-name>cxf</servlet-name>  
         <url-pattern>/cxf/*</url-pattern>  
     </servlet-mapping> 
-	<!--update  end  Author:huangzq  Date:20151231 for：集成cxf webservice接口，并实现一个 服务端和客户端调用的demo-->
-	<servlet>
-		<servlet-name>druidStatView</servlet-name>
-		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>springMvc</servlet-name>
-		<url-pattern>*.action</url-pattern>
-	</servlet-mapping>
-	<!-- update begin Author:liuht Date:20131228 -->
+    
 	<!-- restUrl风格配置 -->
 	<servlet>
 		<servlet-name>restSpringMvc</servlet-name>
@@ -152,37 +148,17 @@
 		<servlet-name>restSpringMvc</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	<!-- update end Author:liuht Date:20131228 -->
+	
+	<servlet>
+		<servlet-name>druidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>druidStatView</servlet-name>
 		<url-pattern>/webpage/system/druid/*</url-pattern>
 	</servlet-mapping>
-
-	<!-- ckfinder配置 add by Alexander Date:2013-09-19 -->
-	<servlet>
-		<servlet-name>ConnectorServlet</servlet-name>
-		<servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
-		<init-param>
-			<param-name>XMLConfig</param-name>
-			<param-value>/WEB-INF/classes/CKfinderConfig.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>false</param-value>
-		</init-param>
-		<!-- 自定义ckfinder监听器 -->
-		<init-param>
-			<param-name>configuration</param-name>
-			<param-value>org.jeecgframework.web.system.listener.CkfinderConfiguration</param-value>
-		</init-param>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ConnectorServlet</servlet-name>
-		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
-	</servlet-mapping>
-
-    <!--update-begin-Author:zhangguoming  Date:20140226 for：添加验证码-->
+	
+	<!-- 验证码 -->
     <servlet>
         <servlet-name>RandCodeImage</servlet-name>
         <servlet-class>org.jeecgframework.web.system.servlet.RandCodeImageServlet</servlet-class>
@@ -191,37 +167,14 @@
         <servlet-name>RandCodeImage</servlet-name>
         <url-pattern>/randCodeImage</url-pattern>
     </servlet-mapping>
-    <!--update-end-Author:zhangguoming  Date:20140226 for：添加验证码-->
-
-	<filter>
-		<filter-name>FileUploadFilter</filter-name>
-		<filter-class>com.ckfinder.connector.FileUploadFilter</filter-class>
-		<init-param>
-			<param-name>sessionCookieName</param-name>
-			<param-value>jsessionid</param-value>
-		</init-param>
-		<init-param>
-			<param-name>sessionParameterName</param-name>
-			<param-value>JSESSIONID</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>FileUploadFilter</filter-name>
-		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
-	</filter-mapping>
-	<!-- ckfinder配置 END -->
-    <!-- update-start-Author:zhangguoming  Date:20140623 for：添加404页面-->
+	<!-- 404错误页面 -->
     <error-page>
         <error-code>404</error-code>
         <location>/webpage/common/404.jsp</location>
     </error-page>
-    <!-- update-end-Author:zhangguoming  Date:20140623 for：添加404页面-->
-
-	<!-- session超时设置30分钟 add by zhoujunfeng 20130830 -->
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	<!-- session超时设置30分钟 add by zhoujunfeng 20130830 -->
 	<welcome-file-list>
 		<welcome-file>/webpage/login/login.jsp</welcome-file>
 	</welcome-file-list>

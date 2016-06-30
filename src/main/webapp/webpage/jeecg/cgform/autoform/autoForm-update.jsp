@@ -14,10 +14,10 @@
 	  var setting = {
 			  check: {
 					enable: true,
-					//update-begin--Author: huangzq  Date:20151209 for：【自定义表单】选择数据源生成模板，限制只能选择一个
+
 					chkStyle: "radio",
 					radioType: "level"
-					//update-end--Author: huangzq  Date:20151209 for：【自定义表单】选择数据源生成模板，限制只能选择一个
+
 				},
 				data: {
 					simpleData: {
@@ -46,25 +46,25 @@
 	  function initMainTableSourceSelect(){
 		  var ztree = $.fn.zTree.getZTreeObj("dbSelect");
 		  var node = ztree.getNodesByParam("pid", 0, null);
-		//update-begin--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
+
 		  var options = "<option value=''>请选择主数据源</option>";
 		  $.each(node,function(i,f){
 			  options += "<option value='"+f.dbCode+"'>"+f.name+"</option>";
 		  })
 		  $("#mainTableSource").html(options);
 		  $("#mainTableSource").val("${autoFormPage.mainTableSource}");
-		//update-end--Author: jg_renjie  Date:20151210 for：【自定义表单】表单主数据源不允许录入，只允许选择
+
 	  }
 	 $(function(){
 		 var dbDate = eval('${dbDate}');
 		 $.fn.zTree.init($("#dbSelect"), setting, dbDate);
 		 var styleDate = eval('${styleSelect}');
-		//update-begin--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
+
 		 var iconPath = "plug-in/ztree/css/img/diy/2.png";
 		 $(styleDate).each(function(i){
 			this.icon = iconPath;
 		 });
-		//update-end--Author: jg_huangxg  Date:20151102 for：树菜单ICON图标自定义实现
+
 		 $.fn.zTree.init($("#styleSelect"), stylesetting, styleDate);
 		 initMainTableSourceSelect();
 		//自定义easyui表单验证规则
@@ -122,12 +122,15 @@
 	 
 	 function doAdd(){
 		 var addurl = "autoFormDbController.do?goAdd&autoFormId=${autoFormPage.id}";
+		 var width = window.top.document.body.offsetWidth;
+		 var height =window.top.document.body.offsetHeight-100;
 		 $.dialog({
 			content: 'url:'+addurl,
 			lock : true,
 			//zIndex:1990,
-			width: '100%',
-			height: '100%',
+			zIndex: getzIndex(),
+			width: width,
+			height: height,
 			title: "<t:mutiLang langKey='common.add'/>",
 			opacity : 0.3,
 			cache:false,
@@ -153,9 +156,11 @@
 		    },
 		    cancelVal: '<t:mutiLang langKey='common.cancel'/>',
 		    cancel: true /*为true等价于function(){}*/
-		}).max().zindex();
+		});
 	 }
 	 function doUpdate(){
+		 var width = window.top.document.body.offsetWidth;
+		 var height =window.top.document.body.offsetHeight-100;
 		 //获取选中的父节点
 		 var id = getNodeId();
 		 if(id == null || id == ''){
@@ -167,8 +172,9 @@
 			content: 'url:'+addurl,
 			lock : true,
 			//zIndex:1990,
-			width: 700,
-			height: 400,
+			zIndex: getzIndex(),
+			width: width,
+			height: height,
 			title: "<t:mutiLang langKey='common.edit'/>",
 			opacity : 0.3,
 			cache:false,
@@ -194,7 +200,7 @@
 		    },
 		    cancelVal: '<t:mutiLang langKey='common.cancel'/>',
 		    cancel: true /*为true等价于function(){}*/
-		}).max().zindex();
+		});
 	 }
 	 function doDelete(){
 		 var id = getNodeId();
@@ -611,8 +617,6 @@ var leipiFormDesign = {
 
 	        if(formEditor.hasContents()){
 	            formEditor.sync();/*同步内容*/
-
-	            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 	            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
 	            if( typeof type!=='undefined' ){

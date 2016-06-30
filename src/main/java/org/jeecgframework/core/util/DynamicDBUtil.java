@@ -35,7 +35,7 @@ public class DynamicDBUtil {
 	}
 	
 	private static JdbcTemplate getJdbcTemplate(String dbKey) {
-		DynamicDataSourceEntity dynamicSourceEntity = DynamicDataSourceEntity.DynamicDataSourceMap.get(dbKey);
+		DynamicDataSourceEntity dynamicSourceEntity = ResourceUtil.dynamicDataSourceMap.get(dbKey);
 		
 		BasicDataSource dataSource = getDataSource(dynamicSourceEntity);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource); 

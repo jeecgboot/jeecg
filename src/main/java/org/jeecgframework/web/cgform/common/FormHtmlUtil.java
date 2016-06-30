@@ -50,12 +50,12 @@ public class FormHtmlUtil {
     private static String getTextAreaFormHtml(
 			CgFormFieldEntity cgFormFieldEntity) {
     	StringBuilder html = new StringBuilder("");
-    	//update-begin--Author:zhoujf  Date:20151218 for：online表单模板textarea优化--------------------
+
     	 html.append("<textarea rows=\"6\" ");
     	 if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
        	  	html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
          }
-    	//update-end--Author:zhoujf  Date:20151218 for：online表单模板textarea优化--------------------
+
     	 html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
          html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
          if("Y".equals(cgFormFieldEntity.getIsNull())){

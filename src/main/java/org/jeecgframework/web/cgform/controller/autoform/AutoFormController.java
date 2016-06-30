@@ -1,15 +1,28 @@
 package  org.jeecgframework.web.cgform.controller.autoform;
 
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import oracle.sql.BLOB;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.jeecgframework.codegenerate.database.JeecgReadTable;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -21,8 +34,13 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SqlUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.cgform.entity.autoform.*;
+import org.jeecgframework.web.cgform.entity.autoform.AutoFormDbEntity;
+import org.jeecgframework.web.cgform.entity.autoform.AutoFormDbFieldEntity;
+import org.jeecgframework.web.cgform.entity.autoform.AutoFormEntity;
+import org.jeecgframework.web.cgform.entity.autoform.AutoFormParamEntity;
+import org.jeecgframework.web.cgform.entity.autoform.AutoFormStyleEntity;
 import org.jeecgframework.web.cgform.service.autoform.AutoFormDbServiceI;
 import org.jeecgframework.web.cgform.service.autoform.AutoFormServiceI;
 import org.jeecgframework.web.cgform.util.AutoFormCommUtil;
@@ -43,22 +61,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 
 
@@ -70,7 +76,7 @@ import java.util.Map;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/autoFormController")
 public class AutoFormController extends BaseController {
@@ -199,11 +205,11 @@ public class AutoFormController extends BaseController {
 				autoForm.setFormContent(html);
 				autoForm.setFormParse(autoForm.getFormContent());
 			}
-			//update-begin--Author:jg_renjie  Date:20160131 for：针对默认字段  create_name、create_by等获取系统上下文值进行处理
+
 			autoForm.setCreateDate(new Date());
 			autoForm.setCreateName(ResourceUtil.getSessionUserName().getRealName());
 			autoForm.setCreateBy(ResourceUtil.getSessionUserName().getUserName());
-			//update-end--Author:jg_renjie  Date:20160131 for：针对默认字段  create_name、create_by等获取系统上下文值进行处理
+
 			autoFormService.save(autoForm);			
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -243,11 +249,11 @@ public class AutoFormController extends BaseController {
 					t.setFormContent(html);
 					t.setFormParse(autoForm.getFormContent());
 				}
-				//update-begin--Author:jg_renjie  Date:20160131 for：针对默认字段  create_name、create_by等获取系统上下文值进行处理
+
 				autoForm.setUpdateDate(new Date());
 				autoForm.setUpdateName(ResourceUtil.getSessionUserName().getRealName());
 				autoForm.setUpdateBy(ResourceUtil.getSessionUserName().getUserName());
-				//update-end--Author:jg_renjie  Date:20160131 for：针对默认字段  create_name、create_by等获取系统上下文值进行处理
+
 				autoFormService.saveOrUpdate(t);
 				attributes.put("id", t.getId());
 				j.setAttributes(attributes);
@@ -266,11 +272,9 @@ public class AutoFormController extends BaseController {
 					autoForm.setFormContent(html);
 					autoForm.setFormParse(autoForm.getFormContent());
 				}
-				
-				//--update-begin-------------date:20151102---------for:check 表单编码不允许重复--------------------
+
 				//TODO 待实现
-				
-				//--update-end-------------date:20151102---------for:check 表单编码不允许重复----------------------
+
 				autoFormService.save(autoForm);
 				attributes.put("id", autoForm.getId());
 				j.setAttributes(attributes);
@@ -296,14 +300,14 @@ public class AutoFormController extends BaseController {
 		Elements IDs = doc.select("input[name$=.ID]");
 		for (Element el: IDs) {
 			String name = el.attr("name");
-			System.out.println(name);
+			//System.out.println(name);
 			if(map.get(name)!=null){
 				throw new BusinessException("主键ID有重复【"+name+"】,编辑器进入HTML模式删除重复的主键");
 			}else{
 				map.put(name, name);
 			}
 		}
-		//update---begin---author:zhoujf------date:20151207---------------for:大小写问题修改-------------------------------
+
 //		Elements ids = doc.select("input[name$=.id]");
 //		for (Element el: ids) {
 //			String name = el.attr("name");
@@ -314,7 +318,7 @@ public class AutoFormController extends BaseController {
 //				map.put(name, name);
 //			}
 //		}
-		//update---end---author:zhoujf------date:20151207---------------for:大小写问题修改-------------------------------
+
 	}
 	
 
@@ -405,9 +409,9 @@ public class AutoFormController extends BaseController {
 			for(AutoFormDbEntity dbForm:list){
 				map = new HashMap<String,Object>();
 				map.put("id", dbForm.getId());
-				//update-begin--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 				map.put("name", dbForm.getDbChName()+"("+dbForm.getDbName()+")");
-				//update-end--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 				map.put("dbCode", dbForm.getDbName());
 			    map.put("pid", "0");
 				//增加父节点
@@ -418,9 +422,9 @@ public class AutoFormController extends BaseController {
 					for(AutoFormDbFieldEntity field: fieldlist){
 						map = new HashMap<String,Object>();
 						map.put("id", field.getId());
-						//update-begin--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 						map.put("name", (StringUtils.isBlank(field.getFieldText())||"null".equals(field.getFieldText()))?field.getFieldName():field.getFieldText()+"("+field.getFieldName()+")");
-						//update-end--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 						map.put("pId", dbForm.getId());
 						map.put("nocheck",true);
 						dateList.add(map);
@@ -432,9 +436,9 @@ public class AutoFormController extends BaseController {
 						for(AutoFormDbFieldEntity field: fieldlist){
 							map = new HashMap<String,Object>();
 							map.put("id", field.getId());
-							//update-begin--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 							map.put("name", (StringUtils.isBlank(field.getFieldText())||"null".equals(field.getFieldText()))?field.getFieldName():field.getFieldText()+"("+field.getFieldName()+")");
-							//update-end--Author: jg_huangxg  Date:20151106 for：自定义表单时数据源树把数据源编码 和 字段属性名显示出来
+
 							map.put("pId", dbForm.getId());
 							map.put("nocheck",true);
 							dateList.add(map);
@@ -483,15 +487,15 @@ public class AutoFormController extends BaseController {
 				dsData.put("dsName", db.getDbName());
 				dsList.add(dsData);
 			    if("table".equals(db.getDbType())){
-			    	//update-begin--Author: jg_huangxg  Date:20151106 for：增加字段文本的查询,当字段文本为空时,使用字段名称
+
 			    	String hql = "select new Map(t.fieldName as fieldName,t.fieldText as fieldText) from AutoFormDbFieldEntity t where t.autoFormDbId=?";
-			    	//update-end--Author: jg_huangxg  Date:20151106 for：增加字段文本的查询,当字段文本为空时,使用字段名称
+
 					List<Map<String,Object>> columns = this.systemService.findHql(hql, autoFormDbId);
 					dsData.put("columns", columns);
 			    } else if("sql".equals(db.getDbType())){
-			    	//update-begin--Author: jg_huangxg  Date:20151106 for：增加字段文本的查询,当字段文本为空时,使用字段名称
+
 			    	String hql = "select new Map(t.fieldName as fieldName,t.fieldText as fieldText) from AutoFormDbFieldEntity t where t.autoFormDbId=?";
-			    	//update-end--Author: jg_huangxg  Date:20151106 for：增加字段文本的查询,当字段文本为空时,使用字段名称
+
 					List<Map<String,Object>> columns = this.systemService.findHql(hql, autoFormDbId);
 					if(columns.size()>0){
 						dsData.put("columns", columns);
@@ -552,7 +556,15 @@ public class AutoFormController extends BaseController {
 		if(StringUtils.isNotBlank(autoForm.getId())){
 			autoForm = this.systemService.findUniqueByProperty(AutoFormEntity.class, "id", autoForm.getId());
 			List<String> paramList = getFormParams(autoForm.getId());
-			//3.传递参数
+			List<AutoFormDbEntity> autoList = systemService.findByProperty(AutoFormDbEntity.class, "dbName", autoForm.getMainTableSource());
+			if (autoList!=null&&autoList.size()>0) {
+				AutoFormDbEntity autoFormDbEntity = autoList.get(0);
+
+				//3.传递参数
+				//req.setAttribute("tbDbKey", autoFormDbEntity.getTbDbKey());
+				req.setAttribute("dbKey", autoFormDbEntity.getDbKey());
+
+			}
 			req.setAttribute("paramList", paramList);
 			req.setAttribute("autoFormPage", autoForm);
 		}
@@ -614,14 +626,13 @@ public class AutoFormController extends BaseController {
 	public ModelAndView viewContent(AutoFormEntity autoForm, HttpServletRequest req) {
 		String message = "";
 		try {
-			//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级servlet-api 后，req.getParameterMap() 返回值类型变化
 			//获取参数
 			Map<String, String[]> tem = req.getParameterMap();
 			Map<String,Object> paramMap = new HashMap<String, Object>();
 			for(String key :tem.keySet()){
 				paramMap.put(key, tem.get(key));
 			}
-			//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级servlet-api 后，req.getParameterMap() 返回值类型变化
+
 
 			String op = req.getParameter("op");
 			if(StringUtil.isEmpty(op)){
@@ -649,7 +660,7 @@ public class AutoFormController extends BaseController {
 			}
 			req.setAttribute("formName", autoForm.getFormName());
 			req.setAttribute("param", paramMap);
-//			paras = getFormData(autoForm,paramMap);
+			//paras = getFormData(autoForm,paramMap);
 			
 			String ftlContent = autoForm.getFormParse();
 			// 1.获取表单数据
@@ -706,7 +717,6 @@ public class AutoFormController extends BaseController {
 		List<AutoFormDbEntity> formDbList = this.systemService.findByProperty(AutoFormDbEntity.class, "autoFormId", autoForm.getId());
 		for(AutoFormDbEntity formDb: formDbList){
 			List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-			
 			List<Map<String, Object>> typeList = getColumnTypes(formDb.getTbDbTableName(),formDb.getDbKey());
 			
 			if("table".equals(formDb.getDbType())){
@@ -746,12 +756,11 @@ public class AutoFormController extends BaseController {
 		                }
 			    		hqlTable.append(" where ID ='").append(id).append("'");
 
-			    		//update-start--Author:luobaoli  Date:20150701 for：如果数据源为空，那么以当前上下文中的DB配置为准，查询出表数据
 						if("".equals(formDb.getDbKey())){
 							//当前上下文中的DB环境，获取数据库表中的所有数据
 							data = systemService.findForJdbc(hqlTable.toString());
 						}
-						//update-end--Author:luobaoli  Date:20150701 for：如果数据源为空，那么以当前上下文中的DB配置为准，查询出表数据
+
 						else{
 							DynamicDataSourceEntity dynamicDataSourceEntity = dynamicDataSourceServiceI.getDynamicDataSourceEntityForDbKey(formDb.getDbKey());
 							if(dynamicDataSourceEntity!=null){
@@ -782,19 +791,33 @@ public class AutoFormController extends BaseController {
 	                }
 				}
 				
-				//判断sql中是否还有没有被替换的变量，如果有，抛出错误！
-				if(dbDynSql.contains("\\$")){
+				// 判断sql中是否还有没有被替换的变量，如果有，抛出错误！
+				if (dbDynSql.contains("\\$")) {
 					message = "动态SQL数据查询失败！";
 					throw new BusinessException(message);
-				}else{
+				} else {
 					try {
-						data = systemService.findForJdbc(dbDynSql);
+
+						// data = systemService.findForJdbc(dbDynSql);
+						Object dbKeys = paramMap.get("dbKey");
+						if (dbKeys != null && dbKeys != "") {
+							if (dbKeys instanceof String) {
+								String dbKey = dbKeys.toString();
+								data = DynamicDBUtil.findList(dbKey, dbDynSql);
+							} else {
+								String[] keys = (String[]) dbKeys;
+								String dbKey = keys[0];
+								data = DynamicDBUtil.findList(dbKey, dbDynSql);
+							}
+						} else {
+							data = systemService.findForJdbc(dbDynSql);
+						}
+
 					} catch (Exception e) {
 						logger.info(e.getMessage());
 						message = "动态SQL数据查询失败！";
 						throw new BusinessException(message);
 					}
-					
 				}
 				paras.put(formDb.getDbName(), formatData(typeList,data));
 			}else{
@@ -803,6 +826,7 @@ public class AutoFormController extends BaseController {
 		}
 		return  paras;
 	}
+	
 	/**
 	 * 根据表名获取各个字段的类型
 	 * @param dbTableNm
@@ -896,9 +920,9 @@ public class AutoFormController extends BaseController {
 		if(StringUtils.isNotBlank(dbForm.getAutoFormId())){
 			List<AutoFormDbEntity> dbFormList = this.systemService.findByProperty(AutoFormDbEntity.class, "autoFormId", dbForm.getAutoFormId());
 			if(dbFormList.size()>0){
-				//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				message = "<option value='' selected='selected'>请选择数据源</option>";
-				//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				for(AutoFormDbEntity entity:dbFormList){
 					//根据数据源名称进行匹配数据
 					message += "<option value='"+entity.getDbName()+"'>"+(StringUtils.isBlank(entity.getDbChName())?entity.getDbName():entity.getDbChName())+"</option>";
@@ -907,17 +931,17 @@ public class AutoFormController extends BaseController {
 				j.setMsg(message);
 			} else{
 				j.setSuccess(false);
-				//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				message = "<option value='' selected='selected'>请先添加数据源</option>";
-				//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				j.setMsg(message);
 			}
 		}else{
 		//2.如果ID为空，则option拼接提示信息
 			j.setSuccess(false);
-			//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 			message = "<option  value='' selected='selected'>请先添加数据源</option>";
-			//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 			j.setMsg(message);
 		}
     	return j;
@@ -937,13 +961,12 @@ public class AutoFormController extends BaseController {
 		//1.如果ID不为空则拼接option字符串
 		//根据数据源名称进行匹配数据
 		if(StringUtils.isNotBlank(dbForm.getDbName()) && StringUtils.isNotBlank(dbForm.getAutoFormId())){
-			
-			//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 			String hqlList = "from AutoFormDbEntity t where t.dbName = ? and autoFormId = ?";
 			List<AutoFormDbEntity> list= this.systemService.findHql(hqlList, dbForm.getDbName(),dbForm.getAutoFormId());
 			if(list.size() ==1){
 				dbForm = list.get(0);
-			//update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 				//dbForm = this.systemService.findUniqueByProperty(AutoFormDbEntity.class, "dbName", dbForm.getDbName());
 				List<Map<String,Object>> columns = new ArrayList<Map<String,Object>>();
 				 if("table".equals(dbForm.getDbType())){
@@ -962,9 +985,9 @@ public class AutoFormController extends BaseController {
 						}
 				   }
 				if(columns.size()>0){
-					//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 					message = "<option value='' selected='selected'>请选择字段</option>";
-					//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 					for(Map<String,Object> map:columns){
 						message += "<option value='"+map.get("fieldName")+"'>"+(StringUtils.isBlank((String)map.get("fieldText"))?map.get("fieldName"):map.get("fieldText")) +"</option>";
 					}
@@ -972,17 +995,17 @@ public class AutoFormController extends BaseController {
 					j.setMsg(message);
 				} else{
 					j.setSuccess(false);
-					//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 					message = "<option value='' selected='selected'>请先添加字段</option>";
-					//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 					j.setMsg(message);
 				}
 			}else{
 			//2.如果ID为空，则option拼接提示信息
 				j.setSuccess(false);
-				//update-begin--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				message = "<option value='' selected='selected'>请先选择数据源</option>";
-				//update-end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值
+
 				j.setMsg(message);
 			}
 		} 
@@ -1006,8 +1029,7 @@ public class AutoFormController extends BaseController {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		
 		if(StringUtils.isNotBlank(dbForm.getDbName()) && StringUtils.isNotBlank(dbForm.getAutoFormId())){
-			
-			//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 			String hqlList = "from AutoFormDbEntity t where t.dbName = ? and autoFormId = ?";
 			List<AutoFormDbEntity> list= this.systemService.findHql(hqlList, dbForm.getDbName(),dbForm.getAutoFormId());
 			if(list.size() ==1){
@@ -1019,8 +1041,7 @@ public class AutoFormController extends BaseController {
 				} else {
 					attributes.put("dbName", dbForm.getDbName());
 				}
-				
-			//update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 				//dbForm = this.systemService.findUniqueByProperty(AutoFormDbEntity.class, "dbName", dbForm.getDbName());
 				List<Map<String,Object>> columns = new ArrayList<Map<String,Object>>();
 				 if("table".equals(dbForm.getDbType())){
@@ -1038,8 +1059,7 @@ public class AutoFormController extends BaseController {
 							}
 						}
 				   }
-				 	
-				//update-start--Author:jg_renjie  Date:20151107 for：优化根据数据源生成数据列
+
 				    StringBuilder options = null;
 				    StringBuilder trList  = new StringBuilder();
 				    String headStr = "";
@@ -1181,7 +1201,7 @@ public class AutoFormController extends BaseController {
 				} else {
 					message = "<option value=\"\">无字段</option>";
 				}
-				  //update-end--Author:jg_renjie  Date:20151107 for：优化根据数据源生成数据列    
+
 				    
 				j.setSuccess(true);
 				//j.setMsg(message);
@@ -1199,8 +1219,7 @@ public class AutoFormController extends BaseController {
 		return j;
 	}
 	//add-end--Author:jg_renjie  Date:20150725 for：数据源根据autoFormId与dbName取数据,并拼接成tr串
-	
-	//update-start--Author:jg_renjie  Date:20151107 for：优化根据数据源生成数据列
+
 	/**
 	 * 字段下拉框选择值时，自动填充表头信息
 	 */
@@ -1229,7 +1248,7 @@ public class AutoFormController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	//update-end--Author:jg_renjie  Date:20151107 for：优化根据数据源生成数据列
+
 	
 	/**
 	 * 添加表单
@@ -1335,7 +1354,7 @@ public class AutoFormController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	//update-begin--Author:zzl  Date:20151102 for：表单编码唯一性验证
+
 
 	@RequestMapping(params = "checkTbCode")
 	@ResponseBody
@@ -1359,8 +1378,7 @@ public class AutoFormController extends BaseController {
 		jsonObject.put("status", "y");
 		return jsonObject;
 	}
-	//update-end--Author:zzl  Date:20151102 for：表单编码唯一性验证
-	//update-begin--Author:zzl  Date:20151110 for：数据源级联删除
+
 	private void delFormDb(String autoFormId){
 		List<AutoFormDbEntity> list = this.systemService.findByProperty(AutoFormDbEntity.class, "autoFormId", autoFormId);
 		if(list!=null&&list.size()>0) {
@@ -1370,5 +1388,5 @@ public class AutoFormController extends BaseController {
 			}
 		}
 	}
-	//update-end--Author:zzl  Date:20151110 for：数据源级联删除
+
 }

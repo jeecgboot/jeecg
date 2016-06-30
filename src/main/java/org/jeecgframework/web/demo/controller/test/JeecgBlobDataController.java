@@ -38,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgBlobDataController")
 public class JeecgBlobDataController extends BaseController {
@@ -51,15 +51,6 @@ public class JeecgBlobDataController extends BaseController {
 	private JeecgBlobDataServiceI jeecgBlobDataService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -98,6 +89,7 @@ public class JeecgBlobDataController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgBlobDataEntity jeecgBlobData, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		jeecgBlobData = systemService.getEntity(JeecgBlobDataEntity.class, jeecgBlobData.getId());
 		message = "删除成功";
@@ -166,6 +158,7 @@ public class JeecgBlobDataController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(JeecgBlobDataEntity jeecgBlobData, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgBlobData.getId())) {
 			message = "更新成功";

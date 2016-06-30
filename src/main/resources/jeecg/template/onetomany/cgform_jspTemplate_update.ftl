@@ -62,69 +62,78 @@
 					  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
 		      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if> value='<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>'>
 				<#elseif po.showType=='file'>
-						<table id="fileTable"></table>
-						<#if !(po.operationCodesReadOnly ??)>
-							<#assign fileName = "${po.fieldName}" />
-							<table></table>
-							<script type="text/javascript">
-								var serverMsg="";
-								$(function(){
-									$('#${po.fieldName}').uploadify({
-										buttonText:'添加文件',
-										auto:false,
-										progressData:'speed',
-										multi:true,
-										height:25,
-										overrideEvents:['onDialogClose'],
-										fileTypeDesc:'文件格式:',
-										queueID:'filediv_file',
-										fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
-										fileSizeLimit:'15MB',
-										swf:'plug-in/uploadify/uploadify.swf',	
-										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
-										onUploadStart : function(file) { 
-											var cgFormId=$("input[name='id']").val();
-											$('#${po.fieldName}').uploadify("settings", "formData", {
-												'cgFormId':cgFormId,
-												'cgFormName':'${tableName}',
-												'cgFormField':'${po.fieldName}'
-											});
-										} ,
-										onQueueComplete : function(queueData) {
-											 var win = frameElement.api.opener;
-											 win.reloadTable();
-											 win.tip(serverMsg);
-											 frameElement.api.close();
-										},
-										onUploadSuccess : function(file, data, response) {
-											var d=$.parseJSON(data);
-											if(d.success){
-												var win = frameElement.api.opener;
-												serverMsg = d.msg;
-											}
-										},
-										onFallback: function() {
-						                    tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")
-						                },
-						                onSelectError: function(file, errorCode, errorMsg) {
-						                    switch (errorCode) {
-						                    case - 100 : tip("上传的文件数量已经超出系统限制的" + $('#file').uploadify('settings', 'queueSizeLimit') + "个文件！");
-						                        break;
-						                    case - 110 : tip("文件 [" + file.name + "] 大小超出系统限制的" + $('#file').uploadify('settings', 'fileSizeLimit') + "大小！");
-						                        break;
-						                    case - 120 : tip("文件 [" + file.name + "] 大小异常！");
-						                        break;
-						                    case - 130 : tip("文件 [" + file.name + "] 类型不正确！");
-						                        break;
-						                    }
-						                },
-						                onUploadProgress: function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {}
-									});
+					<table id="fileTable"></table>
+					<#if !(po.operationCodesReadOnly ??)>
+						<#assign fileName = "${po.fieldName}" />
+						<table></table>
+						<script type="text/javascript">
+							var serverMsg="";
+							$(function(){
+								$('#${po.fieldName}').uploadify({
+									buttonText:'添加文件',
+									auto:false,
+									progressData:'speed',
+									multi:true,
+									height:25,
+									overrideEvents:['onDialogClose'],
+									fileTypeDesc:'文件格式:',
+									queueID:'filediv_file',
+									fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
+									fileSizeLimit:'15MB',
+									swf:'plug-in/uploadify/uploadify.swf',	
+									uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
+									onUploadStart : function(file) { 
+										var cgFormId=$("input[name='id']").val();
+										$('#${po.fieldName}').uploadify("settings", "formData", {
+											'cgFormId':cgFormId,
+											'cgFormName':'${tableName}',
+											'cgFormField':'${fieldMeta[po.fieldName]}'
+										});
+									} ,
+									onQueueComplete : function(queueData) {
+										 var win = frameElement.api.opener;
+										 win.reloadTable();
+										 win.tip(serverMsg);
+										 frameElement.api.close();
+									},
+									onUploadSuccess : function(file, data, response) {
+										var d=$.parseJSON(data);
+										if(d.success){
+											var win = frameElement.api.opener;
+											serverMsg = d.msg;
+										}
+									},
+									onFallback: function() {
+					                    tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")
+					                },
+					                onSelectError: function(file, errorCode, errorMsg) {
+					                    switch (errorCode) {
+					                    case - 100 : tip("上传的文件数量已经超出系统限制的" + $('#file').uploadify('settings', 'queueSizeLimit') + "个文件！");
+					                        break;
+					                    case - 110 : tip("文件 [" + file.name + "] 大小超出系统限制的" + $('#file').uploadify('settings', 'fileSizeLimit') + "大小！");
+					                        break;
+					                    case - 120 : tip("文件 [" + file.name + "] 大小异常！");
+					                        break;
+					                    case - 130 : tip("文件 [" + file.name + "] 类型不正确！");
+					                        break;
+					                    }
+					                },
+					                onUploadProgress: function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {}
 								});
-							</script>
-							<span id="file_uploadspan"><input type="file" name="${po.fieldName}" id="${po.fieldName}" /></span> 
-							<div class="form" id="filediv_file"></div>
-						</#if>
+							});
+						</script>
+						<span id="file_uploadspan"><input type="file" name="${po.fieldName}" id="${po.fieldName}" /></span> 
+						<div class="form" id="filediv_file"></div>
+					</#if>
+				<#--update-start--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
+				<#elseif po.showType='umeditor'>
+					<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+					<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+			    	<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px"></textarea>
+				    <script type="text/javascript">
+				        var editor = UE.getEditor('${po.fieldName}');
+				    </script>
+				<#--update-end--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 		      	<#else>
 		      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
 		      						<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'>

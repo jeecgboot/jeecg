@@ -99,11 +99,19 @@ public class UserSelectTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 			out.print(end().toString());
+			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clear();
+				out.close();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}

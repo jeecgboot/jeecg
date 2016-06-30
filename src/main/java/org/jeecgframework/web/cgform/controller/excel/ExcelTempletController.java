@@ -59,13 +59,12 @@ import org.springframework.web.servlet.ModelAndView;
  * @ClassName: excelTempletController
  * @Description: excel模版处理
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/excelTempletController")
 public class ExcelTempletController extends BaseController {
 	private static final Logger logger = Logger
 			.getLogger(ExcelTempletController.class);
-	private String message;
 	@Autowired
 	private ConfigServiceI configService;
 	@Autowired
@@ -77,13 +76,6 @@ public class ExcelTempletController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	/**
 	 * 导出excel模版
@@ -369,9 +361,9 @@ public class ExcelTempletController extends BaseController {
 						String value = String.valueOf(r.get(bean.getFieldName()));
 						for (DictEntity dictEntity : dicDataList) {
 							if (value.equalsIgnoreCase(dictEntity.getTypecode())) {
-								//------------------update-begin------for:-国际化处理-----------------------author:zhagndaihao------------
+
 								r.put(bean.getFieldName(), MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
-								//------------------update-end-----for:-国际化处理----------------------------author:zhagndaihao---------
+
 							}
 						}
 					}

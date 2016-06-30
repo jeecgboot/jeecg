@@ -39,7 +39,7 @@ import org.jeecgframework.web.sms.util.TuiSongMsgUtil;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tSSmsTemplateSqlController")
 public class TSSmsTemplateSqlController extends BaseController {

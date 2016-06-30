@@ -47,7 +47,7 @@
 
 <script type="text/javascript">
 <!--
-//update-start--Author:zhangguoming  Date:20140821 for：为组织机构设置角色
+
     $(function() {
         var li_east = 0;
     });
@@ -105,6 +105,6 @@
     function ExportXlsByT() {
         JeecgExcelExport("departController.do?exportXlsByT","departList");
     }
-//update-end--Author:zhangguoming  Date:20140821 for：为组织机构设置角色
+
 //-->
 </script>

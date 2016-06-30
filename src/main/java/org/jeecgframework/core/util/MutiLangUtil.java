@@ -2,6 +2,7 @@ package org.jeecgframework.core.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.web.system.pojo.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 
@@ -91,6 +92,20 @@ public class MutiLangUtil {
 			String lang_context = getMutiLangInstance().getLang(lang_key);
 			reflectHelper.setMethodValue("text", lang_context);
 		}
+	}
+	
+	/**
+	 * ComboTree国际化方法
+	 * @author xgj
+	 * */
+	public static void setMutiComboTree(List<ComboTree> treeList){
+		for (ComboTree index : treeList) {  
+			index.setText(getMutiLangInstance().getLang(index.getText()));  
+            if (index.getChildren()!= null && index.getChildren().size() > 0 )   
+            {     
+            	setMutiComboTree(index.getChildren());  
+            }  
+        }
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package org.jeecgframework.web.sms.util.msg.util;
 
+import org.jeecgframework.core.util.LogUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -21,7 +22,7 @@ public class MsgActivityTimer extends QuartzJobBean {
 	 */ 
 	protected void executeInternal(JobExecutionContext arg0)
 			throws JobExecutionException {
-		System.out.println("×××××××××××××开始链路检查××××××××××××××");
+		LogUtil.info("×××××××××××××开始链路检查××××××××××××××");
 		int count = 0;
 		boolean result = MsgContainer.activityTestISMG();
 		while (!result) {
@@ -31,6 +32,6 @@ public class MsgActivityTimer extends QuartzJobBean {
 			break;
 			}
 		}
-		System.out.println("×××××××××××××链路检查结束××××××××××××××");
+		LogUtil.info("×××××××××××××链路检查结束××××××××××××××");
 	}
 }

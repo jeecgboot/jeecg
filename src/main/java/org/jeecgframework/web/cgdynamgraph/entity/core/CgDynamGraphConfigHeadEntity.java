@@ -43,11 +43,10 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
 	private java.lang.String updateBy;
 	/**修改人名称*/
 	private java.lang.String updateName;
-	
-    //update-begin--Author:张忠亮  Date:20150608 for：加入多数据源属性
+
     /**动态数据源*/
     private String dbSource;
-    //update-end--Author:张忠亮  Date:20150608 for：加入多数据源属性
+
     
     
 	/**图表类型*/
@@ -237,7 +236,7 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;
 	}
-    //update-begin--Author:张忠亮  Date:20150608 for：加入多数据源属性
+
     @Column(name ="db_source",length=36)
     public String getDbSource() {
         return dbSource;
@@ -246,7 +245,7 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
     public void setDbSource(String dbSource) {
         this.dbSource = dbSource;
     }
-    //update-end--Author:张忠亮  Date:20150608 for：加入多数据源属性
+
 	
 	@Column(name ="graph_type",length=36)
 	public String getGraphType() {

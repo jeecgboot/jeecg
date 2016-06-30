@@ -42,42 +42,52 @@ public class MenuTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
-			String menu = (String) this.pageContext.getSession().getAttribute("leftMenuCache"+style);
-			if(menu!=null){
-				out.print(menu);
-			}else{
-				menu=end().toString();
-				this.pageContext.getSession().setAttribute("leftMenuCache"+style,menu);
-				out.print(menu);
-				
-			}
-			
+
+			out = this.pageContext.getOut();
+			out.print(end().toString());
+			out.flush();
+//			String menu = (String) this.pageContext.getSession().getAttribute("leftMenuCache"+style);
+//			if(menu!=null){
+//				out.print(menu);
+//				out.flush();
+//			}else{
+//				menu=end().toString();
+//				this.pageContext.getSession().setAttribute("leftMenuCache"+style,menu);
+//				out.print(menu);
+//				out.flush();
+//			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clearBuffer();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}
 
 	public StringBuffer end() {	
 		StringBuffer sb = new StringBuffer();
-//        update-begin--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
+
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
             sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
             sb.append("</ul>");
         }
 		if(style.equals("shortcut"))
-//            update-begin--Author:zhangguoming  Date:20140429 for：在IE7下 导航显示问题
+
 //		{	sb.append("<div id=\"nav\" style=\"display:none;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
 		{
             sb.append("<div id=\"nav\" style=\"display:block;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
-//            update-end--Author:zhangguoming  Date:20140429 for：在IE7下 导航显示问题
+
 			sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
 			sb.append("</div>");
 		}
-//        update-end--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色
+
 		if(style.equals("bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootMenu(parentFun, childFun));
@@ -99,6 +109,9 @@ public class MenuTag extends TagSupport {
 		if(style.equals("diy"))
 		{
 			sb.append(ListtoMenu.getDIYMultistageTree(menuFun));
+		}
+		if(style.equals("hplus")){
+			sb.append(ListtoMenu.getHplusMultistageTree(menuFun));
 		}
 		return sb;
 	}

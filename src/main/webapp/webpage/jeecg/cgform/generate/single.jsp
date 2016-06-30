@@ -111,6 +111,7 @@ function browseFolder(path) {
 				<option value="02">Div风格(form)</option>
 				<option value="04">自定义word(form)</option>
 				<option value="05">bootstrap风格(form)</option>
+				<option value="07">nopopform风格</option>
 			</select> <span class="Validform_checktip"></span></td>
 		</tr>
 	</table>

@@ -10,7 +10,7 @@
 			</li>
 			<input type="hidden" name="${sub}[${subTableData_index}].id" id="${sub}[${subTableData_index}].id" value="${subTableData['id']?if_exists?html}"/>
 			<#list field['${sub}'].hiddenFieldList as subTableField >
-				<input type="hidden" name="${sub}[${subTableData_index}].${subTableField.field_name}" id="${sub}[${subTableData_index}].${subTableField.field_name}" value="${subTableData['${subTableField.field_name}']?if_exists?html}}"/>
+				<input type="hidden" name="${sub}[${subTableData_index}].${subTableField.field_name}" id="${sub}[${subTableData_index}].${subTableField.field_name}" value="${subTableData['${subTableField.field_name}']?if_exists?html}"/>
 			</#list> 
 			<#list field['${sub}'].fieldList as subTableField >
 				<#if subTableField.show_type=='text'>

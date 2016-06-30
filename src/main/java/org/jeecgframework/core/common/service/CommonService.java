@@ -248,7 +248,6 @@ public interface CommonService {
 
 	public List<ComboTree> comTree(List<TSDepart> all, ComboTree comboTree);
 
-//    update-begin--Author:zhangguoming  Date:20140819 for：添加recuisive方法参数
 	/**
 	 * 根据模型生成JSON
 	 * 
@@ -258,7 +257,7 @@ public interface CommonService {
      * @return List<ComboTree>
 	 */
 	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
-//   update-end--Author:zhangguoming  Date:20140819 for：添加recuisive方法参数
+
 
     /**
      * 构建树形数据表
@@ -352,8 +351,7 @@ public interface CommonService {
 			int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
-	
-	//update-begin--Author:luobaoli  Date:20150708 for：增加执行存储过程方法
+
 	/**
 	 * 执行存储过程
 	 * @param executeSql
@@ -361,5 +359,5 @@ public interface CommonService {
 	 * @return
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params);
-	//update-end--Author:luobaoli  Date:20150708 for：增加执行存储过程方法
+
 }

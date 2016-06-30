@@ -34,7 +34,7 @@ import org.jeecgframework.web.sms.service.TSSmsSqlServiceI;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tSSmsSqlController")
 public class TSSmsSqlController extends BaseController {
@@ -47,15 +47,6 @@ public class TSSmsSqlController extends BaseController {
 	private TSSmsSqlServiceI tSSmsSqlService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -100,6 +91,7 @@ public class TSSmsSqlController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(TSSmsSqlEntity tSSmsSql, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		tSSmsSql = systemService.getEntity(TSSmsSqlEntity.class, tSSmsSql.getId());
 		message = "业务SQL表删除成功";
@@ -123,6 +115,7 @@ public class TSSmsSqlController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "业务SQL表删除成功";
 		try{
@@ -152,6 +145,7 @@ public class TSSmsSqlController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TSSmsSqlEntity tSSmsSql, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "业务SQL表添加成功";
 		try{
@@ -175,6 +169,7 @@ public class TSSmsSqlController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(TSSmsSqlEntity tSSmsSql, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "业务SQL表更新成功";
 		TSSmsSqlEntity t = systemService.get(TSSmsSqlEntity.class, tSSmsSql.getId());

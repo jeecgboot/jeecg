@@ -107,7 +107,6 @@
 				<value>org.jeecgframework.web.cgdynamgraph.entity.*</value>
 				<value>org.jeecgframework.web.rank.*</value>
 				<value>org.jeecgframework.web.sms.*</value>
-				<value>org.jeecgframework.web.image.*</value>
 				<value>org.jeecgframework.web.onlinedoc.*</value>
 				<value>org.jeecgframework.web.onlinedocsort.*</value>
 				<value>com.jeecg.*</value>

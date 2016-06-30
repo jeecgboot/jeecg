@@ -15,13 +15,11 @@
                 alert("复制成功");
                 frameElement.api.close();
             });
-          	//update-begin--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
-          	//update-begin--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
+
 			var url = "${url}&id=${title}${params}";
             clip.setText(url);
             $("#menuLink").val(url);
-            //update-end--Author: jg_huangxg  Date:20150806 for：修改"配置地址"生成的URL为 .do风格
-          	//update-end--Author:luobaoli  Date:20150705 for：修改"配置地址"生成的URL为REST风格
+
             clip.glue('copyBtn');
             $("#closeBtn").click(function(){
                 frameElement.api.close();

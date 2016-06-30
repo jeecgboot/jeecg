@@ -21,11 +21,6 @@ import org.jeecgframework.core.common.entity.IdEntity;
 @Entity
 @Table(name = "t_s_typegroup")
 public class TSTypegroup extends IdEntity implements java.io.Serializable {
-	public static Map<String, TSTypegroup> allTypeGroups = new HashMap<String,TSTypegroup>();
-	public static Map<String, List<TSType>> allTypes = new HashMap<String,List<TSType>>();
-	
-	
-
 	private String typegroupname;
 	private String typegroupcode;
 	private List<TSType> TSTypes = new ArrayList<TSType>();

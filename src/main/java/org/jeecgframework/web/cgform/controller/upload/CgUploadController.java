@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date Jul 24, 2013 9:10:44 PM
  * @version V1.0
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgUploadController")
 public class CgUploadController extends BaseController {
@@ -46,15 +46,7 @@ public class CgUploadController extends BaseController {
 	private SystemService systemService;
 	@Autowired
 	private CgUploadServiceI cgUploadService;
-	private String message;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	/**
 	 * 保存文件
 	 * @param request
@@ -102,6 +94,7 @@ public class CgUploadController extends BaseController {
 	@RequestMapping(params = "delFile")
 	@ResponseBody
 	public AjaxJson delFile( HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String id  = request.getParameter("id");
 		CgUploadEntity file = systemService.getEntity(CgUploadEntity.class, id);

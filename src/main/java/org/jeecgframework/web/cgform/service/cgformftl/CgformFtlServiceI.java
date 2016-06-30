@@ -5,7 +5,7 @@ import org.jeecgframework.core.common.service.CommonService;
 import java.util.Map;
 
 public interface CgformFtlServiceI extends CommonService{
-//    update-start--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+
     /**
      * 根据tableName获取form模板信息
      * <li>根据 ftlVersion 的值获取模板，如果该参数为空，则默认取第一个激活的模板</li>
@@ -14,7 +14,7 @@ public interface CgformFtlServiceI extends CommonService{
      * @return form模板信息
      */
     public Map<String,Object> getCgformFtlByTableName(String tableName, String ftlVersion);
-//    update-end--Author:zhangguoming  Date:20140922 for：根据ftlVersion动态读取模板
+
 
 	/**
 	 * 根据tableName获取form模板信息

@@ -28,7 +28,6 @@ import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +43,7 @@ import com.google.gson.Gson;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgDemoController")
 @AutoMenu(name = "常用Demo", url = "jeecgDemoController.do?jeecgDemo")
@@ -58,15 +57,6 @@ public class JeecgDemoController extends BaseController {
 	private JeecgDemoServiceI jeecgDemoService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	
 	/**
 	 * popup 例子
@@ -249,6 +239,7 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgDemo jeecgDemo, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		jeecgDemo = systemService.getEntity(JeecgDemo.class, jeecgDemo.getId());
 		message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被删除 成功";
@@ -270,6 +261,7 @@ public class JeecgDemoController extends BaseController {
 	@ResponseBody
 	@AutoMenuOperation(name="添加",code = "add")
 	public AjaxJson save(JeecgDemo jeecgDemo, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
 			message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被更新成功";
@@ -309,6 +301,7 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "saveAuthor")
 	@ResponseBody
 	public AjaxJson saveAuthor(JeecgDemo jeecgDemo, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
 			message = "测试-用户申请成功";
@@ -399,6 +392,7 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "doDeleteALLSelect")
 	@ResponseBody
 	public AjaxJson doDeleteALLSelect(JeecgDemo jeecgDemo, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String ids = request.getParameter("ids");
 		String[] entitys = ids.split(",");
@@ -417,7 +411,7 @@ public class JeecgDemoController extends BaseController {
 	public ModelAndView goDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
 	}
-	//update-begin--Author:张忠亮  Date:20150701 for：保存新增/更新的行数据
+
 
 	/**
 	 * 保存新增/更新的行数据
@@ -427,6 +421,7 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "saveRows")
 	@ResponseBody
 	public AjaxJson saveRows(JeecgDemoPage page){
+		String message = null;
 		List<JeecgDemo> demos=page.getDemos();
 		AjaxJson j = new AjaxJson();
 		if(CollectionUtils.isNotEmpty(demos)){
@@ -451,5 +446,5 @@ public class JeecgDemoController extends BaseController {
 		}
 		return j;
 	}
-	//update-end--Author:张忠亮  Date:20150701 for：保存新增/更新的行数据
+
 }

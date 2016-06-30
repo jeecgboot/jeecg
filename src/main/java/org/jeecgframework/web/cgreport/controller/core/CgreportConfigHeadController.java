@@ -35,7 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgreportConfigHeadController")
 public class CgreportConfigHeadController extends BaseController {
@@ -48,15 +48,6 @@ public class CgreportConfigHeadController extends BaseController {
 	private CgreportConfigHeadServiceI cgreportConfigHeadService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -101,6 +92,7 @@ public class CgreportConfigHeadController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(CgreportConfigHeadEntity cgreportConfigHead, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgreportConfigHead = systemService.getEntity(CgreportConfigHeadEntity.class, cgreportConfigHead.getId());
 		message = "动态报表配置抬头删除成功";
@@ -124,6 +116,7 @@ public class CgreportConfigHeadController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "动态报表配置抬头删除成功";
 		try{
@@ -150,6 +143,7 @@ public class CgreportConfigHeadController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(CgreportConfigHeadEntity cgreportConfigHead,CgreportConfigHeadPage cgreportConfigHeadPage, HttpServletRequest request) {
+		String message = null;
 		List<CgreportConfigItemEntity> cgreportConfigItemList =  cgreportConfigHeadPage.getCgreportConfigItemList();
 		List<CgreportConfigParamEntity> cgreportConfigParamList = cgreportConfigHeadPage.getCgreportConfigParamList();
 		AjaxJson j = new AjaxJson();
@@ -174,6 +168,7 @@ public class CgreportConfigHeadController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(CgreportConfigHeadEntity cgreportConfigHead,CgreportConfigHeadPage cgreportConfigHeadPage, HttpServletRequest request) {
+		String message = null;
 		List<CgreportConfigItemEntity> cgreportConfigItemList =  cgreportConfigHeadPage.getCgreportConfigItemList();
 		List<CgreportConfigParamEntity> cgreportConfigParamList = cgreportConfigHeadPage.getCgreportConfigParamList();
 		AjaxJson j = new AjaxJson();

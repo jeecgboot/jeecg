@@ -51,7 +51,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/onlineDocSortController")
 public class OnlineDocSortController extends BaseController {
@@ -64,15 +64,6 @@ public class OnlineDocSortController extends BaseController {
 	private OnlineDocSortServiceI onlineDocSortService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -155,6 +146,7 @@ public class OnlineDocSortController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(OnlineDocSortEntity onlineDocSort, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		onlineDocSort = systemService.getEntity(OnlineDocSortEntity.class, onlineDocSort.getId());
 		message = "在线文档分类删除成功";
@@ -178,6 +170,7 @@ public class OnlineDocSortController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "在线文档分类删除成功";
 		try{
@@ -207,6 +200,7 @@ public class OnlineDocSortController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(OnlineDocSortEntity onlineDocSort, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		boolean flag = StringUtil.isEmpty(onlineDocSort.getParent().getId());
 		message = "在线文档分类添加成功";
@@ -234,6 +228,7 @@ public class OnlineDocSortController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(OnlineDocSortEntity onlineDocSort, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		boolean flag = StringUtil.isEmpty(onlineDocSort.getParent().getId());
 		

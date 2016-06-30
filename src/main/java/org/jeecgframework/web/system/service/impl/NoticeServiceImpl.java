@@ -63,7 +63,7 @@ public class NoticeServiceImpl extends CommonServiceImpl implements NoticeServic
 	}
 	
 	public <T> void delete(T entity) {
-	    //update-begin--Author:xuguojie  Date:20160406 for：#1020 【平台bug】通知公告删除时，没有考虑t_s_notice_read_user表的记
+
 		TSNotice notice = (TSNotice)entity;
 		super.deleteAllEntitie(super.findByProperty(TSNoticeReadUser.class, "noticeId", notice.getId()));
 		super.deleteAllEntitie(super.findByProperty(TSNoticeAuthorityUser.class, "noticeId", notice.getId()));
@@ -71,7 +71,7 @@ public class NoticeServiceImpl extends CommonServiceImpl implements NoticeServic
 		super.delete(notice);
  		//执行删除操作配置的sql增强
 		this.doDelSql(notice);
-	    //update-begin--Author:xuguojie  Date:20160406 for：#1020 【平台bug】通知公告删除时，没有考虑t_s_notice_read_user表的记
+
  	}
  	
  	public <T> Serializable save(T entity) {

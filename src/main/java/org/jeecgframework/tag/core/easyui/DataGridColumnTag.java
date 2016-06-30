@@ -19,6 +19,9 @@ public class DataGridColumnTag extends TagSupport {
 	protected String title;
 	protected String field;
 	protected Integer width;
+	//author：xugj start date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
+	protected Integer showLen;
+	//author：xugj end date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
 	protected String rowspan;
 	protected String colspan;
 	protected String align;
@@ -26,9 +29,9 @@ public class DataGridColumnTag extends TagSupport {
 	protected boolean checkbox;
 	protected String formatter;
 	protected String formatterjs;//自定义函数名称(调用页面自定义js方法 参数为(value,row,index)
-//    update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
+
 	protected boolean hidden=false;
-//    update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
+
 	protected String replace;
 	protected String treefield;
 	protected boolean image;
@@ -63,7 +66,7 @@ public class DataGridColumnTag extends TagSupport {
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setColumn(title,field,width,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor);
+		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor);
 		return EVAL_PAGE;
 	}
 	
@@ -205,6 +208,14 @@ public class DataGridColumnTag extends TagSupport {
 
 	public void setFormatterjs(String formatterjs) {
 		this.formatterjs = formatterjs;
+	}
+
+	public Integer getShowLen() {
+		return showLen;
+	}
+
+	public void setShowLen(Integer showLen) {
+		this.showLen = showLen;
 	}
 	
 }

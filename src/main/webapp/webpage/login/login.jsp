@@ -12,6 +12,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta charset="utf-8" />
   <title><t:mutiLang langKey="jeect.platform"/></title>
+   <link rel="shortcut icon" href="images/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <!-- bootstrap & fontawesome -->
   <link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
@@ -83,7 +84,7 @@
                       </label>
                       <label class="block clearfix">
                         <div class="input-group">
-                          <input type="text" style="width:150px" name="randCode" class="form-control" placeholder="请输入验证码"  id="randCode" onkeydown="randCodeKeyDown()"/>
+                          <input type="text" style="width:150px" name="randCode" class="form-control" placeholder="请输入验证码"  id="randCode"/>
                           <span class="input-group-addon" style="padding: 0px;"><img id="randCodeImage" src="randCodeImage"  /></span>
                         </div>
                       </label>
@@ -136,38 +137,14 @@
     </div>
 
 
-<script src="plug-in/ace/js/bootstrap.js"></script>
-<script src="plug-in/ace/js/bootbox.js"></script>
 
-<script src="plug-in/ace/js/jquery-ui.js"></script>
-<script src="plug-in/ace/js/jquery.ui.touch-punch.js"></script>
-<!-- ace scripts -->
-<script src="plug-in/ace/js/ace/elements.scroller.js"></script>
-<script src="plug-in/ace/js/ace/elements.colorpicker.js"></script>
-<script src="plug-in/ace/js/ace/elements.fileinput.js"></script>
-<script src="plug-in/ace/js/ace/elements.typeahead.js"></script>
-<script src="plug-in/ace/js/ace/elements.wysiwyg.js"></script>
-<script src="plug-in/ace/js/ace/elements.spinner.js"></script>
-<script src="plug-in/ace/js/ace/elements.treeview.js"></script>
-<script src="plug-in/ace/js/ace/elements.wizard.js"></script>
-<script src="plug-in/ace/js/ace/elements.aside.js"></script>
-<script src="plug-in/ace/js/ace/ace.js"></script>
-<script src="plug-in/ace/js/ace/ace.ajax-content.js"></script>
-<script src="plug-in/ace/js/ace/ace.touch-drag.js"></script>
-<script src="plug-in/ace/js/ace/ace.sidebar.js"></script>
-<script src="plug-in/ace/js/ace/ace.sidebar-scroll-1.js"></script>
-<script src="plug-in/ace/js/ace/ace.submenu-hover.js"></script>
-<script src="plug-in/ace/js/ace/ace.widget-box.js"></script>
-<script src="plug-in/ace/js/ace/ace.settings.js"></script>
-<script src="plug-in/ace/js/ace/ace.settings-rtl.js"></script>
-<script src="plug-in/ace/js/ace/ace.settings-skin.js"></script>
-<script src="plug-in/ace/js/ace/ace.widget-on-reload.js"></script>
-<script src="plug-in/ace/js/ace/ace.searchbox-autocomplete.js"></script>
 <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="plug-in/login/js/login.js"></script>
-<t:base type="tools" ></t:base>
+<script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="plug-in/mutiLang/en.js"></script>
+<script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+<script type="text/javascript" src="plug-in/login/js/jquery.tipsy.js"></script>
+<script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>
 <script type="text/javascript">
-//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
 	$(function(){
 		optErrMsg();
 	});
@@ -176,23 +153,20 @@
 		$("#showErrMsg").html('');
 		$("#errMsgContiner").hide();
 	}
-//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改	
 
-  //验证码输入框按下回车
-  function randCodeKeyDown(){
-	  var lKeyCode = (navigator.appname=="Netscape")?event.which:window.event.keyCode; //event.keyCode按的建的代码，13表示回车
-		if(lKeyCode == 13){
-			checkUser();
-		}else{
-			return false;
-		}
-  }
+   //输入验证码，回车登录
+  $(document).keydown(function(e){
+  	if(e.keyCode == 13) {
+  		$("#but_login").click();
+  	}
+  });
+
   //验证用户信息
   function checkUser(){
     if(!validForm()){
       return false;
     }
-    Login();
+    newLogin();
   }
   //表单验证
   function validForm(){
@@ -214,7 +188,7 @@
   }
 
   //登录处理函数
-  function Login(orgId) {
+  function newLogin(orgId) {
     setCookie();
     var actionurl=$('form').attr('action');//提交路径
     var checkurl=$('form').attr('check');//验证路径
@@ -223,9 +197,8 @@
       formData[this.name] =$("#"+this.name ).val();
     });
     formData['orgId'] = orgId ? orgId : "";
-    // update-begin--Author:ken  Date:20140629 for：添加语言选择
+    //语言
     formData['langCode']=$("#langCode").val();
-    // update-end--Author:ken  Date:20140629 for：添加语言选择
     formData['langCode'] = $("#langCode option:selected").val();
     $.ajax({
       async : false,
@@ -238,16 +211,16 @@
       success : function(data) {
         var d = $.parseJSON(data);
         if (d.success) {
-          loginsuccess();
-          var title, okButton;
-          if($("#langCode").val() == 'en') {
-            title = "Please select Org";
-            okButton = "Ok";
-          } else {
-            title = "请选择组织机构";
-            okButton = "确定";
-          }
           if (d.attributes.orgNum > 1) {
+          	  //用户拥有多个部门，需选择部门进行登录
+        	  var title, okButton;
+              if($("#langCode").val() == 'en') {
+                title = "Please select Org";
+                okButton = "Ok";
+              } else {
+                title = "请选择组织机构";
+                okButton = "确定";
+              }
             $.dialog({
               id: 'LHG1976D',
               title: title,
@@ -263,40 +236,56 @@
                 callback : function() {
                   iframe = this.iframe.contentWindow;
                   var orgId = $('#orgId', iframe.document).val();
-                  Login(orgId);
+
+                  formData['orgId'] = orgId ? orgId : "";
+                  $.ajax({
+              		async : false,
+              		cache : false,
+              		type : 'POST',
+              		url : 'loginController.do?changeDefaultOrg',// 请求的action路径
+              		data : formData,
+              		error : function() {// 请求失败处理函数
+              		},
+              		success : function(data) {
+              			window.location.href = actionurl;
+              		}
+                  });
+
                   this.close();
                   return false;
                 }
               }],
               close: function(){
-                window.location.href = actionurl;
+                setTimeout("window.location.href='"+actionurl+"'", 10);
               }
             });
           } else {
-            setTimeout("window.location.href='"+actionurl+"'", 1000);
+            window.location.href = actionurl;
           }
        } else {
-          showError
-          if(d.msg == "a"){
-            $.dialog.confirm("数据库无数据,是否初始化数据?", function(){
-              window.location = "init.jsp";
-            }, function(){
-            });
-          } else
-            showErrorMsg(d.msg);
+			showErrorMsg(d.msg);
         }
       }
     });
   }
-//update---start---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
+  //登录提示消息显示
   function showErrorMsg(msg){
-    //tip(msg);
     $("#errMsgContiner").show();
     $("#showErrMsg").html(msg);
-
     window.setTimeout(optErrMsg,3000); 
   }
-//update---end---author:jg_renjie at 20160410 for:#1038 【bug】新登录页面修改
+  /**
+   * 刷新验证码
+   */
+$('#randCodeImage').click(function(){
+    reloadRandCodeImage();
+});
+function reloadRandCodeImage() {
+    var date = new Date();
+    var img = document.getElementById("randCodeImage");
+    img.src='randCodeImage?a=' + date.getTime();
+}
+
   function darkStyle(){
     $('body').attr('class', 'login-layout');
     $('#id-text2').attr('class', 'red');
@@ -317,7 +306,45 @@
 
     e.preventDefault();
   }
-
+//设置cookie
+  function setCookie()
+  {
+  	if ($('#on_off').val() == '1') {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name, $("#"+this.name).val(), "/",24);
+  			$.cookie("COOKIE_NAME","true", "/",24);
+  		});
+  	} else {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name,null);
+  			$.cookie("COOKIE_NAME",null);
+  		});
+  	}
+  }
+  //读取cookie
+  function getCookie()
+  {
+  	var COOKIE_NAME=$.cookie("COOKIE_NAME");
+  	if (COOKIE_NAME !=null) {
+  		$("input[iscookie='true']").each(function() {
+  			$($("#"+this.name).val( $.cookie(this.name)));
+              if("admin" == $.cookie(this.name)) {
+                  $("#randCode").focus();
+              } else {
+                  $("#password").val("");
+                  $("#password").focus();
+              }
+          });
+  		$("#on_off").attr("checked", true);
+  		$("#on_off").val("1");
+  	} 
+  	else
+  	{
+  		$("#on_off").attr("checked", false);
+  		$("#on_off").val("0");
+        $("#randCode").focus();
+  	}
+  }
 </script>
 <%=lhgdialogTheme %>
 </body>

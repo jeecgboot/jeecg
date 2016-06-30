@@ -1,12 +1,11 @@
 <%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<t:base type="jquery,easyui,tools,DatePicker"></t:base>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title><t:mutiLang langKey="common.datasource.manage"/></title>
-	<t:base type="jquery,easyui,tools,DatePicker"></t:base>
+	<t:base type="jquery,easyui,tools"></t:base>
 	<script type="text/javascript">
 
 		var sourceType = '${dbSourcePage.dbType}';

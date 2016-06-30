@@ -27,15 +27,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  *
  */
 public class oConvertUtils {
-	/**
-	 * 判断字符串是否为空
-	 */
-	static Map<String, Object> map = new HashMap<String, Object>();
-
-	public static Map<String, Object> getMap() {
-		return map;
-	}
-
 	public static boolean isEmpty(Object object) {
 		if (object == null) {
 			return (true);

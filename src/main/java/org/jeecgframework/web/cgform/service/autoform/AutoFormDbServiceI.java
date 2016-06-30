@@ -55,4 +55,9 @@ public interface AutoFormDbServiceI extends CommonService{
  	 * @return
  	 */
  	public List<String> getSqlParams(String sql);
+ 	
+ 	/**
+ 	 * 支持动态数据源查询
+ 	 */
+ 	public List<String> getField(String sql,String dbKey);
 }

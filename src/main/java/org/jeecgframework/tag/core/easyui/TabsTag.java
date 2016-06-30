@@ -94,12 +94,19 @@ public class TabsTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clear();
+				out.close();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}
@@ -143,7 +150,9 @@ public class TabsTag extends TagSupport {
 
 			sb.append("function createFrame" + id + "(id)");
 			sb.append("{");
-			sb.append("var s = \'<iframe id=\"\'+id+\'\" scrolling=\"no\" frameborder=\"0\"  src=\"about:jeecg\" width=\""+oConvertUtils.getString(width, "100%")+"\" height=\""+oConvertUtils.getString(heigth, "99.5%")+"\"></iframe>\';");
+
+			sb.append("var s = \'<iframe id=\"+id+\" scrolling=\"no\" frameborder=\"0\"  src=\"about:jeecg\" width=\""+oConvertUtils.getString(width, "100%")+"\" height=\""+oConvertUtils.getString(heigth, "99.5%")+"\"></iframe>\';");
+
 			sb.append("return s;");
 			sb.append("}");
 			sb.append("});");
@@ -158,7 +167,9 @@ public class TabsTag extends TagSupport {
 						sb.append("<div title=\"" + tab.getTitle() + "\" href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow:hidden;\"></div>");
 					} else {
 						sb.append("<div title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow:hidden;\">");
-						sb.append("<iframe id=\"\'"+tab.getId()+"\'\" scrolling=\"no\" frameborder=\"0\"  src=\""+tab.getIframe()+"\" width=\""+oConvertUtils.getString(tab.getWidth(), "100%")+"\" height=\""+oConvertUtils.getString(tab.getHeigth(), "99.5%")+"\"></iframe>\';");
+
+						sb.append("<iframe id=\""+tab.getId()+"\" scrolling=\"no\" frameborder=\"0\"  src=\""+tab.getIframe()+"\" width=\""+oConvertUtils.getString(tab.getWidth(), "100%")+"\" height=\""+oConvertUtils.getString(tab.getHeigth(), "99.5%")+"\"></iframe>");
+
 						sb.append("</div>");
 					}
 

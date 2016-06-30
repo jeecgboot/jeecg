@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,17 +57,16 @@ public class DictDataTag implements TemplateDirectiveModel {
 
 		if (tablename == null || tablename.trim().length() <= 0) {
 			// 根据dict_field查询字典表list
-			List<TSType> dataList = TSTypegroup.allTypes
-					.get(name.toLowerCase());
+			List<TSType> dataList = ResourceUtil.allTypes.get(name.toLowerCase());
 			if (dataList == null) {
 				dataList = new ArrayList<TSType>();
 			}
-			//------------------update-begin------for:-国际化处理-----------------------author:zhagndaihao------------
+
 			for(TSType s:dataList){
 				String names = s.getTypename();
 				s.setTypename(MutiLangUtil.getMutiLangInstance().getLang(names));
 			}
-			//------------------update-end-----for:-国际化处理----------------------------author:zhagndaihao---------
+
 			env.setGlobalVariable(var, new SimpleCollection(dataList));
 		} else {
 			// table表查询

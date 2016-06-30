@@ -36,10 +36,10 @@ function setfunbyrole(id,roleName) {
 			href:"roleController.do?fun&roleId=" + id
 		}
 	);
-	$('#function-panel').panel("refresh" );
+	//$('#function-panel').panel("refresh" );
 	
 }
-//update-start--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
+
 function userListbyrole(id,roleName) {
 	$("#function-panel").panel(
 		{
@@ -47,10 +47,10 @@ function userListbyrole(id,roleName) {
 			href:"roleController.do?userList&roleId=" + id
 		}
 	);
-	$('#function-panel').panel("refresh" );
+	//$('#function-panel').panel("refresh" );
 	
 }
-//update-end--Author:gaofeng Date:20140822 for：查看角色的所有用户信息
+
 //删除角色
 function delRole(id){
 	var tabName= 'roleList';

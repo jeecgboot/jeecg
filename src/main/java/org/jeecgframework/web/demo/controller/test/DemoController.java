@@ -5,11 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.web.system.pojo.base.TSDemo;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.service.SystemService;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -17,13 +12,16 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
+import org.jeecgframework.web.system.pojo.base.TSDemo;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,21 +34,12 @@ import org.springframework.web.util.HtmlUtils;
  * @Description: TODO(演示例子处理类)
  * @author jeecg
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/demoController")
 public class DemoController extends BaseController {
 	private static final Logger logger = Logger.getLogger(DemoController.class);
 	private SystemService systemService;
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -175,24 +164,24 @@ public class DemoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = StringUtil.getEncodePra(req.getParameter("id"));
 		String floor = "";
-		//update-begin--Author:huangzq  Date:20151127 for：三级联调
+
 		if(StringUtil.isNotEmpty(id)){
 			if("ThreeLevelLinkage".equals(id)){
 				floor += "省：<select name=\"province\" id=\"provinceid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "市：<select name=\"city\" id=\"cityid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "县：<select name=\"county\" id=\"countyid\">"+"</select>" + "&nbsp;&nbsp;";
-				//update-end--Author:huangzq  Date:20151127 for：三级联调
+
 			}else{
 				CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 				cq.eq("TSFunction.id", id);
 				cq.add();
 				List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
 				if (functions.size() > 0) {
-				//update-begin--Author:张忠亮  Date:20150606 for：优化国际化
+
 					for (TSFunction function : functions) {
 						floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + MutiLangUtil.getMutiLangInstance().getLang(function.getFunctionName()) + "&nbsp;&nbsp;";
 					}
-				//update-end--Author:张忠亮  Date:20150606 for：优化国际化
+
 				} else {
 					floor += "没有子项目!";
 				}
@@ -281,6 +270,7 @@ public class DemoController extends BaseController {
 	@RequestMapping(params = "saveDemo")
 	@ResponseBody
 	public AjaxJson saveDemo(TSDemo demo, HttpServletRequest request) throws Exception{
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (!StringUtil.isEmpty(demo.getId())) {
 			message = "Demo维护例子: " + demo.getDemotitle() + "被更新成功";
@@ -311,6 +301,7 @@ public class DemoController extends BaseController {
 	@RequestMapping(params = "delDemo")
 	@ResponseBody
 	public AjaxJson del(TSDemo demo, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		demo = systemService.getEntity(TSDemo.class, demo.getId());
 		message = "Demo: " + demo.getDemotitle() + "被删除 成功";
@@ -322,8 +313,7 @@ public class DemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	
-	//update-begin--Author:luobaoli  Date:20150707 for：增加表单特殊布局DEMO，新增/修改功能在当前页显示
+
 	/**
 	 * demo页面跳转
 	 */
@@ -349,12 +339,10 @@ public class DemoController extends BaseController {
 		return new ModelAndView("jeecg/demo/base/layout/demoLayout");
 
 	}
-	//update-end--Author:luobaoli  Date:20150707 for：增加表单特殊布局DEMO，新增/修改功能在当前页显示
-	
-	//update-begin--Author:huangzq  Date:2016-01-27 for：TASK #866=>huangzq 【新功能】集成电子签章
+
 	@RequestMapping(params = "eSign")
 	public ModelAndView eSignDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/test/zsign");
 	}
-	//update-end--Author:huangzq  Date:2016-01-27 for：TASK #866=>huangzq 【新功能】集成电子签章
+
 }

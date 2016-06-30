@@ -50,13 +50,11 @@ import freemarker.template.TemplateException;
  * @Description: 读取模板生成填报表单（添加、修改）-执行表单数据添加和修改操作
  * @author 周俊峰
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgFormBuildController")
 public class CgFormBuildController extends BaseController {
 	private static final Logger logger = Logger.getLogger(CgFormBuildController.class);
-	private String message;
-	
 	@Autowired
 	private TempletContext templetContext;
 	@Autowired
@@ -66,14 +64,6 @@ public class CgFormBuildController extends BaseController {
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	//update-begin--Author:许国杰  Date:20151219 for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 	@RequestMapping(params = "goAddFtlForm")
 	public void goAddFtlForm(HttpServletRequest request,HttpServletResponse response) {
 		 ftlForm(request,response);
@@ -86,7 +76,7 @@ public class CgFormBuildController extends BaseController {
 	public void goDatilFtlForm(HttpServletRequest request,HttpServletResponse response) {
 		 ftlForm(request,response);
 	}
-	//update-end--Author:许国杰  Date:20151219 for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
+
 	
 	//add-start--Author:scott Date:20160301 for：online表单移动样式单独配置
 	/**
@@ -118,10 +108,10 @@ public class CgFormBuildController extends BaseController {
 			String tableName =request.getParameter("tableName");
 	        Map<String, Object> data = new HashMap<String, Object>();
 	        String id = request.getParameter("id");
-			//update-begin--Author:张忠亮  Date:20150707 for：online表单风格加入录入、编辑、列表、详情页面设置
+
 			String mode=request.getParameter("mode");
 			String templateName=tableName+"_";
-			//update-begin--Author:张忠亮  Date:20151019 for：url中加入olstylecode 可指定风格
+
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
 				templateName+=TemplateUtil.TemplateType.ADD.getName();
@@ -144,7 +134,7 @@ public class CgFormBuildController extends BaseController {
 	        if(StringUtils.isNotEmpty(id)){
 	        	dataForm = dataBaseService.findOneForJdbc(tableName, id);
 	        }
-	      //update-begin--Author:zhoujf  Date:20151223 for：恢复--------------------
+
 	        Iterator it=dataForm.entrySet().iterator();
 		    while(it.hasNext()){
 		    	Map.Entry entry=(Map.Entry)it.next();
@@ -152,7 +142,7 @@ public class CgFormBuildController extends BaseController {
 		        Object ov=entry.getValue();
 		        data.put(ok, ov);
 		    }
-	      //update-begin--Author:zhoujf  Date:20151223 for：恢复--------------------
+
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
 	        tableData.put(tableName, dataForm);
@@ -173,9 +163,9 @@ public class CgFormBuildController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
-	    	//update-begin--Author:钟世云  Date:20150610 for：online支持树配置--------------------
+
 	    	data.put("head", head);
-			//update-end--Author:钟世云  Date:20150610 for：online支持树配置----------------------
+
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
@@ -184,33 +174,40 @@ public class CgFormBuildController extends BaseController {
 	    	pushImages(data, id);
 			String content =null;
 			response.setContentType("text/html;charset=utf-8");
-			//update-begin--Author:张忠亮  Date:20151019 for：url中加入olstylecode 可指定风格
+
 			String urlTemplateName = request.getParameter("olstylecode");
-			//update-begin---author:scott---date:20160301-----for:online表单移动样式单独配置-----
+
 			if(oConvertUtils.isEmpty(urlTemplateName)){
 				urlTemplateName = (String) request.getAttribute("olstylecode");
 			}
-			//update-end---author:scott---date:20160301-----for:online表单移动样式单独配置-----
+
 			
 			if(StringUtils.isNotBlank(urlTemplateName)){
 				data.put("this_olstylecode",urlTemplateName);
-				LogUtil.info("-------------urlTemplateName-----------"+urlTemplateName);
+				LogUtil.debug("-------------urlTemplateName-----------"+urlTemplateName);
 				content=getUrlTemplate(urlTemplateName,templateType,data);
 			}else{
 				data.put("this_olstylecode",head.getFormTemplate());
-				LogUtil.info("-------------formTemplate-----------"+head.getFormTemplate());
+				LogUtil.debug("-------------formTemplate-----------"+head.getFormTemplate());
 				content=getTableTemplate(templateName,request,data);
 			}
-			//update-end--Author:张忠亮  Date:20151019 for：url中加入olstylecode 可指定风格
+
 			response.getWriter().print(content);
+			response.getWriter().flush();
 			long end = System.currentTimeMillis();
 			logger.debug("自定义表单生成耗时："+(end-start)+" ms");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
-//update-begin--Author:张忠亮  Date:20151020 for：url中加入olstylecode 可指定风格 代码优化
+
 	/**
 	 * 获取url指定模板
 	 * @param templateName
@@ -223,9 +220,9 @@ public class CgFormBuildController extends BaseController {
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(templateName);
 		if(entity!=null){
 			FreemarkerHelper viewEngine = new FreemarkerHelper();
-			//update-begin---author:scott---date:20160301-----for:解决传递stylecode解析模板报错问题-----
+
 			dataMap.put("DictData", ApplicationContextUtil.getContext().getBean("dictDataTag"));
-			//update-end---author:scott---date:20160301-----for:解决传递stylecode解析模板报错问题-----
+
 			content = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, templateType), dataMap);
 		}
 		return content;
@@ -241,17 +238,17 @@ public class CgFormBuildController extends BaseController {
 	private String getTableTemplate(String templateName,HttpServletRequest request,Map data){
 		StringWriter stringWriter = new StringWriter();
 		BufferedWriter writer = new BufferedWriter(stringWriter);
-		//update--begin-------author:scott------date:20151118----for:online表单缓存问题---------------
+
 		String ftlVersion =request.getParameter("ftlVersion");
 //		String ftlVersion = oConvertUtils.getString(data.get("version"));
-		//update--begin-------author:scott------date:20151118----for:online表单缓存问题---------------
+
 		Template template = templetContext.getTemplate(templateName, ftlVersion);
 		try {
-			//update-begin---author:scott---date:20150118-----for:修改linux时间格式不对问题-------------
+
 			template.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
 			template.setDateFormat("yyyy-MM-dd");  
 			template.setTimeFormat("HH:mm:ss");
-			//update-end---author:scott---date:20150118-----for:修改linux时间格式不对问题---------------
+
 			template.process(data, writer);
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -260,7 +257,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		return stringWriter.toString();
 	}
-//update-end--Author:张忠亮  Date:20151020 for：url中加入olstylecode 可指定风格 代码优化
+
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
@@ -326,7 +323,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		data.put("filesList", files);
 	}
-//update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image
+
 	/**
 	 * 如果表单带有 附件(图片),则查询出来传递到页面
 	 * @param data 传往页面的数据容器
@@ -349,7 +346,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		data.put("imageList", images);
 	}
-//update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image
+
 	/**
 	 * 保存或更新
 	 * 
@@ -362,6 +359,7 @@ public class CgFormBuildController extends BaseController {
 	@RequestMapping(params = "saveOrUpdate")
 	@ResponseBody
 	public AjaxJson saveOrUpdate(HttpServletRequest request) throws Exception{
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		Map data = request.getParameterMap();
 		if(data!=null){
@@ -441,6 +439,7 @@ public class CgFormBuildController extends BaseController {
 	@RequestMapping(params = "saveOrUpdateMore")
 	@ResponseBody
 	public AjaxJson saveOrUpdateMore(HttpServletRequest request) throws Exception{
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		Map data = request.getParameterMap();
 		if(data!=null){
@@ -495,6 +494,7 @@ public class CgFormBuildController extends BaseController {
 	@RequestMapping(params = "doButton")
 	@ResponseBody
 	public AjaxJson doButton(HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 			String formId = request.getParameter("formId");
@@ -513,9 +513,9 @@ public class CgFormBuildController extends BaseController {
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
-				//update-start--Author:luobaoli  Date:20150630 for：  增加java增强逻辑处理
+
 				dataBaseService.executeJavaExtend(formId, buttonCode, data);
-				//update-end--Author:luobaoli  Date:20150630 for：  增加java增强逻辑处理
+
 			}
 			j.setSuccess(true);
 			message = "操作成功";

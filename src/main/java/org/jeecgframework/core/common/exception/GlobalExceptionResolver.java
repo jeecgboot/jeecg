@@ -124,12 +124,15 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 		AjaxJson json = new AjaxJson();
 		json.setSuccess(true);
 		json.setMsg(deepestException.getMessage());
+		PrintWriter pw = null;
 		try {
-			PrintWriter pw=response.getWriter();
+			pw=response.getWriter();
 			pw.write(JSONHelper.bean2json(json));
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			pw.close();
 		}
 		empty.clear();
 		return empty;

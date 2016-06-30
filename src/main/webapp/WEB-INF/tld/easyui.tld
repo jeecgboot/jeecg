@@ -194,6 +194,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否使用高级查询器true,false</description>
 		</attribute>
+		<attribute>
+			<name>singleSelect</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否单选true,false</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgCol</name>
@@ -225,6 +230,14 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>字段宽度</description>
 		</attribute>
+		<!-- author：xugj start date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
+		<attribute>
+			<name>showLen</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>显示长度</description>
+		</attribute>
+		<!-- author：xugj end date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
 		<attribute>
 			<name>rowspan</name>
 			<rtexprvalue>true</rtexprvalue>

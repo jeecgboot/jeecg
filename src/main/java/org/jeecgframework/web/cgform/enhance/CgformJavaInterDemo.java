@@ -1,6 +1,7 @@
 package org.jeecgframework.web.cgform.enhance;
 
 import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.util.LogUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,6 +13,6 @@ import java.util.Map;
 public class CgformJavaInterDemo implements CgformEnhanceJavaInter {
     @Override
     public void execute(Map map) throws BusinessException {
-        System.out.println("============调用[java增强]成功!==============");
+    	LogUtil.info("============调用[java增强]成功!==============");
     }
 }

@@ -31,16 +31,11 @@ import java.util.List;
  * 地域处理类
  * @author wushu
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/territoryController")
 public class TerritoryController extends BaseController {
 	
-	private String message = null;
-
-    @Autowired
-    private MutiLangServiceI mutiLangService;
-
 	@Autowired
 	private SystemService systemService;
 
@@ -129,6 +124,7 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "saveTerritory")
 	@ResponseBody
 	public AjaxJson saveTerritory(TSTerritory territory, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String functionOrder = territory.getTerritorySort();
 		if(StringUtils.isEmpty(functionOrder)){
@@ -169,6 +165,7 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSTerritory territory, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		territory = systemService.getEntity(TSTerritory.class, territory.getId());
 		message = "地域: " + territory.getTerritoryName() + "被删除成功";

@@ -137,10 +137,9 @@ window.onload = function() {
 		gValue = gValue==null ? '' : gValue;
         gTitle = gTitle==null ? '' : gTitle;
         var arr1= oNode.getAttribute('autofield');
-        
-      //update-start--Author:jg_renjie  Date:20151022 for：增加datatype属性
+
         var datatype = oNode.getAttribute('datatype');
-      //update-end--Author:jg_renjie  Date:20151022 for：增加datatype属性
+
         
 		if(arr1){
 			arr1= arr1.split('.');
@@ -149,7 +148,7 @@ window.onload = function() {
 			//$("#datasource").val(arr1[0]);
 			//$("#field").val(field);
         	//$G('field').value = field;
-        	//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
         	var id = '';
 			editor.ready(function() {
 				id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
@@ -164,7 +163,7 @@ window.onload = function() {
    					$('#field').val(field);
    					$("#datasource").val(arr1[0]);
    			});
-           //update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
         }
         
 		$G('orgvalue').value = gValue;
@@ -211,34 +210,27 @@ dialog.onok = function (){
     var datasource=$('#datasource').val();
     var field=$('#field').val();
 
-
-  //update-start--Author:jg_renjie  Date:20151022 for：增加datatype属性
     var datatype = $G('datatype').value;
-  //update-end--Author:jg_renjie  Date:20151022 for：增加datatype属性
-    
-  //update-begin--Author:jg_renjie  Date:20150722 for：数据源、字段完整性判断
+
     //如果只选择了数据源，没有选择字段，则提示选择字段，使得不会出现在提交后出现只有数据源而没有字段的情况
     if(datasource !='' && field ==''){
     	alert('请选择字段');
     	return false;
     }
     var name= getName(datasource,field,gTitle);
-  //update-begin--Author:jg_renjie  Date:20150722 for：数据源、字段完整性判断
+
     if( !oNode ) {
         try {
             oNode = createElement('input','leipiNewField');
             oNode.setAttribute('type','text');
             oNode.setAttribute('title',gTitle);
             oNode.setAttribute('value',gValue);
-            
-          //update-start--Author:jg_renjie  Date:20151022 for：增加datatype属性
+
             oNode.setAttribute('datatype',datatype);
-          //update-end--Author:jg_renjie  Date:20151022 for：增加datatype属性
-            
-          //update-begin--Author:jg_renjie  Date:20150722 for：增加时，增加name属性的赋值
+
             oNode.setAttribute('name',name);
             oNode.setAttribute('leipiPlugins',thePlugins);
-          //update-end--Author:jg_renjie  Date:20150722 for：增加时，增加name属性的赋值
+
             if ( $G('orghide').checked ) {
                 oNode.setAttribute('orghide',1);
             } else {
@@ -286,14 +278,11 @@ dialog.onok = function (){
         
         oNode.setAttribute('title', gTitle);
         oNode.setAttribute('value', $G('orgvalue').value);
-        
-        //update-start--Author:jg_renjie  Date:20151022 for：增加datatype属性
+
         oNode.setAttribute('datatype',datatype);
-        //update-end--Author:jg_renjie  Date:20151022 for：增加datatype属性
-        
-      //update-begin--Author:jg_renjie  Date:20150722 for：修改时，增加name属性的赋值
+
         oNode.setAttribute('name',name);
-      //update-end--Author:jg_renjie  Date:20150722 for：修改时，增加name属性的赋值
+
         if( $G('orghide').checked ) {
             oNode.setAttribute('orghide', 1);
         } else {
@@ -341,7 +330,6 @@ dialog.onok = function (){
     }
 };
 
-//update-begin--Author:jg_renjie  Date:20150722 for：控件name的赋值
 //如果选择了数据源及字段，则name为数据源.字段的形式，否则，则为控件名称(title)
 function getName(datasource,field,title){
 	if(datasource !='' && field !=''){
@@ -350,10 +338,7 @@ function getName(datasource,field,title){
 		return title;
 	}
 }
-//update-end--Author:jg_renjie  Date:20150722 for：控件name的赋值
 
-
-//update-begin--Author:jg_renjie  Date:20150717 for：数据源与字段联动效果实现
 	$(function(){
 		//1.从参数中获取ID
 		var id = '';
@@ -370,7 +355,7 @@ function getName(datasource,field,title){
 				$('#datasource').html(data.msg);
 		});
 		//2.2 绑定change事件,并填充字段
-		//update-begin--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 		$("#datasource").change(function(){
             var dbId = $(this).val();
             $.post(
@@ -386,9 +371,9 @@ function getName(datasource,field,title){
             if(this.value!='')
                 $G('orgname').value= $(this).find("option:selected")[0].text;
         });
-		//update-end--Author:jg_renjie  Date:20150723 for：数据源根据autoFormId与dbName取数据
+
 	});
-//update-end--Author:jg_renjie  Date:20150717 for：数据源与字段联动效果实现
+
 function loadDataType(val){
     $("#datatype").empty();
     $("#datatype").append("<option value=''>无</option>");

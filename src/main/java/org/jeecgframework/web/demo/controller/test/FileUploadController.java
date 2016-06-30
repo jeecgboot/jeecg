@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.util.FileUtils;
 import org.jeecgframework.web.demo.entity.test.FileMeta;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
  * 修 改 人： Administrator 操作时间： 2014-2-19 下午11:25:22 操作原因：
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/fileUploadController")
 public class FileUploadController extends BaseController {
  
 	private static final Logger logger = Logger.getLogger(FileUploadController.class);
 
-	private String message;
 	/**
 	 * update-begin--Author:huangzq  Date:20151125 for：[732]【常用示例】上传文件下载报错
 	 */
@@ -48,14 +46,6 @@ public class FileUploadController extends BaseController {
 	 */
 	FileMeta fileMeta = null;
 	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 	/**
 	 * 方法描述:  (这里用一句话描述这个方法的作用)
 	 * 作    者： yiming.zhang
@@ -80,7 +70,7 @@ public class FileUploadController extends BaseController {
 			logger.info("upload-》2.1 get next MultipartFile");
 			mpf = request.getFile(itr.next());
 			logger.info(mpf.getOriginalFilename() + " uploaded! " + files.size());
-			System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
+			//System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
 			logger.info("2.2 if files > 10 remove the first from the list");
 			if (files.size() >= 10)
 				files.pop();

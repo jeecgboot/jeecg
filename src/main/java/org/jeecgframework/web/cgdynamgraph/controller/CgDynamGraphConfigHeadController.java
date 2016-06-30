@@ -36,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgDynamGraphConfigHeadController.do")
 public class CgDynamGraphConfigHeadController extends BaseController {
@@ -49,15 +49,6 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	private CgDynamGraphConfigHeadServiceI cgDynamGraphConfigHeadService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -102,6 +93,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgDynamGraphConfigHead = systemService.getEntity(CgDynamGraphConfigHeadEntity.class, cgDynamGraphConfigHead.getId());
 		message = "动态报表配置抬头删除成功";
@@ -125,6 +117,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "动态报表配置抬头删除成功";
 		try{
@@ -151,6 +144,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead,CgDynamGraphConfigHeadPage cgDynamGraphConfigHeadPage, HttpServletRequest request) {
+		String message = null;
 		List<CgDynamGraphConfigItemEntity> cgDynamGraphConfigItemList =  cgDynamGraphConfigHeadPage.getCgDynamGraphConfigItemList();
 		List<CgDynamGraphConfigParamEntity> cgDynamGraphConfigParamList = cgDynamGraphConfigHeadPage.getCgDynamGraphConfigParamList();
 		AjaxJson j = new AjaxJson();
@@ -175,6 +169,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead,CgDynamGraphConfigHeadPage cgDynamGraphConfigHeadPage, HttpServletRequest request) {
+		String message = null;
 		List<CgDynamGraphConfigItemEntity> cgDynamGraphConfigItemList =  cgDynamGraphConfigHeadPage.getCgDynamGraphConfigItemList();
 		List<CgDynamGraphConfigParamEntity> cgDynamGraphConfigParamList = cgDynamGraphConfigHeadPage.getCgDynamGraphConfigParamList();
 		AjaxJson j = new AjaxJson();

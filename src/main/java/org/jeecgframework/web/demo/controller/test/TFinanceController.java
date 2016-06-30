@@ -41,7 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tFinanceController")
 public class TFinanceController extends BaseController {
@@ -54,15 +54,6 @@ public class TFinanceController extends BaseController {
 	private TFinanceServiceI tFinanceService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -139,6 +130,7 @@ public class TFinanceController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TFinanceEntity tFinance, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		tFinance = systemService.getEntity(TFinanceEntity.class, tFinance.getId());
 		message = "删除成功";
@@ -158,6 +150,7 @@ public class TFinanceController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(TFinanceEntity tFinance, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(tFinance.getId())) {
 			message = "更新成功";
@@ -189,6 +182,7 @@ public class TFinanceController extends BaseController {
 	@RequestMapping(params = "delFile")
 	@ResponseBody
 	public AjaxJson delFile( HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		String id  = request.getParameter("id");
 		TFinanceFilesEntity file = systemService.getEntity(TFinanceFilesEntity.class, id);

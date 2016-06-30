@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/mutiLangController")
 public class MutiLangController extends BaseController {
@@ -43,15 +43,6 @@ public class MutiLangController extends BaseController {
 	private MutiLangServiceI mutiLangService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	/**
 	 * 多语言列表 页面跳转
@@ -89,6 +80,7 @@ public class MutiLangController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(MutiLangEntity mutiLang, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		mutiLang = systemService.getEntity(MutiLangEntity.class, mutiLang.getId());
 		message = MutiLangUtil.paramDelSuccess("common.language");
@@ -108,6 +100,7 @@ public class MutiLangController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(MutiLangEntity mutiLang, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(mutiLang.getId())) {
 			message = MutiLangUtil.paramUpdSuccess("common.language");
@@ -122,12 +115,12 @@ public class MutiLangController extends BaseController {
 				message = MutiLangUtil.paramUpdFail("common.language");
 			}
 		} else {
-			//---update--begin----author:scott----date:20160224---for:国际化配置不允许重复添加（通过语言和key）----------
+
 			if(MutiLangUtil.existLangKey( mutiLang.getLangKey(),mutiLang.getLangCode()))
 			{
 				message = mutiLangService.getLang("common.langkey.exist");
 			}
-			//---update--end----author:scott----date:20160224---for:国际化配置不允许重复添加（通过语言和key）----------
+
 			if(StringUtil.isEmpty(message))
 			{
 				mutiLangService.save(mutiLang);
@@ -165,6 +158,7 @@ public class MutiLangController extends BaseController {
 	@RequestMapping(params = "refreshCach")
 	@ResponseBody
 	public AjaxJson refreshCach(HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		try {
 			mutiLangService.refleshMutiLangCach();

@@ -15,87 +15,106 @@ public final class Globals {
 	/**
 	 * 保存用户到SESSION
 	 */
-	public static String USER_SESSION="USER_SESSION";
+	public static final String USER_SESSION="USER_SESSION";
 	/**
 	 * 人员类型
 	 */
-	public static Short User_Normal=1;//正常
-	public static Short User_Forbidden=0;//禁用
-	public static Short User_ADMIN=-1;//超级管理员
+	public static final Short User_Normal=1;//正常
+	public static final Short User_Forbidden=0;//禁用
+	public static final Short User_ADMIN=-1;//超级管理员
+	
+	/**
+	 * 逻辑删除标记
+	 */
+	/**
+	 * 删除
+	 */
+	public static final Short Delete_Forbidden=1;
+	/**
+	 * 正常
+	 */
+	public static final Short Delete_Normal=0;
+	
 	/**
 	 *日志级别定义
 	 */
-	public static Short Log_Leavel_INFO=1;
-	public static Short Log_Leavel_WARRING=2;
-	public static Short Log_Leavel_ERROR=3;
+	public static final Short Log_Leavel_INFO=1;
+	public static final Short Log_Leavel_WARRING=2;
+	public static final Short Log_Leavel_ERROR=3;
 	 /**
 	  * 日志类型
 	  */
-	 public static Short Log_Type_LOGIN=1; //登陆
-	 public static Short Log_Type_EXIT=2;  //退出
-	 public static Short Log_Type_INSERT=3; //插入
-	 public static Short Log_Type_DEL=4; //删除
-	 public static Short Log_Type_UPDATE=5; //更新
-	 public static Short Log_Type_UPLOAD=6; //上传
-	 public static Short Log_Type_OTHER=7; //其他
+	 public static final Short Log_Type_LOGIN=1; //登陆
+	 public static final Short Log_Type_EXIT=2;  //退出
+	 public static final Short Log_Type_INSERT=3; //插入
+	 public static final Short Log_Type_DEL=4; //删除
+	 public static final Short Log_Type_UPDATE=5; //更新
+	 public static final Short Log_Type_UPLOAD=6; //上传
+	 public static final Short Log_Type_OTHER=7; //其他
 	 
 	 
 	 /**
 	  * 词典分组定义
 	  */
-	 public static String TypeGroup_Database="database";//数据表分类
+	 public static final String TypeGroup_Database="database";//数据表分类
 	 
 	 /**
 	  * 权限等级
 	  */
-	 public static Short Function_Leave_ONE=0;//一级权限
-	 public static Short Function_Leave_TWO=1;//二级权限
+	 public static final Short Function_Leave_ONE=0;//一级权限
+	 public static final Short Function_Leave_TWO=1;//二级权限
 	 
 	 /**
 	  * 权限等级前缀
 	  */
-	 public static String Function_Order_ONE="ofun";//一级权限
-	 public static String Function_Order_TWO="tfun";//二级权限
-	 
-	//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+	 public static final String Function_Order_ONE="ofun";//一级权限
+	 public static final String Function_Order_TWO="tfun";//二级权限
+
 	 /**
 	  * 权限类型
 	  */
-	 public static Short Function_TYPE_PAGE=0;//页面（菜单：菜单类型）
-	 public static Short Function_TYPE_FROM=1;//表单/或者弹出（菜单：访问类型）
+	 public static final Short Function_TYPE_PAGE=0;//页面（菜单：菜单类型）
+	 public static final Short Function_TYPE_FROM=1;//表单/或者弹出（菜单：访问类型）
 	 /**
 	  * 没有勾选的操作code
 	  */
-	 public static String NOAUTO_OPERATIONCODES ="noauto_operationCodes";
+	 public static final String NOAUTO_OPERATIONCODES ="noauto_operationCodes";
 	 /**
 	  * 勾选了的操作code
 	  */
-	 public static String OPERATIONCODES ="operationCodes";
+	 public static final String OPERATIONCODES ="operationCodes";
 	 
 	 
 	 /**
 	  * 权限类型
 	  */
-	 public static Short OPERATION_TYPE_HIDE = 0;//页面
-	 public static Short OPERATION_TYPE_DISABLED = 1;//表单/或者弹出
+	 public static final Short OPERATION_TYPE_HIDE = 0;//页面
+	 public static final Short OPERATION_TYPE_DISABLED = 1;//表单/或者弹出
 	 
 	 
 	 /**
 	  * 数据权限 - 菜单数据规则集合
 	  */
-	 public static String MENU_DATA_AUTHOR_RULES ="MENU_DATA_AUTHOR_RULES";
+	 public static final String MENU_DATA_AUTHOR_RULES ="MENU_DATA_AUTHOR_RULES";
 	 /**
 	  * 数据权限 - 菜单数据规则sql
 	  */
-	 public static String MENU_DATA_AUTHOR_RULE_SQL ="MENU_DATA_AUTHOR_RULE_SQL";
-	//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
+	 public static final String MENU_DATA_AUTHOR_RULE_SQL ="MENU_DATA_AUTHOR_RULE_SQL";
+
 	 /**
 	  * 新闻法规
 	  */
-	 public static Short Document_NEW=0; //新建
-	 public static Short Document_PUBLICH=0; //发布
+	 public static final Short Document_NEW=0; //新建
+	 public static final Short Document_PUBLICH=0; //发布
 	 
-	 
+	 /**
+	  * 内部邮件系统
+	  */
+	 public static final String MAIL_STATUS_UNSEND ="00"; //草稿
+	 public static final String MAIL_STATUS_SEND ="01"; //已发送
+	 public static final String MAIL_STATUS_DEL ="02"; //删除   已发送的邮件不能真正删除，不然接收人就看不到邮件了。
+	 public static final String MAILRECEIVER_STATUS_UNREAD ="00"; //未读
+	 public static final String MAILRECEIVER_STATUS_READ ="01";//已读
 
 	 /**
 	  * 配置系统是否开启按钮权限控制

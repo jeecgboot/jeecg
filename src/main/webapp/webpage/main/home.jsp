@@ -45,7 +45,7 @@
 	<li>作  者 ：<a href="http://www.jeecg.org/forum.php?mod=viewthread&tid=1047">张代浩</a></li>
 	<li>邮  箱 ：jeecg@sina.com</li>
 	<li>官  网 ：<a href="http://www.jeecg.org" target="_blank">www.jeecg.org</a></li>
-	<li>QQ 群: 106838471, 106259349, 289782002</li>
+	<li>QQ 群: 176031980、106838471, 106259349, 289782002</li>
 	<li><a href="http://www.guojusoft.com" target="_blank" style="color: red"> 【 JEECG针对企业用户提供商业版本，详细咨询请联系官方 】 </a></li>
 </ul>
 </div>

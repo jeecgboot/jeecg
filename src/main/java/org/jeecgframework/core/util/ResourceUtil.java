@@ -1,6 +1,7 @@
 package org.jeecgframework.core.util;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpSession;
 import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
+import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
+import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 
 
@@ -22,11 +27,38 @@ import org.jeecgframework.web.system.pojo.base.TSUser;
  */
 public class ResourceUtil {
 	public static final String LOCAL_CLINET_USER = "LOCAL_CLINET_USER";
+	/**
+	 * 缓存字段分组【缓存】
+	 */
+	public static Map<String, TSTypegroup> allTypeGroups = new HashMap<String,TSTypegroup>();
+	/**
+	 * 缓存字典【缓存】
+	 */
+	public static Map<String, List<TSType>> allTypes = new HashMap<String,List<TSType>>();
+	
+	/**
+	 * 国际化【缓存】
+	 */
+	public static Map<String, String> mutiLangMap = new HashMap<String, String>(); 
+	/**
+	 * 缓存系统图标【缓存】
+	 */
+	public static Map<String, TSIcon> allTSIcons = new HashMap<String,TSIcon>();
+	/**
+	 * 动态数据源【缓存】
+	 */
+	public static Map<String, DynamicDataSourceEntity> dynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>(); 
 	
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
-	//update-begin--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
-	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
-	//update-end--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
+	
+	/**
+	 * 属性文件[resources/sysConfig.properties]
+	 * #默认开启模糊查询方式 1为开启 条件无需带*就能模糊查询[暂时取消]
+	 * fuzzySearch=0
+	 */
+
+//	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
+
 
 	/**
 	 * 获取session定义名称
@@ -40,7 +72,7 @@ public class ResourceUtil {
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
-		//update-begin--update---author:scott-----------date:20151218-------for:解决分布式登录问题-------
+
 		}else{
 			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
 			Client client = new Client();
@@ -49,7 +81,7 @@ public class ResourceUtil {
 	        client.setUser(u);
 	        ClientManager.getInstance().addClinet(session.getId(), client);
 		}
-		//update-end--update---author:scott-----------date:20151218-------for:解决分布式登录问题-------
+
 		return null;
 	}
 	@Deprecated
@@ -160,7 +192,6 @@ public class ResourceUtil {
 		return DBTypeUtil.getDBType().toLowerCase();
 	}
 
-//    update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
     /**
      * 获取随机码的长度
      *
@@ -178,7 +209,7 @@ public class ResourceUtil {
     public static String getRandCodeType() {
         return bundle.getString("randCodeType");
     }
-//    update-end--Author:zhangguoming  Date:20140226 for：添加验证码
+
 
     /**
      * 获取组织机构编码长度的类型
@@ -207,9 +238,7 @@ public class ResourceUtil {
 		} else {
 			key = key;
 		}
-		
-		 //----------------------------------------------------------------
-		//update-begin--Author:zhangdaihao  Date:20140913 for：获取系统上下文变量
+
 	
 		//替换为系统的登录用户账号
 //		if (key.equals(DataBaseConstant.CREATE_BY)
@@ -231,9 +260,6 @@ public class ResourceUtil {
 			) {
 			returnValue =  getSessionUserName().getRealName();
 		}
-		
-		//update-end--Author:zhangdaihao  Date:20140913 for：获取系统上下文变量
-		//---------------------------------------------------------------- 
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
 			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
@@ -304,9 +330,9 @@ public class ResourceUtil {
 		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
 		org.jeecgframework.core.util.LogUtil.info(getSysPath());
 	}
-	//update-begin--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
-	public static boolean isFuzzySearch(){
-		return "1".equals(bundle.getString("fuzzySearch"));
-	}
-	//update-end--Author:zzl  Date:20151123 for：加入配置属性可默认进行模糊查询
+
+//	public static boolean isFuzzySearch(){
+//		return "1".equals(bundle.getString("fuzzySearch"));
+//	}
+
 }

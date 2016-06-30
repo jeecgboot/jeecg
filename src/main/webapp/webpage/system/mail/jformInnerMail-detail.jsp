@@ -83,7 +83,6 @@
 							</label>
 						</td>
 						<td class="value">
-					    		 <input id="content" name="content" value="${jformInnerMailPage.content }" type="hidden">
 							  	 <script id="mailcontent" type="text/plain" style="width:100%;" ></script>
 							  	 <script type="text/javascript">
 							        	var editor = UE.getEditor('mailcontent',{

@@ -42,7 +42,7 @@ import com.alibaba.fastjson.JSONObject;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/autoFormStyleController")
 public class AutoFormStyleController extends BaseController {
@@ -55,15 +55,6 @@ public class AutoFormStyleController extends BaseController {
 	private AutoFormStyleServiceI autoFormStyleService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -108,6 +99,7 @@ public class AutoFormStyleController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(AutoFormStyleEntity autoFormStyle, HttpServletRequest request) {
+		String message;
 		AjaxJson j = new AjaxJson();
 		autoFormStyle = systemService.getEntity(AutoFormStyleEntity.class, autoFormStyle.getId());
 		message = "表单样式表删除成功";
@@ -131,6 +123,7 @@ public class AutoFormStyleController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		 String message;
 		AjaxJson j = new AjaxJson();
 		message = "表单样式表删除成功";
 		try{
@@ -160,6 +153,7 @@ public class AutoFormStyleController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(AutoFormStyleEntity autoFormStyle, HttpServletRequest request) {
+		String message;
 		AjaxJson j = new AjaxJson();
 		message = "表单样式表添加成功";
 		try{
@@ -183,6 +177,7 @@ public class AutoFormStyleController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(AutoFormStyleEntity autoFormStyle, HttpServletRequest request) {
+		String message;
 		AjaxJson j = new AjaxJson();
 		message = "表单样式表更新成功";
 		AutoFormStyleEntity t = autoFormStyleService.get(AutoFormStyleEntity.class, autoFormStyle.getId());

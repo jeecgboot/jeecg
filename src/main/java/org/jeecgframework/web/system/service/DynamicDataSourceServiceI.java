@@ -12,9 +12,9 @@ public interface DynamicDataSourceServiceI extends CommonService{
 	public void refleshCache();
 
 	//add-begin--Author:luobaoli  Date:20150620 for：增加通过数据源Key获取数据源Type
-	//update-begin--Author:luobaoli  Date:20150623 for：增加通过数据源Key获取数据源
+
 	public DynamicDataSourceEntity getDynamicDataSourceEntityForDbKey(String dbKey);
-	//update-end--Author:luobaoli  Date:20150623 for：增加通过数据源Key获取数据源
+
 	//add-end--Author:luobaoli  Date:20150620 for：增加通过数据源Key获取数据源Type
 
 }

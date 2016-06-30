@@ -1,31 +1,41 @@
 package org.jeecgframework.web.cgform.controller.template;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import jodd.io.StreamUtil;
 import jodd.io.ZipUtil;
-import junit.framework.Assert;
-import org.apache.commons.io.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipFile;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.FileUtils;
+import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
-import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,15 +49,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipOutputStream;
-
 
 /**
  * @Title: Controller
@@ -57,7 +58,7 @@ import java.util.zip.ZipOutputStream;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgformTemplateController")
 public class CgformTemplateController extends BaseController {
@@ -70,15 +71,6 @@ public class CgformTemplateController extends BaseController {
 	private CgformTemplateServiceI cgformTemplateService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -129,6 +121,7 @@ public class CgformTemplateController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(CgformTemplateEntity cgformTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgformTemplate = systemService.getEntity(CgformTemplateEntity.class, cgformTemplate.getId());
 		message = "自定义模板删除成功";
@@ -162,6 +155,7 @@ public class CgformTemplateController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "自定义模板删除成功";
 		try{
@@ -194,6 +188,7 @@ public class CgformTemplateController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(CgformTemplateEntity cgformTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "自定义模板添加成功";
 		try{
@@ -257,6 +252,7 @@ public class CgformTemplateController extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(CgformTemplateEntity cgformTemplate, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "自定义模板更新成功";
 		CgformTemplateEntity t = cgformTemplateService.get(CgformTemplateEntity.class, cgformTemplate.getId());
@@ -548,10 +544,10 @@ public class CgformTemplateController extends BaseController {
 	}
 	//获取上传根路径
 	private String getUploadBasePath(HttpServletRequest request){
-//      update-start--Author:zhoujf  Date:20150623 for：文件basePath获取
+
 //		String path=request.getSession().getServletContext().getRealPath("/WEB-INF/classes/online/template");
 		String path= this.getClass().getResource("/").getPath()+"online/template";
-//      update-end--Author:zhoujf  Date:20150623 for：文件basePath获取
+
 		return path;
 	}
 

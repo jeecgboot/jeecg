@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.springframework.context.annotation.Scope;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -94,7 +93,6 @@ import java.util.HashMap;
  * @version V1.0   
  *
  */
-@Scope("prototype")
 @Controller
 @RequestMapping("/${entityName?uncap_first}Controller")
 public class ${entityName}Controller extends BaseController {
@@ -112,7 +110,6 @@ public class ${entityName}Controller extends BaseController {
 	private Validator validator;
 	<#-- restful 通用方法生成 -->
 	
-	private String message;
 	<#-- 列为文件类型的文件代码生成 -->
 	<#if fileFlag==true>
 	@Autowired
@@ -120,13 +117,6 @@ public class ${entityName}Controller extends BaseController {
 	</#if>
 	<#-- 列为文件类型的文件代码生成 -->
 	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -191,6 +181,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		${entityName?uncap_first} = systemService.getEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 		message = "${ftl_description}删除成功";
@@ -214,6 +205,7 @@ public class ${entityName}Controller extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "${ftl_description}删除成功";
 		try{
@@ -251,6 +243,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "${ftl_description}添加成功";
 		try{
@@ -279,6 +272,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
 	public AjaxJson doUpdate(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "${ftl_description}更新成功";
 		${entityName}Entity t = ${entityName?uncap_first}Service.get(${entityName}Entity.class, ${entityName?uncap_first}.getId());
@@ -305,6 +299,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "do${btn.buttonCode?cap_first}")
 	@ResponseBody
 	public AjaxJson do${btn.buttonCode?cap_first}(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "${btn.buttonName}成功";
 		${entityName}Entity t = ${entityName?uncap_first}Service.get(${entityName}Entity.class, ${entityName?uncap_first}.getId());

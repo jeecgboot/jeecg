@@ -149,9 +149,7 @@ public interface SystemService extends CommonService{
 	 * @param dataId		数据ID
 	 * @param dataContent	内容(JSON格式)
 	 */
-	//update-begin--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
-	//update-begin--Author: jg_huangxg  Date:20150630 for：修改数据日志功能
+
 	public void addDataLog(String tableName, String dataId, String dataContent);
-	//update-end--Author: jg_huangxg  Date:20150630 for：修改数据日志功能
-	//update-end--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
+
 }

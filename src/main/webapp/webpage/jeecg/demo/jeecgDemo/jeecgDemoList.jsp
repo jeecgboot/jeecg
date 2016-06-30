@@ -1,6 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<script src="plug-in/tools/popup/userSelect.js"></script>
+<script src="plug-in/tools/popup/departSelect.js"></script>
+<div id="searchColumnsRealName" style="display: none;">
+	<span style="display:-moz-inline-box;display:inline-block;">
+		<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="真实姓名">真实姓名：</span>
+		<input readonly="true" type="text" id="realName" name="realName" style="width: 200px" onclick="openUserSelect_user()">
+	</span>
+</div>
+<div id="searchColumnsDepartName" style="display: none;">
+	<span style="display:-moz-inline-box;display:inline-block;">
+		<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="组织机构">组织机构：</span>
+		<input readonly="true" type="text" id="departname" name="departname" style="width: 300px" onclick="openDepartmentSelect_depart()">
+		<input id="orgIds" name="orgIds" type="hidden">
+	</span>
+</div>
 <div class="easyui-layout" fit="true">
 <div region="center"  style="padding:0px;border:0px">
 <t:datagrid name="jeecgDemoList" title="DEMO示例列表" autoLoadData="true" actionUrl="jeecgDemoController.do?datagrid"  fitColumns="true"
@@ -19,14 +34,13 @@
 	<t:dgCol title="性别" sortable="true" field="sex" dictionary="sex" query="true" width="60"></t:dgCol>
 	<t:dgCol title="状态" field="status" replace="未处理_0,已处理_1" width="60" query="true"></t:dgCol>
 	<t:dgCol title="操作" field="opt" width="150"></t:dgCol>
-	<%--update-end--Author:fangwenrong  Date:20150510 for：添加各项显示长度，解决显示排版问题--%>
-<!--	<t:dgFunOpt exp="status#eq#0" operationCode="szqm" funname="szqm(id)" title="审核" />-->
-	<t:dgDelOpt operationCode="del" title="删除" url="jeecgDemoController.do?del&id={id}" exp="status#eq#0" urlStyle="color: red; padding-left: 10px;"/>
-	<t:dgDelOpt operationCode="del" title="删除" url="jeecgDemoController.do?del&id={id}" exp="status#eq#1"  urlStyle="color: green; padding-right: 10px;"/>
+    <t:dgFunOpt exp="status#eq#0" operationCode="szqm" funname="szqm(id)" title="审核" />
+	<t:dgDelOpt operationCode="del" title="删除" url="jeecgDemoController.do?del&id={id}" exp="status#eq#0" urlStyle="color: red; padding-left: 5px;"/>
+	<t:dgDelOpt operationCode="del" title="删除" url="jeecgDemoController.do?del&id={id}" exp="status#eq#1"  urlStyle="color: green; padding-right: 5px;"/>
 	<t:dgToolBar operationCode="add" title="录入" icon="icon-add" url="jeecgDemoController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar operationCode="edit" title="编辑" icon="icon-edit" url="jeecgDemoController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar operationCode="mobileAdd" title="Mobile录入" icon="icon-add" url="jeecgDemoController.do?addorupdatemobile" funname="addMobile"></t:dgToolBar>
-	<t:dgToolBar operationCode="edit" title="Mobile编辑" icon="icon-edit" url="jeecgDemoController.do?addorupdatemobile" funname="updateMobile"></t:dgToolBar>
+	<t:dgToolBar operationCode="mobileEdit" title="Mobile编辑" icon="icon-edit" url="jeecgDemoController.do?addorupdatemobile" funname="updateMobile"></t:dgToolBar>
 	<t:dgToolBar operationCode="detail" title="查看" icon="icon-search" url="jeecgDemoController.do?addorupdate" funname="detail"></t:dgToolBar>
 	<t:dgToolBar operationCode="print" title="打印" icon="icon-print" url="jeecgDemoController.do?print" funname="detail"></t:dgToolBar>
 	<t:dgToolBar title="批量删除" icon="icon-remove" url="jeecgDemoController.do?doDeleteALLSelect" funname="deleteALLSelect"></t:dgToolBar>
@@ -64,6 +78,9 @@
 		$("input[name='createDate_begin']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
 		$("input[name='createDate_end']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
 		$("input[name='birthday']").attr("class","Wdate").click(function(){WdatePicker({dateFmt:'yyyy-MM-dd'});});
+
+		UserSelectApi.popup("#searchColumnsRealName");
+		DepartSelectApi.popup("#searchColumnsDepartName");
 	});
 
 	function addMobile(title,addurl,gname,width,height){

@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.jeecgframework.core.util.LogUtil;
+
 /**
  * 短信接口辅助工具类.
  * 
@@ -55,8 +57,7 @@ public class MsgUtils {
 					.getTimestamp()).getBytes();
 			return md5.digest(data);
 		} catch (NoSuchAlgorithmException e) {
-			System.out.println("SP链接到ISMG拼接AuthenticatorSource失败："
-					+ e.getMessage());
+			LogUtil.error("SP链接到ISMG拼接AuthenticatorSource失败：" + e.getMessage());
 			return null;
 		}
 	}
@@ -76,7 +77,7 @@ public class MsgUtils {
 		try {
 			byte[] data = s.getBytes("gb2312");
 			if (data.length > len) {
-				System.out.println("向流中写入的字符串超长！要写" + len + " 字符串是:" + s);
+				LogUtil.error("向流中写入的字符串超长！要写" + len + " 字符串是:" + s);
 			}
 			int srcLen = data.length;
 			dous.write(data);
@@ -85,7 +86,7 @@ public class MsgUtils {
 				srcLen++;
 			}
 		} catch (IOException e) {
-			System.out.println("向流中写入指定字节长度的字符串失败：" + e.getMessage());
+			LogUtil.error("向流中写入指定字节长度的字符串失败：" + e.getMessage());
 		}
 	}
 

@@ -7,10 +7,13 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.DynamicDBUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.SqlUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.entity.autoform.AutoFormDbEntity;
 import org.jeecgframework.web.cgform.entity.autoform.AutoFormDbFieldEntity;
@@ -237,10 +240,10 @@ public class AutoFormDbServiceImpl extends CommonServiceImpl implements AutoForm
 		Matcher m = p.matcher(sql);
 		while(m.find()){
 			String whereParam = m.group();
-			System.out.println(whereParam);
+			//System.out.println(whereParam);
 			sql = sql.replace(whereParam, "'' or 1=1 or 1=''");
 			sql = sql.replace("'''", "''");
-			System.out.println(sql);
+			//System.out.println(sql);
 		}
 		return sql;
 	}
@@ -269,4 +272,21 @@ public class AutoFormDbServiceImpl extends CommonServiceImpl implements AutoForm
 		}
 		return params;
 	}
+
+		public List<String> getField(String sql,String dbKey){
+			List<String> fields = null;
+			sql = getSql(sql);
+			if(StringUtils.isNotBlank(dbKey)){
+				List<Map<String,Object>> dataList=DynamicDBUtil.findList(dbKey,SqlUtil.jeecgCreatePageSql(dbKey,sql,null,1,1),null);
+				if(dataList.size()<1){
+					throw new BusinessException("当前数据源没有查到数据");
+				}
+				Set fieldsSet= dataList.get(0).keySet();
+				fields = new ArrayList<String>(fieldsSet);
+			}else{
+				fields = this.getSqlFields(sql);
+			}
+			return fields;
+		}
+
 }

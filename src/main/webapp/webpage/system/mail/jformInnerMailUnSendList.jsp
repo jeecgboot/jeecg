@@ -16,7 +16,6 @@
   </t:datagrid>
   </div>
  </div>
- <script src = "webpage/com/buss/core/jformInnerMailList.js"></script>		
  <script type="text/javascript">
  $(document).ready(function(){
  		//给时间控件加上样式

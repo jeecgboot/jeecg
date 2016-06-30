@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,7 +56,6 @@ import ${bussiPackage}.entity.${sub.entityPackage}.${sub.entityName}Entity;
  * @version V1.0   
  *
  */
-@Scope("prototype")
 @Controller
 @RequestMapping("/${entityName?uncap_first}Controller")
 public class ${entityName}Controller extends BaseController {
@@ -75,17 +73,7 @@ public class ${entityName}Controller extends BaseController {
 	private Validator validator;
 	<#-- restful 通用方法生成 -->
 	
-	private String message;
 	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-
 	/**
 	 * ${ftl_description}列表 页面跳转
 	 * 
@@ -122,6 +110,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		${entityName?uncap_first} = systemService.getEntity(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 		message = "删除成功";
@@ -142,6 +131,7 @@ public class ${entityName}Controller extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(${entityName}Entity ${entityName?uncap_first},${entityName}Page ${entityName?uncap_first}Page, HttpServletRequest request) {
+		String message = null;
 		<#list subTab as sub>
 		List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List =  ${entityName?uncap_first}Page.get${sub.entityName}List();
 		</#list>

@@ -10,10 +10,10 @@
 	$(function() {
 		$('#cc').combotree({
 			url : 'functionController.do?setPFunction&selfId=${function.id}',
-//            update-start--Author:zhangguoming  Date:20140901 for：为combotree下拉框的添加滚动条
+
 			panelHeight: 200,
 			width: 157,
-//            update-end--Author:zhangguoming  Date:20140901 for：为combotree下拉框的添加滚动条
+
 			onClick: function(node){
 				$("#functionId").val(node.id);
 			}
@@ -54,7 +54,7 @@
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
-        <input name="functionName" class="inputxt" value="${function.functionName}" datatype="s2-50">
+        <input name="functionName" class="inputxt" value="${function.functionName}" datatype="*2-50">
         <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang4to15"/> </span>
     </div>
     <div class="form">

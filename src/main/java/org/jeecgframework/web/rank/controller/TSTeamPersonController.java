@@ -52,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/tSTeamPersonController")
 public class TSTeamPersonController extends BaseController {
@@ -88,8 +88,7 @@ public class TSTeamPersonController extends BaseController {
 	public ModelAndView tSTeamPerson(HttpServletRequest request) {
 		return new ModelAndView("system/rank/tSTeamPersonList");
 	}
-	
-	//update-begin--Author: jg_huangxg  Date:20150707 for: 增加团队人员榜外网网页
+
 	/**
 	 * 外网-师资列表
 	 * @param request
@@ -107,14 +106,21 @@ public class TSTeamPersonController extends BaseController {
 		map.put("url", url);
 		String html = viewEngine.parseTemplate(FTL_Teachers, map);
 		
+		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	
@@ -137,17 +143,24 @@ public class TSTeamPersonController extends BaseController {
 		map.put("url", url);
 		String html = viewEngine.parseTemplate(FTL_Teacher, map);
 		
+		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
-	//update-end--Author: jg_huangxg  Date:20150707 for: 增加团队人员榜外网网页
+
 	
 	/**
 	 * easyui AJAX请求数据
@@ -374,7 +387,7 @@ public class TSTeamPersonController extends BaseController {
 		}
 		return j;
 	}
-	//update-begin--Author:张忠亮  Date:20150709 for：增加社区介绍
+
 	/**
 	 * 社区介绍
 	 * @param
@@ -388,15 +401,22 @@ public class TSTeamPersonController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("url", url);
 		String html = viewEngine.parseTemplate(FTL_Introduce, map);
+		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				writer.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
-	//update-end--Author:张忠亮  Date:20150709 for：增加社区介绍
+
 }

@@ -74,7 +74,7 @@ public class TagUtil {
 		}
 		value = reflectHelper.getMethodValue(fieldName)==null?"":reflectHelper.getMethodValue(fieldName);
 		if (value !=""&&value != null && (FiledName.indexOf("_") != -1||FiledName.indexOf(".") != -1)) {
-//            update-start--Author:zhangguoming  Date:20140827 for：功能增强，添加处理对象中List<Object>属性字段的解析
+
             if(value instanceof List) {
                 Object tempValue = "";
                 for (Object listValue : (List)value) {
@@ -84,10 +84,10 @@ public class TagUtil {
             } else {
                 value = fieldNametoValues(childFieldName, value);
             }
-//            update-end--Author:zhangguoming  Date:20140827 for：功能增强，添加处理对象中List<Object>属性字段的解析
+
 		}
 		if(value != "" && value != null) {
-//          update-begin--Author:jb_longjb 龙金波  Date:20150313 for：处理json中可能包含的特殊字符，防止页面加载出错
+
 			value = converunicode(value.toString());
 		}
 		return value;
@@ -97,7 +97,7 @@ public class TagUtil {
         for (int i=0; i<jsonValue.length(); i++) {
         char c = jsonValue.charAt(i);  
           switch (c){
-//        update-begin--Author:zhoujf  Date:20150615 for：菜单图片不显示的问题
+
 //         case '\"':      
 //                 sb.append("\\\"");      
 //                 break;      
@@ -110,7 +110,7 @@ public class TagUtil {
 //             case '/':      
 //                 sb.append("\\/");      
 //                 break;   
-//               update-end--Author:zhoujf  Date:20150615 for：菜单图片不显示的问题
+
              case '\b':      
                  sb.append("\\b");      
                  break;      
@@ -132,7 +132,7 @@ public class TagUtil {
          }    
         return sb.toString();   
 }
-//  update-end--Author:jb_longjb 龙金波  Date:20150313 for：处理json中可能包含的特殊字符，防止页面加载出错
+
 
 	/**
 	 * 对象转数组
@@ -157,21 +157,22 @@ public class TagUtil {
 	 * @param list
 	 */
 	private static String listtojson(String[] fields, int total, List<?> list, String[] footers) throws Exception {
-		Object[] values = new Object[fields.length];
+		//Object[] values = new Object[fields.length];
 		StringBuffer jsonTemp = new StringBuffer();
 		jsonTemp.append("{\"total\":" + total + ",\"rows\":[");
 		int i;
 		String fieldName;
 		for (int j = 0; j < list.size(); ++j) {
 			jsonTemp.append("{\"state\":\"closed\",");
+			Object fieldValue = null;
 			for (i = 0; i < fields.length; ++i) {
 				fieldName = fields[i].toString();
 				if (list.get(j) instanceof Map)
-					values[i] = ((Map<?, ?>) list.get(j)).get(fieldName);
+					fieldValue = ((Map<?, ?>) list.get(j)).get(fieldName);
 				else {
-					values[i] = fieldNametoValues(fieldName, list.get(j));
+					fieldValue = fieldNametoValues(fieldName, list.get(j));
 				}
-				jsonTemp.append("\"" + fieldName + "\"" + ":\"" + String.valueOf(values[i]).replace("\"", "\\\"") + "\"");
+				jsonTemp.append("\"" + fieldName + "\"" + ":\"" + String.valueOf(fieldValue).replace("\"", "\\\"") + "\"");
 				if (i != fields.length - 1) {
 					jsonTemp.append(",");
 				}
@@ -425,6 +426,11 @@ public class TagUtil {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (IOException e) {
+			}
 		}
 	}
 
@@ -438,12 +444,22 @@ public class TagUtil {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
 		JSONObject object = TagUtil.getJson(dg);
+		PrintWriter pw = null;
 		try {
-			PrintWriter pw=response.getWriter();
+			pw=response.getWriter();
 			pw.write(object.toString());
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				pw.close();
+
+				object.clear();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -463,12 +479,22 @@ public class TagUtil {
 			JSONObject o =(JSONObject) object2;
 			o.putAll(extMap.get(o.get("id")));
 		}
+		PrintWriter pw = null;
 		try {
-			PrintWriter pw=response.getWriter();
+			pw=response.getWriter();
 			pw.write(object.toString());
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				pw.close();
+
+				object.clear();
+
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 	
@@ -485,8 +511,15 @@ public class TagUtil {
 		JSONObject object = TagUtil.getJson(dataTableReturn,field);
 		try {
 			response.getWriter().write(object.toString());
+			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 
@@ -596,8 +629,7 @@ public class TagUtil {
 		param += "'\"+index+\"'";// 传出行索引号参数
 		return param;
 	}
-	
-	//update-begin--Author:luobaoli  Date:20150711 for：新增方法，将存储过程返回的数据解析为json格式
+
 	public static String getJson(List fields,List datas){
 		if(datas!=null && datas.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -617,7 +649,7 @@ public class TagUtil {
 			return "{\"total\":\"0\",\"rows\":[]}";
 		}
 	}
-	//update-begin--Author:luobaoli  Date:20150711 for：新增方法，将存储过程返回的数据解析为json格式
+
 
 	public static String getJsonByMap(List fields,List<Map<String,Object>> datas){
 		if(datas!=null && datas.size()>0){

@@ -55,7 +55,6 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	public void parserXml(String fileName);
 	public List<ComboTree> comTree(List<TSDepart> all,ComboTree comboTree);
 
-//    update-begin--Author:zhangguoming  Date:20140819 for：添加recuisive方法参数
 	/**
      * 根据模型生成ComboTree JSON
      *
@@ -66,7 +65,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
      * @return List<ComboTree>
      */
 	public  List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
-//    update-end--Author:zhangguoming  Date:20140819 for：添加recuisive方法参数
+
 	public  List<TreeGrid> treegrid(List all,TreeGridModel treeGridModel);
 }
 

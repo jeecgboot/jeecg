@@ -37,7 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgformEnhanceJavaController")
 public class CgformEnhanceJavaController extends BaseController {
@@ -52,15 +52,6 @@ public class CgformEnhanceJavaController extends BaseController {
 	private CgformButtonServiceI cgformButtonService;
 	@Autowired
 	private SystemService systemService;
-	private String message;
-	
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 
 	/**
@@ -109,6 +100,7 @@ public class CgformEnhanceJavaController extends BaseController {
 	@RequestMapping(params = "doDel")
 	@ResponseBody
 	public AjaxJson doDel(CgformEnhanceJavaEntity cgformEnhanceJava, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgformEnhanceJava = systemService.getEntity(CgformEnhanceJavaEntity.class, cgformEnhanceJava.getId());
 		message = "删除成功";
@@ -132,6 +124,7 @@ public class CgformEnhanceJavaController extends BaseController {
 	 @RequestMapping(params = "doBatchDel")
 	@ResponseBody
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "删除成功";
 		try{
@@ -179,6 +172,7 @@ public class CgformEnhanceJavaController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(CgformEnhanceJavaEntity cgformEnhanceJavaEntity, HttpServletRequest request) {
+		String message = null;
 		AjaxJson j = new AjaxJson();
 		List<CgformEnhanceJavaEntity> list =  cgformEnhanceJavaService.checkCgformEnhanceJavaEntity(cgformEnhanceJavaEntity);
 		if(list!=null&&list.size()>0){

@@ -18,6 +18,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -26,18 +27,17 @@ import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldVO;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.config.CgFormIndexEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0
  * 
  */
-@Scope("prototype")
+//@Scope("prototype")
 @Controller
 @RequestMapping("/cgFormHeadController")
 public class CgFormHeadController extends BaseController {
@@ -64,18 +64,11 @@ public class CgFormHeadController extends BaseController {
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
+	private CgFormIndexServiceI cgFormIndexService;
+	@Autowired
 	private SystemService systemService;
 	@Autowired
 	private TempletContext templetContext;
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 
 	/**
 	 * 自动生成表属性列表 页面跳转
@@ -100,8 +93,6 @@ public class CgFormHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgform/config/cgformSynChoice");
 	}
 
-	//update-begin--Author:luobaoli  Date:20150705 for：取消title参数，修改"配置地址"生成的URL为REST风格
-	//update-begin--Author: jg_huangxg  Date:20150806 for：恢复title参数，修改"配置地址"生成的URL为 .do风格
 	@RequestMapping(params = "popmenulink")
 	public ModelAndView popmenulink(ModelMap modelMap,
                                     @RequestParam String url,
@@ -110,8 +101,7 @@ public class CgFormHeadController extends BaseController {
         modelMap.put("url",url);
 		return new ModelAndView("jeecg/cgform/config/popmenulink");
 	}
-	//update-end--Author: jg_huangxg  Date:20150806 for：恢复title参数，修改"配置地址"生成的URL为 .do风格
-	//update-end--Author:luobaoli  Date:20150705 for：取消title参数，修改"配置地址"生成的URL为REST风格
+
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -127,13 +117,13 @@ public class CgFormHeadController extends BaseController {
 			DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(CgFormHeadEntity.class,
 				dataGrid);
-		//update-start--Author:luobaoli  Date:20150607 for：添加表单查询过滤条件
+
 		String jformCategory = request.getParameter("jformCategory");
 		if(StringUtil.isNotEmpty(jformCategory)){
 			cq.eq("jformCategory", jformCategory);
 			cq.add();
 		}
-		//update-end--Author:luobaoli  Date:20150607 for：添加表单查询过滤条件
+
 		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
@@ -154,7 +144,7 @@ public class CgFormHeadController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		cgFormHead = systemService.getEntity(CgFormHeadEntity.class,
 				cgFormHead.getId());
-		message = "删除成功";
+		String message = "删除成功";
 		cgFormFieldService.deleteCgForm(cgFormHead);
 		cgFormFieldService.removeSubTableStr4Main(cgFormHead);
 		systemService.addLog(message, Globals.Log_Type_DEL,
@@ -176,7 +166,7 @@ public class CgFormHeadController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		cgFormHead = systemService.getEntity(CgFormHeadEntity.class,
 				cgFormHead.getId());
-		message = "移除成功";
+		String message = "移除成功";
 		cgFormFieldService.delete(cgFormHead);
 		cgFormFieldService.removeSubTableStr4Main(cgFormHead);
 		systemService.addLog(message, Globals.Log_Type_DEL,
@@ -198,7 +188,7 @@ public class CgFormHeadController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		cgFormField = systemService.getEntity(CgFormFieldEntity.class,
 				cgFormField.getId());
-		message = cgFormField.getFieldName()+"删除成功";
+		String message = cgFormField.getFieldName()+"删除成功";
 		cgFormFieldService.delete(cgFormField);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
@@ -218,6 +208,7 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson doDbSynch(CgFormHeadEntity cgFormHead,String synMethod,
 			HttpServletRequest request) {
+		String message;
 		AjaxJson j = new AjaxJson();
 		cgFormHead = systemService.getEntity(CgFormHeadEntity.class,
 				cgFormHead.getId());
@@ -253,9 +244,10 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
-		//update-begin--Author:张忠亮  Date:20151121 for：清除缓存
+		String message = "";
+
 		templetContext.clearCache();
-		//update-end--Author:张忠亮  Date:20151121 for：清除缓存
+
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -275,7 +267,9 @@ public class CgFormHeadController extends BaseController {
 		}
 		*/
 		//step.2 判定表格是否存在
-		CgFormHeadEntity table = judgeTableIsNotExit(cgFormHead,oldTable);
+		StringBuffer msg = new StringBuffer();
+		CgFormHeadEntity table = judgeTableIsNotExit(cgFormHead,oldTable,msg);
+		message = msg.toString();
 		//step.3 刷新orderNum并且去重复
 		refreshFormFieldOrderNum(cgFormHead);
 		
@@ -290,9 +284,15 @@ public class CgFormHeadController extends BaseController {
 				}
 				
 			}
-			cgFormFieldService.updateTable(table,null);
+
+			boolean isChange = cgFormIndexService.updateIndexes(cgFormHead);
+
+			//isChange 索引是否更新
+			cgFormFieldService.updateTable(table,null,isChange);
+
 			cgFormFieldService.appendSubTableStr4Main(table);
 			cgFormFieldService.sortSubTableStr(table);
+			
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
 		} else if (StringUtil.isEmpty(cgFormHead.getId())&&table==null) {
@@ -305,6 +305,9 @@ public class CgFormHeadController extends BaseController {
 				
 			}
 			cgFormFieldService.saveTable(cgFormHead);
+
+			cgFormIndexService.updateIndexes(cgFormHead);
+
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 		}
@@ -329,7 +332,8 @@ public class CgFormHeadController extends BaseController {
 	 * @param oldTable 
 	 * @return
 	 */
-	private CgFormHeadEntity judgeTableIsNotExit(CgFormHeadEntity cgFormHead, CgFormHeadEntity oldTable) {
+	private CgFormHeadEntity judgeTableIsNotExit(CgFormHeadEntity cgFormHead, CgFormHeadEntity oldTable,StringBuffer msg) {
+		String message = "";
 		CgFormHeadEntity table = cgFormFieldService.findUniqueByProperty(CgFormHeadEntity.class, "tableName",cgFormHead.getTableName());
 		if (StringUtil.isNotEmpty(cgFormHead.getId())) {
 			if(table != null && !oldTable.getTableName().equals(cgFormHead.getTableName())){
@@ -350,6 +354,7 @@ public class CgFormHeadController extends BaseController {
 		} else {
 			message = table != null? "表已经存在":"创建成功";
 		}
+		msg.append(message);
 		return table;
 	}
 
@@ -368,10 +373,10 @@ public class CgFormHeadController extends BaseController {
 			//cgFormHead.setTableName(cgFormHead.getTableName().replace(CgAutoListConstant.jform_, ""));
 			req.setAttribute("cgFormHeadPage", cgFormHead);
 		}
-		//update-start--Author:luobaoli  Date:20150607 for：增加表单分类列表
-		List<TSType> typeList = TSTypegroup.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
+
+		List<TSType> typeList = ResourceUtil.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
-		//update-end--Author:luobaoli  Date:20150607 for：增加表单分类列表
+
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -411,6 +416,7 @@ public class CgFormHeadController extends BaseController {
 		}
 		return columnList;
 	}
+	
 	/**
 	 * 添加初始化列
 	 * @return
@@ -425,13 +431,12 @@ public class CgFormHeadController extends BaseController {
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
 		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
 		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
-		//update-begin--Author:张忠亮  Date:20150613 for：新增默认字段
+
 		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
 		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
-		//update-end--Author:张忠亮  Date:20150613 for：新增默认字段
-		//update-begin--Author:zhoujf  Date:20160115 for：新增流程状态默认字段
+
 		columnList.add(initCgFormFieldEntityBpmStatus());
-		//update-end--Author:zhoujf  Date:20160115 for：新增流程状态默认字段
+
 		return columnList;
 	}
 	/**
@@ -551,10 +556,11 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson sqlPluginSave(String id,String sql_plug_in,
 			HttpServletRequest request) {
+		String message = "";
 		CgFormHeadEntity bean = cgFormFieldService.getEntity(
 				CgFormHeadEntity.class, id);
 		//bean.setSqlPlugIn(sql_plug_in);
-		cgFormFieldService.updateTable(bean,null);
+		cgFormFieldService.updateTable(bean,null,false);
 		message = "保存成功";
 		systemService.addLog(message, Globals.Log_Type_INSERT,
 				Globals.Log_Leavel_INFO);
@@ -584,10 +590,11 @@ public class CgFormHeadController extends BaseController {
 	@ResponseBody
 	public AjaxJson jsPluginSave(String id,String js_plug_in,
 			HttpServletRequest request) {
+		String message = "";
 		CgFormHeadEntity bean = cgFormFieldService.getEntity(
 				CgFormHeadEntity.class, id);
 		//bean.setJsPlugIn(js_plug_in);停用jsPlugIn这个字段
-		cgFormFieldService.updateTable(bean,null);
+		cgFormFieldService.updateTable(bean,null,false);
 		message = "保存成功";
 		systemService.addLog(message, Globals.Log_Type_INSERT,
 				Globals.Log_Leavel_INFO);
@@ -626,7 +633,7 @@ public class CgFormHeadController extends BaseController {
 				StringBuilder sb = new StringBuilder("");
 				List<CgFormFieldEntity> saveList =  new ArrayList<CgFormFieldEntity>();
 				for (CgFormFieldVO field : fieldList) {
-					System.out.println("-------------field------------"+field);
+					//System.out.println("-------------field------------"+field);
 					if(StringUtil.isEmpty(field.getFieldName())){
 						continue;
 					}

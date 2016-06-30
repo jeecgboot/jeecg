@@ -106,7 +106,7 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 	public boolean checkClassOrSpringBeanIsExist(CgformEnhanceJavaEntity cgformEnhanceJavaEntity) {
 		String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
 		String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
-		//update-start--Author:luobaoli  Date:20150701 for： 如果springKey或者javaClass值为空时，不做操作
+
 		if(StringUtil.isNotEmpty(cgJavaValue)){
 			try {
 				if("class".equals(cgJavaType)){
@@ -125,7 +125,7 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 				return false;
 			}
 		}
-		//update-end--Author:luobaoli  Date:20150701 for： 如果springKey或者javaClass值为空时，不做操作
+
 		return true;
 	}
 }

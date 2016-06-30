@@ -31,17 +31,24 @@ public class MutiLangTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
+		JspWriter out = null;
 		try {
-			JspWriter out = this.pageContext.getOut();
+			out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clear();
+				out.close();
+			} catch (Exception e2) {
+			}
 		}
 		return EVAL_PAGE;
 	}
 
-	public StringBuffer end() {
+	public String end() {
 		if (mutiLangService == null)
 		{
 			mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
@@ -49,7 +56,7 @@ public class MutiLangTag extends TagSupport {
 		
 		String lang_context = mutiLangService.getLang(langKey, langArg);
 		
-		return new StringBuffer(lang_context);
+		return lang_context;
 	}
 
 	public void setLangKey(String langKey) {
