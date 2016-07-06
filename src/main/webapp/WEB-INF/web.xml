@@ -95,8 +95,8 @@
 		<description>系统初始化监听器</description>
 		<listener-class>org.jeecgframework.web.system.listener.InitListener</listener-class>
 	</listener>
-	<!-- 在线用户监听器-->
 	<listener>
+		<description>在线用户监听器</description>
 		<listener-class>org.jeecgframework.web.system.listener.OnlineListener</listener-class>
 	</listener>
 
@@ -149,6 +149,7 @@
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 	
+	<!-- druid -->
 	<servlet>
 		<servlet-name>druidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -157,6 +158,46 @@
 		<servlet-name>druidStatView</servlet-name>
 		<url-pattern>/webpage/system/druid/*</url-pattern>
 	</servlet-mapping>
+	
+	<!-- ckfinder -->
+	<servlet>
+		<servlet-name>ConnectorServlet</servlet-name>
+		<servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
+		<init-param>
+			<param-name>XMLConfig</param-name>
+			<param-value>/WEB-INF/classes/CKfinderConfig.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<!-- 自定义ckfinder监听器 -->
+		<init-param>
+			<param-name>configuration</param-name>
+			<param-value>org.jeecgframework.web.system.listener.CkfinderConfiguration</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConnectorServlet</servlet-name>
+		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>FileUploadFilter</filter-name>
+		<filter-class>com.ckfinder.connector.FileUploadFilter</filter-class>
+		<init-param>
+			<param-name>sessionCookieName</param-name>
+			<param-value>jsessionid</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionParameterName</param-name>
+			<param-value>JSESSIONID</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>FileUploadFilter</filter-name>
+		<url-pattern>/plug-in/ckfinder/core/connector/java/connector.java</url-pattern>
+	</filter-mapping>
 	
 	<!-- 验证码 -->
     <servlet>
@@ -167,6 +208,7 @@
         <servlet-name>RandCodeImage</servlet-name>
         <url-pattern>/randCodeImage</url-pattern>
     </servlet-mapping>
+    
 	<!-- 404错误页面 -->
     <error-page>
         <error-code>404</error-code>
