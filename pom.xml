@@ -970,24 +970,9 @@
 			<type>jar</type>
 			<scope>compile</scope> 
 		</dependency>
-		<dependency>
-			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-biz-mail</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
 		 -->
 		<!-- jeecg plugin end  -->
 		
-		
-		<dependency>
-			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-biz-mail</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 	<organization>
