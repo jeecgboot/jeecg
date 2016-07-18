@@ -30,7 +30,7 @@
 
 
 		function openDepartmentSelect() {
-			$.dialog.setting.zIndex = 9999; 
+			$.dialog.setting.zIndex = getzIndex(); 
 			
 			var orgIds = $("#orgIds").val();
 			

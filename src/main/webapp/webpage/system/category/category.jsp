@@ -54,9 +54,9 @@
 				<td align="right"><label class="Validform_label"> 所属上级:
 				</label></td>
 				<td class="value">
-					<!-- update-start--Author:luobaoli  Date:20150606 for：将父ID传到后台，避免更新为空 -->
+					-start--Author:luobaoli  Date:20150606 for：将父ID传到后台，避免更新为空 -->
 					<input id="pId" name="parent.id"type="hidden" value="${categoryPage.parent.id}">
-					<!-- update-end--Author:luobaoli  Date:20150606 for：将父ID传到后台，避免更新为空 -->
+					-end--Author:luobaoli  Date:20150606 for：将父ID传到后台，避免更新为空 -->
 					<input id="categoryTree" value="${categoryPage.parent.name}"> <input
 					id="parentId" name="parent.code" style="display: none;"
 					value="${categoryPage.parent.code}"> <span

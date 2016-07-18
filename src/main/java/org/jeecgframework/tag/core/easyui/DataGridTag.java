@@ -294,7 +294,7 @@ public class DataGridTag extends TagSupport {
 			boolean query, String url, String funname, 
 			String arg,String queryMode, String dictionary,boolean popup,
 			boolean frozenColumn,String extend,
-			String style,String downloadName,boolean isAuto,String extendParams,String editor) {
+			String style,String downloadName,boolean isAuto,String extendParams,String editor,String defaultVal) {
 		DataGridColumn dataGridColumn = new DataGridColumn();
 		dataGridColumn.setAlign(align);
 		dataGridColumn.setCheckbox(checkbox);
@@ -328,6 +328,9 @@ public class DataGridTag extends TagSupport {
 		dataGridColumn.setAutocomplete(isAuto);
 		dataGridColumn.setExtendParams(extendParams);
 		dataGridColumn.setEditor(editor);
+
+		dataGridColumn.setDefaultVal(defaultVal);
+
 		columnList.add(dataGridColumn);
 
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
@@ -476,7 +479,6 @@ public class DataGridTag extends TagSupport {
 					out.print(end().toString());
 					out.flush();
 //				}
-//-----author:jg_longjb----end-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
 			}else{
 				out.print(datatables().toString());
 				out.flush();
@@ -601,6 +603,7 @@ public class DataGridTag extends TagSupport {
 		if (title != null) {
 			sb.append("title: \'" + title + "\',");
 		}
+	
 		
 		if(autoLoadData)
 		   sb.append("url:\'" + actionUrl + "&field=" + fields + "\',");
@@ -617,6 +620,24 @@ public class DataGridTag extends TagSupport {
 		} else {
 			sb.append("fit:false,");
 		}
+
+		if(hasQueryColum(columnList)){
+			String queryParams = "";
+			queryParams += "queryParams:{";
+			for (DataGridColumn col : columnList) {
+				if (col.isQuery()&&col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")) {
+					//sb.append("queryParams:{documentTitle:'woniu'},");
+					queryParams += col.getField()+":'"+col.getDefaultVal()+"',";
+				}
+			}
+			if(queryParams.indexOf(",")>-1){
+				queryParams = queryParams.substring(0, queryParams.length()-1);
+			}
+			queryParams += "},";
+			//System.out.println("queryParams===="+queryParams);
+			sb.append(queryParams);
+		}
+
 		sb.append(StringUtil.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.data.loading")));
 		sb.append("pageSize: " + pageSize + ",");
 		sb.append("pagination:" + pagination + ",");
@@ -1255,7 +1276,6 @@ public class DataGridTag extends TagSupport {
 					sb.append(" if(value.length<=");sb.append(column.getShowLen());sb.append(") {return value}");
 					sb.append(" else{ return '<a title= '+value+'>'+ value.substring(0,");sb.append(column.getShowLen());sb.append(")+'...';}}");
 				}
-				//author:xugj-----end-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
 				else if (columnValueList.size() > 0 && !column.getField().equals("opt")) {// 值替換
 					String testString = "";
 					for (ColumnValue columnValue : columnValueList) {
@@ -1817,7 +1837,6 @@ public class DataGridTag extends TagSupport {
 		}
 		return sb;
 	}
-	//-----author:jg_longjb----end-----date:20150408--------for:新增封装查询器组件-
 	
 	
 	//-----author:jg_longjb----start-----date:20150427--------for:新增高级查询器queryBuilder

@@ -163,7 +163,6 @@ function initTrData(item, filedType, orderMin) {
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
 				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
-				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);
@@ -200,7 +199,6 @@ function initTrDataIndex(item, filedType, orderMin) {
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
 				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
-				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);

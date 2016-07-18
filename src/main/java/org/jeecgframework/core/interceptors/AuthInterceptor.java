@@ -154,7 +154,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 //---author:jg_xugj----start-----date:20151210--------for：#781  【oracle兼容】兼容问题fun.operation!='' 在oracle 数据下不正确
 						String hasOperSql="SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
 							"fun.functionid='"+functionId+"' AND fun.operation is not null  AND fun.roleid=role.roleid AND role.userid='"+client.getUser().getId()+"' ";
-//---author:jg_xugj----end-----date:20151210--------for：#781  【oracle兼容】兼容问题fun.operation!='' 在oracle 数据下不正确
 						List<String> hasOperList = this.systemService.findListbySql(hasOperSql); 
 					    for(String operationIds:hasOperList){
 							    for(String operationId:operationIds.split(",")){

@@ -114,7 +114,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.6.4</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.6.5</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;
@@ -236,7 +236,7 @@
                 callback : function() {
                   iframe = this.iframe.contentWindow;
                   var orgId = $('#orgId', iframe.document).val();
-                  //update-begin---author:scott---date:20160529--for：变更采用ajax方式提高效率----
+
                   formData['orgId'] = orgId ? orgId : "";
                   $.ajax({
               		async : false,
@@ -250,7 +250,7 @@
               			window.location.href = actionurl;
               		}
                   });
-                  //update-begin---author:scott---date:20160529--for：变更采用ajax方式提高效率----
+
                   this.close();
                   return false;
                 }

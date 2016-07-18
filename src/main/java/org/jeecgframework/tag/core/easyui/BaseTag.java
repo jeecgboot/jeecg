@@ -108,6 +108,7 @@ public class BaseTag extends TagSupport {
 				sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
 //				sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
+				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.6.4</version>
+	<version>3.6.5</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <codegenerate.version>3.6-SNAPSHOT</codegenerate.version>
+        <codegenerate.version>3.6.1-SNAPSHOT</codegenerate.version>
         <minidao.version>1.6-SNAPSHOT</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
@@ -937,7 +937,7 @@
 			<version>${cxf.version}</version> 
 		</dependency>
 
-		<!-- jeecg plugin begin  -->
+		<!-- jeecg plugin  -->
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-core</artifactId>
@@ -949,13 +949,21 @@
 			<version>1.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
+		<!-- 插件demo -->
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-biz-demo</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>
-		
-		<!-- 插件：微信企业号
+		<!-- 插件: 我的邮箱 -->
+		<dependency>
+			<groupId>org.p3framework</groupId>
+			<artifactId>jeecg-p3-biz-mail</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		 <!--  插件: 微信企业号
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-biz-qywx</artifactId>
@@ -970,9 +978,8 @@
 			<type>jar</type>
 			<scope>compile</scope> 
 		</dependency>
-		 -->
-		<!-- jeecg plugin end  -->
-		
+		-->
+		<!-- jeecg plugin  -->
 	</dependencies>
 
 	<organization>

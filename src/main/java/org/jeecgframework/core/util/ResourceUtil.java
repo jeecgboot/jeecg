@@ -304,7 +304,6 @@ public class ResourceUtil {
 			HttpSession session = ContextHolderUtils.getSession();
 			returnValue = (String) session.getAttribute(key);
 		}
-//---author:jg_xugj----end-----date:20151226--------for：修改bug 1、key.contains("${")  应改为 key.contains("#{") 2、StringUtil.isEmpty(key) 判断 不为空
 
 		//结果加上${} 后面的值
 		if(returnValue!=null){returnValue = returnValue + moshi;}
@@ -324,7 +323,6 @@ public class ResourceUtil {
 			value = ResourceUtil.getUserSystemData(ruleValue);
 		return value!= null ? value : ruleValue;
 	}
-	//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 
 	public static void main(String[] args) {
 		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());

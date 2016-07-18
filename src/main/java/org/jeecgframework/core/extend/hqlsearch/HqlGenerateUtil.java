@@ -292,7 +292,6 @@ public class HqlGenerateUtil {
 		//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		//这个方法建议去掉，直接调用ResourceUtil.converRuleValue(ruleValue)
 		String value = ResourceUtil.converRuleValue(ruleValue);
-		//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		return value!= null ? value : ruleValue;
 	}
 
@@ -399,8 +398,6 @@ public class HqlGenerateUtil {
 		}
 		return sb.toString();
 	}
-
-//	--author：龙金波 ------end---date：20150628--------for：sql组装
 	/**
 	 * 根据字段名称,获取字段的类型字符串
 	 * return: java.lang.Integer
@@ -440,7 +437,6 @@ public class HqlGenerateUtil {
 		}
 		return column;
 	}
-//	--author：陈璞 ------end---date：20150612--------for：sql组装
 	
 	
 	

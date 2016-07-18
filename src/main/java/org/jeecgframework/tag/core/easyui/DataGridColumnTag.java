@@ -54,6 +54,9 @@ public class DataGridColumnTag extends TagSupport {
 	private String extendParams;//扩展参数
 	private String langArg;
 	protected String editor;//高级查询用的编辑器
+
+	private String defaultVal = "";//列默认值
+
 	public String getEditor() {
 		return editor;
 	}
@@ -66,7 +69,7 @@ public class DataGridColumnTag extends TagSupport {
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor);
+		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal);
 		return EVAL_PAGE;
 	}
 	
@@ -217,5 +220,15 @@ public class DataGridColumnTag extends TagSupport {
 	public void setShowLen(Integer showLen) {
 		this.showLen = showLen;
 	}
+
+	public String getDefaultVal() {
+		return defaultVal;
+	}
+
+	public void setDefaultVal(String defaultVal) {
+		this.defaultVal = defaultVal;
+	}
+	
+	
 	
 }

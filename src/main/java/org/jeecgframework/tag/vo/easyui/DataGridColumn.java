@@ -42,6 +42,10 @@ public class DataGridColumn {
 	protected boolean autocomplete;//自动补全
 	protected String extendParams;//扩展参数,easyui有的,但是jeecg没有的参数进行扩展
 	protected String editor;//高级查询用的编辑器
+
+	private String defaultVal = "";//列默认值
+
+	
 	public String getEditor() {
 		return editor;
 	}
@@ -286,6 +290,14 @@ public class DataGridColumn {
 		this.formatterjs = formatterjs;
 	}
 
+	public String getDefaultVal() {
+		return defaultVal;
+	}
 
+	public void setDefaultVal(String defaultVal) {
+		this.defaultVal = defaultVal;
+	}
+
+	
 	
 }

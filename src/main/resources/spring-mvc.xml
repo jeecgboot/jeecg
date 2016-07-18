@@ -102,15 +102,7 @@
 						<value>repairController.do?repair</value>
 						<value>systemController.do?saveFiles</value>
 						<value>repairController.do?deleteAndRepair</value>
-						<!--add-start-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
-						<value>tSTeamPersonController.do?getTeacherList</value>
-						<value>tSTeamPersonController.do?getTeacher</value>
-						<!--add-end-Author: jg_huangxg Date:20150707 for：团队人员榜外网网页url-->
-                        <!--add-start-Author:zhangguoming  Date:20140825 for：用户选择组织机构的url-->
 						<value>userController.do?userOrgSelect</value>
-                        <!--add-end-Author:zhangguoming  Date:20140825 for：用户选择组织机构的url-->
-						<!--add-start-Author: zzl Date:20150709 for：社区介绍-->
-						<value>tSTeamPersonController.do?introduce</value>
 						<!--移动图表-->
 						<value>cgDynamGraphController.do?design</value>
 						<value>cgDynamGraphController.do?datagrid</value>

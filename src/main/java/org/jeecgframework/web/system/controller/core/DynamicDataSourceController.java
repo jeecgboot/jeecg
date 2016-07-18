@@ -18,6 +18,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysDatabaseEnum;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.PasswordUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
@@ -126,6 +127,9 @@ public class DynamicDataSourceController extends BaseController {
 			DynamicDataSourceEntity t = dynamicDataSourceService.get(DynamicDataSourceEntity.class, dbSource.getId());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(dbSource, t);
+
+				t.setDbPassword(PasswordUtil.encrypt(t.getDbPassword(), t.getDbUser(), PasswordUtil.getStaticSalt()));
+
 				dynamicDataSourceService.saveOrUpdate(t);
 				dynamicDataSourceService.refleshCache();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -135,6 +139,12 @@ public class DynamicDataSourceController extends BaseController {
 			}
 		} else {
 			message = MutiLangUtil.paramAddSuccess("common.datasource.manage");
+
+			try {
+				dbSource.setDbPassword(PasswordUtil.encrypt(dbSource.getDbPassword(), dbSource.getDbUser(), PasswordUtil.getStaticSalt()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			dynamicDataSourceService.save(dbSource);
 			dynamicDataSourceService.refleshCache();
@@ -153,6 +163,15 @@ public class DynamicDataSourceController extends BaseController {
 	public ModelAndView addorupdate(DynamicDataSourceEntity dbSource, HttpServletRequest req) {
 		if (StringUtil.isNotEmpty(dbSource.getId())) {
 			dbSource = dynamicDataSourceService.getEntity(DynamicDataSourceEntity.class, dbSource.getId());
+
+			try {
+				//String result = PasswordUtil.decrypt(d.getDbPassword(), d.getDbUser(), PasswordUtil.getStaticSalt());
+				//System.out.println("==result"+result);
+				dbSource.setDbPassword(PasswordUtil.decrypt(dbSource.getDbPassword(), dbSource.getDbUser(), PasswordUtil.getStaticSalt()));//解密字符串,密文展示
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			req.setAttribute("dbSourcePage", dbSource);
 		}
 		return new ModelAndView("system/dbsource/dbSource");

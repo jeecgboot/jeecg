@@ -369,6 +369,11 @@
    			<rtexprvalue>true</rtexprvalue>
    			<description>高级查询器用的字段编辑器</description>
   		</attribute>
+  		<attribute>
+   			<name>defaultVal</name>
+   			<rtexprvalue>true</rtexprvalue>
+   			<description>UI标签库列表默认查询条件</description>
+  		</attribute>
 	</tag>
 	<tag>
 		<name>dgDelOpt</name>
@@ -1430,13 +1435,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>校验字段,默认为非空校验</description>
 		</attribute>
-		<!-- update-begin- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
+		- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
 		<attribute>
 			<name>readonly</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否可编辑-默认是可以编辑</description>
 		</attribute>
-		<!-- update-end- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
+		-end- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
 		
 	</tag>
 	<!-- 按钮权限标签 -->
@@ -1490,7 +1495,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
-		<!-- update-begin- Author:jg_renjie  Date:20160320 for：增加传入值 -->
+		- Author:jg_renjie  Date:20160320 for：增加传入值 -->
 		<attribute>
 			<name>departId</name>
 			<required>false</required>
@@ -1503,7 +1508,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>部门名称</description>
 		</attribute>
-		<!-- update-end- Author:jg_renjie  Date:20160320 for：增加传入值  -->
+		-end- Author:jg_renjie  Date:20160320 for：增加传入值  -->
 	</tag>
 	<tag>
 		<name>userSelect</name>
@@ -1536,7 +1541,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
-		<!-- update-begin- Author:wangkun  Date:20160327 for：增加传入值 -->
+		- Author:wangkun  Date:20160327 for：增加传入值 -->
 		<attribute>
 			<name>userName</name>
 			<required>false</required>
@@ -1555,6 +1560,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>弹出框标头</description>
 		</attribute>
-		<!-- update-end- Author:wangkun  Date:20160327 for：增加传入值  -->
+		-end- Author:wangkun  Date:20160327 for：增加传入值  -->
 	</tag>
 </taglib>

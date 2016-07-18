@@ -26,14 +26,17 @@ import org.jeecgframework.codegenerate.util.CodeResourceUtil;
 import org.jeecgframework.codegenerate.util.CodeStringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.enums.OnlineGenerateEnum;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateSubListEntity;
+import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonSqlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
@@ -74,6 +77,8 @@ public class GenerateController extends BaseController {
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
 	@Autowired
 	private TempletContextWord templetContextWord;
+	@Autowired
+	private DataBaseService dataBaseService;
 	/**
 	 * 代码生成配置页面
 	 * @param request
@@ -91,6 +96,7 @@ public class GenerateController extends BaseController {
 		Map<String,String> entityNameMap = new HashMap<String,String>(0);
 		if(cgFormHead.getJformType()==1 || cgFormHead.getJformType()==3){
 			//如果是单表或者附表，则进入单表模型
+			request.setAttribute("jspModeList", getOnlineGenerateEnum("single"));// 表单风格
 			returnModelAndView = "jeecg/cgform/generate/single";
 		}else{
 			//如果是主表，则进入一对多模型
@@ -103,6 +109,7 @@ public class GenerateController extends BaseController {
 					entityNameMap.put(subHead.getTableName(), JeecgReadTable.formatFieldCapital(subHead.getTableName()));
 				}
 			}
+			request.setAttribute("jspModeList", getOnlineGenerateEnum("onetomany"));// 表单风格
 			request.setAttribute("subTableList", subTableList);
 			returnModelAndView = "jeecg/cgform/generate/one2many";
 		}
@@ -130,6 +137,16 @@ public class GenerateController extends BaseController {
 		request.setAttribute("entityNames",entityNameMap );
 		return new ModelAndView(returnModelAndView);
 	}
+	
+	private List<OnlineGenerateEnum> getOnlineGenerateEnum(String type){
+		List<OnlineGenerateEnum> list = new ArrayList<OnlineGenerateEnum>();
+		for(OnlineGenerateEnum item : OnlineGenerateEnum.values()) {
+			if(item.getFormType().equals(type)) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
 	/**
 	 * 代码生成执行-单表
 	 * @param generateEntity
@@ -156,17 +173,28 @@ public class GenerateController extends BaseController {
 			boolean tableexist = new JeecgReadTable().checkTableExist(tableName);
 			if(tableexist){
 
-				//step.3 判断是不是用用户自定义界面
-				CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
-				if(createFileProperty.getJspMode().equals("04")){
-					String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
-					generate.setCgformJspHtml(formhtml);
+				OnlineGenerateEnum modeEnum = OnlineGenerateEnum.toEnum(createFileProperty.getJspMode());
+				if(modeEnum!=null){
+					if("system".equals(modeEnum.getVersion())){
+
+						//step.3 判断是不是用用户自定义界面
+						CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
+						if(createFileProperty.getJspMode().equals("04")){
+							String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
+							generate.setCgformJspHtml(formhtml);
+						}
+
+						//step.4 调用代码生成器
+						generate.generateToFile();
+					}else if("ext".equals(modeEnum.getVersion())){
+						CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
+						generate.generateToFileUserDefined();
+					}
+					j.setMsg(ftlDescription+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(generateEntity.getEntityName())+"Controller.do?list");
+				}else{
+					j.setMsg("代码生成器不支持该页面风格");
 				}
 
-				//step.4 调用代码生成器
-				generate.generateToFile();
-				
-				j.setMsg(ftlDescription+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(generateEntity.getEntityName())+"Controller.do?list");
 			}else{
 				j.setMsg("表["+tableName+"] 在数据库中，不存在");
 			}
@@ -241,16 +269,27 @@ public class GenerateController extends BaseController {
 				subsG.put(sTableName, subG);
 			}
 			codeParamEntityIn.setSubTabParam(subTabParamIn);
-			//step.5 一对多(父子表)数据模型,代码生成
 
-			if("06".equals(jspMode)){
-				CgformCodeGenerateOneToMany.oneToManyCreateBootstap(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			OnlineGenerateEnum modeEnum = OnlineGenerateEnum.toEnum(jspMode);
+			if(modeEnum!=null){
+				if("system".equals(modeEnum.getVersion())){
+					//step.5 一对多(父子表)数据模型,代码生成
+
+					if("06".equals(jspMode)){
+						CgformCodeGenerateOneToMany.oneToManyCreateBootstap(subTabParamIn, codeParamEntityIn,mainG,subsG);
+					}else{
+						CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+					}
+
+					//j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
+				}else if("ext".equals(modeEnum.getVersion())){
+					CgformCodeGenerateOneToMany.oneToManyCreateUserDefined(jspMode,subTabParamIn, codeParamEntityIn,mainG,subsG);
+				}
+				j.setMsg(codeParamEntityIn.getFtlDescription()+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(codeParamEntityIn.getEntityName())+"Controller.do?list");
 			}else{
-				CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+				j.setMsg("代码生成器不支持该页面风格");
 			}
 
-			//j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
-			j.setMsg(codeParamEntityIn.getFtlDescription()+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(codeParamEntityIn.getEntityName())+"Controller.do?list");
 		}catch (Exception e) {
 			e.printStackTrace();
 			j.setMsg(e.getMessage());
@@ -314,6 +353,17 @@ public class GenerateController extends BaseController {
 		buttonSqlMap.put("update", cbsUpdate==null?new String[]{}:cbsUpdate.getCgbSqlStr().replaceAll("(\r\n|\r|\n|\n\r)", "").split(";"));
 		CgformButtonSqlEntity cbsDelete = cgformButtonSqlService.getCgformButtonSqlByCodeFormId("delete", cgFormHead.getId());
 		buttonSqlMap.put("delete", cbsDelete==null?new String[]{}:cbsDelete.getCgbSqlStr().replaceAll("(\r\n|\r|\n|\n\r)", "").split(";"));
+		//按钮java增强
+		Map<String, CgformEnhanceJavaEntity> buttonJavaMap = new LinkedHashMap<String, CgformEnhanceJavaEntity>();
+		List<CgformEnhanceJavaEntity> javaList = dataBaseService.getCgformEnhanceJavaEntityByFormId(cgFormHead.getId());
+		if(javaList!=null&&javaList.size()>0){
+			for(CgformEnhanceJavaEntity e:javaList){
+				if(StringUtil.isNotEmpty(e.getCgJavaValue())){
+					buttonJavaMap.put(e.getButtonCode(), e);
+				}
+			}
+		}
+		
 		//JS增强-列表
 		CgformEnhanceJsEntity listJs = 	cgformEnhanceJsService.getCgformEnhanceJsByTypeFormId("list", cgFormHead.getId());
 		CgformEnhanceJsEntity listJsCopy = null;
@@ -342,6 +392,7 @@ public class GenerateController extends BaseController {
 		}
 		generateEntity.setButtons(buttons);
 		generateEntity.setButtonSqlMap(buttonSqlMap);
+		generateEntity.setButtonJavaMap(buttonJavaMap);
 		generateEntity.setCgFormHead(cgFormHead);
 		generateEntity.setListJs(listJsCopy);
 		generateEntity.setFormJs(formJsCopy);

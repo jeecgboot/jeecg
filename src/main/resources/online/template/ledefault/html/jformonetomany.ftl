@@ -53,7 +53,6 @@
 									<td>
 										<input style="width:20px;" type="checkbox" name="ck"/>
 										<input type="hidden" name="${sub}[${subTableData_index}].id" id="${sub}[${subTableData_index}].id" value="${subTableData['id']?if_exists?html}"/>
-										sdfsdff
 										<#list field['${sub}'].hiddenFieldList as subTableField >
 										<input type="hidden" name="${sub}[${subTableData_index}].${subTableField.field_name}" id="${sub}[${subTableData_index}].${subTableField.field_name}" value="${subTableData['${subTableField.field_name}']?if_exists?html}"/>
 										</#list> 

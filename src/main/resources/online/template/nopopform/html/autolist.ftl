@@ -320,7 +320,6 @@ function createDataGrid${config_id}(){
 		var url ='cgFormBuildController.do?goDatilFtlForm&tableName=${config_id}&mode=read&olstylecode=${_olstylecode}&load=detail';
 	    viewNotCreateWin("查看",url, "${config_id}List",false)
 	}
-   //----author:jg_xugj---end----date:20151219-------- for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 	
 	
 	//批量删除

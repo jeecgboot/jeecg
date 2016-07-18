@@ -12,17 +12,13 @@
 	<t:dgCol title="operate.time" field="operatetime" formatter="yyyy-MM-dd hh:mm:ss" width="100"></t:dgCol>
 </t:datagrid>
 <div id="logListtb" style="padding: 3px; height: 25px">
-	<%--add-begin--Author:zhoujf  Date:20150531 for：日志详情按钮位置迁移 --%>
 	<span style="float:left;">
 		<a href="#" class="easyui-linkbutton l-btn l-btn-plain" plain="true" icon="icon-search" onclick="detail('<t:mutiLang langKey="common.view"/>','logController.do?logDetail','logList',null,null)" id="">
 		<t:mutiLang langKey="common.view"/>
 		</a>
 	</span>
-	<%--add-end--Author:zhoujf  Date:20150531 for：日志详情按钮位置迁移--%>
-	
-    <!-- update---Author:赵俊夫  Date:20130507 for：需要加name=searchColums属性 -->
     <div name="searchColums" style="float: right; padding-right: 15px;">
-        <t:mutiLang langKey="log.level"/>: <!-- update---Author:宋双旺  Date:20130414 for：改变值进行查询 -->
+        <t:mutiLang langKey="log.level"/>:
         <select name="loglevel" id="loglevel" onchange="logListsearch();">
             <option value="0"><t:mutiLang langKey="select.loglevel"/></option>
             <option value="1"><t:mutiLang langKey="common.login"/></option>
@@ -33,24 +29,20 @@
             <option value="6"><t:mutiLang langKey="common.upload"/></option>
             <option value="7"><t:mutiLang langKey="common.other"/></option>
         </select>
-       <%--add-begin--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间--%>
         <span>
             <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;" title="操作时间 "><t:mutiLang langKey="operate.time"/>: </span>
             <input type="text" name="operatetime_begin" id="operatetime_begin" style="width: 100px; height: 24px;" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'operatetime_end\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})">~
             <input type="text" name="operatetime_end" id="operatetime_end" style="width: 100px; height: 24px; margin-right: 20px;" class="Wdate"  onFocus="WdatePicker({minDate:'#F{$dp.$D(\'operatetime_begin\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
         </span>
-        <%--add-end--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间--%>
         <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="logListsearch();"><t:mutiLang langKey="common.query"/></a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="clearSearch();"><t:mutiLang langKey="common.clear"/></a>
     </div>
 </div>
-<%--add-begin--Author:zhangguoming  Date:20140427 for：查询与清空操作--%>
 <script type="text/javascript">
     $(document).ready(function(){
         $("input").css("height", "24px");
     });
     
-    <%--update-begin--Author: jg_huangxg  Date:20140427 for：TASK #928 【日志查询】日志列表查询按钮无效 --%>
     function logListsearch(){
     	var loglevel = $("#loglevel").val();
     	var operatetime_begin = $("#operatetime_begin").val();
@@ -74,6 +66,4 @@
     	$("#operatetime_end").val("");
     	$("#logList").datagrid('load',{});
     }
-    <%--update-end--Author: jg_huangxg  Date:20160229 for：TASK #928 【日志查询】日志列表查询按钮无效 --%>
 </script>
-<%--add-end--Author:zhangguoming  Date:20140427 for：添加查询条件  操作时间--%>

@@ -640,7 +640,6 @@ public class CgAutoListController extends BaseController{
 			sysVarName =sysVarName.replace("sys.", "");
 			//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 			return ResourceUtil.converRuleValue(sysVarName); 		
-			//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		}else{
 			return sysVarName;
 		}

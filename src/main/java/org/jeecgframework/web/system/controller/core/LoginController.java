@@ -132,7 +132,9 @@ public class LoginController extends BaseController{
 					saveLoginSuccessInfo(req, u, orgId);
 				}
 			} else {
-				j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
+
+				j.setMsg(mutiLangService.getLang("common.lock.user"));
+
 				j.setSuccess(false);
 			}
 		}

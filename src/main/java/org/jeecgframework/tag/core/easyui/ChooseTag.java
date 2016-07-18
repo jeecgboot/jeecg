@@ -72,7 +72,6 @@ public class ChooseTag extends TagSupport {
 			sb.append("var initValue = ").append("$(\'#" + hiddenName + "\').val();");
 			sb.append("url += ").append("'&ids='+initValue;"); 
 		}
-		// --author：zhoujf------end-----date:20150531--------for: 编辑用户，选择角色,弹出的角色列表页面，默认没选中 标签扩展
 		sb.append("if(typeof(windowapi) == 'undefined'){");
 			sb.append("$.dialog({");
 			sb.append("content: \'url:\'+url,");

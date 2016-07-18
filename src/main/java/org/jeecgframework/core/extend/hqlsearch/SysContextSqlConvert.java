@@ -51,7 +51,6 @@ public class SysContextSqlConvert {
 		String tempValue = null;
 		//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 		tempValue = ResourceUtil.converRuleValue(ValueTemp);
-		//---author:jg_xugj----end-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
 
 		if(tempValue!=null){
 			tempValue = tempValue + moshi;

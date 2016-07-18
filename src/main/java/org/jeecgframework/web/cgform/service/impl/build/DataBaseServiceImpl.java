@@ -641,5 +641,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		return null;
 	}
 
+	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId( String formId) {
+		StringBuilder hql = new StringBuilder("");
+		hql.append(" from CgformEnhanceJavaEntity t");
+		hql.append(" where t.formId='").append(formId).append("'");
+		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
+		return list;
+	}
+
 }
 

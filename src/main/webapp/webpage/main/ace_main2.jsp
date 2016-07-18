@@ -544,15 +544,15 @@
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
 			-->
-			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
+			-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="shortcut" name="indexStyle" /> <span>ShortCut风格</span></td>
 			</tr>
-			<!-- update-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
+			-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="sliding" name="indexStyle"  /><span>Sliding云桌面</span></td>
 			</tr>
-			<!-- update-end--Author:longjb  Date:2013-03-15 for:新增首页风格  -->	
+			-end--Author:longjb  Date:2013-03-15 for:新增首页风格  -->	
 			<tr>
 				<td class="value"><input type="radio" value="ace" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>

@@ -97,9 +97,11 @@ function browseFolder(path) {
 			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
 			<td class="value">
 			<select id="jspMode" name="jspMode">
-				<option value="03">Table风格(form)</option>
-				<option value="06">bootstrap风格(form)</option>
-			</select></td>
+		     		<c:forEach items="${jspModeList }" var="style">
+			     	 <option value="${style.code }" >${style.desc }</option>
+			     	</c:forEach>
+		     </select>
+		     </td>
 		</tr>
 	</table>
 	<table>

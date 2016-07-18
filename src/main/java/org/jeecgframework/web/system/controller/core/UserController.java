@@ -610,7 +610,6 @@ public class UserController extends BaseController {
 		String ids = oConvertUtils.getString(request.getParameter("ids"));
 		mv.addObject("ids", ids);
 		return mv;
-		//--author：zhoujf-----end------date:20150531--------for: 编辑用户，选择角色,弹出的角色列表页面，默认没选中
 	}
 
 	/**

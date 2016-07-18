@@ -742,7 +742,6 @@ public class AutoFormController extends BaseController {
 			    			if(!flag){
 			    				hqlTable.append(autoFormDbFieldEntity.getFieldName()+",");
 			    			}
-			    			//author:jg_renjie----end-----date:20160228--------for：TASK #704 【表单填报预览】针对特殊类型数据，需要进行转换，比如blob
 			    			
 				    	}
 			    		hqlTable.deleteCharAt(hqlTable.length()-1).append(" from "+formDb.getDbTableName());
@@ -873,8 +872,6 @@ public class AutoFormController extends BaseController {
 	   }
 		return data;
 	}
-	
-	//author:jg_renjie----end-----date:20160228--------for：TASK #704 【表单填报预览】针对特殊类型数据，需要进行转换，比如blob
 	/**
 	 * 
 	 * @param

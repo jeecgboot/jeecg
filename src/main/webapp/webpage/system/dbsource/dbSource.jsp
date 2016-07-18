@@ -134,7 +134,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<input class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
+						<input  type="password" class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
 							   value="${dbSourcePage.dbPassword}">
 						<span class="Validform_checktip"></span>
 					</td>

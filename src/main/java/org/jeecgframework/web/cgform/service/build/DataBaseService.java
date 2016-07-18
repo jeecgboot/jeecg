@@ -3,6 +3,7 @@ package org.jeecgframework.web.cgform.service.build;
 import java.util.List;
 import java.util.Map;
 
+import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 
 /**
@@ -38,5 +39,7 @@ public interface DataBaseService {
 	 * @param data
 	 */
 	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException;
+
+	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId(String formId);
 
 }
