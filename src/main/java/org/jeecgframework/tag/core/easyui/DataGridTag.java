@@ -479,6 +479,7 @@ public class DataGridTag extends TagSupport {
 					out.print(end().toString());
 					out.flush();
 //				}
+//-----author:jg_longjb----end-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
 			}else{
 				out.print(datatables().toString());
 				out.flush();
@@ -823,7 +824,14 @@ public class DataGridTag extends TagSupport {
 									String lang_key = string.split("_")[0];
 									text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
 									value =string.split("_")[1];
-									sb.append("<option value =\""+value+"\">"+text+"</option>");
+
+									if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(value)){
+										sb.append("<option value =\""+value+"\" selected=\"selected\">"+text+"</option>");
+									}else{
+										sb.append("<option value =\""+value+"\" >"+text+"</option>");
+									}
+
+									
 								}
 								sb.append("</select>");
 							}else if(!StringUtil.isEmpty(col.getDictionary())){
@@ -833,7 +841,14 @@ public class DataGridTag extends TagSupport {
 											+ " as text from " + dic[0];
 									//System.out.println(dic[0]+"--"+dic[1]+"--"+dic[2]);
 								//	<input type="text" name="order_code"  style="width: 100px"  class="searchbox-inputtext" value="" onClick="inputClick(this,'account','user_msg');" />
-									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 100px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" /> ");
+
+									if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
+										sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 100px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
+									}else{
+										sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 100px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" /> ");
+									}
+
+									
 								}else if(col.getDictionary().contains(",")&&(!col.isPopup())){
 									String[] dic = col.getDictionary().split(",");
 									String sql = "select " + dic[1] + " as field," + dic[2]
@@ -844,7 +859,14 @@ public class DataGridTag extends TagSupport {
 									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
 									for (Map<String, Object> map : list){
-										sb.append(" <option value=\""+map.get("field")+"\">");
+
+										if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(map.get("field"))){
+											sb.append(" <option value=\""+map.get("field")+"\" selected=\"selected\">");
+										}else{
+											sb.append(" <option value=\""+map.get("field")+"\">");
+										}
+
+
 										sb.append(map.get("text"));
 										sb.append(" </option>");
 									}
@@ -856,9 +878,18 @@ public class DataGridTag extends TagSupport {
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
 									if (types != null) {
 										for (TSType type : types) {
-											sb.append(" <option value=\""
-													+ type.getTypecode()
-													+ "\">");
+
+											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(type.getTypecode())){
+												sb.append(" <option value=\""
+														+ type.getTypecode()
+														+ "\" selected=\"selected\">");
+											}else{
+												sb.append(" <option value=\""
+														+ type.getTypecode()
+														+ "\">");
+											}
+
+										
 											sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
 											sb.append(" </option>");
 										}
@@ -869,8 +900,15 @@ public class DataGridTag extends TagSupport {
 								sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 							}else{
 
+								if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
+									sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value=\""+col.getDefaultVal()+"\" />");
+								}else{
+									sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" />");
+								}
 
-								sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" />");
+								
+								//sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value="+col.getDefaultVal()==null?"":"\""+col.getDefaultVal()+"\""+"/>");
+								
 							}
 						}else if("group".equals(col.getQueryMode())){
 							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
@@ -1276,6 +1314,7 @@ public class DataGridTag extends TagSupport {
 					sb.append(" if(value.length<=");sb.append(column.getShowLen());sb.append(") {return value}");
 					sb.append(" else{ return '<a title= '+value+'>'+ value.substring(0,");sb.append(column.getShowLen());sb.append(")+'...';}}");
 				}
+				//author:xugj-----end-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
 				else if (columnValueList.size() > 0 && !column.getField().equals("opt")) {// 值替換
 					String testString = "";
 					for (ColumnValue columnValue : columnValueList) {
@@ -1837,6 +1876,7 @@ public class DataGridTag extends TagSupport {
 		}
 		return sb;
 	}
+	//-----author:jg_longjb----end-----date:20150408--------for:新增封装查询器组件-
 	
 	
 	//-----author:jg_longjb----start-----date:20150427--------for:新增高级查询器queryBuilder
