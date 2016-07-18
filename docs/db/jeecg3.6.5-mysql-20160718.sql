@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2016-07-18 17:06:04
+Date: 2016-07-18 18:21:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1004,7 +1004,7 @@ INSERT INTO `cgform_head` VALUES ('402881e4534c0aea01534c0cfca50012', '工作信
 INSERT INTO `cgform_head` VALUES ('402881e4534c0aea01534c0cfe2b001b', '教育经历', 'admin', '2016-03-06 21:10:33', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '3', '7', 'group', '0', null, null, 'jform_resume_degree_info', 'admin', '2016-05-07 16:30:05', '管理员', null, 'id', null, 'bdfl_ptbd', '', '');
 INSERT INTO `cgform_head` VALUES ('40288388506b3aa601506b67e97b0002', '客户资料管理', 'admin', '2015-10-15 20:09:44', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '6', 'single', '0', null, null, 'jeecg_custom_info', 'admin', '2016-03-15 11:40:53', '管理员', null, 'id', null, 'bdfl_ptbd', 'olstyle00002', '');
 INSERT INTO `cgform_head` VALUES ('402885d8506e5d9201506e72f4920001', '客户跟踪记录表', 'admin', '2015-10-16 10:20:39', '管理员', 'N', 'Y', 'Y', 'N', '', 'UUID', '1', '43', 'single', '0', null, null, 'jeecg_custom_record', 'admin', '2016-02-25 11:32:02', '管理员', null, 'id', null, 'bdfl_ptbd', 'olstyle00001', null);
-INSERT INTO `cgform_head` VALUES ('4028b881535b12bd01535b1ae3680001', '个人通讯录', 'admin', '2016-03-09 19:20:02', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '58', 'group', '0', 't_s_contact', null, 'jform_contact', 'admin', '2016-06-11 23:31:09', '管理员', null, 'id', null, 'bdfl_ptbd', 'RowsEdit', '');
+INSERT INTO `cgform_head` VALUES ('4028b881535b12bd01535b1ae3680001', '个人通讯录', 'admin', '2016-03-09 19:20:02', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '59', 'group', '0', 't_s_contact', null, 'jform_contact', 'admin', '2016-07-18 17:44:54', '管理员', null, 'id', null, 'bdfl_ptbd', '', '');
 INSERT INTO `cgform_head` VALUES ('4028b88153659dd4015365ab21d0000c', '通迅录分组', 'admin', '2016-03-11 20:33:47', '管理员', 'N', 'Y', 'Y', 'N', '', 'UUID', '1', '4', 'single', '0', null, null, 'jform_contact_group', 'admin', '2016-06-11 18:17:21', '管理员', null, 'id', null, 'bdfl_ptbd', '', '');
 INSERT INTO `cgform_head` VALUES ('8a8ab0b246dc81120146dc81847e013b', '订单主信息', 'admin', '2014-06-27 16:46:54', '管理员', 'N', 'Y', 'Y', 'N', '', 'UUID', '2', '87', 'group', '0', 'jform_order_ticket,jform_order_customer', null, 'jform_order_main', 'admin', '2016-03-21 15:52:31', '管理员', null, 'id', null, 'bdfl_ptbd', '', '');
 INSERT INTO `cgform_head` VALUES ('8a8ab0b246dc81120146dc818484013c', '请假单', 'admin', '2014-06-27 16:46:54', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '102', 'group', '0', null, null, 'jform_leave', 'admin', '2016-03-15 11:30:55', '管理员', null, 'id', null, 'bdfl_ptbd', '', '');
@@ -5172,6 +5172,11 @@ INSERT INTO `t_s_log` VALUES ('4028ef8155fd32e40155fd36138e000f', 'Chrome', '用
 INSERT INTO `t_s_log` VALUES ('4028ef8155fd32e40155fd3614600010', 'Chrome', '错误异常: IllegalStateException,错误描述：invalidate: Session already invalidated', '6', '192.168.111.1', '2016-07-18 16:53:47', '3', null);
 INSERT INTO `t_s_log` VALUES ('4028ef8155fd32e40155fd3629590011', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', '2016-07-18 16:53:53', '1', '8a8ab0b246dc81120146dc8181950052');
 INSERT INTO `t_s_log` VALUES ('4028ef8155fd3a500155fd3ab3260000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', '2016-07-18 16:58:50', '1', '8a8ab0b246dc81120146dc8181950052');
+INSERT INTO `t_s_log` VALUES ('4028ef8155fd62710155fd63397a0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', '2016-07-18 17:43:06', '1', '8a8ab0b246dc81120146dc8181950052');
+INSERT INTO `t_s_log` VALUES ('4028ef8155fd62710155fd64e1030001', 'Chrome', '修改成功', '5', '192.168.111.1', '2016-07-18 17:44:54', '1', '8a8ab0b246dc81120146dc8181950052');
+INSERT INTO `t_s_log` VALUES ('4028ef8155fd62710155fd65b9ee0002', 'Chrome', '错误异常: MySQLSyntaxErrorException,错误描述：Table \'jeecg.jg_person\' doesn\'t exist', '6', '192.168.111.1', '2016-07-18 17:45:50', '3', '8a8ab0b246dc81120146dc8181950052');
+INSERT INTO `t_s_log` VALUES ('4028ef8155fd62710155fd65be330003', 'Chrome', '错误异常: MySQLSyntaxErrorException,错误描述：Table \'jeecg.jg_person\' doesn\'t exist', '6', '192.168.111.1', '2016-07-18 17:45:51', '3', '8a8ab0b246dc81120146dc8181950052');
+INSERT INTO `t_s_log` VALUES ('4028ef8155fd85190155fd8588280000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', '2016-07-18 18:20:34', '1', '8a8ab0b246dc81120146dc8181950052');
 
 -- ----------------------------
 -- Table structure for `t_s_muti_lang`
