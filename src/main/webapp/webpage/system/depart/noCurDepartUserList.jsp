@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="/context/mytags.jsp" %>
-<%--非当前组织机构的用户列表--%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div id="main_depart_list" class="easyui-layout" fit="true">
     <div region="center"  style="padding:0px;border:0px">

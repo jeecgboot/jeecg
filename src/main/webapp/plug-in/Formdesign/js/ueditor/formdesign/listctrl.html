@@ -2,18 +2,14 @@
 <html>
 <head>
     <title>列表控件属性</title>
-    --Author:jg_renjie  Date:20150725 for：添加页面相对路径-->
     <base href="../../../../../"/>
-    -end--Author:jg_renjie  Date:20150725 for：添加页面相对路径-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
     <meta name="generator" content="www.leipi.org" />
-    --Author:jg_renjie  Date:20150725 for：修改文件的引用路径-->
     <link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/leipi.style.css">
     <script type="text/javascript" src="plug-in/Formdesign/js/ueditor/formdesign/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="plug-in/Formdesign/js/ueditor/dialogs/internal.js"></script>
-    -end--Author:jg_renjie  Date:20150725 for：修改文件的引用路径-->
 <script type="text/javascript">
 function createElement(type, name)
 {     
@@ -41,16 +37,13 @@ function createElement(type, name)
             </td>
             <td> 
                 <span> 数据源 ：</span> 
-                 --Author:jg_renjie  Date:20150725 for：将 datasource 由input输入框修改为select下拉框-->
            	  		<select id="datasource"></select>
-                 -end--Author:jg_renjie  Date:20150725 for：将 datasource 由input输入框修改为select下拉框 -->
             </td>
              <td>
                                       宽 <input id="orgwidth" type="text" value="100%" class="input-small span1" placeholder="auto"/> % 或 px
             </td>
             
         </tr>
-        --Author:jg_renjie  Date:20151013 for：增加fkdsid字段 -->
         <tr>
         	<td>
         		<span> 外键字段  ：</span>
@@ -61,7 +54,6 @@ function createElement(type, name)
         		<input type="text" id="fkdsid" placeholder="无则不填" style="width: 200px" class="input-medium"> 
         	</td>
         </tr>
-        -end--Author:jg_renjie  Date:20151013 for：增加fkdsid字段 -->
     </thead>
 </table>
 
@@ -385,7 +377,6 @@ if( UE.plugins[thePlugins].editdom ) {
 }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#tbl1').children().eq(0).children().eq(3).children().find("option:selected");
         var flag=false;
@@ -402,7 +393,6 @@ dialog.onok = function (){
             return false;
         }
     }
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
 	 var gName=$G('orgname').value.replace(/\"/g,"&quot;"),gWidth=$G('orgwidth').value;
 	
     if( gName == '') {

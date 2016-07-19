@@ -30,7 +30,6 @@
 		  hideDataSourceAndDataTable();
 	  });
   });
-  <!--update-begin--Author:zzl  Date:20151113 for：数据源类型是数据库表时,隐藏填报数据源和填报数据库表 -->
   function hideDataSourceAndDataTable(){
 	  var checkedVal=$("input[name='dbType']:checked").val();
 	  if(checkedVal=='table'){
@@ -39,8 +38,6 @@
 		  $("#dataSourceTr").show();
 	  }
   }
-  <!--update-end--Author:zzl  Date:20151113 for：数据源类型是数据库表时,隐藏填报数据源和填报数据库表 -->
-  <!--update-begin--Author:zzl  Date:20151113 for：填报数据源和填报数据库表隐藏时，表单提交需赋值 -->
   function setDataSourceVal(){
 	  var checkedVal=$("input[name='dbType']:checked").val();
 	  if(checkedVal=='table'){
@@ -48,7 +45,6 @@
 		  $("#tbDbTableName").val($("#dbTableName").find("option:selected").val());
 	  }
   }
-  <!--update-end--Author:zzl  Date:20151113 for：填报数据源和填报数据库表隐藏时，表单提交需赋值 -->
 
   /*每次只能提交一种数据类型的数据，不能同时提交
   function onlySubmit(){
@@ -80,14 +76,9 @@
 					<label class="Validform_label"><t:mutiLang langKey="form.db.name"/>:</label>
 				</td>
 				<td class="value" >
-					 <!--update-begin--Author:luobaoli  Date:20150626 for：增加数据源名称的非空校验 -->
-					 <!--update-begin--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验 -->
 			     	 <input id="dbName" name="dbName" type="text" style="width: 150px"   ajaxurl="autoFormDbController.do?checkDbName"  class="inputxt" errorMsg="不能为中文" nullmsg="<t:mutiLang langKey="form.db.name"/>不能为空!"  datatype="/^[A-Za-z\d-._]+$/"  >
-			     	 <!--update-end--Author:jg_renjie  Date:20150720 for：增加数据源名称的唯一性校验 -->
-			     	 <!--update-end--Author:luobaoli  Date:20150626 for：增加数据源名称的非空校验 -->	
 					<span class="Validform_checktip"></span>
 				</td>
-				<!--update-begin--Author:zzl  Date:20151028 for：增加数据源名称 -->
 				<td align="center" width="100px">
 					<label class="Validform_label"><t:mutiLang langKey="form.db.chname"/>:</label>
 				</td>
@@ -95,7 +86,6 @@
 					<input id="dbChName" name="dbChName" type="text" style="width: 150px" class="inputxt" datatype="*" nullmsg="<t:mutiLang langKey="form.db.chname"/>不能为空!"  >
 					<span class="Validform_checktip"></span>
 				</td>
-				<!--update-end--Author:zzl  Date:20151028 for：增加数据源名称 -->
 			</tr>
 			<!-- 
 			<tr>
@@ -139,7 +129,6 @@
 				</td>
 				<!--add-end--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 			</tr>
-			<!--update-begin--Author: jg_huangxg  Date:20150723 for：增加填报数据源和填报数据库表显示 -->
 			<tr id="dataSourceTr">
 				<td align="center">
 					<label class="Validform_label"><t:mutiLang langKey="form.tb.db.key"/>:</label>
@@ -168,9 +157,7 @@
 				<td class="value">
 				</td>
 			</tr>
-			<!--update-end--Author: jg_huangxg  Date:20150723 for：增加填报数据源和填报数据库表显示 -->
 		</table>
-		<!--add-begin--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的处理逻辑 -->	
 		<div style="margin-top: 20px;border: 1px solid #E6E6E6;display: none" id="table_div" class="formdbdiv">
 			<table cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
@@ -179,12 +166,10 @@
 					</td>
 					<td class="value">
 						<select id="dbKey" name="dbKey">
-							<!--update-begin--Author:luobaoli  Date:20150701 for：表单数据源新增时增加数据源显示逻辑 -->
 							<option value="">平台数据源</option>
 							<c:forEach items="${dynamicDataSourceEntitys}" var="dynamicDataSourceEntity">
 								<option value="${dynamicDataSourceEntity.dbKey}">${dynamicDataSourceEntity.dbKey}</option>
 							</c:forEach>
-							<!--update-end--Author:luobaoli  Date:20150701 for：表单数据源新增时增加数据源显示逻辑 -->
 						</select>
 						<span class="Validform_checktip"></span>
 					</td>
@@ -193,11 +178,9 @@
 					</td>
 					<td class="value">
 				     	 <select id="dbTableName" name="dbTableName">
-				     	 	<!--update-begin--Author:luobaoli  Date:20150701 for：增加初始化数据表显示 -->
 				     	 	<c:forEach items="${tableNames}" var="tableName">
 				     	 		<option value="${tableName}">${tableName}</option>
 				     	 	</c:forEach>
-				     	 	<!--update-end--Author:luobaoli  Date:20150701 for：增加初始化数据表显示 -->
 				     	 </select>
 				     	 <span class="Validform_checktip"></span>
 					</td>
@@ -234,22 +217,18 @@
 				</tr>
 				<tr>
 					<td class="value" colspan="4">
-						<!--update-begin--Author:luobaoli  Date:20150630 for：新增fieldset标签 -->	
 						<fieldset style="border: 1px solid #E6E6E6;">
 							<legend><t:mutiLang langKey="form.db.query.param"/></legend>
 							<div style="width:100%;height:100%" title="form.db.query.param" id="autoFormParam"></div>
 						</fieldset>
-						<!--update-end--Author:luobaoli  Date:20150630 for：新增fieldset标签 -->	
 					</td>
 				</tr>
 				<tr>
 					<td class="value" colspan="4">
-						<!--update-begin--Author:luobaoli  Date:20150630 for：新增fieldset标签 -->	
 						<fieldset style="border: 1px solid #E6E6E6;">
 							<legend><t:mutiLang langKey="form.db.query.data.column"/></legend>
 							<div style="width:100%;height:100%" title="form.db.query.data.column" id="autoFormDbField"></div>
 						</fieldset>
-						<!--update-end--Author:luobaoli  Date:20150630 for：新增fieldset标签 -->	
 					</td>
 				</tr>
 			</table>
@@ -314,7 +293,6 @@
 				</td>
 		</tr>
 	 </tbody>
-	 <!--add-begin--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的属性列表新增模块 -->	
 	 <tbody id="add_autoFormDbFieldForTable_table_template">
 		<tr>
 			 <td align="center"><div style="width: 40px;" name="xh"></div></td>
@@ -332,7 +310,6 @@
 					</td>
 			</tr>
 		 </tbody>
-	<!--add-begin--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的属性列表新增模块 -->	
 	</table>
  </body>
  <script src = "webpage/jeecg/cgform/autoform/autoFormDb.js"></script>	

@@ -1441,7 +1441,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否可编辑-默认是可以编辑</description>
 		</attribute>
-		-end- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
 		
 	</tag>
 	<!-- 按钮权限标签 -->
@@ -1508,7 +1507,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>部门名称</description>
 		</attribute>
-		-end- Author:jg_renjie  Date:20160320 for：增加传入值  -->
 	</tag>
 	<tag>
 		<name>userSelect</name>
@@ -1560,6 +1558,5 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>弹出框标头</description>
 		</attribute>
-		-end- Author:wangkun  Date:20160327 for：增加传入值  -->
 	</tag>
 </taglib>

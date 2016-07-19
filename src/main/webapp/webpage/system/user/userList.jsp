@@ -25,8 +25,6 @@
        <t:departSelect></t:departSelect>
     </div>
 </div>
-<%--update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件--%>
-<%--update-end--Author:lijun  Date:20160302 for：组织机构查询条件修改为使用departSelect标签--%>
 
 <t:datagrid name="userList" title="common.operation" actionUrl="userController.do?datagrid" 
     fit="true" fitColumns="true" idField="id" queryMode="group" sortName="id" sortOrder="desc">
@@ -35,7 +33,6 @@
     <%--update-start--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
 	<%--<t:dgCol title="common.department" field="TSDepart_id" query="true" replace="${departsReplace}"></t:dgCol>--%>
 	<t:dgCol title="common.department" sortable="false" field="userOrgList.tsDepart.departname" query="false"></t:dgCol>
-    <%--update-end--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
 	<t:dgCol title="common.real.name" field="realName" query="false"></t:dgCol>
 	<t:dgCol title="common.role" field="userKey" ></t:dgCol>
 	<t:dgCol title="common.createby" field="createBy" hidden="true"></t:dgCol>
@@ -175,4 +172,3 @@ function lockuploadify(url, id) {
 		JeecgExcelExport("userController.do?exportXlsByT", "userList");
 	}
 </script>
-<%--update-end--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件：弹出 选择组织机构列表 相关操作--%>

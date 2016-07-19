@@ -246,7 +246,6 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -263,7 +262,6 @@ dialog.onok = function (){
             return false;
         }
     }
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if( oListText.options.length == 0 ) {
         alert('请添加选项！');
         return false;

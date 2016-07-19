@@ -32,7 +32,6 @@
         <th><span>字段</span> </th>
     </tr>
     <tr>
-        <!--update-begin--Author:zzl  Date:20151106 for：数据源及字段可选 -->
 
         <td>
             <select id="datasource"></select>
@@ -42,7 +41,6 @@
                 <option selected value=''>请先选择数据源</option>
             </select>
         </td>
-        <!--update-end--Author:zzl  Date:20151106 for：数据源及字段可选 -->
     </tr>
     <tr>
         <th><span>输入框样式</span> </th>
@@ -62,10 +60,8 @@
         </tr>
         <tr>
             <td>
-                -start--Author:jg_renjie  Date:20151022 for：增加datatype属性 -->
                 <select type="text" id="datatype" name="datatype" value="" >
                 </select>
-                -start--Author:jg_renjie  Date:20151022 for：增加datatype属性 -->
             </td>
             <td>
                 <label class="checkbox inline"> </label>
@@ -132,7 +128,6 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -150,17 +145,14 @@ dialog.onok = function (){
         }
     }
     var datatype = $G('datatype').value;
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value;
     var datasource=$G('datasource').value;
     var field=$G('field').value;
-    <!--update-begin--Author:zzl  Date:20151106 for：数据源及字段可选 -->
     if(datasource !='' && field ==''){
         alert('请选择字段');
         return false;
     }
     var name= getName(datasource,field,gTitle);
-    <!--update-end--Author:zzl  Date:20151106 for：数据源及字段可选 -->
     if( !oNode ) {
         try {
             var html = '<textarea ';
@@ -260,7 +252,6 @@ function getName(datasource,field,title){
         return title;
     }
 }
-<!--update-begin--Author:zzl  Date:20151106 for：数据源及字段可选 -->
 $(function(){
     var id = '';
     editor.ready(function() {
@@ -292,7 +283,6 @@ $(function(){
 
 
 });
-<!--update-end--Author:zzl  Date:20151106 for：数据源及字段可选 -->
 function loadDataType(val){
     $("#datatype").empty();
     $("#datatype").append("<option value=''>无</option>");

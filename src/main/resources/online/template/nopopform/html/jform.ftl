@@ -37,7 +37,6 @@
 						</label>
 					</td>
 					<td class="value">
-						<!--update-begin--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
@@ -81,7 +80,6 @@
 				                    	}
 				                    }
 				            ">
-				        <!--update-end--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#elseif po.show_type=='text'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"

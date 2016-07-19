@@ -48,7 +48,6 @@ function createElement(type, name)
         <th><span>字段</span> </th>
     </tr>
     <tr>
-        <!--update-begin--Author:zzl  Date:20151105 for：数据源及字段可选 -->
 
         <td>
             <select id="datasource"></select>
@@ -58,7 +57,6 @@ function createElement(type, name)
                 <option selected value=''>请先选择数据源</option>
             </select>
         </td>
-        <!--update-end--Author:zzl  Date:20151105 for：数据源及字段可选 -->
     </tr>
     <tr>
         <th ><span >PopUp报表</span></th>
@@ -143,7 +141,6 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -160,17 +157,14 @@ dialog.onok = function (){
             return false;
         }
     }
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     var datasource=$('#datasource').val();
     var field=$('#field').val();
-    <!--update-begin--Author:zzl  Date:20151105 for：数据源及字段可选 -->
     var gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
     if(datasource !='' && field ==''){
         alert('请选择字段');
         return false;
     }
     var name= getName(datasource,field,gTitle);
-    <!--update-end--Author:zzl  Date:20151105 for：数据源及字段可选 -->
     var gSize = $G('orgsize').value ;
     if ( gSize == null || isNaN( gSize ) || gSize < 1 ) {
         gSize = '' ;
@@ -248,7 +242,6 @@ function getName(datasource,field,title){
         return title;
     }
 }
-<!--update-begin--Author:zzl  Date:20151105 for：数据源及字段可选 -->
 $(function(){
     var id = '';
     editor.ready(function() {
@@ -279,7 +272,6 @@ $(function(){
     });
 
 });
-<!--update-end--Author:zzl  Date:20151105 for：数据源及字段可选 -->
 function loadDataType(val){
     $("#datatype").empty();
     $("#datatype").append("<option value=''>无</option>");

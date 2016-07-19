@@ -111,7 +111,6 @@
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.description"/>:</label></td>
 			<td class="value" colspan="5"><textarea rows="3" cols="150" id="content" name="content" datatype="*">${cgreportConfigHeadPage.content}</textarea> <span class="Validform_checktip"></span></td>
 		</tr>
-	<!-- 		update-begin--Author:huangzq  Date:20151129 for：[753]【在线报表】扩展增加俩字段，非必填-------------------- -->
 		<tr>
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.returnvalfield"/>:</label></td>
 			<td class="value"><input id="returnValField" name="returnValField" type="text" style="width: 150px" class="inputxt" value="${cgreportConfigHeadPage.returnValField}"> <span class="Validform_checktip"></span></td>
@@ -120,7 +119,6 @@
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.returntxttype"/>:</label></td>
 			<td class="value" colspan="3"> <t:dictSelect field="popRetype" typeGroupCode="pop_retype" hasLabel="false" defaultVal="${cgreportConfigHeadPage.popRetype}"/><span class="Validform_checktip"></span></td>
         </tr>
-     <!-- 		update-end--Author:huangzq  Date:20151129 for：[753]【在线报表】扩展增加俩字段，非必填-------------------- -->   
 	</table>
 	<div style="width: auto; height: 200px;"><%-- 增加一个div，用于调节页面大小，否则默认太小 --%>
 		<div style="width: 800px; height: 1px;"></div>

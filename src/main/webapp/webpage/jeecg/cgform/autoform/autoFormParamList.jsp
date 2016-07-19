@@ -44,7 +44,6 @@
 	<a id="addAutoFormParamBtn" href="#"><t:mutiLang langKey="common.add"/></a> <a id="delAutoFormParamBtn" href="#"><t:mutiLang langKey="common.batch.delete"/></a> 
 </div>
 <table border="0" cellpadding="2" cellspacing="0" id="autoFormParam_table">
-	<!--update-begin--Author:luobaoli  Date:20150621 for：将表头列宽设置为固定值-->
 	<tr bgcolor="#E6E6E6">
 		<td align="center" width="40px" bgcolor="#EEEEEE"><t:mutiLang langKey="common.code"/></td>
 		<td align="center" width="40px" bgcolor="#EEEEEE">选择</td>
@@ -64,7 +63,6 @@
 				  		<t:mutiLang langKey="common.operation"/>
 				  </td>
 	</tr>
-	<!--update-end--Author:luobaoli  Date:20150621 for：将表头列宽设置为固定值-->
 	<tbody id="add_autoFormParam_table">
 	<!-- 
 	<c:if test="${fn:length(autoFormParamList)  <= 0 }">

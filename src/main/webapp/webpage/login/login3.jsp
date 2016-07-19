@@ -89,14 +89,12 @@ label.iPhoneCheckLabelOn span {
                     <div class="tip">
                         <input class="password" name="password" type="password" id="password" title="" value="123456" nullmsg="" />
                     </div>
-                    <%--update-begin--Author:zhangguoming  Date:20140226 for：添加验证码--%>
                     <div>
                         <div style="float: right; margin-left:-150px; margin-right: 20px;">
                             <img id="randCodeImage" src="randCodeImage" />
                         </div>
                         <input class="randCode" name="randCode" type="text" id="randCode" title="" value="" nullmsg="" />
                     </div>
-                    <%--update-end--Author:zhangguoming  Date:20140226 for：添加验证码--%>
                    
                     <div class="loginButton">
                         <div style="float: left; margin-left: -9px;">
@@ -113,10 +111,8 @@ label.iPhoneCheckLabelOn span {
                             <%-- 
                             <div style="float: left; margin-left: 30px;"><a href="init.jsp"><span class="f_help"><t:mutiLang langKey="common.init.data"/></span></a></div>
                             --%>
-                            <%--update-begin--Author:ken  Date:20140629 for：添加语言选择--%>
                             <br>                            
                             <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" defaultVal="zh-cn"></t:dictSelect>
-                            <%--update-begin--Author:ken  Date:20140629 for：添加语言选择--%>
                         </div>
                         <div class="clear"></div>
                     </div>

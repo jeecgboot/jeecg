@@ -25,9 +25,7 @@
 </script>
 <!--add-end--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <div class="easyui-layout" fit="true">
-<!--update-start--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
 <div region="west" style="width: 150px;" title="表单分类" split="true" collapsed="true">
-<!--update-end--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
 <div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false">
 <ul id="formtree">
 </ul>
@@ -67,7 +65,6 @@
 	<t:dgToolBar title="custom.button" icon="icon-edit" url="cgformButtonController.do?cgformButton" funname="cgFormButton"></t:dgToolBar>
 	<t:dgToolBar title="js.enhance" icon="icon-edit" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>
 	<t:dgToolBar title="sql.enhance" icon="icon-edit" url="cgformButtonSqlController.do?addorupdate" funname="cgFormButtonSql"></t:dgToolBar>
-	<!--add-begin--Author:luobaoli  Date:20150630 for：新增java增强按钮 -->
 	<t:dgToolBar title="java.enhance" icon="icon-edit" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
 	<!--add-end--Author:luobaoli  Date:20150630 for：新增java增强按钮 -->
 	<t:dgToolBar title="form.export" icon="icon-putout" url="cgformSqlController.do?doMigrateOut" funname="doMigrateOut"></t:dgToolBar>
@@ -325,7 +322,6 @@
 	function toCgformMigrate(){
 		openuploadwin('<t:mutiLang langKey="form.sqlimport"/>', 'cgformSqlController.do?toCgformMigrate', "tablePropertyList");
 	}
-    <%--   update-end--Author:duanqilu  Date:20130910 for#211 升级SQL导入导出--%>	
 	//代码生成
 	function generate(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');

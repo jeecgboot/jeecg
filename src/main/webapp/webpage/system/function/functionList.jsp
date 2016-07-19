@@ -17,7 +17,6 @@
         <%--   update-start--Author:anchao  Date:20130415 for：按钮权限控制--%>
         <t:dgFunOpt funname="operationDetail(id)" title="button.setting"></t:dgFunOpt>
         <t:dgFunOpt funname="operationData(id)" title="数据规则"></t:dgFunOpt>
-        <%--   update-end--Author:anchao  Date:20130415 for：按钮权限控制--%>
         <t:dgToolBar title="common.add.param" langArg="common.menu" icon="icon-add" url="functionController.do?addorupdate" funname="addFun"></t:dgToolBar>
         <t:dgToolBar title="common.edit.param" langArg="common.menu" icon="icon-edit" url="functionController.do?addorupdate" funname="update"></t:dgToolBar>
     </t:datagrid>
@@ -59,7 +58,6 @@ function operationDetail(functionId)
 	}
 	$('#operationDetailpanel').panel("refresh", "functionController.do?operation&functionId=" +functionId);
 }
-<%--   update-end--Author:anchao  Date:20130415 for：按钮权限控制--%>
 <%--   update-start--Author:jueyue  Date:20130622 for：菜单录入代入父菜单--%>
 function addFun(title,url, id) {
 	var rowData = $('#'+id).datagrid('getSelected');
@@ -68,6 +66,5 @@ function addFun(title,url, id) {
 	}
 	add(title,url,'functionList');
 }
-<%--   update-end--Author:jueyue  Date:20130622 for：菜单录入代入父菜单--%>
 </script>
 

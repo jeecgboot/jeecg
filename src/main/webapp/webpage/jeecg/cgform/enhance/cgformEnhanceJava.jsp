@@ -28,9 +28,7 @@
 		</tr>
 		<tr>
 			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.value"/>: </label></td>
-			<!--update-end--Author:luobaoli  Date:20150701 for：取消非空校验-->
 			<td class="value"><input id="cgJavaValue" name="cgJavaValue" style="width: 200px;height: 20px" value="${cgformEnhanceJavaPage.cgJavaValue}"/><span class="Validform_checktip"></span></td>
-			<!--update-end--Author:luobaoli  Date:20150701 for：取消非空校验-->
 		</tr>
 	</table>
 </t:formvalid>

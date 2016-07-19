@@ -232,12 +232,10 @@ a:hover {
                             </div>
                         </div>
                     </div>
-                    <%--update-begin--Author:JueYue  Date:20140616 for：首页上方可以折叠--%>
                     <div style="float: left; margin-left: 8px;margin-right: 5px; margin-top: 5px;">
                         <img src="plug-in/easyui/themes/default/images/layout_button_up.gif"
                              style="cursor:pointer" onclick="panelCollapase()" />
                     </div>
-                    <%--update-end--Author:JueYue  Date:20140616 for：首页上方可以折叠--%>
                     </div>
                 </td>
             </tr>

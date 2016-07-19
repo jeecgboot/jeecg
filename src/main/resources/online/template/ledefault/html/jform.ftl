@@ -127,7 +127,6 @@
 				                    	}
 				                    }
 				            ">
-				        <!--update-end--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#elseif po.show_type=='text'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							        class="form-control" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
@@ -459,11 +458,9 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
-  			<!--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
-  			<!--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();

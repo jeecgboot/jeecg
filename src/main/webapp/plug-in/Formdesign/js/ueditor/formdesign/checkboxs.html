@@ -213,18 +213,14 @@ function fnParseOptions(gChecked)
         <th><span>字段</span> </th>
     </tr>
     <tr>
-        --Author:jg_renjie  Date:20150717 for：将input修改为select-->
         <td>
            <select id="datasource"></select>
         </td>
         <td>
            <select id="field">
-           --Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            	  <option selected value=''>请先选择数据源</option>
-           -end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            </select>
         </td>
-     	-end--Author:jg_renjie  Date:20150717 for：将input修改为select -->
     </tr>
     <tr>
         <th><span>数据字典</span></th>
@@ -341,7 +337,6 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -358,7 +353,6 @@ dialog.onok = function (){
             return false;
         }
     }
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     var gTitle=$G('orgname').value.replace(/\"/g,"&quot;");
     var gChecked = 'orgchecked0';
     if ($G('orgchecked1').checked) gChecked = 'orgchecked1';

@@ -217,18 +217,14 @@ function fnSetAttribute( element, attName, attValue ) {
         <th><span>字段</span> </th>
     </tr>
     <tr>
-        --Author:jg_renjie  Date:20150717 for：将input修改为select-->
         <td>
            <select id="datasource"></select>
         </td>
         <td>
            <select id="field">
-           --Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            	  <option selected value=''>请先选择数据源</option>
-           -end--Author:jg_renjie  Date:20150722 for：设置默认选项的value值 -->
            </select>
         </td>
-     	-end--Author:jg_renjie  Date:20150717 for：将input修改为select -->
     </tr>
     <tr style="display: none;">
         <th>
@@ -252,10 +248,8 @@ function fnSetAttribute( element, attName, attValue ) {
         </tr>
         <tr>
             <td>
-                -start--Author:jg_renjie  Date:20151022 for：增加datatype属性 -->
                 <select type="text" id="datatype" name="datatype" value="" >
                 </select>
-                -start--Author:jg_renjie  Date:20151022 for：增加datatype属性 -->
             </td>
             <td>
                 <label class="checkbox inline"> </label>
@@ -361,7 +355,6 @@ dialog.oncancel = function () {
     }
 };
 dialog.onok = function (){
-    <!--update-begin--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if($G('orgname').value==''){
         var selectedField=$('#field').find("option:selected");
         var flag=false;
@@ -378,7 +371,6 @@ dialog.onok = function (){
             return false;
         }
     }
-    <!--update-end--Author:zzl  Date:20151108 for：控件名称为空时优先使用字段名称 -->
     if( oListText.options.length == 0 ) {
         alert('请添加下拉菜单选项！');
         return false;
