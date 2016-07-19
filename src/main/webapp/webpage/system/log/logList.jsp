@@ -17,8 +17,10 @@
 		<t:mutiLang langKey="common.view"/>
 		</a>
 	</span>
+	
+    <!-- update---Author:赵俊夫  Date:20130507 for：需要加name=searchColums属性 -->
     <div name="searchColums" style="float: right; padding-right: 15px;">
-        <t:mutiLang langKey="log.level"/>:
+        <t:mutiLang langKey="log.level"/>: <!-- update---Author:宋双旺  Date:20130414 for：改变值进行查询 -->
         <select name="loglevel" id="loglevel" onchange="logListsearch();">
             <option value="0"><t:mutiLang langKey="select.loglevel"/></option>
             <option value="1"><t:mutiLang langKey="common.login"/></option>
@@ -42,7 +44,6 @@
     $(document).ready(function(){
         $("input").css("height", "24px");
     });
-    
     function logListsearch(){
     	var loglevel = $("#loglevel").val();
     	var operatetime_begin = $("#operatetime_begin").val();

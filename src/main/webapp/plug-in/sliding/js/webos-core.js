@@ -12,7 +12,6 @@ var datajson=null;
 var iconjson=null;
 var totalnum =null;
 var DATA=new Object();
-
 var iconCookieKey = "iconCookieKey";
 var iconCookieKeyForSlider = "iconCookieKeyForSlider";
 var cookieParam = {expires: 30};
@@ -21,7 +20,6 @@ var defaultIconForSlider = [
 //    '297e20104620167201462016b5fe001f',/*用户管理*/
 //    '297e20104620167201462016b6020021' /*角色管理*/
 ];
-
 	//增加数据动态处理的过程
 	////这里使用menuString来替换掉每个一级二级菜单的数据
 
@@ -49,7 +47,6 @@ function dataFlush(){
 		}
     });
 }
-
 /**
  * 转换用户的桌面
  */
@@ -107,7 +104,6 @@ function calcuIconJson() {
         iconjson = tempIconJson;
     }
 }
-
 
 
 //工具类
@@ -429,7 +425,6 @@ Deskpanel = function(me){
 			me.refreshIcon(firstLoad);
 			
 		},
-
 		refreshIcon:function(firstLoad){//刷新应用
 			var r = ~~(me.height/112);
             var curIndex = 1;
@@ -466,7 +461,6 @@ Deskpanel = function(me){
                 $.cookie(iconCookieKeyForSlider, iconCookieDataForSlider, cookieParam);
             }
 		},
-
 		moveIconTo:function(icon,idx2){//目标位置
 			var ids=(Panel.getIdx(icon.box));
 			if(idx>idx2){//往前移
@@ -609,7 +603,6 @@ Sidebar=function(me){
 		 },		 
 		 createStartTool:function(){//开始设置
 			me.start = $("<a title='点击这里开始' class='dock_tool_icon dock_tool_start'	href='javascript:void(0);'></a>");
-
             me.start.powerFloat({
                  eventType: "click",
                  offsets:{x:getX,y:-100},
@@ -628,7 +621,6 @@ Sidebar=function(me){
                     return 60;
                  }
              }
-
 		 },
 		 createPinyinTool :function(){//输入法
 			me.pinyin =$(Util.formatmodel(tool_a,{
@@ -676,18 +668,14 @@ Sidebar=function(me){
 						content :document.getElementById("themeSetting_wrap")
 					});
 			 });
-
 			 $("a",themsSetting).live("click",function(){
-
 					var a  = $(this);
 					var themeid = a.attr("themeid");
 					var src = themeid.substring(themeid.indexOf("_")+1,themeid.length);
 					var h = $(window).height();
 					var w = $(window).width();
 					$("#zoomWallpaper").attr("src","plug-in/sliding/images/bg/"+src+".jpg").width(w).height(h);
-
 					$.cookie("myskin","plug-in/sliding/images/bg/"+src+".jpg",cookieParam);
-
 					$("#zoomWallpaperGrid").width(w).height(h);
 					$("a",themsSetting).removeClass("themeSetting_selected");
 					a.addClass("themeSetting_selected");
@@ -918,11 +906,9 @@ Navbar =function(me){
 			});			
 			var pagelet_search_suggest =$("<div class='pagelet_search_suggest' id='pagelet_search_suggest'style='display: none;' ></div>");
 			var sb_resultbox = $("<ul id='sb_resultBox'  style='display: block;'></ul>");
-
 			var sb_app_item_1 =$("<div idx='-1' class='sb_resultList fsb_resultList sb_page'><a href='#'><span class='sb_pageTxt'><span id='sb_resultBox_key' class='sb_resultBox_key'>s</span>-在“百度”搜索...</span></a>  </div>");		
 			var sb_app_item_2 = $("<div idx='-2' class='sb_resultList fsb_resultList sb_app'><a href='#'><span class='sb_appTxt'><span id='sb_resultBox_key'  class='sb_resultBox_key'>s</span>-去系统应用搜搜...</span></a></div>");
 			pagelet_search_suggest.append(sb_resultbox).append(sb_app_item_1).append(sb_app_item_2);			
-
 			pagelet_search_bar.append(pageletSearchInput).append(pageletSearchButton);	
 			
 			Body.addPanel(pagelet_search_bar);
@@ -949,12 +935,10 @@ Navbar =function(me){
 				$(this).val("");				
 			}).blur(function(){
 				toggleSearchSuggest();	
-
 				var searchhtnl=$(this).val();
 				$(this).val("搜索功能模块和应用...");
 				
 				$(".fsb_resultList").show();
-
 			}).keyup(function(){
 				var _this = $(this);
 				var _val = _this.val();
@@ -1025,10 +1009,8 @@ appManagerPanel = function(me){
 	var aMg_line_y = "<div class='aMg_line_y'></div>";//y轴线
 	var aMg_App_container = "<div class='aMg_folder_container'></div>";//应用容器
 	var folderitem ="<div class='folderItem'><div class='folder_bg folder_bg{key}'></div><div class='folderOuter' index='{index}' customacceptdrop='{key}'></div></div>";
-
 //	var folderinner ="<div class='folderInner' style='height: 100%; overflow-x: hidden; overflow-y: hidden; ' index='{index}' customacceptdrop='{key}'></div>";
 	var folderinner ="<div class='folderInner' style='height: 90%; overflow-x: hidden; overflow-y: hidden; ' index='{index}' customacceptdrop='{key}'></div>";
-
 	var scrollBar ="<div class='scrollBar' style='margin-top: 0px; height: 0px; display: none;' _olddisplay='block'></div>";
 
 	return me = {
@@ -1342,7 +1324,6 @@ Windows = function(me){
 			var taskIds = BottomBar.getALLItemID();
 			var taskLen = taskIds.length;
 			var api=array[id];
-
             function changeLhgDialogFocus() {
                 var foucsApi = null;
                 for(var obj in $.dialog.list){
@@ -1390,7 +1371,6 @@ Windows = function(me){
 				}
 				
 			}
-
 		},
 		hideWindow :function(id){//隐藏
             $.dialog.list[id].hide();
@@ -1436,13 +1416,10 @@ Windows = function(me){
 					me.showWindow(id);	  
 					BottomBar.setCurrent(task.box.attr("id"));
 				});
-
                 $.dialog({
                     id:id,
                     lock : false,
-
                     zIndex:1000+getDialogLength(),
-
                     width:width,
                     height:height,
                     title:title,
@@ -1453,7 +1430,6 @@ Windows = function(me){
                         me.closeMinTask(id);
                     }
                 }).zindex();
-
 
 				/*art.dialog.open(url,*//** 弹出ART窗体*//*
 					{
@@ -1519,9 +1495,7 @@ appIcon_amg1 = appIcon_amg.extend({
 			appid:this.app.appid,
 			fileid : this.app.appid,
 			title:this.app.name,
-
             url: this.app.url,
-
 			uid :"app_"+this.app.appid
 		});
 		
@@ -1534,7 +1508,6 @@ appIcon_amg1 = appIcon_amg.extend({
             /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
-            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		
@@ -1563,7 +1536,6 @@ appIcon_amg1 = appIcon_amg.extend({
 		this.box.append(appIcon).append(nameDiv).append(notify).append(deleteDiv);
 	},
 	bindEvent:function(){
-
         this.box.click(function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -1576,7 +1548,6 @@ appIcon_amg1 = appIcon_amg.extend({
 
             appManagerPanel.hide();
             Desktop.show();
-
         });
 	}	
 		
@@ -1617,7 +1588,6 @@ appIcon_t1 = appIcon_t0.extend({
             /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
-            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		
@@ -1676,10 +1646,8 @@ appIcon_t2 = appIcon_t0.extend({
 			appid:this.sApp.appid,
 			fileid : this.sApp.appid,
 			title:this.sApp.name,
-
 			uid :"app_"+this.sApp.appid,
             url:this.sApp.url
-
 		});
 		
 		var appIcon =$("<div>",{
@@ -1688,10 +1656,8 @@ appIcon_t2 = appIcon_t0.extend({
 		});
 		appIcon.append($("<img>",{
 			alt:this.sApp.name ,
-
 //			src:'plug-in/sliding/icon/'+this.sApp.icon,
 			src:this.sApp.icon,
-
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.sApp.appid+'_'+this.sApp.asc+'_img'
 		
@@ -1733,13 +1699,10 @@ $(function() {
 //	dataFlush();
 	Desktop.init();
 	//替换icon的数组内容
-
 //	Deskpanel.init(iconjson).refresh();
 	Deskpanel.init(iconjson, true);
-
 	Sidebar.init({
 		location:'left',//初始化sidebar的位置为左侧
-
         Icon:defaultIconForSlider
 		/*Icon:[
 			'appmarket',
@@ -1749,14 +1712,12 @@ $(function() {
 			'internet',
 			'qq'
 		]*/
-
 	});
 	Navbar.init();//初始化导航条	
 	BottomBar.init();//初始化下部栏
 	appManagerPanel.init();//初始化全局桌面
 	
 });
-
 $(function(){
 	$(".fsb_resultList").live("click",function(){
 		
@@ -1770,7 +1731,6 @@ $(function(){
 		}
 		$(".fsb_resultList").hide();
 	})
-
 	  var mychangeskin=$.cookie("myskin");
 	
 	  if(mychangeskin)
@@ -1778,7 +1738,6 @@ $(function(){
 			 $("#zoomWallpaper").attr("src",mychangeskin);
 			 $.cookie("myskin",mychangeskin,cookieParam);//1为关掉浏览器不消失效果，0为消失
 		 }
-
 	
 });
 

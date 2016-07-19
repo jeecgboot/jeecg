@@ -21,7 +21,7 @@
 <t:datagrid name="jeecgDemoList" title="DEMO示例列表" autoLoadData="true" actionUrl="jeecgDemoController.do?datagrid"  fitColumns="true"
 	idField="id" fit="true" queryMode="group" checkbox="true" queryBuilder="true">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="用户名" field="userName" query="true" frozenColumn="true" extend="{style:{width:'300px';color:'red'};datatype:'*';}" width="120"></t:dgCol>
+	<t:dgCol title="用户名" field="userName" query="true" frozenColumn="true" extend="{style:{width:'300px';color:'red'};datatype:'*';}" defaultVal="小明" width="120"></t:dgCol>
 	<t:dgCol title="电话号码" sortable="false" field="mobilePhone" query="true"  width="120"></t:dgCol>
 	<t:dgCol title="办公电话" field="officePhone" width="120"></t:dgCol>
 	<t:dgCol title="创建日期" field="createDate" editor="datebox" formatter="yyyy-MM-dd hh:mm:ss" query="true" queryMode="group" width="200"></t:dgCol>

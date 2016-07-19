@@ -10,10 +10,8 @@
 	$(function() {
 		$('#cc').combotree({
 			url : 'functionController.do?setPFunction&selfId=${function.id}',
-
 			panelHeight: 200,
 			width: 157,
-
 			onClick: function(node){
 				$("#functionId").val(node.id);
 			}

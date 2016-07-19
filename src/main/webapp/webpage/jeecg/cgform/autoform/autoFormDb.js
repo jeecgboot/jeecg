@@ -20,7 +20,6 @@ function setFieldText(){
 		}
 	})
 }
-
 var autoFormParams={};//存储查询参数
 function storeParams(){
  	var paramNames=$("#add_autoFormParam_table").find("input[name$='paramName']");
@@ -59,7 +58,6 @@ function setParams(){
 	}
 }
 
-
 $(function(){
 	$("body").append("<link href=\"plug-in/lhgDialog/skins/default.css\" rel=\"stylesheet\" id=\"lhgdialoglink\">");
 	var $btn = $("<div class=\"ui_buttons\"  style=\"display:inline-block;padding:0px;\"><input style=\"position: relative;top: 0px;\" class=\"ui_state_highlight\" type=\"button\" value=\"sql解析\"  id=\"sqlAnalyze\" /></div>");
@@ -69,11 +67,9 @@ $(function(){
 		storeParams();
 		 $.ajax({
 		    url:"autoFormDbController.do?getFields",
-
 		    data:{sql:$("#dbDynSql").val(),
 		    	dbKey:$("#dbKey").val()},
 		    //data:{sql:$("#dbDynSql").val()},
-
 			type:"Post",
 		    dataType:"json",
 		    success:function(data){
@@ -277,7 +273,6 @@ function decode(value, id) {//value传入值,id接受值
 	var filename = value.substring(last + 1, value.length);
 	$("#" + id).text(decodeURIComponent(filename));
 }
-
 function getTableName(){
 	var sql=$("#dbDynSql").val().toLowerCase();
 	if(sql.length==0)
@@ -296,3 +291,4 @@ function getTableName(){
 		}
 	}
 }
+//<!--update-end--Author:zzl  Date:20151101 for：sql解析获取数据库表名填充数据源 -->

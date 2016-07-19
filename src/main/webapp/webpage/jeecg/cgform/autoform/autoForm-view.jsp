@@ -14,7 +14,6 @@
   				var url = "autoFormController.do?viewContent";
   				var param = $("#formobj").serialize();
   				url = url +"&"+param;
-
   				/* var tbDbKey = $("#tbDbKey").val();
   				if(tbDbKey!=''&&tbDbKey!=null){
   					url = url +"&"+tbDbKey;
@@ -23,7 +22,6 @@
   				if(dbKey!=''&&dbKey!=null){
   					url = url +"&"+dbKey;
   				}
-
                 window.open(url,'mywin',"menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" +(screen.availWidth-10) + ",height=" + (screen.availHeight-50) + "\"");
                 //document.formobj.action= "autoFormController.do?viewContent";
                 //document.formobj.submit();
@@ -39,9 +37,7 @@
  	<legend><t:mutiLang langKey="form.db.param.input"/></legend>
  	<t:formvalid formid="formobj" dialog="false" layout="table" action="autoFormController.do?viewContent" tiptype="1">
 		<input id="formName" name="formName" type="hidden" value="${autoFormPage.formName }">
-		<!--add-start--author: gengjiajia-start-date:20160615 for:#1110 添加支持多数据源的数据源名称参数  -->
 		<input id="dbKey" name="dbKey" type="hidden" value="${dbKey}">
-		<!--add-end--author: gengjiajia-end-date:20160615 for:#1110 添加支持多数据源的数据源名称参数  -->
 		<table cellpadding="0" cellspacing="1" class="formtable" style="width: 100%">
 		
 				<c:forEach items="${paramList}" var="poVal" varStatus="status">

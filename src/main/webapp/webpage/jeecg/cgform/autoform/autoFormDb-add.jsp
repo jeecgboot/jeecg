@@ -114,7 +114,6 @@
 							typeGroupCode="formDbType"  hasLabel="false"  title="form.db.type" defaultVal="sql"></t:dictSelect>     
 					<span class="Validform_checktip"></span>
 				</td>
-				<!--add-start--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 				<td align="center" width="100px">
 					<label class="Validform_label"><b><t:mutiLang langKey="动态数据源"/>:</b></label>
 				</td>
@@ -127,7 +126,6 @@
 					</select> 
 					<span class="Validform_checktip"></span>
 				</td>
-				<!--add-end--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 			</tr>
 			<tr id="dataSourceTr">
 				<td align="center">
@@ -194,7 +192,6 @@
 				</tr>
 			</table>
 		</div>
-		<!--add-end--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的处理逻辑 -->
 		<div style="margin-top: 5px;border: 1px solid #E6E6E6" id="sql_div" class="formdbdiv">
 			<table cellpadding="0" cellspacing="1" style="width: 100%">
 				<tr>

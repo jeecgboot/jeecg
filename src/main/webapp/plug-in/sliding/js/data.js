@@ -172,7 +172,6 @@
 		}
 	},
 	sApp:{//侧边栏应用
-
         /*'297e20104620167201462016b5fe001f':{
             appid:'297e20104620167201462016b5fe001f',
             icon:'plug-in/accordion/images/desk/user.png',
@@ -230,6 +229,5 @@
 			name:'互联网搜索',
 			asc :6
 		}*/
-
 	}
 };

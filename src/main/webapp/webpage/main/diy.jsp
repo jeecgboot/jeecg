@@ -1017,15 +1017,11 @@ fa fa-times
         url: "loginController.do?primaryMenuDiy",
         async:false,
         success: function (data) {
-
 //            $(".shortcut").html(data);
             $(".shortcut").html(data.replace(/\"/g,""));
-
         }
     });
-
     $(".shortcut li").eq(0).trigger("click");
-
     $("#nav").show();
     //var tabs = $( "#tabs" ).tabs();
 

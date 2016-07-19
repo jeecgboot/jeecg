@@ -19,7 +19,6 @@
 	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link>
     <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
     <script type="text/javascript">
-
 	$(function(){
 		//1.从参数中获取ID
 		var id = '';
@@ -37,7 +36,6 @@
 		});
 		
 		//2.2 绑定change事件,并填充字段
-
 		$("#datasource").change(function(){
 			var dbId = $(this).val();
 			$.post(
@@ -53,9 +51,7 @@
             if(this.value!='')
                 $G('orgname').value= $(this).find("option:selected")[0].text;
         });
-
 	});
-
     
 function createElement(type, name)
 {     
@@ -316,7 +312,6 @@ window.onload = function() {
 		if(arr1){
 			arr1= arr1.split('.');
 			var field = arr1[1]==null?'':arr1[1];
-
         	var id = '';
 			editor.ready(function() {
 				id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
@@ -331,7 +326,6 @@ window.onload = function() {
    					$('#field').val(field);
    					$("#datasource").val(arr1[0]);
    			});
-
 			//$G('datasource').value = arr1[0];
         	//$G('field').value = field;
         }
@@ -478,7 +472,6 @@ dialog.onok = function (){
 
 //longjinbo 增加支持系统字典
 var systemCache=null;
-
 function initCombox(val){
 	$('#selector').append('<option selected value="">请选择数据字典</option>');
 	var curl= "systemController.do?typeGroupGrid&field=id,typegroupname,typegroupcode";
@@ -504,7 +497,6 @@ function initCombox(val){
 $('#selector').change(function(){
 	onselectCode($(this).val());
 });
-
 function onselectCode(id){
 var curl= "systemController.do?typeGrid&field=id,typename,typecode&typegroupid="+id;
 $.ajax({

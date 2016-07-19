@@ -57,7 +57,6 @@ $('.userload').click(function(e) {
 		$('.userbox').hide();
 	});
 });
-
 $('#randCodeImage').click(function(){
     reloadRandCodeImage();
 });
@@ -69,7 +68,6 @@ function reloadRandCodeImage() {
     var img = document.getElementById("randCodeImage");
     img.src='randCodeImage?a=' + date.getTime();
 }
-
 // 重置
 $('#forgetpass').click(function(e) {
 	$(":input").each(function() {
@@ -125,9 +123,7 @@ function Login(orgId) {
 		 formData[this.name] =$("#"+this.name ).val();
 	});
     formData['orgId'] = orgId ? orgId : "";
-
 	formData['langCode']=$("#langCode").val();
-
 	formData['langCode'] = $("#langCode option:selected").val();
 	$.ajax({
 		async : false,
@@ -141,7 +137,6 @@ function Login(orgId) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				loginsuccess();
-
                 // todo zhanggm 没有处理多语言，暂时这样判断下吧
                 var title, okButton;
                 if($("#langCode").val() == 'en') {
@@ -179,7 +174,6 @@ function Login(orgId) {
                 } else {
                     setTimeout("window.location.href='"+actionurl+"'", 1000);
                 }
-
 			} else {
 				if(d.msg == "a"){
 					$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
@@ -215,14 +209,12 @@ function getCookie()
 	if (COOKIE_NAME !=null) {
 		$("input[iscookie='true']").each(function() {
 			$($("#"+this.name).val( $.cookie(this.name)));
-
             if("admin" == $.cookie(this.name)) {
                 $("#randCode").focus();
             } else {
                 $("#password").val("");
                 $("#password").focus();
             }
-
         });
 		$("#on_off").attr("checked", true);
 		$("#on_off").val("1");
@@ -231,9 +223,7 @@ function getCookie()
 	{
 		$("#on_off").attr("checked", false);
 		$("#on_off").val("0");
-
         $("#randCode").focus();
-
 	}
 }
 //点击消息关闭提示

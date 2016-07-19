@@ -35,6 +35,7 @@ function WebOffice1_NotifyCtrlReady() {
 		document.all.WebOffice1.LoadOriginalFile("", sFileType);
 	}
 }
+// ---------------------== 关闭页面时调用此函数，关闭文件 ==---------------------- //
 function window_onunload() {
 	document.all.WebOffice1.Close();
 }
@@ -48,12 +49,15 @@ function newDoc() {
 function docOpen() {
 	document.all.WebOffice1.LoadOriginalFile("open", "doc");
 }
+// -----------------------------== 保存文档 ==------------------------------------ //
 function newSave() {
 	document.all.WebOffice1.Save();
 }
+// -----------------------------== 另存为文档 ==------------------------------------ //
 function SaveAsTo() {
 	document.all.WebOffice1.ShowDialog(84);
 }
+// -----------------------------== 上传文档 ==------------------------------------ //
 function SaveDoc() {
 	var returnValue;
 	 if(myform.DocTitle.value ==""){

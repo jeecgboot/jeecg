@@ -96,8 +96,6 @@ function typeGridTree_UpdateType() {
 </t:datagrid>
 <input type="hidden" id="typeGroupId" name="typeGroupId" value="">
 --%>
-
-<%--// add-start--Author:zhangguoming  Date:20140928 for：数据字典修改--%>
 <div id="main_typegroup_list" class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid" idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="id" onLoadSuccess="loadSuccess">
@@ -148,4 +146,3 @@ function typeGridTree_UpdateType() {
         $('#userListpanel').empty();
     }
 </script>
-<%--// add-end--Author:zhangguoming  Date:20140928 for：数据字典修改--%>

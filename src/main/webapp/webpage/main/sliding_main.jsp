@@ -33,12 +33,10 @@
 //                var $script = $("script[src='plug-in/jquery/jquery-1.8.3.js']");
 //                $($script).remove();
 //                alert($script.attr("src"));
-
 			  $(".dock_tool_theme").live("click",function(){
 				  $("#themeSetting_wrap2").append("<div id='themeSetting_wrap' style='display:none;'></div>");
 				  $("#themeSetting_wrap").html($("#themeSetting_wrap1").html());
 				  $("#themeSetting_wrap").show();
-
 			  })
             });
         </script>

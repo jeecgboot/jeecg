@@ -30,14 +30,11 @@
 	 	$("#autoFormParam").load("autoFormDbController.do?autoFormParamList&id=${autoFormDbPage.id}"); 
 	 if($("#autoFormDbFieldForTable").length>0)
 	 	$("#autoFormDbFieldForTable").load("autoFormDbController.do?autoFormDbFieldForTableList&id=${autoFormDbPage.id}");
-
 	if($('#dbTableName').length > 0){
 		$('#dbTableName').change(function(){
 			$.ajax({
 				url:"autoFormDbController.do?getTableFields",
-
 			    data:{dbKey:$("#tbDbKey").val(),tableName:$("#dbTableName").val()},
-
 				type:"Post",
 			    dataType:"json",
 			    success:function(data){
@@ -57,7 +54,6 @@
 			});
 		});
 	}
-
 	  hideDataSourceAndDataTable();
   });
   function hideDataSourceAndDataTable(){
@@ -134,7 +130,6 @@
 						typeGroupCode="formDbType"  hasLabel="false"  title="form.db.type" defaultVal="${autoFormDbPage.dbType}"></t:dictSelect>     
 				<span class="Validform_checktip"></span>
 			</td>
-			<!--add-start--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 			<td align="center" width="100px">
 					<label class="Validform_label"><b><t:mutiLang langKey="动态数据源"/>:</b></label>
 				</td>
@@ -147,7 +142,6 @@
 					</select> 
 					<span class="Validform_checktip"></span>
 				</td>
-			<!--add-end--Author:gengjiajia  Date:20160616 for：#1110  添加动态数据源 -->
 		</tr>
 		<tr id="dataSourceTr">
 			<td align="right">
@@ -262,7 +256,6 @@
 					JAVA类配置
 				</div>
 			</c:if>
-			<!--add-end--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的处理逻辑 -->	
 			</t:formvalid>
 			<!-- 添加 附表明细 模版 -->
 		<table style="display:none">
@@ -337,7 +330,6 @@
 					</td>
 			</tr>
 		 </tbody>
-		 <!--add-end--Author:luobaoli  Date:20150621 for：新增数据源类型为“table”时的属性列表新增模块 -->
 		</table>
  </body>
  <script src = "webpage/jeecg/cgform/autoform/autoFormDb.js"></script>	

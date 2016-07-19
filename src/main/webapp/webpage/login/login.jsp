@@ -236,7 +236,6 @@
                 callback : function() {
                   iframe = this.iframe.contentWindow;
                   var orgId = $('#orgId', iframe.document).val();
-
                   formData['orgId'] = orgId ? orgId : "";
                   $.ajax({
               		async : false,
@@ -250,7 +249,6 @@
               			window.location.href = actionurl;
               		}
                   });
-
                   this.close();
                   return false;
                 }

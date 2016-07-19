@@ -61,7 +61,6 @@ function addTreeNode(title,addurl,gname) {
  * @param addurl//目标页面地址
  * @param id//主键字段
  */
-
 function update(title,url, id,width,height,isRestful) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
@@ -81,7 +80,6 @@ function update(title,url, id,width,height,isRestful) {
 	}
 	createwindow(title,url,width,height);
 }
-
 
 /**
  * 如果页面是详细查看页面，无效化所有表单元素，只能进行查看

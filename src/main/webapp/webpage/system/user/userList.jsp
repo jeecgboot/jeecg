@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-
-
-<%--update-start--Author:lijun  Date:20160301 for：组织机构查询条件修改为使用departSelect标签--%>
-<%--update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件--%>
 <script>
     $(function() {
         var datagrid = $("#userListtb");
@@ -30,7 +26,6 @@
     fit="true" fitColumns="true" idField="id" queryMode="group" sortName="id" sortOrder="desc">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="common.username" sortable="false" field="userName" query="true"></t:dgCol>
-    <%--update-start--Author:zhangguoming  Date:20140827 for：通过用户对象的关联属性值获取组织机构名称（多对多关联）--%>
 	<%--<t:dgCol title="common.department" field="TSDepart_id" query="true" replace="${departsReplace}"></t:dgCol>--%>
 	<t:dgCol title="common.department" sortable="false" field="userOrgList.tsDepart.departname" query="false"></t:dgCol>
 	<t:dgCol title="common.real.name" field="realName" query="false"></t:dgCol>
@@ -107,8 +102,6 @@ function lockuploadify(url, id) {
 	});
 }
 </script>
-
-<%--update-start--Author:zhangguoming  Date:20140827 for：添加 组织机构查询条件：弹出 选择组织机构列表 相关操作--%>
 <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" onClick="choose_297e201048183a730148183ad85c0001()">选择</a>--%>
 <%--<a href="#" class="easyui-linkbutton" plain="true" icon="icon-redo" onClick="clearAll_297e201048183a730148183ad85c0001();">清空</a>--%>
 <script type="text/javascript">

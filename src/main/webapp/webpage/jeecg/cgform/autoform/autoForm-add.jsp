@@ -42,23 +42,19 @@
 	  function initMainTableSourceSelect(){
 		  var ztree = $.fn.zTree.getZTreeObj("dbSelect");
 		  var node = ztree.getNodesByParam("pid", 0, null);
-
 		  var options = "<option value=''>请选择主数据源</option>";
 		  $.each(node,function(i,f){
 			  options += "<option value='"+f.dbCode+"'>"+f.name+"</option>";
 		  })
 		  $("#mainTableSource").html(options);
-
 	  }
 	 $(function(){
 		 $.fn.zTree.init($("#dbSelect"), setting, []);
 		 var styleDate = eval('${styleSelect}');
-
 		 var iconPath = "plug-in/ztree/css/img/diy/2.png";
 		 $(styleDate).each(function(i){
 			this.icon = iconPath;
 		 });
-
 		 $.fn.zTree.init($("#styleSelect"), stylesetting, styleDate);
 		 initMainTableSourceSelect();
 		 
@@ -636,6 +632,8 @@ var leipiFormDesign = {
 
 	        if(formEditor.hasContents()){
 	            formEditor.sync();/*同步内容*/
+
+	            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 	            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 
 	            if( typeof type!=='undefined' ){

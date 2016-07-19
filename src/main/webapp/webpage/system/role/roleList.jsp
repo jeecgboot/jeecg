@@ -39,7 +39,6 @@ function setfunbyrole(id,roleName) {
 	//$('#function-panel').panel("refresh" );
 	
 }
-
 function userListbyrole(id,roleName) {
 	$("#function-panel").panel(
 		{
@@ -50,7 +49,6 @@ function userListbyrole(id,roleName) {
 	//$('#function-panel').panel("refresh" );
 	
 }
-
 //删除角色
 function delRole(id){
 	var tabName= 'roleList';

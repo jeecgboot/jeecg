@@ -236,4 +236,4 @@ function addPortalPanels(portalState) {
 }
 //-->
 </script>
--end--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal组件 -->
+<!-- update-end--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal组件 -->

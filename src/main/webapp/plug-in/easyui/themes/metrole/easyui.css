@@ -857,9 +857,7 @@ a:hover.l-btn span.l-btn-left {
 }
 a:hover.l-btn-plain {
    /* padding: 0 5px 0 0; */
-  /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
   padding: 1px 6px 1px 1px;
-  /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
 
 }
 a:hover.l-btn-disabled {

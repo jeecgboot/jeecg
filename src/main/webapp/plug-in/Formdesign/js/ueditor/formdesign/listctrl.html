@@ -250,7 +250,6 @@ window.onload = function() {
    	editor.ready(function() {
     	 id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
  	});
-
    	
     if( UE.plugins[thePlugins].editdom ){
         oNode = UE.plugins[thePlugins].editdom;
@@ -360,7 +359,6 @@ window.onload = function() {
     } else {
     	  initDataSource(id);
     }
-
     //合计，强制选择 int
     $(".csum").click(function(){
         if($(this).attr("checked"))
@@ -404,9 +402,7 @@ dialog.onok = function (){
 	var datasource = $('#datasource').val();
     var gTitle = '',gColType = '' ,gUnitValue='' ,gSum = '' ,gColValue = '' ,
         nCount = 0,autofield='' ,isHide='' ,ruletype='',dict='',length='';
-
     rows_count = $('#tbl1 tr').length;
-
     
     for (var i = 1;i <= rows_count; i ++ ) {
         var oItem  = $G( "item_" + i ) ,
@@ -548,7 +544,6 @@ function initDataSource(id){
 				
    			}});
 }
-
 $(function(){
 	
 	//绑定change事件,并填充字段
@@ -606,7 +601,6 @@ function content(){
 	resetTrNum();
 	$(".delrow").click(function(){$(this).parent().parent().remove();resetTrNum();});
 }
-
 </script>
 </body>
 </html>

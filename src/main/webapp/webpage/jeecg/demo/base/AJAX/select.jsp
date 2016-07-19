@@ -25,11 +25,9 @@
 					if(pro)
 						window.top.$.messager.progress('close');
 					$('#demo').html(d.msg);
-
 					if(id=="ThreeLevelLinkage"){
 						init_select();
 					}
-
 				}
 			}
 		});

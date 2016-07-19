@@ -124,7 +124,7 @@ function browseFolder(path) {
 				<td class="value" colspan="3"><input class="inputxt" id="subTabParamIn[${columIndex.index}].ftlDescription" name="subTabParamIn[${columIndex.index}].ftlDescription" datatype="*"> <span
 					class="Validform_checktip"></span></td>
 
-				<td align="right">子包名((小写)):</td>
+				<td align="right">子包名(小写):</td>
 				<td class="value" colspan="3"><input class="inputxt" id="subTabParamIn[${columIndex.index}].entityPackage" name="subTabParamIn[${columIndex.index}].entityPackage" datatype="*"> <span
 					class="Validform_checktip"></span></td>
 

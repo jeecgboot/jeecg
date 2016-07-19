@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,autocomplete"></t:base>
-<!--add-start--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <script type="text/javascript">
 	$(function() {
 		$('#formtree').tree({
@@ -23,7 +22,6 @@
 		$("#tablePropertyList").datagrid('reload',{jformCategory:jformCategory});
 	}
 </script>
-<!--add-end--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <div class="easyui-layout" fit="true">
 <div region="west" style="width: 150px;" title="表单分类" split="true" collapsed="true">
 <div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false">
@@ -38,9 +36,7 @@
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="table.type" field="jformType" replace="single.table_1,master.table_2,slave.table_3" query="true"></t:dgCol>
 	<t:dgCol title="table.name" field="tableName" query="true" autocomplete="true" />
-	<!--add-start--Author:luobaoli  Date:20150607 for：增加表单分类展现-->
 	<t:dgCol title="form.category" field="jformCategory" dictionary="bdfl"></t:dgCol>
-	<!--add-end--Author:luobaoli  Date:20150607 for：增加表单分类展现-->
 	<t:dgCol title="table.description" field="content"></t:dgCol>
 	<t:dgCol title="common.version" field="jformVersion"></t:dgCol>
 	<t:dgCol title="is.tree" field="isTree" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
@@ -66,7 +62,6 @@
 	<t:dgToolBar title="js.enhance" icon="icon-edit" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>
 	<t:dgToolBar title="sql.enhance" icon="icon-edit" url="cgformButtonSqlController.do?addorupdate" funname="cgFormButtonSql"></t:dgToolBar>
 	<t:dgToolBar title="java.enhance" icon="icon-edit" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
-	<!--add-end--Author:luobaoli  Date:20150630 for：新增java增强按钮 -->
 	<t:dgToolBar title="form.export" icon="icon-putout" url="cgformSqlController.do?doMigrateOut" funname="doMigrateOut"></t:dgToolBar>
 	<t:dgToolBar title="form.import" icon="icon-put" url="cgformSqlController.do?inSqlFile" funname="toCgformMigrate"></t:dgToolBar>
 	<t:dgToolBar title="code.generate" icon="icon-add" url="generateController.do?gogenerate" funname="generate"></t:dgToolBar>
@@ -186,9 +181,7 @@
 	*/
 	function popMenuLink(tableName,content){
         $.dialog({
-
 			content: "url:cgFormHeadController.do?popmenulink&url=cgAutoListController.do?list&title="+tableName,
-
 			drag :false,
 			lock : true,
 			title:'<t:mutiLang langKey="common.menu.link"/>' + '['+content+']',

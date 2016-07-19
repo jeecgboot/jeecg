@@ -28,19 +28,16 @@ $(function(){
          data : {'action' :'edit','parseForm':html},
          success : function(msg){
              if(msg.success){
-
             	var d = msg.msg;
             	if(d != null && d != ''){
             		$('#preview').html(msg.msg.replace(new RegExp(/(&quot;)/g),"'"));
             	}
-
 			}else{
 				tip(msg.msg);
 			}
          }
      });
 });
-
 function parse_form(template,fields)
     {
 	//正则  radios|checkboxs|select 匹配的边界 |--|  因为当使用 {} 时js报错 (plugins|fieldname|fieldflow)
@@ -221,7 +218,6 @@ function parse_form(template,fields)
         'add_fields':add_fields//新增控件
     });
     return JSON.stringify(parse_form);
-
     }</script></body>
 		
 </html>

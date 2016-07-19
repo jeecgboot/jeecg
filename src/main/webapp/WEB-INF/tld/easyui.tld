@@ -1435,7 +1435,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>校验字段,默认为非空校验</description>
 		</attribute>
-		- Author:jg_xugj 许国杰  Date:20151209 for：增加只读属性 -->
 		<attribute>
 			<name>readonly</name>
 			<rtexprvalue>true</rtexprvalue>
@@ -1494,7 +1493,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
-		- Author:jg_renjie  Date:20160320 for：增加传入值 -->
 		<attribute>
 			<name>departId</name>
 			<required>false</required>
@@ -1539,7 +1537,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
-		- Author:wangkun  Date:20160327 for：增加传入值 -->
 		<attribute>
 			<name>userName</name>
 			<required>false</required>
