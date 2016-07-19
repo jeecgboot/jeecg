@@ -9,7 +9,7 @@
     <%@ page import="java.io.File"%>
     <%@ page import="java.io.FileOutputStream"%>
     <%@ page import="java.util.Date"%>
-    <%@ page import="weixin.guanjia.message.controller.Uploader" %>
+    <%@ page import="org.jeecgframework.core.servlet.Uploader" %>
 
     <%
     request.setCharacterEncoding("utf-8");

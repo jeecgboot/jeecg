@@ -136,24 +136,28 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v41">v3.6.5</a><code class="pull-right">2016.07.01</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v41">v3.6.5</a><code class="pull-right">2016.07.18</code>
                                     </h5>
                                 </div>
                                 <div id="v41" class="panel-collapse collapse in">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本云应用插件开发版本，支持以插件方式升级平台功能，让我们共同期待后续版本的到来</div>
                                         <ol>
-                                        	<li>Jeecg3.6.4稳定升级包，简化功能；</li>
-                                        	<li>我的邮箱采用插件开发实现；</li>
+                                        	<li>Jeecg3.6.4稳定升级版，精简功能；</li>
+                                        	<li>我的邮箱插件功能；</li>
                                             <li>用户锁定提示信息不准确修复；</li>
                                             <li>通过组织机构查看不到用户；</li>
-                                            <li>online生成器用户自定义模板支持；</li>
+                                            <li>Online代码生成器,支持自定义模板；</li>
+                                            <li>Online代码生成器,单表生成支持java增强、sql增强、js增强、自定义按钮、自定义操作；</li>
                                             <li>删掉 OpenLayers-2.11、我的邮箱，在线文档的功能；</li>
                                             <li>多数据源，数据库密码进行加密存储；</li>
-                                            <li>JEECG云应用平台中心发布：http://yun.jeecg.org </li>
+                                            <li>datagrid查询条件增加默认值属性；</li>
+                                            <li>百度UE编辑器，上传问题解决；</li>
+                                            <li>提供mysql、oracle11g、SqlServer2005脚本；</li>
                                             <li>插件发布：我的邮箱</li>
                                             <li>插件发布：CMS系统</li>
                                             <li>插件发布：微信企业号管理平台</li>
+                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
                                             <li>更多插件发布，敬请期待。。</li>
                                         </ol>
                                     </div>
