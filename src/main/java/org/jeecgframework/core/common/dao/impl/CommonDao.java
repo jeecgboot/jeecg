@@ -553,7 +553,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
             }
         }
 
-		curChildList.clear();
+		if(curChildList!=null){
+			curChildList.clear();
+		}
 
 		return tree;
 	}
