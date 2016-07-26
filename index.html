@@ -1,40 +1,28 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="jeecg : JEECG 微云快速开发平台">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>jeecg</title>
+    <meta charset="UTF-8">
+    <title>jeecg by zhangdaiscott</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">jeecg</h1>
+      <h2 class="project-tagline">JEECG 微云快速开发平台</h2>
+      <a href="https://github.com/zhangdaiscott/jeecg" class="btn">View on GitHub</a>
+      <a href="https://github.com/zhangdaiscott/jeecg/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/zhangdaiscott/jeecg/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/zhangdaiscott/jeecg">View on GitHub</a>
-
-          <h1 id="project_title">jeecg</h1>
-          <h2 id="project_tagline">JEECG 微云快速开发平台</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/zhangdaiscott/jeecg/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/zhangdaiscott/jeecg/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="jeecg-微云快速开发平台" class="anchor" href="#jeecg-%E5%BE%AE%E4%BA%91%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JEECG 微云快速开发平台</h1>
 
-<p>当前最新版本： 3.6（发布日期：20151204）</p>
+<p>当前最新版本： 3.6.5（发布日期：20160718）</p>
 
 <h2>
 <a id="前言" class="anchor" href="#%E5%89%8D%E8%A8%80" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>前言：</h2>
@@ -51,6 +39,11 @@
 <p>JEECG宗旨是: 简单功能由代Online Coding配置出功能;复杂功能由代码生成器生成进行手工Merge; 复杂流程业务采用表单自定义，业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量。</p>
 
 <h2>
+<a id="适用项目" class="anchor" href="#%E9%80%82%E7%94%A8%E9%A1%B9%E7%9B%AE" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>适用项目</h2>
+
+<p>JEECG快速开发平台，可以应用在任何J2EE项目的开发中，尤其适合企业信息管理系统（MIS）、内部办公系统（OA）、企业资源计划系统（ERP）、客户关系管理系统（CRM）等，其半智能手工Merge的开发方式，可以显著提高开发效率70%以上，极大降低开发成本；JEECG尤为显著的支持SAAS企业级应用开发，插件机制更好的支持了SAAS云应用需求。</p>
+
+<h2>
 <a id="为什么选择jeecg" class="anchor" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9jeecg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>为什么选择JEECG?</h2>
 
 <ul>
@@ -61,7 +54,7 @@
 <li>5.常用共通封装，各种工具类(定时任务,短信接口,邮件发送,Excel导出等),基本满足80%项目需求</li>
 <li>6.集成简易报表工具，图像报表和数据导出非常方便，可极其方便的生成pdf、excel、word等报表；</li>
 <li>7.集成工作流activiti，并实现了只需在页面配置流程转向，可极大的简化jbpm工作流的开发；用jbpm的流程设计器画出了流程走向，一个工作流基本就完成了，只需写很少量的java代码；</li>
-<li>8.UI快速开发库，针对WEB UI进行标准式封装，页面统一采用自定义标签实现功能：列表数据展现、页面校验等,标签使用简单清晰且便于维护</li>
+<li>8.UI标签库，针对WEB UI进行标准式封装，页面统一采用自定义标签实现功能：列表数据展现、页面校验等,标签使用简单清晰且便于维护</li>
 <li>9.在线流程设计，采用开源Activiti流程引擎，实现在线画流程,自定义表单,表单挂靠,业务流转</li>
 <li>10.查询过滤器：查询功能自动生成，后台动态拼SQL追加查询条件；支持多种匹配方式（全匹配/模糊查询/包含查询/不匹配查询）；</li>
 <li>11.多数据源：及其简易的使用方式，在线配置数据源配置，便捷的从其他数据抓取数据；</li>
@@ -74,19 +67,13 @@
 </ul>
 
 <h2>
-<a id="jeecg-适用范围" class="anchor" href="#jeecg-%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JEECG 适用范围</h2>
-
-<p>JEECG智能开发平台，可以应用在任何J2EE项目的开发中，尤其适合企业信息管理系统（MIS）、内部办公系统（OA）、企业资源计划系统（ERP）
-、客户关系管理系统（CRM）等，其半智能手工Merge的开发方式，可以显著提高开发效率60%以上，极大降低开发成本。</p>
-
-<h2>
 <a id="jeecg-功能特点" class="anchor" href="#jeecg-%E5%8A%9F%E8%83%BD%E7%89%B9%E7%82%B9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JEECG 功能特点</h2>
 
 <ul>
-<li>  SpringMvc + Hibernate + UI标签库 + Minidao + Easyui + Easypoi + Highcharts + Ehcache 等基础架构</li>
+<li>  采用SpringMVC + Hibernate + Minidao(类Mybatis) + Easyui(UI库)+ Jquery + Boostrap + Ehcache + Redis + Ztree等基础架构</li>
 <li><p>采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、
 表单处理等功能，再配合Online Coding在线开发与代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少80%以上。</p></li>
-<li><p>JEECG V3.6 版本技术点总结:</p></li>
+<li><p>JEECG 技术点总结:</p></li>
 <li><p><b>技术点一：</b>Online Coding在线开发(通过在线配置实现一个表模型的增删改查功能，无需一行代码，支持用户自定义表单布局) </p></li>
 <li>  <b>技术点二：</b>代码生成器，支持多种数据模型,根据表生成对应的Entity,Service,Dao,Action,JSP等,增删改查功能生成直接使用</li>
 <li>  <b>技术点三：</b>UI快速开发库，针对WEB UI进行标准封装，页面统一采用UI标签实现功能：数据datagrid,表单校验,Popup,Tab等，实现JSP页面零JS，开发维护非常高效</li>
@@ -100,8 +87,11 @@
 <li>  <b>技术点十一：</b>多数据源（在线配置数据源，数据源工作类封装）</li>
 <li>  <b>技术点十二：</b>多种首页风格切换,支持自定义首页风格。（经典风格、Shortcut风格、ACE bootstrap风格、云桌面风格）</li>
 <li>  <b>技术点十三：</b>在线配置报表（无需编码，通过在线配置方式，实现曲线图，柱状图，数据等报表）</li>
-<li><p><b>技术点十四：</b>简易Excel导入导出，支持单表导出和一对多表模式导出，生成的代码自带导入导出功能</p></li>
-<li><p>JEECG V3.6, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</p></li>
+<li>  <b>技术点十四：</b>简易Excel导入导出，支持单表导出和一对多表模式导出，生成的代码自带导入导出功能</li>
+<li>  <b>技术点十五：</b>移动OA，移动OA审批功能，采用H5技术，实现手机移动办公，无缝对接微信、钉钉、微信企业号、也可以做APP</li>
+<li>  <b>技术点十六：</b>移动图表，在线配置移动报表，采用H5技术，可以手机端查看</li>
+<li><p><b>技术点十七：</b>插件开发，业务功能组件以插件方式集成平台，也可以单独部署发发布，有力支撑了SAAS云应用系统需求</p></li>
+<li><p>JEECG V3.6.4, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</p></li>
 <li>  支持多种浏览器: IE, 火狐, Google 等</li>
 <li>  支持数据库: Mysql,Oracle10g,Postgre,SqlServer等</li>
 <li>  基础权限: 用户，角色，菜单权限，按钮权限，数据权限</li>
@@ -112,28 +102,121 @@
 </ul>
 
 <h2>
+<a id="技术文档" class="anchor" href="#%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>技术文档</h2>
+
+<ul>
+<li><a href="http://blog.csdn.net/zhangdaiscott/article/details/50915206">JEECG 开发环境搭建入门</a></li>
+<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=197&amp;extra=page%3D1">JEECG 开发入门视频</a></li>
+<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=1830&amp;extra=page%3D1">JEECG 入门常见问题</a></li>
+<li>在线演示地址：<a href="http://demo.jeecg.org">http://demo.jeecg.org</a>
+</li>
+<li>JEECG 云平台插件下载中心：<a href="http://yun.jeecg.org">http://yun.jeecg.org</a>
+</li>
+<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=1229&amp;extra=page%3D1">JEECG更多版本下载地址</a></li>
+<li>不熟悉maven的同学，直接下载 =&gt; <a href="http://git.oschina.net/jeecg/jeecg-no_maven">myeclipse非maven版本</a>
+</li>
+<li>maven依赖下载有问题的，可以直接下载官方提供的 =&gt; <a href="http://git.oschina.net/jeecg/jeecg-local-maven">JEECG本地Maven仓库</a>
+</li>
+</ul>
+
+<h2>
+<a id="jeecg云插件中心" class="anchor" href="#jeecg%E4%BA%91%E6%8F%92%E4%BB%B6%E4%B8%AD%E5%BF%83" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JEECG云插件中心</h2>
+
+<ul>
+<li>JEECG从V_3.6.3版本开始，采用插件开发模式，JEECG走简化轻量级路线，后续升级和功能模块，采用插件开发模式，进行集成。</li>
+<li>更多插件下载地址：<a href="http://yun.jeecg.org">http://yun.jeecg.org/</a>
+<img src="http://img.blog.csdn.net/20160623162220022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+</li>
+</ul>
+
+<h2>
+<a id="技术交流" class="anchor" href="#%E6%8A%80%E6%9C%AF%E4%BA%A4%E6%B5%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>技术交流</h2>
+
+<ul>
+<li>  作者：<a href="http://blog.csdn.net/zhangdaiscott">张代浩</a>
+</li>
+<li>  QQ交流群： 176031980、106838471（满）、106259349（满）</li>
+</ul>
+
+<h2>
+<a id="社区荣誉" class="anchor" href="#%E7%A4%BE%E5%8C%BA%E8%8D%A3%E8%AA%89" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>社区荣誉</h2>
+
+<ul>
+<li><p>开源社区：<a href="http://www.jeecg.org">http://www.jeecg.org</a></p></li>
+<li><p>★2012年JEECG在Google Code上开源;</p></li>
+<li>★2012年底开源项目JEECG被"ITeye专家访谈";</li>
+<li>★2012年底开源项目JEECG被"CSDN专家访谈";</li>
+<li>★2013年应邀参加"第八届开源中国开源世界高峰论坛"（该论坛由中国开源软件推进联盟主办、全球最大中文IT社区CSDN与程序员杂志协办）；</li>
+<li>★2013年应邀参加"开源群英会2013”的开源英雄;</li>
+<li>★2013年度中国优秀开源项目评选-公开投票,“JEECG以887票位居第九"（该项目中国开源软件推进联盟主办、全球最大中文IT社区CSDN与程序员杂志协办）；</li>
+<li>★2013年度成立JEECG开源团队，创立JEECG开源社区;</li>
+<li>★2013年度JEECG参加“云计算成就创业梦想”第二届阿里云开发者大赛";</li>
+<li>★2013年度应邀参加了"SDCC 2013中国软件开发者大会" （大会由CSDN和《程序员》杂志倾力打造）</li>
+<li>★2013年下半年推出开源项目"MiniDao(持久层解决方案）"超越了Mybatis和Hibernate；</li>
+<li>★2014年5月应邀参加中国科学院大学创新创业年度论坛，探讨“创业企业发展、创新创业孵化”的主题，成为中国科学院大学创新创业和风险投资协会副会长。</li>
+<li>★2014年推出当前最火的开源项目“JeeWx(捷微:敏捷微信开发平台）”，并获得CSDN举办的“2014年开发者大会”公开投票第一名</li>
+<li>★2014年8月份捷微jeewx2.0与百度达成战略合作，集成百度地图，增加地图功能，附近商家团购等信息搜索。</li>
+<li>★2014年12月份捷微jeewx与联通集团达成战略合作，负责联通集团微信公众账号集团化运营。</li>
+<li>★2015年3月份捷微jeewx推出集团化微信运营版本，专注微信应用一体化，企业系统集成，实现公众账号上下级，类似组织机构权限模式。</li>
+<li>★2015年6月份捷微jeewx推出集企业号版本，与中国移动打成战略合作，推出企业号营销新模式。</li>
+<li>★2015开源中国最火开源项目,TOP5独占2位(jeewx\jeecg),TOP50占4位（jeewx\jeecg\easypoi\jeewx-api) </li>
+<li>★2016年2月JEECG推出移动能力版本，在线配置移动报表，在线配置移动表单，微信OA一体化集成</li>
+<li>★2016年3月JEECG插件开发机制，采用插件方式为用户提供插件服务，目前插件：OA、微信企业号、文档云盘</li>
+<li>★2016年4月捷微H5活动平台与微盟达成战略合作伙伴</li>
+</ul>
+
+<h2>
 <a id="系统演示" class="anchor" href="#%E7%B3%BB%E7%BB%9F%E6%BC%94%E7%A4%BA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>系统演示</h2>
 
-<p>平台提供首页风格，支持自定义：经典风格|Shortcut风格|ACE bootstrap风格|云桌面风格
+<h3>
+<a id="1多套首页风格支持自定义bootstrap风格云桌面风格经典风格shortcut风格等" class="anchor" href="#1%E5%A4%9A%E5%A5%97%E9%A6%96%E9%A1%B5%E9%A3%8E%E6%A0%BC%E6%94%AF%E6%8C%81%E8%87%AA%E5%AE%9A%E4%B9%89bootstrap%E9%A3%8E%E6%A0%BC%E4%BA%91%E6%A1%8C%E9%9D%A2%E9%A3%8E%E6%A0%BC%E7%BB%8F%E5%85%B8%E9%A3%8E%E6%A0%BCshortcut%E9%A3%8E%E6%A0%BC%E7%AD%89" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[1].多套首页风格，支持自定义（Bootstrap风格|云桌面风格|经典风格|Shortcut风格等）</h3>
+
+<p><img src="http://img.blog.csdn.net/20160428121122932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
 <img src="http://img.blog.csdn.net/20150607214324659?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
 <img src="http://img.blog.csdn.net/20150607214353113?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg"></p>
 
-<p>自定义表单设计布局效果
-<img src="http://www.jeecg.org/data/attachment/forum/201512/17/175056vgzo2j2thph29jdp.jpg" alt="github" title="jeecg">
+<h3>
+<a id="2表单自定义设计效果" class="anchor" href="#2%E8%A1%A8%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E8%AE%A1%E6%95%88%E6%9E%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[2].表单自定义设计效果</h3>
+
+<p><img src="http://www.jeecg.org/data/attachment/forum/201512/17/175056vgzo2j2thph29jdp.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201512/17/175135xq9fwiun3pi6i4e6.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201512/17/175152r6eg2f15g58jzzej.png" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201512/17/175103v1r87337prnfr1du.jpg" alt="github" title="jeecg"></p>
+
+<h3>
+<a id="3报表演示" class="anchor" href="#3%E6%8A%A5%E8%A1%A8%E6%BC%94%E7%A4%BA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[3].报表演示</h3>
 
 <p><img src="http://img.blog.csdn.net/20150607222027195?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
 <img src="http://img.blog.csdn.net/20150607214724128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
 <img src="http://img.blog.csdn.net/20150607221941932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
 <img src="http://img.blog.csdn.net/20150607214807402?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg"></p>
 
+<h3>
+<a id="4移动报表演示" class="anchor" href="#4%E7%A7%BB%E5%8A%A8%E6%8A%A5%E8%A1%A8%E6%BC%94%E7%A4%BA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[4].移动报表演示</h3>
+
+<p><img src="http://img.blog.csdn.net/20160304140805046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160304140809176?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160304140812389?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160304140820202?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160304140823843?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg"></p>
+
+<h3>
+<a id="5流程组件演示" class="anchor" href="#5%E6%B5%81%E7%A8%8B%E7%BB%84%E4%BB%B6%E6%BC%94%E7%A4%BA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[5].流程组件演示</h3>
+
 <p><img src="http://www.jeecg.org/data/attachment/forum/201303/02/123311mf9fa22tv69b228f.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201303/02/123412x003euegeg7nb68z.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201303/02/124748gyhrgvr45vshyc82.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201303/02/123428ubcjjnuwjbkjrnrw.jpg" alt="github" title="jeecg">
 <img src="http://www.jeecg.org/data/attachment/forum/201303/02/124749up2j5id7gj9kppp8.jpg" alt="github" title="jeecg"></p>
+
+<h3>
+<a id="6移动oa演示" class="anchor" href="#6%E7%A7%BB%E5%8A%A8oa%E6%BC%94%E7%A4%BA" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[6].移动OA演示</h3>
+
+<p><img src="http://img.blog.csdn.net/20160303175110494?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160303175124104?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160303175134698?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160303175138713?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg">
+<img src="http://img.blog.csdn.net/20160303175149042?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="github" title="jeecg"></p>
 
 <h2>
 <a id="代码示例" class="anchor" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>代码示例</h2>
@@ -164,38 +247,14 @@
 &lt;/div&gt;
 </code></pre>
 
-<h2>
-<a id="技术文档" class="anchor" href="#%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>技术文档</h2>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/zhangdaiscott/jeecg">jeecg</a> is maintained by <a href="https://github.com/zhangdaiscott">zhangdaiscott</a>.</span>
 
-<ul>
-<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=2537&amp;extra=page%3D1">JEECG 开发入门搭建文档（Maven版）</a></li>
-<li><a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=197&amp;extra=page%3D1">JEECG 开发入门视频</a></li>
-<li><a href="http://demo.jeecg.org">JEECG 在线演示</a></li>
-<li><a href="http://www.jeecg.org">JEECG 技术论坛 - 更多资料</a></li>
-</ul>
-
-<h2>
-<a id="技术交流" class="anchor" href="#%E6%8A%80%E6%9C%AF%E4%BA%A4%E6%B5%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>技术交流</h2>
-
-<ul>
-<li>  作者：<a href="http://www.jeecg.org/forum.php?mod=viewthread&amp;tid=1047">张代浩</a>
-</li>
-<li>  邮箱：<a href="mailto:jeecg@sina.com">jeecg@sina.com</a>
-</li>
-<li>  QQ交流群： 106838471（二群）、106259349（一群）</li>
-</ul>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">jeecg maintained by <a href="https://github.com/zhangdaiscott">zhangdaiscott</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
