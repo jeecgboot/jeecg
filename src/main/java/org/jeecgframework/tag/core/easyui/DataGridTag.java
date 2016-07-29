@@ -460,7 +460,7 @@ public class DataGridTag extends TagSupport {
 			
 			out = this.pageContext.getOut();
 //			String indexStyle =null;
-//-----author:jg_longjb----start-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
+
 //			Cookie[] cookies = ((HttpServletRequest) super.pageContext
 //					.getRequest()).getCookies();
 //			for (Cookie cookie : cookies) {
@@ -479,7 +479,7 @@ public class DataGridTag extends TagSupport {
 					out.print(end().toString());
 					out.flush();
 //				}
-//-----author:jg_longjb----end-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
+
 			}else{
 				out.print(datatables().toString());
 				out.flush();
@@ -754,7 +754,8 @@ public class DataGridTag extends TagSupport {
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
-			sb.append("if($(\"#"+name+"Form\").Validform({tiptype:3}).check()){");
+			sb.append("try { if(! $(\"#"+name+"Form\").Validform({tiptype:3}).check()){return false;} } catch (e){}");
+			sb.append("if(true){");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
 			sb.append("var queryParams=$(\'#" + name + "\').datagrid('options').queryParams;");
 			sb.append("$(\'#" + name + "tb\').find('*').each(function(){queryParams[$(this).attr('name')]=$(this).val();});");
@@ -1307,14 +1308,14 @@ public class DataGridTag extends TagSupport {
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
 				}
-				//author:xugj-----start-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
+
 				else if(column.getShowLen()!=null){ //设置了显示多少长度的
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" if(value==undefined) {return ''} ");
 					sb.append(" if(value.length<=");sb.append(column.getShowLen());sb.append(") {return value}");
 					sb.append(" else{ return '<a title= '+value+'>'+ value.substring(0,");sb.append(column.getShowLen());sb.append(")+'...';}}");
 				}
-				//author:xugj-----end-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
+
 				else if (columnValueList.size() > 0 && !column.getField().equals("opt")) {// 值替換
 					String testString = "";
 					for (ColumnValue columnValue : columnValueList) {
@@ -1574,7 +1575,6 @@ public class DataGridTag extends TagSupport {
 		this.langArg = langArg;
 	}
 
-	//-----author:jg_longjb----start-----date:20150408--------for:新增ace 界面下的button class样式
 	public StringBuffer aceStyleTable() {
 		String grid = "";
 		StringBuffer sb = new StringBuffer();
@@ -1876,10 +1876,7 @@ public class DataGridTag extends TagSupport {
 		}
 		return sb;
 	}
-	//-----author:jg_longjb----end-----date:20150408--------for:新增封装查询器组件-
-	
-	
-	//-----author:jg_longjb----start-----date:20150427--------for:新增高级查询器queryBuilder
+
 	private void appendLine(StringBuffer sb,String str) {
 		String format = "\r\n"; //调试  格式化
 		sb.append(str).append(format);
@@ -2239,5 +2236,5 @@ appendLine(sb,"					}}\">关系</th>");
 		}
 		return sb.toString();
 	}
-//----author:jg_longjb----start-----date:20150427--------for:新增封装查询器组件----
+
 }

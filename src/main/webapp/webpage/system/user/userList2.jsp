@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<t:base type="jquery,easyui,tools"></t:base>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding:0px;border:0px">
 	<t:datagrid name="userList2" title="用户管理" actionUrl="userController.do?datagrid" idField="id" fit="true">
@@ -14,14 +14,16 @@
 		<t:dgDelOpt title="删除" url="userController.do?del&id={id}&userName={userName}" />
 	</t:datagrid>
 
-   <div id="userListtb" style="padding: 3px; height: 25px">
+   <!-- 列表自定义查询条件 -->
+   <div id="userList2tb" style="padding: 3px; height: 25px">
 	<div style="float: left;">
 		<a href="#" id="add" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="add('用户录入','userController.do?addorupdate','userList2')">用户录入</a> 
-		<a href="#" class="update" plain="true" icon="icon-edit" onclick="update('用户编辑','userController.do?addorupdate','userList2')">用户编辑</a></div>
+		<a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('用户编辑','userController.do?addorupdate','userList2')">用户编辑</a></div>
 	<div align="right">
 		用户名: <input class="easyui-validatebox" name="userName" style="width: 80px"> 
 		真实姓名: <input class="easyui-validatebox" name="realName" style="width: 80px"> 
-		<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="userListsearch();">查询</a>
+		<a href="#" id="" class="easyui-linkbutton" iconCls="icon-search" onclick="userList2search();">查询</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchReset('userList2');">重置</a>
 	</div>
    </div>
 </div>
@@ -31,4 +33,11 @@
 	function szqm(id) {
 		createwindow('设置签名', 'userController.do?addsign&id=' + id);
 	}
+	 //回车触发查询
+	 $("body").keydown(function() {
+		 //keyCode=13是回车键
+         if (event.keyCode == "13") {
+        	 userList2search();
+         }
+     });
 </script>
