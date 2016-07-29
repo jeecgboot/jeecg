@@ -281,6 +281,18 @@ function showTable(data) {
 			}
 		});
 		for(key in total) {
+					//增加合计部分的计算比率的功能
+        	if(key.indexOf('=') != -1)
+            		{
+				var lx_paras=key.split('=');
+				var lx_key=lx_paras[0];
+				var lx_divids=lx_paras[1].split('/');
+				var lx_dividend = lx_divids[0];
+				var lx_divisor = lx_divids[1];
+
+				total[lx_key]= "合计：" + (100*(total[lx_dividend]).split("：")[1]/(total[lx_divisor]).split("：")[1]).toFixed(2)+'%';
+
+        		}
 			total[key] = "合计：" + total[key];
 		}
 		footer = [total];
