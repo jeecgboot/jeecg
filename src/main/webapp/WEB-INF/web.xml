@@ -6,7 +6,7 @@
 	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg-3.6.5</param-value>
+		<param-value>jeecg-3.6.6</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -212,7 +212,7 @@
 	<!-- 404错误页面 -->
     <error-page>
         <error-code>404</error-code>
-        <location>/webpage/common/404.jsp</location>
+        <location>/webpage/common/404.htm</location>
     </error-page>
 	<session-config>
 		<session-timeout>30</session-timeout>

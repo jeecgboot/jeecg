@@ -7,8 +7,8 @@
     <t:dgCol title="规则条件" field="ruleConditions" width="50"></t:dgCol>
     <t:dgCol title="规则值" field="ruleValue" width="50"></t:dgCol>
     <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-	<t:dgDelOpt url="functionController.do?delrule&id={id}" title="common.delete"></t:dgDelOpt>
-	<t:dgFunOpt funname="editoperation(id,operationname)" title="common.edit"></t:dgFunOpt>
+	<t:dgDelOpt url="functionController.do?delrule&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
+	<t:dgFunOpt funname="editoperation(id,operationname)" title="common.edit" urlclass="ace_button"  urlfont="fa-edit"></t:dgFunOpt>
 	<t:dgToolBar title="common.add.param" langArg="common.operation" icon="icon-add" url="functionController.do?addorupdaterule&functionId=${functionId}" funname="add"></t:dgToolBar>
 	</t:datagrid>
 <script type="text/javascript">

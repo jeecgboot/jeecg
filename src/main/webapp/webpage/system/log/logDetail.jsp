@@ -8,12 +8,11 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true">
-	<fieldset class="step"><legend> <%-- <t:mutiLang langKey="common.loginfo"/> --%> 日志详情</legend>
+	<fieldset class="step">
 	
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.username"/> --%>操作人:${tsLog.TSUser.userName } </label>
+	<div class="form"><label class="form"> 操作人:${tsLog.TSUser.userName } </label>
 	 </div>
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.logtype"/> --%>日志类型: </label>
-	   <!-- 以后再统一由数据字典维护  fangwenrong-->
+	<div class="form"><label class="form"> 日志类型: </label>
 	   <c:if test="${tsLog.operatetype==1}"><t:mutiLang langKey="common.login"/></c:if>
 	   <c:if test="${tsLog.operatetype==2}"><t:mutiLang langKey="common.logout"/></c:if>
 	   <c:if test="${tsLog.operatetype==3}"><t:mutiLang langKey="common.insert"/></c:if>
@@ -23,8 +22,7 @@
 	   <c:if test="${tsLog.operatetype==7}"><t:mutiLang langKey="common.other"/></c:if>
 	</div>
 	<div class="form"><label class="form"> <t:mutiLang langKey="log.content"/>: </label> ${tsLog.logcontent }</div>
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.loglevel"/> --%>日志等级: </label>
-	   <!-- 以后再统一由数据字典维护  fangwenrong-->
+	<div class="form"><label class="form"> 日志等级: </label>
 	   <c:if test="${tsLog.loglevel==1}">INFO</c:if>
 	   <c:if test="${tsLog.loglevel==2}">WARRING</c:if>
 	   <c:if test="${tsLog.loglevel==3}">ERROR</c:if>

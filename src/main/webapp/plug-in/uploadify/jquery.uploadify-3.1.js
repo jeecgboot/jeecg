@@ -2185,23 +2185,29 @@ SWFUpload.Console.writeLine = function(d) {
 			for ( var n in this.queueData.files) {
 				queuedFile = this.queueData.files[n];
 				if (queuedFile.uploaded != true && queuedFile.name == file.name) {
-					var replaceQueueItem = confirm('The file named "'
-							+ file.name
-							+ '" is already in the queue.\nDo you want to replace the existing item in the queue?');
-					if (!replaceQueueItem) {
-						this.cancelUpload(file.id);
-						this.queueData.filesCancelled++;
-						return false;
-					} else {
+//					var replaceQueueItem = confirm('The file named "'
+//							+ file.name
+//							+ '" is already in the queue.\nDo you want to replace the existing item in the queue?');
+//					if (!replaceQueueItem) {
+//						this.cancelUpload(file.id);
+//						this.queueData.filesCancelled++;
+//						return false;
+//					} else {
 						$('#' + queuedFile.id).remove();
 						this.cancelUpload(queuedFile.id);
 						this.queueData.filesReplaced++;
-					}
+//					}
 				}
 			}
 
 			// Get the size of the file
-			var fileSize = Math.round(file.size / 1024);
+			var fileSize ;
+			if(file.size < 1024){
+				fileSize = Math.round(1024 / 1024);
+			}else{
+				fileSize = Math.round(file.size / 1024);
+			}
+			//var fileSize = Math.round(file.size / 1024);
 			var suffix = 'KB';
 			if (fileSize > 1000) {
 				fileSize = Math.round(fileSize / 1000);

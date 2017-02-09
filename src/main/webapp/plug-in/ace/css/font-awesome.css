@@ -15,6 +15,9 @@
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
+/* 	//update-begin--Author:zhangjq  Date:20160904 for：图标与文字出现部分重叠  */
+  padding-right: 0.25em;
+  /* 	//update-end--Author:zhangjq  Date:20160904 for：图标与文字出现部分重叠  */
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

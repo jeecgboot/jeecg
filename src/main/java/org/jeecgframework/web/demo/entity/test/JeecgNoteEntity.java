@@ -21,7 +21,7 @@ import javax.persistence.SequenceGenerator;
  *
  */
 @Entity
-@Table(name = "jg_person", schema = "")
+@Table(name = "jeecg_demo_person", schema = "")
 @SuppressWarnings("serial")
 public class JeecgNoteEntity implements java.io.Serializable {
 	/**id*/

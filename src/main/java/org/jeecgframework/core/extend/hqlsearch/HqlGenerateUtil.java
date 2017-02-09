@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.annotation.query.QueryTimeFormat;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.common.QueryCondition;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
@@ -25,7 +26,6 @@ import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.demo.entity.test.QueryCondition;
 import org.jeecgframework.web.system.pojo.base.TSDataRule;
 import org.springframework.util.NumberUtils;
 
@@ -142,19 +142,17 @@ public class HqlGenerateUtil {
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
 						HqlRuleEnum rule = PageValueConvertRuleEnum.convert(value);
-
+						
 //						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))&&!"class java.lang.Integer".contains(type)){
 //							value="*%"+String.valueOf(value.toString())+"%*";
 //						} else {
 //							rule = HqlRuleEnum.EQ;
 //						}
-
 						
 						value = PageValueConvertRuleEnum.replaceValue(rule,
 								value);
 						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
 					} else if (parameterMap != null) {
-
 						Object beginValue_=null , endValue_ =null;
 						if ("class java.lang.Integer".equals(type)) {
 							if(!"".equals(beginValue)&&null!=beginValue)
@@ -233,7 +231,7 @@ public class HqlGenerateUtil {
 						// for：用户反馈
 						cq.createAlias(aliasName,
 								aliasName.replaceAll("\\.", "_"));
-						// ------------end--Author:JueYue Date:20140521 for：用户反馈
+
 						installHqlJoinAlias(cq, param, ruleMap, parameterMap,
 								aliasName);
 					}
@@ -289,7 +287,7 @@ public class HqlGenerateUtil {
 	}
 
 	private static String converRuleValue(String ruleValue) {
-		//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+
 		//这个方法建议去掉，直接调用ResourceUtil.converRuleValue(ruleValue)
 		String value = ResourceUtil.converRuleValue(ruleValue);
 		return value!= null ? value : ruleValue;
@@ -491,7 +489,7 @@ public class HqlGenerateUtil {
 
 						// for：用户反馈
 						cq.createAlias(aliasName, aliasName.replaceAll("\\.", "_"));
-						// ------------end--Author:JueYue Date:20140521 for：用户反馈
+
 						getDataAuthorConditionHql(cq, param);
 					}
 				}

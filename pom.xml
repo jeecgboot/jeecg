@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.6.5</version>
+	<version>3.6.6</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,7 +11,6 @@
         <minidao.version>1.6-SNAPSHOT</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
-		<!-- 主要依赖库的版本定义 -->
 		<spring.version>4.0.9.RELEASE</spring.version>
 		<hibernate.version>4.1.0.Final</hibernate.version>
 		<hibernate-common-annotations.version>4.0.2.Final</hibernate-common-annotations.version>
@@ -45,7 +44,7 @@
 		<commons-beanutils.version>1.7.0</commons-beanutils.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-chain.version>1.2</commons-chain.version>
-		<commons-codec.version>1.3</commons-codec.version>
+		<commons-codec.version>1.6</commons-codec.version>
 		<commons-digester.version>2.0</commons-digester.version>
 		<commons-io.version>1.3.2</commons-io.version>
 		<commons-fileupload.version>1.2.1</commons-fileupload.version>
@@ -71,7 +70,7 @@
 		<druid.version>0.2.9</druid.version>
         <mysql.version>5.1.27</mysql.version>
         <!-- sqlserver2005 -->
-        <sqlserver.version>1.0.0</sqlserver.version>
+        <sqlserver.version>4.0</sqlserver.version>
         <!-- oracle -->
         <ojdbc14.version>10.2.0.5.0</ojdbc14.version>
         <!-- jtds for mssql/db2 -->
@@ -120,49 +119,6 @@
 				<enabled>true</enabled>
 			</snapshots>
         </repository>
-		<repository>
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>http://repo.maven.apache.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>sonatype-snapshots</id>
-			<name>sonatype-snapshots</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>spy</id>
-			<name>Spy Repository</name>
-			<url>http://files.couchbase.com/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>xerces</id>
-			<name>xerces</name>
-			<url>https://xerces.apache.org/xerces2-j/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>proxool</id>
-			<name>proxool</name>
-			<url>http://proxool.cvs.sourceforge.net/viewvc/proxool/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
     </repositories>
 
 	<dependencies>
@@ -401,44 +357,49 @@
 			<version>${druid.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		<!--  mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!--  sqlserver
 		<dependency>
-			<groupId>org.jeecgframework</groupId>
-			<artifactId>jdbc2005</artifactId>
-			<version>${sqlserver.version}</version>
-			<scope>runtime</scope>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>${sqlserver.version}</version>
 		</dependency>
+		-->
+		<!--  oracle
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>${ojdbc14.version}</version>
-        </dependency>
-        <!-- jtds for mssql/db2 -->
+        </dependency>-->
+        <!-- jtds for mssql/db2 
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
 			<version>${jtds.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-        <!-- h2 -->
+		-->
+        <!-- h2 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- postgresql -->
+        -->
+        <!-- postgresql 
         <dependency>
             <groupId>org.jeecgframework</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+        -->
         <!-- 数据库相关依赖包 _end -->
 
 		<!-- WEB begin -->
@@ -941,12 +902,18 @@
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-ui</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1.2</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.p3framework</groupId>
+			<artifactId>jeecg-p3-bizcore</artifactId>
+			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
 		<!-- 插件demo -->
@@ -955,6 +922,7 @@
 			<artifactId>jeecg-p3-biz-demo</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		
 		<!-- 插件: 我的邮箱 -->
 		<dependency>
 			<groupId>org.p3framework</groupId>
@@ -963,23 +931,14 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		 <!--  插件: 微信企业号
+		
+		 <!-- 在线聊天工具-->
 		<dependency>
 			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-biz-qywx</artifactId>
+			<artifactId>jeecg-p3-biz-chat</artifactId>
 			<version>1.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jeewx</groupId>
-			<artifactId>jeewx-qywx-api</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope> 
-		</dependency>
-		-->
-		<!-- jeecg plugin  -->
+		 
 	</dependencies>
 
 	<organization>

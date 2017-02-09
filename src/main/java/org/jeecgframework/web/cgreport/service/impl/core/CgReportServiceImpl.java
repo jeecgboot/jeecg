@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
 import org.jeecgframework.web.cgreport.dao.core.CgReportDao;
 import org.jeecgframework.web.cgreport.entity.core.CgreportConfigHeadEntity;
 import org.jeecgframework.web.cgreport.entity.core.CgreportConfigParamEntity;
@@ -16,6 +15,7 @@ import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.online.def.CgReportConstant;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;

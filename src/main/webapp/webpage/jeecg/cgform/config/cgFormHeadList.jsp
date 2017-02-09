@@ -49,13 +49,17 @@
 	<t:dgCol title="common.updateby" field="updateBy" hidden="true"></t:dgCol>
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt"></t:dgCol>
-	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete"></t:dgFunOpt>
-	<t:dgFunOpt funname="remCgForm(id)" title="common.remove"></t:dgFunOpt>
-	<t:dgFunOpt funname="importFields(id,content)" title="导入字段"></t:dgFunOpt>
-	<t:dgFunOpt exp="isDbSynch#eq#N" title="sync.db" funname="doDbsynch(id,content)" />
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addbytab(id,content)" title="form.template"></t:dgFunOpt>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test"></t:dgFunOpt>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="popMenuLink(tableName,content)" title="config.place"></t:dgFunOpt>
+	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgFunOpt>
+	<t:dgFunOpt funname="remCgForm(id)" title="common.remove" urlclass="ace_button"  urlfont="fa-remove"></t:dgFunOpt>
+	<t:dgFunOpt funname="importFields(id,content)" title="导入字段" urlclass="ace_button"  urlfont="fa-download"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#N" title="sync.db" funname="doDbsynch(id,content)" urlclass="ace_button"  urlfont="fa-database"/>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addbytab(id,content)" title="form.template" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test" urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="popMenuLink(tableName,content)" title="config.place" urlclass="ace_button"  urlfont="fa-cog" ></t:dgFunOpt>
+	<%-- add -start--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
+	<t:dgFunOpt funname="copyOnline(id)" title="复制表单"  urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
+	<t:dgFunOpt funname="propertyTable(id)" title="配置表"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<%-- add -end--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
 	<t:dgToolBar title="create.form" icon="icon-add" width="900" height="600" url="cgFormHeadController.do?addorupdate" funname="addForm"></t:dgToolBar>
 	<t:dgToolBar title="edit.form" icon="icon-edit" width="900" height="600" url="cgFormHeadController.do?addorupdate" funname="updateForm"></t:dgToolBar>
 	<t:dgToolBar title="custom.button" icon="icon-edit" url="cgformButtonController.do?cgformButton" funname="cgFormButton"></t:dgToolBar>
@@ -267,8 +271,7 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
-	
-	//add-begin--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
+
 	//java增强
 	function javaEnhance(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');
@@ -298,7 +301,7 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
-	//add-end--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
+
 
 	//表单 sql导出
 	function doMigrateOut(title,url,id){
@@ -419,4 +422,39 @@
 	function importFields(id,content) {
 		openuploadwin('【'+content+'】Excel导入Online字段', 'cgFormHeadController.do?upload&id='+id, "tablePropertyList");
 	}
+	
+	 <%-- add -start--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>	
+	function copyOnline(id){
+
+		$.dialog.confirm('<t:mutiLang langKey="confirm.copy.form"/>', function(){
+			$.post("cgFormHeadController.do?copyOnline",
+					{id : id},	
+					function(data){
+					var d = $.parseJSON(data);
+					if (d.success) {
+						tip(d.msg);
+					}else{
+						tip(d.msg);
+					}
+				});
+		}, function(){
+		}).zindex();
+
+		
+		
+	}
+	
+	function propertyTable(id){
+		$.post("cgFormHeadController.do?getConfigId",
+				{id : id},	
+				function(data){
+				var d = $.parseJSON(data);
+				if (d.success) {
+					addOneTab( 'Online配置表单开发', "cgFormHeadController.do?cgFormHeadConfigList&id="+d.obj);
+				}else{
+					tip(d.msg);
+				}
+			});
+	}
+	<%-- add --end--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
 </script>

@@ -23,7 +23,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
  *
  */
 @Entity
-@Table(name = "jg_person", schema = "")
+@Table(name = "jeecg_demo_person", schema = "")
 @SuppressWarnings("serial")
 public class JpPersonEntity implements java.io.Serializable {
 	/**id*/

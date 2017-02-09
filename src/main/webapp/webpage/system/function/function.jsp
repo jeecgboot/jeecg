@@ -9,7 +9,8 @@
 		
 	$(function() {
 		$('#cc').combotree({
-			url : 'functionController.do?setPFunction&selfId=${function.id}',
+			url : 'functionController.do?setPFunction&type=0&selfId=${function.id}',
+
 			panelHeight: 200,
 			width: 157,
 			onClick: function(node){
@@ -43,19 +44,28 @@
 				$('#pfun').hide();
 			}
 		});
+		
 	});
+	
+	
+	function viewStyle(param) {
+		var url = "<%=basePath%>/functionIconStyle.jsp?style = "+ param;
+		//add("图标样式预览",url,'functionIconStyle',700,450);
+		window.open(url,"_blank");
+	}
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" refresh="true" action="functionController.do?saveFunction">
 	<input name="id" type="hidden" value="${function.id}">
+	<input name="functionType" id="functionType" type="hidden"  value="0">
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
         <input name="functionName" class="inputxt" value="${function.functionName}" datatype="*2-50">
-        <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang4to15"/> </span>
+        <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang2to15"/> </span>
     </div>
-    <div class="form">
+   <!-- <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="funcType"/>: </label>
         <select name="functionType" id="functionType" datatype="*">
             <option value="0" <c:if test="${function.functionType eq 0}">selected="selected"</c:if>>
@@ -66,7 +76,7 @@
             </option>
         </select>
         <span class="Validform_checktip"></span>
-    </div>
+    </div> --> 
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.level"/>: </label>
         <select name="functionLevel" id="functionLevel" datatype="*">
@@ -91,7 +101,7 @@
         </label>
         <input name="functionUrl" class="inputxt" value="${function.functionUrl}">
     </div>
-    <div class="form">
+    <div class="form" id="icon">
         <label class="Validform_label"> <t:mutiLang langKey="common.icon"/>: </label>
         <select name="TSIcon.id">
             <c:forEach items="${iconlist}" var="icon">
@@ -101,7 +111,7 @@
             </c:forEach>
         </select>
     </div>
-    <div class="form">
+    <div class="form" id="desktopIcon">
         <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
         <select name="TSIconDesk.id">
             <c:forEach items="${iconDeskList}" var="icon">
@@ -112,6 +122,14 @@
         </select>
     </div>
 	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${function.functionOrder}" datatype="n1-3"></div>
+	<div class="form" id="funiconstyle">
+        <label class="Validform_label">
+            <t:mutiLang langKey="menu.funiconstyle"/>:
+        </label>
+        <input name="functionIconStyle" class="inputxt" value="${function.functionIconStyle}" />
+        <a href="<%=basePath%>/webpage/common/functionIconStyleList.jsp?style=ace"  target="_blank">[ace图标样式]</a>
+        <a href="<%=basePath%>/webpage/common//functionIconStyleList.jsp?style=hplus" target="_blank">[hplus图标样式]</a>
+    </div>
 	</fieldset>
 </t:formvalid> 
 </body>

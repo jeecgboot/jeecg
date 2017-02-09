@@ -44,7 +44,6 @@ public class MenuTag extends TagSupport {
 	public int doEndTag() throws JspTagException {
 		JspWriter out = null;
 		try {
-
 			out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
@@ -58,7 +57,6 @@ public class MenuTag extends TagSupport {
 //				out.print(menu);
 //				out.flush();
 //			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
@@ -72,22 +70,18 @@ public class MenuTag extends TagSupport {
 
 	public StringBuffer end() {	
 		StringBuffer sb = new StringBuffer();
-
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
             sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
             sb.append("</ul>");
         }
 		if(style.equals("shortcut"))
-
 //		{	sb.append("<div id=\"nav\" style=\"display:none;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
 		{
             sb.append("<div id=\"nav\" style=\"display:block;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
-
 			sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
 			sb.append("</div>");
 		}
-
 		if(style.equals("bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootMenu(parentFun, childFun));

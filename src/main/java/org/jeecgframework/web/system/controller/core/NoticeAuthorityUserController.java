@@ -48,13 +48,12 @@ public class NoticeAuthorityUserController extends BaseController {
 
 	/**
 	 * 通知公告用户授权列表 页面跳转
-	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "noticeAuthorityUser")
 	public ModelAndView noticeAuthorityUser(String noticeId,HttpServletRequest request) {
 		request.setAttribute("noticeId", noticeId);
-		return new ModelAndView("system/user/noticeAuthorityUserList");
+		return new ModelAndView("system/notice/noticeAuthorityUserList");
 	}
 
 	/**

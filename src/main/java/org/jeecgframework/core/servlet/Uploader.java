@@ -291,9 +291,9 @@ public class Uploader {
 		String servletPath = this.request.getServletPath();
 		String realPath = this.request.getSession().getServletContext()
 				.getRealPath(servletPath);
-		//update-begin--author:scott--date:20160628----for:变更UE编辑器上传路径到upload目录下------
+
 		String newUrl = new File(realPath).getParent().replace("\\content\\plug-in\\ueditor\\jsp", "") + "/" + path;
-		//update-end--author:scott--date:20160628----for:变更UE编辑器上传路径到upload目录下------
+
 		return newUrl;
 	}
 

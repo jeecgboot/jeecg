@@ -312,6 +312,7 @@ window.onload = function() {
 		if(arr1){
 			arr1= arr1.split('.');
 			var field = arr1[1]==null?'':arr1[1];
+
         	var id = '';
 			editor.ready(function() {
 				id = editor.queryCommandValue('serverparam').id; //返回参数值键值对的对象
@@ -472,6 +473,7 @@ dialog.onok = function (){
 
 //longjinbo 增加支持系统字典
 var systemCache=null;
+
 function initCombox(val){
 	$('#selector').append('<option selected value="">请选择数据字典</option>');
 	var curl= "systemController.do?typeGroupGrid&field=id,typegroupname,typegroupcode";

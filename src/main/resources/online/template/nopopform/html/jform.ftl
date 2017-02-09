@@ -144,7 +144,7 @@
 							
 						<#elseif po.show_type=='date'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							       style="width: 150px"  value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
 							       class="Wdate" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 					              <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
@@ -155,7 +155,7 @@
 						
 						<#elseif po.show_type=='datetime'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							       style="width: 150px"  value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
 							       class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
 						         <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>

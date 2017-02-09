@@ -1996,7 +1996,6 @@ pre.prettyprint {
   line-height: 17px;
   padding-left: 7px;
   text-shadow: none !important;
-  /*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
   /*font-size: 13px;*/
   text-decoration: none;
 }
@@ -2660,7 +2659,6 @@ body.mob-safari .sidebar.sidebar-fixed {
     display: block;
   }
 }
-/*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
 .sidebar.menu-min,
 .sidebar.menu-min.compact,
 .sidebar.menu-min.navbar-collapse {

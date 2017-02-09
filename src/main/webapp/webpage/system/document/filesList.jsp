@@ -10,7 +10,7 @@
 	<t:dgCol title="操作" field="opt"></t:dgCol>
 	<t:dgDefOpt url="commonController.do?viewFile&fileid={id}&subclassname={subclassname}" title="下载"></t:dgDefOpt>
 	<t:dgOpenOpt width="800" height="700" url="commonController.do?openViewFile&fileid={id}&subclassname={subclassname}" title="预览"></t:dgOpenOpt>
-	<t:dgDelOpt url="systemController.do?delDocument&id={id}" title="删除"></t:dgDelOpt>
+	<t:dgDelOpt url="systemController.do?delDocument&id={id}" title="删除" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
 	<t:dgToolBar title="文件录入" icon="icon-add" funname="add" url="systemController.do?addFiles"></t:dgToolBar>
 	<t:dgToolBar title="编辑" icon="icon-edit" funname="update" url="systemController.do?editFiles"></t:dgToolBar>
 </t:datagrid></div>

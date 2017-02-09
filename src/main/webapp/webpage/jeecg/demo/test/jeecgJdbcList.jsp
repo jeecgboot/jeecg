@@ -2,8 +2,8 @@
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
-<div region="center" style="padding:0px;border:0px"><t:datagrid name="jeecgJdbcList" title="通过JDBC访问数据库" actionUrl="jeecgJdbcController.do?datagrid" idField="id" fit="true"
-	onDblClick="jeecgJdbcList_edit">
+<div region="center" style="padding:0px;border:0px">
+<t:datagrid name="jeecgJdbcList" title="通过JDBC访问数据库" actionUrl="jeecgJdbcController.do?datagrid" idField="id" fit="true" onDblClick="jeecgJdbcList_edit">
 	<t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="姓名" field="userName" query="true"></t:dgCol>
 	<t:dgCol title="部门" field="depId"></t:dgCol>
@@ -17,7 +17,8 @@
 	<t:dgToolBar title="录入" icon="icon-add" url="jeecgJdbcController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="编辑" icon="icon-edit" url="jeecgJdbcController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="查看" icon="icon-search" url="jeecgJdbcController.do?addorupdate" funname="detail"></t:dgToolBar>
-</t:datagrid></div>
+</t:datagrid>
+</div>
 </div>
 
 <script type="text/javascript">

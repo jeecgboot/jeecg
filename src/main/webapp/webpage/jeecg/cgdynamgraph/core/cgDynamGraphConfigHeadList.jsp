@@ -17,14 +17,14 @@
 	<t:dgCol title="common.updateby" field="updateBy" hidden="false"></t:dgCol>
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy-MM-dd" hidden="false"></t:dgCol>
 	<t:dgCol title="common.description" field="content" query="true" queryMode="single" width="120"></t:dgCol>
-	<t:dgCol title="common.operation" field="opt" width="150"></t:dgCol>
-	<t:dgDelOpt title="common.delete" url="cgDynamGraphConfigHeadController.do?doDel&id={id}" />
-	<t:dgFunOpt funname="popMenuLink(code,name)" title="配置地址"></t:dgFunOpt>
-	<t:dgFunOpt  funname="addlisttab(code,name)" title="配置图表"></t:dgFunOpt>
+	<t:dgCol title="common.operation" field="opt" width="200"></t:dgCol>
+	<t:dgDelOpt title="common.delete" url="cgDynamGraphConfigHeadController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
+	<t:dgFunOpt funname="popMenuLink(code,name)" title="配置地址" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgFunOpt  funname="addlisttab(code,name)" title="配置图表" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
 	<t:dgToolBar title="common.add" icon="icon-add" url="cgDynamGraphConfigHeadController.do?goAdd" funname="add" height="450" width="1200"></t:dgToolBar>
 	<t:dgToolBar title="common.edit" icon="icon-edit" url="cgDynamGraphConfigHeadController.do?goUpdate" funname="update" height="450" width="1200"></t:dgToolBar>
 	<t:dgToolBar title="common.batch.delete" icon="icon-remove" url="cgDynamGraphConfigHeadController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
-	<t:dgToolBar title="common.query" icon="icon-search" url="cgDynamGraphConfigHeadController.do?goUpdate" funname="detail" height="450" width="1200"></t:dgToolBar>
+	<t:dgToolBar title="common.view" icon="icon-search" url="cgDynamGraphConfigHeadController.do?goUpdate" funname="detail" height="450" width="1200"></t:dgToolBar>
 </t:datagrid></div>
 </div>
 <script src="webpage/jeecg/cgdynamgraph/core/cgDynamGraphConfigHeadList.js"></script>

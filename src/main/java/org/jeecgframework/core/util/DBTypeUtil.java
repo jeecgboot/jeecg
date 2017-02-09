@@ -5,9 +5,6 @@ package org.jeecgframework.core.util;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
-import org.jeecgframework.web.cgform.controller.autolist.CgAutoListController;
-import org.jeecgframework.web.system.listener.OnlineListener;
-
 /**
  * 
  * @author  张代浩
@@ -21,7 +18,7 @@ public class DBTypeUtil {
 	 */
 	public static String getDBType(){
 		String retStr="";
-		ApplicationContext ctx = OnlineListener.getCtx();
+		ApplicationContext ctx = ApplicationContextUtil.getContext();
 		if (ctx==null) {
 			 return retStr;//如果ctx为空，则服务器异常了
 		}else{
@@ -36,6 +33,9 @@ public class DBTypeUtil {
 				retStr = "sqlserver";
 			}else if (dbdialect.equals("org.hibernate.dialect.PostgreSQLDialect")) {
 				retStr = "postgres";
+			}
+			else if (dbdialect.equals("org.jeecgframework.core.common.hibernate.dialect.MySQLServer2008Dialect")) {
+				retStr = "sqlserver";
 			}
 			return retStr;
 		}

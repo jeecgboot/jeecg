@@ -11,23 +11,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
-import org.jeecgframework.web.cgreport.exception.CgReportNotFoundException;
-import org.jeecgframework.web.cgreport.service.excel.CgReportExcelServiceI;
-import org.jeecgframework.web.cgreport.util.CgReportQueryParamUtil;
 import org.jeecgframework.web.graphreport.service.core.GraphReportServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.service.CommonExcelServiceI;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.online.def.CgReportConstant;
+import org.jeecgframework.core.online.exception.CgReportNotFoundException;
+import org.jeecgframework.core.online.util.CgReportQueryParamUtil;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.StringUtil;
@@ -41,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 
  * @Title:CgReportController
- * @description:图表配置控制器
+ * @description:Online 图表配置控制器
  * @author 钟世云
  * @date 2015.4.11
  * @version V1.0
@@ -54,7 +51,7 @@ public class GraphReportController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 	@Autowired
-	private CgReportExcelServiceI cgReportExcelService;
+	private CommonExcelServiceI cgReportExcelService;
 	
 	/**
 	 * 动态报表展现入口
@@ -78,7 +75,7 @@ public class GraphReportController extends BaseController {
 		loadVars(cgReportMap);
 
 		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
+		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
 
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/graphreport/engine/core/graphreportlist.ftl", cgReportMap);
 		PrintWriter writer = null;
@@ -149,7 +146,7 @@ public class GraphReportController extends BaseController {
 		loadVars(cgReportMap);
 
 		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
+		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
 
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		PrintWriter writer = null;

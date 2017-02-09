@@ -66,7 +66,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	public void insertTable(String tableName, Map<String, Object> data) throws BusinessException {
 		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		//系统上下文变量赋值
-		fillInsertSysVar(data);
+		fillInsertSysVar(tableName,data);
 		//主键适配器（根据不同的数据库进行生成）
 		keyAdapter(cgFormHeadEntity,data);
 		//数据类型转换（date，int，double等等）
@@ -90,9 +90,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
-
 		key = this.executeSqlReturnKey(sql,data);
-
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
@@ -100,7 +98,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
 
 			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
-
 		}
 	}
 	/**
@@ -144,12 +141,19 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					//日期->java.util.Date
 					Object newV = String.valueOf(beforeV);
 					try {
-						String dateType = fieldConfig.getShowType();
+						//--author：zhoujf---start------date:20170207--------for:日期格式化问题
+						String dateStr = String.valueOf(beforeV);
+						if (dateStr.indexOf(":") == -1 && dateStr.length() == 10) {
+							newV = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+						} else if (dateStr.indexOf(":") > 0 && dateStr.length() == 19) {
+							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
+						} 
+						/*String dateType = fieldConfig.getShowType();
 						if("datetime".equalsIgnoreCase(dateType)){
 							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(String.valueOf(beforeV));
 						}else if("date".equalsIgnoreCase(dateType)){
 							newV = new SimpleDateFormat("yyyy-MM-dd").parse(String.valueOf(beforeV));
-						}
+						}*/
 						if(data.containsKey(key)){
 							data.put(String.valueOf(key), newV);
 						}
@@ -196,7 +200,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 */
 
 	public int updateTable(String tableName, Object id, Map<String, Object> data) throws BusinessException {
-		fillUpdateSysVar(data);
+		fillUpdateSysVar(tableName,data);
 		dataAdapter(tableName,data);
 		String comma = "";
 		StringBuffer sqlBuffer = new StringBuffer();
@@ -222,14 +226,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		int num = this.executeSql(sqlBuffer.toString(), data);
 
 		if(cgFormHeadEntity!=null){
+			data.put("id", id);
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
 
 			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
-
 		}
 		return num;
 	}
-
 
 	/**
 	 * 查询表单
@@ -262,7 +265,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					/*if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
 							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){*/
 					if(true){
-
 						//执行sql
 						logger.debug("sql plugin -------->"+sql);
 						sql = formateSQl(sql,  data);
@@ -307,10 +309,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
-
-//            sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
+//          sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
-
 		}
 		return sql;
 	}
@@ -523,17 +523,23 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * 更新操作时将系统变量约定的字段赋值
 	 * @param data
 	 */
-	private void fillUpdateSysVar(Map<String, Object> data) {
-		if(data.containsKey(DataBaseConstant.UPDATE_DATE_TABLE)){
-			data.put(DataBaseConstant.UPDATE_DATE_TABLE, DateUtils.formatDate());
+	private void fillUpdateSysVar(String tableName,Map<String, Object> data) {
+		//--author：zhoujf---start------date:20170207--------for:online表单 更新时基本字段没有初始化数据
+		//--author：zhoujf---start------date:20170207--------for:更新时间格式统一为yyyy-MM-dd HH:mm:ss
+		if(data.containsKey(DataBaseConstant.UPDATE_DATE_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
+			data.put(DataBaseConstant.UPDATE_DATE_TABLE, DateUtils.formatDateTime());
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_TIME_TABLE)){
-			data.put(DataBaseConstant.UPDATE_TIME_TABLE, DateUtils.formatTime());
+		if(data.containsKey(DataBaseConstant.UPDATE_TIME_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
+			data.put(DataBaseConstant.UPDATE_TIME_TABLE, DateUtils.formatDateTime());
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_BY_TABLE)){
+		if(data.containsKey(DataBaseConstant.UPDATE_BY_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
 			data.put(DataBaseConstant.UPDATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_NAME_TABLE)){
+		if(data.containsKey(DataBaseConstant.UPDATE_NAME_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
 			data.put(DataBaseConstant.UPDATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
 		}
 	}
@@ -542,26 +548,35 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * 插入操作时将系统变量约定的字段赋值
 	 * @param data
 	 */
-	private void fillInsertSysVar(Map<String, Object> data) {
-		if(data.containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
-			data.put(DataBaseConstant.CREATE_DATE_TABLE, DateUtils.formatDate());
+	private void fillInsertSysVar(String tableName,Map<String, Object> data) {
+		//--author：zhoujf---start------date:20170207--------for:online表单 Excel数据导入时基本字段没有初始化数据
+		//--author：zhoujf---start------date:20170207--------for:创建时间格式统一为yyyy-MM-dd HH:mm:ss
+		if(data.containsKey(DataBaseConstant.CREATE_DATE_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
+			data.put(DataBaseConstant.CREATE_DATE_TABLE, DateUtils.formatDateTime());
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_TIME_TABLE)){
-			data.put(DataBaseConstant.CREATE_TIME_TABLE, DateUtils.formatTime());
+		if(data.containsKey(DataBaseConstant.CREATE_TIME_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_TIME_TABLE)){
+			data.put(DataBaseConstant.CREATE_TIME_TABLE, DateUtils.formatDateTime());
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_BY_TABLE)){
+		if(data.containsKey(DataBaseConstant.CREATE_BY_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_BY_TABLE)){
 			data.put(DataBaseConstant.CREATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_NAME_TABLE)){
+		if(data.containsKey(DataBaseConstant.CREATE_NAME_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.CREATE_NAME_TABLE)){
 			data.put(DataBaseConstant.CREATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
 		}
-		if(data.containsKey(DataBaseConstant.SYS_COMPANY_CODE_TABLE)){
+		if(data.containsKey(DataBaseConstant.SYS_COMPANY_CODE_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.SYS_COMPANY_CODE_TABLE)){
 			data.put(DataBaseConstant.SYS_COMPANY_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE));
 		}
-		if(data.containsKey(DataBaseConstant.SYS_ORG_CODE_TABLE)){
+		if(data.containsKey(DataBaseConstant.SYS_ORG_CODE_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.SYS_ORG_CODE_TABLE)){
 			data.put(DataBaseConstant.SYS_ORG_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE));
 		}
-		if(data.containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)){
+		if(data.containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)){
 			data.put(DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
 	}
@@ -625,7 +640,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					throw new BusinessException("执行JAVA增强出现异常！");
 				} 
 			}
-
 		}
 	}
 	
@@ -648,6 +662,5 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
 		return list;
 	}
-
 }
 

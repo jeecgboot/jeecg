@@ -165,11 +165,9 @@ public class ChooseTag extends TagSupport {
 	private void clearAll(StringBuffer sb,String methodname) {
 		String[] textnames=null;
 		String[] inputTextnames=null;
-
 		if (!StringUtil.isEmpty(this.textname)) {
 			textnames = textname.split(",");
 		}
-
 		if(StringUtil.isNotEmpty(inputTextname)){
 			inputTextnames = inputTextname.split(",");
 		}else{

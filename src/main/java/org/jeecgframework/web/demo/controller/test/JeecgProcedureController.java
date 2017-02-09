@@ -30,7 +30,7 @@ public class JeecgProcedureController extends BaseController{
 	public String procudure(HttpServletRequest request) {
 		return "jeecg/demo/base/procedure/procedure";
 	}
-
+	
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo demo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		List dealFields = new ArrayList();

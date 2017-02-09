@@ -50,11 +50,9 @@ public class PageValueConvertRuleEnum {
 		if(rule == null && val.startsWith(HqlParseEnum.SUFFIX_NOT_EQUAL.getValue())){
 			rule = HqlRuleEnum.NE;
 		}
-
 //		if(rule==null&&ResourceUtil.fuzzySearch){
 //			rule = HqlRuleEnum.LIKE;
 //		}
-
 		return rule != null ? rule : HqlRuleEnum.EQ;
 	}
 

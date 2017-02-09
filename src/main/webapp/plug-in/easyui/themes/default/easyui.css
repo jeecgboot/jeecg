@@ -2210,7 +2210,10 @@ a.s-btn-plain-active {
 	margin-left: 5px;
 	margin-right: 15px;
 	margin-top: 8px;
-	height: 62px;
+	/*height: 62px;*/
+    /*start 20160820 wangkun TASK #1295 【在线聊天功能样式冲突】h+风格样式冲突*/
+    height:71px;
+    /*end 20160820 wangkun TASK #1295 【在线聊天功能样式冲突】h+风格样式冲突*/
 	float: right;
 }
 .shortcut li{

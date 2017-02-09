@@ -1,5 +1,5 @@
 // Simple Set Clipboard System
-// Author: Joseph Huckaby
+
 
 var ZeroClipboard = {
 	

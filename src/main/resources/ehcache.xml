@@ -4,12 +4,10 @@
 	<diskStore path="java.io.tmpdir" />
 
 	<!-- Cluster localhost setting -->
-	<!-- add-end-Author:xuguojie  Date:20160228 for：  解决 ehcache空指针异常  -->
 	<cacheManagerPeerProviderFactory
 		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
 	    properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1,
     	multicastGroupPort=4446, timeToLive=32"/>
-	<!-- add-end-Author:xuguojie  Date:20160228 for：解决 ehcache空指针异常   -->
 	
 	<cacheManagerPeerListenerFactory
 		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"

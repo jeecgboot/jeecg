@@ -1286,16 +1286,59 @@ background: url(/images/bgs/backg2.png) repeat-x 0 -120px;
 border: 1px solid #b4b4b4;
 }
 
-
-
-
-input[type="text"].Wdate {
-	/* height: 15px; */
-	padding: 5px;
-}
 input[type="text"] {
-	border: 1px solid #54A5D5;
+	background-color: #fff;
+    border: 1px solid #D7D7D7;
+    border-radius: 3PX;
+    height: 30PX;
+    padding:  0 2px;
+    line-height: 14PX;
+    font-size: 12px;
+    display: inline-block;
 }
+
+.button ,a.l-btn span.l-btn-left {
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	background-color: #eee;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
+		to(#f2f2f2));
+	background: -moz-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
+		to(#f2f2f2));
+	background: -o-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+	background: -ms-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7,
+		endcolorstr=#f2f2f2, gradientType=0);
+	height: 24px;
+	padding: 0 1px;
+	cursor: pointer;
+	line-height: 24px;
+	display: inline-block;
+	color: #8f0911;
+	/* margin-right:5px; */
+	white-space:nowrap;
+	
+}
+a.l-btn span.l-btn-left .icon-ok{
+	background-image:none;
+}
+
+.button:hover,a.l-btn:hover span.l-btn-left {
+	border: 1px solid #d1d1d1;
+	border-radius: 4px;
+	background-color: #e9e9e9;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#e9e9e9),
+		to(#f2f2f2));
+	background: -moz-gradient(linear, 0 0, 0 100%, from(#e9e9e9),
+		to(#f2f2f2));
+	background: -o-gradient(linear, 0 0, 0 100%, from(#e9e9e9), to(#f2f2f2));
+	background: -ms-gradient(linear, 0 0, 0 100%, from(#e9e9e9), to(#f2f2f2));
+	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#e9e9e9,
+		endcolorstr=#f2f2f2, gradientType=0);
+	color: #666666;
+	cursor: pointer;
+}
+
 .mod1 .mod-header {
 	height: 30px;
 	line-height: 30px;

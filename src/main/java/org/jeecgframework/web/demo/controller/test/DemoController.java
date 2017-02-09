@@ -164,24 +164,20 @@ public class DemoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = StringUtil.getEncodePra(req.getParameter("id"));
 		String floor = "";
-
 		if(StringUtil.isNotEmpty(id)){
 			if("ThreeLevelLinkage".equals(id)){
 				floor += "省：<select name=\"province\" id=\"provinceid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "市：<select name=\"city\" id=\"cityid\">"+"</select>" + "&nbsp;&nbsp;";
 				floor += "县：<select name=\"county\" id=\"countyid\">"+"</select>" + "&nbsp;&nbsp;";
-
 			}else{
 				CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
 				cq.eq("TSFunction.id", id);
 				cq.add();
 				List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
 				if (functions.size() > 0) {
-
 					for (TSFunction function : functions) {
 						floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + MutiLangUtil.getMutiLangInstance().getLang(function.getFunctionName()) + "&nbsp;&nbsp;";
 					}
-
 				} else {
 					floor += "没有子项目!";
 				}
@@ -313,7 +309,7 @@ public class DemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-
+	
 	/**
 	 * demo页面跳转
 	 */
@@ -339,10 +335,9 @@ public class DemoController extends BaseController {
 		return new ModelAndView("jeecg/demo/base/layout/demoLayout");
 
 	}
-
+	
 	@RequestMapping(params = "eSign")
 	public ModelAndView eSignDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/test/zsign");
 	}
-
 }

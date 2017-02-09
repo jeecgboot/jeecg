@@ -6,6 +6,7 @@ import freemarker.template.TemplateDirectiveModel;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.PropertiesUtil;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
@@ -69,7 +70,6 @@ public class TempletContext {
         if (ftlVersion != null && ftlVersion.length() > 0) {
             tableName = tableName + "&ftlVersion=" + ftlVersion;
         }
-
         try {
 			if(CgAutoListConstant.SYS_MODE_DEV.equalsIgnoreCase(_sysMode)){//开发模式
 				template = freemarker.getTemplate(tableName,freemarker.getLocale(), ENCODING);
@@ -112,6 +112,24 @@ public class TempletContext {
 		}
 		return template;
 	}
+	
+	/**
+	 * 从缓存中读取ftl模板
+	 * @param template
+	 * @param encoding
+	 * @return
+	 */
+	public void removeTemplateFromCache(String tableName){
+		try {
+			//获取版本号
+	    	String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
+			//cache的键：类名.方法名.参数名
+			String cacheKey = FreemarkerHelper.class.getName()+".getTemplateFormCache."+tableName+"."+version;
+			ehCache.remove(cacheKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Configuration getFreemarker() {
 		return freemarker;
@@ -128,7 +146,6 @@ public class TempletContext {
 	public void setTags(Map<String, TemplateDirectiveModel> tags) {
 		this.tags = tags;
 	}
-
 	public void clearCache(){
 		try{
 			ehCache.removeAll();
@@ -136,5 +153,4 @@ public class TempletContext {
 
 		}
 	}
-
 }

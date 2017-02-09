@@ -17,7 +17,7 @@
 				<div class="row show-grid">
 				</#if>
 					<div class="col-xs-3 text-center">
-			          	<b>${po.content}：</b>
+			          	<b><@mutiLang langKey="${po.content?if_exists?html}"/>：</b>
 			          </div>
 			          <div class="col-xs-3">
 			          	<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
@@ -268,7 +268,7 @@
 
 						</#if>
 						<span class="Validform_checktip" style="float:left;height:0px;"></span>
-						<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+						<label class="Validform_label" style="display: none"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 			          </div>
 			          
 				<#if (po_index%2==0)&&(!po_has_next)>
@@ -282,7 +282,7 @@
 			  
 			   <#list columnsarea as po>
 				  	<div class="row show-grid">
-						<div class="col-xs-3 text-center"><b>${po.content}：</b></div>
+						<div class="col-xs-3 text-center"><b><@mutiLang langKey="${po.content?if_exists?html}"/>：</b></div>
 						<div class="col-xs-3">
 						    <br/>
 							<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
@@ -294,7 +294,7 @@
 					               <#if po.is_null != 'Y'>datatype="*"</#if> 
 					               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 							<span class="Validform_checktip"></span>
-							<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+							<label class="Validform_label" style="display: none;"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 							<#if po.show_type=='umeditor'>
 							<script type="text/javascript">
 						    //实例化编辑器

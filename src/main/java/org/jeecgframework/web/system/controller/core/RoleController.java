@@ -29,6 +29,7 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.NumberComparator;
@@ -59,6 +60,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -125,6 +127,29 @@ public class RoleController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 		;
 	}
+	
+	@RequestMapping(params = "delUserRole")
+	@ResponseBody
+	public AjaxJson delUserRole(@RequestParam(required=true)String userid,@RequestParam(required=true)String roleid) {
+		AjaxJson ajaxJson = new AjaxJson();
+		try {
+			List<TSRoleUser> roleUserList = this.systemService.findByProperty(TSRoleUser.class, "TSUser.id", userid);
+			if(roleUserList.size() == 1){
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("不可删除用户的角色关系，请使用修订用户角色关系");
+			}else{
+				String sql = "delete from t_s_role_user where userid = ? and roleid = ?";
+				this.systemService.executeSql(sql, userid,roleid);
+				ajaxJson.setMsg("成功删除用户对应的角色关系");
+			}
+		} catch (Exception e) {
+			LogUtil.log("删除用户对应的角色关系失败", e.getMessage());
+			ajaxJson.setSuccess(false);
+			ajaxJson.setMsg(e.getMessage());
+		}
+		return ajaxJson;
+	}
+	
 
 	/**
 	 * 删除角色
@@ -143,7 +168,6 @@ public class RoleController extends BaseController {
 			delRoleFunction(role);
 
             systemService.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
-
             role = systemService.getEntity(TSRole.class, role.getId());
 			userService.delete(role);
 			message = "角色: " + role.getRoleName() + "被删除成功";
@@ -247,7 +271,6 @@ public class RoleController extends BaseController {
 	public ModelAndView userList(HttpServletRequest request) {
 
 		request.setAttribute("roleId", request.getParameter("roleId"));
-
 		return new ModelAndView("system/role/roleUserList");
 	}
 	
@@ -273,7 +296,6 @@ public class RoleController extends BaseController {
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
         */
-
 		Criterion cc = null;
 		if (roleUser.size() > 0) {
 			for(int i = 0; i < roleUser.size(); i++){
@@ -401,7 +423,6 @@ public class RoleController extends BaseController {
 		return j;
 	}
 
-
 	/**
 	 * 设置权限
 	 * 
@@ -441,14 +462,13 @@ public class RoleController extends BaseController {
 			roleFunctionList.clear();
 		}
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id","functionName", "TSFunctions");
-		//author:xugj-----start-----date:20160516 ------- for: TASK  #1071 【平台】优化角色权限这块功能
+
 		comboTrees = systemService.ComboTree(functionList, comboTreeModel,loginActionlist, true);
 		MutiLangUtil.setMutiComboTree(comboTrees);
-		//author:xugj-----start-----date:20160516 ------- for: TASK  #1071 【平台】优化角色权限这块功能
 
+		
 		functionList.clear();
 		loginActionlist.clear();
-
 		return comboTrees;
 	}
 
@@ -672,9 +692,7 @@ public class RoleController extends BaseController {
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class);
 		cq.eq("TSFunction.id", functionId);
-
 		cq.eq("status", Short.valueOf("0"));
-
 		cq.add();
 		List<TSOperation> operationList = this.systemService
 				.getListByCriteriaQuery(cq, false);
@@ -698,7 +716,6 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-
 		String operationcodes = null;
 		try {
 			operationcodes = URLDecoder.decode(
@@ -706,7 +723,6 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -761,7 +777,6 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
-
 		String dataRulecodes = null;
 		try {
 			dataRulecodes = URLDecoder.decode(
@@ -769,7 +784,6 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);

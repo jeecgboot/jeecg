@@ -140,7 +140,6 @@ public class CategoryController extends BaseController {
 					category.getId());
 
 			category.getParent().setCode("".equals(t.getParent().getCode())?null:t.getParent().getCode());
-
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(category, t);
 				categoryService.saveOrUpdate(t);

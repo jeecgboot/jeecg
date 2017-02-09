@@ -76,10 +76,8 @@ public class NoticeController extends BaseController{
 			sql += " OR (t.notice_level = '2' AND EXISTS (SELECT 1 FROM t_s_notice_authority_role r,t_s_role_user ru WHERE r.role_id = ru.roleid AND t.id = r.notice_id AND ru.userid = '"+user.getId()+"'))";
 			sql += " OR (t.notice_level = '3' AND EXISTS (SELECT 1 FROM t_s_notice_authority_user u WHERE t.id = u.notice_id AND u.user_id = '"+user.getId()+"'))";
 			sql += " ) AND NOT EXISTS (SELECT 1 FROM t_s_notice_read_user rd WHERE t.id = rd.notice_id AND rd.user_id = '"+user.getId()+"')";
-
 			sql += " ORDER BY t.create_time DESC ";		
 			List<Map<String, Object>> noticeList =  systemService.findForJdbc(sql,1,10);
-
 			
 			//将List转换成JSON存储
 			JSONArray result = new JSONArray();
@@ -125,7 +123,7 @@ public class NoticeController extends BaseController{
 	 */
 	@RequestMapping(params = "noticeList")
 	public ModelAndView noticeList(HttpServletRequest request) {
-		return new ModelAndView("system/user/noticeList");
+		return new ModelAndView("system/notice/noticeList");
 	}
 	
 	/**
@@ -139,7 +137,7 @@ public class NoticeController extends BaseController{
 			notice = this.systemService.getEntity(TSNotice.class, notice.getId());
 			request.setAttribute("notice", notice);
 		}
-		return new ModelAndView("system/user/noticeinfo");
+		return new ModelAndView("system/notice/noticeinfo");
 	}
 	
 	/**
@@ -167,7 +165,6 @@ public class NoticeController extends BaseController{
 			
 			List<Map<String, Object>> resultList =  systemService.findForJdbc(sql,dataGrid.getPage(),dataGrid.getRows());
 			//将List转换成JSON存储
-
 			List<Map<String, Object>> noticeList = new ArrayList<Map<String, Object>>();
 			if(resultList!=null && resultList.size()>0){
 				for(int i=0;i<resultList.size();i++){
@@ -187,7 +184,6 @@ public class NoticeController extends BaseController{
 					noticeList.add(n);	
 				}
 			}
-
 
 			dataGrid.setResults(noticeList);
 			String sql2 = "";
@@ -231,7 +227,7 @@ public class NoticeController extends BaseController{
 	 */
 	@RequestMapping(params = "tSNotice")
 	public ModelAndView tSNotice(HttpServletRequest request) {
-		return new ModelAndView("system/user/tSNoticeList");
+		return new ModelAndView("system/notice/tSNoticeList");
 	}
 
 	/**
@@ -373,7 +369,7 @@ public class NoticeController extends BaseController{
 			tSNotice = noticeService.getEntity(TSNotice.class, tSNotice.getId());
 			req.setAttribute("tSNoticePage", tSNotice);
 		}
-		return new ModelAndView("system/user/tSNotice-add");
+		return new ModelAndView("system/notice/tSNotice-add");
 	}
 	/**
 	 * 通知公告编辑页面跳转
@@ -389,6 +385,6 @@ public class NoticeController extends BaseController{
 			}
 			req.setAttribute("tSNoticePage", tSNotice);
 		}
-		return new ModelAndView("system/user/tSNotice-update");
+		return new ModelAndView("system/notice/tSNotice-update");
 	}
 }

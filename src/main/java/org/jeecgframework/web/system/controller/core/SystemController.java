@@ -2,6 +2,7 @@ package org.jeecgframework.web.system.controller.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.YouBianCodeUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
 import org.jeecgframework.web.system.manager.ClientManager;
@@ -145,7 +147,7 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "typeGroupGrid")
 	public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid, TSTypegroup typegroup) {
 		CriteriaQuery cq = new CriteriaQuery(TSTypegroup.class, dataGrid);
-//        add-start--Author:zhangguoming  Date:20140929 for：多语言条件添加
+
         String typegroupname = request.getParameter("typegroupname");
         if(typegroupname != null && typegroupname.trim().length() > 0) {
             typegroupname = typegroupname.trim();
@@ -157,13 +159,11 @@ public class SystemController extends BaseController {
         }
 		this.systemService.getDataGridReturn(cq, true);
         MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
-//        add-end--Author:zhangguoming  Date:20140929 for：多语言条件添加
+
 
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-
-	//add-start--Author:luobaoli  Date:20150607 for：增加表单分类树
 	/**
 	 *
 	 * @param request
@@ -191,7 +191,7 @@ public class SystemController extends BaseController {
 
 		return new ArrayList<ComboTree>(){{add(rootCombotree);}};
 	}
-	//add-end--Author:luobaoli  Date:20150607 for：增加表单分类树
+
 
 	/**
 	 * easyuiAJAX请求数据
@@ -208,16 +208,16 @@ public class SystemController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(TSType.class, dataGrid);
 		cq.eq("TSTypegroup.id", typegroupid);
 		cq.like("typename", typename);
+		cq.addOrder("createDate", SortDirection.desc);
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
-        // add-start--Author:zhangguoming  Date:20140928 for：处理多语言
+
         MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typename");
-        // add-end--Author:zhangguoming  Date:20140928 for：处理多语言
+
 
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-    // add-start--Author:zhangguoming  Date:20140928 for：数据字典修改
     /**
      * 跳转到类型页面
      * @param request request
@@ -229,7 +229,7 @@ public class SystemController extends BaseController {
         request.setAttribute("typegroupid", typegroupid);
 		return new ModelAndView("system/type/typeListForTypegroup");
 	}
-    // add-end--Author:zhangguoming  Date:20140928 for：数据字典修改
+
 //	@RequestMapping(params = "typeGroupTree")
 //	@ResponseBody
 //	public List<ComboTree> typeGroupTree(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -280,16 +280,16 @@ public class SystemController extends BaseController {
 			}
 		} else {
 			cq = new CriteriaQuery(TSTypegroup.class);
-//            add-begin--Author:zhangguoming  Date:20140807 for：添加字典查询条件
+
             String typegroupcode = request.getParameter("typegroupcode");
             if(typegroupcode != null ) {
-            	//begin--Author:JueYue  Date:2014-8-23 for：修改查询拼装
+
                 HqlRuleEnum rule = PageValueConvertRuleEnum
 						.convert(typegroupcode);
                 Object value = PageValueConvertRuleEnum.replaceValue(rule,
                 		typegroupcode);
 				ObjectParseUtil.addCriteria(cq, "typegroupcode", rule, value);
-				//end--Author:JueYue  Date:2014-8-23 for：修改查询拼装
+
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");
@@ -298,7 +298,7 @@ public class SystemController extends BaseController {
                 List<String> typegroupnameKeyList = systemService.findByQueryString("select typegroupname from TSTypegroup");
                 MutiLangSqlCriteriaUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
             }
-//            add-end--Author:zhangguoming  Date:20140807 for：添加字典查询条件
+
             List<TSTypegroup> typeGroupList = systemService.getListByCriteriaQuery(cq, false);
 			for (TSTypegroup obj : typeGroupList) {
 				TreeGrid treeNode = new TreeGrid();
@@ -385,7 +385,7 @@ public class SystemController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.getEntity(TSTypegroup.class, typegroup.getId());
-//        add-begin--Author:zhangguoming  Date:20140929 for：数据字典修改
+
 		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
         if (ListUtils.isNullOrEmpty(typegroup.getTSTypes())) {
             systemService.delete(typegroup);
@@ -395,7 +395,7 @@ public class SystemController extends BaseController {
         } else {
             message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
         }
-//        add-end--Author:zhangguoming  Date:20140929 for：数据字典修改
+
 		j.setMsg(message);
 		return j;
 	}
@@ -648,24 +648,20 @@ public class SystemController extends BaseController {
 		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT org_code FROM t_s_depart");
-
 		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
 			sb.append(" where LEN(org_code) = ").append(localCodeLength);
 		}else{
 			sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
 		}
-
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
 		}
-
 		sb.append(" ORDER BY org_code DESC");
 		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null && objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("org_code");
 		}
-
 		return returnCode;
 	}
 
@@ -1107,7 +1103,6 @@ public class SystemController extends BaseController {
 	 *
 	 * @return
 	 */
-
 	@RequestMapping(params = "editFiles")
 	public ModelAndView editFiles(TSDocument doc, ModelMap map) {
 		if (StringUtil.isNotEmpty(doc.getId())) {
@@ -1116,7 +1111,6 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/document/files");
 	}
-
 	/**
 	 * 保存文件
 	 *
@@ -1200,7 +1194,6 @@ public class SystemController extends BaseController {
             return new ModelAndView("common/upload/uploadView");
     }
 
-	//add-begin--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
     /************************************** 数据日志 ************************************/
     /**
      * 转跳到 数据日志
@@ -1228,9 +1221,7 @@ public class SystemController extends BaseController {
         modelMap.put("dataContent",datalogEntity.getDataContent());
 		return new ModelAndView("system/dataLog/popDataContent");
 	}
-	//add-end--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
 
-	//add-begin--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
     /**
      * 转跳到 数据日志
      * @param request
@@ -1290,7 +1281,7 @@ public class SystemController extends BaseController {
 			for (String string : set) {
 				DataLogDiff dataLogDiff = new DataLogDiff();
 				dataLogDiff.setName(string);
-
+				
 				if (map1.containsKey(string)) {
 					value1 = map1.get(string).toString();
 					if (value1 == null) {
@@ -1312,7 +1303,6 @@ public class SystemController extends BaseController {
 				}else {
 					dataLogDiff.setValue2("");
 				}
-
 				
 				if (value1 == null && value2 == null) {
 					dataLogDiff.setDiff("N");
@@ -1342,5 +1332,4 @@ public class SystemController extends BaseController {
 		return new ModelAndView("system/dataLog/diffDataVersion");
 	}
 
-	//add-end--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
 }

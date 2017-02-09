@@ -1,0 +1,201 @@
+    <script type="text/javascript">
+	 jQuery('#addJformGraphreportItemBtn').linkbutton({
+        iconCls: 'icon-add'
+      });
+	  
+	  
+      jQuery('#delJformGraphreportItemBtn').linkbutton({
+        iconCls: 'icon-remove'
+      });
+	  
+      jQuery('#addJformGraphreportItemBtn').bind('click',function() {
+        var tr = $("#add_jformGraphreportItem_table_template tr").clone();
+        $("#add_jformGraphreportItem_table").append(tr);
+        resetTrNum('add_jformGraphreportItem_table');
+        return false;
+      });
+      
+	  jQuery('#delJformGraphreportItemBtn').bind('click',function() {
+        $("#add_jformGraphreportItem_table").find("input:checked").parent().parent().remove();
+        resetTrNum('add_jformGraphreportItem_table');
+        return false;
+      });
+	  
+      jQuery(document).ready(function() {
+        $(".datagrid-toolbar").parent().css("width", "auto");
+        if (location.href.indexOf("load=detail") != -1) {
+          $(":input").attr("disabled", "true");
+          $(".datagrid-toolbar").hide();
+        }
+        //将表格的表头固定
+        $("#jformGraphreportItem_table").createhftable({
+          height: '300px',
+          width: 'auto',
+          fixFooter: false
+        });
+      });
+	  </script>
+  </head>
+  
+  <body>
+    <div style="padding: 3px; height: 25px;width:auto;" class="datagrid-toolbar">
+      <a id="addJformGraphreportItemBtn" href="#">添加</a>
+      <a id="delJformGraphreportItemBtn" href="#">删除</a></div>
+    <table border="0" cellpadding="2" cellspacing="0" id="jformGraphreportItem_table">
+      <tr bgcolor="#E6E6E6">
+        <td align="center" bgcolor="#EEEEEE">序号</td>
+        <td align="center" bgcolor="#EEEEEE">操作</td>
+        <td align="left" bgcolor="#EEEEEE">字段名</td>
+        <td align="left" bgcolor="#EEEEEE">字段文本</td>
+        <td align="left" bgcolor="#EEEEEE">排序</td>
+        <td align="left" bgcolor="#EEEEEE">字段类型</td>
+        <td align="left" bgcolor="#EEEEEE">是否显示</td>
+        <td align="left" bgcolor="#EEEEEE">是否查询</td>
+        <td align="left" bgcolor="#EEEEEE">查询模式</td>
+        <td align="left" bgcolor="#EEEEEE">字典Code</td>
+        <td align="left" bgcolor="#EEEEEE">显示图表</td>
+        <td align="left" bgcolor="#EEEEEE">图表类型</td>
+        <td align="left" bgcolor="#EEEEEE">图表名称</td>
+        <td align="left" bgcolor="#EEEEEE">标签名称</td>
+	  </tr>
+      <tbody id="add_jformGraphreportItem_table">
+		#if($!{jformGraphreportItemList}) 
+			#if($!jformGraphreportItemList.size() == 0)
+            <tr>
+              <td align="center">
+                <div style="width: 25px;" name="xh">1</div></td>
+              <td align="center">
+                <input style="width:20px;" type="checkbox" name="ck" /></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].fieldName" maxlength="36" type="text" class="inputxt" style="width:120px;">
+                <label class="Validform_label" style="display: none;">字段名</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].fieldTxt" maxlength="1000" type="text" class="inputxt" style="width:120px;">
+                <label class="Validform_label" style="display: none;">字段文本</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].orderNum" maxlength="10" type="text" class="inputxt" style="width:40px;">
+                <label class="Validform_label" style="display: none;">排序</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].fieldType">
+                  <option value="">---请选择---</option>
+                  <option value="Integer">数值类型</option>
+                  <option value="Date">日期类型</option>
+                  <option value="String" selected="selected">字符类型</option>
+                  <option value="Long">长整型</option></select>
+                </select>
+                <label class="Validform_label" style="display: none;">字段类型</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].isShow">
+                  <option value="">--请选择--</option>
+                  <option value="Y">显示</option>
+                  <option value="N">隐藏</option></select>
+                <label class="Validform_label" style="display: none;">是否显示</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].searchFlag">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="Y">是</option>
+                  <option value="N">否</option></select>
+                <label class="Validform_label" style="display: none;">是否查询</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].searchMode">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="single">单条件查询</option>
+                  <option value="group">范围查询</option></select>
+                <label class="Validform_label" style="display: none;">查询模式</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].dictCode" maxlength="500" type="text" class="inputxt" style="width:120px;">
+                <label class="Validform_label" style="display: none;">字典Code</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].isGraph">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="Y">是</option>
+                  <option value="N">否</option></select>
+                <label class="Validform_label" style="display: none;">显示图表</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[#index#].graphType">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="spline">曲线图</option>
+                  <option value="column">柱状图</option>
+                  <option value="pie">饼图</option></select>
+                <label class="Validform_label" style="display: none;">图表类型</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].graphName" maxlength="100" type="text" class="inputxt" style="width:120px;">
+                <label class="Validform_label" style="display: none;">图表名称</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[#index#].tabName" maxlength="50" type="text" class="inputxt" style="width:120px;">
+                <label class="Validform_label" style="display: none;">标签名称</label></td>
+            </tr>
+		#else 
+			#set($count=0) 
+			#foreach($!{item} in $!{jformGraphreportItemList})
+            <tr>
+              <td align="center">
+                <div style="width: 25px;" name="xh">$!{velocityCount}</div></td>
+              <td align="center">
+                <input style="width:20px;" type="checkbox" name="ck" /></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].fieldName" maxlength="36" type="text" class="inputxt" style="width:120px;" value="$!{item.fieldName}">
+                <label class="Validform_label" style="display: none;">字段名</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].fieldTxt" maxlength="1000" type="text" class="inputxt" style="width:120px;" value="$!{item.fieldTxt}">
+                <label class="Validform_label" style="display: none;">字段文本</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].orderNum" maxlength="10" type="text" class="inputxt" style="width:40px;" value="$!{item.orderNum}">
+                <label class="Validform_label" style="display: none;">排序</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].fieldType">
+                  <option value="">---请选择---</option>
+                  <option value="Integer" #if($!item.fieldType=='Integer' )selected="selected" #end>数值类型</option>
+                  <option value="Date" #if($!item.fieldType=='Date' )selected="selected" #end>日期类型</option>
+                  <option value="String" #if($!item.fieldType=='String' )selected="selected" #end>字符类型</option>
+                  <option value="Long" #if($!item.fieldType=='Long' )selected="selected" #end>长整型</option></select>
+                </select>
+                <label class="Validform_label" style="display: none;">字段类型</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].isShow">
+                  <option value="">--请选择--</option>
+                  <option value="Y" #if($!item.isShow=='Y' )selected="selected" #end>显示</option>
+                  <option value="N" #if($!item.isShow=='N' )selected="selected" #end>隐藏</option></select>
+                <label class="Validform_label" style="display: none;">是否显示</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].searchFlag">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="Y" #if($!item.searchFlag=='Y' )selected="selected" #end>是</option>
+                  <option value="N" #if($!item.searchFlag=='N' )selected="selected" #end>否</option></select>
+                <label class="Validform_label" style="display: none;">是否查询</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].searchMode">
+                  <option value="" selected="selected">---请选择---</option>
+                  <option value="single" #if($!item.searchMode=='single' )selected="selected" #end>单条件查询</option>
+                  <option value="group" #if($!item.searchMode=='group' )selected="selected" #end>范围查询</option></select>
+                <label class="Validform_label" style="display: none;">查询模式</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].dictCode" maxlength="500" type="text" class="inputxt" style="width:120px;" value="$!{item.dictCode}">
+                <label class="Validform_label" style="display: none;">字典Code</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].isGraph">
+                  <option value="">---请选择---</option>
+                  <option value="Y" #if($!item.isGraph=='Y' )selected="selected" #end>是</option>
+                  <option value="N" #if($!item.isGraph=='N' )selected="selected" #end>否</option></select>
+                <label class="Validform_label" style="display: none;">显示图表</label></td>
+              <td align="left">
+                <select name="jformGraphreportItemList[$count].graphType">
+                  <option value="">---请选择---</option>
+                  <option value="spline" #if($!item.graphType=='spline' )selected="selected" #end>曲线图</option>
+                  <option value="column" #if($!item.graphType=='column' )selected="selected" #end>柱状图</option>
+                  <option value="pie" #if($!item.graphType=='pie' )selected="selected" #end>饼图</option></select>
+                <label class="Validform_label" style="display: none;">图表类型</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].graphName" maxlength="100" type="text" class="inputxt" style="width:120px;" value="$!{item.graphName}">
+                <label class="Validform_label" style="display: none;">图表名称</label></td>
+              <td align="left">
+                <input name="jformGraphreportItemList[$count].tabName" maxlength="50" type="text" class="inputxt" style="width:120px;" value="$!{item.tabName}">
+                <label class="Validform_label" style="display: none;">标签名称</label></td>
+            </tr>
+				#set($count=$count+1)
+    		#end 
+	  #end
+	  #end
+	</tbody>
+    </table>
+  

@@ -5,6 +5,20 @@
 <head>
 <title>图标信息</title>
 <t:base type="jquery,easyui,tools"></t:base>
+
+<script type="text/javascript">
+	$(function(){
+		$("#formobj").submit(function(){
+			var file_upload = $("#file_upload").val();
+			
+			if($.trim(file_upload) == ""){
+				tip("请选择上载文件.");
+				return false;
+			}
+		});
+	})
+</script>
+
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" beforeSubmit="upload">
@@ -23,7 +37,7 @@
             <option value="3" <c:if test="${icon.iconType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="desktop.icon"/></option>
         </select>
     </div>
-	<div class="form" id="filediv"></div>
+	<div class="form" id="filediv" style="background:url(${icon.iconPath }) no-repeat; height: 50px;"></div>
 	<div class="form"><t:upload name="file_upload" uploader="iconController.do?saveOrUpdateIcon" extend="*.png;" id="file_upload" formId="formobj"></t:upload></div>
 	</fieldset>
 </t:formvalid>

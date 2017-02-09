@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.LogUtil;
@@ -26,7 +27,6 @@ import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
 import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
@@ -35,9 +35,9 @@ import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
+import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,8 +77,6 @@ public class CgFormBuildController extends BaseController {
 		 ftlForm(request,response);
 	}
 
-	
-	//add-start--Author:scott Date:20160301 for：online表单移动样式单独配置
 	/**
 	 * Online表单移动端，访问页面
 	 */
@@ -95,7 +93,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		ftlForm(request,response);
 	}
-	//add-end--Author:scott Date:20160301 for：online表单移动样式单独配置
+
 	
 	/**
 	 * form表单页面跳转
@@ -108,10 +106,10 @@ public class CgFormBuildController extends BaseController {
 			String tableName =request.getParameter("tableName");
 	        Map<String, Object> data = new HashMap<String, Object>();
 	        String id = request.getParameter("id");
-
 			String mode=request.getParameter("mode");
-			String templateName=tableName+"_";
-
+			String tablename = PublicUtil.replaceTableName(tableName);
+			String templateName=tablename+"_";
+			//String templateName=tableName+"_";
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
 				templateName+=TemplateUtil.TemplateType.ADD.getName();
@@ -132,9 +130,9 @@ public class CgFormBuildController extends BaseController {
 	    	CgFormHeadEntity head = (CgFormHeadEntity)data.get("head");
 	        Map<String, Object> dataForm = new HashMap<String, Object>();
 	        if(StringUtils.isNotEmpty(id)){
-	        	dataForm = dataBaseService.findOneForJdbc(tableName, id);
+	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
+	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
 	        }
-
 	        Iterator it=dataForm.entrySet().iterator();
 		    while(it.hasNext()){
 		    	Map.Entry entry=(Map.Entry)it.next();
@@ -142,10 +140,10 @@ public class CgFormBuildController extends BaseController {
 		        Object ov=entry.getValue();
 		        data.put(ok, ov);
 		    }
-
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
-	        tableData.put(tableName, dataForm);
+	        tableData.put(tablename, dataForm);
+	        //tableData.put(tableName, dataForm);
 	        //获取附表表表单数据
 	    	if(StringUtils.isNotEmpty(id)){
 		    	if(head.getJformType()==CgAutoListConstant.JFORM_TYPE_MAIN_TALBE){
@@ -163,9 +161,7 @@ public class CgFormBuildController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
-
 	    	data.put("head", head);
-
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
@@ -174,13 +170,10 @@ public class CgFormBuildController extends BaseController {
 	    	pushImages(data, id);
 			String content =null;
 			response.setContentType("text/html;charset=utf-8");
-
 			String urlTemplateName = request.getParameter("olstylecode");
-
 			if(oConvertUtils.isEmpty(urlTemplateName)){
 				urlTemplateName = (String) request.getAttribute("olstylecode");
 			}
-
 			
 			if(StringUtils.isNotBlank(urlTemplateName)){
 				data.put("this_olstylecode",urlTemplateName);
@@ -191,7 +184,6 @@ public class CgFormBuildController extends BaseController {
 				LogUtil.debug("-------------formTemplate-----------"+head.getFormTemplate());
 				content=getTableTemplate(templateName,request,data);
 			}
-
 			response.getWriter().print(content);
 			response.getWriter().flush();
 			long end = System.currentTimeMillis();
@@ -207,7 +199,7 @@ public class CgFormBuildController extends BaseController {
 		}
 
 	}
-
+	
 	/**
 	 * 获取url指定模板
 	 * @param templateName
@@ -220,9 +212,7 @@ public class CgFormBuildController extends BaseController {
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(templateName);
 		if(entity!=null){
 			FreemarkerHelper viewEngine = new FreemarkerHelper();
-
 			dataMap.put("DictData", ApplicationContextUtil.getContext().getBean("dictDataTag"));
-
 			content = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, templateType), dataMap);
 		}
 		return content;
@@ -244,11 +234,9 @@ public class CgFormBuildController extends BaseController {
 
 		Template template = templetContext.getTemplate(templateName, ftlVersion);
 		try {
-
 			template.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
 			template.setDateFormat("yyyy-MM-dd");  
 			template.setTimeFormat("HH:mm:ss");
-
 			template.process(data, writer);
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -257,7 +245,6 @@ public class CgFormBuildController extends BaseController {
 		}
 		return stringWriter.toString();
 	}
-
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
@@ -346,7 +333,6 @@ public class CgFormBuildController extends BaseController {
 		}
 		data.put("imageList", images);
 	}
-
 	/**
 	 * 保存或更新
 	 * 
@@ -515,7 +501,6 @@ public class CgFormBuildController extends BaseController {
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
 
 				dataBaseService.executeJavaExtend(formId, buttonCode, data);
-
 			}
 			j.setSuccess(true);
 			message = "操作成功";

@@ -20,6 +20,10 @@ import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.online.def.CgReportConstant;
+import org.jeecgframework.core.online.exception.CgReportNotFoundException;
+import org.jeecgframework.core.online.util.CgReportQueryParamUtil;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.DynamicDBUtil;
 import org.jeecgframework.core.util.SqlUtil;
@@ -27,11 +31,6 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgdynamgraph.service.core.CgDynamGraphServiceI;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
-import org.jeecgframework.web.cgreport.exception.CgReportNotFoundException;
-import org.jeecgframework.web.cgreport.util.CgReportQueryParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +39,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 
  * @Title:CgReportController
- * @description:动态报表展示控制器
- * @author 赵俊夫
+ * @description: Online移动报表展示
+ * @author scott
  * @date Jul 29, 2013 9:39:40 PM
  * @version V1.0
  */
@@ -66,7 +65,7 @@ public class CgDynamGraphController extends BaseController {
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgDynamGraphMap,request);
 		String html;
-
+		
 		//判断是否为综合类
 		Map<String, Object> mainConfig = (Map<String, Object> )cgDynamGraphMap.get(CgReportConstant.MAIN);
 		String defaultGtype =mainConfig.get("graph_type")==null?null:(String)mainConfig.get("graph_type");
@@ -81,7 +80,6 @@ public class CgDynamGraphController extends BaseController {
 			//设置gtype
 			html = viewEngine.parseTemplate("/org/jeecgframework/web/cgdynamgraph/engine/core/cgDynamGraphDesignMobile.ftl", cgDynamGraphMap);
 		}
-
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -264,7 +262,6 @@ public class CgDynamGraphController extends BaseController {
 			}
 		}
 		//step.4 进行查询返回结果
-
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -282,7 +279,6 @@ public class CgDynamGraphController extends BaseController {
             result= cgDynamGraphService.queryByCgDynamGraphSql(querySql, queryparams);
             size = cgDynamGraphService.countQueryByCgDynamGraphSql(querySql, queryparams);
         }
-
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -329,7 +325,6 @@ public class CgDynamGraphController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
-
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

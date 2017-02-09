@@ -1,5 +1,8 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +132,6 @@ public class DynamicDataSourceController extends BaseController {
 				MyBeanUtils.copyBeanNotNull2Bean(dbSource, t);
 
 				t.setDbPassword(PasswordUtil.encrypt(t.getDbPassword(), t.getDbUser(), PasswordUtil.getStaticSalt()));
-
 				dynamicDataSourceService.saveOrUpdate(t);
 				dynamicDataSourceService.refleshCache();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -145,7 +147,6 @@ public class DynamicDataSourceController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			dynamicDataSourceService.save(dbSource);
 			dynamicDataSourceService.refleshCache();
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -171,12 +172,10 @@ public class DynamicDataSourceController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			req.setAttribute("dbSourcePage", dbSource);
 		}
 		return new ModelAndView("system/dbsource/dbSource");
 	}
-
 
     /**
      * 获取数据源列表
@@ -198,10 +197,6 @@ public class DynamicDataSourceController extends BaseController {
         return  comboBoxes;
     }
 
-
-
-    //add-begin--Author:	jg_huangxg Date: 20150625 for：[bugfree号]根据字典表数据库类型获取数据源对象
-
     @RequestMapping(params = "getDynamicDataSourceParameter")
 	@ResponseBody
     public AjaxJson getDynamicDataSourceParameter(@RequestParam String dbType){
@@ -221,5 +216,40 @@ public class DynamicDataSourceController extends BaseController {
     	return j;
     }
 
-	//add-end--Author: jg_huangxg Date: 20150625 for：[bugfree号]根据字典表数据库类型获取数据源对象
+    @RequestMapping(params = "testConnection")
+	@ResponseBody
+    public AjaxJson testConnection(DynamicDataSourceEntity dbSource, HttpServletRequest request){
+    	AjaxJson j = new AjaxJson();
+    	Connection con = null;
+    	Map map = new HashMap();
+    	try {
+			Class.forName(dbSource.getDriverClass());//加载及注册JDBC驱动程序
+			//建立连接对象
+			con = DriverManager.getConnection(dbSource.getUrl(), dbSource.getDbUser(), dbSource.getDbPassword());
+			if(con!=null){
+				map.put("msg", "数据库连接成功!!");
+			}
+		} catch (ClassNotFoundException e) {
+			//e.printStackTrace();
+			logger.error(e.toString());
+			map.put("msg", "数据库连接失败!!");
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			logger.error(e.toString());
+			map.put("msg", "数据库连接失败!!");
+		}finally{
+			try {
+				if(con!=null&&!con.isClosed()){
+					con.close();
+				}
+			} catch (SQLException e) {
+				//e.printStackTrace();
+				logger.error(e.toString());
+			}
+		}
+    	j.setObj(map);
+    	return j;
+    }
+
+    
 }

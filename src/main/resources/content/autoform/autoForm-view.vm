@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>表单数据源</title>
+		<script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+		<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+		<link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+		<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+		<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+		<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+		<script type="text/javascript" src="plug-in/tools/json2.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/form/jquery.form.js"></script>
+		<LINK rel="stylesheet" href="plug-in/Validform/plugin/jqtransform/jqtransform.css" type="text/css"></LINK>
+		<link href="plug-in/lhgDialog/skins/default.css" rel="stylesheet" id="lhgdialoglink" />
+		<link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css" />
+		<link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css" />
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
+		<script type="text/javascript">
+			jQuery(function() {
+				jQuery("#viewSubmit").click(function() {
+					var url = "autoFormController.do?viewContent_vm";
+					var param = jQuery("#formobj").serialize();
+					url = url + "&" + param;
+					var dbKey = jQuery("#dbKey").val();
+					if (dbKey != '' && dbKey != null) {
+						url = url + "&" + dbKey;
+					}
+					window.open(url, 'mywin', "menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" + (screen.availWidth - 10) + ",height=" + (screen.availHeight - 50) + "\"");
+					frameElement.api.opener.winclose();
+				});
+			});
+
+			jQuery(function() {
+				jQuery("#formobj").Validform({
+					tiptype: 1,
+					btnSubmit: "#btn_sub",
+					btnReset: "#btn_reset",
+					ajaxPost: true,
+					callback: function(data) {
+						null(data);
+					}
+				});
+			});
+		</script>
+	</head>
+	<body style="overflow-x: hidden;">
+		<fieldset style="border: 1px solid #E6E6E6">
+			<legend>参数录入区</legend>
+			<form id="formobj" action="autoFormController.do?viewContent" name="formobj" method="post">
+				<input id="formName" name="formName" type="hidden" value="$!{autoFormPage.formName}">
+				<input id="dbKey" name="dbKey" type="hidden" value="$!{dbKey}">
+				<table cellpadding="0" cellspacing="1" class="formtable" style="width: 100%">
+					#if($!{paramList})
+						#foreach($!{info} in $!{paramList})
+							<tr height="30px">
+            				   <td align="center"><label class="Validform_label"><b>${info}：</b></label></td>
+            				   <td class="value"><input type="text" name="${info}" class="inputxt"/><span class="Validform_checktip"></span></td>
+            				</tr>
+						#end
+					#end
+					
+					<tr height="30px">
+						<td align="center">
+							<label class="Validform_label">
+								<b>操作模式：</b>
+							</label>
+						</td>
+						<td class="value">
+							<select name="op">
+								<option value="">--请选择--</option>
+								<option value="view" selected>查看模式</option>
+								<option value="add">添加模式</option>
+								<option value="update">编辑模式</option>
+                            </select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center" class="value">
+							<input id="viewSubmit" type="button" value=" 预 览 " class="ui_state_highlight" style="font-size:14px;" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</fieldset>
+	</body>
+</html>

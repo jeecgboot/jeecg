@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>表单数据源</title>
+		<script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+		<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+		<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
+		<link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+		<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+		<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+		<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+		<script type="text/javascript" src="plug-in/tools/json2.js"></script>
+		<script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
+		<link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css" />
+		<link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css" />
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
+		<SCRIPT type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></SCRIPT>
+		<script type="text/javascript" src = "content/autoform/autoFormDb.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('#tt').tabs({
+					onSelect: function(title) {
+						jQuery('#tt .panel-body').css('width', 'auto');
+					}
+				});
+				jQuery(".tabs-wrap").css('width', '100%');
+			});
+
+			jQuery(function() {
+				jQuery("form table input[name='dbType']").attr("disabled", true);
+
+				jQuery("#tbDbKey").val("");
+				jQuery("#tbDbTableName").val("jform_employee_leave");
+			});
+
+			jQuery(function() {
+				if (jQuery("#autoFormDbField").length > 0) jQuery("#autoFormDbField").load("autoFormDbController.do?autoFormDbFieldList_vm&id=${autoFormDbPage.id}");
+				if (jQuery("#autoFormParam").length > 0) jQuery("#autoFormParam").load("autoFormDbController.do?autoFormParamList_vm&id=${autoFormDbPage.id}");
+				if (jQuery("#autoFormDbFieldForTable").length > 0) jQuery("#autoFormDbFieldForTable").load("autoFormDbController.do?autoFormDbFieldForTableList_vm&id=${autoFormDbPage.id}");
+				
+				if (jQuery('#dbTableName').length > 0) {
+					jQuery('#dbTableName').change(function() {
+						jQuery.ajax({
+							url: "autoFormDbController.do?getTableFields",
+							data: {
+								dbKey: jQuery("#tbDbKey").val(),
+								tableName: jQuery("#dbTableName").val()
+							},
+							
+							type: "Post",
+							dataType: "json",
+							success: function(data) {
+								if (data.status == "success") {
+									jQuery("#table_div #autoFormDbFieldForTable").empty();
+									jQuery.each(data.files,
+									function(index, e) {
+										var jQuerytr = jQuery("#add_autoFormDbFieldForTable_table_template tr").clone();
+										jQuerytr.find("td:eq(1) :text").val(index);
+										jQuerytr.find("td:eq(2) :text").val(e);
+										jQuery("#table_div #autoFormDbFieldForTable").append(jQuerytr);
+									});
+									resetTrNum("table_div #autoFormDbFieldForTable");
+								} else {
+									jQuery.messager.alert('??', data.datas);
+								}
+							}
+						});
+					});
+				}
+				hideDataSourceAndDataTable();
+			});
+			function hideDataSourceAndDataTable() {
+				var checkedVal = jQuery("input[name='dbType']:checked").val();
+				if (checkedVal == 'table') {
+					jQuery("#dataSourceTr").hide();
+				} else {
+					jQuery("#dataSourceTr").show();
+				}
+			}
+			
+			function setDataSourceVal() {
+				var checkedVal = jQuery("input[name='dbType']:checked").val();
+				if (checkedVal == 'table') {
+					jQuery("#tbDbKey").val(jQuery("#dbKey").find("option:selected").val());
+					jQuery("#tbDbTableName").val(jQuery("#dbTableName").find("option:selected").val());
+				}
+			}
+			jQuery(function() {
+				jQuery("#formobj").Validform({
+					tiptype: 3,
+					btnSubmit: "#btn_sub",
+					btnReset: "#btn_reset",
+					ajaxPost: true,
+					usePlugin: {
+						passwordstrength: {
+							minLen: 6,
+							maxLen: 18,
+							trigger: function(obj, error) {
+								if (error) {
+									obj.parent().next().find(".Validform_checktip").show();
+									obj.find(".passwordStrength").hide();
+								} else {
+									jQuery(".passwordStrength").show();
+									obj.parent().next().find(".Validform_checktip").hide();
+								}
+							}
+						}
+					},
+					callback: function(data) {
+						var win = frameElement.api.opener;
+						if (data.success == true) {
+							frameElement.api.close();
+							win.tip(data.msg);
+						} else {
+							if (data.responseText == '' || data.responseText == undefined) {
+								jQuery.messager.alert('错误', data.msg);
+								jQuery.Hidemsg();
+							} else {
+								try {
+									var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'), data.responseText.indexOf('错误信息'));
+									jQuery.messager.alert('错误', emsg);
+									jQuery.Hidemsg();
+								} catch(ex) {
+									jQuery.messager.alert('错误', data.responseText + "");
+									jQuery.Hidemsg();
+								}
+							}
+							return false;
+						}
+						win.reloadTable();
+					}
+				});
+			});
+		</script>
+	</head>
+	
+	<body style="overflow-x: hidden;">
+		<form id="formobj" action="autoFormDbController.do?doUpdate" name="formobj" method="post">
+			<input type="hidden" id="btn_sub" class="btn_sub" />
+			<input id="id" name="id" type="hidden" value="$!{autoFormDbPage.id}"/>
+			<input id="createName" name="createName" type="hidden" value="$!{autoFormDbPage.createName}"/>
+			<input id="createBy" name="createBy" type="hidden" value="$!{autoFormDbPage.createBy}"/>
+			<input id="updateName" name="updateName" type="hidden" value="$!{autoFormDbPage.updateName}"/>
+			<input id="updateBy" name="updateBy" type="hidden" value="$!{autoFormDbPage.updateBy}"/>
+			<input id="sysOrgCode" name="sysOrgCode" type="hidden" value="$!{autoFormDbPage.sysOrgCode}"/>
+			<input id="sysCompanyCode" name="sysCompanyCode" type="hidden" value="$!{autoFormDbPage.sysCompanyCode}"/>
+			<input id="createDate" name="createDate" type="hidden" value="$!{autoFormDbPage.createDate}"/>
+			<input id="updateDate" name="updateDate" type="hidden" value="$!{autoFormDbPage.updateDate}"/>
+			<input id="autoFormId" name="autoFormId" type="hidden" value="$!{autoFormDbPage.autoFormId}"/>
+			<input name="dbType" type="hidden" value="$!{autoFormDbPage.dbType}"/>
+			<table cellpadding="0" cellspacing="1" class="formtable">
+				<tr>
+					<td align="right">
+						<label class="Validform_label">数据源编码:</label></td>
+					<td class="value">
+						<input id="dbName" name="dbName" type="text" style="width: 150px" ajaxurl="autoFormDbController.do?checkDbName&cVal=$!{autoFormDbPage.dbName}" class="inputxt" value='$!{autoFormDbPage.dbName}' nullmsg="数据源编码不能为空!" errorMsg="不能为中文" datatype="/^[A-Za-z\d-._]+$/">
+						<span class="Validform_checktip"></span>
+					</td>
+					<td align="center" width="100px">
+						<label class="Validform_label">数据源名称:</label></td>
+					<td class="value" colspan="2">
+						<input id="dbChName" name="dbChName" type="text" style="width: 150px" class="inputxt" datatype="*" nullmsg="数据源名称不能为空!" value='${autoFormDbPage.dbChName}' />
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">数据源类型:</label>
+					</td>
+					<td class="value">
+						<input type="radio" name="dbType" value="table" />数据库表
+						<input type="radio" name="dbType" checked="checked" value="sql" />动态SQL
+						<input type="radio" name="dbType" value="clazz" />java类
+						<span class="Validform_checktip"></span>
+					</td>
+					<td align="center" width="100px">
+						<label class="Validform_label">
+							<b>动态数据源:</b>
+						</label>
+					</td>
+					<td class="value" colspan="2">
+						<select id="dbKey" name="dbKey">
+							<option value="" selected="selected">--动态数据源--</option>
+							#if($!{dynamicDataSourceEntitys})
+								#foreach($!{info} in $!{dynamicDataSourceEntitys})
+									<option value="${info.dbKey}">${info.dbKey}</option>
+								#end
+							#end
+                        </select>
+						<span class="Validform_checktip"></span>
+					</td>
+				</tr>
+				
+				<tr id="dataSourceTr">
+					<td align="right">
+						<label class="Validform_label">填报数据源:</label></td>
+					<td class="value">
+						<select id="tbDbKey" name="tbDbKey">
+							<option value="">--平台数据源--</option>
+							#if($!{dynamicDataSourceEntitys})
+								#foreach($!{info} in $!{dynamicDataSourceEntitys})
+									<option value="${info.dbKey}">${info.dbKey}</option>
+								#end
+							#end
+						</select>
+						<span class="Validform_checktip"></span>
+					</td>
+					<td align="center">
+						<label class="Validform_label">填报数据库表:</label></td>
+					<td class="value">
+						<select id="tbDbTableName" name="tbDbTableName">
+							#if($!{tableNames})
+								#foreach($!{info} in $!{tableNames})
+									<option value="${info}">${info}</option>
+								#end
+							#end
+						</select>
+						<span class="Validform_checktip"></span>
+					</td>
+					<td class="value"></td>
+				</tr>
+			</table>
+			
+			#if($autoFormDbPage.dbType == 'table')
+				<div style="margin-top: 5px;border: 1px solid #E6E6E6;" id="table_div" class="formdbdiv">
+					<table cellpadding="0" cellspacing="1" class="formtable">
+						<tr>
+							<td align="right">
+								<label class="Validform_label"><t:mutiLang langKey="common.dynamic.dbsource"/>:</label>
+							</td>
+							<td class="value">
+								<select id="dbKey" name="dbKey">
+									<option value="">平台数据源</option>
+									#if($!{dynamicDataSourceEntitys})
+        								#foreach($!{info} in $!{dynamicDataSourceEntitys})
+        									<option value="${info.dbKey}" #if($autoFormDbPage.dbKey == $dynamicDataSourceEntity.dbKey)selected="selected"#end>${info.dbKey}</option>
+        								#end
+        							#end
+								</select>
+								<span class="Validform_checktip"></span>
+							</td>
+							<td align="right">
+								<label class="Validform_label">数据库表名::</label>
+							</td>
+							<td class="value">
+						     	 <select id="dbTableName" name="dbTableName">
+									#if($!{tableNames})
+        								#foreach($!{info} in $!{tableNames})
+        									<option value="${info}" #if($tableName == $autoFormDbPage.dbTableName)selected="selected"#end>${info}</option>
+        								#end
+        							#end
+						     	 </select>
+						     	 <span class="Validform_checktip"></span>
+							</td>
+							<td class="value">
+							</td>
+						</tr>
+						<tr>
+							<td class="value" colspan="5">
+								<div style="width:100%;height:100%" title="表单数据源属性" id="autoFormDbFieldForTable"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			#end
+			
+			#if($autoFormDbPage.dbType == 'sql')
+    			<div style="margin-top: 5px;border: 1px solid #E6E6E6" id="sql_div" class="formdbdiv">
+    				<table cellpadding="0" cellspacing="1" style="width: 100%">
+    					<tr>
+    						<td align="right" width="95px">
+    							<label class="Validform_label">动态查询SQ:</label>
+    						</td>
+    						<td class="value" colspan="3" align="center">
+    							<span id="dbDynSqlButton"></span>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td class="value" colspan="4">
+    							 <div style="width:100%;border: 1px solid #E6E6E6"">
+    							 	<textarea id="dbDynSql" style="width:99%" class="inputxt" rows="10" name="dbDynSql">$!{autoFormDbPage.dbDynSql}</textarea>
+									<p>
+        							 	&nbsp;&nbsp;&nbsp;&nbsp;您可以键入“”作为一个参数，这里abc是参数的名称。例如：<br/>
+        								&nbsp;&nbsp;&nbsp;&nbsp;select * from table where id = ${abc}。<br/>
+        								&nbsp;&nbsp;&nbsp;&nbsp;select * from table where id = '${abc}'（如果id字段为字符串类型）
+									</p>
+    							 </div>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td class="value" colspan="4">
+    							<fieldset style="border: 1px solid #E6E6E6;">
+    								<legend>查询参数</legend>
+    								<div style="width:100%;height:100%" title="表单参数" id="autoFormParam"></div>
+    							</fieldset>	
+    						</td>
+    					</tr>
+    					<tr>
+    						<td class="value" colspan="4">
+    							<fieldset style="border: 1px solid #E6E6E6;">
+    								<legend>查询数据列</legend>
+    								<div style="width:100%;height:100%" title="表单数据源属性" id="autoFormDbField"></div>
+    							</fieldset>
+    						</td>
+    					</tr>
+    				</table>
+    			</div>
+			#end
+
+			#if($autoFormDbPage.dbType == 'clazz')
+				<div style="margin-top: 5px;border: 1px solid #E6E6E6" id="clazz_div" class="formdbdiv">
+					JAVA类配置
+				</div>
+			#end
+		</form>
+		<!-- 添加 附表明细 模版 -->
+		<table style="display:none">
+			<tbody id="add_autoFormDbField_table_template">
+				<tr>
+					<td align="center">
+						<div style="width: 40px;" name="xh"></div>
+					</td>
+					<td align="center">
+						<input style="width:20px;" type="checkbox" name="ck" />
+					</td>
+					<td align="left">
+						<input name="autoFormDbFieldList[#index#].fieldName" maxlength="32" type="text" class="inputxt" style="width:120px;"/>
+					</td>
+					<td align="left">
+						<input name="autoFormDbFieldList[#index#].fieldText" maxlength="50" type="text" class="inputxt" style="width:120px;"/>
+					</td>
+					<td align="center">
+						<div style="width: 50px;" align="center">[
+							<a name="delAutoFormDbFieldOneBtn" href="javascript:void(0)" onclick="deleteOne(this)">删除</a>]
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody id="add_autoFormParam_table_template">
+				<tr>
+					<td align="center">
+						<div style="width: 40px;" name="xh"></div>
+					</td>
+					<td align="center">
+						<input style="width:20px;" type="checkbox" name="ck" />
+					</td>
+					<td align="left">
+						<input name="autoFormParamList[#index#].paramName" maxlength="32" type="text" class="inputxt" style="width:120px;" datatype="*">
+						<label class="Validform_label" style="display: none;">参数</label>
+					</td>
+					<td align="left">
+						<input name="autoFormParamList[#index#].paramDesc" maxlength="32" type="text" class="inputxt" style="width:120px;">
+						<label class="Validform_label" style="display: none;">参数文本</label>
+					</td>
+					<td align="left">
+						<input name="autoFormParamList[#index#].paramValue" maxlength="32" type="text" class="inputxt" style="width:120px;">
+						<label class="Validform_label" style="display: none;">默认值</label>
+					</td>
+					<td align="left">
+						<input name="autoFormParamList[#index#].seq" maxlength="32" type="text" class="inputxt" style="width:120px;">
+						<label class="Validform_label" style="display: none;">排序</label>
+					</td>
+					<td align="center">
+						<div style="width: 50px;" align="center">[
+							<a class="delAutoFormParamOneBtn" href="javascript:void(0)" onclick="deleteOne(this)">删除</a>]
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			
+			<tbody id="add_autoFormDbFieldForTable_table_template">
+				<tr>
+					<td align="center">
+						<div style="width: 40px;" name="xh"></div>
+					</td>
+					<td align="center">
+						<input style="width:20px;" type="checkbox" name="ck" />
+					</td>
+					<td align="left">
+						<input name="autoFormDbFieldList[#index#].fieldName" maxlength="32" type="text" class="inputxt" style="width:120px;">
+					</td>
+					<td align="left">
+						<input name="autoFormDbFieldList[#index#].fieldText" maxlength="50" type="text" class="inputxt" style="width:120px;">
+					</td>
+					<td align="center">
+						<div style="width: 50px;" align="center">
+							[<a name="delAutoFormDbFieldForTableOneBtn" href="javascript:void(0)" onclick="deleteOne(this)">删除</a>]
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

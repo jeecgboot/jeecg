@@ -418,7 +418,6 @@ public class CommonServiceImpl implements CommonService {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
 
-
 	
 	public <T> void batchSave(List<T> entitys) {
 		this.commonDao.batchSave(entitys);
@@ -450,5 +449,4 @@ public class CommonServiceImpl implements CommonService {
 	public <T> List<T> executeProcedure(String procedureSql,Object... params) {
 		return this.commonDao.executeProcedure(procedureSql, params);
 	}
-
 }

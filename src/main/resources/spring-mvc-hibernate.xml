@@ -102,9 +102,11 @@
 				<value>org.jeecgframework.web.system.pojo.*</value>
 				<value>org.jeecgframework.web.demo.entity.*</value>
 				<value>org.jeecgframework.web.test.entity.*</value>
+				<value>org.jeecgframework.web.autoform..*</value>
 				<value>org.jeecgframework.web.cgform.entity.*</value>
 				<value>org.jeecgframework.web.cgreport.entity.*</value>
 				<value>org.jeecgframework.web.cgdynamgraph.entity.*</value>
+				<value>org.jeecgframework.web.graphreport.entity.*</value>
 				<value>org.jeecgframework.web.system.sms.*</value>
 				<value>com.jeecg.*</value>
 			</list>

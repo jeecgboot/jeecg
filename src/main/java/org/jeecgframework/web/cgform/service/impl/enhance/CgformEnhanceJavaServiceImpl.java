@@ -125,7 +125,6 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 				return false;
 			}
 		}
-
 		return true;
 	}
 }

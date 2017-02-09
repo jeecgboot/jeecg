@@ -882,9 +882,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 *
 	 */
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
-
 		return this.jdbcTemplate.queryForObject(sql, objs,Long.class);
-
 
 	}
 
@@ -918,14 +916,11 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				keyValue = keyHolder.getKey().longValue();
 			}
 		}
-
 		return keyValue;
 	}
 
 	public Integer countByJdbc(String sql, Object... param) {
-
 		return this.jdbcTemplate.queryForObject(sql, param,Integer.class);
-
 
 	}
 
@@ -994,5 +989,4 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		
 		return sqlQuery.list();
 	}
-
 }

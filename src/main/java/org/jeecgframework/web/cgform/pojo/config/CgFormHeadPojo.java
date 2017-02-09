@@ -54,6 +54,26 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	/**一对多Tab顺序*/
 	private Integer tabOrder;
 	
+	//--author：zhoujf---start------date:20170207--------for:online表单 表单导出字段不全
+	/**树形列表 父id列名*/
+	private java.lang.String treeParentIdFieldName;
+	/**树形列表 id列名*/
+	private java.lang.String treeIdFieldname;
+	/**树形列表 菜单列名*/
+	private java.lang.String treeFieldname;
+	/**表单分类*/
+	private java.lang.String jformCategory;
+	/**表单模板*/
+	private String formTemplate;
+	/**表单模板样式(移动端)*/
+	private String formTemplateMobile;
+	/**表单类型，0为物理表，1为配置表*/
+	private String tableType;
+	/**配置表版本*/
+	private Integer tableVersion;
+	/**物理表id*/
+	private String physiceId;
+	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
@@ -340,4 +360,78 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	public void setTabOrder(Integer tabOrder) {
 		this.tabOrder = tabOrder;
 	}
+
+	public java.lang.String getTreeParentIdFieldName() {
+		return treeParentIdFieldName;
+	}
+
+	public void setTreeParentIdFieldName(java.lang.String treeParentIdFieldName) {
+		this.treeParentIdFieldName = treeParentIdFieldName;
+	}
+
+	public java.lang.String getTreeIdFieldname() {
+		return treeIdFieldname;
+	}
+
+	public void setTreeIdFieldname(java.lang.String treeIdFieldname) {
+		this.treeIdFieldname = treeIdFieldname;
+	}
+
+	public java.lang.String getTreeFieldname() {
+		return treeFieldname;
+	}
+
+	public void setTreeFieldname(java.lang.String treeFieldname) {
+		this.treeFieldname = treeFieldname;
+	}
+
+	public java.lang.String getJformCategory() {
+		return jformCategory;
+	}
+
+	public void setJformCategory(java.lang.String jformCategory) {
+		this.jformCategory = jformCategory;
+	}
+
+	public String getFormTemplate() {
+		return formTemplate;
+	}
+
+	public void setFormTemplate(String formTemplate) {
+		this.formTemplate = formTemplate;
+	}
+
+	public String getFormTemplateMobile() {
+		return formTemplateMobile;
+	}
+
+	public void setFormTemplateMobile(String formTemplateMobile) {
+		this.formTemplateMobile = formTemplateMobile;
+	}
+
+	public String getTableType() {
+		return tableType;
+	}
+
+	public void setTableType(String tableType) {
+		this.tableType = tableType;
+	}
+
+	public Integer getTableVersion() {
+		return tableVersion;
+	}
+
+	public void setTableVersion(Integer tableVersion) {
+		this.tableVersion = tableVersion;
+	}
+
+	public String getPhysiceId() {
+		return physiceId;
+	}
+
+	public void setPhysiceId(String physiceId) {
+		this.physiceId = physiceId;
+	}
+	
+	
 }

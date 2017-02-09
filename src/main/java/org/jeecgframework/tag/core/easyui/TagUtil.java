@@ -84,10 +84,8 @@ public class TagUtil {
             } else {
                 value = fieldNametoValues(childFieldName, value);
             }
-
 		}
 		if(value != "" && value != null) {
-
 			value = converunicode(value.toString());
 		}
 		return value;
@@ -97,7 +95,6 @@ public class TagUtil {
         for (int i=0; i<jsonValue.length(); i++) {
         char c = jsonValue.charAt(i);  
           switch (c){
-
 //         case '\"':      
 //                 sb.append("\\\"");      
 //                 break;      
@@ -110,7 +107,6 @@ public class TagUtil {
 //             case '/':      
 //                 sb.append("\\/");      
 //                 break;   
-
              case '\b':      
                  sb.append("\\b");      
                  break;      
@@ -132,7 +128,6 @@ public class TagUtil {
          }    
         return sb.toString();   
 }
-
 
 	/**
 	 * 对象转数组
@@ -454,9 +449,7 @@ public class TagUtil {
 		}finally{
 			try {
 				pw.close();
-
 				object.clear();
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -489,9 +482,7 @@ public class TagUtil {
 		}finally{
 			try {
 				pw.close();
-
 				object.clear();
-
 			} catch (Exception e2) {
 				// TODO: handle exception
 			}
@@ -629,7 +620,7 @@ public class TagUtil {
 		param += "'\"+index+\"'";// 传出行索引号参数
 		return param;
 	}
-
+	
 	public static String getJson(List fields,List datas){
 		if(datas!=null && datas.size()>0){
 			StringBuffer sb = new StringBuffer();
@@ -649,7 +640,6 @@ public class TagUtil {
 			return "{\"total\":\"0\",\"rows\":[]}";
 		}
 	}
-
 
 	public static String getJsonByMap(List fields,List<Map<String,Object>> datas){
 		if(datas!=null && datas.size()>0){

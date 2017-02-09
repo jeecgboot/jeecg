@@ -30,6 +30,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -412,7 +413,6 @@ public class JeecgDemoController extends BaseController {
 		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
 	}
 
-
 	/**
 	 * 保存新增/更新的行数据
 	 * @param page
@@ -443,6 +443,101 @@ public class JeecgDemoController extends BaseController {
 					systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 				}
 			}
+		}
+		return j;
+	}
+
+	/**
+	 * 自定义datagrid的跳转页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "customDatagridList")
+	public ModelAndView customDatagridList(HttpServletRequest request) {
+		return new ModelAndView("jeecg/demo/jeecgDemo/customDatagridList");
+	}
+	
+	/**
+	 *  datagrid列表不使用查询器组装查询 ，使用hql或者sql查询列表实现一个demo
+	 */
+	@RequestMapping(params = "customDatagrid")
+	public void customDatagrid(JeecgDemo jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		try{
+			this.jeecgDemoService.getDemoList(jeecgDemo, dataGrid);
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TagUtil.datagrid(response, dataGrid);
+	}
+
+	/**
+	 * 预算分类列表 页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "ztreelist")
+	public ModelAndView ztreeList(HttpServletRequest request) {
+		return new ModelAndView("jeecg/demo/test/jeecgZtreeDemo");
+	}
+
+	/**
+	 * 加载ztree
+	 * @param response
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params="getTree",method ={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public AjaxJson getTree(TSDepart depatr,HttpServletResponse response,HttpServletRequest request ){
+		AjaxJson j = new AjaxJson();
+		try{
+			List<TSDepart> depatrList = new ArrayList<TSDepart>();
+			StringBuffer hql = new StringBuffer(" from TSDepart t");
+			//hql.append(" and (parent.id is null or parent.id='')");
+			depatrList = this.systemService.findHql(hql.toString());
+			List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
+			Map<String,Object> map = null;
+			for (TSDepart tsdepart : depatrList) {
+				String sqls = null;
+				Object[] paramss = null;
+				map = new HashMap<String,Object>();
+				map.put("id", tsdepart.getId());
+				map.put("name", tsdepart.getDepartname());
+				if (tsdepart.getTSPDepart() != null) {
+					map.put("pId", tsdepart.getTSPDepart().getId());
+					map.put("open",false);
+				}else {
+					map.put("pId", "1");
+					map.put("open",false);
+				}
+				sqls = "select count(1) from t_s_depart t where t.parentdepartid = ?";
+				paramss = new Object[]{tsdepart.getId()};
+				long counts = this.systemService.getCountForJdbcParam(sqls, paramss);
+				if(counts>0){
+					dataList.add(map);
+				}else{
+					TSDepart de = this.systemService.get(TSDepart.class, tsdepart.getId());
+					if (de != null) {
+						map.put("id", de.getId());
+						map.put("name", de.getDepartname());
+						if(tsdepart.getTSPDepart()!=null){
+							map.put("pId", tsdepart.getTSPDepart().getId());
+							map.put("open",false);
+						}else{
+							map.put("pId", "1");
+							map.put("open",false);
+						}
+						dataList.add(map);
+					}else{
+						map.put("open",false);
+						dataList.add(map);
+					}
+				}
+			}
+		j.setObj(dataList);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return j;
 	}

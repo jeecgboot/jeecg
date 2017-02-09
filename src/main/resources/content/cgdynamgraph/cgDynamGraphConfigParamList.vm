@@ -1,0 +1,56 @@
+<script type="text/javascript">
+	jQuery('#addCgreportConfigParamBtn').linkbutton({   
+	    iconCls: 'icon-add'  
+	});  
+	jQuery('#delCgreportConfigParamBtn').linkbutton({   
+	    iconCls: 'icon-remove'  
+	}); 
+	jQuery('#addCgreportConfigParamBtn').bind('click', function(){   
+ 		 var tr =  jQuery("#add_cgreportConfigParam_table_template tr").clone();
+	 	 jQuery("#add_cgreportConfigParam_table").append(tr);
+	 	 resetTrNum('add_cgreportConfigParam_table');
+    });  
+	jQuery('#delCgreportConfigParamBtn').bind('click', function(){   
+      	jQuery("#add_cgreportConfigParam_table").find("input:checked").parent().parent().remove();   
+        resetTrNum('add_cgreportConfigParam_table'); 
+    }); 
+    jQuery(document).ready(function(){
+    	jQuery(".datagrid-toolbar").parent().css("width","auto");
+    	if(location.href.indexOf("load=detail")!=-1){
+			jQuery(":input").attr("disabled","true");
+			jQuery(".datagrid-toolbar").hide();
+		}
+    });
+</script>
+<div style="padding: 3px; height: 25px; width: auto;" class="datagrid-toolbar">
+	<a id="addCgreportConfigParamBtn" href="javascript:void(0);">添加</a>
+	<a id="delCgreportConfigParamBtn" href="javascript:void(0);">删除</a>
+</div>
+<div style="width: auto; height: 150px; overflow-y: auto; overflow-x: scroll;">
+<table border="0" cellpadding="2" cellspacing="0" id="cgreportConfigParam_table">
+	<tr bgcolor="#E6E6E6">
+		<td align="center" bgcolor="#EEEEEE"><label class="Validform_label">编码</label></td>
+		<td align="left" bgcolor="#EEEEEE" style="width: 120px;"><label class="Validform_label">参数</label></td>
+		<td align="left" bgcolor="#EEEEEE" style="width: 120px;"><label class="Validform_label">参数文本</label></td>
+		<td align="left" bgcolor="#EEEEEE" style="width: 120px;"><label class="Validform_label">默认值</label></td>
+		<td align="left" bgcolor="#EEEEEE" style="width: 120px;"><label class="Validform_label">排序</label></td>
+	</tr>
+	<tbody id="add_cgreportConfigParam_table">
+		#if($!{cgreportConfigParamList})
+			#set($count=0)
+			#foreach($!{info} in $!{cgreportConfigParamList})
+				<tr>
+					<td align="center"><input style="width: 20px;" type="checkbox" name="ck" /></td>
+					<input name="cgreportConfigParamList[$count].id" type="hidden" value="$!{info.id}"/>
+					<input name="cgreportConfigParamList[$count].cgrheadId" type="hidden" value="$!{info.cgrheadId}"/>
+					<td align="left"><input name="cgreportConfigParamList[$count].paramName" value="$!{info.paramName}" maxlength="32" type="text" class="inputxt" style="width: 120px;"></td>
+					<td align="left"><input name="cgreportConfigParamList[$count].paramDesc" value="$!{info.paramDesc}" maxlength="32" type="text" class="inputxt" style="width: 120px;"></td>
+					<td align="left"><input name="cgreportConfigParamList[$count].paramValue" value="$!{info.paramValue}" maxlength="32" type="text" class="inputxt" style="width: 120px;"></td>
+					<td align="left"><input name="cgreportConfigParamList[$count].seq" value="$!{info.seq}" maxlength="32" type="text" class="inputxt"  style="width:120px;"></td>
+				</tr>
+				#set($count=$count+1)
+			#end
+		#end
+	</tbody>
+</table>
+</div>

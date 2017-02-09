@@ -38,7 +38,6 @@ public class FileUploadController extends BaseController {
 	private static final Logger logger = Logger.getLogger(FileUploadController.class);
 
 	/**
-	 * update-begin--Author:huangzq  Date:20151125 for：[732]【常用示例】上传文件下载报错
 	 */
 	private static LinkedList<FileMeta> files = new LinkedList<FileMeta>();
 	/**

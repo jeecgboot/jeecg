@@ -16,9 +16,7 @@ public interface CgFormFieldServiceI extends CommonService {
 	 * @param t
 	 * @param isChange 索引是否更新
 	 */
-
 	void updateTable(CgFormHeadEntity t, String sign, boolean isChange);
-
 	/**
 	 * 创建表
 	 * 

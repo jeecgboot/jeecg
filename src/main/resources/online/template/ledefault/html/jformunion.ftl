@@ -171,7 +171,7 @@
 	  <#assign subtablelist=subTableStr?split(",")>
 	  <#list subtablelist as sub >
 		    <#if field['${sub}']?exists >
-		    	<li role="presentation"><a href="#con-wrapper${sub_index}">${field['${sub}'].head.content?if_exists?html}</a></li>
+		    	<li role="presentation"><a href="#con-wrapper${sub_index}"><@mutiLang langKey="${field['${sub}'].head.content?if_exists?html}"/></a></li>
 			</#if>
 	  </#list>
     </ul>

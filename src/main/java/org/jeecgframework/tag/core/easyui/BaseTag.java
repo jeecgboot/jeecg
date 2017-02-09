@@ -34,7 +34,6 @@ public class BaseTag extends TagSupport {
 		this.cssTheme = cssTheme;
 	}
 
-
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -79,17 +78,14 @@ public class BaseTag extends TagSupport {
 			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 			String langjs = StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/mutiLang/{0}.js\"></script>", "{0}", lang);
 			sb.append(langjs);
-
+			
 			if (oConvertUtils.isIn("jquery-webos", types)) {
                 sb.append("<script type=\"text/javascript\" src=\"plug-in/sliding/js/jquery-1.7.1.min.js\"></script>");
 			} else if (oConvertUtils.isIn("jquery", types)) {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
-
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery.cookie.js\" ></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>");
-
 			}
-
 			if (oConvertUtils.isIn("ckeditor", types)) {
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/ckeditor/ckeditor.js\"></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/ckeditorTool.js\"></script>");
@@ -104,13 +100,14 @@ public class BaseTag extends TagSupport {
 //				sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
 				sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
 				sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
-
 				sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
 //				sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 				sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
-				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
+
+//				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
+				sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/{0}.js\"></script>", "{0}", lang)); 
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/extends/datagrid-scrollview.js\"></script>");
 			}
@@ -176,7 +173,6 @@ public class BaseTag extends TagSupport {
 
 //				sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/"+("metro".equals(cssTheme)?"metro/":"")+"common.css\" type=\"text/css\"></link>");
 				sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
-
 //				sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js"+("metro".equals(cssTheme)?"?skin=metro":"")+"\"></script>");
 				sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
 				sb.append(SysThemesUtil.getBootstrapTabTheme(sysThemesEnum));
@@ -213,10 +209,8 @@ public class BaseTag extends TagSupport {
 		}finally{
 			if(out!=null){
 				try {
-
 					out.clearBuffer();
 					sb.setLength(0);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

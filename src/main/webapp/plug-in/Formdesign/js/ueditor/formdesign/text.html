@@ -127,6 +127,7 @@ window.onload = function() {
 		gValue = gValue==null ? '' : gValue;
         gTitle = gTitle==null ? '' : gTitle;
         var arr1= oNode.getAttribute('autofield');
+
         var datatype = oNode.getAttribute('datatype');
         
 		if(arr1){
@@ -193,7 +194,9 @@ dialog.onok = function (){
     var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gAlign=$G('orgalign').value,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value,gType=$G('orgtype').value;
     var datasource=$('#datasource').val();
     var field=$('#field').val();
+
     var datatype = $G('datatype').value;
+    
     //如果只选择了数据源，没有选择字段，则提示选择字段，使得不会出现在提交后出现只有数据源而没有字段的情况
     if(datasource !='' && field ==''){
     	alert('请选择字段');
@@ -206,7 +209,9 @@ dialog.onok = function (){
             oNode.setAttribute('type','text');
             oNode.setAttribute('title',gTitle);
             oNode.setAttribute('value',gValue);
+
             oNode.setAttribute('datatype',datatype);
+            
             oNode.setAttribute('name',name);
             oNode.setAttribute('leipiPlugins',thePlugins);
             if ( $G('orghide').checked ) {
@@ -256,7 +261,9 @@ dialog.onok = function (){
         
         oNode.setAttribute('title', gTitle);
         oNode.setAttribute('value', $G('orgvalue').value);
+
         oNode.setAttribute('datatype',datatype);
+        
         oNode.setAttribute('name',name);
         if( $G('orghide').checked ) {
             oNode.setAttribute('orghide', 1);
@@ -304,6 +311,7 @@ dialog.onok = function (){
         delete UE.plugins[thePlugins].editdom;
     }
 };
+
 //如果选择了数据源及字段，则name为数据源.字段的形式，否则，则为控件名称(title)
 function getName(datasource,field,title){
 	if(datasource !='' && field !=''){
@@ -312,6 +320,8 @@ function getName(datasource,field,title){
 		return title;
 	}
 }
+
+
 	$(function(){
 		//1.从参数中获取ID
 		var id = '';

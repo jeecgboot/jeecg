@@ -16,6 +16,7 @@
 				$("#parentId").val(node.id);
 			}
 		});
+
 		if ($('#id').val()) {
 			$('#categoryTree').combotree('disable');
 		}

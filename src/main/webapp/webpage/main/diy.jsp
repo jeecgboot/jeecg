@@ -1021,6 +1021,7 @@ fa fa-times
             $(".shortcut").html(data.replace(/\"/g,""));
         }
     });
+
     $(".shortcut li").eq(0).trigger("click");
     $("#nav").show();
     //var tabs = $( "#tabs" ).tabs();

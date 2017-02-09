@@ -13,7 +13,7 @@
 			<t:dgCol title="common.type.code" field="code" treefield="id"></t:dgCol>
 			<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
 			<t:dgDelOpt title="common.delete"
-				url="categoryController.do?del&id={src}" />
+				url="categoryController.do?del&id={src}" urlclass="ace_button"  urlfont="fa-trash-o" />
 			<t:dgToolBar icon="icon-add" title="common.add"
 				url="categoryController.do?addorupdate" funname="addCategory"></t:dgToolBar>
 			<t:dgToolBar icon="icon-edit" title="common.edit"

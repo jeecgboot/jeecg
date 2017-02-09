@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
@@ -30,6 +29,7 @@ import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
@@ -79,10 +79,8 @@ public class CgAutoListRestController extends BaseController{
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
 		CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
-
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(head.getFormTemplate());
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity, 0, TemplateUtil.TemplateType.LIST), paras);
-
 		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
@@ -161,7 +159,6 @@ public class CgAutoListRestController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
-
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -177,7 +174,6 @@ public class CgAutoListRestController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
-
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());
@@ -445,7 +441,7 @@ public class CgAutoListRestController extends BaseController{
 			sysVarName = sysVarName.replaceAll("\\{", "");
 			sysVarName = sysVarName.replaceAll("\\}", "");
 			sysVarName =sysVarName.replace("sys.", "");
-			//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
+
 			return ResourceUtil.converRuleValue(sysVarName); 		
 	
 		}else{

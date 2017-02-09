@@ -14,11 +14,11 @@
    <t:dgCol title="common.sqlName"  query="true" field="sqlName"  queryMode="single"  ></t:dgCol>
    <t:dgCol title="common.sqlContent"  query="true" field="sqlContent"  queryMode="single"  ></t:dgCol>
    <t:dgCol title="common.operate" field="opt"></t:dgCol>
-   <t:dgDelOpt title="common.delete_2" url="tSSmsSqlController.do?doDel&id={id}" />
+   <t:dgDelOpt title="common.delete_2" url="tSSmsSqlController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o" />
    <t:dgToolBar title="common.add_2" icon="icon-add" url="tSSmsSqlController.do?goAdd" funname="add"></t:dgToolBar>
    <t:dgToolBar title="common.edit_2" icon="icon-edit" url="tSSmsSqlController.do?goUpdate" funname="update"></t:dgToolBar>
    <t:dgToolBar title="common.batchDelete"  icon="icon-remove" url="tSSmsSqlController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
-   <t:dgToolBar title="common.search" icon="icon-search" url="tSSmsSqlController.do?goUpdate" funname="detail"></t:dgToolBar>
+   <t:dgToolBar title="common.view" icon="icon-search" url="tSSmsSqlController.do?goUpdate" funname="detail"></t:dgToolBar>
 <%--   <t:dgToolBar title="导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>--%>
 <%--   <t:dgToolBar title="导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>--%>
 <%--   <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>--%>
@@ -47,4 +47,6 @@ function ExportXls() {
 function ExportXlsByT() {
 	JeecgExcelExport("tSSmsSqlController.do?exportXlsByT","tSSmsSqlList");
 }
+
+
  </script>

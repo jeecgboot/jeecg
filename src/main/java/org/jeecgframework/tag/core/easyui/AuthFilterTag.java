@@ -60,7 +60,6 @@ public class AuthFilterTag extends TagSupport{
 	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
 			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
@@ -84,7 +83,6 @@ public class AuthFilterTag extends TagSupport{
 			}
 			
 		}
-
 		out.append("});");
 		out.append("</script>");
 	}

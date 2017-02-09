@@ -121,6 +121,8 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 					this.save(${sub.entityName?uncap_first});
 				}
 			}
+		}else{//倘若传递过来的集合是0或者空
+			this.deleteAllEntitie(${sub.entityName?uncap_first}OldList);//则清空所有数据
 		}
 		</#list>
 		//执行更新操作配置的sql增强

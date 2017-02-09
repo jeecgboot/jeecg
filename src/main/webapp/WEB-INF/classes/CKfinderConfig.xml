@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- CKFinder : Configuration File - Basic Instructions In a generic usage 
+		case, the following tasks must be done to configure CKFinder: 1. Check the 
+		baseDir and baseUrl options; 2. If available, paste your license key in the 
+		"licenseKey" setting; 3. Enable CKFinder using the "enabled" setting. WARNING 
+		: DO NOT simply set "enabled" to "true" on a production site. By doing so, 
+		you are allowing "anyone" to upload and list the files in your server. You 
+		must implement some kind of session validation. http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/Extending -->
+	<enabled>true</enabled>
+	<!-- Configure the location of uploaded files. See the following article 
+		for more details: http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir -->
+	<!---注意：必须改成自己项目的，不然上传图片找不到具体的网络路径 -->
+	<baseDir></baseDir>
+	<baseURL></baseURL>
+	<licenseKey></licenseKey>
+	<licenseName></licenseName>
+	<!-- Set the maximum size of uploaded images. If an uploaded image is larger, 
+		it gets scaled down proportionally. Set to 0 to disable this feature. -->
+	<imgWidth>10000</imgWidth>
+	<imgHeight>10000</imgHeight>
+	<imgQuality>80</imgQuality>
+	<!-- See the following article for more details: http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/URI_Encoding -->
+	<uriEncoding>UTF-8</uriEncoding>
+	<!-- ResourceType : defines the "resource types" handled in CKFinder. A 
+		resource type is nothing more than a way to group files under different paths, 
+		each one having different configuration settings. Each resource type name 
+		must be unique. When loading CKFinder, the "type" querystring parameter can 
+		be used to display a specific type only. If "type" is omitted in the URL, 
+		the "DefaultResourceTypes" settings is used (may contain the resource type 
+		names separated by a comma). If left empty, all types are loaded. maxSize 
+		is defined in bytes, but shorthand notation may be also used. Available options 
+		are: G, M, K (case insensitive). 1M equals 1048576 bytes (one Megabyte), 
+		1K equals 1024 bytes (one Kilobyte), 1G equals one Gigabyte. Example: 'maxSize' 
+		=> "8M", ============================================================================== 
+		ATTENTION: Flash files with `swf' extension, just like HTML files, can be 
+		used to execute JavaScript code and to e.g. perform an XSS attack. Grant 
+		permission to upload `.swf` files only if you understand and can accept this 
+		risk. ============================================================================== -->
+	<defaultResourceTypes></defaultResourceTypes>
+	<types>
+		<type name="Files">
+			<url>%BASE_URL%files/</url>
+			<directory>%BASE_DIR%files</directory>
+			<maxSize>0</maxSize>
+			<allowedExtensions>7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip
+			</allowedExtensions>
+			<deniedExtensions></deniedExtensions>
+		</type>
+		<type name="Images">
+			<url>%BASE_URL%images/</url>
+			<directory>%BASE_DIR%images</directory>
+			<maxSize>0</maxSize>
+			<allowedExtensions>bmp,gif,jpeg,jpg,png</allowedExtensions>
+			<deniedExtensions></deniedExtensions>
+		</type>
+		<type name="Flash">
+			<url>%BASE_URL%flash/</url>
+			<directory>%BASE_DIR%flash</directory>
+			<maxSize>0</maxSize>
+			<allowedExtensions>swf,flv</allowedExtensions>
+			<deniedExtensions></deniedExtensions>
+		</type>
+	</types>
+	<!-- The session variable name that CKFinder must use to retrieve the "role" 
+		of the current user. The "role", can be used in the "accessControls" settings 
+		(bellow). -->
+	<userRoleSessionVar>CKFinder_UserRole</userRoleSessionVar>
+	<accessControls>
+		<accessControl>
+			<role>admin</role>
+			<resourceType>*</resourceType>
+			<folder>/</folder>
+			<folderView>true</folderView>
+			<folderCreate>true</folderCreate>
+			<folderRename>true</folderRename>
+			<folderDelete>true</folderDelete>
+			<fileView>true</fileView>
+			<fileUpload>true</fileUpload>
+			<fileRename>true</fileRename>
+			<fileDelete>true</fileDelete>
+		</accessControl>
+	</accessControls>
+	<thumbs>
+		<enabled>true</enabled>
+		<url>%BASE_URL%_thumbs/</url>
+		<directory>%BASE_DIR%_thumbs</directory>
+		<directAccess>false</directAccess>
+		<maxHeight>100</maxHeight>
+		<maxWidth>100</maxWidth>
+		<quality>80</quality>
+	</thumbs>
+	<!-- Increases the security on an IIS web server. If enabled, CKFinder will 
+		disallow creating folders and uploading files whose names contain characters 
+		that are not safe under an IIS web server. -->
+	<disallowUnsafeCharacters>false</disallowUnsafeCharacters>
+	<!-- Due to security issues with Apache modules, it is recommended to leave 
+		the following setting enabled. How does it work? Suppose the following: - 
+		If "php" is on the denied extensions list, a file named foo.php cannot be 
+		uploaded. - If "rar" (or any other) extension is allowed, one can upload 
+		a file named foo.rar. - The file foo.php.rar has "rar" extension so, in theory, 
+		it can be also uploaded. In some conditions Apache can treat the foo.php.rar 
+		file just like any PHP script and execute it. If CheckDoubleExtension is 
+		enabled, each part of the file name after a dot is checked, not only the 
+		last part. In this way, uploading foo.php.rar would be denied, because "php" 
+		is on the denied extensions list. -->
+	<checkDoubleExtension>true</checkDoubleExtension>
+	<!-- Indicates that the file size (maxSize) for images must be checked only 
+		after scaling them. Otherwise, it is checked right after uploading. -->
+	<checkSizeAfterScaling>true</checkSizeAfterScaling>
+	<!-- Perform additional checks for image files if set to true, validate 
+		image size -->
+	<secureImageUploads>true</secureImageUploads>
+	<!-- For security, HTML is allowed in the first Kb of data for files having 
+		the following extensions only. -->
+	<htmlExtensions>html,htm,xml,js</htmlExtensions>
+	<!-- Force ASCII names for files and folders. If enabled, characters with 
+		diactric marks will be automatically converted to ASCII letters. -->
+	<forceASCII>false</forceASCII>
+	<!-- Folders to not display in CKFinder, no matter their location. No paths 
+		are accepted, only the folder name. The * and ? wildcards are accepted. ".*" 
+		disallows the creation of folders starting with a dot character. -->
+	<hideFolders>
+		<folder>.*</folder>
+		<folder>CVS</folder>
+	</hideFolders>
+	<!-- Files to not display/upload in CKFinder, no matter their location. 
+		No paths are accepted, only the file name, including extension. The * and 
+		? wildcards are accepted. -->
+	<hideFiles>
+		<file>.*</file>
+	</hideFiles>
+	<plugins>
+		<plugin>
+			<name>imageresize</name>
+			<class>com.ckfinder.connector.plugins.ImageResize</class>
+			<params>
+				<param name="smallThumb" value="90x90"></param>
+				<param name="mediumThumb" value="120x120"></param>
+				<param name="largeThumb" value="180x180"></param>
+			</params>
+		</plugin>
+		<plugin>
+			<name>fileeditor</name>
+			<class>com.ckfinder.connector.plugins.FileEditor</class>
+			<params></params>
+		</plugin>
+		<!-- Before enabling the watermark plugin make sure to specify path to 
+			source image -->
+		<!-- The "internal" flag informs CKFinder that watermark is a pure server 
+			side plugin -->
+		<!-- 加水印,解除注释可直接使用,并更改source的水印图片路径 -->
+		<!-- 
+		<plugin>
+			<name>watermark</name>
+			<class>com.ckfinder.connector.plugins.Watermark</class>
+			<params>
+				<param name="source" value="/plug-in/ckfinder/logo.png"></param>
+				<param name="transparency" value="0.8"></param>
+				<param name="quality" value="100"></param>
+				<param name="marginRight" value="5"></param>
+				<param name="marginBottom" value="5"></param>
+			</params>
+			<internal>true</internal>
+		</plugin>
+		 -->
+	</plugins>
+	<basePathBuilderImpl>com.ckfinder.connector.configuration.ConfigurationPathBuilder</basePathBuilderImpl>
+</config>

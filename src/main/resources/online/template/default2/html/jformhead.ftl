@@ -11,7 +11,7 @@
 				</#if>
 					<td align="right">
 						<label class="Validform_label">
-							${po.content}:
+							<@mutiLang langKey="${po.content?if_exists?html}"/>:
 						</label>
 					</td>
 					<td class="value">
@@ -162,7 +162,7 @@
 					               </#if></#if>>
 						</#if>
 						<span class="Validform_checktip"></span>
-						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+						<label class="Validform_label" style="display: none;"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 					</td>
 				<#if (po_index%2==0)&&(!po_has_next)>
 					<td align="right">
@@ -181,7 +181,7 @@
 			  <tr>
 					<td align="right">
 						<label class="Validform_label">
-							${po.content}:
+							<@mutiLang langKey="${po.content?if_exists?html}"/>:
 						</label>
 					</td>
 					<td class="value" colspan="3">
@@ -193,7 +193,7 @@
 				               <#if po.is_null != 'Y'>datatype="*"</#if>
 				               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 						<span class="Validform_checktip"></span>
-						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+						<label class="Validform_label" style="display: none;"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 					</td>
 				</tr>
 			  </#list>

@@ -45,6 +45,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	<!-- tiptype="1" -->
 	<input id="id" name="id" type="hidden" value="${cgFormHeadPage.id}">
 	<input id="langurl" name="langurl" type="hidden" value="<%=langurl%>">
+	<input id="tableType" name="tableType" type="hidden" value="${cgFormHeadPage.tableType}">
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.name"/>: </label></td>
@@ -149,8 +150,10 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	</table>
   <div id="tabs" class="easyui-tabs" tabPosition="top" fit="false" style="margin: 0px; padding: 0px; overflow: hidden; width: auto;">
     <div title= '<t:mutiLang langKey="database.property"/>' width="auto" style="width: auto; margin: 0px; padding: 0px; overflow: hidden;">
-      <div style="height: 25px;" class="datagrid-toolbar"><a id="addColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addColumnBtnClick();" href="#"><t:mutiLang langKey="common.add.to"/></a> <a
-		id="delColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="delColumnBtnClick();" href="#"><t:mutiLang langKey="common.delete"/></a></div>
+      <c:if test="${cgFormHeadPage.tableType != '1'}">
+	      <div style="height: 25px;" class="datagrid-toolbar"><a id="addColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addColumnBtnClick();" href="#"><t:mutiLang langKey="common.add.to"/></a> <a
+			id="delColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="delColumnBtnClick();" href="#"><t:mutiLang langKey="common.delete"/></a></div>
+      </c:if>
       <table id="tab_div_database_title" class="table-list" style="height: 25px;">
       </table>
       <div class="t_table" id="t_table_database">
@@ -278,7 +281,6 @@ function getFormTemplateName2(){
 		getFormTemplateName2();
 	}
 
-//add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 function getShowType(obj){
 	var $this = $(obj),value = obj.value;
 	if(value == 'umeditor'){
@@ -287,7 +289,7 @@ function getShowType(obj){
 		$this.parent().next().eq(0).find("input[name$=fieldLength]").val('120');
 	}
 }
-//add-end--Author:jg_renjie Date:20160301 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
+
 
 function selectField(select){
 	var selected = select.val().split(",");

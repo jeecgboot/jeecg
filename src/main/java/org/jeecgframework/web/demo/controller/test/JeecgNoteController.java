@@ -8,6 +8,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.demo.entity.test.JeecgNoteEntity;
@@ -52,7 +53,6 @@ public class JeecgNoteController extends BaseController {
 		return new ModelAndView("jeecg/demo/test/jeecgNoteList");
 	}
 
-	//add--start--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
 
 	/**
 	 * 公告列表 页面跳转 非弹框风格
@@ -63,7 +63,7 @@ public class JeecgNoteController extends BaseController {
 	public ModelAndView jeecgNote2(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/test/jeecgNoteList2");
 	}
-	//add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+
 
 	/**
 	 * easyui AJAX请求数据
@@ -78,7 +78,7 @@ public class JeecgNoteController extends BaseController {
 	public void datagrid(JeecgNoteEntity jeecgNote,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(JeecgNoteEntity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgNote);
+		HqlGenerateUtil.installHql(cq, jeecgNote,request.getParameterMap());
 		this.jeecgNoteService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -140,8 +140,7 @@ public class JeecgNoteController extends BaseController {
 		}
 		return new ModelAndView("jeecg/demo/test/jeecgNote");
 	}
-	
-	//add--start--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+
 	/**
 	 * 公告列表页面跳转 非弹框风格
 	 * 
@@ -155,7 +154,7 @@ public class JeecgNoteController extends BaseController {
 		}
 		return new ModelAndView("jeecg/demo/test/jeecgNote2");
 	}
-	//add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+
 	/**
 	 * 公告列表页面跳转
 	 *

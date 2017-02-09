@@ -359,9 +359,7 @@ public class TSSmsController extends BaseController {
 //		}
 		return j;
 	}
-	
-	
-	//add-begin--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】	
+
 	/**
 	 * 今天需要提醒的【系统信息】
 	 * 
@@ -417,9 +415,7 @@ public class TSSmsController extends BaseController {
 		}
 		return j;
 	}
-	//add-end--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】
-	
-	//add-start--Author:jg_renjie  Date:20150611 for：今天需要提醒的【系统信息】的详细信息
+
 	/**
 	 * 当前登录人当日【系统信息】详细信息
 	 * 
@@ -439,7 +435,7 @@ public class TSSmsController extends BaseController {
 		
 		return new ModelAndView("system/sms/tSSmsDetailList");
 	}
-	//add-end--Author:jg_renjie  Date:20150611 for：今天需要提醒的【系统信息】的详细信息
+
 	
 	/**
 	 * 取得可读的消息

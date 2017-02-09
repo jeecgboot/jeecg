@@ -157,4 +157,8 @@ public class CgAutoListConstant {
 	public static final String CODE_JSP_MODE_03 = "03";
 	/** 自定义模板 */
 	public static final String CODE_JSP_MODE_04 = "04";
+
+	/** online配置表单版本分隔符 */
+	public static final String ONLINE_TABLE_SPLIT_STR = "__";
+
 }

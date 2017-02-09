@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.jeecgframework.core.online.def.CgReportConstant;
+import org.jeecgframework.core.online.exception.CgReportNotFoundException;
+import org.jeecgframework.core.online.util.CgReportQueryParamUtil;
 import org.jeecgframework.core.util.DynamicDBUtil;
 import org.jeecgframework.core.util.SqlUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.params.ExcelExportEntity;
 import org.jeecgframework.poi.excel.entity.vo.MapExcelConstants;
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
-import org.jeecgframework.web.cgreport.exception.CgReportNotFoundException;
 import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
-import org.jeecgframework.web.cgreport.util.CgReportQueryParamUtil;
 
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
@@ -73,7 +73,6 @@ public class CgExportExcelController extends BaseController {
 				}
 			}
 			//step.3 进行查询返回结果
-
             String dbKey=(String)configM.get("db_source");
             List<Map<String, Object>> result=null;
             if(StringUtils.isNotBlank(dbKey)){

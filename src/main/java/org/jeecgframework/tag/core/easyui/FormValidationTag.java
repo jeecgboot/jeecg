@@ -42,7 +42,6 @@ public class FormValidationTag extends TagSupport {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
 	public String getStyleClass() {
 		return styleClass;
 	}
@@ -50,7 +49,6 @@ public class FormValidationTag extends TagSupport {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-
 	public void setTabtitle(String tabtitle) {
 		this.tabtitle = tabtitle;
 	}
@@ -108,7 +106,6 @@ public class FormValidationTag extends TagSupport {
 			if(this.getStyleClass()!=null){
 				sb.append("class=\""+this.getStyleClass()+"\" ");
 			}
-
 					sb.append(" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
 			if ("btn_sub".equals(btnsub) && dialog)
 				sb.append("<input type=\"hidden\" id=\"" + btnsub + "\" class=\"" + btnsub + "\"/>");
@@ -156,7 +153,6 @@ public class FormValidationTag extends TagSupport {
 			sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
 			//tablefrom.css
 			sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
-
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
@@ -244,7 +240,6 @@ public class FormValidationTag extends TagSupport {
 					}
 					jqsb.append("jqtransform :{selector:\"select\"}");
 				}
-
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append(jqsb);
 				}
@@ -297,9 +292,7 @@ public class FormValidationTag extends TagSupport {
 			e.printStackTrace();
 		}finally{
 			try {
-
 				sb.setLength(0);
-
 				out.clearBuffer();
 			} catch (Exception e2) {
 			}

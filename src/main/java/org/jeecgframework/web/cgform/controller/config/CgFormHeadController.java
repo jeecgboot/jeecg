@@ -23,15 +23,16 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldVO;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.config.CgFormIndexEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
+import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,6 @@ public class CgFormHeadController extends BaseController {
         modelMap.put("url",url);
 		return new ModelAndView("jeecg/cgform/config/popmenulink");
 	}
-
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -121,9 +121,11 @@ public class CgFormHeadController extends BaseController {
 		String jformCategory = request.getParameter("jformCategory");
 		if(StringUtil.isNotEmpty(jformCategory)){
 			cq.eq("jformCategory", jformCategory);
-			cq.add();
+			//cq.add();
 		}
 
+		cq.isNull("physiceId");
+		cq.add();
 		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
@@ -218,7 +220,14 @@ public class CgFormHeadController extends BaseController {
 			if(bl){
 				//追加主表的附表串
 				cgFormFieldService.appendSubTableStr4Main(cgFormHead);
-				message = "同步成功";		
+
+				//判断表单下是否有配置表
+				List<CgFormHeadEntity> list = cgFormFieldService.findByProperty(CgFormHeadEntity.class, "physiceId", cgFormHead.getId());
+				if(list!=null&&list.size()>0){
+					message = "同步成功,当前表单的配置表单已被重置";		
+				}else{
+					message = "同步成功";
+				}
 				j.setMsg(message);
 			}else{
 				message = "同步失败";		
@@ -245,9 +254,7 @@ public class CgFormHeadController extends BaseController {
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
 		String message = "";
-
 		templetContext.clearCache();
-
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -282,16 +289,19 @@ public class CgFormHeadController extends BaseController {
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().toLowerCase());
 					cgFormFieldEntity.setOldFieldName(cgFormFieldEntity.getFieldName());
 				}
-				
+				if (StringUtil.isNotEmpty(cgFormFieldEntity.getFieldName()))
+					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().trim());
 			}
-
 			boolean isChange = cgFormIndexService.updateIndexes(cgFormHead);
-
+			
 			//isChange 索引是否更新
 			cgFormFieldService.updateTable(table,null,isChange);
-
 			cgFormFieldService.appendSubTableStr4Main(table);
 			cgFormFieldService.sortSubTableStr(table);
+
+			/**同步配置表*/
+			syncTable(table);
+
 			
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
@@ -302,18 +312,170 @@ public class CgFormHeadController extends BaseController {
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().toLowerCase());
 					cgFormFieldEntity.setOldFieldName(cgFormFieldEntity.getFieldName());
 				}
-				
+				if (StringUtil.isNotEmpty(cgFormFieldEntity.getFieldName()))
+					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().trim());
 			}
 			cgFormFieldService.saveTable(cgFormHead);
-
+			
 			cgFormIndexService.updateIndexes(cgFormHead);
-
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 		}
 		j.setMsg(message);
 		return j;
 	}
+
+	/**
+	 * 物理表修改后同步配置表
+	 * @param table
+	 */
+	private void syncTable(CgFormHeadEntity table) {
+		List<CgFormHeadEntity> headList = systemService.findByProperty(CgFormHeadEntity.class, "physiceId", table.getId());
+		List<CgFormFieldEntity>	formFieldEntities = table.getColumns();
+		if(headList!=null&&headList.size()>0){
+			for (CgFormHeadEntity cgform : headList) {
+				List<CgFormFieldEntity> fieldList = new ArrayList<CgFormFieldEntity>();
+				List<CgFormFieldEntity> columns = cgform.getColumns();
+				if(columns==null||columns.size()<=0){
+					for (CgFormFieldEntity column : formFieldEntities) {
+						CgFormFieldEntity field = new CgFormFieldEntity();
+						field.setContent(column.getContent());
+						field.setDictField(column.getDictField());
+						field.setDictTable(column.getDictTable());
+						field.setDictText(column.getDictText());
+						field.setExtendJson(column.getExtendJson());
+						field.setFieldDefault(column.getFieldDefault());
+						field.setFieldHref(column.getFieldHref());
+						field.setFieldLength(column.getFieldLength());
+						field.setFieldName(column.getFieldName());
+						field.setFieldValidType(column.getFieldValidType());
+						field.setLength(column.getLength());
+
+						field.setMainField(null);
+						field.setMainTable(null);
+						field.setOldFieldName(column.getOldFieldName());
+						field.setOrderNum(column.getOrderNum());
+						field.setPointLength(column.getPointLength());
+						field.setQueryMode(column.getQueryMode());
+						field.setShowType(column.getShowType());
+						field.setType(column.getType());
+						field.setIsNull(column.getIsNull());
+						field.setIsShow(column.getIsShow());
+						field.setIsShowList(column.getIsShowList());
+						field.setIsKey(column.getIsKey());
+						field.setIsQuery(column.getIsQuery());
+						fieldList.add(field);
+					}
+				}else{
+					for (CgFormFieldEntity cgFormFieldEntity : formFieldEntities) {
+						if(columns!=null&&columns.size()>0){
+							for (CgFormFieldEntity column : columns) {
+								//相同添加，不同的不做处理
+								if(cgFormFieldEntity.getFieldName().equals(column.getFieldName())){
+									//相同，添加到新list,从原数据中remove;
+									CgFormFieldEntity field = new CgFormFieldEntity();
+									field.setContent(column.getContent());
+									field.setDictField(column.getDictField());
+									field.setDictTable(column.getDictTable());
+									field.setDictText(column.getDictText());
+									field.setExtendJson(column.getExtendJson());
+									field.setFieldDefault(column.getFieldDefault());
+									field.setFieldHref(column.getFieldHref());
+									field.setFieldLength(column.getFieldLength());
+									field.setFieldName(column.getFieldName());
+									field.setFieldValidType(column.getFieldValidType());
+									field.setLength(column.getLength());
+
+									field.setMainField(null);
+									field.setMainTable(null);
+									field.setOldFieldName(column.getOldFieldName());
+									field.setOrderNum(column.getOrderNum());
+									field.setPointLength(column.getPointLength());
+									field.setQueryMode(column.getQueryMode());
+									field.setShowType(column.getShowType());
+									field.setType(column.getType());
+									field.setIsNull(cgFormFieldEntity.getIsNull());
+									field.setIsShow(cgFormFieldEntity.getIsShow());
+									field.setIsShowList(cgFormFieldEntity.getIsShowList());
+									field.setIsKey(cgFormFieldEntity.getIsKey());
+									field.setIsQuery(cgFormFieldEntity.getIsQuery());
+									fieldList.add(field);
+									columns.remove(column);
+									//相同，就跳出进行下一次
+									break;
+								}else{
+									CgFormFieldEntity field = new CgFormFieldEntity();
+									field.setContent(cgFormFieldEntity.getContent());
+									field.setDictField(cgFormFieldEntity.getDictField());
+									field.setDictTable(cgFormFieldEntity.getDictTable());
+									field.setDictText(cgFormFieldEntity.getDictText());
+									field.setExtendJson(cgFormFieldEntity.getExtendJson());
+									field.setFieldDefault(cgFormFieldEntity.getFieldDefault());
+									field.setFieldHref(cgFormFieldEntity.getFieldHref());
+									field.setFieldLength(cgFormFieldEntity.getFieldLength());
+									field.setFieldName(cgFormFieldEntity.getFieldName());
+									field.setFieldValidType(cgFormFieldEntity.getFieldValidType());
+									field.setLength(cgFormFieldEntity.getLength());
+
+									field.setMainField(null);
+									field.setMainTable(null);
+									field.setOldFieldName(cgFormFieldEntity.getOldFieldName());
+									field.setOrderNum(cgFormFieldEntity.getOrderNum());
+									field.setPointLength(cgFormFieldEntity.getPointLength());
+									field.setQueryMode(cgFormFieldEntity.getQueryMode());
+									field.setShowType(cgFormFieldEntity.getShowType());
+									field.setType(cgFormFieldEntity.getType());
+									field.setIsNull(cgFormFieldEntity.getIsNull());
+									field.setIsShow(cgFormFieldEntity.getIsShow());
+									field.setIsShowList(cgFormFieldEntity.getIsShowList());
+									field.setIsKey(cgFormFieldEntity.getIsKey());
+									field.setIsQuery(cgFormFieldEntity.getIsQuery());
+									fieldList.add(field);
+									columns.remove(column);
+									//相同，就跳出进行下一次
+									break;
+								}
+							}
+						}else{
+							CgFormFieldEntity field = new CgFormFieldEntity();
+							field.setContent(cgFormFieldEntity.getContent());
+							field.setDictField(cgFormFieldEntity.getDictField());
+							field.setDictTable(cgFormFieldEntity.getDictTable());
+							field.setDictText(cgFormFieldEntity.getDictText());
+							field.setExtendJson(cgFormFieldEntity.getExtendJson());
+							field.setFieldDefault(cgFormFieldEntity.getFieldDefault());
+							field.setFieldHref(cgFormFieldEntity.getFieldHref());
+							field.setFieldLength(cgFormFieldEntity.getFieldLength());
+							field.setFieldName(cgFormFieldEntity.getFieldName());
+							field.setFieldValidType(cgFormFieldEntity.getFieldValidType());
+							field.setLength(cgFormFieldEntity.getLength());
+
+							field.setMainField(null);
+							field.setMainTable(null);
+							field.setOldFieldName(cgFormFieldEntity.getOldFieldName());
+							field.setOrderNum(cgFormFieldEntity.getOrderNum());
+							field.setPointLength(cgFormFieldEntity.getPointLength());
+							field.setQueryMode(cgFormFieldEntity.getQueryMode());
+							field.setShowType(cgFormFieldEntity.getShowType());
+							field.setType(cgFormFieldEntity.getType());
+							field.setIsNull(cgFormFieldEntity.getIsNull());
+							field.setIsShow(cgFormFieldEntity.getIsShow());
+							field.setIsShowList(cgFormFieldEntity.getIsShowList());
+							field.setIsKey(cgFormFieldEntity.getIsKey());
+							field.setIsQuery(cgFormFieldEntity.getIsQuery());
+							fieldList.add(field);
+						}
+					}
+				}
+				List<CgFormFieldEntity> colums = cgFormFieldService.findByProperty(CgFormFieldEntity.class, "table.id", cgform.getId());
+				cgFormFieldService.deleteAllEntitie(colums);
+				cgform.setColumns(fieldList);
+				cgFormFieldService.saveTable(cgform);
+			}
+		}
+	}
+
+	
 	/**
 	 * 设置OrderNum
 	 * @param cgFormHead
@@ -376,7 +538,6 @@ public class CgFormHeadController extends BaseController {
 
 		List<TSType> typeList = ResourceUtil.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
-
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -431,12 +592,9 @@ public class CgFormHeadController extends BaseController {
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
 		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
 		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
-
 		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
 		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
-
 		columnList.add(initCgFormFieldEntityBpmStatus());
-
 		return columnList;
 	}
 	/**
@@ -531,6 +689,9 @@ public class CgFormHeadController extends BaseController {
 	public AjaxJson checkIsExit(String name,
 			HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
+
+		//判断，如果是带有V字符的,截取获取真实表名
+		name = PublicUtil.replaceTableName(name);
 		j.setSuccess(cgFormFieldService.judgeTableIsExit(name));
 		return j;
 	}
@@ -677,6 +838,11 @@ public class CgFormHeadController extends BaseController {
 					fieldEntity.setIsShow("Y");
 					fieldEntity.setIsShowList("Y");
 					fieldEntity.setFieldLength(120);
+					//--author：zhoujf---start------date:20170207--------for:online表单  配置表 导入字段 默认值处理
+					fieldEntity.setIsQuery("N");
+					fieldEntity.setShowType("text");
+					fieldEntity.setOldFieldName(field.getFieldName());
+					fieldEntity.setQueryMode("single");
 					list.add(fieldEntity);
 					saveList.add(fieldEntity);
 				}
@@ -722,5 +888,205 @@ public class CgFormHeadController extends BaseController {
         request.setAttribute("headId", id);
 		return "jeecg/cgform/config/cgformColUpload";
 	}
+
+	/**
+	 * 复制物理表生成配置表
+	 * copyOnline
+	 */
+	@RequestMapping(params = "copyOnline")
+	@ResponseBody
+	public AjaxJson copyOnline(String id,HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		if(StringUtil.isNotEmpty(id)){
+			String hql = "select max(c.tableVersion) from CgFormHeadEntity c where c.physiceId = ?";
+			List<Integer> versions = systemService.findHql(hql, id);
+			if(versions.get(0)!=null){
+				int version = versions.get(0); 
+				CgFormHeadEntity cgFormHead = new CgFormHeadEntity();
+				CgFormHeadEntity physicsTable = systemService.get(CgFormHeadEntity.class,id);
+				cgFormHead.setTableName(physicsTable.getTableName()+CgAutoListConstant.ONLINE_TABLE_SPLIT_STR+(version+1+""));
+				cgFormHead.setIsTree(physicsTable.getIsTree());
+				cgFormHead.setContent(physicsTable.getContent());
+				cgFormHead.setJformPkType(physicsTable.getJformPkType());
+				cgFormHead.setJformPkSequence(physicsTable.getJformPkSequence());
+				cgFormHead.setQuerymode(physicsTable.getQuerymode());
+				cgFormHead.setIsCheckbox(physicsTable.getIsCheckbox());
+				cgFormHead.setIsPagination(physicsTable.getIsPagination());
+
+				cgFormHead.setJformType(1);//配置表统一为单表
+				cgFormHead.setJformCategory(physicsTable.getJformCategory());
+				cgFormHead.setRelationType(physicsTable.getRelationType());
+
+				cgFormHead.setSubTableStr(null);
+
+				cgFormHead.setPhysiceId(physicsTable.getId());
+				cgFormHead.setTabOrder(physicsTable.getTabOrder());
+				cgFormHead.setTableVersion(version+1);
+				cgFormHead.setTableType("1");
+				cgFormHead.setIsDbSynch("N");
+				cgFormHead.setJformVersion(physicsTable.getJformVersion());
+				cgFormHead.setFormTemplate(physicsTable.getFormTemplate());
+				cgFormHead.setFormTemplateMobile(physicsTable.getFormTemplateMobile());
+				cgFormHead.setTreeFieldname(physicsTable.getTreeFieldname());
+				cgFormHead.setTreeIdFieldname(physicsTable.getTreeIdFieldname());
+				cgFormHead.setTreeParentIdFieldName(physicsTable.getTreeParentIdFieldName());
+				List<CgFormFieldEntity> fieldList = new ArrayList<CgFormFieldEntity>();
+				List<CgFormFieldEntity> columns = physicsTable.getColumns();
+				for (CgFormFieldEntity f : columns) {
+					CgFormFieldEntity field = new CgFormFieldEntity();
+					field.setContent(f.getContent());
+					field.setDictField(f.getDictField());
+					field.setDictTable(f.getDictTable());
+					field.setDictText(f.getDictText());
+					field.setExtendJson(f.getExtendJson());
+					field.setFieldDefault(f.getFieldDefault());
+					field.setFieldHref(f.getFieldHref());
+					field.setFieldLength(f.getFieldLength());
+					field.setFieldName(f.getFieldName());
+					field.setFieldValidType(f.getFieldValidType());
+					field.setLength(f.getLength());
+
+					field.setMainField(null);//默认为单表
+					field.setMainTable(null);//默认为单表
+					field.setOldFieldName(f.getOldFieldName());
+					field.setOrderNum(f.getOrderNum());
+					field.setPointLength(f.getPointLength());
+					field.setQueryMode(f.getQueryMode());
+					field.setShowType(f.getShowType());
+					field.setType(f.getType());
+					field.setIsNull(f.getIsNull());
+					field.setIsShow(f.getIsShow());
+					field.setIsShowList(f.getIsShowList());
+					field.setIsKey(f.getIsKey());
+					field.setIsQuery(f.getIsQuery());
+					fieldList.add(field);
+				}
+				cgFormHead.setColumns(fieldList);
+				cgFormFieldService.saveTable(cgFormHead);
+					j.setObj(cgFormHead.getId());
+					j.setMsg("新版本配置表单:"+cgFormHead.getTableName()+"创建完成");
+					j.setSuccess(true);
+					return j;
+			}else{
+				CgFormHeadEntity cgFormHead = new CgFormHeadEntity();
+				CgFormHeadEntity physicsTable = systemService.get(CgFormHeadEntity.class,id);
+				cgFormHead.setTableName(physicsTable.getTableName()+CgAutoListConstant.ONLINE_TABLE_SPLIT_STR+"0");
+				cgFormHead.setIsTree(physicsTable.getIsTree());
+				cgFormHead.setContent(physicsTable.getContent());
+				cgFormHead.setJformPkType(physicsTable.getJformPkType());
+				cgFormHead.setJformPkSequence(physicsTable.getJformPkSequence());
+				cgFormHead.setQuerymode(physicsTable.getQuerymode());
+				cgFormHead.setIsCheckbox(physicsTable.getIsCheckbox());
+				cgFormHead.setIsPagination(physicsTable.getIsPagination());
+
+				cgFormHead.setJformType(1);//配置表统一为单表
+				cgFormHead.setJformCategory(physicsTable.getJformCategory());
+				cgFormHead.setRelationType(physicsTable.getRelationType());
+
+				cgFormHead.setSubTableStr(null);
+
+				cgFormHead.setPhysiceId(physicsTable.getId());
+				cgFormHead.setTabOrder(physicsTable.getTabOrder());
+				cgFormHead.setTableVersion(0);
+				cgFormHead.setTableType("1");
+				cgFormHead.setIsDbSynch("N");
+				cgFormHead.setJformVersion(physicsTable.getJformVersion());
+				cgFormHead.setFormTemplate(physicsTable.getFormTemplate());
+				cgFormHead.setFormTemplateMobile(physicsTable.getFormTemplateMobile());
+				cgFormHead.setTreeFieldname(physicsTable.getTreeFieldname());
+				cgFormHead.setTreeIdFieldname(physicsTable.getTreeIdFieldname());
+				cgFormHead.setTreeParentIdFieldName(physicsTable.getTreeParentIdFieldName());
+				List<CgFormFieldEntity> fieldList = new ArrayList<CgFormFieldEntity>();
+				List<CgFormFieldEntity> columns = physicsTable.getColumns();
+				for (CgFormFieldEntity f : columns) {
+					CgFormFieldEntity field = new CgFormFieldEntity();
+					field.setContent(f.getContent());
+					field.setDictField(f.getDictField());
+					field.setDictTable(f.getDictTable());
+					field.setDictText(f.getDictText());
+					field.setExtendJson(f.getExtendJson());
+					field.setFieldDefault(f.getFieldDefault());
+					field.setFieldHref(f.getFieldHref());
+					field.setFieldLength(f.getFieldLength());
+					field.setFieldName(f.getFieldName());
+					field.setFieldValidType(f.getFieldValidType());
+					field.setLength(f.getLength());
+
+					field.setMainField(null);
+					field.setMainTable(null);
+					field.setOldFieldName(f.getOldFieldName());
+					field.setOrderNum(f.getOrderNum());
+					field.setPointLength(f.getPointLength());
+					field.setQueryMode(f.getQueryMode());
+					field.setShowType(f.getShowType());
+					field.setType(f.getType());
+					field.setIsNull(f.getIsNull());
+					field.setIsShow(f.getIsShow());
+					field.setIsShowList(f.getIsShowList());
+					field.setIsKey(f.getIsKey());
+					field.setIsQuery(f.getIsQuery());
+					fieldList.add(field);
+				}
+				cgFormHead.setColumns(fieldList);
+				cgFormFieldService.saveTable(cgFormHead);
+				j.setObj(cgFormHead.getId());
+				j.setMsg("配置表单:"+cgFormHead.getTableName()+"创建完成");
+				j.setSuccess(true);
+				return j;
+			}
+		}
+		return j;
+	}
+	/**
+	 * 跳转到配置表操作页面
+	 */
+	@RequestMapping(params = "cgFormHeadConfigList")
+	public ModelAndView cgFormHeadConfigList(String id,HttpServletRequest request) {
+		if(StringUtil.isNotEmpty(id)){
+			request.setAttribute("physiceId", id);
+			return new ModelAndView("jeecg/cgform/config/cgFormHeadConfigList");
+		}else{
+			return null;
+		}
+	}
 	
+	/**
+	 * 配置表加载数据
+	 */
+	@RequestMapping(params = "configDatagrid")
+	public void configDatagrid(CgFormHeadEntity cgFormHead,String id,
+			HttpServletRequest request, HttpServletResponse response,
+			DataGrid dataGrid) {
+		String hql = "from CgFormHeadEntity c where c.physiceId = ? order by c.tableVersion asc";
+		List<CgFormHeadEntity> findHql = systemService.findHql(hql, id);
+		dataGrid.setResults(findHql);
+		dataGrid.setTotal(findHql.size());
+		TagUtil.datagrid(response, dataGrid);
+	}
+	
+	/**
+	 * 校验是否存在配置表
+	 * 
+	 */
+	@RequestMapping(params = "getConfigId")
+	@ResponseBody
+	public AjaxJson getConfigId(String id,HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		if(StringUtil.isNotEmpty(id)){
+			String hql = "from CgFormHeadEntity c where physiceId = ?";
+			List<CgFormHeadEntity> cgformList = systemService.findHql(hql, id);
+			if(cgformList!=null&&cgformList.size()>0){
+				CgFormHeadEntity cgFormHeadEntity = cgformList.get(0);
+				j.setSuccess(true);
+				j.setObj(cgFormHeadEntity.getPhysiceId());
+				return j;
+			}else{
+				j.setSuccess(false);
+				j.setMsg("当前表单无配置表单");
+				return j;
+			}
+		}
+		return j;
+	}
+
 }

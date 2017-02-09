@@ -91,6 +91,9 @@ public class SysThemesUtil {
 		}else{
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/common.css\" type=\"text/css\"></link>");
 		}
+
+		sb.append("<link rel=\"stylesheet\" href=\"plug-in/ace/css/font-awesome.css\" type=\"text/css\"></link>");
+
 		return sb.toString();
 	}
 	

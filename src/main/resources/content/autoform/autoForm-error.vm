@@ -1,0 +1,11 @@
+<html>
+<head>
+<title>自定义表单异常</title>
+</head>
+<body>
+<H2>自定义表单异常</H2>
+<hr />
+<P>错误描述：</P>
+$!{message}
+</body>
+</html>

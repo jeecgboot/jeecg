@@ -47,7 +47,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v3.6.5
+            <b>当前版本：</b>v3.6.6
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -132,14 +132,41 @@
                 <div class="ibox-content no-padding">
                     <div class="panel-body">
                         <div class="panel-group" id="version">
-                        
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.6.6</a><code class="pull-right">2017.02.08</code>
+                                    </h5>
+                                </div>
+                                <div id="v50" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本微服务版本，支持插件开发，让我们共同期待后续版本的到来</div>
+                                        <ol>
+                                        	<li>插件：集成即时聊天webim聊天插件;</li>
+                                            <li>插件：我的邮箱风格改版</li>
+                                        	<li>online表单支持多配置表模式;</li>
+                                            <li>online自定义样式BUG修正;</li>
+                                            <li>online功能，word布局自定义模板功能优化：多文件上传、多选checkbox编辑赋值；</li>
+                                            <li>ACE系统菜单支持自定义图标样式;</li>
+                                            <li>ACE首页风格支持三级菜单;</li>
+                                            <li>IE8兼容性修正;</li>
+                                            <li>Ztree树标签;</li>
+                                            <li>Sqlserver驱动升级，支持2008;</li>
+                                            <li>系统管理，组织机构角色赋权功能实现；</li>
+                                            <li>代码重构优化</li>
+                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
+                                            <li>更多插件发布，敬请期待。。</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v41">v3.6.5</a><code class="pull-right">2016.07.18</code>
                                     </h5>
                                 </div>
-                                <div id="v41" class="panel-collapse collapse in">
+                                <div id="v41" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本云应用插件开发版本，支持以插件方式升级平台功能，让我们共同期待后续版本的到来</div>
                                         <ol>

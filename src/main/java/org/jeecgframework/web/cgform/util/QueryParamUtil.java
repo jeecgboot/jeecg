@@ -34,11 +34,11 @@ public class QueryParamUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void loadQueryParams(HttpServletRequest request, CgFormFieldEntity b, Map params) {
-		//--add-begin--Author:钟世云  Date:20150614 for：online支持树配置
+
 		if(CgAutoListConstant.BOOL_FALSE.equalsIgnoreCase(b.getIsQuery())) {
 			return;
 		}
-		//--add-end--Author:钟世云  Date:20150614 for：online支持树配置
+
 		
 		if("single".equals(b.getQueryMode())){
 			//单条件组装方式
@@ -97,11 +97,9 @@ public class QueryParamUtil {
 		if(!StringUtil.isEmpty(value)){
 			String result = "";
 			if(CgAutoListConstant.TYPE_STRING.equalsIgnoreCase(fieldType)){
-
 				//if(ResourceUtil.fuzzySearch&&(!value.contains("*"))){
 				//	value="*"+value+"*";
 				//}
-
 				result = "'" +value+ "'";
 			}else if(CgAutoListConstant.TYPE_DATE.equalsIgnoreCase(fieldType)){
 				result = getDateFunction(value, "yyyy-MM-dd");

@@ -15,7 +15,6 @@ public interface CgformFtlServiceI extends CommonService{
      */
     public Map<String,Object> getCgformFtlByTableName(String tableName, String ftlVersion);
 
-
 	/**
 	 * 根据tableName获取form模板信息
 	 */

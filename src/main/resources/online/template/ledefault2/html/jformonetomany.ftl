@@ -41,7 +41,7 @@
             <th style="white-space:nowrap;width:50px;">序号</th>
             <th style="white-space:nowrap;width:50px;">操作</th>
             <#list field['${sub}'].fieldList as subTableField >
-            <th>${subTableField.content?if_exists?html}</th>
+            <th><@mutiLang langKey="${subTableField.content?if_exists?html}"/></th>
 			</#list>
           </tr>
         </thead>
@@ -53,7 +53,6 @@
 									<td>
 										<input style="width:20px;" type="checkbox" name="ck"/>
 										<input type="hidden" name="${sub}[${subTableData_index}].id" id="${sub}[${subTableData_index}].id" value="${subTableData['id']?if_exists?html}"/>
-										123213123
 										<#list field['${sub}'].hiddenFieldList as subTableField >
 										<input type="hidden" name="${sub}[${subTableData_index}].${subTableField.field_name}" id="${sub}[${subTableData_index}].${subTableField.field_name}" value="${subTableData['${subTableField.field_name}']?if_exists?html}"/>
 										</#list> 
@@ -63,7 +62,7 @@
 									<#if subTableField.show_type=='text'>
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" value="${subTableData['${subTableField.field_name}']?if_exists?html}"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -79,7 +78,7 @@
 									<#elseif subTableField.show_type=='password'>
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}"  type="password"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" value="${subTableData['${subTableField.field_name}']?if_exists?html}"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -126,7 +125,7 @@
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px"  value="${subTableData['${subTableField.field_name}']?if_exists?html}"
 										       class="form-control" onClick="WdatePicker()" 
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -138,7 +137,7 @@
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px"  value="${subTableData['${subTableField.field_name}']?if_exists?html}"
 										       class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -151,7 +150,7 @@
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control searchbox-inputtext15" 
 										       onClick="inputClick(this,'${subTableField.dict_text?if_exists?html}','${subTableField.dict_table?if_exists?html}');" 
 										       value="${subTableData['${subTableField.field_name}']?if_exists?html}"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -162,7 +161,7 @@
 									<#elseif subTableField.show_type=='file'>
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" value="${subTableData['${subTableField.field_name}']?if_exists?html}"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -173,7 +172,7 @@
 									<#else>
 										<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" value="${subTableData['${subTableField.field_name}']?if_exists?html}"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -186,7 +185,7 @@
 					               				<#if subTableField.is_null != 'Y'>datatype="*"</#if>  
 								               </#if></#if>>
 									</#if>
-									<label class="Validform_label" style="display: none;">${subTableField.content?if_exists?html}</label>
+									<label class="Validform_label" style="display: none;"><@mutiLang langKey="${subTableField.content?if_exists?html}"/></label>
 									</td>
 									</#list>
 									</tr>
@@ -206,7 +205,7 @@
 									<#if subTableField.show_type=='text'>
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -222,7 +221,7 @@
 									<#elseif subTableField.show_type=='password'>
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}"  type="password"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" 
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -261,7 +260,7 @@
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px"  
 										       class="form-control" onClick="WdatePicker()" 
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -273,7 +272,7 @@
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px"  
 										       class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -285,7 +284,7 @@
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}"  type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control searchbox-inputtext15" 
 										       onClick="inputClick(this,'${subTableField.dict_text?if_exists?html}','${subTableField.dict_table?if_exists?html}');" 
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -296,7 +295,7 @@
 									<#elseif subTableField.show_type=='file'>
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control" 
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -307,7 +306,7 @@
 									<#else>
 										<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"
 										       style="width: ${(subTableField.field_length==0)?string(150, subTableField.field_length)}px" class="form-control"
-								               nullmsg="请输入${subTableField.content}！"
+								               nullmsg="请输入<@mutiLang langKey="${subTableField.content?if_exists?html}"/>！"
 								               
 								               <#if subTableField.field_valid_type?if_exists?html != ''>
 								               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -320,7 +319,7 @@
 					               				<#if subTableField.is_null != 'Y'>datatype="*"</#if>
 								               </#if></#if>>
 									</#if>
-									<label class="Validform_label" style="display: none;">${subTableField.content?if_exists?html}</label>
+									<label class="Validform_label" style="display: none;"><@mutiLang langKey="${subTableField.content?if_exists?html}"/></label>
 									</td>
 									</#list>
 									</tr>

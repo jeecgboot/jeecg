@@ -2,6 +2,7 @@ package org.jeecgframework.web.system.pojo.base;
 // default package
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,8 @@ public class TSType extends IdEntity implements java.io.Serializable {
 	private TSType TSType;//父类型
 	private String typename;//类型名称
 	private String typecode;//类型编码
+	private Date createDate;//创建时间
+	private String createName;//创建用户
 //	private List<TPProcess> TSProcesses = new ArrayList();
 	private List<TSType> TSTypes =new ArrayList();
 
@@ -67,6 +70,23 @@ public class TSType extends IdEntity implements java.io.Serializable {
 	public void setTypecode(String typecode) {
 		this.typecode = typecode;
 	}
+	@Column(name="create_date")
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Column(name="create_name",length=36)
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
+	}
 	
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSType")
 //	public List<TPProcess> getTSProcesses() {
@@ -76,6 +96,7 @@ public class TSType extends IdEntity implements java.io.Serializable {
 //	public void setTSProcesses(List<TPProcess> TSProcesses) {
 //		this.TSProcesses = TSProcesses;
 //	}
+
 
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSType")

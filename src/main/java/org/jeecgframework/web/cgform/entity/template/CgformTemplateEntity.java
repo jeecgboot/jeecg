@@ -63,12 +63,10 @@ public class CgformTemplateEntity implements java.io.Serializable {
 	private String templateComment;
 
 	private String templateZipName;
-
 	private String templateListName;
 	private String templateAddName;
 	private String templateUpdateName;
 	private String templateDetailName;
-
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键

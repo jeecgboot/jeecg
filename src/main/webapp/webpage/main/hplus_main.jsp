@@ -30,6 +30,8 @@
     <link href="plug-in-ui/hplus/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <link href="plug-in-ui/hplus/css/animate.css" rel="stylesheet">
     <link href="plug-in-ui/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <!--右键菜单-->
+    <link href="plug-in/hplus/smartMenu.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -45,10 +47,10 @@
                         <span><img alt="image" class="img-circle" src="plug-in/login/images/jeecg-aceplus.png" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">${userName }</strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold">${userName }</strong></span>
                                 <span class="text-muted text-xs block">${roleName }<b class="caret"></b></span>
                                 </span>
-                        </a>
+                        </a> 
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li>
                                 <a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
@@ -64,7 +66,7 @@
                             <li><a href="javascript:logout()">注销</a></li>
                         </ul>
                     </div>
-                    <div class="logo-element">Jeecg
+                    <div class="logo-element">JEECG
                     </div>
                 </li>
 
@@ -85,8 +87,10 @@
                         </div>
                     </form>
                 </div>
+                
+                
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
+                   <%--  <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-envelope"></i> <span class="label label-warning">0</span>
                         </a>
@@ -95,7 +99,7 @@
                                 <a>
                                     <div>
                                         <i class="fa fa-envelope fa-fw"></i> 您有0条未读消息
-                                        <%--<span class="pull-right text-muted small">4分钟前</span>--%>
+                                        <span class="pull-right text-muted small">4分钟前</span>
                                     </div>
                                 </a>
                             </li>
@@ -118,7 +122,7 @@
                                 <a>
                                     <div>
                                         <i class="fa fa-envelope fa-fw"></i> 您有0条未读消息
-                                        <%--<span class="pull-right text-muted small">4分钟前</span>--%>
+                                        <span class="pull-right text-muted small">4分钟前</span>
                                     </div>
                                 </a>
                             </li>
@@ -132,12 +136,39 @@
                                 </div>
                             </li>
                         </ul>
+                    </li> --%>
+                    
+                    <li class="dropdown">
+                    	<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <span ><strong class="font-bold">${userName }</strong></span>
+                                <span >${roleName }<b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
+                                    <t:mutiLang langKey="common.change.password"/>
+                                </a>
+                            </li>
+                            <li><a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><t:mutiLang langKey="common.profile"/></a></li>
+                            <li><a href="javascript:openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')"><t:mutiLang langKey="common.ssms.getSysInfos"/></a></li>
+                            <li><a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)"><t:mutiLang langKey="common.my.style"/></a></li>
+                            <li><a href="javascript:clearLocalstorage()"><t:mutiLang langKey="common.clear.localstorage"/></a></li>
+                            <li><a href="javascript:toJeecgYun()">云应用中心</a></li>
+                            <!-- <li><a href="http://yun.jeecg.org" target="_blank">云应用中心</li> -->
+                           <!--  <li class="divider"></li>
+                            <li><a href="javascript:logout()">注销</a></li> -->
+                        </ul>
                     </li>
+                    
+                     
                     <li class="dropdown hidden-xs">
                         <a class="right-sidebar-toggle" aria-expanded="false">
                             <i class="fa fa-tasks"></i> 主题
                         </a>
                     </li>
+                      <li class="dropdown">
+                     <a href="javascript:logout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                     </li>
                 </ul>
             </nav>
         </div>
@@ -164,7 +195,10 @@
                     </li>
                 </ul>
             </div>
+            
+            <!-- 
             <a href="javascript:logout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+             -->
         </div>
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="loginController.do?hplushome" frameborder="0" data-id="loginController.do?hplushome" seamless></iframe>
@@ -186,12 +220,12 @@
                         <i class="fa fa-gear"></i> 主题
                     </a>
                 </li>
-                <li class=""><a data-toggle="tab" href="#tab-2">
-                    通知
+               <li class=""><a data-toggle="tab" href="#tab-2">
+                   <i class="fa fa-comments-o" aria-hidden="true"></i>通知
                 </a>
                 </li>
                 <li><a data-toggle="tab" href="#tab-3">
-                    项目进度
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>公告
                 </a>
                 </li>
             </ul>
@@ -269,222 +303,38 @@
                     </div>
                 </div>
                 <div id="tab-2" class="tab-pane">
-
                     <div class="sidebar-title">
-                        <h3> <i class="fa fa-comments-o"></i> 最新通知</h3>
-                        <small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>
+                        <h3> <i class="fa fa-comments-o"></i> 最新通知<small id="messageCount"><i class="fa fa-tim"></i> 您当前有0条未读通知</small></h3>
                     </div>
+                    <ul class="sidebar-list">
+                        <li id="messageContent">
 
-                    <div>
+                        </li>
 
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a1.jpg">
-
-                                    <div class="m-t-xs">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                    </div>
-                                </div>
-                                <div class="media-body">
-
-                                    据天津日报报道：瑞海公司董事长于学伟，副董事长董社轩等10人在13日上午已被控制。
-                                    <br>
-                                    <small class="text-muted">今天 4:21</small>
-                                </div>
+                        <li>
+                            <a href="javascript:goAllMessage();" id="messageFooter">
+                                查看全部
+                                <i class="icon-arrow-right"></i>
                             </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a2.jpg">
-                                </div>
-                                <div class="media-body">
-                                    HCY48之音乐大魔王会员专属皮肤已上线，快来一键换装拥有他，宣告你对华晨宇的爱吧！
-                                    <br>
-                                    <small class="text-muted">昨天 2:45</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a3.jpg">
-
-                                    <div class="m-t-xs">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                    </div>
-                                </div>
-                                <div class="media-body">
-                                    写的好！与您分享
-                                    <br>
-                                    <small class="text-muted">昨天 1:10</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a4.jpg">
-                                </div>
-
-                                <div class="media-body">
-                                    国外极限小子的炼成！这还是亲生的吗！！
-                                    <br>
-                                    <small class="text-muted">昨天 8:37</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a8.jpg">
-                                </div>
-                                <div class="media-body">
-
-                                    一只流浪狗被收留后，为了减轻主人的负担，坚持自己觅食，甚至......有些东西，可能她比我们更懂。
-                                    <br>
-                                    <small class="text-muted">今天 4:21</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a7.jpg">
-                                </div>
-                                <div class="media-body">
-                                    这哥们的新视频又来了，创意杠杠滴，帅炸了！
-                                    <br>
-                                    <small class="text-muted">昨天 2:45</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a3.jpg">
-
-                                    <div class="m-t-xs">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                    </div>
-                                </div>
-                                <div class="media-body">
-                                    最近在补追此剧，特别喜欢这段表白。
-                                    <br>
-                                    <small class="text-muted">昨天 1:10</small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="sidebar-message">
-                            <a href="#">
-                                <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="plug-in-ui/hplus/img/a4.jpg">
-                                </div>
-                                <div class="media-body">
-                                    我发起了一个投票 【你认为下午大盘会翻红吗？】
-                                    <br>
-                                    <small class="text-muted">星期一 8:37</small>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
+                        </li>
+                    </ul>
                 </div>
                 <div id="tab-3" class="tab-pane">
-
                     <div class="sidebar-title">
-                        <h3> <i class="fa fa-cube"></i> 最新任务</h3>
-                        <small><i class="fa fa-tim"></i> 您当前有14个任务，10个已完成</small>
+                        <h3> <i class="fa fa-cube"></i> 最新公告<small id="noticeCount"><i class="fa fa-tim"></i> 您当前有0个公告</small></h3>
+
                     </div>
-
                     <ul class="sidebar-list">
-                        <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>市场调研</h4> 按要求接收教材；
+                        <li id="noticeContent">
 
-                                <div class="small">已完成： 22%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                                </div>
-                                <div class="small text-muted m-t-xs">项目截止： 4:00 - 2015.10.01</div>
-                            </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>可行性报告研究报上级批准 </h4> 编写目的编写本项目进度报告的目的在于更好的控制软件开发的时间,对团队成员的 开发进度作出一个合理的比对
-
-                                <div class="small">已完成： 48%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 48%;" class="progress-bar"></div>
-                                </div>
+                            <a href="javascript:goAllNotice();" id="noticeFooter">
+                                查看所有公告
+                                <i class="icon-arrow-right"></i>
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>立项阶段</h4> 东风商用车公司 采购综合综合查询分析系统项目进度阶段性报告武汉斯迪克科技有限公司
-
-                                <div class="small">已完成： 14%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="label label-primary pull-right">NEW</span>
-                                <h4>设计阶段</h4>
-                                <!--<div class="small pull-right m-t-xs">9小时以后</div>-->
-                                项目进度报告(Project Progress Report)
-                                <div class="small">已完成： 22%</div>
-                                <div class="small text-muted m-t-xs">项目截止： 4:00 - 2015.10.01</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>拆迁阶段</h4> 科研项目研究进展报告 项目编号: 项目名称: 项目负责人:
-
-                                <div class="small">已完成： 22%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                                </div>
-                                <div class="small text-muted m-t-xs">项目截止： 4:00 - 2015.10.01</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>建设阶段 </h4> 编写目的编写本项目进度报告的目的在于更好的控制软件开发的时间,对团队成员的 开发进度作出一个合理的比对
-
-                                <div class="small">已完成： 48%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 48%;" class="progress-bar"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="small pull-right m-t-xs">9小时以后</div>
-                                <h4>获证开盘</h4> 编写目的编写本项目进度报告的目的在于更好的控制软件开发的时间,对团队成员的 开发进度作出一个合理的比对
-
-                                <div class="small">已完成： 14%</div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                                </div>
-                            </a>
-                        </li>
-
                     </ul>
-
                 </div>
             </div>
 
@@ -595,15 +445,20 @@
 
 <!-- 自定义js -->
 <script src="plug-in-ui/hplus/js/hplus.js?v=4.1.0"></script>
-<script type="text/javascript" src="plug-in-ui/hplus/js/contabs.js"></script>
+<!--右键菜单-->
+<script type="text/javascript" src="plug-in/hplus/jquery-smartMenu.js"></script>
+<script type="text/javascript" src="plug-in/hplus/contabs.js"></script>
 <t:base type="tools"></t:base>
 <!-- 第三方插件 -->
 <script src="plug-in-ui/hplus/js/plugins/pace/pace.min.js"></script>
 <!-- Sweet alert -->
 <script src="plug-in-ui/hplus/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+
 <!-- 弹出TAB -->
 <script type="text/javascript" src="plug-in/hplus/hplus-tab.js"></script>
+<!-- 在线聊天 -->
+<%@include file="/context/layui.jsp"%>
 <script>
     function logout(){
         /*bootbox.confirm("<t:mutiLang langKey="common.exit.confirm"/>", function(result) {
@@ -646,13 +501,153 @@
         //bootbox.alert( "浏览器缓存清除成功!");
         layer.msg("浏览器缓存清除成功!");
     }
+    function toJeecgYun(){
+    	window.open("http://yun.jeecg.org","_blank");
+    }
+
+    $(document).ready(function(){
+        //加载公告
+        var url = "noticeController.do?getNoticeList";
+        jQuery.ajax({
+            url:url,
+            type:"GET",
+            dataType:"JSON",
+            async: false,
+            success:function(data){
+                if(data.success){
+                    var noticeList = data.attributes.noticeList;
+                    var noticeCount = data.obj;
+                    //加载公告条数
+                    if(noticeCount>99){
+                        $("#noticeCount").html("99+");
+                    }else{
+                        $("#noticeCount").html(noticeCount);
+                    }
+                    //加载公告提示
+                    var noticeTip = "";
+                    noticeTip += "<i class='icon-warning-sign'></i>";
+                    noticeTip += noticeCount+" "+data.attributes.tip;
+                    $("#noticeTip").html(noticeTip);
+
+                    //加载公告条目
+                    var noticeContent = "";
+                    if(noticeList.length > 0){
+                        for(var i=0;i<noticeList.length;i++){
+                            noticeContent +="<li><a href='javascript:goNotice(&quot;"+noticeList[i].id+"&quot;)' ";
+                            noticeContent +="style='word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>";
+                            noticeContent +="<i class='btn btn-xs btn-primary fa fa-user'></i>";
+                            noticeContent +="&nbsp;"+noticeList[i].noticeTitle + "</a></li></ul></li>";
+                        }
+                    }
+                    //alert(noticeContent);
+                    $("#noticeContent").html(noticeContent);
+
+                    //加载公告底部文字
+                    var noticeSeeAll = data.attributes.seeAll +"<i class='ace-icon fa fa-arrow-right'></i>";
+                    $("#noticeFooter").html(noticeSeeAll);
+                }
+            }
+        });
+
+
+        //加载消息
+        var url = "tSSmsController.do?getMessageList";
+        $.ajax({
+            url:url,
+            type:"GET",
+            dataType:"JSON",
+            async: false,
+            success:function(data){
+                if(data.success){
+                    var messageList = data.attributes.messageList;
+                    var messageCount = data.obj;
+                    //加载消息条数
+                    if(messageCount>99){
+                        $("#messageCount").html("99+");
+                    }else{
+                        $("#messageCount").html(messageCount);
+                    }
+                    //加载消息tip提示
+                    var messageTip = "";
+                    messageTip += "<i class='ace-icon fa fa-envelope-o'></i>";
+                    messageTip += messageCount+" "+data.attributes.tip;
+                    $("#messageTip").html(messageTip);
+
+                    //加载消息条目（有限）
+                    var messageContent = "";
+                    if(messageList.length > 0){
+                        for(var i=0;i<messageList.length;i++){
+                            messageContent +="<li><a href='javascript:goMessage(&quot;"+messageList[i].id+"&quot;)' class='clearfix'>";
+                            messageContent +="<img src='plug-in/ace/avatars/avatar3.png' class='msg-photo' alt='Alex’s Avatar' />";
+                            messageContent +="<span class='msg-body'><span class='msg-title'>";
+                            messageContent +="<span class='blue'>"+messageList[i].esSender+":</span>";
+                            messageContent += messageList[i].esTitle + "</span>";
+                            messageContent +="<span class='msg-time'><i class='ace-icon fa fa-clock-o'></i><span>"+messageList[i].esSendtimeTxt+"</span></span>";
+                            messageContent +="</span></a><input id='"+messageList[i].id+"_title' type='hidden' value='"+messageList[i].esTitle+"'>";
+                            messageContent +="<input id='"+messageList[i].id+"_status' type='hidden' value='"+messageList[i].esStatus+"'>";
+                            messageContent +="<input id='"+messageList[i].id+"_content' type='hidden' value='"+messageList[i].esContent+"'></li>";
+                        }
+                    }
+                    $("#messageContent").html(messageContent);
+
+                    //加载消息底部文字
+                    var messageSeeAll = data.attributes.seeAll +"<i class='ace-icon fa fa-arrow-right'></i>";
+                    $("#messageFooter").html(messageSeeAll);
+                }
+            }
+        });
+
+    });
+
     function goAllNotice(){
         var addurl = "noticeController.do?noticeList";
         createdetailwindow("公告", addurl, 800, 400);
     }
+
+    function goNotice(id){
+        var addurl = "noticeController.do?goNotice&id="+id;
+        createdetailwindow("通知公告详情", addurl, 750, 600);
+    }
+
     function goAllMessage(){
         var addurl = "tSSmsController.do?getSysInfos";
-        createdetailwindow("消息", addurl, 800, 400);
+        createdetailwindow("通知", addurl, 800, 400);
+    }
+
+    function goMessage(id){
+        var title = $("#"+id+"_title").val();
+        var content = $("#"+id+"_content").val();
+        $("#msgId").val(id);
+        $("#msgTitle").html(title);
+        $("#msgContent").html(content);
+        var status = $("#"+id+"_status").val();
+        if(status==1){
+            $("#msgStatus").html("未读");
+        }else{
+            $("#msgStatus").html("已读");
+        }
+
+        $('.theme-popover-mask').fadeIn(100);
+        $('.theme-popover').slideDown(200);
+    }
+
+    function readMessage(){
+        var msgId = $("#msgId").val();
+        var url = "tSSmsController.do?readMessage";
+        $.ajax({
+            url:url,
+            type:"GET",
+            dataType:"JSON",
+            data:{
+                messageId:msgId
+            },
+            success:function(data){
+                if(data.success){
+                    $("#msgStatus").html("已读");
+                    $("#"+msgId+"_status").val('2');
+                }
+            }
+        });
     }
 </script>
 </body>

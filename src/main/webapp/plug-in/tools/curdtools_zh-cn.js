@@ -25,14 +25,18 @@ try {
 function getzIndex(flag){
 	var zindexNumber = getCookie("ZINDEXNUMBER");
 	if(zindexNumber == null){
-		setCookie("ZINDEXNUMBER",1980);
-		zindexNumber = 1980;
+		zindexNumber = 2010;
+		setCookie("ZINDEXNUMBER",zindexNumber);
+		//zindexNumber = 1980;
 	}else{
+		if(zindexNumber < 2010){
+			zindexNumber = 2010;
+		}
 		var n = flag?zindexNumber:parseInt(zindexNumber) + parseInt(10);
 		setCookie("ZINDEXNUMBER",n);
 	}
 	return zindexNumber;
-}
+} 
 
 function upload(curform) {
 	upload();
@@ -633,6 +637,8 @@ function doSubmit(url,name,data) {
 				var msg = d.msg;
 				tip(msg);
 				reloadTable();
+			} else {
+				tip(d.msg);
 			}
 		}
 	});
@@ -903,7 +909,7 @@ function inputClick(obj,name,code) {
 					
 			    },
 			    cancelVal: '关闭',
-			    cancel: true /*为true等价于function(){}*/
+			    cancel: true //为true等价于function(){}
 			});
 		}else{
 			$.dialog({
@@ -937,10 +943,11 @@ function inputClick(obj,name,code) {
 					
 			    },
 			    cancelVal: '关闭',
-			    cancel: true /*为true等价于function(){}*/
+			    cancel: true //为true等价于function(){}
 			});
 		}
 }
+
 /*
 	自定义url的弹出
 	obj:要填充的控件,可以为多个，以逗号分隔
@@ -1069,7 +1076,7 @@ function jeecgAutoParse(data){
     	});
 			return parsed;
 }
-//add--start--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+
 /**
  * 更新跳转新页面
  * @param title 编辑框标题 未实现标题改变
@@ -1116,4 +1123,247 @@ function viewNotCreateWin(title,url, id,isRestful)
 	}
 	window.location.href=url
 }
-//add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
+
+//popup  
+//object: pobj当前操作的文本框. tablefield:对应字典TEXT,要从popup报表中获取的字段.inputnames:对应字典CODE,当前需要回填数据的文本框名称. pcode:动态报表的code
+function popupClick(pobj,tablefield,inputnames,pcode) {
+	 $.dialog.setting.zIndex = getzIndex(true);
+	 if(inputnames==""||pcode==""){
+		 alert("popup参数配置不全");
+		 return;
+	 }
+	 if(typeof(windowapi) == 'undefined'){
+		 $.dialog({
+				content: "url:cgReportController.do?popup&id="+pcode,
+				zIndex: getzIndex(),
+				lock : true,
+				title:"选择",
+				width:800,
+				height: 400,
+				cache:false,
+			    ok: function(){
+			    	iframe = this.iframe.contentWindow;
+			    	var selected = iframe.getSelectRows();
+			    	if (selected == '' || selected == null ){
+				    	alert("请选择");
+			    		return false;
+				    }else {
+				    	//对应数据库字段不为空的情况下,根据表单中字典TEXT的值来取popup的值
+				    	if(tablefield != "" && tablefield != null){
+					    	var fields = tablefield.split(",");
+					    	var inputfield = inputnames.split(",");
+					    	for(var i1=0;i1<fields.length;i1++){
+							   var str = "";
+						    	$.each( selected, function(i, n){ 
+						    		if (i==0)
+								    	str+= n[fields[i1]];
+							    	else{
+										str+= ",";
+										str+=n[fields[i1]];
+									}
+								 });
+						    	var inputname = $(pobj).attr("name"); 
+						    	var inputs = inputname.split(".");
+						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
+						    	if(str.indexOf("undefined")==-1){
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val(str);
+						    		}else{
+						    			$("input[name='"+inputfield[i1]+"']").val(str);
+						    		}
+						    	}else{
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val("");
+						    		}else{
+						    			$("input[name='"+inputfield[i1]+"']").val("");
+						    		}
+						    	}
+					    	}
+				    	}else{
+				    		//对应数据库字段为空的情况下并且字典CODE传入多个值时，根据表单中字典CODE的值从popup中来取值
+				    		var inputfield = inputnames.split(",");
+				    		if(inputfield.length>1){
+				    			for(var i1=0;i1<inputfield.length;i1++){
+									   var str = "";
+								    	$.each( selected, function(i, n){ 
+							    			if (i==0)
+							    				str+= n[inputfield[i1]];
+							    			else{
+							    				str+= ",";
+							    				str+=n[inputfield[i1]];
+							    			}
+										 });
+								    	var inputname = $(pobj).attr("name"); 
+								    	var inputs = inputname.split(".");
+								    	if(str.indexOf("undefined")==-1){
+								    		if(inputs.length>1){
+								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			$("input[name='"+inpu+"']").val(str);
+								    		}else{
+								    			$("input[name='"+inputfield[i1]+"']").val(str);
+								    		}
+								    	}else{
+								    		if(inputs.length>1){
+								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			$("input[name='"+inpu+"']").val("");
+								    		}else{
+								    			$("input[name='"+inputfield[i1]+"']").val("");
+								    		}
+								    	}
+							    	}
+				    		}else{
+				    			//对应数据库字段为空的情况下并且字典CODE传入一个值时，根据表单中字典TEXT的值从popup中来取值
+				    			 var str = "";
+						    	$.each( selected, function(i, n){
+							    	if (i==0)
+							    	str+= n[inputfield];
+							    	else
+						    		str+= ","+n[inputfield];
+						    	});
+						    	var inputname = $(pobj).attr("name"); 
+						    	var inputs = inputname.split(".");
+						    	if(str.indexOf("undefined")==-1){
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val(str);
+						    		}else{
+						    			$("input[name='"+inputfield+"']").val(str);
+						    		}
+						    	}else{
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val("");
+						    		}else{
+						    			$("input[name='"+inputfield+"']").val("");
+						    		}
+						    	}
+				    		}
+				    	}
+				    	return true;
+				    }
+					
+			    },
+			    cancelVal: '关闭',
+			    cancel: true // 为true等价于function(){}
+			});
+		}else{
+			$.dialog({
+				content: "url:cgReportController.do?popup&id="+pcode,
+				zIndex: getzIndex(),
+				lock : true,
+				title:"选择",
+				width:800,
+				height: 400,
+				parent:windowapi,
+				cache:false,
+			    ok: function(){
+			    	iframe = this.iframe.contentWindow;
+			    	var selected = iframe.getSelectRows();
+			    	if (selected == '' || selected == null ){
+				    	alert("请选择");
+			    		return false;
+				    }else {
+				    	//对应数据库字段不为空的情况下,根据表单中字典TEXT的值来取popup的值
+				    	if(tablefield != "" && tablefield != null){
+					    	var fields = tablefield.split(",");
+					    	var inputfield = inputnames.split(",");
+					    	for(var i1=0;i1<fields.length;i1++){
+							   var str = "";
+						    	$.each( selected, function(i, n){ 
+						    		if (i==0)
+								    	str+= n[fields[i1]];
+							    	else{
+										str+= ",";
+										str+=n[fields[i1]];
+									}
+								 });
+						    	var inputname = $(pobj).attr("name"); 
+						    	var inputs = inputname.split(".");
+						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
+						    	if(str.indexOf("undefined")==-1){
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val(str);
+						    		}else{
+						    			$("input[name='"+inputfield[i1]+"']").val(str);
+						    		}
+						    	}else{
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val("");
+						    		}else{
+						    			$("input[name='"+inputfield[i1]+"']").val("");
+						    		}
+						    	}
+					    	}
+				    	}else{
+				    		//对应数据库字段为空的情况下并且字典CODE传入多个值时，根据表单中字典CODE的值从popup中来取值
+				    		var inputfield = inputnames.split(",");
+				    		if(inputfield.length>1){
+				    			for(var i1=0;i1<inputfield.length;i1++){
+									   var str = "";
+								    	$.each( selected, function(i, n){ 
+							    			if (i==0)
+							    				str+= n[inputfield[i1]];
+							    			else{
+							    				str+= ",";
+							    				str+=n[inputfield[i1]];
+							    			}
+										 });
+								    	var inputname = $(pobj).attr("name"); 
+								    	var inputs = inputname.split(".");
+								    	if(str.indexOf("undefined")==-1){
+								    		if(inputs.length>1){
+								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			$("input[name='"+inpu+"']").val(str);
+								    		}else{
+								    			$("input[name='"+inputfield[i1]+"']").val(str);
+								    		}
+								    	}else{
+								    		if(inputs.length>1){
+								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			$("input[name='"+inpu+"']").val("");
+								    		}else{
+								    			$("input[name='"+inputfield[i1]+"']").val("");
+								    		}
+								    	}
+							    	}
+				    		}else{
+				    			//对应数据库字段为空的情况下并且字典CODE传入一个值时，根据表单中字典TEXT的值从popup中来取值
+				    			 var str = "";
+						    	$.each( selected, function(i, n){
+							    	if (i==0)
+							    	str+= n[inputfield];
+							    	else
+						    		str+= ","+n[inputfield];
+						    	});
+						    	var inputname = $(pobj).attr("name"); 
+						    	var inputs = inputname.split(".");
+						    	if(str.indexOf("undefined")==-1){
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val(str);
+						    		}else{
+						    			$("input[name='"+inputfield+"']").val(str);
+						    		}
+						    	}else{
+						    		if(inputs.length>1){
+						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			$("input[name='"+inpu+"']").val("");
+						    		}else{
+						    			$("input[name='"+inputfield+"']").val("");
+						    		}
+						    	}
+				    		}
+				    	}
+				    	return true;
+				    }
+					
+			    },
+			    cancelVal: '关闭',
+			    cancel: true // 为true等价于function(){}
+			});
+		}
+	}

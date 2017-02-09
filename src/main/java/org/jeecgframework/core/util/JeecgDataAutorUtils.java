@@ -38,7 +38,7 @@ public class JeecgDataAutorUtils {
 	}
 
 	/**
-	 * 获取查询条件方法
+	 * 获取请求对应的数据权限规则
 	 * 
 	 * @param request
 	 * @return
@@ -50,7 +50,7 @@ public class JeecgDataAutorUtils {
 	}
 
 	/**
-	 * 获取查询条件方法
+	 * 获取请求对应的数据权限SQL
 	 * 
 	 * @param request
 	 * @return

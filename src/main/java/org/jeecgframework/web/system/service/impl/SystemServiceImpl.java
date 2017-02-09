@@ -232,7 +232,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
             orgCodeLength = 3;
         }
 
-
         String  newOrgCode = "";
         if(!StringUtils.hasText(pid)) { // 第一级编码
             String sql = "select max(t.org_code) orgCode from t_s_depart t where t.parentdepartid is null";
@@ -349,5 +348,4 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		tsDatalogEntity.setVersionNumber(versionNumber + 1);
 		commonDao.save(tsDatalogEntity);
 	}
-
 }

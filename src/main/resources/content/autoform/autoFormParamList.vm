@@ -1,0 +1,96 @@
+<script type="text/javascript">
+	jQuery('#addAutoFormParamBtn').linkbutton({   
+	    iconCls: 'icon-add'  
+	});  
+	jQuery('#delAutoFormParamBtn').linkbutton({   
+	    iconCls: 'icon-remove'  
+	}); 
+	jQuery('#addAutoFormParamBtn').bind('click', function(){   
+ 		 var tr =  jQuery("#add_autoFormParam_table_template tr").clone();
+	 	 jQuery("#add_autoFormParam_table").append(tr);
+	 	 resetTrNum('add_autoFormParam_table');
+	 	 return false;
+    });  
+	jQuery('#delAutoFormParamBtn').bind('click', function(){   
+      	jQuery("#add_autoFormParam_table").find("input:checked").parent().parent().remove();   
+        resetTrNum('add_autoFormParam_table'); 
+        return false;
+    }); 
+	
+    jQuery(document).ready(function(){
+    	jQuery(".datagrid-toolbar").parent().css("width","auto");
+    	if(location.href.indexOf("load=detail")!=-1){
+			jQuery(":input").attr("disabled","true");
+			jQuery(".datagrid-toolbar").hide();
+		}
+		//将表格的表头固定
+	    jQuery("#autoFormParam_table").createhftable({
+	    	height:'100px',
+			width:'auto',
+			fixFooter:false
+		});
+    });
+    
+    function deleteOne(obj){
+       	var tableId = jQuery(obj).parent().parent().parent().parent().attr("id");
+       	jQuery(obj).parent().parent().parent().remove();
+       	/*刷新拥有该列的表的序列*/
+       	resetTrNum(jQuery("input[name='dbType']:checked").val()+"_div #"+tableId);
+    }
+</script>
+<div style="padding: 3px; height: 25px;width:auto;" class="datagrid-toolbar">
+	<a id="addAutoFormParamBtn" href="#">添加</a>
+	<a id="delAutoFormParamBtn" href="#">删除</a> 
+</div>
+<table border="0" cellpadding="2" cellspacing="0" id="autoFormParam_table">
+	<tr bgcolor="#E6E6E6">
+		<td align="center" width="40px" bgcolor="#EEEEEE">编码</td>
+		<td align="center" width="40px" bgcolor="#EEEEEE">选择</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">参数</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">参数文本</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">默认值</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">排序</td>
+		<td align="center" width="50px" bgcolor="#EEEEEE">操作</td>
+	</tr>
+	<tbody id="add_autoFormParam_table">
+		#if($!{autoFormParamList})
+			#set($count=0)
+			#foreach($!{info} in $!{autoFormParamList})
+    			<tr>
+					<input name="autoFormParamList[${count}].id" type="hidden" value="$!{info.id}"/>
+					<input name="autoFormParamList[${count}].createName" type="hidden" value="$!{info.createName}"/>
+					<input name="autoFormParamList[${count}].createBy" type="hidden" value="$!{info.createBy}"/>
+					<input name="autoFormParamList[${count}].createDate" type="hidden" value="$!{info.createDate}"/>
+					<input name="autoFormParamList[${count}].updateName" type="hidden" value="$!{info.updateName}"/>
+					<input name="autoFormParamList[${count}].updateBy" type="hidden" value="$!{info.updateBy}"/>
+					<input name="autoFormParamList[${count}].updateDate" type="hidden" value="$!{info.updateDate}"/>
+					<input name="autoFormParamList[${count}].sysOrgCode" type="hidden" value="$!{info.sysOrgCode}"/>
+					<input name="autoFormParamList[${count}].sysCompanyCode" type="hidden" value="$!{info.sysCompanyCode}"/>
+					<input name="autoFormParamList[${count}].autoFormDbId" type="hidden" value="$!{info.autoFormDbId}"/>
+    				<td align="center"><div style="width: 40px;" name="xh">$!{velocityCount}</div></td>
+					<td align="center"><input style="width:20px;"  type="checkbox" name="ck" /></td>
+					<td align="left">
+                    	<input name="autoFormParamList[${count}].paramName" maxlength="32" type="text" class="inputxt" style="width:120px;" datatype="*" value="$!{info.paramName}" />
+                    	<label class="Validform_label" style="display: none;">参数</label>
+                    </td>
+                    <td align="left">
+                    	<input name="autoFormParamList[${count}].paramDesc" maxlength="32" type="text" class="inputxt" style="width:120px;" value="$!{info.paramDesc}" />
+                    	<label class="Validform_label" style="display: none;">参数文本</label>
+                    </td>
+                    <td align="left">
+                    	<input name="autoFormParamList[${count}].paramValue" maxlength="32" type="text" class="inputxt" style="width:120px;" value="$!{info.paramValue}" />
+                    	<label class="Validform_label" style="display: none;">默认值</label>
+                    </td>
+                    <td align="left">
+                    	<input name="autoFormParamList[${count}].seq" maxlength="32" type="text" class="inputxt" style="width:120px;" value="$!{info.seq}" />
+                    	<label class="Validform_label" style="display: none;">排序</label>
+                    </td>
+                    <td align="center">
+                    	<div style="width: 50px;" align="center">[<a class="delAutoFormParamOneBtn" href="javascript:void(0)" onclick="deleteOne(this)">删除</a>]</div>
+					</td>
+       			</tr>
+				#set($count=$count+1)
+			#end
+		#end
+	</tbody>
+</table>

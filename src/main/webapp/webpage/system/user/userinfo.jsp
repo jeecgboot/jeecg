@@ -7,7 +7,7 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true">
-	<fieldset class="step"><legend> <t:mutiLang langKey="common.userinfo"/> </legend>
+	<fieldset class="step">
 	
 	<div class="form"><label class="form"> <t:mutiLang langKey="common.username"/>: </label> ${user.userName }</div>
 	<div class="form"><label class="form"> <t:mutiLang langKey="common.surname"/>: </label> ${user.realName}</div>

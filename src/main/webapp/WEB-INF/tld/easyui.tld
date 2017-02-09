@@ -199,6 +199,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否单选true,false</description>
 		</attribute>
+		<attribute>
+			<name>isShowSearch</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否使用检索可收缩功能true,false</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgCol</name>
@@ -230,14 +235,12 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>字段宽度</description>
 		</attribute>
-		<!-- author：xugj start date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
 		<attribute>
 			<name>showLen</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>显示长度</description>
 		</attribute>
-		<!-- author：xugj end date:2016年5月11日 for:TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制 -->
 		<attribute>
 			<name>rowspan</name>
 			<rtexprvalue>true</rtexprvalue>
@@ -426,6 +429,16 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
 		</attribute>
+		<attribute>
+			<name>urlclass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮样式</description>
+		</attribute>
+		<attribute>
+			<name>urlfont</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮图标样式</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgDefOpt</name>
@@ -551,6 +564,16 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
 		</attribute>
+		<attribute>
+			<name>urlclass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮样式</description>
+		</attribute>
+		<attribute>
+			<name>urlfont</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮图标样式</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>dgToolBar</name>
@@ -646,6 +669,16 @@
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+		</attribute>
+		<attribute>
+			<name>urlclass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮样式</description>
+		</attribute>
+		<attribute>
+			<name>urlfont</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮图标样式</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -934,6 +967,11 @@
 			<name>formId</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>后台接受表单id, 不可与formData同时使用</description>
+		</attribute>
+		<attribute>
+			<name>fileSizeLimit</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>上传文件大小设置</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -1455,6 +1493,19 @@
 			<description>按钮容器的ID</description>
 		</attribute>
 	</tag>
+	<!-- 新权限JSP标签，通过标签的 “权限标示” 控制代码片段是否显示 -->
+	<tag>
+		<name>hasPermission</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.HasPermissionTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>JSP权限标签</display-name>
+		<description>新权限JSP标签，通过标签的 “权限标示” 控制代码片段是否显示</description>
+		<attribute>
+			<name>name</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>按钮code</description>
+		</attribute>
+	</tag>
 	<!-- 选择下拉框 -->
 	<tag>
 		<name>departSelect</name>
@@ -1554,6 +1605,38 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>弹出框标头</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>selectZTree</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.SelectZTreeTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>下拉菜单方式</display-name>
+		<small-icon>111</small-icon>
+		<description>下拉菜单</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于显示input的id</description>
+		</attribute>
+		<attribute>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>请求地址</description>
+		</attribute>
+		<attribute>
+			<name>windowWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>窗口高度</description>
 		</attribute>
 	</tag>
 </taglib>

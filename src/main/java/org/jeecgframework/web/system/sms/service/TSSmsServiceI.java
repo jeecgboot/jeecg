@@ -34,9 +34,7 @@ public interface TSSmsServiceI extends CommonService{
  	public boolean doDelSql(TSSmsEntity t);
  	
  	public void send();
- 	
- 	
- 	//add-begin--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
+
  	/**
  	 * 根据当前时间及当前登录人，取得规定时间内的信息内容
  	 * curUser:当前系统登录人
@@ -44,6 +42,6 @@ public interface TSSmsServiceI extends CommonService{
  	 * 
  	*/
  	public List<TSSmsEntity> getMsgsList(String curUser,String curDate);
- 	//add-end--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
+
  	
 }

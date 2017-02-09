@@ -1,0 +1,78 @@
+<script type="text/javascript">
+	jQuery('#addCgDynamGraphConfigItemBtn').linkbutton({   
+	    iconCls: 'icon-add'  
+	});  
+	jQuery('#delCgDynamGraphConfigItemBtn').linkbutton({   
+	    iconCls: 'icon-remove'  
+	}); 
+	jQuery('#addCgDynamGraphConfigItemBtn').bind('click', function(){   
+ 		 var tr =  jQuery("#add_cgDynamGraphConfigItem_table_template tr").clone();
+	 	 jQuery("#add_cgDynamGraphConfigItem_table").append(tr);
+	 	 resetTrNum('add_cgDynamGraphConfigItem_table');
+    });  
+	jQuery('#delCgDynamGraphConfigItemBtn').bind('click', function(){   
+      	jQuery("#add_cgDynamGraphConfigItem_table").find("input:checked").parent().parent().remove();   
+        resetTrNum('add_cgDynamGraphConfigItem_table'); 
+    }); 
+    jQuery(document).ready(function(){
+    	jQuery(".datagrid-toolbar").parent().css("width","auto");
+    	if(location.href.indexOf("load=detail")!=-1){
+			jQuery(":input").attr("disabled","true");
+			jQuery(".datagrid-toolbar").hide();
+		}
+    });
+</script>
+<div style="padding: 3px; height: 25px; width: auto;" class="datagrid-toolbar">
+	<a id="addCgDynamGraphConfigItemBtn" href="javascript:void(0);">添加</a>
+	<a id="delCgDynamGraphConfigItemBtn" href="javascript:void(0);">删除</a>
+</div>
+<div style="width: auto; height: 300px; overflow-y: auto; overflow-x: scroll;">
+<table border="0" cellpadding="2" cellspacing="0" id="cgDynamGraphConfigItem_table">
+	<tr bgcolor="#E6E6E6">
+		<td align="center" bgcolor="#EEEEEE"><label class="Validform_label">编码</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">名称</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">排序</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">文本框</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">类型</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">是否显示</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字段Href</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">查询模式</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">类型</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字典Code</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">是否查询</label></td>
+	</tr>
+	<tbody id="add_cgDynamGraphConfigItem_table">
+		#if($!{cgDynamGraphConfigItemList})
+			#set($count=0)
+			#foreach($!{info} in $!{cgDynamGraphConfigItemList})
+				<tr>
+					<input name="cgDynamGraphConfigItemList[${count}].id" type="hidden" value="$!{info.id}" />
+					<input name="cgDynamGraphConfigItemList[${count}].cgrheadId" type="hidden" value="$!{info.cgrheadId}" />
+					<td align="center"><input style="width: 20px;" type="checkbox" name="ck" /></td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].fieldName" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="$!{info.fieldName}"></td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].orderNum" maxlength="10" type="text" class="inputxt" style="width: 30px;" value="$!{info.orderNum}"></td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].fieldTxt" maxlength="1000" type="text" class="inputxt" style="width: 120px;" value="$!{info.fieldTxt}"></td>
+					<td align="left">#selectDictTag("fieldtype","cgDynamGraphConfigItemList[$count].fieldType",$!{info.fieldType})</td>
+					<td align="left">
+						<select id="isShow" name="cgDynamGraphConfigItemList[$count].isShow"  style="width: 60px;">
+							#if($!{info.isShow} == 'N')
+								<option value="Y">显示</option>
+								<option value="N" selected="selected">隐藏</option>
+								#else
+									<option value="Y" selected="selected">显示</option>
+									<option value="N">隐藏</option>
+							#end
+    					</select>
+					</td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].fieldHref" maxlength="120" type="text" class="inputxt" style="width: 120px;" value="$!{info.fieldHref}" /></td>
+					<td align="left">#selectDictTag("searchmode", "cgDynamGraphConfigItemList[$count].SMode",$!{info.SMode})</td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="$!{info.replaceVa}"></td>
+					<td align="left"><input name="cgDynamGraphConfigItemList[${count}].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="$!{info.dictCode}"></td>
+					<td align="left">#selectDictTag("yesorno", "cgreportConfigItemList[$count].SFlag", $!{info.SFlag})</t:dictSelect></td>
+				</tr>
+				#set($count=$count+1)
+			#end
+		#end
+	</tbody>
+</table>
+</div>

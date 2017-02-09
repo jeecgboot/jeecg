@@ -20,7 +20,7 @@
    <t:dgCol title="预览图"  field="templatePic"   image="true"  imageSize="40,40" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="风格描述"  field="templateComment"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-   <t:dgDelOpt title="删除" url="cgformTemplateController.do?doDel&id={id}" />
+   <t:dgDelOpt title="删除" url="cgformTemplateController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
    <t:dgToolBar title="录入" icon="icon-add" url="cgformTemplateController.do?goAdd" funname="add" width="900" height="500"></t:dgToolBar>
    <t:dgToolBar title="编辑" icon="icon-edit" url="cgformTemplateController.do?goUpdate" funname="update" width="900" height="500"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="cgformTemplateController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>

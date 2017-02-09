@@ -103,6 +103,8 @@ public class ExcelTempletController extends BaseController {
 				QueryParamUtil.loadQueryParams(request, b, params);
 //				}
 			}
+			//--author：zhoujf---start------date:20170207--------for:online表单物理表查询数据异常处理
+			configId = configId.split("__")[0];
 			List<Map<String, Object>> result = cgTableService.querySingle(configId, field.toString(), params, null, null, 1, 99999);
 
 			//表单列集合
@@ -279,6 +281,8 @@ public class ExcelTempletController extends BaseController {
 						message = "识别模版数据错误";
 						logger.error(message);
 					} else {
+						//--author：zhoujf---start------date:20170207--------for:online表单物理表查询数据异常处理
+						configId = configId.split("__")[0];
 						for (Map<String, Object> map : listDate) {
 							map.put("id", UUIDGenerator.generate());
 							dataBaseService.insertTable(configId, map);
@@ -361,9 +365,7 @@ public class ExcelTempletController extends BaseController {
 						String value = String.valueOf(r.get(bean.getFieldName()));
 						for (DictEntity dictEntity : dicDataList) {
 							if (value.equalsIgnoreCase(dictEntity.getTypecode())) {
-
 								r.put(bean.getFieldName(), MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
-
 							}
 						}
 					}

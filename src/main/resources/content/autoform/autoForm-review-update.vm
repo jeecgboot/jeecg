@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+		<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+		<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+		<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+		<script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+		<link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+		<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+		<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+		<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+		<script type="text/javascript" src="plug-in/tools/json2.js"></script>
+		<script type="text/javascript" src="plug-in/jquery-plugs/form/jquery.form.js"></script>
+		<link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="plug-in/Validform/css/style.css" type="text/css">
+		<link rel="stylesheet" href="plug-in/Validform/css/tablefrom.css" type="text/css">
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
+		<script type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+		<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
+		<link rel="stylesheet" href="plug-in/My97DatePicker/skin/WdatePicker.css" type="text/css"></link>
+		<!--[if lte IE 6]>
+			<link rel="stylesheet" type="text/css" href="plug-in/Formdesign/js/ueditor/formdesign/bootstrap/css/bootstrap-ie6.css">
+		<![endif]-->
+		<!--[if lte IE 7]>
+			<link rel="stylesheet" type="text/css" href="plug-in/Formdesign/js/ueditor/formdesign/bootstrap/css/ie.css">
+		<![endif]-->
+		<link rel="stylesheet" href="plug-in/Formdesign/js/ueditor/formdesign/leipi.style.css">
+		<style>
+			html,body {
+				height:100%;
+				width:100%;
+				padding:0;
+				margin:0;
+			}
+			#preview {
+				width:100%;
+				height:100%;
+				padding:0;
+				margin:0;
+			}
+			#preview * {
+				font-family:sans-serif;
+				font-size:16px;
+			}
+		</style>
+		<script type="text/javascript">var form;
+			jQuery(function() {
+				form = jQuery("#formSubmit").Validform({
+					tiptype: 4,
+					btnSubmit: "#btn_sub",
+					btnReset: "#btn_reset",
+					ajaxPost: true,
+					callback: function(data) {
+						if (data.success) {
+							alert(data.msg);
+							var id = data.obj;
+							jQuery("#param_op").val("update");
+							jQuery("#param_id").val(id);
+							jQuery("#reloadViewForm").submit();
+						} else {
+							alert(data.msg);
+						}
+					}
+				});
+				form.tipmsg.s = "非空";
+				form.tipmsg.r = " ";
+			});
+			function formSubmit() {
+				jQuery("#btn_sub").click();
+			}
+		</script>
+	</head>
+	<body class="view">
+		<form id="formSubmit" action="autoFormController.do?addForm" method="post">
+			<input type="hidden" id="btn_sub" />
+			<input type="hidden" name="formName" value="$!{formName}" />
+			#if($!{param})
+				#foreach($!{info} in $!{param})
+					<input type="hidden" name="param.${info.key}" value="${info.value}" />
+				#end
+			#end
+			<div class="container">
+				<div id="preview" style="margin:8px">$!{formContent}</div>
+			</div>
+		</form>
+		<br>
+		<br>
+		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+			<div class="navbar-inner">
+				<div class="container">
+					<div class="nav-collapse collapse">
+						<ul class="nav" style="float: right;">
+							<li>
+								<button type="button" class="btn btn-primary  navbar-button" onclick="formSubmit();">提 交</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<hr />
+			</div>
+		</nav>
+	</body>
+</html>

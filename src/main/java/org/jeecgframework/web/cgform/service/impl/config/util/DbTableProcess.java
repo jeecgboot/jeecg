@@ -160,14 +160,13 @@ public class DbTableProcess {
 			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(
 					session.getSessionFactory()).getConnection());
 			dbExport.execute(true, true, false, true);
-
+			
 			//抛出执行异常，抛出第一个即可  
 			@SuppressWarnings("unchecked")
 			List<Exception> exceptionList = dbExport.getExceptions();
 			for (Exception exception : exceptionList) {
 				throw new DBException(exception.getMessage());
 			}
-
 	}
 
 	/**
@@ -198,8 +197,29 @@ public class DbTableProcess {
 		ColumnMeta columnMeta;
 		Map<String, ColumnMeta> columnMap = new HashMap<String, ColumnMeta>();
 		while (rs.next()){
+
 			columnMeta = new ColumnMeta();
-			columnMeta.setTableName(rs.getString("COLUMN_NAME").toLowerCase());
+			columnMeta.setTableName(tableName);
+			String columnName = rs.getString("COLUMN_NAME").toLowerCase();
+			columnMeta.setColumnName(columnName);
+			String typeName = rs.getString("TYPE_NAME");
+			int decimalDigits = rs.getInt("DECIMAL_DIGITS");
+			String colunmType = dbTableHandle.getMatchClassTypeByDataType(typeName,decimalDigits);
+			columnMeta.setColunmType(colunmType);
+			int columnSize = rs.getInt("COLUMN_SIZE");
+			columnMeta.setColumnSize(columnSize);
+			columnMeta.setDecimalDigits(decimalDigits);
+			String isNullable = rs.getInt("NULLABLE")==1?"Y":"N";
+			columnMeta.setIsNullable(isNullable);
+			String comment = rs.getString("REMARKS");
+			columnMeta.setComment(comment);
+			String columnDef = rs.getString("COLUMN_DEF");
+			String fieldDefault = judgeIsNumber(columnDef)==null?"":judgeIsNumber(columnDef);
+			columnMeta.setFieldDefault(fieldDefault);
+			logger.info("getColumnMetadataFormDataBase --->COLUMN_NAME:"+columnName.toUpperCase()+" TYPE_NAME :"+typeName
+					+" DECIMAL_DIGITS:"+decimalDigits+" COLUMN_SIZE:"+columnSize);
+			columnMap.put(columnName, columnMeta);
+			/*columnMeta.setTableName(rs.getString("COLUMN_NAME").toLowerCase());
 			columnMeta.setColumnName(rs.getString("COLUMN_NAME").toLowerCase());
 			columnMeta.setColunmType(dbTableHandle.getMatchClassTypeByDataType(rs.getString("TYPE_NAME"),rs.getInt("DECIMAL_DIGITS")));
 			columnMeta.setColumnSize(rs.getInt("COLUMN_SIZE"));
@@ -209,7 +229,7 @@ public class DbTableProcess {
 			columnMeta.setFieldDefault(judgeIsNumber(rs.getString("COLUMN_DEF"))==null?"":judgeIsNumber(rs.getString("COLUMN_DEF")));
 			logger.info("getColumnMetadataFormDataBase --->COLUMN_NAME:"+rs.getString("COLUMN_NAME")+" TYPE_NAME :"+rs.getString("TYPE_NAME")
 					+" DECIMAL_DIGITS:"+rs.getInt("DECIMAL_DIGITS")+" COLUMN_SIZE:"+rs.getInt("COLUMN_SIZE"));
-			columnMap.put(rs.getString("COLUMN_NAME").toLowerCase(), columnMeta);
+			columnMap.put(rs.getString("COLUMN_NAME").toLowerCase(), columnMeta);*/
 		}
 		
 		return columnMap;

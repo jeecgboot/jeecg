@@ -104,9 +104,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 				this.saveOrUpdate(c);
 			}
 		}
-
 		t.setIsDbSynch(isChange ? "N" : t.getIsDbSynch());
-
 		t.setIsDbSynch(databaseFieldIsChange ? "N" : t.getIsDbSynch());
 		
 		//表单配置修改，版本号未升级
@@ -378,6 +376,10 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 	
 	public List<Map<String, Object>> getSubTableData(String mainTableName,
 			String subTableName, Object mainTableId) {
+		mainTableName = PublicUtil.replaceTableName(mainTableName);
+		subTableName = PublicUtil.replaceTableName(subTableName);
+		//data.put("tableName", tableName);
+		
 		StringBuilder sql1 = new StringBuilder("");
 		sql1.append("select f.* from cgform_field f ,cgform_head h");
 		sql1.append(" where f.table_id = h.id ");
@@ -401,8 +403,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 			}
 		}
 		sql2.append(" and main.id= ? ");
-		List<Map<String, Object>> subTableDataList = this.findForJdbc(
-				sql2.toString(), mainTableId);
+		List<Map<String, Object>> subTableDataList = this.findForJdbc(sql2.toString(), mainTableId);
 		return subTableDataList;
 	}
 
@@ -594,18 +595,20 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 		}
 		// 装载附表表单配置
 		data.put("field", field);
-		data.put("tableName", tableName);
+		String tablename = PublicUtil.replaceTableName(tableName);
+		data.put("tableName", tablename);
+		//data.put("tableName", tableName);
 		List<Map<String, Object>> fieldList = null;
 		if (head.getJformType() == CgAutoListConstant.JFORM_TYPE_MAIN_TALBE) {
 			// 查询主表或单表表单配置
 			fieldList = this.getCgFormFieldByTableName(tableName);
 		} else {
-			Map<String, Object> cgformFtlEntity = cgformFtlService
-					.getCgformFtlByTableName(tableName);
-			if (cgformFtlEntity == null) {
+//			Map<String, Object> cgformFtlEntity = cgformFtlService
+//					.getCgformFtlByTableName(tableName);
+//			if (cgformFtlEntity == null) {
 				// 查询主表或单表表单配置
 				fieldList = this.getCgFormFieldByTableName(tableName);
-			}
+//			}
 		}
 		// 隐藏字段 剔除id
 		List<Map<String, Object>> hiddenFieldList = getCgFormHiddenFieldByTableName(tableName);

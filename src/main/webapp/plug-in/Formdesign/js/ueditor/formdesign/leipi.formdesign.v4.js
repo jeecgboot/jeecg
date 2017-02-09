@@ -1081,7 +1081,6 @@ UE.registerUI('button_preview',function(editor,uiName){
     return btn;
 });
 
-//---update--begin---author:scott----date:20151027-----for:注释掉保存按钮------
 /**
 UE.registerUI('button_save',function(editor,uiName){
     if(!this.options.toolleipi)
@@ -1118,7 +1117,7 @@ UE.registerUI('button_save',function(editor,uiName){
     return btn;
 });
 */
-//---update--end---author:scott----date:20151027-----for:注释掉保存按钮------
+
 
 
 //longjb1 新增popup控件

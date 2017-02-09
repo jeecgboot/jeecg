@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+        <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+        <script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+        <script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+        <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		
+        <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+        <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+        <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+        <link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+        <link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+			
+        <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+        <script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+        <script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+		
+        <script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+		
+        <link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+        <link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+		
+        <script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+        <script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+        <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+        <script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+        <script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+        <script type="text/javascript" src="plug-in/tools/json2.js"></script>
+        <script src="plug-in/clipboard/ZeroClipboard.js"></script>
+        
+        <link rel="stylesheet" href="plug-in/Validform/css/style.css" type="text/css">
+        <link rel="stylesheet" href="plug-in/Validform/css/tablefrom.css" type="text/css">
+			
+        <script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+        <script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+        <script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
+		
+		<script type="text/javascript">
+    		jQuery(function() {
+    			storage = jQuery.localStorage;
+    			if (!storage) storage = jQuery.cookieStorage;
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid({
+    				idField: 'id',
+    				title: '动态表头',
+    				url: 'cgDynamGraphConfigHeadController.do?datagrid&field=id,code,name,cgrSql,dbSource,createBy,createDate,updateBy,updateDate,content,',
+    				fit: true,
+    				queryParams: {},
+    				loadMsg: '数据加载中...',
+    				pageSize: 10,
+    				pagination: true,
+    				pageList: [10, 20, 30],
+    				sortName: 'createDate',
+    				sortOrder: 'desc',
+    				rownumbers: true,
+    				singleSelect: false,
+    				fitColumns: false,
+    				striped: true,
+    				showFooter: true,
+    				frozenColumns: [[{
+    					field: 'ck',
+    					checkbox: 'true'
+    				},
+    				]],
+    				columns: [[{
+    					field: 'id',
+    					title: '',
+    					width: 120,
+    					hidden: true,
+    					sortable: true
+    				},
+    				{
+    					field: 'code',
+    					title: '编码',
+    					width: 120,
+    					sortable: true
+    				},
+    				{
+    					field: 'name',
+    					title: '名称',
+    					width: 120,
+    					sortable: true
+    				},
+    				{
+    					field: 'cgrSql',
+    					title: '查询sql',
+    					width: 120,
+    					sortable: true
+    				},
+    				{
+    					field: 'dbSource',
+    					title: '数据源',
+    					width: 120,
+    					sortable: true
+    				},
+    				{
+    					field: 'createBy',
+    					title: '创建人',
+    					sortable: true
+    				},
+    				{
+    					field: 'createDate',
+    					title: '创建时间',
+    					sortable: true,
+    					formatter: function(value, rec, index) {
+    						return new Date().format('yyyy-MM-dd', value);
+    					}
+    				},
+    				{
+    					field: 'updateBy',
+    					title: '修改人',
+    					sortable: true
+    				},
+    				{
+    					field: 'updateDate',
+    					title: '修改时间',
+    					sortable: true,
+    					formatter: function(value, rec, index) {
+    						return new Date().format('yyyy-MM-dd', value);
+    					}
+    				},
+    				{
+    					field: 'content',
+    					title: '描述',
+    					width: 120,
+    					sortable: true
+    				},
+    				{
+    					field: 'opt',
+    					title: '操作',
+    					width: 200,
+    					formatter: function(value, rec, index) {
+    						if (!rec.id) {
+    							return '';
+    						}
+    						var href = '';
+    						href += "<a href='#'   class='ace_button'  onclick=delObj('cgDynamGraphConfigHeadController.do?doDel&id=" + rec.id + "','cgDynamGraphConfigHeadList')>  <i class=' fa fa-trash-o'></i> ";
+    						href += "删除</a>&nbsp;";
+    						href += "<a href='#'   class='ace_button'  onclick=popmenulink_vm('" + rec.code + "','" + rec.name + "','" + index + "')>  <i class=' fa fa-cog'></i>";
+    						href += "配置地址</a>&nbsp;";
+    						href += "<a href='#'   class='ace_button'  onclick=addlisttab('" + rec.code + "','" + rec.name + "','" + index + "')>  <i class=' fa fa-cog'></i>";
+    						href += "配置图表</a>&nbsp;";
+    						return href;
+    					}
+    				}]],
+    				onLoadSuccess: function(data) {
+    					jQuery("#cgDynamGraphConfigHeadList").datagrid("clearSelections");
+    				},
+    				onClickRow: function(rowIndex, rowData) {
+    					rowid = rowData.id;
+    					gridname = 'cgDynamGraphConfigHeadList';
+    				}
+    			});
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid('getPager').pagination({
+    				beforePageText: '',
+    				afterPageText: '/{pages}',
+    				displayMsg: '{from}-{to}共 {total}条',
+    				showPageList: true,
+    				showRefresh: true
+    			});
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid('getPager').pagination({
+    				onBeforeRefresh: function(pageNumber, pageSize) {
+    					jQuery(this).pagination('loading');
+    					jQuery(this).pagination('loaded');
+    				}
+    			});
+    			try {
+    				restoreheader();
+    			} catch(ex) {}
+    		});
+    		function reloadTable() {
+    			try {
+    				jQuery('#' + gridname).datagrid('reload');
+    				jQuery('#' + gridname).treegrid('reload');
+    			} catch(ex) {}
+    		}
+    		function reloadcgDynamGraphConfigHeadList() {
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid('reload');
+    		}
+    		function getcgDynamGraphConfigHeadListSelected(field) {
+    			return getSelected(field);
+    		}
+    		function getSelected(field) {
+    			var row = jQuery('#' + gridname).datagrid('getSelected');
+    			if (row != null) {
+    				value = row[field];
+    			} else {
+    				value = '';
+    			}
+    			return value;
+    		}
+    		function getcgDynamGraphConfigHeadListSelections(field) {
+    			var ids = [];
+    			var rows = jQuery('#cgDynamGraphConfigHeadList').datagrid('getSelections');
+    			for (var i = 0; i < rows.length; i++) {
+    				ids.push(rows[i][field]);
+    			}
+    			ids.join(',');
+    			return ids
+    		};
+    		function getSelectRows() {
+    			return jQuery('#cgDynamGraphConfigHeadList').datagrid('getChecked');
+    		}
+    		function saveHeader() {
+    			var columnsFields = null;
+    			var easyextends = false;
+    			try {
+    				columnsFields = jQuery('#cgDynamGraphConfigHeadList').datagrid('getColumns');
+    				easyextends = true;
+    			} catch(e) {
+    				columnsFields = jQuery('#cgDynamGraphConfigHeadList').datagrid('getColumnFields');
+    			}
+    			var cols = storage.get('cgDynamGraphConfigHeadListhiddenColumns');
+    			var init = true;
+    			if (cols) {
+    				init = false;
+    			}
+    			var hiddencolumns = [];
+    			for (var i = 0; i < columnsFields.length; i++) {
+    				if (easyextends) {
+    					hiddencolumns.push({
+    						field: columnsFields[i].field,
+    						hidden: columnsFields[i].hidden
+    					});
+    				} else {
+    					var columsDetail = jQuery('#cgDynamGraphConfigHeadList').datagrid("getColumnOption", columnsFields[i]);
+    					if (init) {
+    						hiddencolumns.push({
+    							field: columsDetail.field,
+    							hidden: columsDetail.hidden,
+    							visible: (columsDetail.hidden == true ? false: true)
+    						});
+    					} else {
+    						for (var j = 0; j < cols.length; j++) {
+    							if (cols[j].field == columsDetail.field) {
+    								hiddencolumns.push({
+    									field: columsDetail.field,
+    									hidden: columsDetail.hidden,
+    									visible: cols[j].visible
+    								});
+    							}
+    						}
+    					}
+    				}
+    			}
+    			storage.set('cgDynamGraphConfigHeadListhiddenColumns', JSON.stringify(hiddencolumns));
+    		}
+    		function isShowBut() {
+    			var isShowSearchId = jQuery('#isShowSearchId').val();
+    			if (isShowSearchId == "true") {
+    				jQuery("#searchColums").hide();
+    				jQuery('#isShowSearchId').val("false");
+    				jQuery('#columsShow').remove("src");
+    				jQuery('#columsShow').attr("src", "plug-in/easyui/themes/default/images/accordion_expand.png");
+    			} else {
+    				jQuery("#searchColums").show();
+    				jQuery('#isShowSearchId').val("true");
+    				jQuery('#columsShow').remove("src");
+    				jQuery('#columsShow').attr("src", "plug-in/easyui/themes/default/images/accordion_collapse.png");
+    			}
+    		}
+    		function restoreheader() {
+    			var cols = storage.get('cgDynamGraphConfigHeadListhiddenColumns');
+    			if (!cols) return;
+    			for (var i = 0; i < cols.length; i++) {
+    				try {
+    					if (cols.visible != false) jQuery('#cgDynamGraphConfigHeadList').datagrid((cols[i].hidden == true ? 'hideColumn': 'showColumn'), cols[i].field);
+    				} catch(e) {}
+    			}
+    		}
+    		function resetheader() {
+    			var cols = storage.get('cgDynamGraphConfigHeadListhiddenColumns');
+    			if (!cols) return;
+    			for (var i = 0; i < cols.length; i++) {
+    				try {
+    					jQuery('#cgDynamGraphConfigHeadList').datagrid((cols.visible == false ? 'hideColumn': 'showColumn'), cols[i].field);
+    				} catch(e) {}
+    			}
+    		}
+    		function cgDynamGraphConfigHeadListsearch() {
+    			try {
+    				if (!jQuery("#cgDynamGraphConfigHeadListForm").Validform({
+    					tiptype: 3
+    				}).check()) {
+    					return false;
+    				}
+    			} catch(e) {}
+    			if (true) {
+    				var queryParams = jQuery('#cgDynamGraphConfigHeadList').datagrid('options').queryParams;
+    				jQuery('#cgDynamGraphConfigHeadListtb').find('*').each(function() {
+    					queryParams[jQuery(this).attr('name')] = jQuery(this).val();
+    				});
+    				jQuery('#cgDynamGraphConfigHeadList').datagrid({
+    					url: 'cgDynamGraphConfigHeadController.do?datagrid&field=id,code,name,cgrSql,dbSource,createBy,createDate,updateBy,updateDate,content,',
+    					pageNumber: 1
+    				});
+    			}
+    		}
+    		function dosearch(params) {
+    			var jsonparams = jQuery.parseJSON(params);
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid({
+    				url: 'cgDynamGraphConfigHeadController.do?datagrid&field=id,code,name,cgrSql,dbSource,createBy,createDate,updateBy,updateDate,content,',
+    				queryParams: jsonparams
+    			});
+    		}
+    		function cgDynamGraphConfigHeadListsearchbox(value, name) {
+    			var queryParams = jQuery('#cgDynamGraphConfigHeadList').datagrid('options').queryParams;
+    			queryParams[name] = value;
+    			queryParams.searchfield = name;
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid('reload');
+    		}
+    		jQuery('#cgDynamGraphConfigHeadListsearchbox').searchbox({
+    			searcher: function(value, name) {
+    				cgDynamGraphConfigHeadListsearchbox(value, name);
+    			},
+    			menu: '#cgDynamGraphConfigHeadListmm',
+    			prompt: '请输入查询关键字'
+    		});
+    		function EnterPress(e) {
+    			var e = e || window.event;
+    			if (e.keyCode == 13) {
+    				cgDynamGraphConfigHeadListsearch();
+    			}
+    		}
+    		function searchReset(name) {
+    			jQuery("#" + name + "tb").find(":input").val("");
+    			var queryParams = jQuery('#cgDynamGraphConfigHeadList').datagrid('options').queryParams;
+    			jQuery('#cgDynamGraphConfigHeadListtb').find('*').each(function() {
+    				queryParams[jQuery(this).attr('name')] = jQuery(this).val();
+    			});
+    			jQuery('#cgDynamGraphConfigHeadList').datagrid({
+    				url: 'cgDynamGraphConfigHeadController.do?datagrid&field=id,code,name,cgrSql,dbSource,createBy,createDate,updateBy,updateDate,content,',
+    				pageNumber: 1
+    			});
+    		}
+    	  /**
+    		*	弹出菜单链接
+    		*/
+    		function popMenuLink(tableName, content) {
+    			jQuery.dialog({
+    				content: "url:cgDynamGraphConfigHeadController.do?popmenulink_vm&url=cgDynamGraphController.do?design&title=" + tableName,
+    				drag: false,
+    				lock: true,
+    				title: '菜单链接[' + content + ']',
+    				opacity: 0.3,
+    				width: 400,
+    				height: 80,
+    				drag: false,
+    				min: false,
+    				max: false
+    			}).zindex();
+    		}
+    
+    		function addlisttab(tableName, content) {
+    			addOneTab(content, "cgDynamGraphController.do?design&id=" + tableName);
+    		}
+    	</script>
+		
+	</head>
+	
+	<body>
+        <div class="easyui-layout" fit="true">
+        	<div region="center" style="padding:0px;border:0px">
+        		<table width="100%" id="cgDynamGraphConfigHeadList" toolbar="#cgDynamGraphConfigHeadListtb"></table>
+        		<div id="cgDynamGraphConfigHeadListtb" style="padding:3px; height: auto">
+        			<div name="searchColums" id="searchColums">
+        				<input id="isShowSearchId" type="hidden" value="false" />
+        				<input id="_sqlbuilder" name="sqlbuilder" type="hidden" />
+        				<form id='cgDynamGraphConfigHeadListForm'>
+        					<span style="display:-moz-inline-box;display:inline-block;">
+        						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="编码">编码：</span>
+        						<input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="code" class="inuptxt" style="width: 100px" />
+        					</span>
+        					<span style="display:-moz-inline-box;display:inline-block;">
+        						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="名称">名称：</span>
+        						<input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="name" class="inuptxt" style="width: 100px" />
+        					</span>
+        					<span style="display:-moz-inline-box;display:inline-block;">
+        						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="查询sql">查询sql：</span>
+        						<input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="cgrSql" class="inuptxt" style="width: 100px" />
+        					</span>
+        					<span style="display:-moz-inline-box;display:inline-block;">
+        						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="数据源">数据源：</span>
+        						<input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="dbSource" class="inuptxt" style="width: 100px" />
+        					</span>
+        					<span style="display:-moz-inline-box;display:inline-block;">
+        						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="描述">描述：</span>
+        						<input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="content" class="inuptxt" style="width: 100px" />
+        					</span>
+        				</form>
+        			</div>
+        			<div style="height:30px;" class="datagrid-toolbar">
+        				<span style="float:left;">
+        					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="add('录入','cgDynamGraphConfigHeadController.do?goAdd_vm','cgDynamGraphConfigHeadList',1200,450)">录入</a>
+        					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('编辑','cgDynamGraphConfigHeadController.do?goUpdate_vm','cgDynamGraphConfigHeadList',1200,450)">编辑</a>
+        					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-remove" onclick="deleteALLSelect('批量删除','cgDynamGraphConfigHeadController.do?doBatchDel','cgDynamGraphConfigHeadList',null,null)">批量删除</a>
+        					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" onclick="detail('查询','cgDynamGraphConfigHeadController.do?goUpdate_vm','cgDynamGraphConfigHeadList',1200,450)">查询</a></span>
+        				<span style="float:right">
+        					<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="cgDynamGraphConfigHeadListsearch()">查询</a>
+        					<a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset('cgDynamGraphConfigHeadList')">重置</a></span>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+	</body>
+</html>

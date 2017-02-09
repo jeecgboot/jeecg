@@ -178,7 +178,6 @@ public class DynamicDataSourceEntity implements java.io.Serializable {
 		this.dbType = dbType;
 	}
 
-	//add-start--Author:luobaoli  Date:20150623 for：增加数据库名字段
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  dbName
@@ -195,5 +194,5 @@ public class DynamicDataSourceEntity implements java.io.Serializable {
 	public void setDbName(java.lang.String dbName) {
 		this.dbName = dbName;
 	}
-	//add-end--Author:luobaoli  Date:20150623 for：增加数据库名字段
+
 }

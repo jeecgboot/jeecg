@@ -134,7 +134,7 @@
 							name="${po.field_name}" 
 							id="${po.field_name}" 
 							${po.extend_json?if_exists}
-							value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
 							onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 							<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 							<#if po.field_valid_type?if_exists?html != ''>
@@ -156,7 +156,7 @@
 						name="${po.field_name}" 
 						id="${po.field_name}" 
 						${po.extend_json?if_exists}
-						value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+						value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
 						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 						<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						<#if po.field_valid_type?if_exists?html != ''>

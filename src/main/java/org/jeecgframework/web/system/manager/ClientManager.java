@@ -15,7 +15,7 @@ import org.jeecgframework.web.system.pojo.base.Client;
  * @date 2013-9-28
  * @version 1.0
  */
-//add-begin-Author:xugj Date:20160228 for:#859 【jeecg分布式改造】目前用户登录session存在class级别缓存导致分布式
+
 public class ClientManager {
 	private final String CACHENAME ="eternalCache";
 	private final String OnlineClientsKey ="onLineClients";
@@ -125,4 +125,4 @@ public class ClientManager {
 			return new ArrayList<Client>();
 	}
 }
-//add-end-Author:xugj Date:20160228 for:#859 【jeecg分布式改造】目前用户登录session存在class级别缓存导致分布式
+

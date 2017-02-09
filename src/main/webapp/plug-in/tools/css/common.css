@@ -34,3 +34,15 @@ cursor:pointer !important; border:1px solid #D7EAFF !important; margin-right:4px
 input[type="file"] { background-color: #D7EAFF; border : 1px solid #54A5D5; width:auto !important; padding:2px; }
 
 input[type="text"] { background-color: #fff; border : 1px solid #54A5D5; padding:2px; }
+a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
+ .ace_button
+ {
+  background-color: #21b9bb;
+  border-color: #21b9bb;
+  color: #FFFFFF;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  display: inline-block;
+ }

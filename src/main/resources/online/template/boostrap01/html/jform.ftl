@@ -193,7 +193,7 @@
 
                         <#elseif po.show_type=='date'>
                             <input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text" class="form-control"
-                                    value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+                                    value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
                                    class="form-control Wdate" onClick="WdatePicker()"
                                 <#if po.field_valid_type?if_exists?html != ''>
                                    datatype="${po.field_valid_type?if_exists?html}"
@@ -203,7 +203,7 @@
 
                         <#elseif po.show_type=='datetime'>
                             <input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text" class="form-control"
-                                     value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+                                     value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
                                    class="form-control Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
                                 <#if po.field_valid_type?if_exists?html != ''>
                                    datatype="${po.field_valid_type?if_exists?html}"

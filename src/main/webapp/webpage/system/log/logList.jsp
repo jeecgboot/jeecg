@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operatetime" sortOrder="desc" pageSize="1000" extendParams="view:scrollview,">
+<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operatetime" sortOrder="desc" pageSize="500" extendParams="view:scrollview,">
 	<t:dgCol title="log.level" field="loglevel" hidden="true"></t:dgCol>
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="log.content" field="logcontent" width="200"></t:dgCol>
@@ -17,10 +17,8 @@
 		<t:mutiLang langKey="common.view"/>
 		</a>
 	</span>
-	
-    <!-- update---Author:赵俊夫  Date:20130507 for：需要加name=searchColums属性 -->
     <div name="searchColums" style="float: right; padding-right: 15px;">
-        <t:mutiLang langKey="log.level"/>: <!-- update---Author:宋双旺  Date:20130414 for：改变值进行查询 -->
+        <t:mutiLang langKey="log.level"/>: 
         <select name="loglevel" id="loglevel" onchange="logListsearch();">
             <option value="0"><t:mutiLang langKey="select.loglevel"/></option>
             <option value="1"><t:mutiLang langKey="common.login"/></option>
@@ -44,6 +42,7 @@
     $(document).ready(function(){
         $("input").css("height", "24px");
     });
+    
     function logListsearch(){
     	var loglevel = $("#loglevel").val();
     	var operatetime_begin = $("#operatetime_begin").val();

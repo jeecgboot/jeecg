@@ -75,7 +75,7 @@ function createDataGrid${config_id}(){
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
 						 			href+="<img src='"+value+"'/>";
 						 		}else{
-						 			href+="<a href='"+value+"' target=_blank><u>点击下载</u></a>";
+						 			href+="<a href='"+value+"' class='ace_button' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
 						 		}
 						 		return href;
 						 	},
@@ -89,19 +89,25 @@ function createDataGrid${config_id}(){
 						if(!rec.id){return '';}
 						var href='';
 						<#if config_noliststr?index_of("delete")==-1>
-						href+="[<a href='javascript:void(0)' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
-						href+="删除</a>]";
+						href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
+						href+="<i class='fa fa-trash-o'></i>删除</a>";
 						</#if>
 						<#list config_buttons as x>
 							<#if x['buttonStyle'] == 'link' && x['buttonStatus']=='1' && config_noliststr?index_of("${x['buttonCode']}")==-1>
-								href+="[<a href='javascript:void(0)' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								href+="<a style='margin-left:5px;' href='javascript:void(0)' class='ace_button'  buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
 								<#if x['optType'] == 'action'>
 								href+=" onclick=\"doBusButtonForLink('cgFormBuildController.do?doButton&formId=${x['formId']}&buttonCode=${x['buttonCode']}&tableName=${config_id}','${x['buttonName']}','${config_id}List','"+rec.id+"')\"";
 								<#else>
 								href+=" onclick=\"${x['buttonCode']}('"+rec.id+"');\"";
 								</#if>
 								href+=" id=\"${x['buttonCode']}\">";
-								href+="${x['buttonName']}</a>]";
+								<#if x['buttonName']?index_of('测试')>-1>
+									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of('配置') > -1 >
+									href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
+								<#else>
+									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+								</#if>
 							</#if>
 						</#list>
 						return href;

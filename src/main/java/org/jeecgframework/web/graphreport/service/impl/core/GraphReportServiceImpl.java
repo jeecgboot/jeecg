@@ -9,14 +9,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
-import org.jeecgframework.web.cgreport.dao.core.CgReportDao;
-import org.jeecgframework.web.graphreport.service.core.GraphReportServiceI;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.online.def.CgReportConstant;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.web.graphreport.service.core.GraphReportServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +26,10 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 		GraphReportServiceI {
 	@Autowired
 	private JdbcDao jdbcDao;
-	@Autowired
-	private CgReportDao cgReportDao;
+
+//	@Autowired
+//	private CgReportDao cgReportDao;
+
 	
 	
 	public Map<String, Object> queryCgReportConfig(String reportId) {
@@ -39,28 +40,29 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 		cgReportM.put(CgReportConstant.ITEMS, itemsM);
 		return cgReportM;
 	}
+
+//	public Map<String,Object> queryCgReportMainConfig(String reportId){
+////		String sql = JeecgSqlUtil.getMethodSql(JeecgSqlUtil.getMethodUrl());
+////		Map<String,Object> parameters = new LinkedHashMap<String,Object>();
+////		parameters.put("id", reportId);
+////		Map mainM = jdbcDao.findForMap(sql, parameters);
+//		
+//		//采用MiniDao实现方式
+//		return cgReportDao.queryCgReportMainConfig(reportId);
+//	}
+//	
+//	public List<Map<String,Object>> queryCgReportItems(String reportId){
+////		String sql = JeecgSqlUtil.getMethodSql(JeecgSqlUtil.getMethodUrl());
+////		Map<String,Object> parameters = new LinkedHashMap<String,Object>();
+////		parameters.put("configId", reportId);
+////		List<Map<String,Object>> items = jdbcDao.findForListMap(sql, parameters);
+//		
+//		//采用MiniDao实现方式
+//		return cgReportDao.queryCgReportItems(reportId);
+//	}
+
 	
-	public Map<String,Object> queryCgReportMainConfig(String reportId){
-//		String sql = JeecgSqlUtil.getMethodSql(JeecgSqlUtil.getMethodUrl());
-//		Map<String,Object> parameters = new LinkedHashMap<String,Object>();
-//		parameters.put("id", reportId);
-//		Map mainM = jdbcDao.findForMap(sql, parameters);
-		
-		//采用MiniDao实现方式
-		return cgReportDao.queryCgReportMainConfig(reportId);
-	}
-	
-	public List<Map<String,Object>> queryCgReportItems(String reportId){
-//		String sql = JeecgSqlUtil.getMethodSql(JeecgSqlUtil.getMethodUrl());
-//		Map<String,Object> parameters = new LinkedHashMap<String,Object>();
-//		parameters.put("configId", reportId);
-//		List<Map<String,Object>> items = jdbcDao.findForListMap(sql, parameters);
-		
-		//采用MiniDao实现方式
-		return cgReportDao.queryCgReportItems(reportId);
-	}
 	@SuppressWarnings("unchecked")
-	
 	public List<Map<String, Object>> queryByCgReportSql(String sql, Map params,
 			int page, int rows) {
 		sql = handleElInSQL(sql, params);
@@ -148,16 +150,16 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 		sqlB.append(orderBy);
 		return sqlB.toString();
 	}
-	@SuppressWarnings("unchecked")
 	
+	@SuppressWarnings("unchecked")
 	public long countQueryByCgReportSql(String sql, Map params) {
 		String querySql = getFullSql(sql,params);
 		querySql = "SELECT COUNT(*) FROM ("+querySql+") t2";
 		long result = jdbcDao.findForLong(querySql,new HashMap(0));
 		return result;
 	}
-	@SuppressWarnings( "unchecked" )
 	
+	@SuppressWarnings( "unchecked" )
 	public List<String> getSqlFields(String sql) {
 		if(oConvertUtils.isEmpty(sql)){
 			return null;

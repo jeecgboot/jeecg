@@ -75,7 +75,7 @@ function createDataGrid${config_id}(){
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
 						 			href+="<img src='"+value+"'/>";
 						 		}else{
-						 			href+="<a href='"+value+"' target=_blank><u>点击下载</u></a>";
+						 			href+="<a href='"+value+"' class='ace_button' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
 						 		}
 						 		return href;
 						 	},
@@ -104,19 +104,33 @@ function createDataGrid${config_id}(){
 						if(!rec.id){return '';}
 						var href='';
 						<#if config_noliststr?index_of("delete")==-1>
-						href+="[<a href='javascript:void(0)' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
-						href+="删除</a>]";
+						href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
+						href+="<i class='fa fa-trash-o'></i>删除</a>";
 						</#if>
 						<#list config_buttons as x>
 							<#if x['buttonStyle'] == 'link' && x['buttonStatus']=='1' && config_noliststr?index_of("${x['buttonCode']}")==-1>
-								href+="[<a href='javascript:void(0)' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								href+="<a style='margin-left:5px;'  class='ace_button' href='javascript:void(0)' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
 								<#if x['optType'] == 'action'>
 								href+=" onclick=\"doBusButtonForLink('cgFormBuildController.do?doButton&formId=${x['formId']}&buttonCode=${x['buttonCode']}&tableName=${config_id}','${x['buttonName']}','${config_id}List','"+rec.id+"')\"";
 								<#else>
 								href+=" onclick=\"${x['buttonCode']}('"+rec.id+"');\"";
 								</#if>
 								href+=" id=\"${x['buttonCode']}\">";
-								href+="${x['buttonName']}</a>]";
+								<#if x['buttonName']?index_of("测试") gt -1>
+									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
+									href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of("导入") gt -1 || x['buttonName']?index_of("下载") gt -1>
+									href+="<i class='fa fa-download'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of("导出") gt -1 || x['buttonName']?index_of("上传") gt -1>
+									href+="<i class='fa fa-upload'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of("复制") gt -1>
+									href+="<i class='fa fa-copy'></i>${x['buttonName']}</a>";
+								<#elseif x['buttonName']?index_of("剪切") gt -1>
+									href+="<i class='fa fa-cut'></i>${x['buttonName']}</a>";
+								<#else>
+									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+								</#if>
 							</#if>
 						</#list>
 						return href;
@@ -232,7 +246,8 @@ function createDataGrid${config_id}(){
 	});
 	//查询重置
 	function ${config_id}searchReset(name){ 
-		$("#"+name+"tb").find("input[type!='hidden']").val("");
+		$("#searchColumsForm")[0].reset();
+		//$("#"+name+"tb").find("input[type!='hidden']").val("");
 		<#if config_istree=="Y">
 		//为树形表单时，删除id查询参数
 		delete $('#${config_id}List').treegrid('options').queryParams.id;  
@@ -277,20 +292,16 @@ function createDataGrid${config_id}(){
 		url = url + '&id='+rowData;
 		createdialog('确认 ', '确定'+content+'吗 ?', url,gridname);
 	}
-    //----author:jg_xugj---start----date:20151219-------- for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
+
 	//新增
 	function ${config_id}add(){
-
 		//add('${config_name}录入','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
-
 		
 		add('${config_name}录入','cgFormBuildController.do?goAddFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
-
 		//update('${config_name}编辑','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh,true);
-
 		
 		update('${config_name}编辑','cgFormBuildController.do?goUpdateFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
@@ -352,6 +363,7 @@ function createDataGrid${config_id}(){
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>
 <div id="${config_id}Listtb" style="padding:3px; height: auto">
 <div name="searchColums">
+<form name="searchColumsForm" id="searchColumsForm">
 <#if config_querymode == "group">
 	<#list config_queryList  as x>
 		<#if x['field_isQuery']=="Y">
@@ -394,6 +406,7 @@ function createDataGrid${config_id}(){
 		</span>	
 	</#list>
 </#if>
+</form>
 	</div>
 	<div style="height:30px;" class="datagrid-toolbar">
 	<span style="float:left;" >

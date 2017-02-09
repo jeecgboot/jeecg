@@ -1,0 +1,449 @@
+<html>
+<head>
+	<script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+	<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+	<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+	<link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+	<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+	<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+	<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+	<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+	<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+	<script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+	<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
+	<link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+	<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+	<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+	<script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+	<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+	<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+	<script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+	<script type="text/javascript" src="plug-in/tools/json2.js"></script>
+	<script type="text/javascript">
+		jQuery(function() {
+			storage = jQuery.localStorage;
+			if (!storage) storage = jQuery.cookieStorage;
+			jQuery('#autoFormList').datagrid({
+				idField: 'id',
+				title: '自定义表单列表',
+				url: 'autoFormController.do?datagrid&field=id,formDesc,formName,formStyleId,createName,createBy,createDate,updateName,updateBy,updateDate,sysOrgCode,sysCompanyCode,',
+				fit: true,
+				loadMsg: '数据加载中...',
+				pageSize: 10,
+				pagination: true,
+				pageList: [10, 20, 30],
+				sortName: 'updateDate',
+				sortOrder: 'desc',
+				rownumbers: true,
+				singleSelect: false,
+				fitColumns: false,
+				striped: true,
+				showFooter: true,
+				frozenColumns: [[{
+					field: 'ck',
+					checkbox: 'true'
+				},
+				]],
+				columns: [[{
+					field: 'id',
+					title: '',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'formDesc',
+					title: '表单名称',
+					width: 300,
+					sortable: true
+				},
+				{
+					field: 'formName',
+					title: '表单编码',
+					width: 300,
+					sortable: true
+				},
+				{
+					field: 'formStyleId',
+					title: '',
+					width: 120,
+					hidden: true,
+					sortable: true,
+					formatter: function(value, rec, index) {
+						if (value == undefined) return '';
+						var valArray = value.split(',');
+						if (valArray.length > 1) {
+							var checkboxValue = '';
+							for (var k = 0; k < valArray.length; k++) {
+								if (valArray[k] == '402813814e421337014e4232a020000b') {
+									checkboxValue = checkboxValue + '单列表单' + ',';
+								}
+								if (valArray[k] == '402880e850ad49570150ad656afa000c') {
+									checkboxValue = checkboxValue + '双列表单' + ',';
+								}
+								if (valArray[k] == '402880e850ad49570150ad8b852a001c') {
+									checkboxValue = checkboxValue + '三列表单' + ',';
+								}
+							}
+							return checkboxValue.substring(0, checkboxValue.length - 1);
+						} else {
+							if (value == '402813814e421337014e4232a020000b') {
+								return '单列表单';
+							}
+							if (value == '402880e850ad49570150ad656afa000c') {
+								return '双列表单';
+							}
+							if (value == '402880e850ad49570150ad8b852a001c') {
+								return '三列表单';
+							} else {
+								return value;
+							}
+						}
+					}
+				},
+				{
+					field: 'createName',
+					title: '创建人名称',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'createBy',
+					title: '创建人',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'createDate',
+					title: '创建日期',
+					width: 120,
+					hidden: true,
+					sortable: true,
+					formatter: function(value, rec, index) {
+						return new Date().format('yyyy-MM-dd', value);
+					}
+				},
+				{
+					field: 'updateName',
+					title: '更新人名称',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'updateBy',
+					title: 'common.updateBy',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'updateDate',
+					title: '更新日期',
+					width: 120,
+					sortable: true,
+					formatter: function(value, rec, index) {
+						return new Date().format('yyyy-MM-dd', value);
+					}
+				},
+				{
+					field: 'sysOrgCode',
+					title: 'common.depart.code',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'sysCompanyCode',
+					title: '所属公司',
+					width: 120,
+					hidden: true,
+					sortable: true
+				},
+				{
+					field: 'opt',
+					title: '操作',
+					width: 400,
+					formatter: function(value, rec, index) {
+						if (!rec.id) {
+							return '';
+						}
+						var href = '';
+						href += "<a href='#'   class='ace_button'  onclick=delObj('autoFormController.do?doDel&id=" + rec.id + "','autoFormList')>  <i class=' fa fa-trash-o'></i> ";
+						href += "删除</a>&nbsp;";
+						href += "<a href='#'   class='ace_button'  onclick=dbconfig('" + rec.id + "','" + index + "')>  <i class=' fa fa-cog'></i>";
+						href += "表单数据源配置</a>&nbsp;";
+						href += "<a href='#'   class='ace_button'  onclick=parse('" + rec.id + "','" + index + "')>  <i class=' fa fa-search'></i>";
+						href += "预览</a>&nbsp;";
+						return href;
+					}
+				}]],
+				onLoadSuccess: function(data) {
+					jQuery("#autoFormList").datagrid("clearSelections");
+				},
+				onClickRow: function(rowIndex, rowData) {
+					rowid = rowData.id;
+					gridname = 'autoFormList';
+				}
+			});
+			jQuery('#autoFormList').datagrid('getPager').pagination({
+				beforePageText: '',
+				afterPageText: '/{pages}',
+				displayMsg: '{from}-{to}共 {total}条',
+				showPageList: true,
+				showRefresh: true
+			});
+			jQuery('#autoFormList').datagrid('getPager').pagination({
+				onBeforeRefresh: function(pageNumber, pageSize) {
+					jQuery(this).pagination('loading');
+					jQuery(this).pagination('loaded');
+				}
+			});
+			try {
+				restoreheader();
+			} catch(ex) {}
+		});
+		function reloadTable() {
+			try {
+				jQuery('#' + gridname).datagrid('reload');
+				jQuery('#' + gridname).treegrid('reload');
+			} catch(ex) {}
+		}
+		function reloadautoFormList() {
+			jQuery('#autoFormList').datagrid('reload');
+		}
+		function getautoFormListSelected(field) {
+			return getSelected(field);
+		}
+		function getSelected(field) {
+			var row = jQuery('#' + gridname).datagrid('getSelected');
+			if (row != null) {
+				value = row[field];
+			} else {
+				value = '';
+			}
+			return value;
+		}
+		function getautoFormListSelections(field) {
+			var ids = [];
+			var rows = jQuery('#autoFormList').datagrid('getSelections');
+			for (var i = 0; i < rows.length; i++) {
+				ids.push(rows[i][field]);
+			}
+			ids.join(',');
+			return ids
+		};
+		function getSelectRows() {
+			return jQuery('#autoFormList').datagrid('getChecked');
+		}
+		function saveHeader() {
+			var columnsFields = null;
+			var easyextends = false;
+			try {
+				columnsFields = jQuery('#autoFormList').datagrid('getColumns');
+				easyextends = true;
+			} catch(e) {
+				columnsFields = jQuery('#autoFormList').datagrid('getColumnFields');
+			}
+			var cols = storage.get('autoFormListhiddenColumns');
+			var init = true;
+			if (cols) {
+				init = false;
+			}
+			var hiddencolumns = [];
+			for (var i = 0; i < columnsFields.length; i++) {
+				if (easyextends) {
+					hiddencolumns.push({
+						field: columnsFields[i].field,
+						hidden: columnsFields[i].hidden
+					});
+				} else {
+					var columsDetail = jQuery('#autoFormList').datagrid("getColumnOption", columnsFields[i]);
+					if (init) {
+						hiddencolumns.push({
+							field: columsDetail.field,
+							hidden: columsDetail.hidden,
+							visible: (columsDetail.hidden == true ? false: true)
+						});
+					} else {
+						for (var j = 0; j < cols.length; j++) {
+							if (cols[j].field == columsDetail.field) {
+								hiddencolumns.push({
+									field: columsDetail.field,
+									hidden: columsDetail.hidden,
+									visible: cols[j].visible
+								});
+							}
+						}
+					}
+				}
+			}
+			storage.set('autoFormListhiddenColumns', JSON.stringify(hiddencolumns));
+		}
+		function isShowBut() {
+			var isShowSearchId = jQuery('#isShowSearchId').val();
+			if (isShowSearchId == "true") {
+				jQuery("#searchColums").hide();
+				jQuery('#isShowSearchId').val("false");
+				jQuery('#columsShow').remove("src");
+				jQuery('#columsShow').attr("src", "plug-in/easyui/themes/default/images/accordion_expand.png");
+			} else {
+				jQuery("#searchColums").show();
+				jQuery('#isShowSearchId').val("true");
+				jQuery('#columsShow').remove("src");
+				jQuery('#columsShow').attr("src", "plug-in/easyui/themes/default/images/accordion_collapse.png");
+			}
+		}
+		function restoreheader() {
+			var cols = storage.get('autoFormListhiddenColumns');
+			if (!cols) return;
+			for (var i = 0; i < cols.length; i++) {
+				try {
+					if (cols.visible != false) jQuery('#autoFormList').datagrid((cols[i].hidden == true ? 'hideColumn': 'showColumn'), cols[i].field);
+				} catch(e) {}
+			}
+		}
+		function resetheader() {
+			var cols = storage.get('autoFormListhiddenColumns');
+			if (!cols) return;
+			for (var i = 0; i < cols.length; i++) {
+				try {
+					jQuery('#autoFormList').datagrid((cols.visible == false ? 'hideColumn': 'showColumn'), cols[i].field);
+				} catch(e) {}
+			}
+		}
+		function autoFormListsearch() {
+			try {
+				if (!jQuery("#autoFormListForm").Validform({
+					tiptype: 3
+				}).check()) {
+					return false;
+				}
+			} catch(e) {}
+			if (true) {
+				var queryParams = jQuery('#autoFormList').datagrid('options').queryParams;
+				jQuery('#autoFormListtb').find('*').each(function() {
+					queryParams[jQuery(this).attr('name')] = jQuery(this).val();
+				});
+				jQuery('#autoFormList').datagrid({
+					url: 'autoFormController.do?datagrid&field=id,formDesc,formName,formStyleId,createName,createBy,createDate,updateName,updateBy,updateDate,sysOrgCode,sysCompanyCode,',
+					pageNumber: 1
+				});
+			}
+		}
+		function dosearch(params) {
+			var jsonparams = jQuery.parseJSON(params);
+			jQuery('#autoFormList').datagrid({
+				url: 'autoFormController.do?datagrid&field=id,formDesc,formName,formStyleId,createName,createBy,createDate,updateName,updateBy,updateDate,sysOrgCode,sysCompanyCode,',
+				queryParams: jsonparams
+			});
+		}
+		function autoFormListsearchbox(value, name) {
+			var queryParams = jQuery('#autoFormList').datagrid('options').queryParams;
+			queryParams[name] = value;
+			queryParams.searchfield = name;
+			jQuery('#autoFormList').datagrid('reload');
+		}
+		jQuery('#autoFormListsearchbox').searchbox({
+			searcher: function(value, name) {
+				autoFormListsearchbox(value, name);
+			},
+			menu: '#autoFormListmm',
+			prompt: '请输入查询关键字'
+		});
+		function EnterPress(e) {
+			var e = e || window.event;
+			if (e.keyCode == 13) {
+				autoFormListsearch();
+			}
+		}
+		function searchReset(name) {
+			jQuery("#" + name + "tb").find(":input").val("");
+			var queryParams = jQuery('#autoFormList').datagrid('options').queryParams;
+			jQuery('#autoFormListtb').find('*').each(function() {
+				queryParams[jQuery(this).attr('name')] = jQuery(this).val();
+			});
+			jQuery('#autoFormList').datagrid({
+				url: 'autoFormController.do?datagrid&field=id,formDesc,formName,formStyleId,createName,createBy,createDate,updateName,updateBy,updateDate,sysOrgCode,sysCompanyCode,',
+				pageNumber: 1
+			});
+		}
+	</script>
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			//给时间控件加上样式
+			jQuery("#autoFormListtb").find("input[name='createDate']").attr("class", "Wdate").click(function() {
+				WdatePicker({
+					dateFmt: 'yyyy-MM-dd'
+				});
+			});
+			jQuery("#autoFormListtb").find("input[name='updateDate']").attr("class", "Wdate").click(function() {
+				WdatePicker({
+					dateFmt: 'yyyy-MM-dd'
+				});
+			});
+		});
+
+		function addbytab() {
+			addOneTab('表单设计器', "autoFormController.do?goAdd_vm");
+		}
+		function updatebytab() {
+			var rows = jQuery("#autoFormList").datagrid("getSelections");
+			if (rows == '') {
+				alert('请选择一行记录');
+				return;
+			}
+			var id = rows[0].id;
+			addOneTab('表单设计器', "autoFormController.do?goUpdate_vm&id=" + id);
+		}
+		var parseWindow;
+		function parse(id) {
+			//var targetUrl = 'autoFormController.do?parse&id='+id;
+			//window.open(targetUrl,'mywin',"menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" +(screen.availWidth-10) + ",height=" + (screen.availHeight-50) + "\"");
+			//createdetailwindow('查看','autoFormController.do?parse&id='+id,600,400);
+			var addurl = 'autoFormController.do?parse_vm&id=' + id;
+			parseWindow = jQuery.dialog({
+				content: 'url:' + addurl,
+				lock: true,
+				width: 600,
+				height: 350,
+				title: '查看',
+				opacity: 0.3,
+				cache: false
+			}).zindex();
+		}
+
+		function dbconfig(id) {
+			addOneTab('表单数据源配置', "autoFormDbController.do?autoFormDb_vm&autoFormId=" + id);
+		}
+
+		function winclose() {
+			parseWindow.close();
+			parseWindow = undefined;
+		}
+	</script>
+</head>
+<body>
+<div class="easyui-layout" fit="true">
+	<div region="center" style="padding:0px;border:0px">
+		<table width="100%" id="autoFormList" toolbar="#autoFormListtb"></table>
+		<div id="autoFormListtb" style="padding:3px; height: auto">
+			<div style="height:30px;" class="datagrid-toolbar">
+				<span style="float:left;">
+					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick=addbytab()>设计新表单</a>
+					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick=updatebytab()>编辑表单</a>
+					<a href="#" class="easyui-linkbutton" plain="true" icon="icon-remove" onclick="deleteALLSelect('批量删除','autoFormController.do?doBatchDel','autoFormList',null,null)">批量删除</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

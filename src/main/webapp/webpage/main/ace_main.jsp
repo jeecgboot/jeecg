@@ -66,6 +66,7 @@
 
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
+					<!-- 
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-tasks"></i>
@@ -137,7 +138,7 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li>-->
 
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -153,7 +154,7 @@
 								
 								<li class="dropdown-content">
 									<ul class="dropdown-menu dropdown-navbar navbar-pink" id="noticeContent">
-										<!-- ajax加载 -->
+										ajax加载
 									</ul>
 								</li>
 
@@ -198,7 +199,7 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li> 
 
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -314,7 +315,7 @@
 
 					<ul class="nav nav-list">
 						<li class="active">
-							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?acehome'});">
+							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 首页 </span>
 							</a>
@@ -479,11 +480,12 @@
 		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
 		<script src="plug-in/layer/layer.js"></script>
 	    <script src="plug-in/ace/js/bootbox.js"></script>
+		<%@include file="/context/layui.jsp"%>
 		<!-- inline scripts related to this page -->
 		<script>
 		jQuery(function($) {
 			//$( "#tabs" ).tabs();
-			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?acehome'});
+			addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});
 			$('.theme-poptit .close').click(function(){
 	    		$('.theme-popover-mask').fadeOut(100);
 	    		$('.theme-popover').slideUp(200);

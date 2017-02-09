@@ -10,7 +10,7 @@
             <t:dgCol title="common.type.name" field="typename"></t:dgCol>
             <t:dgCol title="common.type.code" field="typecode"></t:dgCol>
             <t:dgCol title="common.operation" field="opt"></t:dgCol>
-            <t:dgDelOpt url="systemController.do?delType&id={id}" title="common.delete"></t:dgDelOpt>
+            <t:dgDelOpt url="systemController.do?delType&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
             <t:dgToolBar title="common.add.param" langArg="common.type" icon="icon-add" url="systemController.do?addorupdateType&typegroupid=${typegroupid}" funname="add"></t:dgToolBar>
             <t:dgToolBar title="common.edit.param" langArg="common.type" icon="icon-edit" url="systemController.do?addorupdateType&typegroupid=${typegroupid}" funname="update"></t:dgToolBar>
         </t:datagrid>

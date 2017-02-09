@@ -15,13 +15,13 @@
    <t:dgCol title="common.configurationName"  field="name"  query="true" queryMode="single"  ></t:dgCol>
    <t:dgCol title="common.sqlBusinessId"  field="sqlId"  queryMode="single" dictionary="t_s_sms_sql,id,sql_name" ></t:dgCol>
    <t:dgCol title="common.msgModeliD"  field="templateId"  queryMode="single" dictionary="t_s_sms_template,id,template_name" ></t:dgCol>
-   <t:dgCol title="common.opt" field="opt" width="100"></t:dgCol>
-   <t:dgDelOpt title="common.delete" url="tSSmsTemplateSqlController.do?doDel&id={id}" />
-   <t:dgFunOpt funname="pushTest(id,code)" title="common.pushTest"></t:dgFunOpt>
+   <t:dgCol title="common.opt" field="opt" width="150"></t:dgCol>
+   <t:dgDelOpt title="common.delete" url="tSSmsTemplateSqlController.do?doDel&id={id}" urlclass="ace_button" urlfont="fa-trash-o"/>
+   <t:dgFunOpt funname="pushTest(id,code)" title="common.pushTest" urlclass="ace_button" urlfont="fa-upload"></t:dgFunOpt>
    <t:dgToolBar title="common.add" icon="icon-add" url="tSSmsTemplateSqlController.do?goAdd" funname="add"></t:dgToolBar>
    <t:dgToolBar title="common.edit" icon="icon-edit" url="tSSmsTemplateSqlController.do?goUpdate" funname="update"></t:dgToolBar>
    <t:dgToolBar title="common.batch.delete"  icon="icon-remove" url="tSSmsTemplateSqlController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
-   <t:dgToolBar title="common.search" icon="icon-search" url="tSSmsTemplateSqlController.do?goUpdate" funname="detail"></t:dgToolBar>
+   <t:dgToolBar title="common.view" icon="icon-search" url="tSSmsTemplateSqlController.do?goUpdate" funname="detail"></t:dgToolBar>
 <%--   <t:dgToolBar title="导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>--%>
 <%--   <t:dgToolBar title="导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>--%>
 <%--   <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>--%>
@@ -45,6 +45,8 @@
 	     }
 	  });
  }
+ 
+
 //导入
 function ImportXls() {
 	openuploadwin('Excel导入', 'tSSmsTemplateSqlController.do?upload', "tSSmsTemplateSqlList");

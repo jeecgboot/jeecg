@@ -1,17 +1,17 @@
 package org.jeecgframework.web.system.service.impl;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
+import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
+import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
 import org.jeecgframework.web.demo.entity.test.CourseEntity;
 import org.jeecgframework.web.demo.entity.test.JeecgDemoCkfinderEntity;
@@ -24,13 +24,22 @@ import org.jeecgframework.web.demo.entity.test.JeecgOrderProductEntity;
 import org.jeecgframework.web.demo.entity.test.StudentEntity;
 import org.jeecgframework.web.demo.entity.test.TSStudent;
 import org.jeecgframework.web.demo.entity.test.TeacherEntity;
-import org.jeecgframework.web.system.dao.repair.RepairDao;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.TSAttachment;
+import org.jeecgframework.web.system.pojo.base.TSDemo;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSIcon;
+import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.pojo.base.TSOperation;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleUser;
+import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.TSUserOrg;
 import org.jeecgframework.web.system.service.RepairService;
-
-import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.util.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,9 +53,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RepairServiceImpl extends CommonServiceImpl implements
 		RepairService {
-	
-	@Autowired
-	private RepairDao repairDao;
 
 	/**
 	 * @Description 先清空数据库，然后再修复数据库
@@ -78,8 +84,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.executeHql("delete TSDemo");
 		commonDao.executeHql("delete JeecgDemoCkfinderEntity");
 		commonDao.executeHql("delete TSTimeTaskEntity");
-		commonDao.executeHql("update TSTerritory t set t.TSTerritory = null");
-		commonDao.executeHql("delete TSTerritory");
 		commonDao.executeHql("delete StudentEntity");
 		commonDao.executeHql("delete CourseEntity");
 		commonDao.executeHql("delete TeacherEntity");
@@ -118,7 +122,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		repairCgFormField(); // 修复在线表单字段
 		repairTask();//修复任务管理
 		repairExcel();//修复Excel导出导入demo
-		repairDao.batchRepairTerritory();//修复地域管理
 		repairJdbcEntity();//修复表单例子无tag
 		repairJeecgNoteEntity();//表单模型
 		repairOrder();//修复订单一对多
@@ -213,9 +216,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	private void repairJdbcEntity(){
 		JeecgJdbcEntity entity = new JeecgJdbcEntity();
 		entity.setAge(12);
-
 		entity.setBirthday(DateUtils.str2Date("2014-02-14",new SimpleDateFormat("yyyy-MM-dd")));
-
 		entity.setDepId("123");
 		entity.setEmail("demo@jeecg.com");
 		entity.setMobilePhone("13111111111");
@@ -3183,7 +3184,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
         approverUserOrg.setTsUser(approver);
         approverUserOrg.setTsDepart(eiu);
         commonDao.save(approverUserOrg);
-
     }
 
 	/**
@@ -3748,7 +3748,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 
         return deskIncon;
     }
-
 
 	/**
 	 * @Description 修复菜单权限

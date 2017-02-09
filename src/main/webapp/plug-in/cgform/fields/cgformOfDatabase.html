@@ -109,7 +109,7 @@ $(document).ready(function(){
 		this.innerText = eval(this.attributes["mutiLang_id"].value);
 	});
 	
-	
+
 	$("input:text").each(function(){
 		var nullmsg = $(this).attr("nullmsg");
 		var errormsg = $(this).attr("errormsg");
@@ -124,5 +124,14 @@ $(document).ready(function(){
 			this.attributes["errormsg"].value = eval(errormsg); 
 		}
 	});
+	var tableType = parentObj.document.getElementById("tableType").value;
+	if(tableType == '1'){
+		$("#add_column_table_template_database").find("input[name*='columns']").each(function(){
+			  var nameval = ($(this).attr("name"));
+			  $("input[name='"+nameval+"']").attr("readonly","readonly");
+		});
+		$("select[name*='columns']").attr("disabled",true);
+		$("input:checkbox").attr("disabled",true);
+	}
 })
 </script>

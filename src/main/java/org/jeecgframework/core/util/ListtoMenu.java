@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 动态菜单栏生成
  * 
  * @author 张代浩
- *  update-begin--Author:jg_longjb龙金波  Date:20150313 for：本文件中所有.getTSFunctions().size()替换为.getSubFunctionSize();
- *  update-begin--Author:jg_gudongli辜栋利  Date:20150516 for：本文件中所有.getSubFunctionSize()替换为hasSubFunction()
  *  获取是否有子节点不用查询数据库;
  */
 public class ListtoMenu {
@@ -310,7 +308,6 @@ public class ListtoMenu {
 		return menuString.toString();
 	}
 
-
 	/**
 	 * 获取顶级菜单的下级菜单-----面板式菜单
 	 * @param parent
@@ -414,19 +411,15 @@ public class ListtoMenu {
 		menuString.append(getMutiLang(function.getFunctionName()));
 		menuString.append("\',\'");
 		menuString.append(function.getFunctionUrl());
-
 		//如果是外部链接，则不加菜单ID
 		if(function.getFunctionUrl().indexOf("http:")==-1){
-
 			if(function.getFunctionUrl().indexOf("?") == -1){
 				menuString.append("?clickFunctionId=");
 			} else {
 				menuString.append("&clickFunctionId=");
 			}
-
 			menuString.append(function.getId());
 		}
-
 		menuString.append("\',\'");
 		menuString.append(icon);
 		menuString.append("\')\"  title=\"");
@@ -642,10 +635,8 @@ public class ListtoMenu {
 				dataString.append("'"+function.getId()+"':{ ");
 				dataString.append("appid:'"+function.getId()+"',");
 				dataString.append("url:'"+function.getFunctionUrl()+"',");
-
 //				dataString.append(getIconandName(function.getFunctionName()));
 				dataString.append(getIconAndNameForDesk(function));
-
 				dataString.append("asc :"+function.getFunctionOrder());
 				dataString.append(" },");
 			}
@@ -743,8 +734,12 @@ public class ListtoMenu {
         int curIndex = 0;
             for (TSFunction function : list) {
                 menuString.append("<li>");
-                menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>")
-                .append(getMutiLang(function.getFunctionName()));
+                if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+    				 menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa "+function.getFunctionIconStyle()+"\"></i>");
+    			}else{
+    				 menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"menu-icon fa fa-desktop\"></i>");
+    			}
+                menuString.append(getMutiLang(function.getFunctionName()));
                /* int submenusize = function.getSubFunctionSize();
                 if (submenusize == 0) {
                     menuString.append("</a></li>");
@@ -804,7 +799,13 @@ public class ListtoMenu {
         int curIndex = 0;
             for (TSFunction function : list) {
                 menuString.append("<li>");
-                menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+SysACEIconEnum.toEnum(function.getTSIcon().getIconClas()).getThemes()+"\"></i>");
+    			if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+function.getFunctionIconStyle()+"\"></i>");
+    			}else{
+    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+SysACEIconEnum.toEnum(function.getTSIcon().getIconClas()).getThemes()+"\"></i>");
+    			}
+                
+                
                 menuString.append("<span class=\"menu-text\">");
                 menuString.append(getMutiLang(function.getFunctionName()));
                 menuString.append("</span>");
@@ -838,13 +839,28 @@ public class ListtoMenu {
 		for (TSFunction function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
-					menuString.append(getLeafOfACETree(function));
+					menuString.append(getLeafOfACETree(function,map));
+				}else {
+					/* 20160830 wangkun TASK #1330 【改造】ace首页风格，菜单不支持三级菜单，改造支持三级*/
+					menuString.append("<li>");
+					if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+						menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+function.getFunctionIconStyle()+"\"></i>");
+					}else{
+						menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+SysACEIconEnum.toEnum(function.getTSIcon().getIconClas()).getThemes()+"\"></i>");
+					}
+					menuString.append("<span class=\"menu-text\">");
+					menuString.append(getMutiLang(function.getFunctionName()));
+					menuString.append("</span>");
+					menuString.append("<b class=\"arrow icon-angle-down\"></b></a><ul  class=\"submenu\" >");
+					menuString.append(getACESubMenu(function,2,map));
+					menuString.append("</ul></li>");
+					/* 20160830 wangkun TASK #1330 【改造】ace首页风格，菜单不支持三级菜单，改造支持三级*/
 				}
 			}
 		}
 		return menuString.toString();
 	}
-	private static String getLeafOfACETree(TSFunction function){
+	private static String getLeafOfACETree(TSFunction function,Map<Integer, List<TSFunction>> map){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
@@ -864,12 +880,16 @@ public class ListtoMenu {
 		menuString.append("\" url=\"");
 		menuString.append(function.getFunctionUrl());
 		menuString.append("\"  >");
-		menuString.append("<i class=\"icon-double-angle-right\"></i>");
+		/* 20160830 wangkun TASK #1330 【改造】ace首页风格，菜单不支持三级菜单，改造支持三级*/
+		if(function.hasSubFunction(map)){
+			menuString.append("<i class=\"icon-double-angle-right\"></i>");
+		}
+		/* 20160830 wangkun TASK #1330 【改造】ace首页风格，菜单不支持三级菜单，改造支持三级*/
 		menuString.append(name);
 		menuString.append("</a></li>");
 		return menuString.toString();
 	}
-	
+
 	private static String getLeafOfDIYTree(TSFunction function){
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
@@ -904,7 +924,11 @@ public class ListtoMenu {
 		int curIndex = 0;
 		for (TSFunction function : list) {
 			menuString.append("<li>");
-			menuString.append("<a href=\"#\" class=\"\" ><i class=\"fa fa-columns\"></i>");
+			if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+				menuString.append("<a href=\"#\" class=\"\" ><i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+			}else{
+				menuString.append("<a href=\"#\" class=\"\" ><i class=\"fa fa-columns\"></i>");
+			}
 			menuString.append("<span class=\"menu-text\">");
 			menuString.append(getMutiLang(function.getFunctionName()));
 			menuString.append("</span>");
@@ -931,14 +955,17 @@ public class ListtoMenu {
 		for (TSFunction function : list) {
 			if (function.getTSFunction().getId().equals(parent.getId())){
 				if(!function.hasSubFunction(map)){
-					menuString.append(getLeafOfHplusTree(function));
+					menuString.append(getLeafOfHplusTree(function,map));
+				}else{
+					menuString.append(getLeafOfHplusTree(function,map));
+
 				}
 			}
 		}
 		return menuString.toString();
 	}
 
-	private static String getLeafOfHplusTree(TSFunction function) {
+	private static String getLeafOfHplusTree(TSFunction function,Map<Integer, List<TSFunction>> map) {
 		StringBuffer menuString = new StringBuffer();
 		String icon = "folder";
 		if (function.getTSIcon() != null) {
@@ -947,8 +974,31 @@ public class ListtoMenu {
 		//addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
 		String name = getMutiLang(function.getFunctionName()) ;
 		menuString.append("<li> <a class=\"J_menuItem\" href=\"").append(function.getFunctionUrl()).append("\">");
-		menuString.append(name);
-		menuString.append("</a></li>");
+		if(!function.hasSubFunction(map)){
+			if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+				menuString.append("<i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+			}
+			menuString.append("<span class=\"menu-text\">");
+			menuString.append(name);
+			menuString.append("</span>");
+			menuString.append("</a>");
+			menuString.append("</li>");
+		}else {
+			if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+				menuString.append("<i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+			}else{
+				menuString.append("<i class=\"fa fa-columns\"></i>");
+			}
+			menuString.append("<span class=\"menu-text\">");
+			menuString.append(name);
+			menuString.append("</span>");
+			menuString.append("<span class=\"fa arrow\">");
+			menuString.append("</span>");
+			menuString.append("</a>");
+			menuString.append("<ul class=\"nav nav-third-level\" >");
+			menuString.append(getHplusSubMenu(function,2,map));
+			menuString.append("</ul></li>");
+		}
 		return menuString.toString();
 	}
 }

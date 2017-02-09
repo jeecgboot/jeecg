@@ -66,6 +66,11 @@ public class JeecgMinidaoController extends BaseController {
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgMinidaoEntity jeecgMinidao,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		/**
+		 * 注意：minidao会遵循springjdbc规则，会自动把数据库以下划线的字段，转化为驼峰写法
+		 * 例如数据库表字段：{USER_NAME}
+		 * 转化实体对应字段：{userName}
+		 */
 		List<JeecgMinidaoEntity> list = jeecgMinidaoService.listAll(jeecgMinidao, dataGrid.getPage(), dataGrid.getRows());
 		Integer count = jeecgMinidaoService.getCount();
 		dataGrid.setTotal(count);

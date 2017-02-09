@@ -20,18 +20,21 @@ public interface GraphReportServiceI extends CommonService{
 	 * @return
 	 */
 	public Map<String,Object> queryCgReportConfig(String reportId);
-	/**
-	 * 根据报表id获得报表抬头配置
-	 * @param reportId
-	 * @return
-	 */
-	public Map<String,Object> queryCgReportMainConfig(String reportId);
-	/**
-	 * 根据报表id获得报表明细配置
-	 * @param reportId
-	 * @return
-	 */
-	public List<Map<String,Object>> queryCgReportItems(String reportId);
+
+//	/**
+//	 * 根据报表id获得报表抬头配置
+//	 * @param reportId
+//	 * @return
+//	 */
+//	public Map<String,Object> queryCgReportMainConfig(String reportId);
+//	/**
+//	 * 根据报表id获得报表明细配置
+//	 * @param reportId
+//	 * @return
+//	 */
+//	public List<Map<String,Object>> queryCgReportItems(String reportId);
+
+	
 	/**
 	 * 执行报表SQL获取结果集
 	 * @param sql 报表SQL

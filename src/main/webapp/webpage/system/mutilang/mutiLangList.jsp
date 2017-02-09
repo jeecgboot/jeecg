@@ -11,7 +11,7 @@
 	<t:dgCol title="common.updateby" field="updateBy" hidden="true"></t:dgCol>
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy-MM-dd" hidden="true"></t:dgCol>
    <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-   <t:dgDelOpt title="common.delete" url="mutiLangController.do?del&id={id}" />
+   <t:dgDelOpt title="common.delete" url="mutiLangController.do?del&id={id}"  	urlclass="ace_button"  urlfont="fa-trash-o"/>
    <t:dgToolBar title="common.add.param" langArg="common.language" icon="icon-add" url="mutiLangController.do?addorupdate" funname="add"></t:dgToolBar>
    <t:dgToolBar title="common.edit.param" langArg="common.language" icon="icon-edit" url="mutiLangController.do?addorupdate" funname="update"></t:dgToolBar>
    <t:dgToolBar title="common.view" icon="icon-search" url="mutiLangController.do?addorupdate" funname="detail"></t:dgToolBar>

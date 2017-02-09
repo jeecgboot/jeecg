@@ -198,13 +198,11 @@ public class CgformTransController {
 							cgFormField.setLength(Integer.valueOf(columnt
 									.getPrecision()));
 						}
-						//update-begin--Author:zhangdaihao  Date:20140212 for：[001]oracle下number类型，数据库表导出表单，默认长度为0同步失败
 						else{
 							if(cgFormField.getType().equals(DataBaseConst.INT)){
 								cgFormField.setLength(10);
 							}
 						}
-						//update-end--Author:zhangdaihao  Date:20140212 for：[001]oracle下number类型，数据库表导出表单，默认长度为0同步失败
 						if (StringUtil.isNotEmpty(columnt.getScale()))
 							cgFormField.setPointLength(Integer.valueOf(columnt
 									.getScale()));
@@ -213,11 +211,9 @@ public class CgformTransController {
 					columnsList.add(cgFormField);
 				}
 				cgFormHead.setColumns(columnsList);
-				//update-begin--Author:scott  Date:20170720  for：导入报单报错-----
 				if(oConvertUtils.isEmpty(cgFormHead.getJformCategory())){
 					cgFormHead.setJformCategory("bdfl_ptbd");
 				}
-				//update-end--Author:scott  Date:20170720  for：导入报单报错-----
 				cgFormFieldService.saveTable(cgFormHead, "");
 				if (yes != "")
 					yes += ",";

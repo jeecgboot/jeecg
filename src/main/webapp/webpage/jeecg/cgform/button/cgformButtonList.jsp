@@ -14,7 +14,7 @@
 	<t:dgCol title="common.show.expression" field="exp"></t:dgCol>
 	<t:dgCol title="common.status" field="buttonStatus" replace="common.active_1,common.inactive_0"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-	<t:dgDelOpt title="common.delete" url="cgformButtonController.do?del&id={id}&formId=${formId}" />
+	<t:dgDelOpt title="common.delete" url="cgformButtonController.do?del&id={id}&formId=${formId}" urlclass="ace_button"  urlfont="fa-trash-o" />
 	<t:dgToolBar title="common.add" icon="icon-add" url="cgformButtonController.do?addorupdate&formId=${formId}" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit" icon="icon-edit" url="cgformButtonController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.view" icon="icon-search" url="cgformButtonController.do?addorupdate" funname="detail"></t:dgToolBar>

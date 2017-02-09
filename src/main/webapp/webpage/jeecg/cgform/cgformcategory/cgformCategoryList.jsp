@@ -23,13 +23,14 @@
 				extendParams="formatter:formNameFormatter;" width="200"></t:dgCol>
 			<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
 			<t:dgDelOpt title="common.delete"
-				url="cgformCategoryController.do?del&id={id}" />
+				url="cgformCategoryController.do?del&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
 			<t:dgFunOpt exp="form_isDbSynch#eq#Y&&jformType#ne#3"
-				funname="addbytab(form_id,form_content)" title="form.template"></t:dgFunOpt>
+				funname="addbytab(form_id,form_content)" title="form.template" urlclass="ace_button"  urlfont="fa-plus"></t:dgFunOpt>
 			<t:dgToolBar title="录入" icon="icon-add" width="600" height="300"
-				url="cgformCategoryController.do?addorupdate" funname="add"></t:dgToolBar>
+				url="cgformCategoryController.do?addorupdate" funname="add" urlclass="ace_button"  urlfont="fa-plus"></t:dgToolBar>
 			<t:dgToolBar title="编辑" icon="icon-edit" width="600" height="300"
-				url="cgformCategoryController.do?addorupdate" funname="update"></t:dgToolBar>
+				url="cgformCategoryController.do?addorupdate" funname="update" urlclass="ace_button"  urlfont="fa-edit"></t:dgToolBar>
+				
 		</t:datagrid>
 	</div>
 </div>

@@ -158,19 +158,17 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 		}
 		LogUtil.info("===============消息发扫描结束=================");
 	}
-	//add-begin--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
+
 	public List<TSSmsEntity> getMsgsList(String curUser,String curDate) {
 		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
-
 		String hql=null;
 		if("sqlserver".equals(DBTypeUtil.getDBType())){
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and CONVERT(varchar(20),t.esSendtime) like ?";
 		}else{
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and str(t.esSendtime) like ?";
 		}
-
 		list = this.findHql(hql, new Object[] {curUser,curDate+'%'});
 		return list;
 	}
-	//add-end--Author:jg_renjie  Date:20150610 for：根据当前时间及当前登录人，取得规定时间内的信息内容
+
 }

@@ -113,7 +113,7 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 	</#if>
  	}
  	
- 	private Map<String,Object> populationMap(JformContactGroupEntity t){
+ 	private Map<String,Object> populationMap(${entityName}Entity t){
 		Map<String,Object> map = new HashMap<String,Object>();
 		<#list columns as po>
 		map.put("${fieldMeta[po.fieldName]?lower_case}", t.get${po.fieldName?cap_first}());

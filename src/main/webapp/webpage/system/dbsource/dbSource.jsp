@@ -137,8 +137,33 @@
 						<input  type="password" class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
 							   value="${dbSourcePage.dbPassword}">
 						<span class="Validform_checktip"></span>
+						<a href="#"  id="dbtest" >
+						[<label class="Validform_label">测试</label>]
+						</a>
+						<span class="Validform_checktip"  id="dbmsg"></span>
 					</td>
+					
 				</tr>
 			</table>
 		</t:formvalid>
+		<script type="text/javascript">
+			$(function(){
+				var formobj=$("#formobj").Validform();
+				$('#dbtest').click(function(){//点击测试
+					formobj.config({
+					    //url:"dynamicDataSourceController.do?testConnection",
+					    ajaxpost:{
+					        //可以传入$.ajax()能使用的，除dataType外的所有参数;
+					    	success:function(data,object){
+					            //data是返回的json数据;
+					            //obj是当前表单的jquery对象;
+					            //alert(data.obj.msg);
+					            $("#dbmsg").html("<font color='red'>"+data.obj.msg+"</font>");
+					        }
+					    }
+					}); 
+					formobj.ajaxPost(false,false,"dynamicDataSourceController.do?testConnection");
+				});
+			});
+		</script>
  </body>

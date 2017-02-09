@@ -1,10 +1,10 @@
 $(document).ready(function() {
-	
-	//author:scott---date:20160426---for:判断浏览器跳转兼容风格
+
 	var navigatorName = "Microsoft Internet Explorer"; 
 	if( navigator.appName == navigatorName ){ 
 		alert("IE浏览器采用传统首页风格，更佳体验建议使用Chrome浏览器!") 
-		setCookie("JEECGINDEXSTYLE","shortcut");
+		//setCookie("JEECGINDEXSTYLE","shortcut");
+		$.cookie('JEECGINDEXSTYLE', 'shortcut');
 	}else{
 	}
 	
@@ -137,6 +137,7 @@ function Login(orgId) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				loginsuccess();
+
                 // todo zhanggm 没有处理多语言，暂时这样判断下吧
                 var title, okButton;
                 if($("#langCode").val() == 'en') {

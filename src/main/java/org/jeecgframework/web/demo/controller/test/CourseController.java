@@ -282,9 +282,7 @@ public class CourseController extends BaseController {
 			params.setHeadRows(2);
 			params.setNeedSave(true);
 			try {
-
 				List<CourseEntity> listCourses =  ExcelImportUtil.importExcel(file.getInputStream(),CourseEntity.class,params);
-
 				for (CourseEntity course : listCourses) {
 					if(course.getName()!=null){
 						courseService.saveCourse(course);

@@ -1117,7 +1117,6 @@ var domUtils = dom.domUtils = {
     POSITION_CONTAINS: 16,
     //ie6使用其他的会有一段空白出现
     fillChar: ie && browser.version == '6' ? '\ufeff' : '\u200B',
-    //-------------------------Node部分--------------------------------
     keys: {
         /*Backspace*/ 8: 1, /*Delete*/ 46: 1,
         /*Shift*/ 16: 1, /*Ctrl*/ 17: 1, /*Alt*/ 18: 1,

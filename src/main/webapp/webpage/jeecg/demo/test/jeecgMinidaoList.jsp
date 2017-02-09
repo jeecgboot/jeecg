@@ -19,7 +19,7 @@
 	<t:dgDelOpt title="common.delete" url="jeecgMinidaoController.do?del&id={id}" />
 	<t:dgToolBar title="common.add" icon="icon-add" url="jeecgMinidaoController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit" icon="icon-edit" url="jeecgMinidaoController.do?addorupdate" funname="update"></t:dgToolBar>
-	<t:dgToolBar title="common.search" icon="icon-search" url="jeecgMinidaoController.do?addorupdate" funname="detail"></t:dgToolBar>
+	<t:dgToolBar title="common.view" icon="icon-search" url="jeecgMinidaoController.do?addorupdate" funname="detail"></t:dgToolBar>
 </t:datagrid>
 </div>
 </div>

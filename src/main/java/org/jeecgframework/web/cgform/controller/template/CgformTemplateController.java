@@ -547,7 +547,6 @@ public class CgformTemplateController extends BaseController {
 
 //		String path=request.getSession().getServletContext().getRealPath("/WEB-INF/classes/online/template");
 		String path= this.getClass().getResource("/").getPath()+"online/template";
-
 		return path;
 	}
 

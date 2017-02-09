@@ -66,7 +66,7 @@
 			<t:dgCol title="版本号" field="versionNumber" queryMode="single" width="45"></t:dgCol>
 			<t:dgCol title="数据内容" field="dataContent" queryMode="single" width="400"></t:dgCol>
 			<t:dgCol title="操作" field="opt" width="80"></t:dgCol>
-			<t:dgFunOpt funname="popDataContent(id)" title="复制数据" ></t:dgFunOpt>
+			<t:dgFunOpt funname="popDataContent(id)" title="复制数据" urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
 			<t:dgToolBar title="数据比较" funname="dataDiff" icon="icon-search"></t:dgToolBar>
 		</t:datagrid>
 	</div>

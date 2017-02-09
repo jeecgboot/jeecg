@@ -81,6 +81,9 @@ public class DbTableUtil {
 		}else if (dialect.equals("org.hibernate.dialect.SQLServerDialect")) {
 			dbTableHandle = new TableSQLServerHandleImpl();
 		}
+		else if (dialect.equals("org.jeecgframework.core.common.hibernate.dialect.MySQLServer2008Dialect")) {
+			dbTableHandle = new TableSQLServerHandleImpl();
+		}
 		return dbTableHandle;
 	}
 	
@@ -101,6 +104,9 @@ public class DbTableUtil {
 		}else if (dialect.equals("org.hibernate.dialect.PostgreSQLDialect")) {
 			dataType = "POSTGRESQL";
 		}else if (dialect.equals("org.hibernate.dialect.SQLServerDialect")) {
+			dataType="SQLSERVER";
+		}
+		else if (dialect.equals("org.jeecgframework.core.common.hibernate.dialect.MySQLServer2008Dialect")) {
 			dataType="SQLSERVER";
 		}
 		return dataType;

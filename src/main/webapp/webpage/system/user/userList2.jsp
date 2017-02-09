@@ -10,8 +10,8 @@
 		<t:dgCol title="真实姓名" field="realName" sortable="false"></t:dgCol>
 		<t:dgCol title="状态" sortable="true" field="status" replace="正常_1,禁用_0,超级管理员_-1"></t:dgCol>
 		<t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-		<t:dgFunOpt funname="szqm(id)" title="设置签名" />
-		<t:dgDelOpt title="删除" url="userController.do?del&id={id}&userName={userName}" />
+		<t:dgFunOpt funname="szqm(id)" title="设置签名" urlclass="ace_button"  urlfont="fa-cog"/>
+		<t:dgDelOpt title="删除" url="userController.do?del&id={id}&userName={userName}" urlclass="ace_button"  urlfont="fa-trash-o"/>
 	</t:datagrid>
 
    <!-- 列表自定义查询条件 -->
@@ -20,8 +20,8 @@
 		<a href="#" id="add" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="add('用户录入','userController.do?addorupdate','userList2')">用户录入</a> 
 		<a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('用户编辑','userController.do?addorupdate','userList2')">用户编辑</a></div>
 	<div align="right">
-		用户名: <input class="easyui-validatebox" name="userName" style="width: 80px"> 
-		真实姓名: <input class="easyui-validatebox" name="realName" style="width: 80px"> 
+		用户名: <input class="easyui-validatebox" type="text" name="userName" style="width: 80px"> 
+		真实姓名: <input class="easyui-validatebox" type="text" name="realName" style="width: 80px"> 
 		<a href="#" id="" class="easyui-linkbutton" iconCls="icon-search" onclick="userList2search();">查询</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchReset('userList2');">重置</a>
 	</div>

@@ -173,7 +173,12 @@ public class TimeTaskController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		boolean isStart = timeTask.getIsStart().equals("1");
 		timeTask = timeTaskService.get(TSTimeTaskEntity.class, timeTask.getId());
-		boolean isSuccess = dynamicTask.startOrStop(timeTask.getTaskId() ,isStart);
+		boolean isSuccess = false;
+		try {
+			isSuccess = dynamicTask.startOrStop(timeTask.getTaskId() ,isStart);
+		} catch (Exception e) {
+			j.setMsg(isSuccess?"定时任务管理更新成功":"定时任务管理更新失败");
+		}
 		if(isSuccess){
 			timeTask.setIsStart(isStart?"1":"0");
 			timeTaskService.updateEntitie(timeTask);

@@ -47,3 +47,16 @@ input[type="text"] {
 	font-size: 12px;
 	display: inline-block;
 }
+a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
+ .ace_button
+ {
+  background-color: #21b9bb;
+  border-color: #21b9bb;
+  color: #FFFFFF;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  display: inline-block;
+ }
+/*	//update-end--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/

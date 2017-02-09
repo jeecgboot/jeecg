@@ -96,7 +96,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 				} 
 				//String functionId=oConvertUtils.getString(request.getParameter("clickFunctionId"));
 				String functionId="";
-
 				//onlinecoding的访问地址有规律可循，数据权限链接篡改
 				if(requestPath.equals("cgAutoListController.do?datagrid")) {
 					requestPath += "&configId=" +  request.getParameter("configId");
@@ -107,7 +106,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?ftlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
-
+	
 				if(requestPath.equals("cgFormBuildController.do?goAddFtlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
@@ -117,10 +116,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 				if(requestPath.equals("cgFormBuildController.do?goDatilFtlForm")) {
 					requestPath += "&tableName=" +  request.getParameter("tableName");
 				}
-
 				//这个地方用全匹配？应该是模糊查询吧
 				//TODO
-
 				String uri= request.getRequestURI().substring(request.getContextPath().length() + 1);
 				String realRequestPath = null;
 				if(uri.endsWith(".do")||uri.endsWith(".action")){
@@ -129,7 +126,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 					realRequestPath=uri;
 				}
 				List<TSFunction> functions = systemService.findByProperty(TSFunction.class, "functionUrl", realRequestPath);
-
 				if (functions.size()>0){
 					functionId = functions.get(0).getId();
 				}
@@ -141,7 +137,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 					request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				}
 				if(!oConvertUtils.isEmpty(functionId)){
-
 					//List<String> allOperation=this.systemService.findListbySql("SELECT operationcode FROM t_s_operation  WHERE functionid='"+functionId+"'"); 
 					List<TSOperation> allOperation=this.systemService.findByProperty(TSOperation.class, "TSFunction.id", functionId);
 					
@@ -151,7 +146,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 						    //s=s.replaceAll(" ", "");
 							newall.add(s); 
 						}
-//---author:jg_xugj----start-----date:20151210--------for：#781  【oracle兼容】兼容问题fun.operation!='' 在oracle 数据下不正确
+
 						String hasOperSql="SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
 							"fun.functionid='"+functionId+"' AND fun.operation is not null  AND fun.roleid=role.roleid AND role.userid='"+client.getUser().getId()+"' ";
 						List<String> hasOperList = this.systemService.findListbySql(hasOperSql); 
@@ -236,13 +231,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if(list.size()==0){
 
             String orgId = currLoginUser.getCurrentDepart().getId();
-
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
                     "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
                     "AND ro.org_id='" +orgId+ "' AND f.functionurl like '"+requestPath+"%'";
             List functionOfOrgList = this.systemService.findListbySql(functionOfOrgSql);
 			return functionOfOrgList.size() > 0;
-
         }else{
 			return true;
 		}
@@ -260,7 +253,13 @@ public class AuthInterceptor implements HandlerInterceptor {
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("webpage/login/timeout.jsp").forward(request, response);
+
+		//超时，未登陆页面跳转
+		//response.sendRedirect(request.getServletContext().getContextPath()+"/loginController.do?login");
+
+		response.sendRedirect(request.getServletContext().getContextPath()+"/webpage/login/timeout.jsp");
+		//request.getRequestDispatcher("loginController.do?login").forward(request, response);
+
 	}
 
 }

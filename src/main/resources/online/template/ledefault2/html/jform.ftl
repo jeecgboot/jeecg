@@ -14,6 +14,9 @@
   
   <link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css"/>
   <link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css">
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css">
+  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css">
   
   <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
@@ -34,6 +37,21 @@
   <script type="text/javascript" src="plug-in/umeditor/umeditor.config.js"></script>
   <script type="text/javascript" src="plug-in/umeditor/umeditor.min.js"></script>
   <script type="text/javascript" src="plug-in/umeditor/lang/zh-cn/zh-cn.js"></script>
+  
+  
+  <style type="text/css">
+  	.combo_self{height: 30px !important;}
+  </style>
+  
+  <script type="text/javascript">
+  		$(function(){
+  			$(".combo").removeClass("combo").addClass("combo combo_self");
+  			$(".combo").each(function(){
+  				$(this).parent().css("line-height","0px");
+  			});   
+  		});
+  </script>
+  
 </head>
 
  <body>
@@ -63,13 +81,13 @@
 							<div class="row show-grid">
 						</#if>
 			          <div class="col-xs-3 text-center">
-			          	<b>${po.content}：</b>
+			          	<b><@mutiLang langKey="${po.content}"/>：</b>
 			          </div>
 			          <div class="col-xs-3">
 			          	<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							        class="form-control easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							        class="inputxt easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -173,7 +191,7 @@
 							
 						<#elseif po.show_type=='date'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							         value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							         value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
 							       class="form-control" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 					              <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
@@ -184,7 +202,7 @@
 						
 						<#elseif po.show_type=='datetime'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							         value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							         value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
 							       class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
 						         <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
@@ -192,11 +210,13 @@
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if> 
 					               </#if>>
-						
+					               
+						<#--update-start--Author:gengjiajia  Date:20160802 for：TASK #1175 批量添加数据的时popup多值的传递-->
 						<#elseif po.show_type=='popup'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="text"
 							        class="form-control searchbox-inputtext" 
-							       onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');" 
+							      <#-- onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');"-->
+							       onClick="popupClick(this,'${po.dict_text?if_exists?html}','${po.dict_field?if_exists?html}','${po.dict_table?if_exists?html}');" 
 							       value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
@@ -204,6 +224,7 @@
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if>
 					               </#if>>
+						<#--update-end--Author:gengjiajia  Date:20160802 for：TASK #1175 批量添加数据的时popup多值的传递-->
 						
 						<#elseif po.show_type=='file'>
 								<table>
@@ -314,7 +335,7 @@
 
 						</#if>
 						<span class="Validform_checktip" style="float:left;height:0px;"></span>
-						<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+						<label class="Validform_label" style="display: none"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 			          </div>
 			        <#if (columns?size>10)>
 						<#if (po_index%2==0)&&(!po_has_next)>
@@ -335,7 +356,7 @@
 			        <#list columnsarea as po>
 					  <#if (columns?size>10)>
 					  	<div class="row show-grid">
-							<div class="col-xs-3 text-center"><b>${po.content}：</b></div>
+							<div class="col-xs-3 text-center"><b><@mutiLang langKey="${po.content?if_exists?html}"/>：</b></div>
 							<div class="col-xs-3">
 							    <br/>
 								<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
@@ -347,7 +368,7 @@
 						               <#if po.is_null != 'Y'>datatype="*"</#if> 
 						               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 								<span class="Validform_checktip"></span>
-								<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+								<label class="Validform_label" style="display: none;"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 								<#if po.show_type=='umeditor'>
 								<script type="text/javascript">
 							    //实例化编辑器
@@ -358,7 +379,7 @@
 						</div>
 						<#else>
 						<div class="row show-grid">
-							<div class="col-xs-3 text-center"><b>${po.content}：</b></div>
+							<div class="col-xs-3 text-center"><b><@mutiLang langKey="${po.content?if_exists?html}"/>：</b></div>
 							
 							<div class="col-xs-3">
 								<br/>
@@ -371,7 +392,7 @@
 						               <#if po.is_null != 'Y'>datatype="*"</#if> 
 						               </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
 								<span class="Validform_checktip"></span>
-								<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+								<label class="Validform_label" style="display: none;"><@mutiLang langKey="${po.content?if_exists?html}"/></label>
 								<#if po.show_type=='umeditor'>
 								<script type="text/javascript">
 							    //实例化编辑器

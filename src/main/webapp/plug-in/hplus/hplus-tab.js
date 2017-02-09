@@ -1,8 +1,7 @@
-var addTabs = function (options) {
+function addTabs(options) {
      var dataUrl = options.url,
      dataIndex = options.id,
      menuName = options.title,
-     
      flag = true;
     if (dataUrl == undefined || $.trim(dataUrl).length == 0)return false;
 
@@ -11,7 +10,7 @@ var addTabs = function (options) {
         if ($(this).data('id') == dataUrl) {
             if (!$(this).hasClass('active')) {
                 $(this).addClass('active').siblings('.J_menuTab').removeClass('active');
-                scrollToTab(this);
+                scrollToTabDefined(this);
                 // 显示tab对应的内容区
                 $('.J_mainContent .J_iframe').each(function () {
                     if ($(this).data('id') == dataUrl) {
@@ -43,7 +42,46 @@ var addTabs = function (options) {
 //        });
         // 添加选项卡
         $('.J_menuTabs .page-tabs-content').append(str);
-        scrollToTab($('.J_menuTab.active'));
+        scrollToTabDefined($('.J_menuTab.active'));
     }
+    //刷新Tab
+    var target = $('.J_iframe[data-id="' + dataUrl + '"]');
+    target.attr('src', dataUrl)
     return false;
 };
+
+//计算元素集合的总宽度
+function calSumWidth(elements) {
+    var width = 0;
+    $(elements).each(function () {
+        width += $(this).outerWidth(true);
+    });
+    return width;
+}
+//滚动到指定选项卡
+function scrollToTabDefined(element) {
+    var marginLeftVal = calSumWidth($(element).prevAll()), marginRightVal = calSumWidth($(element).nextAll());
+    // 可视区域非tab宽度
+    var tabOuterWidth = calSumWidth($(".content-tabs").children().not(".J_menuTabs"));
+    //可视区域tab宽度
+    var visibleWidth = $(".content-tabs").outerWidth(true) - tabOuterWidth;
+    //实际滚动宽度
+    var scrollVal = 0;
+    if ($(".page-tabs-content").outerWidth() < visibleWidth) {
+        scrollVal = 0;
+    } else if (marginRightVal <= (visibleWidth - $(element).outerWidth(true) - $(element).next().outerWidth(true))) {
+        if ((visibleWidth - $(element).next().outerWidth(true)) > marginRightVal) {
+            scrollVal = marginLeftVal;
+            var tabElement = element;
+            while ((scrollVal - $(tabElement).outerWidth()) > ($(".page-tabs-content").outerWidth() - visibleWidth)) {
+                scrollVal -= $(tabElement).prev().outerWidth();
+                tabElement = $(tabElement).prev();
+            }
+        }
+    } else if (marginLeftVal > (visibleWidth - $(element).outerWidth(true) - $(element).prev().outerWidth(true))) {
+        scrollVal = marginLeftVal - $(element).prev().outerWidth(true);
+    }
+    $('.page-tabs-content').animate({
+        marginLeft: 0 - scrollVal + 'px'
+    }, "fast");
+}

@@ -245,9 +245,7 @@ public class MigrateForm<T> {
 		DBTable<T> dbTable = new DBTable<T>();
 		dbTable.setTableName(PublicUtil.getTableName(sql));
 		dbTable.setClass1(clazz);
-
 		List<T> dataList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(clazz));
-
 		dbTable.setTableData(dataList);
 		return dbTable;
 	}

@@ -1,5 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
+<!-- easyui 模仿bootstrap按钮样式 -->
+<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" />
+<style type="text/css">
+	a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
+    .ace_button
+    {
+	    background-color: #21b9bb;
+	    border-color: #21b9bb;
+	    color: #FFFFFF;
+	    border-radius: 3px;
+	    padding: 1px 5px;
+	    font-size: 12px;
+	    line-height: 1.5;
+	    display: inline-block;
+    }
+</style>
+<!-- easyui 模仿bootstrap按钮样式 -->
+
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding:0px;border:0px">
@@ -47,7 +65,7 @@
 					birthday: data.rows[i].birthday,
 					email: data.rows[i].email,
 					mobilePhone: data.rows[i].mobilePhone,
-					opt: "[<a href=\"#\" onclick=\"delObj('jeecgEasyUIController.do?del&id="+data.rows[i].id+"','jeecgEasyUIList')\">删除</a>]"
+					opt: "<a href=\"#\" class=\"ace_button\" onclick=\"delObj('jeecgEasyUIController.do?del&id="+data.rows[i].id+"','jeecgEasyUIList')\"><i class=\"fa fa-search-plus\"></i>删除</a>"
 				});
 			}
 			var newData={"total":total,"rows":rows};

@@ -57,6 +57,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -248,6 +249,11 @@ public class UserController extends BaseController {
 	
 	
 	
+	/**
+	 * 重置密码
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping(params = "savenewpwdforuser")
 	@ResponseBody
 	public AjaxJson savenewpwdforuser(HttpServletRequest req) {
@@ -327,10 +333,8 @@ public class UserController extends BaseController {
 		}
 		List<TSRole> roleList = systemService.getList(TSRole.class);
 		comboBoxs = TagUtil.getComboBox(roleList, roles, comboBox);
-
 		roleList.clear();
 		roles.clear();
-
 		return comboBoxs;
 	}
 
@@ -391,7 +395,6 @@ public class UserController extends BaseController {
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
 
-
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
 
@@ -413,10 +416,36 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
-
         TagUtil.datagrid(response, dataGrid);
     }
 
+	/**
+	 * 用户删除选择对话框
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "deleteDialog")
+	public String deleteDialog(TSUser user,HttpServletRequest request) {
+		request.setAttribute("user", user);
+		return "system/user/user-delete";
+	} 
+	
+	@RequestMapping(params = "delete")
+	@ResponseBody
+	public AjaxJson delete(TSUser user, @RequestParam String deleteType, HttpServletRequest req) {
+		
+		if (deleteType.equals("delete")) {
+			return this.del(user, req);
+		}else if (deleteType.equals("deleteTrue")) {
+			return this.trueDel(user, req);
+		}else{
+			AjaxJson j = new AjaxJson();
+			
+			j.setMsg("删除逻辑参数异常,请重试.");
+			return j;
+		}
+	}
+	
 	/**
 	 * 用户信息录入和更新
 	 * 
@@ -441,7 +470,6 @@ public class UserController extends BaseController {
 			user.setDeleteFlag(Globals.Delete_Forbidden);
 			userService.updateEntitie(user);
 			message = "用户：" + user.getUserName() + "删除成功";
-
 			
 /**
 			if (roleUser.size()>0) {
@@ -449,7 +477,6 @@ public class UserController extends BaseController {
 				delRoleUser(user);
 
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -458,6 +485,39 @@ public class UserController extends BaseController {
 				message = "用户：" + user.getUserName() + "删除成功";
 			}
 **/	
+		} else {
+			message = "超级管理员不可删除";
+		}
+
+		j.setMsg(message);
+		return j;
+	}
+	
+	
+	@RequestMapping(params = "trueDel")
+	@ResponseBody
+	public AjaxJson trueDel(TSUser user, HttpServletRequest req) {
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		if("admin".equals(user.getUserName())){
+			message = "超级管理员[admin]不可删除";
+			j.setMsg(message);
+			return j;
+		}
+		user = systemService.getEntity(TSUser.class, user.getId());
+		List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
+		if (!user.getStatus().equals(Globals.User_ADMIN)) {
+			if (roleUser.size()>0) {
+				// 删除用户时先删除用户和角色关系表
+				delRoleUser(user);
+                systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
+                userService.delete(user);
+				message = "用户：" + user.getUserName() + "删除成功";
+				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			} else {
+				userService.delete(user);
+				message = "用户：" + user.getUserName() + "删除成功";
+			}
 		} else {
 			message = "超级管理员不可删除";
 		}
@@ -521,7 +581,6 @@ public class UserController extends BaseController {
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
-
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -584,7 +643,6 @@ public class UserController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
-
 
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
@@ -685,7 +743,6 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
-
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -1003,7 +1060,6 @@ public class UserController extends BaseController {
 				 ClientManager.getInstance().getClient().getFunctions().clear();
 			} catch (Exception e) {
 			}
-
 		}else{
 			j.setMsg("请登录后再操作");
 		}

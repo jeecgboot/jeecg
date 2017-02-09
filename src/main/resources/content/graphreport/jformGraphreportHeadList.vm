@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>online图标配置--列表</title>
+    <script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
+    <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="plug-in/jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+    <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+    <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
+    <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/main.css" type="text/css"></link>
+    <link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/metrole/icon.css" type="text/css"></link>
+    <link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
+    <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+    <script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
+    <script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
+    <script type="text/javascript" src="plug-in/easyui/extends/datagrid-scrollview.js"></script>
+    <link rel="stylesheet" href="plug-in/tools/css/metrole/common.css" type="text/css"></link>
+    <link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" type="text/css"></link>
+    <script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+    <script type="text/javascript" src="plug-in/ace/js/bootstrap-tab.js"></script>
+    <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+    <script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+    <script type="text/javascript" src="plug-in/jquery-plugs/hftable/jquery-hftable.js"></script>
+    <script type="text/javascript" src="plug-in/tools/json2.js"></script>
+    <link rel="stylesheet" href="plug-in/Validform/css/style.css" type="text/css">
+    <link rel="stylesheet" href="plug-in/Validform/css/tablefrom.css" type="text/css">
+    <script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+    <script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+    <script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
+    <script src="plug-in/clipboard/ZeroClipboard.js"></script>
+  </head>
+  
+  <body>
+    <div class="easyui-layout" fit="true">
+      <div region="center" style="padding:0px;border:0px">
+        <table width="100%" id="jformGraphreportHeadList" toolbar="#jformGraphreportHeadListtb"></table>
+        <div id="jformGraphreportHeadListtb" style="padding:3px; height: auto">
+          <div name="searchColums" id="searchColums">
+            <input id="isShowSearchId" type="hidden" value="false" />
+            <input id="_sqlbuilder" name="sqlbuilder" type="hidden" />
+            <form id='jformGraphreportHeadListForm'>
+              <span style="display:-moz-inline-box;display:inline-block;">
+                <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="编码">编码：</span>
+                <input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="code" class="inuptxt" style="width: 100px" /></span>
+              <span style="display:-moz-inline-box;display:inline-block;">
+                <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="名称">名称：</span>
+                <input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="name" class="inuptxt" style="width: 100px" /></span>
+              <span style="display:-moz-inline-box;display:inline-block;">
+                <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="查询sql">查询sql：</span>
+                <input onkeypress="EnterPress(event)" onkeydown="EnterPress()" type="text" name="cgrSql" class="inuptxt" style="width: 100px" /></span>
+              <span style="display:-moz-inline-box;display:inline-block;">
+                <span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; " title="是否显示明细">是否显示明细：</span>
+                <select name="isShowList" onkeydown="EnterPress()">
+                  <option value="">--请选择</option>
+                  <option value="Y">是</option>
+                  <option value="N">否</option></select>
+              </span>
+            </form>
+          </div>
+          <div style="height:30px;" class="datagrid-toolbar">
+            <span style="float:left;">
+              <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="add('录入','jformGraphreportHeadVMController.do?goAdd_VM','jformGraphreportHeadList',1200,450)">录入</a>
+              <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('编辑','jformGraphreportHeadVMController.do?goUpdate_VM','jformGraphreportHeadList',1200,450)">编辑</a>
+              <a href="#" class="easyui-linkbutton" plain="true" icon="icon-remove" onclick="deleteALLSelect('批量删除','jformGraphreportHeadController.do?doBatchDel','jformGraphreportHeadList',null,null)">批量删除</a>
+              <a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" onclick="detail('查看','jformGraphreportHeadVMController.do?goUpdate_VM','jformGraphreportHeadList',1200,450)">查看</a>
+             <!-- 导入功能存在bug <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportXls()">EXCEL导入</a>-->
+              <a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXls()">EXCEL导出</a></span>
+            <span style="float:right">
+              <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="jformGraphreportHeadListSearch()">查询</a>
+              <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset('jformGraphreportHeadList')">重置</a></span>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript" src="content/graphreport/jfromGraphreportHeadList.js"></script>
+  </body>
+
+</html>

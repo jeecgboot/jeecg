@@ -33,7 +33,6 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 			category.setParent(null);
 			category.setCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 		}
-
 		this.save(category);
 	}
 	
@@ -43,7 +42,7 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 		}
 		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
 		StringBuilder sb = new StringBuilder();
-
+		
 		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
 			sb.append("SELECT code FROM t_s_category");
 			sb.append(" where LEN(code) = ").append(localCodeLength);
@@ -51,18 +50,15 @@ public class CategoryServiceImpl extends CommonServiceImpl implements
 			sb.append("SELECT code FROM t_s_category");
 			sb.append(" where LENGTH(code) = ").append(localCodeLength);
 		}
-
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  code like '").append(parentCode).append("%'");
 		}
-
 		sb.append(" ORDER BY code DESC ");
 		List<Map<String, Object>> objMapList = this.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null&& objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("code");
 		}
-
 		return returnCode;
 	}
 

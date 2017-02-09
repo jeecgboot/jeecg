@@ -26,6 +26,7 @@
             $("#orgSelect").combotree("setValues", ${orgIdList});
         }); --%>
 
+
 		function openDepartmentSelect() {
 			$.dialog.setting.zIndex = getzIndex(); 
 			

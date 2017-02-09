@@ -17,7 +17,7 @@ public class JeecgWServiceClient {
 		bean.setServiceClass(JeecgWServiceI.class);
 		bean.setAddress("http://localhost:8080/jeecg/cxf/JeecgWService");
 		JeecgWServiceI client = (JeecgWServiceI) bean.create();
-		//System.out.println(client.sayHello());
+		System.out.println(client.sayHello());
 	}
 	
 	public static void main(String[] args) {
@@ -25,6 +25,6 @@ public class JeecgWServiceClient {
 		bean.setServiceClass(JeecgWServiceI.class);
 		bean.setAddress("http://localhost:8080/jeecg/cxf/JeecgWDemoService");
 		JeecgWServiceI client = (JeecgWServiceI) bean.create();
-		//System.out.println(client.sayHello());
+		System.out.println(client.sayHello());
 	}
 }

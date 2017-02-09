@@ -1,0 +1,81 @@
+<script type="text/javascript">
+	jQuery('#addAutoFormDbFieldForTableBtn').linkbutton({
+		iconCls: 'icon-add'
+	});
+	jQuery('#delAutoFormDbFieldForTableBtn').linkbutton({
+		iconCls: 'icon-remove'
+	});
+	jQuery('#addAutoFormDbFieldForTableBtn').bind('click',
+	function() {
+		var tr = jQuery("#add_autoFormDbFieldForTable_table_template tr").clone();
+		jQuery("#add_autoFormDbFieldForTable_table").append(tr);
+		resetTrNum('add_autoFormDbFieldForTable_table');
+		return false;
+	});
+	jQuery('#delAutoFormDbFieldForTableBtn').bind('click',
+	function() {
+		jQuery("#add_autoFormDbFieldForTable_table").find("input:checked").parent().parent().remove();
+		resetTrNum('add_autoFormDbFieldForTable_table');
+		return false;
+	});
+	jQuery(document).ready(function() {
+		jQuery(".datagrid-toolbar").parent().css("width", "auto");
+		if (location.href.indexOf("load=detail") != -1) {
+			jQuery(":input").attr("disabled", "true");
+			jQuery("a").each(function() {
+				jQuery(this).css("cursor", "default");
+				jQuery(this).removeAttr("href");
+				jQuery(this).removeAttr("onclick");
+			});
+			jQuery(".datagrid-toolbar").hide();
+		}
+		//将表格的表头固定
+		jQuery("#autoFormDbFieldForTable_table").createhftable({
+			height: '400px',
+			fixFooter: false
+		});
+	});
+	function deleteOne(obj) {
+		var tableId = jQuery(obj).parent().parent().parent().parent().attr("id");
+		jQuery(obj).parent().parent().parent().remove();
+		resetTrNum(jQuery("input[name='dbType']:checked").val() + "_div #" + tableId);
+	}
+</script>
+<div style="padding: 3px; height: 25px;width:auto;" class="datagrid-toolbar">
+	<a id="addAutoFormDbFieldForTableBtn" href="#">添加</a>
+	<a id="delAutoFormDbFieldForTableBtn" href="#">删除</a>
+</div>
+<table border="0" cellpadding="2" cellspacing="0" id="autoFormDbFieldForTable_table">
+	<tr bgcolor="#E6E6E6">
+		<td align="center" width="40px" bgcolor="#EEEEEE">编码</td>
+		<td align="center" width="40px" bgcolor="#EEEEEE">选择</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">字段</td>
+		<td align="left" width="120px" bgcolor="#EEEEEE">字段文本</td>
+		<td align="center" width="50px" bgcolor="#EEEEEE">操作</td>
+	</tr>
+	<tbody id="add_autoFormDbFieldForTable_table">
+		#if($!{autoFormDbFieldList})
+			#set($count=0)
+			#foreach($!{info} in $!{autoFormDbFieldList})
+				<tr>
+					<input name="autoFormDbFieldList[${count}].id" type="hidden" value="$!{info.id}" />
+					<input name="autoFormDbFieldList[${count}].createName" type="hidden" value="$!{info.createName}" />
+					<input name="autoFormDbFieldList[${count}].createBy" type="hidden" value="$!{info.createBy}" />
+					<input name="autoFormDbFieldList[${count}].createDate" type="hidden" value="$!{info.createDate}" />
+					<input name="autoFormDbFieldList[${count}].updateName" type="hidden" value="$!{info.updateName}" />
+					<input name="autoFormDbFieldList[${count}].updateBy" type="hidden" value="$!{info.updateBy}" />
+					<input name="autoFormDbFieldList[${count}].updateDate" type="hidden" value="$!{info.updateDate}" />
+					<input name="autoFormDbFieldList[${count}].sysOrgCode" type="hidden" value="$!{info.sysOrgCode}" />
+					<input name="autoFormDbFieldList[${count}].sysCompanyCode" type="hidden" value="$!{info.sysCompanyCode}" />
+					<input name="autoFormDbFieldList[${count}].autoFormDbId" type="hidden" value="$!{info.autoFormDbId}" />
+					<td align="center"><div style="width: 40px;" name="xh">$!{velocityCount}</div></td>
+					<td align="center"><input style="width:40px;" type="checkbox" name="ck" /></td>
+					<td align="left"><input name="autoFormDbFieldList[${count}].fieldName" maxlength="32" type="text" class="inputxt" style="width:120px;" value="$!{info.fieldName}" /></td>
+					<td align="left"><input name="autoFormDbFieldList[${count}].fieldText" maxlength="50" type="text" class="inputxt" style="width:120px;" value="$!{info.fieldText}" /></td>
+					<td align="center"><div style="width: 50px;" align="center">[<a name="delAutoFormDbFieldForTableOneBtn" href="javascript:void(0)" onclick="deleteOne(this)">删除</a>]</div></td>
+				</tr>
+				#set($count=$count+1)
+			#end
+		#end
+	</tbody>
+</table>

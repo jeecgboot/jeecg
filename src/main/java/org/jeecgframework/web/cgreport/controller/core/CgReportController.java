@@ -20,18 +20,17 @@ import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.enums.SysThemesEnum;
+import org.jeecgframework.core.online.def.CgReportConstant;
+import org.jeecgframework.core.online.exception.CgReportNotFoundException;
+import org.jeecgframework.core.online.util.CgReportQueryParamUtil;
+import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.DynamicDBUtil;
 import org.jeecgframework.core.util.SqlUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
-import org.jeecgframework.web.cgreport.common.CgReportConstant;
-import org.jeecgframework.web.cgreport.exception.CgReportNotFoundException;
 import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
-import org.jeecgframework.web.cgreport.util.CgReportQueryParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,8 +72,7 @@ public class CgReportController extends BaseController {
 		loadVars(cgReportMap,request);
 
 		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlist.ftl", cgReportMap);
 		PrintWriter writer = null;
 		try {
@@ -138,8 +136,7 @@ public class CgReportController extends BaseController {
 		loadVars(cgReportMap,request);
 
 		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		PrintWriter writer = null;
 		try {
@@ -304,7 +301,6 @@ public class CgReportController extends BaseController {
 		//step.4 进行查询返回结果
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
-
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -321,7 +317,6 @@ public class CgReportController extends BaseController {
             result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
             size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
         }
-
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -368,7 +363,6 @@ public class CgReportController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
-
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

@@ -44,7 +44,7 @@ public class DictSelectTag extends TagSupport {
 	private String dictField;// 自定义字典表的匹配字段-字典的编码值
 	private String dictText;// 自定义字典表的显示文本-字典的显示值
 	private String extendJson;//扩展参数
-
+    
 	private String readonly;// 只读属性
     public String getReadonly() {
 		return readonly;
@@ -70,7 +70,6 @@ public class DictSelectTag extends TagSupport {
 	public void setDatatype(String datatype) {
 		this.datatype = datatype;
 	}
-
 	@Autowired
 	private static SystemService systemService;
 
@@ -124,9 +123,8 @@ public class DictSelectTag extends TagSupport {
 				}
 			}else {
 				sb.append("<select name=\"" + field + "\"");
-
+				
 				this.readonly(sb);
-
 				
 				//增加扩展属性
 				if (!StringUtils.isBlank(this.extendJson)) {
@@ -140,9 +138,7 @@ public class DictSelectTag extends TagSupport {
 					sb.append(" id=\"" + id + "\"");
 				}
 				sb.append(">");
-
 				select("common.please.select", "", sb);
-
 				for (Map<String, Object> map : list) {
 					select(map.get("text").toString(), map.get("field").toString(), sb);
 				}
@@ -177,9 +173,7 @@ public class DictSelectTag extends TagSupport {
 					}
 				} else {
 					sb.append("<select name=\"" + field + "\"");
-
 					this.readonly(sb);
-
 					
 					//增加扩展属性
 					if (!StringUtils.isBlank(this.extendJson)) {
@@ -194,9 +188,7 @@ public class DictSelectTag extends TagSupport {
 					}
 					this.datatype(sb);
 					sb.append(">");
-
 					select("common.please.select", "", sb);
-
 					for (TSType type : types) {
 						select(type.getTypename(), type.getTypecode(), sb);
 					}
@@ -240,9 +232,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
 			this.readonly(sb);
-
 
 			this.datatype(sb);
 			sb.append(" />");
@@ -252,9 +242,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
 			this.readonly(sb);
-
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -271,6 +259,9 @@ public class DictSelectTag extends TagSupport {
 	 * @param sb
 	 */
 	private void checkbox(String name, String code, StringBuffer sb) {
+		if(this.defaultVal==null){
+		       this.defaultVal="";
+		}
 		String[] values = this.defaultVal.split(",");
 		Boolean checked = false;
 		for (int i = 0; i < values.length; i++) {
@@ -287,9 +278,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
 			this.readonly(sb);
-
 			this.datatype(sb);
 			sb.append(" />");
 		} else {
@@ -298,9 +287,7 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
 			this.readonly(sb);
-
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -334,7 +321,6 @@ public class DictSelectTag extends TagSupport {
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
 				+ " as text from " + dictTable;
-
 	       if(dictCondition!=null){
 	           sql+=dictCondition;
 	       }

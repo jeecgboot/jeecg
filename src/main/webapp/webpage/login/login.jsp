@@ -114,7 +114,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.6.5</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.6.6</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;
@@ -144,6 +144,7 @@
 <script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
 <script type="text/javascript" src="plug-in/login/js/jquery.tipsy.js"></script>
 <script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>
+<script type="text/javascript" src="plug-in/login/js/login.js"></script>
 <script type="text/javascript">
 	$(function(){
 		optErrMsg();

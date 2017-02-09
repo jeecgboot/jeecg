@@ -62,11 +62,11 @@
         <div class="form">
             <input type="hidden" name="orgCode" value="${depart.orgCode }">
             <label class="Validform_label"> <t:mutiLang langKey="common.org.type"/>: </label>
-            <select name="orgType" id="orgType">
-                <option value="1" <c:if test="${orgType=='1'}">selected="selected"</c:if>><t:mutiLang langKey="common.company"/></option>
-                <option value="2" <c:if test="${orgType=='2'}">selected="selected"</c:if>><t:mutiLang langKey="common.department"/></option>
-                <option value="3" <c:if test="${orgType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="common.position"/></option>
-            </select>
+           <select name="orgType" id="orgType"> 
+                 <option value="1" <c:if test="${orgType=='1'}">selected="selected"</c:if>><t:mutiLang langKey="common.company"/></option> 
+                 <option value="2" <c:if test="${orgType=='2'}">selected="selected"</c:if>><t:mutiLang langKey="common.department"/></option> 
+                 <option value="3" <c:if test="${orgType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="common.position"/></option>
+         </select> 
         </div>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="common.mobile"/>: </label>
@@ -78,8 +78,13 @@
         </div>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="common.address"/>: </label>
-            <input name="address" class="inputxt" value="${depart.address }" datatype="s1-50">
-            <span class="Validform_checktip"><t:mutiLang langKey="departmentaddress.rang1to50"/></span>
+            <input name="address" class="inputxt" value="${depart.address }">
+            <span class="Validform_checktip"></span>
+        </div>
+         <div class="form">
+            <label class="Validform_label"> 排序: </label>
+            <input name="departOrder" class="inputxt" value="${depart.departOrder }" datatype="n">
+            <span class="Validform_checktip">请输入排序号</span>
         </div>
 	</fieldset>
 </t:formvalid>

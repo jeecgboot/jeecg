@@ -71,6 +71,5 @@ public class ControllerTestDemo  extends AbstractUnitTest{
 		.andDo(print()) //打印报文
 		.andExpect(jsonPath("$.rows[0].id").exists()); // 验证id 属性是否存在
 
-
 	}
 }

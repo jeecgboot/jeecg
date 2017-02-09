@@ -20,6 +20,10 @@ public class DataGridUrl {
 	private boolean isRadio;//是否是单选框
 	private String onclick;//选项单击事件
 	private String urlStyle;//url样式
+
+	private String urlclass;//按钮样式
+	private String urlfont;//按钮图标
+
 	public String getOnclick() {
 		return onclick;
 	}
@@ -124,6 +128,19 @@ public class DataGridUrl {
 	public String getUrlStyle() {
 		return urlStyle;
 	}
-	
+
+		public String getUrlclass() {
+			return urlclass;
+		}
+		public void setUrlclass(String urlclass) {
+			this.urlclass = urlclass;
+		}
+		public String getUrlfont() {
+			return urlfont;
+		}
+		public void setUrlfont(String urlfont) {
+			this.urlfont = urlfont;
+		}
+
 
 }

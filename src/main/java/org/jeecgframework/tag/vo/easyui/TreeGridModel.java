@@ -22,6 +22,7 @@ public class TreeGridModel implements java.io.Serializable {
  	private String icon;
  	private String order;
  	private String functionType;
+ 	private String iconStyle;//图标样式
  	
     public String getFunctionType() {
 		return functionType;
@@ -101,6 +102,13 @@ public class TreeGridModel implements java.io.Serializable {
     public void setFieldMap(Map<String, Object> fieldMap) {
         this.fieldMap = fieldMap;
     }
+	public String getIconStyle() {
+		return iconStyle;
+	}
+	public void setIconStyle(String iconStyle) {
+		this.iconStyle = iconStyle;
+	}
+    
     
     
 }

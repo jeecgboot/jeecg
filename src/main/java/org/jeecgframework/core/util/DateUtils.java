@@ -326,6 +326,15 @@ public class DateUtils extends PropertyEditorSupport {
 	public static String formatDate() {
 		return date_sdf.format(getCalendar().getTime());
 	}
+	
+	/**
+	 * 默认方式表示的系统当前日期，具体格式：yyyy-MM-dd HH:mm:ss
+	 * 
+	 * @return 默认日期按“yyyy-MM-dd HH:mm:ss“格式显示
+	 */
+	public static String formatDateTime() {
+		return datetimeFormat.format(getCalendar().getTime());
+	}
 	/**
 	 * 获取时间字符串
 	 */

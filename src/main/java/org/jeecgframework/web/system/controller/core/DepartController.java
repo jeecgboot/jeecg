@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -102,6 +103,28 @@ public class DepartController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
+		@RequestMapping(params = "delUserOrg")
+		@ResponseBody
+		public AjaxJson delUserOrg(@RequestParam(required=true)String userid,@RequestParam(required=true)String departid) {
+			AjaxJson ajaxJson = new AjaxJson();
+			try {
+				List<TSUserOrg> userOrgList = this.systemService.findByProperty(TSUserOrg.class, "tsUser.id", userid);
+				if(userOrgList.size() == 1){
+					ajaxJson.setSuccess(false);
+					ajaxJson.setMsg("当前用户只包含有当前组织机构关系，不可删除，请切换用户的组织机构关系");
+				}else{
+					String sql = "delete from t_s_user_org where user_id = '"+userid+"' and org_id = '"+departid+"'";
+					this.systemService.executeSql(sql);
+					ajaxJson.setMsg("成功删除用户对应的组织机构关系");
+				}
+			} catch (Exception e) {
+				LogUtil.log("删除用户对应的组织机构关系失败", e.getMessage());
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg(e.getMessage());
+			}
+			return ajaxJson;
+		}
+
 	/**
 	 * 删除部门：
 	 * <ul>
@@ -141,7 +164,6 @@ public class DepartController extends BaseController {
         j.setMsg(message);
 		return j;
 	}
-
 
 	public void upEntity(TSDepart depart) {
 		List<TSUser> users = systemService.findByProperty(TSUser.class, "TSDepart.id", depart.getId());
@@ -236,10 +258,17 @@ public class DepartController extends BaseController {
 		if (comboTree.getId() == null) {
 			cq.isNull("TSPDepart");
 		}
+
+		cq.addOrder("departOrder", SortDirection.asc);
+
 		cq.add();
 		List<TSDepart> departsList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "departname", "TSDeparts");
+		TSDepart defaultDepart = new TSDepart();
+		defaultDepart.setId("");
+		defaultDepart.setDepartname("请选择组织机构");
+		departsList.add(0, defaultDepart);
 		comboTrees = systemService.ComboTree(departsList, comboTreeModel, null, true);
 		return comboTrees;
 
@@ -268,6 +297,9 @@ public class DepartController extends BaseController {
 		if (treegrid.getId() == null) {
 			cq.isNull("TSPDepart");
 		}
+
+		cq.addOrder("departOrder", SortDirection.asc);
+
 		cq.add();
 		List<TreeGrid> departList =null;
 		departList=systemService.getListByCriteriaQuery(cq, false);
@@ -292,6 +324,7 @@ public class DepartController extends BaseController {
 		fieldMap.put("mobile", "mobile");
 		fieldMap.put("fax", "fax");
 		fieldMap.put("address", "address");
+		fieldMap.put("order", "departOrder");
         treeGridModel.setFieldMap(fieldMap);
         treeGrids = systemService.treegrid(departList, treeGridModel);
 
@@ -333,7 +366,6 @@ public class DepartController extends BaseController {
 		if(user!=null&&user.getDepartid()!=null){
 			user.setDepartid(null);//设置用户的所属部门的查询条件为空；
 		}
-
 		CriteriaQuery cq = new CriteriaQuery(TSUser.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
@@ -346,7 +378,6 @@ public class DepartController extends BaseController {
             // 这种方式也是可以的
 //            DetachedCriteria dcDepart = dc.createAlias("userOrgList", "userOrg");
 //            dcDepart.add(Restrictions.eq("userOrg.tsDepart.id", departid));
-
 		}
 		Short[] userstate = new Short[] { Globals.User_Normal, Globals.User_ADMIN };
 		cq.in("status", userstate);
@@ -474,7 +505,6 @@ public class DepartController extends BaseController {
         this.systemService.getDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }
-
 	/**
 	 * 导入功能跳转
 	 *
@@ -562,7 +592,18 @@ public class DepartController extends BaseController {
 						MyBeanUtils.copyBeanNotNull2Bean(tsDepart,depart);
 						systemService.saveOrUpdate(depart);
 					}else {
-						tsDepart.setOrgType(tsDepart.getOrgType().substring(0,1));
+						if(oConvertUtils.isNotEmpty(tsDepart.getOrgType())){
+							String orgType = tsDepart.getOrgType().substring(0,1);
+							if("1".equals(orgType) || "2".equals(orgType) || "3".equals(orgType)){
+								tsDepart.setOrgType(orgType);
+							}else{
+								j.setMsg("机构类型编码错误");
+								return j;
+							}
+						}else{
+							j.setMsg("机构类型编码不能为空");
+							return j;
+						}
 						//TSTypegroup ts = systemService.findByProperty(TSTypegroup.class,"typegroupcode","orgtype").get(0);
 						//List<TSType> types = systemService.findByProperty(TSType.class,"id",ts.getId());
 						//int len = 3;//每级组织机构得长度
@@ -572,11 +613,15 @@ public class DepartController extends BaseController {
 						}*/
 						String orgcode = tsDepart.getOrgCode();
 						String parentOrgCode = orgcode.substring(0,orgcode.length()-3);
-						TSDepart parentDept = (TSDepart) systemService.getSession().createSQLQuery("select * from t_s_depart where ORG_CODE = :parentOrgCode")
+						List<TSDepart> parentList = systemService.getSession().createSQLQuery("select * from t_s_depart where ORG_CODE = :parentOrgCode")
 								.addEntity(TSDepart.class)
 								.setString("parentOrgCode",parentOrgCode)
-								.list().get(0);
-						tsDepart.setTSPDepart(parentDept);
+								.list();
+						if(parentList.size() > 0){
+							TSDepart parentDept =  parentList.get(0);
+							tsDepart.setTSPDepart(parentDept);
+						}
+						tsDepart.setDepartOrder("0");
 						systemService.save(tsDepart);
 					}
 				}

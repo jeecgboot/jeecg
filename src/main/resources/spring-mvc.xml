@@ -19,6 +19,7 @@
 
 	<!-- ApplicationContext -->
 	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
+	<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
@@ -112,6 +113,9 @@
 						<value>cgFormDataController.do?deleteFormInfo</value>
 						<value>cgFormDataController.do?addFormInfo</value>
 						<value>cgFormDataController.do?updateFormInfo</value>
+						
+						<!-- 菜单样式图标预览 -->
+						<value>webpage/common/functionIconStyleList.jsp</value>
 					</list>
 				</property>
 			</bean>

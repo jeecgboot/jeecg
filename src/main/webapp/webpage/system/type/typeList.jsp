@@ -8,7 +8,7 @@
 	<t:dgCol title="类型名称" field="typename"></t:dgCol>
 	<t:dgCol title="类型编码" field="typecode"></t:dgCol>
 	<t:dgCol title="操作" field="opt"></t:dgCol>
-	<t:dgDelOpt url="systemController.do?delType&id={id}" title="删除"></t:dgDelOpt>
+	<t:dgDelOpt url="systemController.do?delType&id={id}" title="删除" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
 	<t:dgToolBar title="${typegroup.typegroupname}录入" icon="icon-add" url="systemController.do?addorupdateType&typegroupid=${typegroup.id}" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="类别编辑" icon="icon-edit" url="systemController.do?addorupdateType&typegroupid=${typegroup.id}" funname="update"></t:dgToolBar>
 </t:datagrid></div>

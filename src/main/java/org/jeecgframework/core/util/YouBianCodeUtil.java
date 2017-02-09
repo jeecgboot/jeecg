@@ -12,7 +12,6 @@ public class YouBianCodeUtil {
 	// 数字位数(默认生成3位的数字)
 
 	private static final int numLength = 2;//代表数字位数
-
 	public static final int zhanweiLength = 1+numLength;
 
 	/**
@@ -79,7 +78,6 @@ public class YouBianCodeUtil {
 
 //			return parentCode + getNextYouBianCode(localCode);
 			return getNextYouBianCode(localCode);
-
 		}else{
 			parentCode = parentCode + "A"+ getNextStrNum(0);
 		}

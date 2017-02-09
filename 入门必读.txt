@@ -4,17 +4,17 @@
 1. 标准开发环境：
     eclipse + maven + jdk7 + tomcat6 + mysql
 2. 必须手工执行SQL脚本 (自动初始化已作废)
-    docs/db/jeecg3.6.5-mysql-20160718.sql
-	说明：目前官方提供mysql\oracle脚本,其他会陆续提供
+    docs/db/jeecg3.6.6-mysql-20170208.sql
+	说明：目前官方只提供了mysql脚本,其他数据库可以自己通过工具转换
 3. 如果遇到maven依赖下载失败的情况，请通过以下链接，下载jeecg本地仓库
-    链接：http://pan.baidu.com/s/1o8s5uwq 密码：cpoc
+    链接：http://pan.baidu.com/s/1pLsEsxt 密码：q1rn
 4.  jeecg平台开发手册在目录: docs/技术文档
 5.  jeecg入门视频下载
     http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1
 6. 更多资料访问官方论坛：www.jeecg.org
 7. 开发环境搭建文档
    http://www.jeecg.org/forum.php?mod=viewthread&tid=2537&extra=page%3D1
-8. jeecg采用插件开发模式，更多业务组件以插件方式提供
+8. jeecg目前走微服务模式，采用插件机制，更多业务组件以插件方式提供
    jeecg云应用插件中心网址：http://yun.jeecg.org
    
 9. QQ技术交流群：  176031980
