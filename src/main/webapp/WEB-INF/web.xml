@@ -121,7 +121,7 @@
 	</servlet-mapping>
 	
 
-	<!-- 集成cxf webservice接口 -->
+	<!-- 集成cxf webservice接口
 	 <servlet>  
         <description>Apache CXF Endpoint</description>  
         <display-name>cxf</display-name>  
@@ -133,7 +133,8 @@
         <servlet-name>cxf</servlet-name>  
         <url-pattern>/cxf/*</url-pattern>  
     </servlet-mapping> 
-    
+     -->
+	 
 	<!-- restUrl风格配置 -->
 	<servlet>
 		<servlet-name>restSpringMvc</servlet-name>

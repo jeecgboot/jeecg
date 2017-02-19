@@ -882,7 +882,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	 *
 	 */
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
+		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 		return this.jdbcTemplate.queryForObject(sql, objs,Long.class);
+		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 
 	}
 
@@ -906,8 +908,13 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		KeyHolder keyHolder = null;
 		SqlParameterSource sqlp  = new MapSqlParameterSource(param);
 
+		//update-begin--Author:	jg_huangxg Date: 20150625 for：[bugfree号]oc时,录入数据在Oracle下 数据写入错误--------------------
 		if (StringUtil.isNotEmpty(param.get("id"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
 			this.namedParameterJdbcTemplate.update(sql,sqlp);
+		//--author：zhoujf---start------date:20170216--------for:自定义表单保存数据格sqlserver报错问题
+		}else if (StringUtil.isNotEmpty(param.get("ID"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
+			this.namedParameterJdbcTemplate.update(sql,sqlp);
+		//--author：zhoujf---end------date:20170216--------for:自定义表单保存数据格sqlserver报错问题
 		}else{//NATIVE or SEQUENCE
 			keyHolder = new GeneratedKeyHolder();
 			this.namedParameterJdbcTemplate.update(sql,sqlp, keyHolder, new String[]{"id"});
@@ -916,11 +923,14 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				keyValue = keyHolder.getKey().longValue();
 			}
 		}
+		//update-end--Author: jg_huangxg Date: 20150625 for：[bugfree号]oc时,录入数据在Oracle下 数据写入错误----------------------
 		return keyValue;
 	}
 
 	public Integer countByJdbc(String sql, Object... param) {
+		//-- update-begin author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 		return this.jdbcTemplate.queryForObject(sql, param,Integer.class);
+		//-- update-end author： xugj date:20160103  for: #851 controller 单元测试升级spring 版本    -->
 
 	}
 
@@ -976,6 +986,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		return dc.getExecutableCriteria(getSession()).list();
 	}
 
+	//update-begin--Author:luobaoli  Date:20150710 for：增加执行存储过程方法
 	/**
 	 * 调用存储过程
 	 */
@@ -989,4 +1000,5 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		
 		return sqlQuery.list();
 	}
+	//update-end--Author:luobaoli  Date:20150710 for：增加执行存储过程方法
 }

@@ -124,8 +124,9 @@
 
 	<!-- 智能表单配置引入 -->
 	<import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml" />
-	<!--集成cxf webservice接口-->
+	<!--集成cxf webservice接口
 	<import resource="classpath:cxf-servlet.xml" />
+	-->
 	<!-- jeecg plugin dev -->
 	<import resource="classpath:config/spring-config-p3.xml" />
 </beans>

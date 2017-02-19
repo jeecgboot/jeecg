@@ -1,7 +1,11 @@
 package org.jeecgframework.web.autoform.service.impl;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -10,16 +14,22 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jeecgframework.codegenerate.util.CodeResourceUtil;
+import org.jeecgframework.codegenerate.util.def.ConvertDef;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.DynamicDBUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.autoform.entity.AutoFormDbEntity;
 import org.jeecgframework.web.autoform.entity.AutoFormEntity;
 import org.jeecgframework.web.autoform.service.AutoFormServiceI;
 import org.jeecgframework.web.autoform.util.AutoFormTemplateParseUtil;
+import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.UncategorizedSQLException;
@@ -152,7 +162,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 	        }
 		}
 	}
-
+	//add-start--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值
 	/**
 	 * 插入操作时将系统变量约定的字段赋值
 	 * @param data
@@ -198,7 +208,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 			data.put(DataBaseConstant.UPDATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
 		}
 	}
-
+	//add-end--Author:chenchunpeng Date:chenchunpeng Date:20160613 for：自定义表单设定默认值
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public String doUpdateTable(String formName,
@@ -232,7 +242,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 			    	 }
 			    	 String tbDbTableName = autoFormDbEntity.getTbDbTableName();
 			    	//系统上下文变量赋值
-
+			    	//add-start--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值
 			    	 Object val=data.get("id");
 		             //通过判断id是否有值确定是添加还是修改
 	            	 if(StringUtil.isNotEmpty(val)){
@@ -240,7 +250,7 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 	            	 }else{
 	            		 fillInsertSysVar(data);
 	            	 }
-
+			    	//add-end--Author:chenchunpeng Date:20160613 for：自定义表单设定默认值 
 			    	String id = null;
 			    	String comma = "";
 			    	StringBuffer updateSqlBuffer = new StringBuffer();
@@ -301,7 +311,9 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 							data.put(fkid, fkidValue);
 						}
 					}
-					
+					//--author：zhoujf---start------date:20170216--------for:自定义表单保存数据格式不一致问题
+					dataAdapter(tbDbTableName,data);
+					//--author：zhoujf---end------date:20170216--------for:自定义表单保存数据格式不一致问题
 					//智能提交数据
 					if(isAdd){
 						if(id==null||id.toString().equals("")){
@@ -343,6 +355,119 @@ public class AutoFormServiceImpl extends CommonServiceImpl implements AutoFormSe
 		return id;
 		
 	}
+	
+	/**
+	 * 数据类型适配-根据表单配置的字段类型将前台传递的值将map-value转换成相应的类型
+	 * @param tableName 表单名
+	 * @param data 数据
+	 */
+	private Map<String, Object> dataAdapter(String tableName,Map<String, Object> data) {
+		//step.1 获取表单的字段配置
+		Map<String, String> fieldConfigs =getColumnTypes(tableName);
+		//step.2 迭代将要持久化的数据
+		Iterator it = fieldConfigs.keySet().iterator();
+		for(;it.hasNext();){
+			Object key = it.next();
+			//根据表单配置的字段名 获取 前台数据
+			Object beforeV = data.get(key.toString().toLowerCase());
+
+			//如果值不为空
+			if(oConvertUtils.isNotEmpty(beforeV)){
+				//获取字段配置-字段类型
+				String type = fieldConfigs.get(key.toString().toLowerCase());
+				//根据类型进行值的适配
+				if("date".equalsIgnoreCase(type)){
+					//日期->java.util.Date
+					Object newV = String.valueOf(beforeV);
+					try {
+						String dateStr = String.valueOf(beforeV);
+						if (dateStr.indexOf(":") == -1 && dateStr.length() == 10) {
+							newV = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+						} else if (dateStr.indexOf(":") > 0 && dateStr.length() == 19) {
+							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
+						} else if (dateStr.indexOf(":") > 0 && dateStr.length() == 21) {
+							dateStr = dateStr.substring(0,dateStr.indexOf("."));
+							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
+						} 
+						if(data.containsKey(key)){
+							data.put(String.valueOf(key), newV);
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}else if("int".equalsIgnoreCase(type)){
+					//int->java.lang.Integer
+					Object newV = null;
+					try{
+						newV = Integer.parseInt(String.valueOf(beforeV));
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					if(data.containsKey(key)){
+						data.put(String.valueOf(key), newV);
+					}
+				}else if("double".equalsIgnoreCase(type)){
+					//double->java.lang.Double
+					Object newV = new Double(0);
+					try{
+						newV = Double.parseDouble(String.valueOf(beforeV));
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					if(data.containsKey(key)){
+						data.put(String.valueOf(key), newV);
+					}
+				}
+			} 
+		}
+		return data;
+	}
+	
+	/**
+	 * 根据表名获取各个字段的类型
+	 * @param dbTableNm
+	 * @return
+	 */
+	private Map<String,String> getColumnTypes(String dbTableNm){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		String sql = "select  DATA_TYPE as dataType,COLUMN_NAME as columnNm from information_schema.COLUMNS where TABLE_NAME='"+dbTableNm.toUpperCase()+"'";
+		//---------------------------------------------------------------------------------------
+		//[DB SQL]
+		if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_MYSQL)){
+			//mysql
+			sql = "select COLUMN_NAME as columnNm,DATA_TYPE as dataType from information_schema.COLUMNS where TABLE_NAME='"+dbTableNm.toUpperCase()+"'";
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_ORACLE)){
+			//oracle
+			sql = " select colstable.column_name columnNm, colstable.data_type dataType"
+				+ " from user_tab_cols colstable "
+				+ " inner join user_col_comments commentstable "
+				+ " on colstable.column_name = commentstable.column_name "
+				+ " where colstable.table_name = commentstable.table_name "
+				+ " and colstable.table_name = '"+dbTableNm.toUpperCase()+"'";
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_postgresql)){
+			//postgresql
+			sql = "SELECT a.attname AS  columnNm,t.typname AS dataType"
+				   +" FROM pg_class c,pg_attribute  a,pg_type t "
+				   +" WHERE c.relname = '"+dbTableNm.toUpperCase()+"' and a.attnum > 0  and a.attrelid = c.oid and a.atttypid = t.oid "
+				   +" ORDER BY a.attnum ";
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_SQL_SERVER)){
+			//sqlserver
+//			sql = "select cast(a.name as varchar(50)) columnNm,  cast(b.name as varchar(50)) dataType" +
+//					"  from sys.columns a left join sys.types b on a.user_type_id=b.user_type_id left join sys.objects c on a.object_id=c.object_id and c.type='''U''' left join sys.extended_properties e on e.major_id=c.object_id and e.minor_id=a.column_id and e.class=1 where c.name='"+dbTableNm.toUpperCase()+"'";
+			sql = "select  DATA_TYPE as dataType,COLUMN_NAME as columnNm from information_schema.COLUMNS where TABLE_NAME='"+dbTableNm.toUpperCase()+"'";
+		}
+		//---------------------------------------------------------------------------------------
+		list  = this.findForJdbc(sql);
+		Map<String,String> map = new HashMap<String, String>();
+		if(list!=null&&list.size()>0){
+			for(Map<String,Object> typeMap:list){
+				String dataType = typeMap.get("dataType").toString().toLowerCase();
+	        	String columnNm = typeMap.get("columnNm").toString().toLowerCase();
+				map.put(columnNm,dataType);
+			}
+		}
+		return map;
+	} 
 	
 	private String getDsPropertyValueNoGenerator(Map<String, Map<String, Object>> dataMap,String key){
 		String value = "";

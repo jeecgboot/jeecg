@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
-	<artifactId>jeecg</artifactId>
+	<artifactId>jeecgos</artifactId>
 	<version>3.6.6</version>
 	<packaging>war</packaging>
 	<properties>
@@ -886,7 +886,7 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
-		<!-- huangzq add cxf webservice 20151231-->
+		<!-- huangzq add cxf webservice 20151231
 		<dependency> 
 			<groupId>org.apache.cxf</groupId> 
 			<artifactId>cxf-rt-frontend-jaxws</artifactId> 
@@ -897,7 +897,7 @@
 			<artifactId>cxf-rt-transports-http</artifactId> 
 			<version>${cxf.version}</version> 
 		</dependency>
-
+-->
 		<!-- jeecg plugin  -->
 		<dependency>
 			<groupId>org.p3framework</groupId>
