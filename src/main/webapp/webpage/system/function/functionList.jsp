@@ -1,41 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<%--   update-start--Author:duanql  Date:20130619 for：操作按钮窗口显示控制--%>
 <div id="system_function_functionList" class="easyui-layout" fit="true"><%--   update-end--Author:duanql  Date:20130619 for：操作按钮窗口显示控制--%>
 <div region="center" style="padding:0px;border:0px">
-       	<c:if test="${type == 0}">
-		    <t:datagrid name="functionList" title="menu.manage"
-		                actionUrl="functionController.do?functionGrid&type=${type }" idField="id" treegrid="true" pagination="false">
-		        <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-			        <t:dgCol title="menu.name" field="functionName" treefield="text"></t:dgCol>
-			        <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true"></t:dgCol>
-			        <t:dgCol title="funcType" field="functionType" hidden="true" treefield="functionType" replace="funcType.page_0,funcType.from_1"></t:dgCol>
-			        <t:dgCol title="menu.url" field="functionUrl" treefield="src"></t:dgCol>
-			        <t:dgCol title="menu.order" field="functionOrder" treefield="order"></t:dgCol>
-			        <t:dgCol title="menu.funiconstyle" field="functionIconStyle" treefield="iconStyle"></t:dgCol>
-			        <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-			        <t:dgDelOpt url="functionController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
-			        <t:dgFunOpt funname="operationDetail(id)" title="button.setting" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
-			        <t:dgFunOpt funname="operationData(id)" title="数据规则" urlclass="ace_button"  urlfont="fa-database"></t:dgFunOpt>
-			        <t:dgToolBar title="common.add.param" langArg="common.menu" icon="icon-add" url="functionController.do?addorupdate" height="400" funname="addFun"></t:dgToolBar>
-			        <t:dgToolBar title="common.edit.param" langArg="common.menu" icon="icon-edit" url="functionController.do?addorupdate" height="490" funname="update"></t:dgToolBar>
-		       	</t:datagrid>	
-       	</c:if>
-       	<c:if test="${type == 1}">
-       	    <t:datagrid name="functionList" title="数据权限列表"
-                actionUrl="functionController.do?functionGrid&type=${type}" idField="id" treegrid="true" pagination="false">
-		        <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-		       		<t:dgCol title="数据权限名称" field="functionName" treefield="text"></t:dgCol>
-			        <t:dgCol title="数据权限URL" field="functionUrl" treefield="src"></t:dgCol>
-			        <t:dgCol title="数据权限顺序" field="functionOrder" treefield="order"></t:dgCol>
-			         <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-			        <t:dgDelOpt url="functionController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
-			        <t:dgToolBar title="添加数据权限"  icon="icon-add" url="functionController.do?addorupdateDataFunction" height="400" funname="addFun"></t:dgToolBar>
-			        <t:dgToolBar title="编辑数据权限" langArg="common.menu" icon="icon-edit" url="functionController.do?addorupdateDataFunction" height="400" funname="update"></t:dgToolBar>
-		    </t:datagrid>
-       	</c:if>
+	<t:datagrid name="functionList" title="menu.manage" actionUrl="functionController.do?functionGrid" idField="id" treegrid="true" pagination="false">
+        <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
+        <t:dgCol title="menu.name" field="functionName" treefield="text"></t:dgCol>
+        <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true"></t:dgCol>
+        <t:dgCol title="funcType" field="functionType" treefield="functionType" replace="funcType.page_0,funcType.from_1"></t:dgCol>
+        <t:dgCol title="menu.url" field="functionUrl" treefield="src"></t:dgCol>
+        <t:dgCol title="menu.order" field="functionOrder" treefield="order"></t:dgCol>
+        <t:dgCol title="menu.funiconstyle" field="functionIconStyle" treefield="iconStyle"></t:dgCol>
+        <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
+        <t:dgDelOpt url="functionController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
+        <t:dgFunOpt funname="operationDetail(id)" title="button.setting" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+        <t:dgFunOpt funname="operationData(id)" title="数据规则" urlclass="ace_button"  urlfont="fa-database"></t:dgFunOpt>
+        <t:dgToolBar title="common.add.param" langArg="common.menu" icon="icon-add" url="functionController.do?addorupdate" height="400" funname="addFun"></t:dgToolBar>
+        <t:dgToolBar title="common.edit.param" langArg="common.menu" icon="icon-edit" url="functionController.do?addorupdate" height="490" funname="update"></t:dgToolBar>
+    </t:datagrid>
 </div>
 </div>
+<%--   update-start--Author:duanql  Date:20130619 for：操作按钮窗口显示控制--%>
 <div data-options="region:'east',
 	title:'<t:mutiLang langKey="operate.button.list"/>',
 	collapsed:true,
@@ -53,6 +39,7 @@
 </div>
 
 <script type="text/javascript">
+<%--   update-start--Author:anchao  Date:20130415 for：按钮权限控制--%>
 $(function() {
 	var li_east = 0;
 });
@@ -70,6 +57,8 @@ function operationDetail(functionId)
 	}
 	$('#operationDetailpanel').panel("refresh", "functionController.do?operation&functionId=" +functionId);
 }
+<%--   update-end--Author:anchao  Date:20130415 for：按钮权限控制--%>
+<%--   update-start--Author:jueyue  Date:20130622 for：菜单录入代入父菜单--%>
 function addFun(title,url, id) {
 	var rowData = $('#'+id).datagrid('getSelected');
 	if (rowData) {
@@ -77,5 +66,6 @@ function addFun(title,url, id) {
 	}
 	add(title,url,'functionList',700,480);
 }
+<%--   update-end--Author:jueyue  Date:20130622 for：菜单录入代入父菜单--%>
 </script>
 

@@ -9,8 +9,7 @@
 		
 	$(function() {
 		$('#cc').combotree({
-			url : 'functionController.do?setPFunction&type=0&selfId=${function.id}',
-
+			url : 'functionController.do?setPFunction&selfId=${function.id}',
 			panelHeight: 200,
 			width: 157,
 			onClick: function(node){
@@ -44,9 +43,7 @@
 				$('#pfun').hide();
 			}
 		});
-		
 	});
-	
 	
 	function viewStyle(param) {
 		var url = "<%=basePath%>/functionIconStyle.jsp?style = "+ param;
@@ -58,14 +55,13 @@
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" layout="div" dialog="true" refresh="true" action="functionController.do?saveFunction">
 	<input name="id" type="hidden" value="${function.id}">
-	<input name="functionType" id="functionType" type="hidden"  value="0">
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
         <input name="functionName" class="inputxt" value="${function.functionName}" datatype="*2-50">
         <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang2to15"/> </span>
     </div>
-   <!-- <div class="form">
+   <div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="funcType"/>: </label>
         <select name="functionType" id="functionType" datatype="*">
             <option value="0" <c:if test="${function.functionType eq 0}">selected="selected"</c:if>>
@@ -76,7 +72,7 @@
             </option>
         </select>
         <span class="Validform_checktip"></span>
-    </div> --> 
+    </div>
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.level"/>: </label>
         <select name="functionLevel" id="functionLevel" datatype="*">
@@ -111,6 +107,7 @@
             </c:forEach>
         </select>
     </div>
+    <%--update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
     <div class="form" id="desktopIcon">
         <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
         <select name="TSIconDesk.id">
@@ -121,15 +118,20 @@
             </c:forEach>
         </select>
     </div>
+    <%--update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
 	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${function.functionOrder}" datatype="n1-3"></div>
+	   <%-- update-begin--Author:chenj  Date:20160722 for：添加菜单图标样式  --%>
 	<div class="form" id="funiconstyle">
         <label class="Validform_label">
             <t:mutiLang langKey="menu.funiconstyle"/>:
         </label>
         <input name="functionIconStyle" class="inputxt" value="${function.functionIconStyle}" />
+        <%-- update-start--Author:chenj  Date:20160729 for：增加图标样式预览页面 --%>
         <a href="<%=basePath%>/webpage/common/functionIconStyleList.jsp?style=ace"  target="_blank">[ace图标样式]</a>
         <a href="<%=basePath%>/webpage/common//functionIconStyleList.jsp?style=hplus" target="_blank">[hplus图标样式]</a>
+          <%-- update-end--Author:chenj  Date:20160729 for：增加图标样式预览页面 --%>
     </div>
+     <%-- update-end--Author:chenj  Date:20160722 for：添加菜单图标样式  --%>
 	</fieldset>
 </t:formvalid> 
 </body>
