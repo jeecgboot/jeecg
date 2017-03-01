@@ -63,7 +63,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	/**
 	 * 添加日志
 	 */
-	public void addLog(String logcontent, Short loglevel, Short operatetype) {
+	public void addLog(String logcontent, Short operatetype,Short loglevel) {
 		HttpServletRequest request = ContextHolderUtils.getRequest();
 		String broswer = BrowserUtils.checkBrowse(request);
 		TSLog log = new TSLog();

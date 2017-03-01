@@ -95,7 +95,7 @@ public class LogController extends BaseController {
 		String loglevel = request.getParameter("loglevel");
 		if (loglevel == null || loglevel.equals("0")) {
 		} else {
-			cq.eq("loglevel", oConvertUtils.getShort(loglevel));
+			cq.eq("operatetype", oConvertUtils.getShort(loglevel));
 			cq.add();
 		}
 
