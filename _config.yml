@@ -1,0 +1,8 @@
+title: jeecg
+description: JEECG 微云快速开发平台
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
