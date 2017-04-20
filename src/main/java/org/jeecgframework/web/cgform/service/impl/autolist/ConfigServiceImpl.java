@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.annotation.Ehcache;
+import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
@@ -14,9 +17,6 @@ import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
-
-import org.jeecgframework.core.annotation.Ehcache;
-import org.jeecgframework.core.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("configService")
 @Transactional
 public class ConfigServiceImpl implements ConfigServiceI {
+	private static Logger log = Logger.getLogger(ConfigServiceImpl.class);
+	
 	@Autowired
 	private CgFormFieldServiceI tablePropertyService;
 	@Autowired
@@ -67,6 +69,7 @@ public class ConfigServiceImpl implements ConfigServiceI {
 		configs.put(CgAutoListConstant.CONFIG_ISPAGINATION,tableEntity.getIsPagination());
 		configs.put(CgAutoListConstant.CONFIG_ISTREE,tableEntity.getIsTree());
 		configs.put(CgAutoListConstant.CONFIG_QUERYMODE,tableEntity.getQuerymode());
+		log.info("-- columns -- size--"+columns.size());
 		configs.put(CgAutoListConstant.FILEDS,columns);
 		configs.put(CgAutoListConstant.CONFIG_VERSION, tableEntity.getJformVersion());
 		configs.put(CgAutoListConstant.TREE_PARENTID_FIELDNAME, tableEntity.getTreeParentIdFieldName());

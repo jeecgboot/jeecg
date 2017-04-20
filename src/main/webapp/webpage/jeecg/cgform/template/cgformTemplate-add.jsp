@@ -5,14 +5,9 @@
 <head>
     <title>Online表单风格</title>
     <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-    <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
-    <script type="text/javascript">
-        //编写自定义JS代码
-    </script>
 </head>
 <body>
-<t:formvalid formid="formobj" dialog="true"   usePlugin="password" layout="table"
-             action="cgformTemplateController.do?doAdd" tiptype="1">
+<t:formvalid formid="formobj" dialog="true"   usePlugin="password" layout="table" action="cgformTemplateController.do?doAdd">
     <input id="id" name="id" type="hidden" value="${cgformTemplatePage.id }">
     <input id="createName" name="createName" type="hidden" value="${cgformTemplatePage.createName }">
     <input id="createBy" name="createBy" type="hidden" value="${cgformTemplatePage.createBy }">
@@ -25,20 +20,18 @@
 
     <div style="float: left;height: 99%;width: 30%;margin-top: 20px;">
         <img id="prePic" src="" style="background-color: rgba(68, 111, 128, 0.67)"  width="98%" height="200px" />
-        <a class="easyui-linkbutton" href="javascript:void(0)" onclick="uploadPic()">上传</a>
+<!--         <a class="easyui-linkbutton" href="javascript:void(0)" onclick="uploadPic()">上传</a> -->
     </div>
     <div style="float: right;height: 99%;width:70%">
         <table style="width: 100%;height: 100%" cellpadding="0" cellspacing="1" class="formtable">
             <tr>
                 <td align="right">
                     <label class="Validform_label">
-                        表单风格编码:
+                        	表单风格编码:
                     </label>
                 </td>
                 <td class="value">
-                    <input id="templateCode" name="templateCode" type="text" style="width: 300px" class="inputxt"
-                           datatype="/\w{1,20}/i" errormsg="编码只能为字母！"
-                            >
+                    <input id="templateCode" name="templateCode" type="text" style="width: 300px" class="inputxt" datatype="/\w{1,20}/i" errormsg="编码只能为字母！" />
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">表单风格编码</label>
                 </td>
@@ -46,13 +39,11 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
-                        表单风格名称:
+                      	  表单风格名称:
                     </label>
                 </td>
                 <td class="value">
-                    <input id="templateName" name="templateName" type="text" style="width: 300px" class="inputxt"
-                           datatype="*" errormsg="名称不能为空！" nullmsg="名称不能为空!"
-                            >
+                    <input id="templateName" name="templateName" type="text" style="width: 300px" class="inputxt" datatype="*" errormsg="名称不能为空！" nullmsg="名称不能为空!"/>
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">表单风格名</label>
                 </td>
@@ -64,12 +55,26 @@
                     </label>
                 </td>
                 <td class="value"  >
-                    <select id="templateType" name="templateType" onclick="changeTemplate(this)">
+                    <select id="templateType" name="templateType" >
                         <option value="1" <c:if test="${cgformTemplatePage.templateType eq '1'}"> selected='selected'</c:if>>单表</option>
                         <option value="2" <c:if test="${cgformTemplatePage.templateType eq '2'}"> selected="selected"</c:if>>主子表</option>
+                        <option value="3" <c:if test="${cgformTemplatePage.templateType eq '3'}"> selected="selected"</c:if>>通用模板</option>
                     </select>
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">类型</label>
+                </td>
+            </tr>
+             <tr>
+                <td align="right">
+                    <label class="Validform_label" style="width: 100px">
+                        	是否激活:
+                    </label>
+                </td>
+                <td class="value">
+                    <input type="radio" name="status" value="0" >无效
+                    <input type="radio" name="status" value="1" checked="checked">有效
+                    <span class="Validform_checktip"></span>
+                    <label class="Validform_label" style="display: none;">是否激活</label>
                 </td>
             </tr>
            <%-- <tr>
@@ -89,7 +94,7 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label">
-                        预览图：
+                     	   预览图：
                     </label>
                 </td>
                 <td class="value" >
@@ -104,7 +109,7 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label">
-                        上传风格模板:
+                     	   上传风格模板:
                     </label>
                 </td>
                 <td class="value" >
@@ -119,20 +124,19 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label">
-                        风格描述:
+                        	风格描述:
                     </label>
                 </td>
                 <td class="value">
-                    <textarea style="width:400px;" class="inputxt" rows="6" id="templateComment"
-                              name="templateComment"></textarea>
+                    <textarea style="width:400px;" class="inputxt" rows="6" id="templateComment" name="templateComment"></textarea>
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">风格描述</label>
                 </td>
             </tr>
-            <tr>
+           <!--  <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
-                        自定义OL模板 - 列表页面:
+                        	自定义OL模板 - 列表页面:
                     </label>
                 </td>
                 <td class="value">
@@ -146,7 +150,7 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
-                       自定义OL模板 -  录入页面:
+                       	自定义OL模板 -  录入页面:
                     </label>
                 </td>
                 <td class="value">
@@ -160,7 +164,7 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
-                        自定义OL模板 - 编辑页面:
+                       	 自定义OL模板 - 编辑页面:
                     </label>
                 </td>
                 <td class="value">
@@ -174,7 +178,7 @@
             <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
-                        自定义OL模板 - 查看页面:
+                        	自定义OL模板 - 查看页面:
                     </label>
                 </td>
                 <td class="value">
@@ -184,7 +188,7 @@
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">自定义OL模板 - 查看页面</label>
                 </td>
-            </tr>
+            </tr> -->
         </table>
     </div>
 </t:formvalid>
@@ -205,7 +209,9 @@
             fileSizeLimit:'15MB',
             swf:'plug-in/uploadify/uploadify.swf',
             uploader:'cgformTemplateController.do?uploadPic&sessionId=${pageContext.session.id}',
-            auto:false,
+
+            auto:true,
+
             onUploadSuccess : function(file, data, response) {
                 if(data){
                     var d=$.parseJSON(data);
@@ -224,7 +230,8 @@
             height:25,
             overrideEvents:['onDialogClose'],
             fileTypeDesc:'文件格式:',
-            fileTypeExts:'*.zip',
+            //author:scott -- date:20170317 -- for:配置rar或者zip的时候,点击上传按钮之后要过10多秒才弹出文件选择框，采用方案不做上传类型限制--
+            //fileTypeExts:'*.zip',
             fileSizeLimit:'15MB',
             swf:'plug-in/uploadify/uploadify.swf',
             uploader:'cgformTemplateController.do?uploadZip&sessionId=${pageContext.session.id}',
@@ -276,7 +283,7 @@
     }
     //上传zip
     function uploadZip(){
-        if($("#formobj").Validform().check()&&checkCode()) {
+        if($("#formobj").Validform({tiptype:3}).check() && checkCode()) {
             $('#templateZip').uploadify("upload","*");
         }
     }

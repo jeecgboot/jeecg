@@ -363,34 +363,29 @@ extend(Chart.prototype, {
 		}
 
 		chart.isPrinting = true;
-
-		// hide all body content
-		each(childNodes, function (node, i) {
+		
+		// 在页面不需要打印的元素class属性中添加no-print
+		var noPrintNodes = doc.getElementsByClassName('no-print');
+		
+		// hide no print DOM
+		each(noPrintNodes, function (node, i) {
 			if (node.nodeType === 1) {
 				origDisplay[i] = node.style.display;
 				node.style.display = NONE;
 			}
 		});
 
-		// pull out the chart
-		body.appendChild(container);
-
 		// print
 		win.print();
 
 		// allow the browser to prepare before reverting
 		setTimeout(function () {
-
-			// put the chart back in
-			origParent.appendChild(container);
-
-			// restore all body content
-			each(childNodes, function (node, i) {
+			// back display
+			each(noPrintNodes, function (node, i) {
 				if (node.nodeType === 1) {
 					node.style.display = origDisplay[i];
 				}
 			});
-
 			chart.isPrinting = false;
 
 		}, 1000);

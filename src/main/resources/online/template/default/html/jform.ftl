@@ -2,12 +2,35 @@
 <!DOCTYPE html>
 <html>
  <head>
+ <base href="${basePath}/"/>
   <title></title>
+  <style type="text/css">
+   	.Button{ 
+		display: inline-block;
+		outline: none;
+		cursor: pointer;
+		text-align: center;
+		text-decoration: none;
+		font: 14px/100% Arial, Helvetica, sans-serif;
+		padding: .5em 2em .55em;
+		-webkit-border-radius: .5em; 
+		-moz-border-radius: .5em;
+		border-radius: .5em;
+		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		color: #fef4e9;
+		border: solid 1px #1D73F7;
+		background: #1D73F7;
+		background: -webkit-gradient(linear, left top, left bottom, from(#1D73F7), to(#1D51F7));
+	}
+
+  </style>
   ${config_iframe}
  </head>
  <body>
   <#--update-start--Author:luobaoli  Date:20150614 for：表单单表属性中增加了扩展参数 ${po.extend_json?if_exists}-->
-  <form id="formobj" action="cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
+  <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
 			<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
 			<input type="hidden" name="id" value="${id?if_exists?html}" >
@@ -29,25 +52,30 @@
 						</label>
 					</td>
 					<td class="value">
+						<#--update-begin--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
+
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+					                <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.type == 'int'>
-					               datatype="n"  <#if po.is_null == 'Y'>ignore="ignore" </#if>
+					               datatype="n"  
 					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" <#if po.is_null == 'Y'>ignore="ignore" </#if>
+					               datatype="/^(-?\d+)(\.\d+)?$/" 
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if>
 					               </#if>
 					               </#if> 
 				               data-options="
 				                    panelHeight:'220',
-				                    url: 'cgAutoListController.do?datagrid&configId=${tableName?if_exists?html}&field=id,${head.treeFieldname}',  
+				                    url: '${basePath}/cgAutoListController.do?datagrid&configId=${tableName?if_exists?html}&field=id,${head.treeFieldname}',  
 				                    loadFilter: function(data) {
 				                    	var rows = data.rows || data;
 				                    	var win = frameElement.api.opener;
@@ -72,10 +100,14 @@
 				                    	}
 				                    }
 				            ">
+				        <#--update-end--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#elseif po.show_type=='text'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+					             <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input?if_exists?html != ''><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
@@ -90,6 +122,9 @@
 						<#elseif po.show_type=='password'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="password"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input?if_exists?html != ''><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -101,6 +136,9 @@
 					        <@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
 								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="radio"
+					            <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 								<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true" </#if>>
@@ -114,6 +152,9 @@
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
 								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="checkbox"
+								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 								<#list checkboxlist as x >
@@ -124,7 +165,11 @@
 					               
 						<#elseif po.show_type=='list'>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
-								<select id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if><#if po.is_null != 'Y'>datatype="*"</#if> >
+								<select id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if>
+								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+								<#if po.is_null != 'Y'>datatype="*"</#if> >
 									<#list dataList as dictdata> 
 									<option value="${dictdata.typecode?if_exists?html}" 
 									<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> selected="selected" </#if>>
@@ -137,7 +182,10 @@
 						<#elseif po.show_type=='date'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px"  value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
-							       class="Wdate" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
+							       <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+							        class="Wdate" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 					              <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -148,7 +196,10 @@
 						<#elseif po.show_type=='datetime'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px"  value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
-							       class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
+							    <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+							          class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
 						         <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -163,6 +214,9 @@
 							       <#-- onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');"-->
 							       onClick="popupClick(this,'${po.dict_text?if_exists?html}','${po.dict_field?if_exists?html}','${po.dict_table?if_exists?html}');"
 							       value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
+							       <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -177,9 +231,9 @@
 										<#if imageB['field'] == po.field_name>
 										<tr style="height:34px;">
 										<td>${imageB['title']}</td>
-										<td><a href="commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
+										<td><a href="${basePath}/commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>
@@ -198,9 +252,9 @@
 										overrideEvents:['onDialogClose'],
 										fileTypeDesc:'文件格式:',
 										queueID:'filediv_${po.field_name}',
-										fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
-										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
-										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
+										<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
+										fileSizeLimit:'15MB',swf:'${basePath}/plug-in/uploadify/uploadify.swf',	
+										uploader:'${basePath}/cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
 										onUploadStart : function(file) { 
 											var cgFormId=$("input[name='id']").val();
 											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
@@ -223,9 +277,9 @@
 										<#if fileB['field'] == po.field_name>
 										<tr style="height:34px;">
 										<td>${fileB['title']}</td>
-										<td><a href="commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
+										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>
@@ -245,8 +299,8 @@
 										fileTypeDesc:'图片格式:',
 										queueID:'imagediv_${po.field_name}',
 										fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;*.bmp',
-										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
-										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
+										fileSizeLimit:'15MB',swf:'${basePath}/plug-in/uploadify/uploadify.swf',	
+										uploader:'${basePath}/cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
 										onUploadStart : function(file) { 
 											var cgFormId=$("input[name='id']").val();
 											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
@@ -267,13 +321,8 @@
 							<#--update-start--Author: jg_huangxg  Date:20160505 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 							<#elseif po.show_type=='umeditor'>
 								<script id="content" type="text/plain" style="width:99%;"></script>
-								
-								<script>UEDITOR_HOME_URL='<%=path%>/plug-in/Formdesign/js/ueditor/';</script>
-								<script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/ueditor.config.js?2023"></script>
-								<script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/ueditor.all.js?2023"> </script>
-								<script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/lang/zh-cn/zh-cn.js?2023"></script>
-								<script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/formdesign/leipi.formdesign.v4.js?2023"></script>
-								<!-- <script type="text/javascript" charset="utf-8" src="plug-in/Formdesign/js/ueditor/formdesign/weixinplugs.js"></script>  -->
+								<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.config.js"></script>
+								<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.all.min.js"></script>
 								<script type="text/javascript">
 								var leipiEditor = UE.getEditor('content',{
 								    //allowDivTransToP: false,//阻止转换div 为p
@@ -494,6 +543,8 @@
 								
 									        if(formEditor.hasContents()){
 									            formEditor.sync();/*同步内容*/
+								
+									            //--------------以下仅参考-----------------------------------------------------------------------------------------------------
 									            var type_value='',formid=0,fields=$("#fields").val(),formeditor='';
 								
 									            if( typeof type!=='undefined' ){
@@ -540,7 +591,7 @@
 									            document.formobj.target="mywin";
 									            window.open('','mywin',"menubar=0,toolbar=0,status=0,resizable=1,left=0,top=0,scrollbars=1,width=" +(screen.availWidth-10) + ",height=" + (screen.availHeight-50) + "\"");
 								
-									            document.formobj.action="autoFormController.do?review";
+									            document.formobj.action="${basePath}/autoFormController.do?review";
 									            document.formobj.submit(); //提交表单
 									           
 									        } else {
@@ -563,7 +614,10 @@
 						<#else>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-					               <#if po.field_valid_type?if_exists?html != ''>
+					             <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+					                 <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.type == 'int'>
@@ -605,9 +659,11 @@
 						</label>
 					</td>
 					<td class="value" colspan="3">
-						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
-						       style="width: 600px" class="inputxt" rows="6"
-						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
+						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" style="width: 600px" rows="6"
+							<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+							<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+							<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+							<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
 				               <#else>
@@ -618,7 +674,7 @@
 						<#if po.show_type=='umeditor'>
 						<script type="text/javascript">
 					    //实例化编辑器
-					    var ${po.field_name}_um = UM.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
+					    var ${po.field_name}_ue = UE.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
 					    </script>
 					    </#if>
 					</td>
@@ -631,8 +687,10 @@
 						</label>
 					</td>
 					<td class="value">
-						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
-						        class="inputxt" rows="7"
+						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  rows="7"
+						<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+						<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+						<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
@@ -644,7 +702,7 @@
 						<#if po.show_type=='umeditor'>
 						<script type="text/javascript">
 					    //实例化编辑器
-					    var ${po.field_name}_um = UM.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
+					    var ${po.field_name}_ue = UE.getEditor('${po.field_name}',{initialFrameWidth:${po.field_length}}).setHeight(260);
 					    </script>
 					    </#if>
 					</td>
@@ -653,25 +711,27 @@
 			  </#list>
 			  <tr id = "sub_tr" style="display: none;">
 				  <td colspan="2" align="center">
-				  <input type="button" value="提交" onclick="neibuClick();" class="ui_state_highlight">
+				  <input type="button" value="提交" onclick="neibuClick();" class="Button">
 				  </td>
 			  </tr>
 			</table>
-			<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script>
+			<#--update--begin--author:scott Date:20170304 for:替换layer风格提示框-->
+			<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:function(msg,o,cssctl){if(o.type == 3){layer.open({title:'提示信息',content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,cancel:function(index){o.obj.focus();layer.close(index);},yes:function(index){o.obj.focus();layer.close(index);},})}},btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script>
+			<#--update--end--author:scott Date:20170304 for:替换layer风格提示框-->
 	</form>
 	<#--update-end--Author:luobaoli  Date:20150614 for：表单单表属性中增加了扩展参数 ${po.extend_json?if_exists}-->
 <script type="text/javascript">
    $(function(){
     //查看模式情况下,删除和上传附件功能禁止使用
-	if(location.href.indexOf("load=detail")!=-1){
+	if(location.href.indexOf("goDetail.do")!=-1){
 		$(".jeecgDetail").hide();
 	}
 	
-	if(location.href.indexOf("mode=read")!=-1){
+	if(location.href.indexOf("goDetail.do")!=-1){
 		//查看模式控件禁用
 		$("#formobj").find(":input").attr("disabled","disabled");
 	}
-	if(location.href.indexOf("mode=onbutton")!=-1){
+	if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
 		//其他模式显示提交按钮
 		$("#sub_tr").show();
 	}
@@ -703,9 +763,11 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
+  			<#--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
+  			<#--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();

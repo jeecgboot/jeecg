@@ -9,12 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OrderBy;
+import org.jeecgframework.codegenerate.database.JeecgReadTable;
 
 /**   
  * @Title: Entity
@@ -441,6 +444,14 @@ public class CgFormHeadEntity implements java.io.Serializable {
 	public java.lang.String getTreeParentIdFieldName() {
 		return treeParentIdFieldName;
 	}
+	
+	@Transient
+	public java.lang.String getTreeParentIdFieldNamePage() {
+		if(StringUtils.isNotEmpty(treeParentIdFieldName)){
+			return JeecgReadTable.formatField(treeParentIdFieldName);
+		}
+		return "";
+	}
 
 	public void setTreeParentIdFieldName(java.lang.String treeParentIdFieldName) {
 		this.treeParentIdFieldName = treeParentIdFieldName;
@@ -458,6 +469,14 @@ public class CgFormHeadEntity implements java.io.Serializable {
 	@Column(name ="tree_fieldname",nullable=true,length=50)
 	public java.lang.String getTreeFieldname() {
 		return treeFieldname;
+	}
+	
+	@Transient
+	public java.lang.String getTreeFieldnamePage() {
+		if(StringUtils.isNotEmpty(treeFieldname)){
+			return JeecgReadTable.formatField(treeFieldname);
+		}
+		return "";
 	}
 
 	public void setTreeFieldname(java.lang.String treeFieldname) {

@@ -22,13 +22,13 @@ import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.ListtoMenu;
+import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.NumberComparator;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.TSConfig;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSRole;
@@ -134,6 +134,7 @@ public class LoginController extends BaseController{
 			} else {
 
 				j.setMsg(mutiLangService.getLang("common.lock.user"));
+
 				j.setSuccess(false);
 			}
 		}
@@ -174,6 +175,7 @@ public class LoginController extends BaseController{
         user.setCurrentDepart(currentDepart);
 
         HttpSession session = ContextHolderUtils.getSession();
+
         session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
         message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
 
@@ -193,11 +195,13 @@ public class LoginController extends BaseController{
 			session.setAttribute("randCode",req.getParameter("randCode"));//保存验证码
 			checkuser(user,req);
 		}
+
         
         
         // 添加登陆日志
         systemService.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
     }
+
 
     /**
 	 * 用户登录
@@ -223,7 +227,7 @@ public class LoginController extends BaseController{
             modelMap.put("userName", user.getUserName().length()>5?user.getUserName().substring(0, 5)+"...":user.getUserName());
 
             modelMap.put("currentOrgName", ClientManager.getInstance().getClient().getUser().getCurrentDepart().getDepartname());
-            request.getSession().setAttribute("CKFinder_UserRole", "admin");
+
 			
 			SysThemesEnum sysTheme = SysThemesUtil.getSysTheme(request);
 			if("ace".equals(sysTheme.getStyle())||"diy".equals(sysTheme.getStyle())||"acele".equals(sysTheme.getStyle())||"hplus".equals(sysTheme.getStyle())){
@@ -238,6 +242,7 @@ public class LoginController extends BaseController{
 			Cookie zIndexCookie = new Cookie("ZINDEXNUMBER", "1990");
 			zIndexCookie.setMaxAge(3600*24);//一天
 			response.addCookie(zIndexCookie);
+
 			return sysTheme.getIndexPath();
 		} else {
 			return "login/login";
@@ -255,12 +260,16 @@ public class LoginController extends BaseController{
 	public ModelAndView logout(HttpServletRequest request) {
 		HttpSession session = ContextHolderUtils.getSession();
 		TSUser user = ResourceUtil.getSessionUserName();
-		systemService.addLog("用户" + user.getUserName() + "已退出",
-				Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
+
+		try {
+			systemService.addLog("用户" + user!=null?user.getUserName():"" + "已退出",Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
+		} catch (Exception e) {
+			LogUtil.error(e.toString());
+		}
+
 		ClientManager.getInstance().removeClinet(session.getId());
 		session.invalidate();
-		ModelAndView modelAndView = new ModelAndView(new RedirectView(
-				"loginController.do?login"));
+		ModelAndView modelAndView = new ModelAndView(new RedirectView("loginController.do?login"));
 		return modelAndView;
 	}
 
@@ -279,10 +288,6 @@ public class LoginController extends BaseController{
 			session.removeAttribute(Globals.USER_SESSION);
             modelAndView.setView(new RedirectView("loginController.do?login"));
 		}else{
-            List<TSConfig> configs = userService.loadAll(TSConfig.class);
-            for (TSConfig tsConfig : configs) {
-                request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
-            }
             modelAndView.setViewName("main/left");
             request.setAttribute("menuMap", getFunctionMap(user));
         }
@@ -321,8 +326,10 @@ public class LoginController extends BaseController{
 				}
 			}
 			client.setFunctionMap(functionMap);
+
 			//清空变量，降低内存使用
 			loginActionlist.clear();
+
 			return functionMap;
 		}else{
 			return client.getFunctionMap();
@@ -340,7 +347,9 @@ public class LoginController extends BaseController{
 		Client client = ClientManager.getInstance().getClient(session.getId());
 
 		if (client.getFunctions() == null || client.getFunctions().size() == 0) {
+
 			Map<String, TSFunction> loginActionlist = new HashMap<String, TSFunction>();
+
 			 /*String hql="from TSFunction t where t.id in  (select d.TSFunction.id from TSRoleFunction d where d.TSRole.id in(select t.TSRole.id from TSRoleUser t where t.TSUser.id ='"+
 	           user.getId()+"' ))";
 	           String hql2="from TSFunction t where t.id in  ( select b.tsRole.id from TSRoleOrg b where b.tsDepart.id in(select a.tsDepart.id from TSUserOrg a where a.tsUser.id='"+
@@ -355,6 +364,7 @@ public class LoginController extends BaseController{
 	           for(TSFunction function:list2){
 	              loginActionlist.put(function.getId(),function);
 	           }*/
+
 	           StringBuilder hqlsb1=new StringBuilder("select distinct f from TSFunction f,TSRoleFunction rf,TSRoleUser ru  ").append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? ");
 
 	           StringBuilder hqlsb2=new StringBuilder("select distinct c from TSFunction c,TSRoleFunction rf,TSRoleOrg b,TSUserOrg a ")
@@ -368,9 +378,11 @@ public class LoginController extends BaseController{
 		              loginActionlist.put(function.getId(),function);
 		       }
             client.setFunctions(loginActionlist);
+
             //清空变量，降低内存使用
             list2.clear();
             list1.clear();
+
 		}
 		return client.getFunctions();
 	}
@@ -393,6 +405,7 @@ public class LoginController extends BaseController{
         }
     }
 
+
     /**
 	 * 首页跳转
 	 * 
@@ -408,6 +421,7 @@ public class LoginController extends BaseController{
 		} else {//default及shortcut不需要引入依赖文件，所有需要屏蔽
 			request.setAttribute("show", "0");
 		}
+
 		return new ModelAndView("main/home");
 	}
 	
@@ -426,6 +440,7 @@ public class LoginController extends BaseController{
 		} else {//default及shortcut不需要引入依赖文件，所有需要屏蔽
 			request.setAttribute("show", "0");
 		}
+
 		return new ModelAndView("main/acehome");
 	}
 	/**
@@ -443,6 +458,7 @@ public class LoginController extends BaseController{
 		} else {//default及shortcut不需要引入依赖文件，所有需要屏蔽
 			request.setAttribute("show", "0");
 		}*/
+
 		return new ModelAndView("main/hplushome");
 	}
 	/**
@@ -472,10 +488,6 @@ public class LoginController extends BaseController{
 					new RedirectView("loginController.do?login"));
 		}
 		request.setAttribute("menuMap", getFunctionMap(user));
-		List<TSConfig> configs = userService.loadAll(TSConfig.class);
-		for (TSConfig tsConfig : configs) {
-			request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
-		}
 		return new ModelAndView("main/bootstrap_top");
 	}
 	/**
@@ -497,10 +509,6 @@ public class LoginController extends BaseController{
 					new RedirectView("loginController.do?login"));
 		}
 		request.setAttribute("menuMap", getFunctionMap(user));
-		List<TSConfig> configs = userService.loadAll(TSConfig.class);
-		for (TSConfig tsConfig : configs) {
-			request.setAttribute(tsConfig.getCode(), tsConfig.getContents());
-		}
 		return new ModelAndView("main/shortcut_top");
 	}
 	
@@ -520,6 +528,7 @@ public class LoginController extends BaseController{
         if (primaryMenu == null) {
             return floor;
         }
+
         for (TSFunction function : primaryMenu) {
             if(function.getFunctionLevel() == 0) {
             	String lang_key = function.getFunctionName();
@@ -589,8 +598,10 @@ public class LoginController extends BaseController{
                             + " <img class='imag2' src='plug-in/login/images/default_up.png' style='display: none;' />"
                             +"</li> ";
                 }
+
             }
         }
+
 		return floor;
 	}
 

@@ -24,8 +24,10 @@ import org.jeecgframework.core.common.entity.IdEntity;
 public class TSTypegroup extends IdEntity implements java.io.Serializable {
 	private String typegroupname;
 	private String typegroupcode;
+
 	private Date createDate;//创建时间
 	private String createName;//创建用户
+
 	private List<TSType> TSTypes = new ArrayList<TSType>();
 	@Column(name = "typegroupname", length = 50)
 	public String getTypegroupname() {
@@ -44,6 +46,7 @@ public class TSTypegroup extends IdEntity implements java.io.Serializable {
 	public void setTypegroupcode(String typegroupcode) {
 		this.typegroupcode = typegroupcode;
 	}
+
 	@Column(name="create_date")
 	public Date getCreateDate() {
 		return createDate;
@@ -61,6 +64,7 @@ public class TSTypegroup extends IdEntity implements java.io.Serializable {
 	public void setCreateName(String createName) {
 		this.createName = createName;
 	}
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSTypegroup")
 	public List<TSType> getTSTypes() {
 		return this.TSTypes;

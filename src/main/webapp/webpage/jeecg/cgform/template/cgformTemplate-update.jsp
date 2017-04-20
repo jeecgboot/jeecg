@@ -5,26 +5,13 @@
  <head>
   <title>Online表单风格</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-  <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
-  <script type="text/javascript">
-  //编写自定义JS代码
-  </script>
  </head>
  <body>
-  <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="cgformTemplateController.do?doUpdate" tiptype="1">
-				<input id="id" name="id" type="hidden" value="${cgformTemplatePage.id }">
-				<input id="createName" name="createName" type="hidden" value="${cgformTemplatePage.createName }">
-				<input id="createBy" name="createBy" type="hidden" value="${cgformTemplatePage.createBy }">
-				<input id="createDate" name="createDate" type="hidden" value="${cgformTemplatePage.createDate }">
-				<input id="updateName" name="updateName" type="hidden" value="${cgformTemplatePage.updateName }">
-				<input id="updateBy" name="updateBy" type="hidden" value="${cgformTemplatePage.updateBy }">
-				<input id="updateDate" name="updateDate" type="hidden" value="${cgformTemplatePage.updateDate }">
-				<input id="sysOrgCode" name="sysOrgCode" type="hidden" value="${cgformTemplatePage.sysOrgCode }">
-				<input id="sysCompanyCode" name="sysCompanyCode" type="hidden" value="${cgformTemplatePage.sysCompanyCode }">
+  <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="cgformTemplateController.do?doUpdate">
+	  <input id="id" name="id" type="hidden" value="${cgformTemplatePage.id }">
 	  <div style="float: left;height: 99%;width: 30%;margin-top: 20px">
 		  <img id="prePic" src="" alt="预览图" width="99%" height="200px" />
-		  <a class="easyui-linkbutton" href="javascript:void(0)" onclick="uploadPic()">上传</a>
-
+<!-- 		  <a class="easyui-linkbutton" href="javascript:void(0)" onclick="uploadPic()">上传</a> -->
 	  </div>
 	  <div style="float: right;height: 99%;width:70%">
 		  <table style="width: 100%;height: 100%" cellpadding="0" cellspacing="1" class="formtable">
@@ -36,8 +23,7 @@
 					  </label>
 				  </td>
 				  <td class="value">
-					  <input disabled id="templateCode" name="templateCode" type="text" style="width: 300px" class="inputxt"
-							 datatype="/\w{1,20}/i" errormsg="编码只能为字母！" value='${cgformTemplatePage.templateCode}'>
+					  <input disabled id="templateCode" name="templateCode" type="text" style="width: 300px" class="inputxt" datatype="/\w{1,20}/i" errormsg="编码只能为字母！" value='${cgformTemplatePage.templateCode}'>
 					  <span class="Validform_checktip"></span>
 					  <label class="Validform_label" style="display: none;">表单风格编码</label>
 				  </td>
@@ -49,9 +35,7 @@
 					  </label>
 				  </td>
 				  <td class="value">
-					  <input id="templateName" name="templateName" type="text" style="width: 300px" class="inputxt"
-							 datatype="*" value='${cgformTemplatePage.templateName}'
-							  >
+					  <input id="templateName" name="templateName" type="text" style="width: 300px" class="inputxt" datatype="*" value='${cgformTemplatePage.templateName}' />
 					  <span class="Validform_checktip"></span>
 					  <label class="Validform_label" style="display: none;">表单风格名称</label>
 				  </td>
@@ -63,14 +47,34 @@
 					  </label>
 				  </td>
 				  <td class="value"  >
-					  <select id="templateType" name="templateType"  onclick="changeTemplate(this)">
+					  <select id="templateType" name="templateType" >
 						  <option value="1" <c:if test="${cgformTemplatePage.templateType eq '1'}"> selected='selected'</c:if>>单表</option>
 						  <option value="2" <c:if test="${cgformTemplatePage.templateType eq '2'}"> selected="selected"</c:if>>主子表</option>
+						  <option value="3" <c:if test="${cgformTemplatePage.templateType eq '3'}"> selected="selected"</c:if>>通用模板</option>
 					  </select>
 					  <span class="Validform_checktip"></span>
 					  <label class="Validform_label" style="display: none;">类型</label>
 				  </td>
 			  </tr>
+			  <tr>
+                <td align="right">
+                    <label class="Validform_label" style="width: 100px">
+                        	是否激活:
+                    </label>
+                </td>
+                <td class="value">
+               		<c:if test="${cgformTemplatePage.status == 0}">
+	                    <input type="radio" name="status" value="0" checked="checked">无效
+	                    <input type="radio" name="status" value="1" >有效
+               		</c:if>
+               		<c:if test="${cgformTemplatePage.status == 1}">
+	                    <input type="radio" name="status" value="0" >无效
+	                    <input type="radio" name="status" value="1" checked="checked">有效
+               		</c:if>
+                    <span class="Validform_checktip"></span>
+                    <label class="Validform_label" style="display: none;">是否激活</label>
+                </td>
+            </tr>
 			 <%-- <tr>
 				  <td align="right"  style="display: none">
 					  <label class="Validform_label">
@@ -142,7 +146,7 @@
 					  <label class="Validform_label" style="display: none;">表单风格描述</label>
 				  </td>
 			  </tr>
-			  <tr>
+			  <%-- <tr>
 				  <td align="right">
 					  <label class="Validform_label" style="width: 100px">
 						  自定义OL模板 - 列表页面:
@@ -196,7 +200,7 @@
 					  <span class="Validform_checktip"></span>
 					  <label class="Validform_label" style="display: none;">自定义OL模板 - 查看页面</label>
 				  </td>
-			  </tr>
+			  </tr> --%>
 		  </table>
 	  </div>
 
@@ -216,7 +220,9 @@
 			 fileSizeLimit:'15MB',
 			 swf:'plug-in/uploadify/uploadify.swf',
 			 uploader:'cgformTemplateController.do?uploadPic&sessionId=${pageContext.session.id}',
-			 auto:false,
+			 // update--begin---author:zhangjiaqiang date:20170301 for:TASK #1707 【功能改进】目前的操作模式是右侧选择图片上传 -->
+			auto:true,
+			// update--begin---author:zhangjiaqiang date:20170301 for:TASK #1707 【功能改进】目前的操作模式是右侧选择图片上传 -->
 			 onUploadSuccess : function(file, data, response) {
 				 if(data){
 					 var d=$.parseJSON(data);
@@ -235,7 +241,8 @@
 			 height:25,
 			 overrideEvents:['onDialogClose'],
 			 fileTypeDesc:'文件格式:',
-			 fileTypeExts:'*.zip',
+			//author:scott -- date:20170317 -- for:配置rar或者zip的时候,点击上传按钮之后要过10多秒才弹出文件选择框，采用方案不做上传类型限制--
+			 //fileTypeExts:'*.zip',
 			 fileSizeLimit:'15MB',
 			 swf:'plug-in/uploadify/uploadify.swf',
 			 uploader:'cgformTemplateController.do?uploadZip&sessionId=${pageContext.session.id}',
@@ -280,7 +287,8 @@
 	 }
 	 function uploadZip(){
 		 var tCode=$("#templateCode").val();
-		 if("default"==tCode){
+		 var id = $("#id").val();
+		 if("default"==tCode && id==null){
 			 $.messager.alert('错误', "编码不能default,请重新输入！");
 			 return false;
 		 }

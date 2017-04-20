@@ -40,7 +40,7 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.show.icon.style"/>: </label></td>
 			<td class="value"><input class="inputxt" id="buttonIcon" name="buttonIcon" datatype="*"
-				value="<c:if test="${cgformButtonPage.buttonIcon!=null&&cgformButtonPage.buttonIcon!=''}">${cgformButtonPage.buttonIcon}</c:if><c:if test="${cgformButtonPage.buttonIcon==null||cgformButtonPage.buttonIcon==''}">pictures</c:if>">
+				value="<c:if test="${cgformButtonPage.buttonIcon!=null&&cgformButtonPage.buttonIcon!=''}">${cgformButtonPage.buttonIcon}</c:if><c:if test="${cgformButtonPage.buttonIcon==null||cgformButtonPage.buttonIcon==''}">icon-edit</c:if>">
 			<span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>

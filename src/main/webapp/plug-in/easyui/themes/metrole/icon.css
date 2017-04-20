@@ -81,4 +81,12 @@
 .icon-le-back{
 	background:url('icons/le-back.png') no-repeat center center;
 }
+/*update-begin--author:zhangjiaqiang date:20170301 for:修订列表图标 */
+.icon-user-set-o{
+	background:url('icons/user-set-o.png') no-repeat center center;
+}
 
+.icon-user-set{
+	background:url('icons/user-set.png') no-repeat center center;
+}
+/*update-end--author:zhangjiaqiang date:20170301 for:修订列表图标 */

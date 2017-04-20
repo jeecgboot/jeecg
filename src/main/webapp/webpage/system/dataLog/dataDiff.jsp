@@ -5,10 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=edge">
 <head>
 	<t:base type="jquery,easyui"></t:base>
-	<link rel="stylesheet" type="text/css" href="plug-in/diff/css/codemirror.css">
-	<link rel="stylesheet" type="text/css" href="plug-in/diff/css/mergely.css">
-    <script type="text/javascript" src="plug-in/diff/js/codemirror.js"></script>
-    <script type="text/javascript" src="plug-in/diff/js/mergely.min.js"></script>
     <script>
     	var select1 = 0;
     	var select2 = 0;
@@ -204,7 +200,7 @@
 		</tr>
 		<tr height="40">
 			<td class="upload" colspan="4">
-				<a href="#" class="easyui-linkbutton" id="btn" iconCls="icon-search" style="float: right; margin-right: 10px;">比较 </a>
+				<a href="#" class="easyui-linkbutton" id="btn" iconCls="icon-search" style="float: right; margin-right: 10px;"> 数据比较 &nbsp;&nbsp; </a>
 			</td>
 		</tr>
 	</table>

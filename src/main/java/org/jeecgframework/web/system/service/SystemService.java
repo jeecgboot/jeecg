@@ -73,6 +73,13 @@ public interface SystemService extends CommonService{
 	 */
 	public  Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId,String functionId);
 	/**
+	 * 获取页面控件权限控制的
+	 * JS片段
+	 * @param out
+	 */
+	public String getAuthFilterJS();
+	
+	/**
 	 * 根据编码获取字典组
 	 *
 	 * @param typegroupCode
@@ -149,5 +156,7 @@ public interface SystemService extends CommonService{
 	 * @param dataId		数据ID
 	 * @param dataContent	内容(JSON格式)
 	 */
+
 	public void addDataLog(String tableName, String dataId, String dataContent);
+
 }

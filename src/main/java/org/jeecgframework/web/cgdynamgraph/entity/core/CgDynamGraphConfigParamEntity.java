@@ -11,7 +11,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
  * @Title: Entity
- * @Description: 动态报表参数
+ * @Description: 移动报表配置参数
  * @author onlineGenerator
  * @date 2015-12-01 11:22:58
  * @version V1.0   

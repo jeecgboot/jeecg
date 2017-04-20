@@ -285,7 +285,9 @@ public class JformGraphreportHeadController extends BaseController {
 			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
+
 				List<JformGraphreportHeadPage> listCourses =  ExcelImportUtil.importExcel(file.getInputStream(), JformGraphreportHeadPage.class, params);
+
 				for(JformGraphreportHeadPage page:listCourses){
 					JformGraphreportHeadEntity headEntity=page.getJformGraphreportHeadEntity();
 					List<JformGraphreportItemEntity> itemEntities=page.getJformGraphreportItemList();

@@ -63,6 +63,7 @@ public class NoticeServiceImpl extends CommonServiceImpl implements NoticeServic
 	}
 	
 	public <T> void delete(T entity) {
+
 		TSNotice notice = (TSNotice)entity;
 		super.deleteAllEntitie(super.findByProperty(TSNoticeReadUser.class, "noticeId", notice.getId()));
 		super.deleteAllEntitie(super.findByProperty(TSNoticeAuthorityUser.class, "noticeId", notice.getId()));
@@ -70,6 +71,7 @@ public class NoticeServiceImpl extends CommonServiceImpl implements NoticeServic
 		super.delete(notice);
  		//执行删除操作配置的sql增强
 		this.doDelSql(notice);
+
  	}
  	
  	public <T> Serializable save(T entity) {

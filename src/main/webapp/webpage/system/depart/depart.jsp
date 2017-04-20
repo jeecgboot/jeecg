@@ -11,11 +11,14 @@
 			url : 'departController.do?setPFunction&selfId=${depart.id}',
             width: 155,
             onSelect : function(node) {
-//                alert(node.text);
-                changeOrgType();
+
+                changeOrgType(node.id);
+
             }
         });
-        if(!$('#cc').val()) { // 第一级，只显示公司选择项
+		
+		var parentId = $('#cc').val();
+        if(!parentId) { // 第一级，只显示公司选择项
             var orgTypeSelect = $("#orgType");
             var companyOrgType = '<option value="1" <c:if test="${orgType=='1'}">selected="selected"</c:if>><t:mutiLang langKey="common.company"/></option>';
             orgTypeSelect.empty();
@@ -23,6 +26,7 @@
         } else { // 非第一级，不显示公司选择项
             $("#orgType option:first").remove();
         }
+        
         if($("#id").val()) {
             $('#cc').combotree('disable');
         }
@@ -30,16 +34,22 @@
             $('#cc').combotree('setValue', '${pid}');
         }
 	});
-    function changeOrgType() { // 处理组织类型，不显示公司选择项
+
+    function changeOrgType(parentId) { // 处理组织类型，不显示公司选择项
         var orgTypeSelect = $("#orgType");
-        var optionNum = orgTypeSelect.get(0).options.length;
-        if(optionNum == 1) {
-            $("#orgType option:first").remove();
+        if(parentId!=null && parentId!='') {
             var bumen = '<option value="2" <c:if test="${orgType=='2'}">selected="selected"</c:if>><t:mutiLang langKey="common.department"/></option>';
             var gangwei = '<option value="3" <c:if test="${orgType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="common.position"/></option>';
+            orgTypeSelect.empty();
             orgTypeSelect.append(bumen).append(gangwei);
+        }else{
+        	var orgTypeSelect = $("#orgType");
+            var companyOrgType = '<option value="1" <c:if test="${orgType=='1'}">selected="selected"</c:if>><t:mutiLang langKey="common.company"/></option>';
+            orgTypeSelect.empty();
+            orgTypeSelect.append(companyOrgType);
         }
     }
+
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
@@ -81,11 +91,13 @@
             <input name="address" class="inputxt" value="${depart.address }">
             <span class="Validform_checktip"></span>
         </div>
-         <div class="form">
-            <label class="Validform_label"> 排序: </label>
-            <input name="departOrder" class="inputxt" value="${depart.departOrder }" datatype="n">
-            <span class="Validform_checktip">请输入排序号</span>
-        </div>
+        <!-- update--begin--author:zhangjiaqiang Date:20170223 for:TASk 1708-->
+<!--          <div class="form"> -->
+<!--             <label class="Validform_label"> 排序: </label> -->
+<%--             <input name="departOrder" class="inputxt" value="${depart.departOrder }" datatype="n"> --%>
+<!--             <span class="Validform_checktip">请输入排序号</span> -->
+<!--         </div> -->
+        <!-- update--end--author:zhangjiaqiang Date:20170112 for:TASK 1708-->
 	</fieldset>
 </t:formvalid>
 </body>

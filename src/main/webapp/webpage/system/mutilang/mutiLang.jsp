@@ -17,8 +17,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<input class="inputxt" id="langKey" name="langKey" 
-							   value="${mutiLangPage.langKey}" datatype="*">
+						<input class="inputxt" id="langKey" name="langKey" value="${mutiLangPage.langKey}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>
@@ -29,8 +28,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<input class="inputxt" id="langContext" name="langContext" 
-							   value="${mutiLangPage.langContext}" datatype="*">
+						<input class="inputxt" id="langContext" name="langContext" value="${mutiLangPage.langContext}" datatype="*">
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>

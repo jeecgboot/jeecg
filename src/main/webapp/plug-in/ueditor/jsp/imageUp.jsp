@@ -5,7 +5,7 @@
         <%@ page import="java.util.Iterator" %>
         <%@ page import="java.util.Arrays" %>
         <%@ page import="java.io.FileInputStream" %>
-        <%@ page import="org.jeecgframework.core.util.Uploader" %>
+        <%@ page import="org.jeecgframework.core.servlet.Uploader" %>
         <%@ page import="java.io.File" %>
         <%@ page import="java.util.Map" %>
 

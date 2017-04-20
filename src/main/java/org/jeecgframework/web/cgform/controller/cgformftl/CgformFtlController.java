@@ -311,9 +311,11 @@ public class CgformFtlController extends BaseController {
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script><script ");
 		sb.append("type=\"text/javascript\" src=\"plug-in/My97DatePicker/WdatePicker.js\"></script><script ");
-		sb.append("type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script><script ");
-		
-		sb.append(StringUtil.replace("type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script><script type=\"text/javascript\" ", 
+		sb.append("type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
+
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
+		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script><script type=\"text/javascript\" ", 
 				"{0}", lang));
 		
 		sb.append("src=\"plug-in/tools/easyuiextend.js\"></script><script type=\"text/javascript\" ");
@@ -335,6 +337,7 @@ public class CgformFtlController extends BaseController {
 		sb.append(" $.messager.alert('错误', emsg); $.Hidemsg();");
 		sb.append(" } catch(ex) { $.messager.alert('错误', data.responseText + '');}}return false;}");
 		sb.append("if (!neibuClickFlag) { var win = frameElement.api.opener;win.reloadTable(); }}});});</script><body>");
+
 		
 		sb.append("<div align=\"center\" id=\"sub_tr\" style=\"display: none;\"><input class=\"ui_state_highlight\" onclick=\"neibuClick()\" type=\"button\" value=\"提交\" /></div>");
 		sb.append("</body>");
@@ -626,6 +629,7 @@ public class CgformFtlController extends BaseController {
 //			System.out.println(json.getString("data"));
 //			// 判断有没有激活过的模板
 //			message = FormUtil.GetHtml(json.getString("parse"),json.getString("data"), action);
+
 			if(StringUtils.isNotBlank(parseForm)){
 				TemplateUtil tool = new TemplateUtil();
 				Map<String,Object> map = tool.processor(parseForm);
@@ -633,6 +637,7 @@ public class CgformFtlController extends BaseController {
 			} else {
 				j.setMsg("");
 			}
+
 			j.setSuccess(true);
 		} catch (Exception e) {
 			logger.info(e.getMessage());

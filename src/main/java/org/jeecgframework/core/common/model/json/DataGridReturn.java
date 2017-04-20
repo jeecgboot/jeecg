@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class DataGridReturn {
 
+	private Integer total;// 总记录数
+	private List rows;// 每行记录
+	private List footer;
+	
 	public DataGridReturn(Integer total, List rows) {
 		this.total = total;
 		this.rows = rows;
 	}
-
-	private Integer total;// 总记录数
-	private List rows;// 每行记录
-	private List footer;
 
 	public Integer getTotal() {
 		return total;

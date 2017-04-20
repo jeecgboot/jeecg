@@ -137,7 +137,11 @@ function getBetweenDay(startDate, endDate) {
  * 控制台打印信息（对IE做了兼容）
  */
 function log(msg) {
-	if(console) {
-		console.log(msg);
+	try {
+		if(console) {
+			console.log(msg);
+		}
+	} catch (e) {
+		// TODO: handle exception
 	}
 }

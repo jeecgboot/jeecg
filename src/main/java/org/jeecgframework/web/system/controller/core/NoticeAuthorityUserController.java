@@ -1,4 +1,7 @@
 package org.jeecgframework.web.system.controller.core;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +16,7 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSNoticeAuthorityUser;
+import org.jeecgframework.web.system.pojo.base.TSNoticeReadUser;
 import org.jeecgframework.web.system.service.NoticeAuthorityUserServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +97,25 @@ public class NoticeAuthorityUserController extends BaseController {
 		noticeAuthorityUser = systemService.getEntity(TSNoticeAuthorityUser.class, noticeAuthorityUser.getId());
 		message = "通知公告用户授权删除成功";
 		try{
+
+			if(noticeAuthorityUser != null){
+				//删除授权关系的时候，判断是否已被阅读，如果已被阅读过，通过标记逻辑删除，否则直接删除数据
+				String hql = "from TSNoticeReadUser where noticeId = '"+noticeAuthorityUser.getNoticeId()+"' "
+						+ " and userId = '"+noticeAuthorityUser.getUser().getId()+"'";
+				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+				if(noticeReadList != null && !noticeReadList.isEmpty()){
+					for (TSNoticeReadUser noticeReadUser : noticeReadList) {
+						if(noticeReadUser.getIsRead() == 1){
+							noticeReadUser.setDelFlag(1);
+							systemService.updateEntitie(noticeReadUser);
+						}else if(noticeReadUser.getIsRead() == 0){
+							systemService.delete(noticeReadUser);
+						}
+					}
+					noticeReadList.clear();
+				}
+			}
+
 			noticeAuthorityUserService.delete(noticeAuthorityUser);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
@@ -170,9 +193,31 @@ public class NoticeAuthorityUserController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		message = "通知公告用户授权保存成功";
 		try{
-			if(this.noticeAuthorityUserService.checkAuthorityUser(noticeAuthorityUser.getNoticeId(), noticeAuthorityUser.getUser().getId())){
+			String noticeId = noticeAuthorityUser.getNoticeId();
+			String userId = noticeAuthorityUser.getUser().getId();
+			if(this.noticeAuthorityUserService.checkAuthorityUser(noticeId, userId)){
 				message = "该用户已授权，请勿重复操作。";
 			}else{
+
+				String hql = "from TSNoticeReadUser where noticeId = '"+noticeId+"' and userId = '"+userId+"'";
+				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+				if(noticeReadList == null || noticeReadList.isEmpty()){
+					//未授权过的消息，添加授权记录
+					TSNoticeReadUser noticeRead = new TSNoticeReadUser();
+					noticeRead.setNoticeId(noticeId);
+					noticeRead.setUserId(userId);
+					noticeRead.setCreateTime(new Date());
+					systemService.save(noticeRead);
+				}else if(noticeReadList.size() > 0){
+					for (TSNoticeReadUser noticeRead : noticeReadList) {
+						if(noticeRead.getDelFlag() == 1){
+							noticeRead.setDelFlag(0);
+							systemService.updateEntitie(noticeRead);
+						}
+					}
+					noticeReadList.clear();
+				}
+
 				noticeAuthorityUserService.save(noticeAuthorityUser);
 				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			}

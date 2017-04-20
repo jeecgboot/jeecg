@@ -95,7 +95,7 @@
         <label class="Validform_label">
             <t:mutiLang langKey="menu.url"/>:
         </label>
-        <input name="functionUrl" class="inputxt" value="${function.functionUrl}">
+        <input name="functionUrl" class="inputxt" value="${function.functionUrl}" style="width:70%">
     </div>
     <div class="form" id="icon">
         <label class="Validform_label"> <t:mutiLang langKey="common.icon"/>: </label>
@@ -107,7 +107,6 @@
             </c:forEach>
         </select>
     </div>
-    <%--update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
     <div class="form" id="desktopIcon">
         <label class="Validform_label"> <t:mutiLang langKey="desktop.icon"/>: </label>
         <select name="TSIconDesk.id">
@@ -118,20 +117,15 @@
             </c:forEach>
         </select>
     </div>
-    <%--update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理--%>
 	<div class="form" id="funorder"><label class="Validform_label"> <t:mutiLang langKey="menu.order"/>: </label> <input name="functionOrder" class="inputxt" value="${function.functionOrder}" datatype="n1-3"></div>
-	   <%-- update-begin--Author:chenj  Date:20160722 for：添加菜单图标样式  --%>
 	<div class="form" id="funiconstyle">
         <label class="Validform_label">
             <t:mutiLang langKey="menu.funiconstyle"/>:
         </label>
         <input name="functionIconStyle" class="inputxt" value="${function.functionIconStyle}" />
-        <%-- update-start--Author:chenj  Date:20160729 for：增加图标样式预览页面 --%>
         <a href="<%=basePath%>/webpage/common/functionIconStyleList.jsp?style=ace"  target="_blank">[ace图标样式]</a>
         <a href="<%=basePath%>/webpage/common//functionIconStyleList.jsp?style=hplus" target="_blank">[hplus图标样式]</a>
-          <%-- update-end--Author:chenj  Date:20160729 for：增加图标样式预览页面 --%>
     </div>
-     <%-- update-end--Author:chenj  Date:20160722 for：添加菜单图标样式  --%>
 	</fieldset>
 </t:formvalid> 
 </body>

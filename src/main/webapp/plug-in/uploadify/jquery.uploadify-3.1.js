@@ -2185,6 +2185,7 @@ SWFUpload.Console.writeLine = function(d) {
 			for ( var n in this.queueData.files) {
 				queuedFile = this.queueData.files[n];
 				if (queuedFile.uploaded != true && queuedFile.name == file.name) {
+		/*update-begin--Author:gengjiajia  Date:20160720 for：[1200]多附件上传，当上传的文件为同一个文件时，页面会被卡住*/
 //					var replaceQueueItem = confirm('The file named "'
 //							+ file.name
 //							+ '" is already in the queue.\nDo you want to replace the existing item in the queue?');
@@ -2197,10 +2198,12 @@ SWFUpload.Console.writeLine = function(d) {
 						this.cancelUpload(queuedFile.id);
 						this.queueData.filesReplaced++;
 //					}
+		/*update-begin--Author:gengjiajia  Date:20160720 for：[1200]多附件上传，当上传的文件为同一个文件时，页面会被卡住*/
 				}
 			}
 
 			// Get the size of the file
+		/*update-begin--Author:gengjiajia  Date:20160720 for：[1200]当文件大小为 1kb 时候，录入界面显示为 0kb*/
 			var fileSize ;
 			if(file.size < 1024){
 				fileSize = Math.round(1024 / 1024);
@@ -2208,6 +2211,7 @@ SWFUpload.Console.writeLine = function(d) {
 				fileSize = Math.round(file.size / 1024);
 			}
 			//var fileSize = Math.round(file.size / 1024);
+		/*update-begin--Author:gengjiajia  Date:20160720 for：[1200]当文件大小为 1kb 时候，录入界面显示为 0kb*/
 			var suffix = 'KB';
 			if (fileSize > 1000) {
 				fileSize = Math.round(fileSize / 1000);

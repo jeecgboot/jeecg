@@ -114,7 +114,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.6.6</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;
@@ -237,6 +237,7 @@
                 callback : function() {
                   iframe = this.iframe.contentWindow;
                   var orgId = $('#orgId', iframe.document).val();
+
                   formData['orgId'] = orgId ? orgId : "";
                   $.ajax({
               		async : false,
@@ -250,6 +251,7 @@
               			window.location.href = actionurl;
               		}
                   });
+
                   this.close();
                   return false;
                 }
@@ -263,14 +265,18 @@
           }
        } else {
 			showErrorMsg(d.msg);
+
+		  	if(d.msg === "用户名或密码错误" || d.msg === "验证码错误")
+		  		reloadRandCodeImage();
+
         }
       }
     });
   }
   //登录提示消息显示
-  function showErrorMsg(msg){
+  function showErrorMsg(msg){	
     $("#errMsgContiner").show();
-    $("#showErrMsg").html(msg);
+    $("#showErrMsg").html(msg);    
     window.setTimeout(optErrMsg,3000); 
   }
   /**

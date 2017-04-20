@@ -8,11 +8,4 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
-	<!-- /JeecgWService -->
-	<!-- 请求地址：http://localhost:8080/jeecg/cxf/JeecgWService -->
-	<jaxws:endpoint id="jeecgWServiceI" implementor="org.jeecgframework.web.demo.ws.test.JeecgWServiceImpl" address="/JeecgWService" />
-	
-	<!-- /JeecgWDemoService -->
-	<!-- 请求地址：http://localhost:8080/jeecg/cxf/JeecgWDemoService -->
-	<jaxws:endpoint id="jeecgWDemoServiceI" implementor="org.jeecgframework.web.demo.ws.test.JeecgWDemoServiceImpl" address="/JeecgWDemoService" />
 </beans>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,autocomplete"></t:base>
+<!--add-start--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <script type="text/javascript">
 	$(function() {
 		$('#formtree').tree({
@@ -22,8 +23,11 @@
 		$("#tablePropertyList").datagrid('reload',{jformCategory:jformCategory});
 	}
 </script>
+<!--add-end--Author:luobaoli  Date:20150607 for：增加表单树型列表-->
 <div class="easyui-layout" fit="true">
+<!--update-start--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
 <div region="west" style="width: 150px;" title="表单分类" split="true" collapsed="true">
+<!--update-end--Author:luobaoli  Date:20150609 for：panel调整为默认关闭-->
 <div class="easyui-panel" style="padding:0px;border:0px" fit="true" border="false">
 <ul id="formtree">
 </ul>
@@ -34,9 +38,13 @@
             fitColumns="false" actionUrl="cgFormHeadController.do?datagrid" idField="id" fit="true" 
             queryMode="group" checkbox="true" >
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
+	<t:dgCol title="hasPeizhi" field="hasPeizhi" hidden="true"></t:dgCol>
+	
 	<t:dgCol title="table.type" field="jformType" replace="single.table_1,master.table_2,slave.table_3" query="true"></t:dgCol>
 	<t:dgCol title="table.name" field="tableName" query="true" autocomplete="true" />
+	<!--add-start--Author:luobaoli  Date:20150607 for：增加表单分类展现-->
 	<t:dgCol title="form.category" field="jformCategory" dictionary="bdfl"></t:dgCol>
+	<!--add-end--Author:luobaoli  Date:20150607 for：增加表单分类展现-->
 	<t:dgCol title="table.description" field="content"></t:dgCol>
 	<t:dgCol title="common.version" field="jformVersion"></t:dgCol>
 	<t:dgCol title="is.tree" field="isTree" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
@@ -49,27 +57,27 @@
 	<t:dgCol title="common.updateby" field="updateBy" hidden="true"></t:dgCol>
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt"></t:dgCol>
-	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgFunOpt>
-	<t:dgFunOpt funname="remCgForm(id)" title="common.remove" urlclass="ace_button"  urlfont="fa-remove"></t:dgFunOpt>
+	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgFunOpt>
+	<t:dgFunOpt funname="remCgForm(id)" title="common.remove" urlclass="ace_button" urlStyle="background-color:#FFA500;" urlfont="fa-remove"></t:dgFunOpt>
+	<%-- 
 	<t:dgFunOpt funname="importFields(id,content)" title="导入字段" urlclass="ace_button"  urlfont="fa-download"></t:dgFunOpt>
+	--%>
 	<t:dgFunOpt exp="isDbSynch#eq#N" title="sync.db" funname="doDbsynch(id,content)" urlclass="ace_button"  urlfont="fa-database"/>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addbytab(id,content)" title="form.template" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test" urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="popMenuLink(tableName,content)" title="config.place" urlclass="ace_button"  urlfont="fa-cog" ></t:dgFunOpt>
-	<%-- add -start--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
-	<t:dgFunOpt funname="copyOnline(id)" title="复制表单"  urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
-	<t:dgFunOpt funname="propertyTable(id)" title="配置表"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
-	<%-- add -end--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
-	<t:dgToolBar title="create.form" icon="icon-add" width="900" height="600" url="cgFormHeadController.do?addorupdate" funname="addForm"></t:dgToolBar>
-	<t:dgToolBar title="edit.form" icon="icon-edit" width="900" height="600" url="cgFormHeadController.do?addorupdate" funname="updateForm"></t:dgToolBar>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addbytab(id,content)" title="form.template" urlclass="ace_button" urlStyle="background-color:#5F9EA0" urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test" urlStyle="background-color:#18a689;" urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="popMenuLink(tableName,content)" title="config.place" urlStyle="background-color:#1a7bb9;" urlclass="ace_button"  urlfont="fa-cog" ></t:dgFunOpt>
+	<t:dgFunOpt funname="copyOnline(id)" title="复制表单" operationCode="copyOnlineTable"  urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
+	<t:dgFunOpt exp="hasPeizhi#ne#0" funname="propertyTable(id)" title="配置表"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgToolBar title="create.form" icon="icon-add" width="1200" height="600" url="cgFormHeadController.do?addorupdate" funname="addForm"></t:dgToolBar>
+	<t:dgToolBar title="edit.form" icon="icon-edit" width="1200" height="600" url="cgFormHeadController.do?addorupdate" funname="updateForm"></t:dgToolBar>
 	<t:dgToolBar title="custom.button" icon="icon-edit" url="cgformButtonController.do?cgformButton" funname="cgFormButton"></t:dgToolBar>
 	<t:dgToolBar title="js.enhance" icon="icon-edit" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>
-	<t:dgToolBar title="sql.enhance" icon="icon-edit" url="cgformButtonSqlController.do?addorupdate" funname="cgFormButtonSql"></t:dgToolBar>
+	<t:dgToolBar title="sql.enhance" icon="icon-edit" url="cgformButtonSqlController.do?addorupdate" operationCode="sql_enhance" funname="cgFormButtonSql"></t:dgToolBar>
 	<t:dgToolBar title="java.enhance" icon="icon-edit" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
 	<t:dgToolBar title="form.export" icon="icon-putout" url="cgformSqlController.do?doMigrateOut" funname="doMigrateOut"></t:dgToolBar>
 	<t:dgToolBar title="form.import" icon="icon-put" url="cgformSqlController.do?inSqlFile" funname="toCgformMigrate"></t:dgToolBar>
 	<t:dgToolBar title="code.generate" icon="icon-add" url="generateController.do?gogenerate" funname="generate"></t:dgToolBar>
-	<t:dgToolBar title="form.generate" icon="icon-add" url="cgformTransController.do?trans" funname="addToData"></t:dgToolBar>
+	<t:dgToolBar title="form.generate" icon="icon-add" url="cgformTransController.do?trans" operationCode="db_generate_form" funname="addToData"></t:dgToolBar>
 </t:datagrid></div>
 </div>
 
@@ -132,12 +140,12 @@
 	function addlisttab(tableName,content){
 		addOneTab( '<t:mutiLang langKey="form.datalist"/>' + "["+content+"]", "cgAutoListController.do?list&id="+tableName);
 	}
-	
-	function addForm(title,url,id){
+
+	function addForm(title,url,id,width,height){
 		gridname=id;
-		createwindow(title,url,900,520);
+		createwindow(title,url,width,height);
 	}
-	function updateForm(title,url,id){
+	function updateForm(title,url,id,width,height){
 		gridname=id;
 		var rowsData = $('#'+id).datagrid('getSelections');
 		if (!rowsData || rowsData.length==0) {
@@ -148,9 +156,9 @@
 			tip('<t:mutiLang langKey="common.please.select.one.record.to.edit"/>');
 			return;
 		}
-		createwindow(title,url + '&id='+rowsData[0].id,900,520);
-
+		createwindow(title,url + '&id='+rowsData[0].id,width,height);
 	}
+
 	function jsPlugin(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');
 		if (!rowsData || rowsData.length==0) {
@@ -185,7 +193,9 @@
 	*/
 	function popMenuLink(tableName,content){
         $.dialog({
+
 			content: "url:cgFormHeadController.do?popmenulink&url=cgAutoListController.do?list&title="+tableName,
+
 			drag :false,
 			lock : true,
 			title:'<t:mutiLang langKey="common.menu.link"/>' + '['+content+']',
@@ -228,7 +238,7 @@
 			lock : true,
 			title: '<t:mutiLang langKey="sql.enhance"/>' + "["+rowsData[0].content+"]",
 			opacity : 0.3,
-			width:900,
+			width:1000,
 			height:500,
 			cache:false,
 		    ok: function(){
@@ -259,7 +269,7 @@
 			lock : true,
 			title: '<t:mutiLang langKey="js.enhance"/>' + "["+rowsData[0].content+"]",
 			opacity : 0.3,
-			width:900,
+			width:1000,
 			height:500,
 			cache:false,
 		    ok: function(){
@@ -271,7 +281,8 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
-
+	
+	//add-begin--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
 	//java增强
 	function javaEnhance(title,url,id){
 		var rowsData = $('#'+id).datagrid('getSelections');
@@ -301,7 +312,7 @@
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}
-
+	//add-end--Author:luobaoli  Date:20150630 for：新增java增强按钮处理逻辑
 
 	//表单 sql导出
 	function doMigrateOut(title,url,id){
@@ -422,10 +433,8 @@
 	function importFields(id,content) {
 		openuploadwin('【'+content+'】Excel导入Online字段', 'cgFormHeadController.do?upload&id='+id, "tablePropertyList");
 	}
-	
-	 <%-- add -start--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>	
 	function copyOnline(id){
-
+		//-- update -start--Author:chenj  Date:20160812 for:TASK #1283 【功能】复制表这个功能，点击的时候，弹出一个是否确认的页面
 		$.dialog.confirm('<t:mutiLang langKey="confirm.copy.form"/>', function(){
 			$.post("cgFormHeadController.do?copyOnline",
 					{id : id},	
@@ -439,7 +448,7 @@
 				});
 		}, function(){
 		}).zindex();
-
+		//-- update -end--Author:chenj  Date:20160812 for:TASK #1283 【功能】复制表这个功能，点击的时候，弹出一个是否确认的页面
 		
 		
 	}
@@ -456,5 +465,4 @@
 				}
 			});
 	}
-	<%-- add --end--Author:gengjiajia  Date:20160804 for#online表单复制功能,一个物理表配置多个配置表--%>
 </script>

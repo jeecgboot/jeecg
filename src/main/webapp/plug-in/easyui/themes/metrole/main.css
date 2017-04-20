@@ -871,7 +871,8 @@ a:hover {
 /* 内容页 */
 .button ,a.l-btn span.l-btn-left {
 	border: 1px solid #cccccc;
-	border-radius: 4px;
+	/* update-begin--author:scott--date:20170331---for:树选框虚线问题解决*/
+	/*border-radius: 4px;*/
 	background-color: #eee;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
 		to(#f2f2f2));

@@ -1,10 +1,13 @@
 $(document).ready(function() {
-
+	
+	//author:scott---date:20160426---for:判断浏览器跳转兼容风格
 	var navigatorName = "Microsoft Internet Explorer"; 
 	if( navigator.appName == navigatorName ){ 
 		alert("IE浏览器采用传统首页风格，更佳体验建议使用Chrome浏览器!") 
+
 		//setCookie("JEECGINDEXSTYLE","shortcut");
 		$.cookie('JEECGINDEXSTYLE', 'shortcut');
+
 	}else{
 	}
 	
@@ -57,6 +60,7 @@ $('.userload').click(function(e) {
 		$('.userbox').hide();
 	});
 });
+
 $('#randCodeImage').click(function(){
     reloadRandCodeImage();
 });
@@ -68,6 +72,7 @@ function reloadRandCodeImage() {
     var img = document.getElementById("randCodeImage");
     img.src='randCodeImage?a=' + date.getTime();
 }
+
 // 重置
 $('#forgetpass').click(function(e) {
 	$(":input").each(function() {
@@ -123,7 +128,9 @@ function Login(orgId) {
 		 formData[this.name] =$("#"+this.name ).val();
 	});
     formData['orgId'] = orgId ? orgId : "";
+
 	formData['langCode']=$("#langCode").val();
+
 	formData['langCode'] = $("#langCode option:selected").val();
 	$.ajax({
 		async : false,
@@ -175,6 +182,7 @@ function Login(orgId) {
                 } else {
                     setTimeout("window.location.href='"+actionurl+"'", 1000);
                 }
+
 			} else {
 				if(d.msg == "a"){
 					$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
@@ -210,12 +218,14 @@ function getCookie()
 	if (COOKIE_NAME !=null) {
 		$("input[iscookie='true']").each(function() {
 			$($("#"+this.name).val( $.cookie(this.name)));
+
             if("admin" == $.cookie(this.name)) {
                 $("#randCode").focus();
             } else {
                 $("#password").val("");
                 $("#password").focus();
             }
+
         });
 		$("#on_off").attr("checked", true);
 		$("#on_off").val("1");
@@ -224,7 +234,9 @@ function getCookie()
 	{
 		$("#on_off").attr("checked", false);
 		$("#on_off").val("0");
+
         $("#randCode").focus();
+
 	}
 }
 //点击消息关闭提示

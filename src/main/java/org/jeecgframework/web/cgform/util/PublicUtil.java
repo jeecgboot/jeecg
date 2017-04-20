@@ -32,7 +32,7 @@ public class PublicUtil {
 	/**
 	 * 设置checkbox的值 -- Y/N
 	 * @param obj
-	 * @param params 以逗号隔开  "isNull,isShow,isQuery,isKey"
+	 * @param params 以逗号隔开  "isNull,isShow,isQuery,isKey,fieldMustInput"
 	 */
 	public static void judgeCheckboxValue(Object obj,String params){
 		ReflectHelper reflectHelper=new ReflectHelper(obj);

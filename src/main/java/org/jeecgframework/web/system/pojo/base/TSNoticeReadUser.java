@@ -20,6 +20,8 @@ public class TSNoticeReadUser extends IdEntity implements java.io.Serializable {
 
 	private String noticeId;// 通告ID
 	private String userId;// 用户ID
+	private Integer isRead = 0;//是否已经阅读（默认值未阅读）
+	private Integer delFlag = 0;//是否删除 (默认值未删除)
 	private Date createTime;  //创建时间
 	
 	public void setNoticeId(String noticeId) {
@@ -46,5 +48,23 @@ public class TSNoticeReadUser extends IdEntity implements java.io.Serializable {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	
+	@Column(name="is_read",nullable=false)
+	public Integer getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(Integer isRead) {
+		this.isRead = isRead;
+	}
+	
+	@Column(name="del_flag",nullable=false)
+	public Integer getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag) {
+		this.delFlag = delFlag;
 	}
 }

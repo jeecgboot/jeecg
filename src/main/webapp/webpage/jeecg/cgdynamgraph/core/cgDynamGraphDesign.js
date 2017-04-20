@@ -132,6 +132,9 @@ function doLine(){
 			color : '#1f7e92',
 			linewidth : 3
 		}],
+
+		labels:labels,
+
 		sub_option : {
 			label : {
 				fontsize : 14,

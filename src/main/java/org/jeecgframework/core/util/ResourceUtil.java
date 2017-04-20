@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
@@ -56,7 +57,9 @@ public class ResourceUtil {
 	 * #默认开启模糊查询方式 1为开启 条件无需带*就能模糊查询[暂时取消]
 	 * fuzzySearch=0
 	 */
+
 //	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
+
 
 	/**
 	 * 获取session定义名称
@@ -70,6 +73,7 @@ public class ResourceUtil {
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
+
 		}else{
 			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
 			Client client = new Client();
@@ -78,6 +82,7 @@ public class ResourceUtil {
 	        client.setUser(u);
 	        ClientManager.getInstance().addClinet(session.getId(), client);
 		}
+
 		return null;
 	}
 	@Deprecated
@@ -102,7 +107,14 @@ public class ResourceUtil {
 	 * @return
 	 */
 	public static String getRequestPath(HttpServletRequest request) {
-		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
+
+//		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
+		String queryString = request.getQueryString();
+		String requestPath = request.getRequestURI();
+		if(StringUtils.isNotEmpty(queryString)){
+			requestPath += "?" + queryString;
+		}
+
 		if (requestPath.indexOf("&") > -1) {// 去掉其他参数
 			requestPath = requestPath.substring(0, requestPath.indexOf("&"));
 		}
@@ -206,6 +218,7 @@ public class ResourceUtil {
         return bundle.getString("randCodeType");
     }
 
+
     /**
      * 获取组织机构编码长度的类型
      *
@@ -233,6 +246,7 @@ public class ResourceUtil {
 		} else {
 			key = key;
 		}
+
 	
 		//替换为系统的登录用户账号
 //		if (key.equals(DataBaseConstant.CREATE_BY)
@@ -254,10 +268,13 @@ public class ResourceUtil {
 			) {
 			returnValue =  getSessionUserName().getRealName();
 		}
+
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
+
 			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
 					.substring(0, Integer.valueOf(getOrgCodeLengthType()) + 1);
+
 		}
 		//替换为系统用户登录所使用的机构编码
 		if (key.equals(DataBaseConstant.SYS_ORG_CODE)|| key.equals(DataBaseConstant.SYS_ORG_CODE_TABLE)) {
@@ -322,7 +339,9 @@ public class ResourceUtil {
 		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
 		org.jeecgframework.core.util.LogUtil.info(getSysPath());
 	}
+
 //	public static boolean isFuzzySearch(){
 //		return "1".equals(bundle.getString("fuzzySearch"));
 //	}
+
 }

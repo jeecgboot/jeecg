@@ -252,7 +252,7 @@ select{
 }
 /*tab页签样式*/
 .tab-wrapper{
-  border: 1px solid #ddd;
+  /*border: 1px solid #ddd;*/
   margin-top: 15px;
 }
 .tab-wrapper:first-child{

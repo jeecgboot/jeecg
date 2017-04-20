@@ -45,6 +45,9 @@ public class CgformEnhanceJavaEntity implements java.io.Serializable {
 	/**表单ID*/
 	@Excel(name="表单ID")
 	private java.lang.String formId;
+	/**生效状态 0:无效/1:有效*/
+	@Excel(name="生效状态")
+	private java.lang.String activeStatus;	
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -126,12 +129,26 @@ public class CgformEnhanceJavaEntity implements java.io.Serializable {
 	public void setButtonCode(java.lang.String buttonCode) {
 		this.buttonCode = buttonCode;
 	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  0:无效/1:有效
+	 */
+	@Column(name ="ACTIVE_STATUS",nullable=true,length=2)
+	public java.lang.String getActiveStatus(){
+		return this.activeStatus;
+	}
 
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  0:无效/1:有效
+	 */
+	public void setActiveStatus(java.lang.String activeStatus){
+		this.activeStatus = activeStatus;
+	}
 	@Override
 	public String toString() {
 		return "CgformEnhanceJavaEntity [id=" + id + ", buttonCode="
 				+ buttonCode + ", cgJavaType=" + cgJavaType + ", cgJavaValue="
-				+ cgJavaValue + ", formId=" + formId + "]";
+				+ cgJavaValue + ", formId=" + formId + ", activeStatus=" + activeStatus + "]";
 	}
-	
 }

@@ -44,6 +44,7 @@ public class DataGridColumn {
 	protected String editor;//高级查询用的编辑器
 
 	private String defaultVal = "";//列默认值
+
 	
 	public String getEditor() {
 		return editor;

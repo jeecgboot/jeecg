@@ -124,6 +124,7 @@ $(document).ready(function(){
 			this.attributes["errormsg"].value = eval(errormsg); 
 		}
 	});
+	/*update-start--Author:gengjiajia  Date:20160804 for：如果表类型是“配置表”，则online表单配置的第一个tab\索引tab\外键都不允许修改，禁掉。*/
 	var tableType = parentObj.document.getElementById("tableType").value;
 	if(tableType == '1'){
 		$("#add_column_table_template_database").find("input[name*='columns']").each(function(){
@@ -133,5 +134,6 @@ $(document).ready(function(){
 		$("select[name*='columns']").attr("disabled",true);
 		$("input:checkbox").attr("disabled",true);
 	}
+	/*update-end--Author:gengjiajia  Date:20160804 for：如果表类型是“配置表”，则online表单配置的第一个tab\索引tab\外键都不允许修改，禁掉。*/
 })
 </script>

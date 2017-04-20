@@ -12,6 +12,8 @@
 	<t:dgOpenOpt width="800" height="700" url="commonController.do?openViewFile&fileid={id}&subclassname={subclassname}" title="预览"></t:dgOpenOpt>
 	<t:dgDelOpt url="systemController.do?delDocument&id={id}" title="删除" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
 	<t:dgToolBar title="文件录入" icon="icon-add" funname="add" url="systemController.do?addFiles"></t:dgToolBar>
+	<!-- 		update-begin--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能-->
 	<t:dgToolBar title="编辑" icon="icon-edit" funname="update" url="systemController.do?editFiles"></t:dgToolBar>
+	<!-- 		update-end--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能-->
 </t:datagrid></div>
 </div>

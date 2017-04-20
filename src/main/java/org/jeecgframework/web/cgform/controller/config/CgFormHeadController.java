@@ -3,6 +3,7 @@ package org.jeecgframework.web.cgform.controller.config;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,8 @@ public class CgFormHeadController extends BaseController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger
-			.getLogger(CgFormHeadController.class);
+	private static final Logger logger = Logger.getLogger(CgFormHeadController.class);
+	
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
@@ -102,6 +103,7 @@ public class CgFormHeadController extends BaseController {
         modelMap.put("url",url);
 		return new ModelAndView("jeecg/cgform/config/popmenulink");
 	}
+
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -126,12 +128,23 @@ public class CgFormHeadController extends BaseController {
 
 		cq.isNull("physiceId");
 		cq.add();
+
 		
 		// 查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
 				cgFormHead);
 		this.cgFormFieldService.getDataGridReturn(cq, true);
-		TagUtil.datagrid(response, dataGrid);
+
+		List<CgFormHeadEntity> list=dataGrid.getResults();
+		Map<String,Map<String,Object>> extMap = new HashMap<String, Map<String,Object>>();
+		for(CgFormHeadEntity temp:list){
+		        //此为针对原来的行数据，拓展的新字段
+		        Map m = new HashMap();
+		        m.put("hasPeizhi",String.valueOf(this.cgFormFieldService.getByphysiceId(temp.getId())));
+		        extMap.put(temp.getId(), m);
+		}
+		TagUtil.datagrid(response, dataGrid, extMap);
+
 	}
 
 	/**
@@ -228,6 +241,7 @@ public class CgFormHeadController extends BaseController {
 				}else{
 					message = "同步成功";
 				}
+
 				j.setMsg(message);
 			}else{
 				message = "同步失败";		
@@ -254,7 +268,9 @@ public class CgFormHeadController extends BaseController {
 	public AjaxJson save(CgFormHeadEntity cgFormHead,
 			HttpServletRequest request) {
 		String message = "";
+
 		templetContext.clearCache();
+
 		AjaxJson j = new AjaxJson();
 		CgFormHeadEntity oldTable =cgFormFieldService.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
 		cgFormFieldService.removeSubTableStr4Main(oldTable);
@@ -289,13 +305,17 @@ public class CgFormHeadController extends BaseController {
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().toLowerCase());
 					cgFormFieldEntity.setOldFieldName(cgFormFieldEntity.getFieldName());
 				}
+
 				if (StringUtil.isNotEmpty(cgFormFieldEntity.getFieldName()))
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().trim());
+
 			}
+
 			boolean isChange = cgFormIndexService.updateIndexes(cgFormHead);
-			
+
 			//isChange 索引是否更新
 			cgFormFieldService.updateTable(table,null,isChange);
+
 			cgFormFieldService.appendSubTableStr4Main(table);
 			cgFormFieldService.sortSubTableStr(table);
 
@@ -312,12 +332,15 @@ public class CgFormHeadController extends BaseController {
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().toLowerCase());
 					cgFormFieldEntity.setOldFieldName(cgFormFieldEntity.getFieldName());
 				}
+
 				if (StringUtil.isNotEmpty(cgFormFieldEntity.getFieldName()))
 					cgFormFieldEntity.setFieldName(cgFormFieldEntity.getFieldName().trim());
+
 			}
 			cgFormFieldService.saveTable(cgFormHead);
-			
+
 			cgFormIndexService.updateIndexes(cgFormHead);
+
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 		}
@@ -325,6 +348,8 @@ public class CgFormHeadController extends BaseController {
 		return j;
 	}
 
+	
+	
 	/**
 	 * 物理表修改后同步配置表
 	 * @param table
@@ -353,6 +378,7 @@ public class CgFormHeadController extends BaseController {
 
 						field.setMainField(null);
 						field.setMainTable(null);
+
 						field.setOldFieldName(column.getOldFieldName());
 						field.setOrderNum(column.getOrderNum());
 						field.setPointLength(column.getPointLength());
@@ -388,6 +414,7 @@ public class CgFormHeadController extends BaseController {
 
 									field.setMainField(null);
 									field.setMainTable(null);
+
 									field.setOldFieldName(column.getOldFieldName());
 									field.setOrderNum(column.getOrderNum());
 									field.setPointLength(column.getPointLength());
@@ -419,6 +446,7 @@ public class CgFormHeadController extends BaseController {
 
 									field.setMainField(null);
 									field.setMainTable(null);
+
 									field.setOldFieldName(cgFormFieldEntity.getOldFieldName());
 									field.setOrderNum(cgFormFieldEntity.getOrderNum());
 									field.setPointLength(cgFormFieldEntity.getPointLength());
@@ -452,6 +480,7 @@ public class CgFormHeadController extends BaseController {
 
 							field.setMainField(null);
 							field.setMainTable(null);
+
 							field.setOldFieldName(cgFormFieldEntity.getOldFieldName());
 							field.setOrderNum(cgFormFieldEntity.getOrderNum());
 							field.setPointLength(cgFormFieldEntity.getPointLength());
@@ -538,6 +567,7 @@ public class CgFormHeadController extends BaseController {
 
 		List<TSType> typeList = ResourceUtil.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
+
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");
 	}
 	/**
@@ -592,9 +622,12 @@ public class CgFormHeadController extends BaseController {
 		columnList.add(initCgFormFieldEntityString("update_name","更新人名称"));
 		columnList.add(initCgFormFieldEntityString("update_by", "更新人登录名称"));
 		columnList.add(initCgFormFieldEntityTime("update_date", "更新日期"));
+
 		columnList.add(initCgFormFieldEntityString("sys_org_code","所属部门"));
 		columnList.add(initCgFormFieldEntityString("sys_company_code", "所属公司"));
+
 		columnList.add(initCgFormFieldEntityBpmStatus());
+
 		return columnList;
 	}
 	/**
@@ -692,6 +725,7 @@ public class CgFormHeadController extends BaseController {
 
 		//判断，如果是带有V字符的,截取获取真实表名
 		name = PublicUtil.replaceTableName(name);
+
 		j.setSuccess(cgFormFieldService.judgeTableIsExit(name));
 		return j;
 	}
@@ -914,6 +948,7 @@ public class CgFormHeadController extends BaseController {
 				cgFormHead.setIsPagination(physicsTable.getIsPagination());
 
 				cgFormHead.setJformType(1);//配置表统一为单表
+
 				cgFormHead.setJformCategory(physicsTable.getJformCategory());
 				cgFormHead.setRelationType(physicsTable.getRelationType());
 
@@ -948,6 +983,7 @@ public class CgFormHeadController extends BaseController {
 
 					field.setMainField(null);//默认为单表
 					field.setMainTable(null);//默认为单表
+
 					field.setOldFieldName(f.getOldFieldName());
 					field.setOrderNum(f.getOrderNum());
 					field.setPointLength(f.getPointLength());
@@ -980,6 +1016,7 @@ public class CgFormHeadController extends BaseController {
 				cgFormHead.setIsPagination(physicsTable.getIsPagination());
 
 				cgFormHead.setJformType(1);//配置表统一为单表
+
 				cgFormHead.setJformCategory(physicsTable.getJformCategory());
 				cgFormHead.setRelationType(physicsTable.getRelationType());
 
@@ -1014,6 +1051,7 @@ public class CgFormHeadController extends BaseController {
 
 					field.setMainField(null);
 					field.setMainTable(null);
+
 					field.setOldFieldName(f.getOldFieldName());
 					field.setOrderNum(f.getOrderNum());
 					field.setPointLength(f.getPointLength());

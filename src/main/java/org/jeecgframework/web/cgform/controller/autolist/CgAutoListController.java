@@ -88,9 +88,11 @@ public class CgAutoListController extends BaseController{
 		//step.3 封装页面数据
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
+
 		String template=request.getParameter("olstylecode");
 		if(StringUtils.isBlank(template)){
 				CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
+
 				template=head.getFormTemplate();
 			paras.put("_olstylecode","");
 		}else{
@@ -99,6 +101,7 @@ public class CgAutoListController extends BaseController{
         paras.put("this_olstylecode",template);
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
+
 		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
@@ -138,7 +141,9 @@ public class CgAutoListController extends BaseController{
 		String jversion = cgFormFieldService.getCgFormVersionByTableName(configId);
 		Map<String, Object>  configs = configService.queryConfigs(configId,jversion);
 		String table = (String) configs.get(CgAutoListConstant.TABLENAME);
+
 		table = PublicUtil.replaceTableName(table);
+
 		Map params =  new HashMap<String,Object>();
 		//step.2 获取查询条件以及值
 		List<CgFormFieldEntity> beans = (List<CgFormFieldEntity>) configs.get(CgAutoListConstant.FILEDS);
@@ -147,7 +152,7 @@ public class CgAutoListController extends BaseController{
 			QueryParamUtil.loadQueryParams(request,b,params);
 			fieldMap.put(b.getFieldName(), new String[]{b.getType(), b.getFieldDefault()});
 		}
-		
+
 		//参数处理
 		boolean isTree = configs.get(CgAutoListConstant.CONFIG_ISTREE) == null ? false
 				: CgAutoListConstant.BOOL_TRUE.equalsIgnoreCase(configs.get(CgAutoListConstant.CONFIG_ISTREE).toString());
@@ -175,6 +180,7 @@ public class CgAutoListController extends BaseController{
 				params.put(parentIdFieldName, "=" + treeId);
 			}
 		}
+
 		
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
@@ -193,6 +199,7 @@ public class CgAutoListController extends BaseController{
 			cgTableService.treeFromResultHandle(table, parentIdFieldName, parentIdFieldType,
 					result);
 		}
+
 		
 		//处理页面中若存在checkbox只能显示code值而不能显示text值问题
 		Map<String, Object> dicMap = new HashMap<String, Object>();
@@ -235,6 +242,7 @@ public class CgAutoListController extends BaseController{
 			}else {
 				writer.println(QueryParamUtil.getJson(result,size));
 			}
+
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -298,11 +306,13 @@ public class CgAutoListController extends BaseController{
 	public AjaxJson del(String configId,String id,
 			HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
+
 		String tableName = PublicUtil.replaceTableName(configId);
 		String jversion = cgFormFieldService.getCgFormVersionByTableName(tableName);
 		String table = (String) configService.queryConfigs(tableName,jversion).get(CgAutoListConstant.TABLENAME);
 		//String jversion = cgFormFieldService.getCgFormVersionByTableName(configId);
 		//String table = (String) configService.queryConfigs(configId,jversion).get(CgAutoListConstant.TABLENAME);
+
 		cgTableService.delete(table, id);
 		String message = "删除成功";
 		systemService.addLog(message, Globals.Log_Type_DEL,
@@ -351,6 +361,7 @@ public class CgAutoListController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
+
 		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
 		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
 		if(operationCodes != null){
@@ -366,6 +377,7 @@ public class CgAutoListController extends BaseController{
 			if(operationCodesMap.containsKey(bean.getFieldName())) {
 				continue;
 			}
+
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());
@@ -454,6 +466,9 @@ public class CgAutoListController extends BaseController{
 			sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
 //			sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
 			sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
+
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
 			
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
@@ -466,7 +481,7 @@ public class CgAutoListController extends BaseController{
 		paras.put(CgAutoListConstant.CONFIG_IFRAME, sb.toString());
 	}
 	/**
-	 * 加载按钮权限
+	 * Online表单控制列表链接按钮权限
 	 * @param paras
 	 * @param request
 	 */

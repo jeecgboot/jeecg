@@ -380,13 +380,13 @@ public class CgFormIndexController extends BaseController {
 	}
 	
 	/**
-	 * 获取表格具体的属性列
+	 * 获取表单索引
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "getIndexList")
 	@ResponseBody
-	public List<CgFormIndexEntity> getColumnList(CgFormIndexEntity cgFormHead,String type,
+	public List<CgFormIndexEntity> getIndexList(CgFormIndexEntity cgFormHead,String type,
 			HttpServletRequest req) {
 		
 		List<CgFormIndexEntity> columnList = new ArrayList<CgFormIndexEntity>();
@@ -394,8 +394,7 @@ public class CgFormIndexController extends BaseController {
 			CriteriaQuery cq = new CriteriaQuery(CgFormIndexEntity.class);
 			cq.eq("table.id", cgFormHead.getId());
 			cq.add();
-			columnList = cgFormIndexService
-					.getListByCriteriaQuery(cq, false);
+			columnList = cgFormIndexService.getListByCriteriaQuery(cq, false);
 			//对字段列按顺序排序
 			//Collections.sort(columnList,new FieldNumComparator());
 		}else{

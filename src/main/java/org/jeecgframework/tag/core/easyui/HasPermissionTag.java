@@ -1,10 +1,8 @@
 package org.jeecgframework.tag.core.easyui;
 
-import java.io.IOException;
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.jeecgframework.core.constant.Globals;
@@ -23,58 +21,46 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version V1.0
  */
 public class HasPermissionTag extends TagSupport{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	/**按钮code*/
-	private  String name;
+	private  String code;
 	@Autowired
 	private SystemService systemService;
+	
 	public int doStartTag() throws JspException {
-		String p = getName();
-		
-        boolean show = showTagBody(p);
+        boolean show = showTagBody(code);
         if (show) {
-            return TagSupport.EVAL_BODY_INCLUDE;
-        } else {
             return TagSupport.SKIP_BODY;
+        } else {
+            return TagSupport.EVAL_BODY_INCLUDE;
         }
 	}
-	public boolean showTagBody(String p) {
-		
+	
+	public boolean showTagBody(String code) {
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
-			return true;
+			return false;
 		}else{
 			//权限判断；
-			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
-			if (null!=operationCodes) {
-				for (String MyoperationCode : operationCodes) {
-					if (oConvertUtils.isEmpty(MyoperationCode))
+			Set<String> operationCodeIds = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
+			systemService = ApplicationContextUtil.getContext().getBean(SystemService.class);
+			if (null!=operationCodeIds) {
+				for (String operationCodeId : operationCodeIds) {
+					if (oConvertUtils.isEmpty(operationCodeId))
 						break;
-					systemService = ApplicationContextUtil.getContext().getBean(SystemService.class);
-					TSOperation operation = systemService.getEntity(TSOperation.class, MyoperationCode);
-					if (operation.getOperationcode().equals(p)){
+					TSOperation operation = systemService.getEntity(TSOperation.class, operationCodeId);
+					if (operation!=null && operation.getOperationcode().equals(code)){
 						return true;
 					}
 				}
 			}
-			
 		}
-//		if(p!=null&&p.trim().equals("show")){
-//			return true;
-//		}else if(p!=null&&p.trim().equals("hide")){
-//			return false;
-//		}
         return false;
     }
 	
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	
-	
 }

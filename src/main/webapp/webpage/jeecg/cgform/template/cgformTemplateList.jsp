@@ -15,8 +15,9 @@
    <t:dgCol title="所属公司"  field="sysCompanyCode"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="表单风格名"  field="templateName"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="风格编码"  field="templateCode"   query="true" queryMode="single"  width="120"></t:dgCol>
-   <t:dgCol title="类型"   field="templateType"   query="true" queryMode="single" replace="单表_1,主子表_2" width="120"></t:dgCol>
+   <t:dgCol title="类型"   field="templateType"   query="true" queryMode="single" replace="单表_1,主子表_2,通用模板_3" width="120"></t:dgCol>
    <t:dgCol title="是否共享" hidden="true"  field="templateShare"   query="true" queryMode="single" dictionary="sf_yn" width="120"></t:dgCol>
+    <t:dgCol title="是否激活"   field="status" replace="有效_1,无效_0"  query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="预览图"  field="templatePic"   image="true"  imageSize="40,40" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="风格描述"  field="templateComment"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
@@ -34,7 +35,6 @@
   </t:datagrid>
   </div>
  </div>
- <script src = "webpage/jeecg/cgform/template/cgformTemplateList.js"></script>
  <script type="text/javascript">
  $(document).ready(function(){
  		//给时间控件加上样式

@@ -9,3 +9,10 @@
 	<t:tab href="logController.do?userBroswer&reportType=pie" icon="icon-search" title="user.analysis.pie" id="pnode"></t:tab>
 	<t:tab href="logController.do?userBroswer&reportType=column" icon="icon-search" title="user.analysis.histogram" id="pnode"></t:tab>
 </t:tabs>
+<script type="text/javascript">
+		$(document).ready(function() {
+			//为不需要打印的元素添加打印隐藏识别类
+			$(".tabs-header").addClass("no-print");
+		})
+</script>
+<!-- update-end--Author:xuelin  Date:20170329 for：[#1823]【bug】报表点击打印后，页面乱的问题解决---------------------- -->

@@ -22,9 +22,6 @@ import org.jeecgframework.core.util.StringUtil;
 public class MutiLangTag extends TagSupport {
 	protected String langKey;
 	protected String langArg;
-
-	@Autowired
-	private static MutiLangServiceI mutiLangService;
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -49,13 +46,10 @@ public class MutiLangTag extends TagSupport {
 	}
 
 	public String end() {
-		if (mutiLangService == null)
-		{
-			mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
-		}
-		
+
+		MutiLangServiceI mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
+
 		String lang_context = mutiLangService.getLang(langKey, langArg);
-		
 		return lang_context;
 	}
 

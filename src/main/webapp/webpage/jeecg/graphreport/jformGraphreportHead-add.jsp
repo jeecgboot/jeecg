@@ -5,7 +5,6 @@
  <head>
   <title>图表配置</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-  <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
   <script type="text/javascript">
   $(document).ready(function(){
 	$('#tt').tabs({

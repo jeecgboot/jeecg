@@ -83,6 +83,11 @@
 			<description>主键字段</description>
 		</attribute>
 		<attribute>
+			<name>treeField</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>树形列表展示列</description>
+		</attribute>
+		<attribute>
 			<name>width</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>表格宽度</description>
@@ -239,7 +244,7 @@
 			<name>showLen</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>显示长度</description>
+			<description>显示长度，超出省略号显示</description>
 		</attribute>
 		<attribute>
 			<name>rowspan</name>
@@ -427,7 +432,7 @@
 		<attribute>
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+			<description>链接样式,直接写style里的内容; e.g: (background-color:#18a689;padding-left:10px;)</description>
 		</attribute>
 		<attribute>
 			<name>urlclass</name>
@@ -471,7 +476,17 @@
 		<attribute>
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+			<description>链接样式,直接写style里的内容; e.g: (background-color:#18a689;padding-left:10px;)</description>
+		</attribute>
+		<attribute>
+			<name>urlclass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮样式</description>
+		</attribute>
+		<attribute>
+			<name>urlfont</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮图标样式</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -520,7 +535,17 @@
 		<attribute>
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+			<description>链接样式,直接写style里的内容; e.g: (background-color:#18a689;padding-left:10px;)</description>
+		</attribute>
+		<attribute>
+			<name>urlclass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮样式</description>
+		</attribute>
+		<attribute>
+			<name>urlfont</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义按钮图标样式</description>
 		</attribute>
 	</tag>
 	<tag>
@@ -562,7 +587,7 @@
 		<attribute>
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+			<description>链接样式,直接写style里的内容; e.g: (background-color:#18a689;padding-left:10px;)</description>
 		</attribute>
 		<attribute>
 			<name>urlclass</name>
@@ -668,7 +693,7 @@
 		<attribute>
 			<name>urlStyle</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>链接样式,直接写style里的内容; e.g: (color: red; padding-left: 10px;)</description>
+			<description>链接样式,直接写style里的内容; e.g: (background-color:#18a689;padding-left:10px;)</description>
 		</attribute>
 		<attribute>
 			<name>urlclass</name>
@@ -681,6 +706,7 @@
 			<description>自定义按钮图标样式</description>
 		</attribute>
 	</tag>
+	<!-- 
 	<tag>
 		<name>comboBox</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.ComboBoxTag</tag-class>
@@ -731,6 +757,7 @@
             <description>是否可编辑</description>
         </attribute>
 	</tag>
+	 -->
 	<tag>
 		<name>comboTree</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.ComboTreeTag</tag-class>
@@ -740,24 +767,24 @@
 			<name>name</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>控件名称</description>
+			<description>input 控件name</description>
 		</attribute>
 		<attribute>
 			<name>url</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>远程数据</description>
+			<description>远程数据请求URL</description>
 		</attribute>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>ID对应字段</description>
+			<description>input 控件ID</description>
 		</attribute>
 		<attribute>
 			<name>width</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>width对应字段</description>
+			<description>width</description>
 		</attribute>
 		<attribute>
 			<name>value</name>
@@ -975,49 +1002,6 @@
 		</attribute>
 	</tag>
 	<tag>
-		<name>ckfinder</name>
-		<tag-class>org.jeecgframework.tag.core.easyui.CkfinderTag</tag-class>
-		<body-content>JSP</body-content>
-		<description>ckfinder标签</description>
-		<attribute>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>属性名称</description>
-		</attribute>
-		<attribute>
-			<name>value</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>默认值</description>
-		</attribute>
-		<attribute>
-			<name>width</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>显示图片宽(上传类型为Images时)</description>
-		</attribute>
-		<attribute>
-			<name>height</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>显示图片高(上传类型为Images时)</description>
-		</attribute>
-		<attribute>
-			<name>buttonClass</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>按钮样式</description>
-		</attribute>
-		<attribute>
-			<name>buttonValue</name>
-			<rtexprvalue>false</rtexprvalue>
-			<description>按钮文本</description>
-		</attribute>
-		<attribute>
-			<name>uploadType</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-			<description>上传类型(Images,Files,Flash)</description>
-		</attribute>
-	</tag>
-	<tag>
 		<name>ckeditor</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.CkeditorTag</tag-class>
 		<body-content>JSP</body-content>
@@ -1032,12 +1016,6 @@
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>默认值</description>
-		</attribute>
-		<attribute>
-			<name>isfinder</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-			<description>是否加载ckfinder</description>
 		</attribute>
 		<attribute>
 			<name>type</name>
@@ -1134,14 +1112,21 @@
 		<tag-class>org.jeecgframework.tag.core.easyui.ChooseTag</tag-class>
 		<body-content>JSP</body-content>
 		<small-icon>111</small-icon>
-		<description>选则操作</description>
+		<description>弹出选择</description>
+		<attribute>
+			<name>title</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>标题</description>
+		</attribute>
 		<attribute>
 			<name>hiddenName</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>隐藏域控件的ID</description>
 		</attribute>
 		<attribute>
 			<name>hiddenid</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>隐藏域控件在弹出列表中的对应字段</description>
 		</attribute>
@@ -1151,9 +1136,10 @@
 			<description>显示域控件在弹出列表中的对应字段</description>
 		</attribute>
 		<attribute>
-			<name>inputTextname</name>
+			<name>url</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>显示域控件的ID</description>
+			<description>请求URL</description>
 		</attribute>
 		<attribute>
 			<name>name</name>
@@ -1162,8 +1148,12 @@
 			<description>datagrid名称</description>
 		</attribute>
 		<attribute>
+			<name>inputTextname</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>显示域控件的ID</description>
+		</attribute>
+		<attribute>
 			<name>icon</name>
-			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>选择按钮的图标</description>
 		</attribute>
@@ -1188,29 +1178,15 @@
 			<description>弹出框的位置</description>
 		</attribute>
 		<attribute>
-			<name>url</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>url</description>
-		</attribute>
-		<attribute>
-			<name>title</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>标题</description>
-		</attribute>
-		
-		<attribute>
 			<name>langArg</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>多语言参数</description>
 		</attribute>
-
 		<attribute>
 			<name>isclear</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>标题</description>
+			<description>是否带清空按钮</description>
 		</attribute>
 		<attribute>
 			<name>fun</name>
@@ -1223,7 +1199,7 @@
 			<description>是否传入初始化值</description>
 		</attribute>
 	</tag>
-	<!-- 颜色控件 -->
+	<!-- 颜色控件
 	<tag>
 		<name>colorchange</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.ColorChangeTag</tag-class>
@@ -1232,6 +1208,7 @@
 		<small-icon>111</small-icon>
 		<description>改变HTML控件颜色</description>
 	</tag>
+	 -->
 	<!-- 菜单生成控件 -->
 	<tag>
 		<name>menu</name>
@@ -1264,7 +1241,7 @@
 			<description>菜单信息</description>
 		</attribute>
 	</tag>
-	<!-- 自动完成 -->
+	<!-- 自动补全 -->
 	<tag>
 		<name>autocomplete</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.AutocompleteTag</tag-class>
@@ -1285,10 +1262,10 @@
 			<description>数据源对应实体</description>
 		</attribute>
 		<attribute>
-			<name>dataSource</name>
-			<required>false</required>
+			<name>searchField</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>数据源</description>
+			<description>查询关键字对应实体字段</description>
 		</attribute>
 		<attribute>
 			<name>minLength</name>
@@ -1296,53 +1273,25 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>提示触发文字长度</description>
 		</attribute>
+		
 		<attribute>
-			<name>labelField</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>显示文本对应的实体字段</description>
-		</attribute>
-		<attribute>
-			<name>valueField</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>取值字段对应实体字段</description>
-		</attribute>
-		<attribute>
-			<name>label</name>
+			<name>dataSource</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>传入显示文本</description>
+			<description>数据源请求通用URL</description>
 		</attribute>
+		
 		<attribute>
-			<name>value</name>
+			<name>defValue</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>传入隐藏域值</description>
-		</attribute>
-		<attribute>
-			<name>searchField</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>查询关键字对应实体字段</description>
-		</attribute>
-		<attribute>
-			<name>selectfun</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>下拉选择事件调用函数</description>
-		</attribute>
-		<attribute>
-			<name>closefun</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>下拉选项关闭调用函数</description>
+			<description>默认显示值</description>
 		</attribute>
 		<attribute>
 			<name>datatype</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>数据类型</description>
+			<description>校验类型</description>
 		</attribute>
 		<attribute>
 			<name>nullmsg</name>
@@ -1360,19 +1309,19 @@
 			<name>parse</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>转换数据</description>
+			<description>转换数据js方法名</description>
 		</attribute>
 		<attribute>
 			<name>formatItem</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>格式化要显示的数据</description>
+			<description>格式化要显示的数据JS方法名</description>
 		</attribute>
 		<attribute>
 			<name>result</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>选择后回调方法</description>
+			<description>选择后回调JS方法名</description>
 		</attribute>
 		<attribute>
 			<name>maxRows</name>
@@ -1381,14 +1330,19 @@
 			<description>最多显示条数</description>
 		</attribute>
 	</tag>
-	<!-- 选择下拉框 -->
 	<tag>
 		<name>dictSelect</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.DictSelectTag</tag-class>
 		<body-content>JSP</body-content>
-		<display-name>下拉选择控件</display-name>
+		<display-name>字典选择控件标签</display-name>
 		<small-icon>111</small-icon>
 		<description>下拉选择控件</description>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Label显示值</description>
+		</attribute>
 		<attribute>
 			<name>typeGroupCode</name>
 			<required>false</required>
@@ -1399,7 +1353,18 @@
 			<name>field</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>SELECT表单的Name</description>
+			<description>控件名字</description>
+		</attribute>
+		<attribute>
+			<name>defaultVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>默认选择的Value</description>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件格式 select|radio|checkbox</description>
 		</attribute>
 		<attribute>
 			<name>extendJson</name>
@@ -1414,12 +1379,6 @@
 			<description>SELECT表单的Id</description>
 		</attribute>
 		<attribute>
-			<name>defaultVal</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>默认选择的Value</description>
-		</attribute>
-		<attribute>
 			<name>divClass</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -1432,22 +1391,10 @@
 			<description>Label样式</description>
 		</attribute>
 		<attribute>
-			<name>title</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>Label显示值</description>
-		</attribute>
-		<attribute>
 			<name>hasLabel</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否显示Label</description>
 		</attribute>
-		<attribute>
-			<name>type</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>控件格式 select|radio|checkbox</description>
-		</attribute>
-
 		<attribute>
 			<name>dictTable</name>
 			<rtexprvalue>true</rtexprvalue>
@@ -1480,12 +1427,11 @@
 		</attribute>
 		
 	</tag>
-	<!-- 按钮权限标签 -->
 	<tag>
 		<name>authFilter</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.AuthFilterTag</tag-class>
 		<body-content>JSP</body-content>
-		<display-name>按钮权限标签</display-name>
+		<display-name>表单控件权限标签</display-name>
 		<description>将当前用户对应菜单中不拥有按钮权限的按钮和操作隐藏</description>
 		<attribute>
 			<name>name</name>
@@ -1493,7 +1439,6 @@
 			<description>按钮容器的ID</description>
 		</attribute>
 	</tag>
-	<!-- 新权限JSP标签，通过标签的 “权限标示” 控制代码片段是否显示 -->
 	<tag>
 		<name>hasPermission</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.HasPermissionTag</tag-class>
@@ -1501,12 +1446,12 @@
 		<display-name>JSP权限标签</display-name>
 		<description>新权限JSP标签，通过标签的 “权限标示” 控制代码片段是否显示</description>
 		<attribute>
-			<name>name</name>
+			<name>code</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>按钮code</description>
+			<description>页面控件权限code</description>
 		</attribute>
 	</tag>
-	<!-- 选择下拉框 -->
 	<tag>
 		<name>departSelect</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.DepartSelectTag</tag-class>
@@ -1514,6 +1459,12 @@
 		<display-name>组织机构选择控件-弹出框方式</display-name>
 		<small-icon>111</small-icon>
 		<description>组织机构选择控件-弹出框方式</description>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件标题</description>
+		</attribute>
 		<attribute>
 			<name>selectedIdsInputId</name>
 			<required>false</required>
@@ -1527,36 +1478,114 @@
 			<description>用于记录已选择部门编号的input的id</description>
 		</attribute>
 		<attribute>
-			<name>departNameInputWidth</name>
+			<name>inputWidth</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>已选择机构输入框宽度</description>
+			<description>输入框宽度</description>
 		</attribute>
 		<attribute>
 			<name>windowWidth</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>窗口宽度</description>
+			<description>弹出窗口宽度</description>
 		</attribute>
 		<attribute>
 			<name>windowHeight</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>窗口高度</description>
+			<description>弹出窗口高度</description>
 		</attribute>
 		<attribute>
-			<name>departId</name>
+			<name>departIdsDefalutVal</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>部门ID</description>
+			<description>部门ids 默认值</description>
 		</attribute>
 		<attribute>
-			<name>departName</name>
+			<name>departNamesDefalutVal</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>部门名称</description>
+			<description>部门names 默认值</description>
+		</attribute>
+		<attribute>
+			<name>readonly</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>只读属性</description>
+		</attribute>
+		<attribute>
+			<name>hasLabel</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否显示Label</description>
 		</attribute>
 	</tag>
+<!-- add-begin-Author:xuelin  Date:20170407 for：[#1814]【标签】弹出组织机构选择，目前页面是ztree的，太简单了，应该做成树列表-  -->	
+	<tag>
+		<name>orgSelect</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.OrgSelectTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>组织机构选择控件-弹出框方式</display-name>
+		<small-icon>111</small-icon>
+		<description>组织机构选择控件-弹出框方式</description>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件标题</description>
+		</attribute>
+		<attribute>
+			<name>selectedIdsInputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于显示已选择部门名称的input的id</description>
+		</attribute>
+		<attribute>
+			<name>selectedNamesInputId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用于记录已选择部门编号的input的id</description>
+		</attribute>
+		<attribute>
+			<name>inputWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>输入框宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>弹出窗口宽度</description>
+		</attribute>
+		<attribute>
+			<name>windowHeight</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>弹出窗口高度</description>
+		</attribute>
+		<attribute>
+			<name>departIdsDefalutVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>部门ids 默认值</description>
+		</attribute>
+		<attribute>
+			<name>departNamesDefalutVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>部门names 默认值</description>
+		</attribute>
+		<attribute>
+			<name>readonly</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>只读属性</description>
+		</attribute>
+		<attribute>
+			<name>hasLabel</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否显示Label</description>
+		</attribute>
+	</tag>
+<!-- add-end-Author:xuelin  Date:20170407 for：[#1814]【标签】弹出组织机构选择，目前页面是ztree的，太简单了，应该做成树列表- -->		
 	<tag>
 		<name>userSelect</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.UserSelectTag</tag-class>
@@ -1565,55 +1594,71 @@
 		<small-icon>111</small-icon>
 		<description>用户选择控件-弹出框方式</description>
 		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件标题</description>
+		</attribute>
+		<attribute>
 			<name>selectedNamesInputId</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>用于记录已选择用户的input的id</description>
+			<description>用于显示已选择用户的用户名  input的id</description>
 		</attribute>
 		<attribute>
-			<name>userNameInputWidth</name>
+			<name>selectedIdsInputId</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>已选择用户输入框宽度</description>
+			<description>用于记录已选择用户的用户id input的id</description>
+		</attribute>
+		<attribute>
+			<name>inputWidth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>输入框宽度</description>
 		</attribute>
 		<attribute>
 			<name>windowWidth</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>窗口宽度</description>
+			<description>弹出窗口宽度</description>
 		</attribute>
 		<attribute>
 			<name>windowHeight</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>窗口高度</description>
+			<description>弹出窗口高度</description>
 		</attribute>
 		<attribute>
-			<name>userName</name>
-			<required>false</required>
+			<name>readonly</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>用户名称</description>
+			<description>只读属性</description>
 		</attribute>
 		<attribute>
-			<name>lblName</name>
-			<required>false</required>
+			<name>hasLabel</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>组件名称</description>
+			<description>是否显示Label</description>
 		</attribute>
 		<attribute>
-			<name>title</name>
+			<name>userNamesDefalutVal</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>弹出框标头</description>
+			<description>用户名默认值</description>
+		</attribute>
+		<attribute>
+			<name>userIdsDefalutVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用户id默认值</description>
 		</attribute>
 	</tag>
 	<tag>
 		<name>selectZTree</name>
 		<tag-class>org.jeecgframework.tag.core.easyui.SelectZTreeTag</tag-class>
 		<body-content>JSP</body-content>
-		<display-name>下拉菜单方式</display-name>
+		<display-name>Ztree树控件</display-name>
 		<small-icon>111</small-icon>
-		<description>下拉菜单</description>
+		<description>Ztree树</description>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -1639,4 +1684,103 @@
 			<description>窗口高度</description>
 		</attribute>
 	</tag>
+	<!-- add-begin- Author:taoyan  Date:20170327 for：文件上传标签  -->
+	<tag>
+		<name>webUploader</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.WebUploaderTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>文件上传标签</description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>若指定该属性则①文件路径 input的name②action返回的文件路径的name都需使用该值</description>
+		</attribute>
+		<attribute>
+			<name>pathValues</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>默认值</description>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>file或是image,默认file</description>
+		</attribute>
+		<attribute>
+			<name>readOnly</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否只读</description>
+		</attribute>
+		<attribute>
+			<name>auto</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否自动上传</description>
+		</attribute>
+		<attribute>
+			<name>buttonStyle</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>按钮颜色和大小默认btn-green btn-S绿色小号</description>
+		</attribute>
+		<attribute>
+			<name>fileNumLimit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>最大文件数默认3</description>
+		</attribute>
+		<attribute>
+			<name>fileSingleSizeLimit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>单个文件大小限制(单位-KB,数值-正整数)</description>
+		</attribute>
+		<attribute>
+			<name>buttonText</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件按钮显示文本,默认-选择文件</description>
+		</attribute>
+		<attribute>
+			<name>extensions</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>允许的文件后缀,不带点,多个用逗号分割</description>
+		</attribute>
+		<attribute>
+			<name>showImgDiv</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>显示图片的div,如果不给会默认在按钮下方添加div其id为tempdiv</description>
+		</attribute>
+		
+		<attribute>
+			<name>duplicate</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>去重， 根据文件名字、文件大小和最后修改时间来生成hash Key</description>
+		</attribute>
+		<attribute>
+			<name>fileVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>设置文件上传域的name</description>
+		</attribute>
+		<attribute>
+			<name>extendParams</name>
+			<required>false</required>
+			<description>类似css写法 这是每个文件上传时候需要传递的参数字符串应带上引号</description>
+		</attribute>
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>文件处理action</description>
+		</attribute>
+	</tag>
+	<!-- add-end- Author:taoyan  Date:20170327 for：文件上传标签  -->
+	
 </taglib>

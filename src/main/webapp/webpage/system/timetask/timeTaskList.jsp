@@ -16,10 +16,12 @@
 	<t:dgCol title="common.updateby" field="updateBy" hidden="true"></t:dgCol>
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy-MM-dd" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
+	<!-- update-begin--Author:zhangjq  Date:20160904 for：[1342]【系统图标统一调整】讲{消息中间件}{系统监控}的链接按钮，改成ace风格的-->
 	<t:dgConfOpt title="common.start" url="timeTaskController.do?startOrStopTask&id={id}&isStart=1" urlclass="ace_button"  urlfont="fa-play-circle" message="确认运行任务" exp="isStart#eq#0"/>
 	<t:dgConfOpt title="common.stop" url="timeTaskController.do?startOrStopTask&id={id}&isStart=0" urlclass="ace_button"  urlfont="fa-stop" message="确认停止" exp="isStart#eq#1"/>
 	<t:dgConfOpt title="effective.immediately" url="timeTaskController.do?updateTime&id={id}" urlclass="ace_button"  urlfont="fa-clock-o" message="确认更新任务时间"  exp="isEffect#eq#0"/>
 	<t:dgDelOpt  url="timeTaskController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
+	<!-- update-end--Author:zhangjq  Date:20160904 for：[1342]【系统图标统一调整】讲{消息中间件}{系统监控}的链接按钮，改成ace风格的-->
 	<t:dgToolBar title="common.add" icon="icon-add" url="timeTaskController.do?addorupdate" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit" icon="icon-edit" url="timeTaskController.do?addorupdate" funname="update"></t:dgToolBar>
 	<t:dgToolBar title="common.view" icon="icon-search" url="timeTaskController.do?addorupdate" funname="detail"></t:dgToolBar>

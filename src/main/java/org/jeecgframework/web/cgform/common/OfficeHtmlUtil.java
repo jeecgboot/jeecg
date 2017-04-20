@@ -293,7 +293,9 @@ public class OfficeHtmlUtil {
 	    	ls_include.append("==true){if(!neibuClickFlag){var win = frameElement.api.opener;frameElement.api.close();win.tip(data.msg);win.reloadTable();}else {alert(data.msg)}}else{if(data.responseText==''||");
 	    	ls_include.append("data.responseText==undefined)$(\"#formobj\").html(data.msg);else $(\"#formobj\")");
 	    	ls_include.append(".html(data.responseText); return false;}if(!neibuClickFlag){var win = frameElement.api.opener;win.reloadTable();}}});});</script>");
-			
+
+			ls_include.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
 	    	ls_include.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
 	    	
 	    	ls_include.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");

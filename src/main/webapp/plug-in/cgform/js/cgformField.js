@@ -60,10 +60,8 @@ setTimeout(function(){
 }, 2000);
 function initData() {
 	addTableHead();
-	$.get("cgFormHeadController.do?getColumnList&id=" + $("#id").val(),
-			getDataHanlder);
-	$.get("cgFormIndexController.do?getIndexList&id=" + $("#id").val(),
-			getDataHanlderIndex);
+	$.get("cgFormHeadController.do?getColumnList&id=" + $("#id").val(),getDataHanlder);
+	$.get("cgFormIndexController.do?getIndexList&id=" + $("#id").val(),getDataHanlderIndex);
 
 	$('.t_table').height($(window).height()-300);
 	$(window).resize(function(){
@@ -84,8 +82,10 @@ function addTableHead() {
 	}
 }
 // 兼容不同浏览器获取iframe 内容
+
 //主要情况是ie11下的版本是火狐的标识倒是出差错
 function getIframeDocument(id){
+
 	try {
 		if (window.frames["iframe_" + id].contentDocument) {
 			return window.frames["iframe_" + id].contentDocument;
@@ -94,7 +94,9 @@ function getIframeDocument(id){
 	} catch (e) {
 	}
 	return document.getElementById("iframe_" + id).contentDocument;
+
 }
+
 
 /**
  * 获取数据的回调
@@ -120,14 +122,16 @@ function getDataHanlder(data) {
 	fixTab();
 	
 }
+
+//获取表单的索引配置
 function getDataHanlderIndex(data) {
 	data = eval("(" + data + ")");
-	// 兼容之前order最小为0的问题
-	var orderMin = data[0].orderNum == 0;
+
 	$.each(data, function(idx, item) {
 		rownumber = idx;//存储当前序号
-		initTrDataIndex(item, 'index', orderMin);
+		initTrDataIndex(item, 'index', false);
 	});
+
 	jformTypeChange();
 	fixTab();
 	
@@ -157,8 +161,9 @@ function initTrData(item, filedType, orderMin) {
 			$this.attr("name", name.replace('#index#',rownumber));
 			
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
-
+				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
+				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);
@@ -193,8 +198,9 @@ function initTrDataIndex(item, filedType, orderMin) {
 			$this.attr("name", name.replace('#index#',rownumber));
 			
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
-
+				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
+				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);

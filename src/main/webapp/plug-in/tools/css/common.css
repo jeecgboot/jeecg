@@ -34,6 +34,8 @@ cursor:pointer !important; border:1px solid #D7EAFF !important; margin-right:4px
 input[type="file"] { background-color: #D7EAFF; border : 1px solid #54A5D5; width:auto !important; padding:2px; }
 
 input[type="text"] { background-color: #fff; border : 1px solid #54A5D5; padding:2px; }
+
+/*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
 a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
  .ace_button
  {
@@ -46,3 +48,4 @@ a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
   line-height: 1.5;
   display: inline-block;
  }
+ /*	//update-end--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/

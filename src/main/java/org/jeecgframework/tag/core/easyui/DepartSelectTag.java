@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 
 /**
  * 
@@ -20,16 +21,37 @@ import org.jeecgframework.core.util.MutiLangUtil;
 public class DepartSelectTag extends TagSupport {
 
 	private static final long serialVersionUID = 1;
-    
-	private String readonly;// 只读属性
-    public String getReadonly() {
+	private String selectedIdsInputId;      // 用于记录已选择部门编号的input的id
+	private String selectedNamesInputId;    // 用于显示已选择部门名称的input的name
+	private String inputWidth;     			//输入框宽度
+	private String windowWidth; 			//弹出窗口宽度
+	private String windowHeight; 			//弹出窗口高度
+	private String departIdsDefalutVal; 	//部门ids 默认值
+	private String departNamesDefalutVal;	//部门names 默认值
+	private String readonly = "readonly";	// 只读属性
+	private boolean hasLabel = false;       //是否显示lable,默认不显示
+	private String title;			   		// 标题
+	
+	
+    public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public boolean isHasLabel() {
+		return hasLabel;
+	}
+	public void setHasLabel(boolean hasLabel) {
+		this.hasLabel = hasLabel;
+	}
+	public String getReadonly() {
 		return readonly;
 	}
 	public void setReadonly(String readonly) {
 		this.readonly = readonly;
 	}
-
-	private String selectedNamesInputId; // 用于记录已选择部门编号的input的id
+	
 	public String getSelectedNamesInputId() {
 		return selectedNamesInputId;
 	}
@@ -38,7 +60,6 @@ public class DepartSelectTag extends TagSupport {
 		this.selectedNamesInputId = _selectedNamesInputId;
 	}
 
-	private String selectedIdsInputId; // 用于显示已选择部门名称的input的id
 	public String getSelectedIdsInputId() {
 		return selectedIdsInputId;
 	}
@@ -47,17 +68,12 @@ public class DepartSelectTag extends TagSupport {
 		this.selectedIdsInputId = _selectedIdsInputId;
 	}
 	
-	private String departNameInputWidth; //已选择机构输入框宽度
-	public String getDepartNameInputWidth() {
-		return departNameInputWidth;
+	public String getInputWidth() {
+		return inputWidth;
 	}
-
-	public void setDepartNameInputWidth(String departNameInputWidth) {
-		
-		this.departNameInputWidth = departNameInputWidth;
+	public void setInputWidth(String inputWidth) {
+		this.inputWidth = inputWidth;
 	}
-	
-	private String windowWidth; //窗口宽度
 	public String getWindowWidth() {
 		return windowWidth;
 	}
@@ -66,7 +82,6 @@ public class DepartSelectTag extends TagSupport {
 		this.windowWidth = windowWidth;
 	}
 	
-	private String windowHeight; //窗口高度
 	public String getWindowHeight() {
 		return windowHeight;
 	}
@@ -75,22 +90,18 @@ public class DepartSelectTag extends TagSupport {
 		this.windowHeight = windowHeight;
 	}
 	
-	private String departId;
-	private String departName;
-
-	public String getDepartId() {
-		return departId;
+	public String getDepartIdsDefalutVal() {
+		return departIdsDefalutVal;
 	}
-	public void setDepartId(String departId) {
-		this.departId = departId;
+	public void setDepartIdsDefalutVal(String departIdsDefalutVal) {
+		this.departIdsDefalutVal = departIdsDefalutVal;
 	}
-	public String getDepartName() {
-		return departName;
+	public String getDepartNamesDefalutVal() {
+		return departNamesDefalutVal;
 	}
-	public void setDepartName(String departName) {
-		this.departName = departName;
+	public void setDepartNamesDefalutVal(String departNamesDefalutVal) {
+		this.departNamesDefalutVal = departNamesDefalutVal;
 	}
-	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
@@ -117,18 +128,17 @@ public class DepartSelectTag extends TagSupport {
 		
 		StringBuffer sb = new StringBuffer();
 		if (StringUtils.isBlank(selectedNamesInputId)) {
-			selectedNamesInputId = "departname"; // 默认id
+			selectedNamesInputId = "orgNames"; // 默认id
 		}
 		if (StringUtils.isBlank(selectedIdsInputId)) {
 			selectedIdsInputId = "orgIds"; // 默认id
 		}
-		String lblDepartment = MutiLangUtil.getMutiLangInstance().getLang("common.department");
-		if(StringUtils.isBlank(lblDepartment)){
-			lblDepartment = "组织机构";
+		if(StringUtils.isBlank(title)){
+			title = "选择部门";
 		}
 		
-		if(StringUtils.isBlank(departNameInputWidth)){
-			departNameInputWidth = "80px";
+		if(StringUtils.isBlank(inputWidth)){
+			inputWidth = "150px";
 		}
 		
 		if(StringUtils.isBlank(windowWidth)){
@@ -138,22 +148,21 @@ public class DepartSelectTag extends TagSupport {
 		if(StringUtils.isBlank(windowHeight)){
 			windowHeight = "350px";
 		}
-		
-		sb.append("<span style=\"display:-moz-inline-box;display:inline-block;\">");
-		sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: " + departNameInputWidth + ";text-align:right;\" title=\"" + lblDepartment + "\"/>");
-		sb.append(lblDepartment + "：");
-		sb.append("</span>");
-		sb.append("<input readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: 300px\" onclick=\"openDepartmentSelect()\" ");
-		if(StringUtils.isNotBlank(departId)){
-			sb.append(" value=\""+departName+"\"");
+		if(hasLabel && oConvertUtils.isNotEmpty(title)){
+			sb.append(title + "：");
+		}
+		sb.append("<input readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openDepartmentSelect()\" ");
+		if(StringUtils.isNotBlank(departNamesDefalutVal)){
+			sb.append(" value=\""+departNamesDefalutVal+"\"");
 		}
 		sb.append(" />");
+		String orgIds = "";		
 		sb.append("<input id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
-		if(StringUtils.isNotBlank(departName)){
-			sb.append(" value=\""+departId+"\"");
+		if(StringUtils.isNotBlank(departIdsDefalutVal)){
+			sb.append(" value=\""+departIdsDefalutVal+"\"");
+			orgIds = "&orgIds=" + departIdsDefalutVal;
 		}
-		sb.append(">");
-		sb.append("</span>");		
+		sb.append("/>");
 		
 		String commonDepartmentList = MutiLangUtil.getMutiLangInstance().getLang("common.department.list");
 		String commonConfirm = MutiLangUtil.getMutiLangInstance().getLang("common.confirm");
@@ -162,16 +171,13 @@ public class DepartSelectTag extends TagSupport {
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("function openDepartmentSelect() {");
 		sb.append("    $.dialog.setting.zIndex = 9999; ");
-		sb.append("    $.dialog({content: 'url:departController.do?departSelect', zIndex: 2100, title: '" + commonDepartmentList + "', lock: true, width: '" + windowWidth + "', height: '" + windowHeight + "', opacity: 0.4, button: [");
+		sb.append("    $.dialog({content: 'url:departController.do?departSelect" + orgIds + "', zIndex: 2100, title: '" + commonDepartmentList + "', lock: true, width: '" + windowWidth + "', height: '" + windowHeight + "', opacity: 0.4, button: [");
 		sb.append("       {name: '" + commonConfirm + "', callback: callbackDepartmentSelect, focus: true},");
 		sb.append("       {name: '" + commonCancel + "', callback: function (){}}");
 		sb.append("   ]}).zindex();");
 		sb.append("}");
-		
 		sb.append("function callbackDepartmentSelect() {");
 		sb.append("    var iframe = this.iframe.contentWindow;");
-
-		//sb.append("    var departname = iframe.getdepartListSelections('text');");
 		sb.append(" var treeObj = iframe.$.fn.zTree.getZTreeObj(\"departSelect\");");
 		sb.append(" var nodes = treeObj.getCheckedNodes(true);");
 		sb.append(" if(nodes.length>0){");
@@ -185,7 +191,6 @@ public class DepartSelectTag extends TagSupport {
 		sb.append(" $('#" + selectedNamesInputId + "').blur();");		
 		sb.append(" $('#" + selectedIdsInputId + "').val(ids);");
 		sb.append("}");
-
 		sb.append("}");
 		sb.append("</script>");
 		return sb;

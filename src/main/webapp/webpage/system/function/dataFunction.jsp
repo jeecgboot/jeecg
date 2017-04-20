@@ -13,6 +13,7 @@
 
 			panelHeight: 200,
 			width: 157,
+
 			onClick: function(node){
 				$("#functionId").val(node.id);
 			}

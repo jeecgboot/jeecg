@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -38,7 +39,6 @@ import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -518,9 +518,10 @@ public class CgformTemplateController extends BaseController {
 			}
 		}
 		FileInputStream fis = null;
+		OutputStream out = null;
 		response.setContentType("image/" + FileUtils.getExtend(path));
 		try {
-			OutputStream out = response.getOutputStream();
+			out = response.getOutputStream();
 			File file = new File(getUploadBasePath(request),code+path);
 			if(!file.exists()||file.isDirectory()){
 				file=new File(getUploadBasePath(request),defaultCode+defaultPath);
@@ -536,6 +537,7 @@ public class CgformTemplateController extends BaseController {
 			if (fis != null) {
 				try {
 					fis.close();
+					out.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -546,7 +548,14 @@ public class CgformTemplateController extends BaseController {
 	private String getUploadBasePath(HttpServletRequest request){
 
 //		String path=request.getSession().getServletContext().getRealPath("/WEB-INF/classes/online/template");
-		String path= this.getClass().getResource("/").getPath()+"online/template";
+
+		ClassLoader classLoader = this.getClass().getClassLoader();  
+        URL resource = classLoader.getResource("sysConfig.properties");  
+        String path = resource.getPath(); 
+        path = path.substring(0,path.indexOf("sysConfig.properties"))+"online/template";
+//		String path= this.getClass().getResource("/").getPath()+"online/template";
+
+        path = path.replaceAll("%20", " ");//解决tomcat安装路径包含空格的问题
 		return path;
 	}
 

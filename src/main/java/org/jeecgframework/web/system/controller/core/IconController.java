@@ -19,6 +19,7 @@ import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.system.util.IconImageUtil;
 
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;

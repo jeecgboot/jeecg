@@ -17,8 +17,6 @@ public class SqlGenerateUtil {
 	/** 时间查询符号 */
 	private static final String END = "_end";
 	private static final String BEGIN = "_begin";
-
-	private static final SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	/**
 	 * 获取OBJ对应的table名
@@ -152,6 +150,7 @@ public class SqlGenerateUtil {
 	 * @return
 	 */
 	public static String getValueForType(String name,Object value,String type){
+		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		if("class java.lang.Integer".equals(type)
 				||"class java.lang.Double".equals(type)
 				||"class java.lang.Long".equals(type)
@@ -173,7 +172,7 @@ public class SqlGenerateUtil {
 					if (endValue.length() == 19) {
 						return "'date"+endValue+"'";
 					}else{
-						return "'date"+endValue+" 23:23:59'";
+						return "'date"+endValue+" 23:59:59'";
 					}
 				}else{
 					return "date'"+time.format(value)+"'";
@@ -191,7 +190,7 @@ public class SqlGenerateUtil {
 					if(endValue.length() == 19) {
 						return "'"+endValue+"'";
 					}else{
-						return "'"+endValue+" 23:23:59'";
+						return "'"+endValue+" 23:59:59'";
 					}
 				}else{
 					return "'"+time.format(value)+"'";

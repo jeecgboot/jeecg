@@ -36,16 +36,15 @@ import freemarker.template.TemplateException;
   *
  */
 public class TuiSongMsgUtil {
-	
-	private static TSSmsServiceI tSSmsService; //短信表service；
 
-	private static SystemService systemService;
-	private static TSSmsTemplateSqlServiceI tSSmsTemplateSqlService;//业务sql消息模板关联service;
 	
-	private static TSSmsTemplateServiceI tSSmsTemplateService;//消息模板service
-	
-	private static TSSmsSqlServiceI tSSmsSqlService;//业务sqlservice
-	private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+//	private static TSSmsServiceI tSSmsService; //短信表service；
+//	private static SystemService systemService;
+//	private static TSSmsTemplateSqlServiceI tSSmsTemplateSqlService;//业务sql消息模板关联service;
+//	private static TSSmsTemplateServiceI tSSmsTemplateService;//消息模板service
+//	private static TSSmsSqlServiceI tSSmsSqlService;//业务sqlservice
+//	private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
 	private static Configuration configuration;
 	/**
 	  * sendMessage 统一消息发送接口
@@ -94,11 +93,7 @@ public class TuiSongMsgUtil {
 		}
 	}
 	public static NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
-			
-			if(namedParameterJdbcTemplate==null){
-				namedParameterJdbcTemplate=ApplicationContextUtil.getContext().getBean(NamedParameterJdbcTemplate.class);
-				
-			}
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = ApplicationContextUtil.getContext().getBean(NamedParameterJdbcTemplate.class);
 			return namedParameterJdbcTemplate;
 		}
 	
@@ -188,11 +183,7 @@ public class TuiSongMsgUtil {
 	  * @throws
 	 */
 	public static TSSmsServiceI getTSSmsServiceInstance(){
-		
-		if(tSSmsService==null){
-			tSSmsService=ApplicationContextUtil.getContext().getBean(TSSmsServiceI.class);
-			
-		}
+		TSSmsServiceI tSSmsService = ApplicationContextUtil.getContext().getBean(TSSmsServiceI.class);
 		return tSSmsService;
 	}
 	/**
@@ -207,11 +198,8 @@ public class TuiSongMsgUtil {
 	 */
 	public static TSSmsTemplateSqlServiceI getTssmsTemplateSqlInstance(){
 		
-		if(tSSmsTemplateSqlService==null){
+		TSSmsTemplateSqlServiceI tSSmsTemplateSqlService = ApplicationContextUtil.getContext().getBean(TSSmsTemplateSqlServiceI.class);
 			
-			tSSmsTemplateSqlService=ApplicationContextUtil.getContext().getBean(TSSmsTemplateSqlServiceI.class);
-			
-		}
 		return tSSmsTemplateSqlService;
 	}
 	/**
@@ -225,10 +213,7 @@ public class TuiSongMsgUtil {
 	  * @throws
 	 */
 	public static TSSmsTemplateServiceI getTssmsTemplateInstance(){
-		if(tSSmsTemplateService==null){
-			
-			tSSmsTemplateService=ApplicationContextUtil.getContext().getBean(TSSmsTemplateServiceI.class);
-		}
+		TSSmsTemplateServiceI tSSmsTemplateService=ApplicationContextUtil.getContext().getBean(TSSmsTemplateServiceI.class);
 		return tSSmsTemplateService;
 	}
 	/**
@@ -242,10 +227,7 @@ public class TuiSongMsgUtil {
 	  * @throws
 	 */
 	public static TSSmsSqlServiceI getTSSmsSqlInstance(){
-		if(tSSmsSqlService==null){
-			
-			tSSmsSqlService=ApplicationContextUtil.getContext().getBean(TSSmsSqlServiceI.class);
-		}
+		TSSmsSqlServiceI tSSmsSqlService =ApplicationContextUtil.getContext().getBean(TSSmsSqlServiceI.class);
 		return tSSmsSqlService;
 	}
 }

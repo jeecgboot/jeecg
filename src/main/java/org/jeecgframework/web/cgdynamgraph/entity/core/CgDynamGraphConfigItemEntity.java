@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**   
  * @Title: Entity
- * @Description: 动态报表配置明细
+ * @Description: 移动报表配置明细
  * @author 张代浩
  * @date 2013-12-07 16:00:21
  * @version V1.0   

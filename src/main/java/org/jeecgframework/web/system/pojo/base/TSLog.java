@@ -1,6 +1,8 @@
 package org.jeecgframework.web.system.pojo.base;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +22,7 @@ import org.jeecgframework.core.common.entity.IdEntity;
 public class TSLog extends IdEntity implements java.io.Serializable {
 	private TSUser TSUser;
 	private Short loglevel;
-	private Timestamp operatetime;
+	private Date operatetime;
 	private Short operatetype;
 	private String logcontent;
 	private String broswer;//用户浏览器类型
@@ -46,11 +48,11 @@ public class TSLog extends IdEntity implements java.io.Serializable {
 	}
 
 	@Column(name = "operatetime", nullable = false, length = 35)
-	public Timestamp getOperatetime() {
+	public Date getOperatetime() {
 		return this.operatetime;
 	}
 
-	public void setOperatetime(Timestamp operatetime) {
+	public void setOperatetime(Date operatetime) {
 		this.operatetime = operatetime;
 	}
 

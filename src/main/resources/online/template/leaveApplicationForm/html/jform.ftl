@@ -1,5 +1,6 @@
 <html xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">
 <head>
+	<base href="${basePath}/"/>
 	<title>员工请假单</title>
 	<style type="text/css">body {
 		font-size: 12px;
@@ -26,7 +27,7 @@
 	${config_iframe}
 </head>
 <body>
-	<form id="formobj" action="cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
+	<form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 	<input type="hidden" id="btn_sub" class="btn_sub"/>
 	<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
 	<input type="hidden" name="id" value="${id?if_exists?html}" >
@@ -290,15 +291,15 @@
 		}
 	   $(function(){
 		//查看模式情况下,删除和上传附件功能禁止使用
-		if(location.href.indexOf("load=detail")!=-1){
+		if(location.href.indexOf("goDetail.do")!=-1){
 			$(".jeecgDetail").hide();
 		}
 		
-		if(location.href.indexOf("mode=read")!=-1){
+		if(location.href.indexOf("goDetail.do")!=-1){
 			//查看模式控件禁用
 			$("#formobj").find(":input").attr("disabled","disabled");
 		}
-		if(location.href.indexOf("mode=onbutton")!=-1){
+		if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
 			//其他模式显示提交按钮
 			$("#sub_tr").show();
 		}

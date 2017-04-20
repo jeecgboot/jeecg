@@ -7,6 +7,7 @@
 	$('#delCgreportConfigParamBtn').linkbutton({   
 	    iconCls: 'icon-remove'  
 	}); 
+
 	$('#addCgreportConfigParamBtn').bind('click', function(){   
  		 var tr =  $("#add_cgDynamGraphConfigParam_table_template tr").clone();
 	 	 $("#add_cgreportConfigParam_table").append(tr);

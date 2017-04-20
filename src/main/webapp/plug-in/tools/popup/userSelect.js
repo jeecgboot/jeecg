@@ -8,7 +8,7 @@ var userNameInputWidth_user = 80;
 //用于记录已选择用户的input的id
 var selectedNamesInputId_user = "realName";
 //组件名称
-var lblName_user = "真实姓名";
+var lblName_user = "用户名称";
 //弹出框标头
 var title_user = "用户列表";
 UserSelectApi = {};

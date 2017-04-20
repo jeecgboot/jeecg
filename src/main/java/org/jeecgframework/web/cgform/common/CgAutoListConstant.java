@@ -161,4 +161,6 @@ public class CgAutoListConstant {
 	/** online配置表单版本分隔符 */
 	public static final String ONLINE_TABLE_SPLIT_STR = "__";
 
+	public static final String BASEPATH = "basePath";
+	
 }

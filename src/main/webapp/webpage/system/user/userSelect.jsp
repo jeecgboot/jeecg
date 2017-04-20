@@ -67,7 +67,7 @@
 </script>
 <div class="easyui-layout" style="width:1000px;height:600px;">
     <div data-options="region:'west',split:true" title="<t:mutiLang langKey='common.department'/>" style="width:200px;">
-        <ul id="departSelect" class="ztree" style="margin-top: 30px;"></ul>
+        <ul id="departSelect" class="ztree" ></ul>
     </div>
     <div data-options="region:'center'">
         <t:datagrid checkbox="true" name="userList1" title="common.user.select" actionUrl="userController.do?datagrid"

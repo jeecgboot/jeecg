@@ -37,6 +37,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	border-bottom: 1px solid #e6e6e6;
 	cursor: n-resize;
 }
+/*update-end--Author:liuht  Date:20131207 for[333]：OL模块，增加一个特效 调整字段顺序（上下挪动）*/
 </style>
 </head>
 <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
@@ -45,7 +46,9 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	<!-- tiptype="1" -->
 	<input id="id" name="id" type="hidden" value="${cgFormHeadPage.id}">
 	<input id="langurl" name="langurl" type="hidden" value="<%=langurl%>">
+	<!-- add-start--Author:gengjiajia  Date:20160804 for：添加表类型隐藏域-->
 	<input id="tableType" name="tableType" type="hidden" value="${cgFormHeadPage.tableType}">
+	<!-- add-start--Author:gengjiajia  Date:20160804 for：添加表类型隐藏域-->
 	<table cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.name"/>: </label></td>
@@ -71,12 +74,14 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 																																				  class="inputxt" value="${cgFormHeadPage.jformPkSequence}" /> <span class="Validform_checktip"></span> <label class="Validform_label" style="display: none;"> <t:mutiLang langKey="sequence.name"/>:</label></td>
 		</tr>
 			<tr>
+			<!--add-start--Author:luobaoli  Date:20150607 for：增加表单分类下拉列表-->
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.category"/>:</label></td>
 			<td class="value"><select id="jformCategory" name="jformCategory">
 				<c:forEach items="${typeList}" var="type">
 					<option value="${type.typecode}" <c:if test="${type.typecode==cgFormHeadPage.jformCategory}">selected="selected"</c:if>>${type.typename}</option>
 				</c:forEach>
 			</select></td>
+			<!--add-end--Author:luobaoli  Date:20150607 for：增加表单分类下拉列表-->
 
 				<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.type"/>: </label></td>
 				<td class="value"><select id="jformType" name="jformType" onchange="formTypeChange();">
@@ -101,10 +106,15 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 				</td>
 		</tr>
 		<tr>
+			<!--add-start--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style_pc" />:</label></td>
 			<td class="value"><select id="formTemplate" name="formTemplate" temVal="${cgFormHeadPage.formTemplate}"></select></td>
+			<!--add-end--Author:张忠亮  Date:20150618 for：增加表单模板选择-->
+			
+			<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="form.template.style_mobile" />:</label></td>
 			<td class="value"><select id="formTemplateMobile" name="formTemplateMobile" temVal="${cgFormHeadPage.formTemplateMobile}"></select></td>
+			<!--add-start--Author:scott  Date:20160301 for：online表单移动样式单独配置-->
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="show.checkbox"/>: </label></td>
@@ -150,16 +160,19 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 	</table>
   <div id="tabs" class="easyui-tabs" tabPosition="top" fit="false" style="margin: 0px; padding: 0px; overflow: hidden; width: auto;">
     <div title= '<t:mutiLang langKey="database.property"/>' width="auto" style="width: auto; margin: 0px; padding: 0px; overflow: hidden;">
+      <!-- add-start--Author:gengjiajia  Date:20160804 for：如果表类型是“配置表”，则online表单配置不可修改，禁止添加，删除，按钮-->
       <c:if test="${cgFormHeadPage.tableType != '1'}">
 	      <div style="height: 25px;" class="datagrid-toolbar"><a id="addColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addColumnBtnClick();" href="#"><t:mutiLang langKey="common.add.to"/></a> <a
 			id="delColumnBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="delColumnBtnClick();" href="#"><t:mutiLang langKey="common.delete"/></a></div>
       </c:if>
+      <!-- add-end--Author:gengjiajia  Date:20160804 for：如果表类型是“配置表”，则online表单配置不可修改，禁止添加，删除，按钮-->
       <table id="tab_div_database_title" class="table-list" style="height: 25px;">
       </table>
       <div class="t_table" id="t_table_database">
         <table id="tab_div_database" class="table-list">
         </table>
         <br><br><br>
+		  <div  style="height: 43px"></div>
       </div>
     </div>
     <div title='<t:mutiLang langKey="page.property"/>' style="overflow: hidden;">
@@ -189,6 +202,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
         <br><br><br>
       </div>
     </div>
+    <!--  add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
 	<div title='<t:mutiLang langKey="common.index"/>' style="overflow: hidden;">
 	  <div style="height: 25px;" class="datagrid-toolbar">
 	  	<a id="addColumnBtn1" class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addIndexBtnClick();" href="#"><t:mutiLang langKey="common.add.to"/></a> 
@@ -203,6 +217,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 		  <br><br><br>
 	  </div>
 	</div>
+	<!--  add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
   </div>
 </t:formvalid>
 <script type="text/javascript">
@@ -213,7 +228,9 @@ $(function() {
 		isTreeHandle();
 	});
 	getFormTemplateName();
+	<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	getFormTemplateName2();
+	<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 }); 
 //根据是否为树形菜单隐藏或显示tree输入框
 function isTreeHandle() {
@@ -227,6 +244,7 @@ function isTreeHandle() {
 		$("tr.tree").find(":input").attr("disabled", true).removeAttr("datatype").end().hide();
 	}
 }
+<!--add-start--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
 //获取表单风格模板名称
 function getFormTemplateName(){
  var type=$("#jformType").val();
@@ -250,6 +268,8 @@ function getFormTemplateName(){
 		}
 	});
 }
+
+<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 //获取表单风格模板名称
 function getFormTemplateName2(){
  var type=$("#jformType").val();
@@ -273,14 +293,19 @@ function getFormTemplateName2(){
 		}
 	});
 }
+<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 
 //表单类型改变 调用
 	function formTypeChange(){
 		jformTypeChange();
 		getFormTemplateName();
+		<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 		getFormTemplateName2();
+		<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	}
+<!--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
 
+//add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 function getShowType(obj){
 	var $this = $(obj),value = obj.value;
 	if(value == 'umeditor'){
@@ -289,7 +314,7 @@ function getShowType(obj){
 		$this.parent().next().eq(0).find("input[name$=fieldLength]").val('120');
 	}
 }
-
+//add-end--Author:jg_renjie Date:20160301 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 
 function selectField(select){
 	var selected = select.val().split(",");
@@ -353,5 +378,7 @@ function selectField(select){
 <iframe id="iframe_database" src="plug-in/cgform/fields/cgformOfDatabase.html" style="display: none"></iframe>
 <iframe id="iframe_key" src="plug-in/cgform/fields/cgformOfForeignKey.html" style="display: none"></iframe>
 <iframe id="iframe_page" src="plug-in/cgform/fields/cgformOfPage.html" style="display: none"></iframe>
+<!--  add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
 <iframe id="iframe_index" src="plug-in/cgform/fields/cgformOfIndex.html" style="display: none"></iframe>
+<!--  add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹-->
 </body>

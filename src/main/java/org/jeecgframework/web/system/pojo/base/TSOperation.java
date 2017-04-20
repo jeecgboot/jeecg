@@ -23,7 +23,7 @@ public class TSOperation extends IdEntity implements java.io.Serializable {
 	private TSIcon TSIcon = new TSIcon();
 	private TSFunction TSFunction = new TSFunction();
 	
-	private Short operationType;
+	private Short operationType;//0隐藏 1禁用
 	
 	@Column(name = "operationtype")
 	public Short getOperationType() {

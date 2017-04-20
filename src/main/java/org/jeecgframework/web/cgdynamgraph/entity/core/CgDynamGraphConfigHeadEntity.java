@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**   
  * @Title: Entity
- * @Description: 动态报表配置抬头
+ * @Description: 移动报表配置主表
  * @author 张代浩
  * @date 2013-12-07 16:00:21
  * @version V1.0   
@@ -43,9 +43,10 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
 	private java.lang.String updateBy;
 	/**修改人名称*/
 	private java.lang.String updateName;
-	
+
     /**动态数据源*/
     private String dbSource;
+
     
     
 	/**图表类型*/
@@ -235,6 +236,7 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;
 	}
+
     @Column(name ="db_source",length=36)
     public String getDbSource() {
         return dbSource;
@@ -243,6 +245,7 @@ public class CgDynamGraphConfigHeadEntity implements java.io.Serializable {
     public void setDbSource(String dbSource) {
         this.dbSource = dbSource;
     }
+
 	
 	@Column(name ="graph_type",length=36)
 	public String getGraphType() {

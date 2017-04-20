@@ -1,7 +1,7 @@
 //layim聊天组件start
 //请将这个ip地址修改为本机ip地址
 //websocket 配置
-var chatIp = "192.168.0.110";
+var chatIp = "192.168.0.114";
 var id = "";
 jQuery.post("chat/imController.do?getUserid", {
 
@@ -50,6 +50,7 @@ layui.use('layim', function(layim){
         ,brief:false
         ,isgroup: false //是否开启群组
         ,chatLog: 'chat/chatMessageHistory.do?from='+id //聊天记录地址
+
         
         ,find: './demo/find.html'
         ,copyright: true //是否授权

@@ -15,8 +15,8 @@
    <t:dgToolBar title="common.add" icon="icon-add" url="noticeController.do?goAdd" funname="add" width="800" height="600"></t:dgToolBar>
    <t:dgToolBar title="common.edit" icon="icon-edit" url="noticeController.do?goUpdate" funname="update" width="800" height="600"></t:dgToolBar>
    <t:dgToolBar title="common.batchDelete"  icon="icon-remove" url="noticeController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
-   <t:dgFunOpt exp="noticeLevel#eq#2" funname="queryRoles(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>
-   <t:dgFunOpt exp="noticeLevel#eq#3" funname="queryUsers(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>
+  <%-- <t:dgFunOpt exp="noticeLevel#eq#2" funname="queryRoles(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>
+   <t:dgFunOpt exp="noticeLevel#eq#3" funname="queryUsers(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>--%>
   </t:datagrid>
   </div>
  </div>

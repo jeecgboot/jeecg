@@ -2,7 +2,30 @@
 <!DOCTYPE html>
 <html>
  <head>
+ <base href="${basePath}/"/>
   <title>订单信息</title>
+  <style type="text/css">
+   	.Button{ 
+		display: inline-block;
+		outline: none;
+		cursor: pointer;
+		text-align: center;
+		text-decoration: none;
+		font: 14px/100% Arial, Helvetica, sans-serif;
+		padding: .5em 2em .55em;
+		-webkit-border-radius: .5em; 
+		-moz-border-radius: .5em;
+		border-radius: .5em;
+		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		color: #fef4e9;
+		border: solid 1px #1D73F7;
+		background: #1D73F7;
+		background: -webkit-gradient(linear, left top, left bottom, from(#1D73F7), to(#1D51F7));
+	}
+
+  </style>
   ${config_iframe}
  </head>
  <script type="text/javascript">
@@ -36,21 +59,22 @@
 	}
  </script>
  <body>
-  <form id="formobj" action="cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>
+  <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>
 	<#include "online/template/default/html/jformhead.ftl">
 			
 			
 <script type="text/javascript">
    $(function(){
     //查看模式情况下,删除和上传附件功能禁止使用
-	if(location.href.indexOf("load=detail")!=-1){
+	if(location.href.indexOf("goDetail.do")!=-1){
 		$(".jeecgDetail").hide();
 	}
-	if(location.href.indexOf("mode=read")!=-1){
+	
+	if(location.href.indexOf("goDetail.do")!=-1){
 		//查看模式控件禁用
 		$("#formobj").find(":input").attr("disabled","disabled");
 	}
-	if(location.href.indexOf("mode=onbutton")!=-1){
+	if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
 		//其他模式显示提交按钮
 		$("#sub_tr").show();
 	}
@@ -76,9 +100,11 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
+  			<#--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
+  			<#--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();
@@ -133,8 +159,10 @@
 				</#list>
 				</div>
 			</div>
-		<div align="center"  id = "sub_tr" style="display: none;" > <input type="button" value="提交" onclick="$('#btn_sub').trigger('click');" class="ui_state_highlight"></div>
-		<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script></form>
+		<div align="center"  id = "sub_tr" style="display: none;" > <input type="button" value="提交" onclick="$('#btn_sub').trigger('click');" class="Button"></div>
+		<#--update--begin--author:scott Date:20170304 for:替换layer风格提示框-->
+		<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:function(msg,o,cssctl){if(o.type == 3){layer.open({title:'提示信息',content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,cancel:function(index){o.obj.focus();layer.close(index);},yes:function(index){o.obj.focus();layer.close(index);},})}},btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script></form>
+		<#--update--end--author:scott Date:20170304 for:替换layer风格提示框-->
 		<!-- 添加 产品明细 模版 -->
 		<table style="display:none">
 		<#assign subTableStr>${head.subTableStr?if_exists?html}</#assign>

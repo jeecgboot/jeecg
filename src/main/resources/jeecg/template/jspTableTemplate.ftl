@@ -18,8 +18,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<input <#if po.classType=='easyui-datetimebox'>class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="width: 150px"<#elseif po.classType=='easyui-datebox'>class="Wdate" onClick="WdatePicker()"  style="width: 150px"<#else>class="${po.classType}"</#if> id="${po.fieldName}" name="${po.fieldName}" <#if po.nullable == 'Y'>ignore="ignore"</#if>
-							   <#if po.fieldType?index_of("time")!=-1>  value="<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>"<#else><#if po.fieldType?index_of("date")!=-1>value="<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd"/>"<#else>value="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}"</#if></#if><#if po.optionType?trim?length !=0> datatype="${po.optionType}"</#if>>
+						<input <#if po.classType=='easyui-datetimebox'>class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="width: 150px"<#elseif po.classType=='easyui-datebox'>class="Wdate" onClick="WdatePicker()"  style="width: 150px"<#else>class="${po.classType}"</#if> id="${po.fieldName}" name="${po.fieldName}" <#if po.nullable == 'Y'>ignore="ignore"</#if>  <#if po.fieldType?index_of("time")!=-1>  value="<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>"<#else><#if po.fieldType?index_of("date")!=-1>value="<fmt:formatDate value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="date" pattern="yyyy-MM-dd"/>"<#else>value="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}"</#if></#if><#if po.optionType?trim?length !=0> datatype="${po.optionType}"</#if> />
 						<span class="Validform_checktip"></span>
 					</td>
 				</tr>

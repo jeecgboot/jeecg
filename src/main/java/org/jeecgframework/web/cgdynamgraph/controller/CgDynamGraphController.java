@@ -65,7 +65,7 @@ public class CgDynamGraphController extends BaseController {
 		//step.3 组合模板+数据参数，进行页面展现
 		loadVars(cgDynamGraphMap,request);
 		String html;
-		
+
 		//判断是否为综合类
 		Map<String, Object> mainConfig = (Map<String, Object> )cgDynamGraphMap.get(CgReportConstant.MAIN);
 		String defaultGtype =mainConfig.get("graph_type")==null?null:(String)mainConfig.get("graph_type");
@@ -80,6 +80,7 @@ public class CgDynamGraphController extends BaseController {
 			//设置gtype
 			html = viewEngine.parseTemplate("/org/jeecgframework/web/cgdynamgraph/engine/core/cgDynamGraphDesignMobile.ftl", cgDynamGraphMap);
 		}
+
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
@@ -113,6 +114,9 @@ public class CgDynamGraphController extends BaseController {
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
+
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
 		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
 		return sb.toString();
@@ -262,6 +266,7 @@ public class CgDynamGraphController extends BaseController {
 			}
 		}
 		//step.4 进行查询返回结果
+
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -279,6 +284,7 @@ public class CgDynamGraphController extends BaseController {
             result= cgDynamGraphService.queryByCgDynamGraphSql(querySql, queryparams);
             size = cgDynamGraphService.countQueryByCgDynamGraphSql(querySql, queryparams);
         }
+
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -325,6 +331,7 @@ public class CgDynamGraphController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
+
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

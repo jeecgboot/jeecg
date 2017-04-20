@@ -12,12 +12,21 @@
 	<input id="isEffect" name="isEffect" type="hidden" value="${(empty timeTaskPage.isEffect)?0:timeTaskPage.isEffect}">
 	<input id="isStart" name="isStart" type="hidden" value="${(empty timeTaskPage.isStart)?1:timeTaskPage.isStart }">
 	<fieldset class="step">
-	<div class="form"><label class="Validform_label"><t:mutiLang langKey="common.taskid"/>:</label> <input class="inputxt" id="taskId" name="taskId" value="${timeTaskPage.taskId}" datatype="*"> <span
-		class="Validform_checktip"></span></div>
-	<div class="form"><label class="Validform_label"><t:mutiLang langKey="common.task.desc"/>:</label> <input class="inputxt" id="taskDescribe" name="taskDescribe" value="${timeTaskPage.taskDescribe}" datatype="*"> <span
-		class="Validform_checktip"></span></div>
-	<div class="form"><label class="Validform_label"><t:mutiLang langKey="cron.expression"/>:</label> <input class="inputxt" id="cronExpression" name="cronExpression" value="${timeTaskPage.cronExpression}" datatype="*"> <span
-		class="Validform_checktip"></span></div>
+	<div class="form">
+		<label class="Validform_label"><t:mutiLang langKey="common.taskid"/>:</label> 
+		<input class="inputxt" id="taskId" name="taskId" value="${timeTaskPage.taskId}" datatype="*" style="width:50%"/> 
+		<span class="Validform_checktip"></span>
+	</div>
+	<div class="form">
+		<label class="Validform_label"><t:mutiLang langKey="common.task.desc"/>:</label> 
+		<input class="inputxt" id="taskDescribe" name="taskDescribe" value="${timeTaskPage.taskDescribe}" datatype="*" style="width:50%"/> 
+		<span class="Validform_checktip"></span>
+	</div>
+	<div class="form">
+		<label class="Validform_label"><t:mutiLang langKey="cron.expression"/>:</label> 
+		<input class="inputxt" id="cronExpression" name="cronExpression" value="${timeTaskPage.cronExpression}" datatype="*" style="width:50%"/> 
+		<span class="Validform_checktip"></span>
+	</div>
 	</fieldset>
 </t:formvalid>
 </body>

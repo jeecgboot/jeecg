@@ -160,13 +160,14 @@ public class DbTableProcess {
 			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(
 					session.getSessionFactory()).getConnection());
 			dbExport.execute(true, true, false, true);
-			
+
 			//抛出执行异常，抛出第一个即可  
 			@SuppressWarnings("unchecked")
 			List<Exception> exceptionList = dbExport.getExceptions();
 			for (Exception exception : exceptionList) {
 				throw new DBException(exception.getMessage());
 			}
+
 	}
 
 	/**

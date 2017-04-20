@@ -49,7 +49,9 @@ public class PagerUtil {
 		int offset = 0;
 		try {
 			if (curPageNO > (int) Math.ceil((double) rowCounts / pageSize))
-				curPageNO = (int) Math.ceil((double) rowCounts / pageSize);
+
+				curPageNO = (int) Math.ceil((double) rowCounts / pageSize) + 1;
+
 			// 得到第几页
 			if (curPageNO <= 1)
 				curPageNO = 1;
@@ -65,7 +67,9 @@ public class PagerUtil {
 		try {
 			// 得到第几页
 			if (curPageNO > (int) Math.ceil((double) rowCounts / pageSize))
-				curPageNO = (int) Math.ceil((double) rowCounts / pageSize);
+
+				curPageNO = (int) Math.ceil((double) rowCounts / pageSize) + 1;
+
 			if (curPageNO <= 1)
 				curPageNO = 1;
 		} catch (Exception e) {

@@ -130,7 +130,7 @@
 										overrideEvents:['onDialogClose'],
 										fileTypeDesc:'文件格式:',
 										queueID:'filediv_${po.field_name}',
-										fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
+										<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
 										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
 										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
 										onUploadStart : function(file) { 

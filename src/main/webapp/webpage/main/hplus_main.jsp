@@ -45,6 +45,7 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <span><img alt="image" class="img-circle" src="plug-in/login/images/jeecg-aceplus.png" /></span>
+                        <%--//update-start--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                 <span class="block m-t-xs"><strong class="font-bold">${userName }</strong></span>
@@ -65,6 +66,7 @@
                             <li class="divider"></li>
                             <li><a href="javascript:logout()">注销</a></li>
                         </ul>
+                         //update-end--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 --%>
                     </div>
                     <div class="logo-element">JEECG
                     </div>
@@ -138,7 +140,7 @@
                         </ul>
                     </li> --%>
                     
-                    <li class="dropdown">
+                    <li class="dropdown" onfocus="bindFrameClick()">
                     	<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                 <span ><strong class="font-bold">${userName }</strong></span>
                                 <span >${roleName }<b class="caret"></b></span>
@@ -200,7 +202,7 @@
             <a href="javascript:logout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
              -->
         </div>
-        <div class="row J_mainContent" id="content-main">
+        <div class="row J_mainContent" id="content-main" style="margin-left:-13px;">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="loginController.do?hplushome" frameborder="0" data-id="loginController.do?hplushome" seamless></iframe>
         </div>
         <div class="footer">
@@ -649,6 +651,16 @@
             }
         });
     }
+
+    //个人信息弹出层回缩
+    function frameBodyClick(){ 
+		$(".count-info").attr("aria-expanded","false").parent().removeClass("open");
+	}
+    //新增iframe中绑定click事件回调父级函数
+    function bindFrameClick(){
+    	$(".J_iframe").contents().find("body").attr("onclick", "parent.frameBodyClick()"); 
+    }
+
 </script>
 </body>
 

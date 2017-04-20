@@ -30,7 +30,7 @@ $btn.click(function(){
 	      }); 
 	      resetTrNum("add_cgDynamGraphConfigParam_table");
     }else{
-		$.messager.alert('错误',data.datas);
+    	alerLayerTip(data.datas);
 	}
   }
   });

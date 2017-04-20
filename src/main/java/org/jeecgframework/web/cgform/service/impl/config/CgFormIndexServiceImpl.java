@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("cgFormIndexService")
 @Transactional
 public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormIndexServiceI {
-
+	private static final Logger logger = Logger.getLogger(CgFormIndexServiceImpl.class);
 	
  	public <T> void delete(T entity) {
  		super.delete(entity);
@@ -85,9 +86,8 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 		boolean isChange = false;
 		List<CgFormIndexEntity> indexes = cgFormHead.getIndexes();
 		//判断新的indexes和旧的indexes的差异,如果有差异，就设置cgFormHead的数据库同步字段为N
-		List<CgFormIndexEntity> oldindexes = this.getSession().
-				createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();
-		if(oldindexes.size()!=0&&indexes!=null){
+		List<CgFormIndexEntity> oldindexes = this.getSession().createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();
+		if(oldindexes.size()!=0 && indexes!=null){
 			if(oldindexes.size()!=indexes.size()){
 				isChange = true;
 			}else{
@@ -112,24 +112,29 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 		//根据名称先删除索引
 		/*List<CgFormIndexEntity> oldindexes = this.getSession().
 				createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();*/
-		try {
-			if(oldindexes!=null){
-				for(CgFormIndexEntity cgform : oldindexes){
-					String sql = "drop index " + cgform.getIndexName() + " on " + formhead.getTableName();
-					this.getSession().createSQLQuery(sql).executeUpdate();
+		
+		if(isChange){
+			//删除表的索引
+			try {
+				if(oldindexes!=null){
+					for(CgFormIndexEntity cgform : oldindexes){
+						//TODO 索引的创建和删除，需要兼容多数据库
+						String sql = "DROP INDEX " + cgform.getIndexName() + " ON " + formhead.getTableName();
+						this.getSession().createSQLQuery(sql).executeUpdate();
+					}
 				}
+			} catch (HibernateException e) {
+				//e.printStackTrace();
+				logger.error(e.toString());
 			}
-		} catch (HibernateException e) {
 			
-		}
-		
-		//删除索引后重新保存
-		this.getSession().createSQLQuery("delete from cgform_index where table_id = '" + id + "'").executeUpdate();
-		
-		if(indexes!=null){
-			for(CgFormIndexEntity cgform : indexes){
-				cgform.setTable(cgFormHead);
-				this.save(cgform);
+			//删除索引后重新保存 【物理表】
+			this.getSession().createSQLQuery("delete from cgform_index where table_id = '" + id + "'").executeUpdate();
+			if(indexes!=null){
+				for(CgFormIndexEntity cgform : indexes){
+					cgform.setTable(cgFormHead);
+					this.save(cgform);
+				}
 			}
 		}
 		return isChange;
@@ -138,8 +143,7 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 	@Override
 	public void createIndexes(CgFormHeadEntity cgFormHead) {
 		CgFormHeadEntity formhead = this.getEntity(CgFormHeadEntity.class, cgFormHead.getId());
-		List<CgFormIndexEntity> indexes = this.getSession().
-				createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();
+		List<CgFormIndexEntity> indexes = this.getSession().createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();
 		if(indexes.size()!=0){
 			for(CgFormIndexEntity cgform : indexes){
 				String sql = "";

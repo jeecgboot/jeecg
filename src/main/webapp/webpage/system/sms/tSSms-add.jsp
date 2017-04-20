@@ -5,10 +5,6 @@
  <head>
   <title>消息发送记录表</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-  <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
-  <script type="text/javascript">
-  //编写自定义JS代码
-  </script>
  </head>
  <body>
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="tSSmsController.do?doAdd" tiptype="1">
@@ -27,9 +23,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esTitle" name="esTitle" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esTitle" name="esTitle" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">消息标题</label>
 						</td>
@@ -40,9 +34,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esType" name="esType" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esType" name="esType" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">消息类型</label>
 						</td>
@@ -54,9 +46,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esSender" name="esSender" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esSender" name="esSender" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">发送人</label>
 						</td>
@@ -67,9 +57,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esReceiver" name="esReceiver" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esReceiver" name="esReceiver" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">接收人</label>
 						</td>
@@ -92,9 +80,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esSendtime" name="esSendtime" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esSendtime" name="esSendtime" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">发送时间</label>
 						</td>
@@ -106,9 +92,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="esStatus" name="esStatus" type="text" style="width: 150px" class="inputxt"  
-								               
-								               >
+					     	 <input id="esStatus" name="esStatus" type="text" style="width: 150px" class="inputxt" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">发送状态</label>
 						</td>
@@ -122,4 +106,3 @@
 			</table>
 		</t:formvalid>
  </body>
-  <script src = "webpage/system/sms/tSSms.js"></script>		

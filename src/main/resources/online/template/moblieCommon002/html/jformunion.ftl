@@ -1,23 +1,24 @@
 <#setting number_format="0.#####################">
 ﻿<html>
 	<head>
+		<base href="${basePath}/"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 		<meta name="keywords" content="Jeecg 移动表单" />
 		<meta name="description" content="Jeecg 移动表单" />
 		<title>Jeecg 移动表单</title>
-		<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/formviewm.css" />
-		<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/default.css" />
-		<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/bootstrap.min.css" />
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/head.load.min.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/lang-cn.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/ajaxfileupload.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/address-cn.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/utils.js"></script>
+		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/formviewm.css" />
+		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/default.css" />
+		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/bootstrap.min.css" />
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/head.load.min.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/lang-cn.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/ajaxfileupload.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/address-cn.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/utils.js"></script>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		<script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="${basePath}/plug-in/tools/dataformat.js"></script>
 		<style id="__wechat_default_css">
 			::-webkit-scrollbar{
 				width: 10px;
@@ -54,7 +55,7 @@
 		$("#btnSubmit").click(function(){
 			if(validateForm()){
 				$.post(
-				   'cgFormBuildController.do?saveOrUpdate',
+				   '${basePath}/cgFormBuildController.do?saveOrUpdate',
 				   $("#form1").serialize(),
 				   function(data){
 				   	  var d = $.parseJSON(data);
@@ -96,7 +97,7 @@
 	</div>
 	
 	<div class="ui-content">
-		<form id="form1" class="form" action="cgFormBuildController.do?saveOrUpdateMore" name="form1" method="post">
+		<form id="form1" class="form" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="form1" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
 			<ul id="fields" class="fields">
 				<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >

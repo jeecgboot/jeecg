@@ -804,13 +804,15 @@ a.l-btn-disabled {
   filter: alpha(opacity=50);
   cursor: default;
 }
+/*update-begin--Author:xuelin  Date:20170328 for：[#1820]统计报表->图形报表  按钮（查询、重置）内部图标及文字不居中--------------------*/
 a.l-btn span.l-btn-left {
   display: inline-block;
   background-position: 0 -48px;
-  padding: 3px 0px 3px 18px;
+  padding: 3px;
   line-height: 16px;
   height: 16px;
 }
+/*update-end--Author:xuelin  Date:20170328 for：[#1820]统计报表->图形报表  按钮（查询、重置）内部图标及文字不居中----------------------*/
 a.l-btn-plain span.l-btn-left {
   padding-left: 5px;
 }
@@ -857,7 +859,9 @@ a:hover.l-btn span.l-btn-left {
 }
 a:hover.l-btn-plain {
    /* padding: 0 5px 0 0; */
+  /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
   padding: 1px 6px 1px 1px;
+  /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
 
 }
 a:hover.l-btn-disabled {
@@ -1026,7 +1030,7 @@ a:hover.l-btn-disabled {
   white-space: nowrap;
   word-wrap: normal;
   overflow: hidden;
-  height: 33px;
+  height: 34px;
   line-height: 34px;
   /*font-weight: normal; */
   font-size: 12px;

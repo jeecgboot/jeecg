@@ -134,8 +134,8 @@
 						</label>
 					</td>
 					<td class="value">
-						<input  type="password" class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
-							   value="${dbSourcePage.dbPassword}">
+						<input type="password" class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
+							   value="${showDbPassword}">
 						<span class="Validform_checktip"></span>
 						<a href="#"  id="dbtest" >
 						[<label class="Validform_label">测试</label>]
@@ -148,6 +148,7 @@
 		</t:formvalid>
 		<script type="text/javascript">
 			$(function(){
+
 				var formobj=$("#formobj").Validform();
 				$('#dbtest').click(function(){//点击测试
 					formobj.config({
@@ -159,11 +160,15 @@
 					            //obj是当前表单的jquery对象;
 					            //alert(data.obj.msg);
 					            $("#dbmsg").html("<font color='red'>"+data.obj.msg+"</font>");
+					            formobj.config({
+					            	ajaxpost:{url:"dynamicDataSourceController.do?save"}
+					            });
 					        }
 					    }
 					}); 
 					formobj.ajaxPost(false,false,"dynamicDataSourceController.do?testConnection");
 				});
+
 			});
 		</script>
  </body>

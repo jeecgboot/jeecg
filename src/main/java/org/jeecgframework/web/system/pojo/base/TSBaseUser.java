@@ -48,6 +48,7 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
     private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
 	private TSDepart currentDepart = new TSDepart();// 当前部门
 
+
 	@Column(name = "signature",length=3000)
 	public byte[] getSignature() {
 		return signature;
@@ -153,4 +154,5 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	public Short getDeleteFlag() {
 		return deleteFlag;
 	}
+
 }

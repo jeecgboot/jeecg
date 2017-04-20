@@ -12,11 +12,10 @@
             <t:dgCol title="common.mobile" field="mobile" treefield="fieldMap.mobile"></t:dgCol>
             <t:dgCol title="common.fax" field="fax" treefield="fieldMap.fax"></t:dgCol>
             <t:dgCol title="common.address" field="address" treefield="fieldMap.address"></t:dgCol>
-            <t:dgCol title="顺序" field="departOrder" treefield="fieldMap.order"></t:dgCol>
             <t:dgCol title="common.operation" field="opt"></t:dgCol>
-            <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
+            <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"></t:dgDelOpt>
             <t:dgFunOpt funname="queryUsersByDepart(id)" title="view.member" urlclass="ace_button"  urlfont="fa-user"></t:dgFunOpt>
-            <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+            <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#1a7bb9;"></t:dgFunOpt>
         </t:datagrid>
         <div id="departListtb" style="padding: 3px; height: 25px">
             <div style="float: left;">
@@ -106,5 +105,6 @@
     function ExportXlsByT() {
         JeecgExcelExport("departController.do?exportXlsByT","departList");
     }
+
 //-->
 </script>

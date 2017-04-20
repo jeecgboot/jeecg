@@ -167,6 +167,7 @@ public class FormHtmlUtil {
     	      StringBuilder html = new StringBuilder("");
 
     	      html.append("<#assign checkboxstr>\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}</#assign>");
+
     	      html.append("<#assign checkboxlist=checkboxstr?split(\",\")> ");
     	      html.append("<@DictData name=\""+cgFormFieldEntity.getDictField()+"\"");
       	      if(!StringUtil.isEmpty(cgFormFieldEntity.getDictTable())){
@@ -301,7 +302,9 @@ public class FormHtmlUtil {
     	html.append("\\$(function(){\\$('#").append(cgFormFieldEntity.getFieldName()).append("').uploadify(");
     	html.append("{buttonText:'添加文件',auto:false,progressData:'speed',multi:true,height:25,overrideEvents:['onDialogClose'],fileTypeDesc:'文件格式:',");
     	html.append("queueID:'filediv_").append(cgFormFieldEntity.getFieldName()).append("',");
-    	html.append("fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',");
+
+    	//html.append("fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',");
+
     	html.append("fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',");
     	html.append("uploader:'cgUploadController.do?saveFiles&jsessionid='+\\$(\"#sessionUID\").val()+'',");
     	html.append("onUploadStart : function(file) { ");
@@ -322,6 +325,7 @@ public class FormHtmlUtil {
     	html.append("function cancel() {\\$('#").append(cgFormFieldEntity.getFieldName()).append("').uploadify('cancel', '\\*');}");
     	html.append("var neibuClickFlag = false;function neibuClick() {neibuClickFlag = true;\\$('#btn_sub').trigger('click');}");
     	html.append("</script>");
+
       	return html.toString();
     }
     

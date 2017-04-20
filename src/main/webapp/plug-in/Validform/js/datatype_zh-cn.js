@@ -23,5 +23,7 @@ $.Datatype.select1 = function(gets, obj, curform, regxp) {
     }else{
     	numselected = curform.find("select[" + name + "='" + obj.attr(name) + "'] option[selected='selected']").length
     }
+
     return numselected >= need ? true : "请至少选择" + need + "项！";
 };
+

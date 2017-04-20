@@ -119,7 +119,7 @@ function createDataGrid${config_id}(){
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>('getPager').pagination({onBeforeRefresh:function(pageNumber, pageSize){ $(this).pagination('loading');$(this).pagination('loaded'); }});
 	//将没有权限的按钮屏蔽掉
 	<#list config_nolist as x>
-		$("#${config_id}Listtb").find("#${x}").hide();
+		$("#${config_id}Listtb").find("${x}").hide();
 	</#list>
 	}
 	//列表刷新

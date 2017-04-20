@@ -2,37 +2,39 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <base href="${basePath}/"/>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>jeecg</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="online/template/ledefault/css/vendor.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/bootstrap.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/app.css">
+  <link rel="stylesheet" href="${basePath}/online/template/ledefault/css/vendor.css">
+  <link rel="stylesheet" href="${basePath}/online/template/ledefault/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="${basePath}/online/template/ledefault/css/bootstrap.css">
+  <link rel="stylesheet" href="${basePath}/online/template/ledefault/css/app.css">
   
-  <link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css"/>
-  <link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
-  <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
-  <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
-  <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
-  <script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
-  <script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
-  <script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script>
-  <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
-  <link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css"></link>
-  <script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
-  <link rel="stylesheet" href="plug-in/umeditor/themes/default/css/umeditor.css" type="text/css"></link>
-  <script type="text/javascript" src="plug-in/umeditor/umeditor.config.js"></script>
-  <script type="text/javascript" src="plug-in/umeditor/umeditor.min.js"></script>
-  <script type="text/javascript" src="plug-in/umeditor/lang/zh-cn/zh-cn.js"></script>
+  <link rel="stylesheet" href="${basePath}/plug-in/Validform/css/metrole/style.css" type="text/css"/>
+  <link rel="stylesheet" href="${basePath}/plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
+  <script type="text/javascript" src="${basePath}/plug-in/jquery/jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/tools/dataformat.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/easyui/locale/zh-cn.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/tools/syUtil.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/lhgDialog/lhgdialog.min.js"></script>
+  <#--update--begin--author:scott Date:20170304 for:替换layer风格提示框-->
+  <script type="text/javascript" src="${basePath}/plug-in/layer/layer.js"></script>
+  <#--update--end--author:scott Date:20170304 for:替换layer风格提示框-->
+  <script type="text/javascript" src="${basePath}/plug-in/tools/curdtools_zh-cn.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/tools/easyuiextend.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/Validform/js/datatype_zh-cn.js"></script>
+  <script type="text/javascript" src="${basePath}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+  <link rel="stylesheet" href="${basePath}/plug-in/uploadify/css/uploadify.css" type="text/css"></link>
+  <script type="text/javascript" src="${basePath}/plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+  <script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.config.js"></script>
+  <script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.all.min.js"></script>
 </head>
 
 
@@ -82,21 +84,22 @@
 	}
  </script>
  <body>
-  <form id="formobj" action="cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>
+  <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>
 	<#include "online/template/ledefault/html/jformhead.ftl">
 			
 			
 <script type="text/javascript">
    $(function(){
     //查看模式情况下,删除和上传附件功能禁止使用
-	if(location.href.indexOf("load=detail")!=-1){
+	if(location.href.indexOf("goDetail.do")!=-1){
 		$(".jeecgDetail").hide();
 	}
-	if(location.href.indexOf("mode=read")!=-1){
+	
+	if(location.href.indexOf("goDetail.do")!=-1){
 		//查看模式控件禁用
 		$("#formobj").find(":input").attr("disabled","disabled");
 	}
-	if(location.href.indexOf("mode=onbutton")!=-1){
+	if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
 		//其他模式显示提交按钮
 		$("#sub_tr").show();
 	}
@@ -122,9 +125,11 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
+  			<#--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
+  			<#--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();
@@ -205,7 +210,9 @@
 				</div>
 			</div>
 		<div align="center"  id = "sub_tr" style="display: none;" > <input type="button" value="提交" onclick="$('#btn_sub').trigger('click');" class="ui_state_highlight"></div>
-		<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script></form>
+		<#--update--begin--author:scott Date:20170304 for:替换layer风格提示框-->
+		<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:function(msg,o,cssctl){if(o.type == 3){layer.open({title:'提示信息',content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,cancel:function(index){o.obj.focus();layer.close(index);},yes:function(index){o.obj.focus();layer.close(index);},})}},btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script></form>
+		<#--update--end--author:scott Date:20170304 for:替换layer风格提示框-->
 		<!-- 添加 产品明细 模版 -->
 		<table style="display:none">
 		<#assign subTableStr>${head.subTableStr?if_exists?html}</#assign>

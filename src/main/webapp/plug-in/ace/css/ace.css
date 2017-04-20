@@ -1996,7 +1996,9 @@ pre.prettyprint {
   line-height: 17px;
   padding-left: 7px;
   text-shadow: none !important;
+  /*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
   /*font-size: 13px;*/
+  /*update-end--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
   text-decoration: none;
 }
 .nav-list > li > a > .menu-icon {
@@ -2659,6 +2661,7 @@ body.mob-safari .sidebar.sidebar-fixed {
     display: block;
   }
 }
+/*update-begin--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��Ŀ�ȣ��Ӷ�ʹ�ò�������������ֲ˵�����*/
 .sidebar.menu-min,
 .sidebar.menu-min.compact,
 .sidebar.menu-min.navbar-collapse {
@@ -2667,6 +2670,7 @@ body.mob-safari .sidebar.sidebar-fixed {
 .sidebar.menu-min + .main-content {
   margin-left: 51px;
 }
+ /*update-end--Author:jg_renjie  Date:20150613 for����������Сģʽ�²˵��ģ��Ӷ�ʹ�ò�������������ֲ˵�����*/
 .sidebar.menu-min .nav-list a .badge,
 .sidebar.menu-min .nav-list a .label {
   position: relative;

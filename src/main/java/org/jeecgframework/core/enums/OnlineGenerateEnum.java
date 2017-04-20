@@ -10,20 +10,34 @@ import org.jeecgframework.core.util.StringUtil;
  */
 public enum OnlineGenerateEnum {
 	
-	//
-	ONLINE_03("03","Table风格(form)","onetomany", "system"),
-	ONLINE_06("06","bootstrap风格(form)","onetomany","system"),
-	
-	ONLINE_01("01","Table风格(form)","single", "system"),
-	ONLINE_02("02","Div风格(form)","single", "system"),
-	ONLINE_04("04","自定义word(form)","single", "system"),
-	ONLINE_05("05","bootstrap风格(form)","single", "system"),
-	/*ONLINE_07("07","nopopform风格","single","system"),*/
-	ONLINE_NOPOP_SINGLE("nopop.single","nopopform风格","single","ext"),
-	
-	ONLINE_DEFAULT_SINGLE("default.single","用户扩展风格示例","single","ext"),
-	ONLINE_DEFAULT_ONETOMANY("default.onetomany","用户扩展风格示例","onetomany","ext");
 
+	
+	/**
+	 * ext ： 标识自定义代码生成器模板（新模式）
+	 * code： 标识自定义代码生成器目录 src/main/resources/jeecg/ext-template/{code:替换点为斜杠}
+	 * 例如： code = default.single 对应自定义代码生成器目录 -> src/main/resources/jeecg/ext-template/default/single
+	 */
+	ONLINE_TABLE_SINGLE("table.single","TABLE风格表单","single","ext"),
+	ONLINE_TABLE_ONETOMANY("table.onetomany","TABLE风格表单","onetomany","ext"),
+	ONLINE_ACE_SINGLE("ace.single","ACE风格表单","single","ext"),
+	ONLINE_ACE_ONETOMANY("ace.onetomany","ACE风格表单","onetomany","ext"),
+	ONLINE_DIV_SINGLE("div.single","DIV风格表单","single","ext"),
+	ONLINE_NOPOP_SINGLE("nopop.single","NOPOP风格表单","single","ext");
+//	ONLINE_DEFAULT_SINGLE("default.single","用户扩展风格示例","single","ext"),
+//	ONLINE_DEFAULT_ONETOMANY("default.onetomany","用户扩展风格示例","onetomany","ext");
+
+	
+	/**
+	 * system: 老的代码生成器模板方式
+	 */
+//	ONLINE_03("03","TABLE风格(form)","onetomany", "system"),
+//	ONLINE_01("01","TABLE风格(form)","single", "system"),
+//	ONLINE_02("02","DIV风格(form)","single", "system"),
+//	ONLINE_05("05","BootStrap风格(form)","single", "system"),
+//	ONLINE_06("06","BootStrap风格(form)","onetomany","system");
+//	ONLINE_04("04","自定义模板(form)","single", "system"),
+	/*ONLINE_07("07","nopopform风格","single","system"),*/
+	
 
     /**
      * 风格
@@ -39,7 +53,7 @@ public enum OnlineGenerateEnum {
      */
     private String formType;
     /**
-     * 版本 system 系统, ext 用户扩展
+     * 类型： system 系统, ext 用户扩展（自定义代码生成器模板）
      */
     private String version;
     

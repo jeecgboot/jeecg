@@ -11,6 +11,7 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
 	<!-- 自动扫描dao和service包(自动注入) -->
+	<context:component-scan base-package="org.jeecgframework.easypoi.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
 	<context:component-scan base-package="com.jeecg.*">
@@ -33,8 +34,9 @@
 		<property name="initialSize" value="0" />
 		<!-- 连接池最大使用连接数量 -->
 		<property name="maxActive" value="20" />
-		<!-- 连接池最大空闲 -->
+		<!-- 连接池最大空闲 
 		<property name="maxIdle" value="20" />
+		-->
 		<!-- 连接池最小空闲 -->
 		<property name="minIdle" value="5" />
 		<!-- 获取连接最大等待时间 -->
@@ -56,7 +58,7 @@
 		<!-- 打开removeAbandoned功能 -->
 		<property name="removeAbandoned" value="true" />
 		<!-- 1800秒，也就是30分钟 -->
-		<property name="removeAbandonedTimeout" value="1800" />
+		<property name="removeAbandonedTimeout" value="3600" />
 		<!-- 关闭abanded连接时输出错误日志 -->
 		<property name="logAbandoned" value="true" />
 
@@ -100,7 +102,6 @@
 		<property name="packagesToScan">
 			<list>
 				<value>org.jeecgframework.web.system.pojo.*</value>
-				<value>org.jeecgframework.web.demo.entity.*</value>
 				<value>org.jeecgframework.web.test.entity.*</value>
 				<value>org.jeecgframework.web.autoform..*</value>
 				<value>org.jeecgframework.web.cgform.entity.*</value>

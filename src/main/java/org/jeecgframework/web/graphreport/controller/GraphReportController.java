@@ -113,6 +113,9 @@ public class GraphReportController extends BaseController {
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
+
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
 		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/extends/datagrid-scrollview.js\"></script>");

@@ -10449,6 +10449,7 @@ addSubGrid : function( pos, sind ) {
 	return this.each(function(){
 		var ts = this;
 		if (!ts.grid ) { return; }
+		//-------------------------
 		var subGridCell = function(trdiv,cell,pos)
 		{
 			var tddiv = $("<td align='"+ts.p.subGridModel[0].align[pos]+"'></td>").html(cell);

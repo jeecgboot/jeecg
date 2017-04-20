@@ -105,6 +105,7 @@ public class TabsTag extends TagSupport {
 			try {
 				out.clear();
 				out.close();
+				end().setLength(0);
 			} catch (Exception e2) {
 			}
 		}
@@ -164,9 +165,9 @@ public class TabsTag extends TagSupport {
 			if (!iframe) {
 				for (Tab tab : tabList) {
 					if (tab.getHref() != null) {
-						sb.append("<div title=\"" + tab.getTitle() + "\" href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow-x:hidden;\"></div>");
+						sb.append("<div title=\"" + tab.getTitle() + "\" href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\"></div>");
 					} else {
-						sb.append("<div title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow-x:hidden;\">");
+						sb.append("<div title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\">");
 
 						sb.append("<iframe id=\""+tab.getId()+"\" scrolling=\"no\" frameborder=\"0\"  src=\""+tab.getIframe()+"\" width=\""+oConvertUtils.getString(tab.getWidth(), "100%")+"\" height=\""+oConvertUtils.getString(tab.getHeigth(), "99.5%")+"\"></iframe>");
 

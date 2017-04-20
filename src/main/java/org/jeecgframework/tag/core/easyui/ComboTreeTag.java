@@ -16,7 +16,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class ComboTreeTag extends TagSupport {
 	protected String id;// ID
-	protected String url;// 远程数据
+	protected String url;// 远程数据URL
 	protected String name;// 控件名称
 	protected String width;// 宽度
 	protected String value;// 控件值

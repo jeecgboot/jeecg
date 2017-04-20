@@ -5,10 +5,6 @@
  <head>
   <title>消息模板_业务SQL配置表</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-  <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
-  <script type="text/javascript">
-  //编写自定义JS代码
-  </script>
  </head>
  <body>
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="tSSmsTemplateSqlController.do?doUpdate" tiptype="1">
@@ -27,9 +23,7 @@
 							</label>
 						</td>
 						<td class="value">
-						     	 <input id="code" name="code" type="text" style="width: 150px" class="inputxt"  
-									               datatype="*"
-  value='${tSSmsTemplateSqlPage.code}'>
+						     	 <input id="code" name="code" type="text" style="width: 150px" class="inputxt"  datatype="*"  value='${tSSmsTemplateSqlPage.code}'>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">配置CODE</label>
 						</td>
@@ -40,9 +34,7 @@
 							</label>
 						</td>
 						<td class="value">
-						     	 <input id="name" name="name" type="text" style="width: 150px" class="inputxt"  
-									               datatype="*"
-  value='${tSSmsTemplateSqlPage.name}'>
+						     	 <input id="name" name="name" type="text" style="width: 150px" class="inputxt"  datatype="*"  value='${tSSmsTemplateSqlPage.name}'>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">配置名称</label>
 						</td>
@@ -54,10 +46,8 @@
 							</label>
 						</td>
 						<td class="value">
-									<t:dictSelect field="sqlId" type="list"
-										dictTable="t_s_sms_sql" dictField="id" dictText="sql_name" 
-										defaultVal="${tSSmsTemplateSqlPage.sqlId}" hasLabel="false"  title="业务SQLID"
-										extendJson="{\"datatype\":\"*\"}"></t:dictSelect>     
+									<t:dictSelect field="sqlId" type="list" dictTable="t_s_sms_sql" dictField="id" dictText="sql_name" 
+										defaultVal="${tSSmsTemplateSqlPage.sqlId}" hasLabel="false"  title="业务SQLID" extendJson="{\"datatype\":\"*\"}"></t:dictSelect>     
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">业务SQLID</label>
 						</td>
@@ -68,11 +58,8 @@
 							</label>
 						</td>
 						<td class="value">
-									<t:dictSelect field="templateId" type="list"
-										dictTable="t_s_sms_template" dictField="id" dictText="template_name" 
-										defaultVal="${tSSmsTemplateSqlPage.templateId}" 
-										hasLabel="false"  title="消息模本ID"
-										extendJson="{\"datatype\":\"*\"}"></t:dictSelect>     
+									<t:dictSelect field="templateId" type="list" dictTable="t_s_sms_template" dictField="id" dictText="template_name" 
+										defaultVal="${tSSmsTemplateSqlPage.templateId}" hasLabel="false"  title="消息模本ID" extendJson="{\"datatype\":\"*\"}"></t:dictSelect>     
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">消息模本ID</label>
 						</td>
@@ -80,4 +67,3 @@
 			</table>
 		</t:formvalid>
  </body>
-  <script src = "webpage/system/sms/tSSmsTemplateSql.js"></script>		

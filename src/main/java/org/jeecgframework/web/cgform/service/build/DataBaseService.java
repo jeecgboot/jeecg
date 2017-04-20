@@ -16,6 +16,7 @@ public interface DataBaseService {
 	public void insertTable(String tableName, Map<String, Object> data) throws BusinessException ;
 
 	public int updateTable(String tableName,Object id, Map<String, Object> data) throws BusinessException ;
+
 	
 	public Map<String, Object>  findOneForJdbc(String tableName, String id);
 	
@@ -40,4 +41,5 @@ public interface DataBaseService {
 	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException;
 
 	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId(String formId);
+
 }

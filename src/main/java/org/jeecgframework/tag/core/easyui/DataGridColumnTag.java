@@ -31,6 +31,7 @@ public class DataGridColumnTag extends TagSupport {
 	protected String formatterjs;//自定义函数名称(调用页面自定义js方法 参数为(value,row,index)
 
 	protected boolean hidden=false;
+
 	protected String replace;
 	protected String treefield;
 	protected boolean image;
@@ -55,6 +56,7 @@ public class DataGridColumnTag extends TagSupport {
 	protected String editor;//高级查询用的编辑器
 
 	private String defaultVal = "";//列默认值
+
 	public String getEditor() {
 		return editor;
 	}

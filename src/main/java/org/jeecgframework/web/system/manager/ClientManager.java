@@ -85,7 +85,10 @@ public class ClientManager {
 	 * sessionId
 	 */
 	public void removeClinet(String sessionId){
-		ContextHolderUtils.getSession().removeAttribute(sessionId);
+		try {
+			ContextHolderUtils.getSession().removeAttribute(sessionId);
+		} catch (Exception e) {
+		}
 		removeClientFromCachedMap(sessionId);
 	}
 	/**

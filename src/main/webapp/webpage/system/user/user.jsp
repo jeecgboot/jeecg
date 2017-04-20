@@ -29,9 +29,7 @@
 
 		function openDepartmentSelect() {
 			$.dialog.setting.zIndex = getzIndex(); 
-			
 			var orgIds = $("#orgIds").val();
-			
 			$.dialog({content: 'url:departController.do?departSelect&orgIds='+orgIds, zIndex: 2100, title: '组织机构列表', lock: true, width: '400px', height: '350px', opacity: 0.4, button: [
 			   {name: '<t:mutiLang langKey="common.confirm"/>', callback: callbackDepartmentSelect, focus: true},
 			   {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){}}
@@ -133,10 +131,9 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.role"/>: </label></td>
 			<td class="value" nowrap>
-                <input name="roleid" name="roleid" type="hidden" value="${id}" id="roleid">
-                <input name="roleName" class="inputxt" value="${roleName }" id="roleName" readonly="readonly" datatype="*" />
-                <t:choose hiddenName="roleid" hiddenid="id" url="userController.do?roles" name="roleList"
-                          icon="icon-search" title="common.role.list" textname="roleName" isclear="true" isInit="true"></t:choose>
+                <input id="roleid" name="roleid" type="hidden" value="${id}"/>
+                <input name="roleName" id="roleName" class="inputxt" value="${roleName }" readonly="readonly" datatype="*" />
+                <t:choose hiddenName="roleid" hiddenid="id" textname="roleName" url="userController.do?roles" name="roleList" icon="icon-search" title="common.role.list" isclear="true" isInit="true"></t:choose>
                 <span class="Validform_checktip"><t:mutiLang langKey="role.muti.select"/></span>
             </td>
 		</tr>

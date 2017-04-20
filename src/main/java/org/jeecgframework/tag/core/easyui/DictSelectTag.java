@@ -31,21 +31,25 @@ public class DictSelectTag extends TagSupport {
 
 	private static final long serialVersionUID = 1;
 	private String typeGroupCode; // 数据字典类型
-	private String field; // 选择表单的Name EAMPLE:<select name="selectName" id = ""
-							// />
+	private String field; // 选择表单的Name EAMPLE:<select name="selectName" id = ""/>
 	private String id; // 选择表单ID EAMPLE:<select name="selectName" id = "" />
 	private String defaultVal; // 默认值
 	private String divClass; // DIV样式
 	private String labelClass; // Label样式
 	private String title; // label显示值
-	private boolean hasLabel = true; // 是否显示label
+	private boolean hasLabel = false; // 是否显示label
 	private String type;// 控件类型select|radio|checkbox
 	private String dictTable;// 自定义字典表
 	private String dictField;// 自定义字典表的匹配字段-字典的编码值
 	private String dictText;// 自定义字典表的显示文本-字典的显示值
 	private String extendJson;//扩展参数
-    
 	private String readonly;// 只读属性
+	private String dictCondition;//查询条件属性
+	private String datatype;//校验类型 validform，必须输入规则：*
+	
+	@Autowired
+	private static SystemService systemService;
+
     public String getReadonly() {
 		return readonly;
 	}
@@ -53,7 +57,6 @@ public class DictSelectTag extends TagSupport {
 		this.readonly = readonly;
 	}
 
-	private String dictCondition;
 	public String getDictCondition() {
 		return dictCondition;
 	}
@@ -61,8 +64,6 @@ public class DictSelectTag extends TagSupport {
 	public void setDictCondition(String dicCondition) {
 		this.dictCondition = dicCondition;
 	}
-
-	private String datatype;
 	public String getDatatype() {
 		return datatype;
 	}
@@ -70,9 +71,6 @@ public class DictSelectTag extends TagSupport {
 	public void setDatatype(String datatype) {
 		this.datatype = datatype;
 	}
-	@Autowired
-	private static SystemService systemService;
-
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
@@ -89,6 +87,7 @@ public class DictSelectTag extends TagSupport {
 			try {
 				out.clear();
 				out.close();
+				end().setLength(0);
 			} catch (Exception e2) {
 			}
 		}
@@ -123,8 +122,9 @@ public class DictSelectTag extends TagSupport {
 				}
 			}else {
 				sb.append("<select name=\"" + field + "\"");
-				
+
 				this.readonly(sb);
+
 				
 				//增加扩展属性
 				if (!StringUtils.isBlank(this.extendJson)) {
@@ -173,7 +173,9 @@ public class DictSelectTag extends TagSupport {
 					}
 				} else {
 					sb.append("<select name=\"" + field + "\"");
+
 					this.readonly(sb);
+
 					
 					//增加扩展属性
 					if (!StringUtils.isBlank(this.extendJson)) {
@@ -232,7 +234,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+
 			this.readonly(sb);
+
 
 			this.datatype(sb);
 			sb.append(" />");
@@ -242,7 +246,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+
 			this.readonly(sb);
+
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -259,9 +265,11 @@ public class DictSelectTag extends TagSupport {
 	 * @param sb
 	 */
 	private void checkbox(String name, String code, StringBuffer sb) {
+
 		if(this.defaultVal==null){
 		       this.defaultVal="";
 		}
+
 		String[] values = this.defaultVal.split(",");
 		Boolean checked = false;
 		for (int i = 0; i < values.length; i++) {
@@ -278,7 +286,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+
 			this.readonly(sb);
+
 			this.datatype(sb);
 			sb.append(" />");
 		} else {
@@ -287,7 +297,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
+
 			this.readonly(sb);
+
 			this.datatype(sb);
 			sb.append(" />");
 		}
@@ -321,6 +333,7 @@ public class DictSelectTag extends TagSupport {
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
 				+ " as text from " + dictTable;
+
 	       if(dictCondition!=null){
 	           sql+=dictCondition;
 	       }

@@ -65,6 +65,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
      * @return List<ComboTree>
      */
 	public  List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
+
 	public  List<TreeGrid> treegrid(List all,TreeGridModel treeGridModel);
 }
 

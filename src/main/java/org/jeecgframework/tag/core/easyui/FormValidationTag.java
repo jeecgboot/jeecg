@@ -42,6 +42,7 @@ public class FormValidationTag extends TagSupport {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
+
 	public String getStyleClass() {
 		return styleClass;
 	}
@@ -49,6 +50,7 @@ public class FormValidationTag extends TagSupport {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
+
 	public void setTabtitle(String tabtitle) {
 		this.tabtitle = tabtitle;
 	}
@@ -106,6 +108,7 @@ public class FormValidationTag extends TagSupport {
 			if(this.getStyleClass()!=null){
 				sb.append("class=\""+this.getStyleClass()+"\" ");
 			}
+
 					sb.append(" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
 			if ("btn_sub".equals(btnsub) && dialog)
 				sb.append("<input type=\"hidden\" id=\"" + btnsub + "\" class=\"" + btnsub + "\"/>");
@@ -113,6 +116,14 @@ public class FormValidationTag extends TagSupport {
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.clearBuffer();
+				sb.setLength(0);
+				sb = null;
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 		return EVAL_PAGE;
 	}
@@ -153,6 +164,7 @@ public class FormValidationTag extends TagSupport {
 			sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
 			//tablefrom.css
 			sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
+
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
@@ -166,11 +178,30 @@ public class FormValidationTag extends TagSupport {
 					sb.append("<SCRIPT type=\"text/javascript\" src=\"plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js\"></SCRIPT>");
 				}
 			}
+
+			sb.append("<script src=\"plug-in/layer/layer.js\"></script>");
+
 			sb.append("<script type=\"text/javascript\">");
 			sb.append("$(function(){");
 			sb.append("$(\"#" + formid + "\").Validform({");
 			if(this.getTiptype()!=null && !"".equals(this.getTiptype())){
-				sb.append("tiptype:"+this.getTiptype()+",");
+
+				if(tiptype.equals("1")){
+					sb.append("tiptype:function(msg,o,cssctl){");
+					sb.append("if(o.type == 3){");
+					sb.append("layer.open({");
+					sb.append("title:'提示信息',");
+
+					sb.append("content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,");
+
+					sb.append("cancel:function(index){o.obj.focus();layer.close(index);},");
+					sb.append("yes:function(index){o.obj.focus();layer.close(index);},");
+					sb.append("})");
+					sb.append("}},");
+				}else{
+					sb.append("tiptype:"+this.getTiptype()+",");
+				}
+
 			}else{
 				sb.append("tiptype:1,");
 			}
@@ -240,6 +271,7 @@ public class FormValidationTag extends TagSupport {
 					}
 					jqsb.append("jqtransform :{selector:\"select\"}");
 				}
+
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append(jqsb);
 				}
@@ -292,7 +324,10 @@ public class FormValidationTag extends TagSupport {
 			e.printStackTrace();
 		}finally{
 			try {
+
 				sb.setLength(0);
+				sb = null;
+
 				out.clearBuffer();
 			} catch (Exception e2) {
 			}

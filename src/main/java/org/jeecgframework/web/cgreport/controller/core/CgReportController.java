@@ -73,6 +73,7 @@ public class CgReportController extends BaseController {
 
 		//step.4 页面css js引用
 		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlist.ftl", cgReportMap);
 		PrintWriter writer = null;
 		try {
@@ -108,6 +109,9 @@ public class CgReportController extends BaseController {
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
+
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+
 		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
 		return sb.toString();
@@ -137,6 +141,7 @@ public class CgReportController extends BaseController {
 
 		//step.4 页面css js引用
 		cgReportMap.put(CgReportConstant.CONFIG_IFRAME, getHtmlHead(request));
+
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
 		PrintWriter writer = null;
 		try {
@@ -301,6 +306,7 @@ public class CgReportController extends BaseController {
 		//step.4 进行查询返回结果
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
+
         String dbKey=(String)configM.get("db_source");
         List<Map<String, Object>> result=null;
         Long size=0l;
@@ -317,6 +323,7 @@ public class CgReportController extends BaseController {
             result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
             size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
         }
+
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
@@ -363,6 +370,7 @@ public class CgReportController extends BaseController {
 			}else{
 				errorInfo += "SQL语法错误.";
 			}
+
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;

@@ -28,7 +28,7 @@
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="enhance.sql"/>: </label></td>
-			<td class="value"><textarea id="cgbSqlStr" name="cgbSqlStr" rows="25" cols="150">${cgformButtonSqlPage.cgbSqlStr }</textarea> <span class="Validform_checktip"></span></td>
+			<td class="value"><textarea id="cgbSqlStr" name="cgbSqlStr" rows="25" cols="130">${cgformButtonSqlPage.cgbSqlStr }</textarea> <span class="Validform_checktip"></span></td>
 		</tr>
 	</table>
 </t:formvalid>

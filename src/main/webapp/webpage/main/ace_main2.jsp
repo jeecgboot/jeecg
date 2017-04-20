@@ -690,6 +690,7 @@
 			}});
   			
   	}
+
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -698,6 +699,7 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
+
 
 
 	$(document).ready(function(){

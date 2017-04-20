@@ -14,7 +14,6 @@
             <label class="Validform_label"> <t:mutiLang langKey="lang.dictionary.type"/>: </label>
             <input readonly="true" class="inputxt" value="${typegroupname }">
         </div>
-        <%--// add-end--Author:zhangguoming  Date:20140928 for：添加显示字段--%>
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="dict.name"/>: </label>
             <input name="typename" class="inputxt" value="${type.typename }" datatype="s1-10">

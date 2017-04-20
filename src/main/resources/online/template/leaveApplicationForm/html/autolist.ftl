@@ -75,7 +75,9 @@ function createDataGrid${config_id}(){
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
 						 			href+="<img src='"+value+"'/>";
 						 		}else{
+						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 			href+="<a href='"+value+"' class='ace_button' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}
 						 		return href;
 						 	},
@@ -94,13 +96,16 @@ function createDataGrid${config_id}(){
 						</#if>
 						<#list config_buttons as x>
 							<#if x['buttonStyle'] == 'link' && x['buttonStatus']=='1' && config_noliststr?index_of("${x['buttonCode']}")==-1>
+								<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 								href+="<a style='margin-left:5px;' href='javascript:void(0)' class='ace_button' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								<#-- //update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 								<#if x['optType'] == 'action'>
 								href+=" onclick=\"doBusButtonForLink('cgFormBuildController.do?doButton&formId=${x['formId']}&buttonCode=${x['buttonCode']}&tableName=${config_id}','${x['buttonName']}','${config_id}List','"+rec.id+"')\"";
 								<#else>
 								href+=" onclick=\"${x['buttonCode']}('"+rec.id+"');\"";
 								</#if>
 								href+=" id=\"${x['buttonCode']}\">";
+								<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 								<#if x['buttonName']?index_of("测试") gt -1>
 									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
 								<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
@@ -116,6 +121,7 @@ function createDataGrid${config_id}(){
 								<#else>
 									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
 								</#if>
+								<#-- //update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 							</#if>
 						</#list>
 						return href;
@@ -133,7 +139,7 @@ function createDataGrid${config_id}(){
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>('getPager').pagination({onBeforeRefresh:function(pageNumber, pageSize){ $(this).pagination('loading');$(this).pagination('loaded'); }});
 	//将没有权限的按钮屏蔽掉
 	<#list config_nolist as x>
-		$("#${config_id}Listtb").find("#${x}").hide();
+		$("#${config_id}Listtb").find("${x}").hide();
 	</#list>
 	}
 	//列表刷新
@@ -278,15 +284,15 @@ function createDataGrid${config_id}(){
 	}
 	//新增
 	function ${config_id}add(){
-		add('${config_name}录入','cgFormBuildController.do?goAddFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		add('${config_name}录入','cgFormBuildController/ftlForm/${config_id}/goAdd.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
-		update('${config_name}编辑','cgFormBuildController.do?goUpdateFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		update('${config_name}编辑','cgFormBuildController/ftlForm/${config_id}/goUpdate.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//查看
 	function ${config_id}view(){
-		detail('查看','cgFormBuildController.do?goDatilFtlForm&tableName=${config_id}&mode=read&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		detail('查看','cgFormBuildController/ftlForm/${config_id}/goDetail.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	
 	//批量删除

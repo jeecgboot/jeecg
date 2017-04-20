@@ -47,6 +47,7 @@ input[type="text"] {
 	font-size: 12px;
 	display: inline-block;
 }
+/*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
 a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
  .ace_button
  {

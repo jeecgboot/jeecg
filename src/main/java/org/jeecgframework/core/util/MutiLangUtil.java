@@ -17,8 +17,6 @@ import java.util.List;
 public class MutiLangUtil {
 	private static Log logger = LogFactory.getLog(StringUtil.class);
 
-    private static MutiLangServiceI mutiLangService;
-
 	/**
 	 * 通用删除消息方法
 	 * 
@@ -166,10 +164,9 @@ public class MutiLangUtil {
 	 */
 	public static MutiLangServiceI getMutiLangInstance()
 	{
-		if(mutiLangService == null)
-		{
-			mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
-		}
+
+		MutiLangServiceI mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
+
 		return mutiLangService;
 	}
 	

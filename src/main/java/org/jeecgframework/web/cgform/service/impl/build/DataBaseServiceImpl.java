@@ -90,7 +90,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
+
 		key = this.executeSqlReturnKey(sql,data);
+
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
@@ -98,6 +100,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
 
 			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
+
 		}
 	}
 	/**
@@ -226,13 +229,17 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		int num = this.executeSql(sqlBuffer.toString(), data);
 
 		if(cgFormHeadEntity!=null){
+
 			data.put("id", id);
+
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
 
 			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
+
 		}
 		return num;
 	}
+
 
 	/**
 	 * 查询表单
@@ -265,6 +272,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					/*if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
 							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){*/
 					if(true){
+
 						//执行sql
 						logger.debug("sql plugin -------->"+sql);
 						sql = formateSQl(sql,  data);
@@ -309,8 +317,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
+
 //          sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
+
 		}
 		return sql;
 	}
@@ -524,6 +534,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data
 	 */
 	private void fillUpdateSysVar(String tableName,Map<String, Object> data) {
+
+		if (ResourceUtil.getSessionUserName()==null){
+			return;
+		}
+
 		//--author：zhoujf---start------date:20170207--------for:online表单 更新时基本字段没有初始化数据
 		//--author：zhoujf---start------date:20170207--------for:更新时间格式统一为yyyy-MM-dd HH:mm:ss
 		if(data.containsKey(DataBaseConstant.UPDATE_DATE_TABLE)
@@ -549,6 +564,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data
 	 */
 	private void fillInsertSysVar(String tableName,Map<String, Object> data) {
+
+		if (ResourceUtil.getSessionUserName()==null){
+			return;
+		}
+
 		//--author：zhoujf---start------date:20170207--------for:online表单 Excel数据导入时基本字段没有初始化数据
 		//--author：zhoujf---start------date:20170207--------for:创建时间格式统一为yyyy-MM-dd HH:mm:ss
 		if(data.containsKey(DataBaseConstant.CREATE_DATE_TABLE)
@@ -586,12 +606,12 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @return
 	 */
 	private String replaceExtendSqlSysVar(String sql){
-		sql = sql.replace("{"+DataBaseConstant.SYS_USER_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE))
-				.replace("{"+DataBaseConstant.SYS_USER_NAME_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME))
-				.replace("{"+DataBaseConstant.SYS_ORG_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE))
-				.replace("{"+DataBaseConstant.SYS_COMPANY_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE))
-				.replace("{"+DataBaseConstant.SYS_DATE_TABLE+"}",  DateUtils.formatDate())
-				.replace("{"+DataBaseConstant.SYS_TIME_TABLE+"}",  DateUtils.formatTime());
+		sql = sql.replace("#{sys."+DataBaseConstant.SYS_USER_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_USER_NAME_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME))
+				.replace("#{sys."+DataBaseConstant.SYS_ORG_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_COMPANY_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_DATE_TABLE+"}",  DateUtils.formatDate())
+				.replace("#{sys."+DataBaseConstant.SYS_TIME_TABLE+"}",  DateUtils.formatTime());
 		return sql;
 	}
 
@@ -631,8 +651,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						obj = ApplicationContextUtil.getContext().getBean(cgJavaValue);
 					}
 					if(obj instanceof CgformEnhanceJavaInter){
+
+						CgFormHeadEntity head = this.get(CgFormHeadEntity.class, formId);
 						CgformEnhanceJavaInter javaInter = (CgformEnhanceJavaInter) obj;
-						javaInter.execute(data);
+						javaInter.execute(head.getTableName(),data);
+
 					}
 				} catch (Exception e) {
 					logger.error(e.getMessage());
@@ -640,6 +663,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					throw new BusinessException("执行JAVA增强出现异常！");
 				} 
 			}
+
 		}
 	}
 	
@@ -648,6 +672,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		hql.append(" from CgformEnhanceJavaEntity t");
 		hql.append(" where t.formId='").append(formId).append("'");
 		hql.append(" and  t.buttonCode ='").append(buttonCode).append("'");
+
+		hql.append(" and  t.activeStatus ='1'");
+
 		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
 		if(list!=null&&list.size()>0){
 			return list.get(0);
@@ -662,5 +689,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
 		return list;
 	}
+
 }
 

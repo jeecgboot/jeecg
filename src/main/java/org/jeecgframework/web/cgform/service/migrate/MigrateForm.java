@@ -39,6 +39,7 @@ import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.pojo.config.CgFormFieldPojo;
 import org.jeecgframework.web.cgform.pojo.config.CgFormHeadPojo;
+import org.jeecgframework.web.cgform.pojo.config.CgFormIndexPojo;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -171,6 +172,11 @@ public class MigrateForm<T> {
 			ls_sql = "select * from cgform_head where id='" + id + "'"; // 获得导出表单
 			listTables.add(bulidDbTableFromSQL(ls_sql, CgFormHeadPojo.class, jdbcTemplate));
 
+			ls_tmpsql = "select * from cgform_index where table_id='" + id + "'"; // 获得导出索引的字段
+			listTables.add(bulidDbTableFromSQL(ls_tmpsql, CgFormIndexPojo.class, jdbcTemplate));
+
+
+
 			ls_tmpsql = "select * from cgform_field where table_id='" + id + "'"; // 获得导出表单的字段
 			listTables.add(bulidDbTableFromSQL(ls_tmpsql, CgFormFieldPojo.class, jdbcTemplate));
 			// 获得自定义按钮数据
@@ -203,6 +209,12 @@ public class MigrateForm<T> {
 						if (subRowsList != null && subRowsList.size() > 0) {
 							subSqlMap = (Map) subRowsList.get(0);
 							ls_subid = (String) subSqlMap.get("id");
+
+							// 获得导出子表索引
+							ls_tmpsql = "select * from cgform_index where table_id='" + ls_subid + "'";
+							listTables.add(bulidDbTableFromSQL(ls_tmpsql, CgFormIndexPojo.class, jdbcTemplate));
+
+
 							// 获得导出子表字段
 							ls_tmpsql = "select * from cgform_field where table_id='" + ls_subid + "'";
 							listTables.add(bulidDbTableFromSQL(ls_tmpsql, CgFormFieldPojo.class, jdbcTemplate));
@@ -245,7 +257,9 @@ public class MigrateForm<T> {
 		DBTable<T> dbTable = new DBTable<T>();
 		dbTable.setTableName(PublicUtil.getTableName(sql));
 		dbTable.setClass1(clazz);
+
 		List<T> dataList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(clazz));
+
 		dbTable.setTableData(dataList);
 		return dbTable;
 	}

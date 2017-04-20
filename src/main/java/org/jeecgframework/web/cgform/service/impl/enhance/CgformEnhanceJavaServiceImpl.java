@@ -59,7 +59,6 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
  	public boolean doDelSql(CgformEnhanceJavaEntity t){
 	 	return true;
  	}
- 	
  	/**
 	 * 替换sql中的变量
 	 * @param sql
@@ -71,9 +70,9 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
  		sql  = sql.replace("#{cg_java_value}",String.valueOf(t.getCgJavaValue()));
  		sql  = sql.replace("#{form_id}",String.valueOf(t.getFormId()));
  		sql  = sql.replace("#{UUID}",UUID.randomUUID().toString());
+ 		sql  = sql.replace("#{active_status}", String.valueOf(t.getActiveStatus()));
  		return sql;
  	}
-
 	@Override
 	public CgformEnhanceJavaEntity getCgformEnhanceJavaEntityByCodeFormId(
 			String buttonCode, String formId) {
@@ -125,6 +124,7 @@ public class CgformEnhanceJavaServiceImpl extends CommonServiceImpl implements C
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

@@ -22,6 +22,9 @@
 	<table>
 		<tbody id="template_header_page">
 			<tr bgcolor="#E6E6E6">
+				<!--begin dangzhenghui 20170310 TASK #1752 【改进】online的[页面属性] [校验字典] [外键] 没有序号-->
+				<th align="center" bgcolor="#EEEEEE" mutiLang_id="sequence" style="width: 30px;">序号</th>
+				<!--end dangzhenghui 20170310 TASK #1752 【改进】online的[页面属性] [校验字典] [外键] 没有序号-->
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldname">字段名称</th>
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="fieldremark">字段备注</th>
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="formdisplay">表单显示</th>
@@ -30,11 +33,16 @@
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="controllength">控件长度</th>
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="isquery">是否查询</th>
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="querytype">查询类型</th>
+				<!-- add-start--Author:luobaoli  Date:20150610 for：页面上增加扩展参数字段 -->
 				<th align="center" bgcolor="#EEEEEE" mutiLang_id="extendJson">扩展参数</th>
+				<!-- add-end--Author:luobaoli  Date:20150610 for：页面上增加扩展参数字段 -->
 			</tr>
 		</tbody>
 		<tbody id="add_column_table_template_page">
 			<tr>
+				<!--begin dangzhenghui 20170310 TASK #1752 【改进】online的[页面属性] [校验字典] [外键] 没有序号-->
+				<td style="width: 30px;" ><a name="rownumber[#rindex#]"></a></td>
+				<!--end dangzhenghui 20170310 TASK #1752 【改进】online的[页面属性] [校验字典] [外键] 没有序号-->
 				<td align="left"><input style="width: 120px;" type="text"
 					name="columnsfieldName_index"
 					readonly="readonly" /></td>
@@ -45,6 +53,7 @@
 					name="columns[#index#].isShow" style="width: 50px;"></td>
 				<td align="left"><input type="checkbox" checked="checked"
 					name="columns[#index#].isShowList" style="width: 50px;"></td>
+				<!-- add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。 -->	
 				<td align="left"><select name="columns[#index#].showType" onchange="getShowType(this)">
 						<option value="text">文本框</option>
 						<option value="password">密码</option>
@@ -59,6 +68,7 @@
 						<option value="image">图片</option>
 						<option value="umeditor">UE编辑器</option>
 				</select></td>
+				<!-- add-end--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。 -->
 				<td align="left"><input name="columns[#index#].fieldLength"
 					value="120" type="text" style="width: 60px;"></td>
 				<td align="left"><input type="checkbox"
@@ -67,8 +77,10 @@
 						<option value="single">普通查询</option>
 						<option value="group">范围查询</option>
 				</select></td>
+				<!-- add-start--Author:luobaoli  Date:20150610 for：页面上增加扩展参数字段 -->
 				<td align="left"><input name="columns[#index#].extendJson"
 					type="text" style="width: 200px;" titlemsg="extendJsonTip"></td>
+				<!-- add-end--Author:luobaoli  Date:20150610 for：页面上增加扩展参数字段 -->
 			</tr>
 		</tbody>
 	</table>
@@ -82,6 +94,7 @@ $(document).ready(function(){
 		var titlemsg = $(this).attr("titlemsg");
 		$(this).attr("title",eval(titlemsg));
 	});
+	<!-- add-end--Author:luobaoli  Date:20150611 for：扩展字段上增加提示 -->
 	
 	$("[mutiLang_id]").each(function() {
 		this.innerText = eval(this.attributes["mutiLang_id"].value);

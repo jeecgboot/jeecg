@@ -29,6 +29,7 @@ public class DynamicDBUtil {
 		//设置数据源的时候，要重新解密
 		//String dbPassword = dynamicSourceEntity.getDbPassword();
 		String dbPassword  = PasswordUtil.decrypt(dynamicSourceEntity.getDbPassword(), dynamicSourceEntity.getDbUser(), PasswordUtil.getStaticSalt());//解密字符串；
+
 		
 		dataSource.setDriverClassName(driverClassName);
 		dataSource.setUrl(url);

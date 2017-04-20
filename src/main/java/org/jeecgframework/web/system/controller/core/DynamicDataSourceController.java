@@ -132,6 +132,7 @@ public class DynamicDataSourceController extends BaseController {
 				MyBeanUtils.copyBeanNotNull2Bean(dbSource, t);
 
 				t.setDbPassword(PasswordUtil.encrypt(t.getDbPassword(), t.getDbUser(), PasswordUtil.getStaticSalt()));
+
 				dynamicDataSourceService.saveOrUpdate(t);
 				dynamicDataSourceService.refleshCache();
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -147,6 +148,7 @@ public class DynamicDataSourceController extends BaseController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 			dynamicDataSourceService.save(dbSource);
 			dynamicDataSourceService.refleshCache();
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -168,14 +170,19 @@ public class DynamicDataSourceController extends BaseController {
 			try {
 				//String result = PasswordUtil.decrypt(d.getDbPassword(), d.getDbUser(), PasswordUtil.getStaticSalt());
 				//System.out.println("==result"+result);
-				dbSource.setDbPassword(PasswordUtil.decrypt(dbSource.getDbPassword(), dbSource.getDbUser(), PasswordUtil.getStaticSalt()));//解密字符串,密文展示
+				//直接dbSource.setDbPassword hibernate会自动保存修改，数据库值随之改变，因此采用临时变量方式传递到页面
+				String showDbPassword = PasswordUtil.decrypt(dbSource.getDbPassword(), dbSource.getDbUser(), PasswordUtil.getStaticSalt());//解密dbPassword
+				req.setAttribute("showDbPassword", showDbPassword);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 			req.setAttribute("dbSourcePage", dbSource);
 		}
 		return new ModelAndView("system/dbsource/dbSource");
 	}
+
 
     /**
      * 获取数据源列表
@@ -196,6 +203,7 @@ public class DynamicDataSourceController extends BaseController {
         }
         return  comboBoxes;
     }
+
 
     @RequestMapping(params = "getDynamicDataSourceParameter")
 	@ResponseBody

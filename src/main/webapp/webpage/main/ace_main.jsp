@@ -151,18 +151,16 @@
 									<i class="icon-warning-sign"></i>
 									0条公告
 								</li>
-								
-								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar navbar-pink" id="noticeContent">
+								<li >
+									<ul id="noticeContent">
 										ajax加载
 									</ul>
 								</li>
 
 								<li>
-									<a href="#" id="noticeContent">
+									<a href="#" id="noticeContentLink">
 									</a>
 								</li>
-
 								<li>
 									<a href="javascript:goAllNotice();" id="noticeFooter">
 										查看全部
@@ -202,7 +200,7 @@
 						</li> 
 
 						<li class="light-blue">
-							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle" onclick="bindFrameClick()">
 								<img class="nav-user-photo" src="plug-in/ace/avatars/avatar2.png" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>${userName }</small>
@@ -480,7 +478,9 @@
 		<script src="plug-in/jquery/jquery.contextmenu.js"></script>
 		<script src="plug-in/layer/layer.js"></script>
 	    <script src="plug-in/ace/js/bootbox.js"></script>
+		<!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 		<%@include file="/context/layui.jsp"%>
+		<!--add-end--Author:wangkun Date:20160813 for:内部聊天修改-->
 		<!-- inline scripts related to this page -->
 		<script>
 		jQuery(function($) {
@@ -655,6 +655,7 @@
 			}});
   			
   	}
+
 			function clearLocalstorage(){
 				var storage=$.localStorage;
 				if(!storage)
@@ -663,6 +664,7 @@
 				//bootbox.alert( "浏览器缓存清除成功!");
 				alertTipTop("浏览器缓存清除成功!","10%");
 			}
+
 
 
 	$(document).ready(function(){
@@ -674,9 +676,10 @@
     		dataType:"JSON",
     		async: false,
     		success:function(data){
+    			//console.log(data);
     			if(data.success){
     				var noticeList = data.attributes.noticeList;
-    				var noticeCount = data.obj;
+    				var noticeCount = noticeList.length;
     				//加载公告条数
     				if(noticeCount>99){
     					$("#noticeCount").html("99+");
@@ -809,6 +812,16 @@
   	    		}
   	    	});
     }
+
+    //个人信息弹出层回缩
+    function frameBodyClick(){ 
+		$(".user-menu").parent().removeClass("open");
+	}
+    //新增iframe中绑定click事件回调父级函数
+    function bindFrameClick(){
+    	$("iframe").contents().find("body").attr("onclick", "parent.frameBodyClick()"); 
+    }
+
 		</script>
 </body>
 </html>

@@ -1,8 +1,10 @@
 package org.jeecgframework.tag.core.easyui;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +34,14 @@ import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleIfStatement.Else;
+import com.google.common.base.Function;
 import com.google.gson.Gson;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 
 /**
@@ -45,6 +54,9 @@ import com.google.gson.Gson;
  */
 @SuppressWarnings({"serial","rawtypes","unchecked","static-access"})
 public class DataGridTag extends TagSupport {
+	private final String DATE_FORMATTER = "yyyy-MM-dd";
+	private final String DATETIME_FORMATTER = "yyyy-MM-dd hh:mm:ss";
+	
 	protected String fields = "";// 显示字段
 	protected String searchFields = "";// 查询字段  Author:qiulu  Date:20130618 for：添加对区间查询的支持
 	protected String name;// 表格标示
@@ -73,7 +85,7 @@ public class DataGridTag extends TagSupport {
 	private String sortOrder = "asc";//定义列的排序顺序，只能是"递增"或"降序".
 	private boolean showRefresh = true;// 定义是否显示刷新按钮
 	private boolean showText = true;// 定义是否显示刷新按钮
-	private String style = "easyui";// 列表样式easyui,datatables
+	private String style = "easyui";// 列表样式easyui,datatables,jqgrid
 	private String onLoadSuccess;// 数据加载完成调用方法
 	private String onClick;// 单击事件调用方法
 	private String onDblClick;// 双击事件调用方法
@@ -91,12 +103,16 @@ public class DataGridTag extends TagSupport {
 
 	private boolean isShowSearch=false;//检索区域是否可收缩
 
+	
+	private String treeField;//树形列表展示列
+	
 	public String getCssTheme() {
 		return cssTheme;
 	}
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
+
 
 	private boolean queryBuilder = false;// 高级查询器
 	public boolean isQueryBuilder() {
@@ -105,6 +121,10 @@ public class DataGridTag extends TagSupport {
 
 	public void setQueryBuilder(boolean queryBulder) {
 		this.queryBuilder = queryBulder;
+	}
+
+	public void setTreeField(String treeField) {
+		this.treeField = treeField;
 	}
 
 	//json转换中的系统保留字
@@ -207,8 +227,10 @@ public class DataGridTag extends TagSupport {
 		dataGridUrl.setMessage(message);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setUrlStyle(urlStyle);
+
 		dataGridUrl.setUrlclass(urlclass);
 		dataGridUrl.setUrlfont(urlfont);
+
 		installOperationCode(dataGridUrl, operationCode,urlList);
 	}
 
@@ -233,13 +255,17 @@ public class DataGridTag extends TagSupport {
 	/**
 	 * 设置默认操作URL
 	 */
-	public void setDefUrl(String url, String title, String exp,String operationCode, String urlStyle) {
+	public void setDefUrl(String url, String title, String exp,String operationCode, String urlStyle,String urlclass,String urlfont) {
 		DataGridUrl dataGridUrl = new DataGridUrl();
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setUrl(url);
 		dataGridUrl.setType(OptTypeDirection.Deff);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setUrlStyle(urlStyle);
+
+		dataGridUrl.setUrlclass(urlclass);
+		dataGridUrl.setUrlfont(urlfont);
+
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -283,8 +309,10 @@ public class DataGridTag extends TagSupport {
 
 	/**
 	 * 设置自定义函数操作URL
+	 * @param urlfont 
+	 * @param urlclass 
 	 */
-	public void setOpenUrl(String url, String title, String width, String height, String exp,String operationCode, String openModel, String urlStyle) {
+	public void setOpenUrl(String url, String title, String width, String height, String exp,String operationCode, String openModel, String urlStyle, String urlclass, String urlfont) {
 		DataGridUrl dataGridUrl = new DataGridUrl();
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setUrl(url);
@@ -293,6 +321,10 @@ public class DataGridTag extends TagSupport {
 		dataGridUrl.setType(OptTypeDirection.valueOf(openModel));
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setUrlStyle(urlStyle);
+
+		dataGridUrl.setUrlclass(urlclass);
+		dataGridUrl.setUrlfont(urlfont);
+
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -349,6 +381,7 @@ public class DataGridTag extends TagSupport {
 		dataGridColumn.setEditor(editor);
 
 		dataGridColumn.setDefaultVal(defaultVal);
+
 		columnList.add(dataGridColumn);
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
@@ -363,9 +396,6 @@ public class DataGridTag extends TagSupport {
 				}
 			}
 		}
-
-		
-		
 		if (field != "opt") {
 			fields += field + ",";
 			if ("group".equals(queryMode)) {
@@ -495,6 +525,11 @@ public class DataGridTag extends TagSupport {
 					out.print(end().toString());
 					out.flush();
 //				}
+
+			}else if("jqgrid".equals(style)){
+				out.print(jqGrid().toString());
+				out.flush();
+
 			}else{
 				out.print(datatables().toString());
 				out.flush();
@@ -504,6 +539,7 @@ public class DataGridTag extends TagSupport {
 		}finally{
 			if(out!=null){
 				try {
+
 					out.clearBuffer();
 					end().setLength(0);
 					// 清空资源
@@ -514,6 +550,7 @@ public class DataGridTag extends TagSupport {
 					columnList.clear();
 					fields = "";
 					searchFields = "";
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -524,12 +561,361 @@ public class DataGridTag extends TagSupport {
 	}
 
 	/**
+	 * jqgrid构建datagrid
+	 * @return
+	 */
+	public StringBuffer jqGrid(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("<link href=\"plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6\" rel=\"stylesheet\">");
+		sb.append("<link type=\"text/css\" rel=\"stylesheet\" href=\"plug-in-ui/hplus/css/plugins/jqgrid/ui.jqgrid.css\">");
+		sb.append("<script src=\"plug-in-ui/hplus/js/jquery.min.js\"></script>");
+		sb.append("<link rel=\"stylesheet\" href=\"plug-in/jquery-ui/css/ui-lightness/jquery-ui-1.9.2.custom.min.css\" type=\"text/css\"></link>");
+		sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
+		sb.append("<script src=\"plug-in-ui/hplus/js/bootstrap.min.js\"></script>");
+		sb.append("<script src=\"plug-in-ui/hplus/js/plugins/peity/jquery.peity.min.js\"></script>");
+		sb.append("<script src=\"plug-in-ui/hplus/js/plugins/jqgrid/i18n/grid.locale-cn.js\"></script>");
+		sb.append("<script src=\"plug-in-ui/hplus/js/plugins/jqgrid/jquery.jqGrid.min.js\"></script>");
+		sb.append("<script src=\"plug-in/tools/datagrid_2_jqgrid.js\"></script>");
+		sb.append("<style>");
+		sb.append("#t_"+name+"{border-bottom:1px solid #ddd;}");
+		sb.append("#t_"+name+" .btn{margin-right:10px;}");
+		sb.append(".search_div{padding:10px;}");
+		sb.append(".tool_bar_div{padding:10px;}");
+		sb.append("</style>");
+		sb.append("<table id=\""+name+"\"></table>");
+		sb.append("<div id=\"gridPager\"></div>");
+		sb.append("<script type=\"text/javascript\">");
+		sb.append("$(document).ready(function() {");
+		sb.append(" $.jgrid.defaults.styleUI=\"Bootstrap\";");
+		sb.append("$('#"+name+"').jqGrid({");
+		sb.append("url:'" + actionUrl + "&dataStyle=jqgrid&field=" + fields + "',");
+		sb.append("datatype:\"json\",");
+		sb.append("mtype:\"POST\",");
+		sb.append("height:'auto',");
+		sb.append("autowidth:true,");
+		sb.append("shrinkToFit: true,");
+		sb.append("multiselect: true,");
+		sb.append("toolbar:[true,'top'],");
+		StringBuffer colNameBuffer = new StringBuffer();
+		StringBuffer colModelBuffer = new StringBuffer();
+		for (DataGridColumn column : columnList) {
+				colNameBuffer.append("'");
+				colNameBuffer.append(column.getTitle());
+				colNameBuffer.append("',");
+				if("opt".equals(column.getField())){
+					colModelBuffer.append("{name:'");
+					colModelBuffer.append(column.getField());
+					colModelBuffer.append("',index:'");
+					colModelBuffer.append(column.getField());
+					colModelBuffer.append("',width:'");
+					colModelBuffer.append(column.getWidth());
+					colModelBuffer.append("',align:'");
+					colModelBuffer.append(column.getAlign());
+					colModelBuffer.append("' ");
+					colModelBuffer.append(",hidden:");
+					colModelBuffer.append(column.isHidden());
+					colModelBuffer.append(",formatter:currencyFormatter");
+					colModelBuffer.append("},");
+				}else{
+					colModelBuffer.append("{name:'");
+					colModelBuffer.append(column.getField());
+					colModelBuffer.append("',index:'");
+					colModelBuffer.append(column.getField());
+					colModelBuffer.append("',width:'");
+					colModelBuffer.append(column.getWidth());
+					colModelBuffer.append("',align:'");
+					colModelBuffer.append(column.getAlign());
+					colModelBuffer.append("' ");
+					if(oConvertUtils.isNotEmpty(column.getFormatter())){
+						if("yyyy-MM-dd".equals(column.getFormatter())){
+							colModelBuffer.append(",formatter:'date'");
+						}else{
+							colModelBuffer.append(",formatter:");
+							colModelBuffer.append(column.getFormatter());
+						}
+//						colModelBuffer.append(date);
+//						colModelBuffer.append("' ");
+					}
+					
+					if(oConvertUtils.isNotEmpty(column.getReplace())){
+						colModelBuffer.append(",formatter:replaceFormatter");
+						colModelBuffer.append(",formatoptions:{replace:");
+						String[] replaceArray = column.getReplace().split(",");
+						StringBuffer replaceBuffer = new StringBuffer();
+						replaceBuffer.append("{");
+						if(replaceArray.length > 0){
+							String text = "";
+							String value = "";
+							for (String replaceOri : replaceArray) {
+								String lang_key = replaceOri.split("_")[0];
+								text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
+								value =replaceOri.split("_")[1];
+								replaceBuffer.append("'");
+								replaceBuffer.append(value);
+								replaceBuffer.append("':'");
+								replaceBuffer.append(text);
+								replaceBuffer.append("',");
+							}
+						}
+						replaceBuffer.append("}");
+						colModelBuffer.append(replaceBuffer.toString());
+						colModelBuffer.append("}");
+					}
+					if(oConvertUtils.isNotEmpty(column.getFormatterjs())){
+						colModelBuffer.append(",formatter:"+column.getFormatterjs());
+					}
+					colModelBuffer.append(",hidden:");
+					colModelBuffer.append(column.isHidden());
+					colModelBuffer.append("},");
+			}
+		}
+		String colNames = colNameBuffer.toString();
+		colNames = colNames.substring(0,colNames.length()-1);
+		String colModels = colModelBuffer.toString();
+		colModels = colModels.substring(0,colModels.length()-1);
+		sb.append("colNames:[");
+		sb.append(colNames);
+		sb.append("], colModel:[");
+		sb.append(colModels);
+		sb.append("],");
+		sb.append("rownumbers:true,");
+		sb.append("viewrecords: true,");
+		sb.append("rowNum:"+pageSize+",");
+		sb.append("rowList:["+pageSize+","+2*pageSize+","+3*pageSize+"],");
+//		sb.append("jsonReader:{");
+//		sb.append("id: \"blackId\",");
+//		sb.append("repeatitems : false},");
+		sb.append("pager:$('#gridPager')");
+		sb.append(",caption:'");
+		sb.append(title);
+		sb.append("'});");
+		
+		//自适应表格宽度
+//		sb.append("$(\"#"+name+"\").setGridWidth($(window).width()*0.99);");
+		
+		//表格顶部，查询、工具栏
+		sb.append("$('#t_"+name+"').append('");
+		if(hasQueryColum(columnList)){
+			sb.append("<div id=\""+name+"tb\" class=\"search_div row\">");
+			sb.append("<div name=\"searchColums\" class=\"search-content\"><form name=\""+name+"Form\" id=\""+name+"Form\"></form></div><div class=\"col-sm-1 pull-right\">");
+			sb.append("<button class=\"btn btn-success\" type=\"button\" onclick=\"javascript:"+name+"search();\"><span><i class=\"fa fa-search\"></i>查询</span></button>");
+			sb.append("</div></div>");
+		}
+		sb.append("<div class=\"tool_bar_div bg-info\"></div>");
+		sb.append("');");
+		
+		//表格顶部查询
+		if(hasQueryColum(columnList) && !columnList.isEmpty()){
+			for (DataGridColumn column : columnList) {
+				if(column.isQuery()){
+					sb.append("$('#t_"+name+" .search-content form').append('");
+					sb.append("<label style=\"margin-right:10px;margin-left:10px;\">");
+					sb.append(column.getTitle());
+					sb.append("</label>");
+					String dictionary = column.getDictionary();
+					
+					if(oConvertUtils.isNotEmpty(dictionary)){
+						//字典数据信息，存在两种处理方式，一种是表格元素数据，一种是字典表当中的数据
+						sb.append("<select  name=\"");
+						sb.append(column.getField());
+						sb.append("\">");
+						sb.append("<option value=\"\">---请选择---</option>");
+						if(dictionary.indexOf(",")>-1){
+							//表格数据信息
+							try{
+								String[] dictionaryArray = dictionary.split(",");
+								if(dictionaryArray.length == 3){
+									String sql = "select " + dictionaryArray[1]+","+dictionaryArray[2]+" from "+dictionaryArray[0];
+									List<Map<String, Object>> dictionaryList = systemService.findForJdbc(sql);
+									if(dictionaryList != null && !dictionaryList.isEmpty()){
+										for (Map<String, Object> map : dictionaryList) {
+											if(map.containsKey(dictionaryArray[1]) && map.containsKey(dictionaryArray[2])){
+												sb.append("<option value=\"");
+												sb.append(map.get(dictionaryArray[1]));
+												sb.append(">");
+												sb.append(map.get(dictionaryArray[2]));
+												sb.append("</option>");
+											}
+										}
+									}
+								}
+							}catch (Exception e) {
+								// TODO: 字典数据异常
+							}
+						}else{
+							//字典表数据
+							List<TSType> typeList = ResourceUtil.allTypes.get(dictionary.toLowerCase());
+							if(typeList != null && !typeList.isEmpty()){
+								for (TSType type : typeList) {
+									sb.append("<option value=\"");
+									sb.append(type.getTypecode());
+									sb.append(">");
+									sb.append(type.getTypename());
+									sb.append("</option>");
+								}
+							}
+						}
+						sb.append("</select>");
+					}else if(oConvertUtils.isNotEmpty(column.getReplace())){
+						sb.append("<select  name=\""+column.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
+						sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
+						String[] test = column.getReplace().split(",");
+						String text = "";
+						String value = "";
+						for (String string : test) {
+							String lang_key = string.split("_")[0];
+							text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
+							value =string.split("_")[1];
+							if(column.getDefaultVal()!=null&&column.getDefaultVal().trim().equals(value)){
+								sb.append("<option value =\""+value+"\" selected=\"selected\">"+text+"</option>");
+							}else{
+								sb.append("<option value =\""+value+"\" >"+text+"</option>");
+							}
+						}
+						sb.append("</select>");
+					}else{
+						sb.append("<input  onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+column.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(column.getExtend())+" ");
+						if(this.DATE_FORMATTER.equals(column.getFormatter())){
+							sb.append(" style=\"width: 160px\" class=\"Wdate\" onClick=\"WdatePicker()\" ");
+						}else if(this.DATETIME_FORMATTER.equals(column.getFormatter())){
+							sb.append(" style=\"width: 160px\" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\" ");
+						}else{
+							sb.append(" style=\"width: 120px\" class=\"inuptxt\" ");
+						}
+						if(oConvertUtils.isNotEmpty(column.getDefaultVal())){
+							sb.append(" value=\""+column.getDefaultVal()+"\" ");
+						}
+						sb.append(" />");
+					}
+					sb.append("');");
+				}
+			}
+		}
+		
+		//工具栏的处理方式
+		if(toolBarList.size() > 0){
+			for (DataGridUrl toolBar : toolBarList) {
+				sb.append("$('#t_"+name+" .tool_bar_div').append('");
+				sb.append("<button class=\"btn btn-success\"");
+				sb.append(" onclick=\"");
+				sb.append(toolBar.getFunname());
+				sb.append("(\\'");
+				sb.append(toolBar.getTitle());
+				sb.append("\\',\\'");
+				sb.append(toolBar.getUrl());
+				sb.append("\\',\\'");
+				sb.append(name);
+				sb.append("\\',");
+				String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+				String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+				sb.append(width+","+height+")");
+				sb.append("\" >");
+				//工具栏图标显示
+				String toolBarIcon = toolBar.getIcon();
+				if(oConvertUtils.isNotEmpty(toolBarIcon)){
+					if(toolBarIcon.equals("icon-add") ){
+						sb.append("<i class=\"fa fa-plus\"></i>");
+					}else if(toolBarIcon.equals("icon-edit") ){
+						sb.append("<i class=\"fa fa-edit\"></i>");
+					}else if (toolBarIcon.equals("icon-put") ) {
+						sb.append("<i class=\"fa fa-download\"></i>");
+					}else if (toolBarIcon.equals("icon-putout")) {
+						sb.append("<i class=\"fa fa-upload\"></i>");
+					}else if (toolBarIcon.equals("icon-remove") ) {
+						sb.append("<i class=\"fa fa-trash-o\"></i>");
+					}else if (toolBarIcon.equals("icon-search") ) {
+						sb.append("<i class=\"fa fa-search\"></i>");
+					}else{
+						sb.append("<i class=\"fa "+toolBarIcon+"\"></i>");
+					}
+				}
+				sb.append(toolBar.getTitle());
+				sb.append("</button>");
+				sb.append("');");
+			}
+		}
+		//添加在底部的按钮
+//		sb.append("$('#"+name+"').navGrid('#gridPager',{edit:false,add:false,del:false,search:false})");
+//		if(toolBarList.size() > 0){
+//			for (DataGridUrl toolBar : toolBarList) {
+//				sb.append(".navButtonAdd('#gridPager',{");
+//				sb.append("caption:'");
+//				sb.append(toolBar.getTitle());
+//				sb.append("'");
+//				sb.append(",buttonicon:'");
+//				sb.append(toolBar.getIcon());
+//				sb.append("'");
+//				sb.append(",onClickButton:");
+//				sb.append("function(){");
+//				if(oConvertUtils.isNotEmpty(toolBar.getOnclick())){
+//					sb.append(toolBar.getOnclick());
+//				}else{
+//					sb.append(toolBar.getFunname());
+//					sb.append("('");
+//					sb.append(toolBar.getTitle());
+//					sb.append("','");
+//					sb.append(toolBar.getUrl());
+//					sb.append("','");
+//					sb.append(name);
+//					sb.append("',");
+//					String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+//					String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+//					sb.append(width+","+height+")");
+//				}
+//				sb.append("}");
+//				sb.append(",position:'last'");
+//				sb.append("})");
+//			}
+//		}
+		sb.append("});");
+		sb.append("function currencyFormatter(cellvalue, options, rec){ ");
+		sb.append("var index = options.pos;");
+		StringBuffer optSb = new StringBuffer();
+		this.getOptUrl(optSb);
+		sb.append(optSb.toString());
+		sb.append("}");
+		sb.append("function reloadTable(){");
+		sb.append("try{");
+		sb.append("	$(\'#\'+gridname).trigger(\"reloadGrid\");" );
+		sb.append("}catch(ex){}");
+		sb.append("}");
+		
+		//数据替换
+		sb.append("function replaceFormatter(cellvalue,options,rec){");
+		sb.append("var formatterOptions = options.colModel.formatoptions;");
+		sb.append("var replace = formatterOptions.replace;");
+		sb.append("return replace[cellvalue];");
+		sb.append("}");
+		
+		//回车查询
+		sb.append("function EnterPress(e){");
+		sb.append("var e = e || window.event;");
+		sb.append("if(e.keyCode == 13){ ");
+		sb.append(name+"search();");
+		sb.append("}}");
+		
+		//提交查询
+		sb.append("function " + name + "search(){");
+		sb.append("try { if(! $(\"#"+name+"Form\").Validform({tiptype:3}).check()){return false;} } catch (e){}");
+		sb.append("var queryParams = '';");
+		sb.append("$(\'#" + name + "tb\').find('*').each(function(){ if($(this).attr('name') != undefined && $(this).val() != ''){queryParams += \"&\" + $(this).attr('name') + \"=\" + $(this).val();}});");
+		sb.append("console.log(queryParams);");
+		sb.append("var url = '"+actionUrl+"&dataStyle=jqgrid&field="+searchFields+"' + queryParams;");
+		sb.append("console.log(url);");
+		sb.append("$(\'#" + name + "\').jqGrid('setGridParam',{url:url,page:1}).trigger(\"reloadGrid\");" + "}");
+		sb.append("</script>");
+		return sb;
+	}
+
+	/**
 	 * datatables构造方法
 	 * 
 	 * @return
 	 */
 	public StringBuffer datatables() {
 		StringBuffer sb = new StringBuffer();
+		sb.append("<link href=\"plug-in-ui/hplus/css/plugins/dataTables/dataTables.bootstrap.css\" rel=\"stylesheet\">");
+		sb.append("<script src=\"plug-in-ui/hplus/js/plugins/dataTables/jquery.dataTables.js\"></script>");
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("$(document).ready(function() {");
 		sb.append("var oTable = $(\'#userList\').dataTable({");
@@ -543,7 +929,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("\"bAutoWidth\" : true,");// 自动宽度"
 		sb.append("\"bLengthChange\" : true,");// 是否允许用户自定义每页显示条数"
 		sb.append("\"bInfo\" : true,");// 页脚信息"
-		sb.append("\"sAjaxSource\" : \"userController.do?test\",");
+		sb.append("\"sAjaxSource\" : \""+ actionUrl + "&field=" + fields+"\",");
 		sb.append("\"bServerSide\" : true,");// 指定从服务器端获取数据
 		sb.append("\"oLanguage\" : {" + "\"sLengthMenu\" : \" _MENU_ 条记录\"," + "\"sZeroRecords\" : \"没有检索到数据\"," + "\"sInfo\" : \"第 _START_ 至 _END_ 条数据 共 _TOTAL_ 条\"," + "\"sInfoEmtpy\" : \"没有数据\"," + "\"sProcessing\" : \"正在加载数据...\"," + "\"sSearch\" : \"搜索\"," + "\"oPaginate\" : {" + "\"sFirst\" : \"首页\"," + "\"sPrevious\" : \"前页\", " + "\"sNext\" : \"后页\"," + "\"sLast\" : \"尾页\"" + "}" + "},"); // 汉化
 		// 获取数据的处理函数 \"data\" : {_dt_json : JSON.stringify(aoData)},
@@ -573,6 +959,7 @@ public class DataGridTag extends TagSupport {
 				sb.append(",\"bSortable\":" + column.isSortable() + "");
 
 				sb.append(",\"bVisible\":" + !column.isHidden() + "");
+
 				sb.append(",\"bSearchable\":" + column.isQuery() + "");
 			}
 			sb.append("}");
@@ -607,7 +994,11 @@ public class DataGridTag extends TagSupport {
 			grid = "treegrid";
 			sb.append("$(\'#" + name + "\').treegrid({");
 			sb.append("idField:'id',");
-			sb.append("treeField:'text',");
+			if(StringUtils.isNotEmpty(treeField)){
+				sb.append("treeField:'"+treeField+"',");
+			}else{
+				sb.append("treeField:'text',");
+			}
 		} else {
 			grid = "datagrid";
 			sb.append("$(\'#" + name + "\').datagrid({");
@@ -640,7 +1031,11 @@ public class DataGridTag extends TagSupport {
 			for (DataGridColumn col : columnList) {
 				if (col.isQuery()&&col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")) {
 					//sb.append("queryParams:{documentTitle:'woniu'},");
-					queryParams += col.getField()+":'"+col.getDefaultVal()+"',";
+
+					if(!"group".equals(col.getQueryMode())){
+						queryParams += col.getField()+":'"+col.getDefaultVal()+"',";
+					}
+
 				}
 			}
 			if(queryParams.indexOf(",")>-1){
@@ -650,6 +1045,7 @@ public class DataGridTag extends TagSupport {
 			//System.out.println("queryParams===="+queryParams);
 			sb.append(queryParams);
 		}
+
 		sb.append(StringUtil.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.data.loading")));
 		sb.append("pageSize: " + pageSize + ",");
 		sb.append("pagination:" + pagination + ",");
@@ -683,6 +1079,13 @@ public class DataGridTag extends TagSupport {
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
 			sb.append(" $(\'#" + name + "\').treegrid('expand',firstNode.id)}");
 		}
+
+		sb.append("if(!"+treegrid+"){");
+		sb.append("if(data.total && data.rows.length==0) {");
+		sb.append("var grid = $(\'#"+name+"\');");
+		sb.append("var curr = grid.datagrid(\'getPager\').data(\"pagination\").options.pageNumber;");
+		sb.append("grid.datagrid({pageNumber:(curr-1)});}}");
+
 		if (StringUtil.isNotEmpty(onLoadSuccess)) {
 			sb.append(onLoadSuccess + "(data);");
 		}
@@ -709,8 +1112,10 @@ public class DataGridTag extends TagSupport {
 		sb.append("}");
 		sb.append("});");
 		this.setPager(sb, grid);
+
 		sb.append("try{restoreheader();}catch(ex){}");
 		sb.append("});");
+
 		sb.append("function reloadTable(){");
 		sb.append("try{");
 		sb.append("	$(\'#\'+gridname).datagrid(\'reload\');" );
@@ -724,6 +1129,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');");
 		sb.append("}");
+
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -774,6 +1180,7 @@ public class DataGridTag extends TagSupport {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
+
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
@@ -788,17 +1195,19 @@ public class DataGridTag extends TagSupport {
 			sb.append("function dosearch(params){");
 			sb.append("var jsonparams=$.parseJSON(params);");
 			sb.append("$(\'#" + name + "\')." + grid + "({url:'" + actionUrl + "&field=" + searchFields + "',queryParams:jsonparams});" + "}");
-			
+
 			 //searchbox框执行方法
 			  searchboxFun(sb,grid);
+
 			//生成重置按钮功能js
-			  
+
 			//回车事件
 			sb.append("function EnterPress(e){");
 			sb.append("var e = e || window.event;");
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
+
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#\"+name+\"tb\").find(\":input\").val(\"\");");
@@ -827,123 +1236,18 @@ public class DataGridTag extends TagSupport {
 			//-----longjb1 增加用于高级查询的参数项 
 			sb.append("<input  id=\"_sqlbuilder\" name=\"sqlbuilder\"   type=\"hidden\" />");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
+
 			sb.append("<form onkeydown='if(event.keyCode==13){" + name + "search();return false;}' id='"+name+"Form'>");
+
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/style.css\" type=\"text/css\">");
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tablefrom.css\" type=\"text/css\">");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_zh-cn.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_zh-cn.js\"></script>");
 			//update by jg_renjie at 2016/1/11 for:TASK #823
-			//如果表单是组合查询		
-			if("group".equals(getQueryMode())){
-				for (DataGridColumn col : columnList) {
-					if (col.isQuery()) {
-						sb.append("<span style=\"display:-moz-inline-box;display:inline-block;\">");
-						sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 80px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; \" title=\""+col.getTitle()+"\">"+col.getTitle()+"：</span>");
-						if("single".equals(col.getQueryMode())){
-							if(!StringUtil.isEmpty(col.getReplace())){
-								sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-								sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
-								String[] test = col.getReplace().split(",");
-								String text = "";
-								String value = "";
-								
-								
-								
-								for (String string : test) {
-									String lang_key = string.split("_")[0];
-									text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
-									value =string.split("_")[1];
 
-									if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(value)){
-										sb.append("<option value =\""+value+"\" selected=\"selected\">"+text+"</option>");
-									}else{
-										sb.append("<option value =\""+value+"\" >"+text+"</option>");
-									}
-									
-								}
-								sb.append("</select>");
-							}else if(!StringUtil.isEmpty(col.getDictionary())){
-								if(col.getDictionary().contains(",")&&col.isPopup()){
-									String[] dic = col.getDictionary().split(",");
-									String sql = "select " + dic[1] + " as field," + dic[2]
-											+ " as text from " + dic[0];
-									//System.out.println(dic[0]+"--"+dic[1]+"--"+dic[2]);
-								//	<input type="text" name="order_code"  style="width: 100px"  class="searchbox-inputtext" value="" onClick="inputClick(this,'account','user_msg');" />
+			getSearchFormInfo(sb);
 
-									if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
-										sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 100px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
-									}else{
-										sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 100px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" /> ");
-									}
-									
-								}else if(col.getDictionary().contains(",")&&(!col.isPopup())){
-									String[] dic = col.getDictionary().split(",");
-									String sql = "select " + dic[1] + " as field," + dic[2]
-											+ " as text from " + dic[0];
-									systemService = ApplicationContextUtil.getContext().getBean(
-											SystemService.class);
-									List<Map<String, Object>> list = systemService.findForJdbc(sql);
-									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
-									for (Map<String, Object> map : list){
-
-										if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(map.get("field"))){
-											sb.append(" <option value=\""+map.get("field")+"\" selected=\"selected\">");
-										}else{
-											sb.append(" <option value=\""+map.get("field")+"\">");
-										}
-
-										sb.append(map.get("text"));
-										sb.append(" </option>");
-									}
-									sb.append("</select>");
-								}else{
-									Map<String, List<TSType>> typedatas = ResourceUtil.allTypes;
-									List<TSType> types = typedatas.get(col.getDictionary().toLowerCase());
-									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
-									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
-									if (types != null) {
-										for (TSType type : types) {
-
-											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(type.getTypecode())){
-												sb.append(" <option value=\""
-														+ type.getTypecode()
-														+ "\" selected=\"selected\">");
-											}else{
-												sb.append(" <option value=\""
-														+ type.getTypecode()
-														+ "\">");
-											}
-										
-											sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
-											sb.append(" </option>");
-										}
-									}
-									sb.append("</select>");
-								}
-							}else if(col.isAutocomplete()){
-								sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
-							}else{
-
-								if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
-									sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value=\""+col.getDefaultVal()+"\" />");
-								}else{
-									sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" />");
-								}
-								
-								//sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value="+col.getDefaultVal()==null?"":"\""+col.getDefaultVal()+"\""+"/>");
-								
-							}
-						}else if("group".equals(col.getQueryMode())){
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
-							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
-						}
-						sb.append("</span>");
-					}
-				}
-			}
 			sb.append("</form></div>");
 		}
 		if(toolBarList.size()==0 && !hasQueryColum(columnList)){
@@ -998,6 +1302,147 @@ public class DataGridTag extends TagSupport {
 			addQueryBuilder(sb,"easyui-linkbutton");
 		}
 		return sb;
+	}
+
+	/**
+	 * 构建查询form当中的信息
+	 * @param sb
+	 */
+	private void getSearchFormInfo(StringBuffer sb) {
+		//如果表单是组合查询		
+		if("group".equals(getQueryMode())){
+			for (DataGridColumn col : columnList) {
+				if (col.isQuery()) {
+					sb.append("<span style=\"display:-moz-inline-box;display:inline-block;\">");
+					sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; \" title=\""+col.getTitle()+"\">"+col.getTitle()+"：</span>");
+					if("single".equals(col.getQueryMode())){
+						if(!StringUtil.isEmpty(col.getReplace())){
+							sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
+							sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
+							String[] test = col.getReplace().split(",");
+							String text = "";
+							String value = "";
+							
+							
+							
+							for (String string : test) {
+								String lang_key = string.split("_")[0];
+								text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
+								value =string.split("_")[1];
+
+								if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(value)){
+									sb.append("<option value =\""+value+"\" selected=\"selected\">"+text+"</option>");
+								}else{
+									sb.append("<option value =\""+value+"\" >"+text+"</option>");
+								}
+
+								
+							}
+							sb.append("</select>");
+						}else if(!StringUtil.isEmpty(col.getDictionary())){
+							if(col.getDictionary().contains(",")&&col.isPopup()){
+								String[] dic = col.getDictionary().split(",");
+								String sql = "select " + dic[1] + " as field," + dic[2]
+										+ " as text from " + dic[0];
+								//System.out.println(dic[0]+"--"+dic[1]+"--"+dic[2]);
+							//	<input type="text" name="order_code"  style="width: 100px"  class="searchbox-inputtext" value="" onClick="inputClick(this,'account','user_msg');" />
+
+								if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
+									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
+								}else{
+									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" /> ");
+								}
+
+								
+							}else if(col.getDictionary().contains(",")&&(!col.isPopup())){
+								String[] dic = col.getDictionary().split(",");
+								String sql = "select " + dic[1] + " as field," + dic[2]
+										+ " as text from " + dic[0];
+								systemService = ApplicationContextUtil.getContext().getBean(
+										SystemService.class);
+								List<Map<String, Object>> list = systemService.findForJdbc(sql);
+								sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
+								sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
+								for (Map<String, Object> map : list){
+
+									if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(map.get("field"))){
+										sb.append(" <option value=\""+map.get("field")+"\" selected=\"selected\">");
+									}else{
+										sb.append(" <option value=\""+map.get("field")+"\">");
+									}
+
+
+									sb.append(map.get("text"));
+									sb.append(" </option>");
+								}
+								sb.append("</select>");
+							}else{
+								Map<String, List<TSType>> typedatas = ResourceUtil.allTypes;
+								List<TSType> types = typedatas.get(col.getDictionary().toLowerCase());
+								sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"100\" style=\"width: 104px\"> ");
+								sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
+								if (types != null) {
+									for (TSType type : types) {
+
+										if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(type.getTypecode())){
+											sb.append(" <option value=\""
+													+ type.getTypecode()
+													+ "\" selected=\"selected\">");
+										}else{
+											sb.append(" <option value=\""
+													+ type.getTypecode()
+													+ "\">");
+										}
+
+									
+										sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
+										sb.append(" </option>");
+									}
+								}
+								sb.append("</select>");
+							}
+						}else if(col.isAutocomplete()){
+							sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
+						}else{
+
+							sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+" ");
+							if(this.DATE_FORMATTER.equals(col.getFormatter())){
+								sb.append(" style=\"width: 160px\" class=\"Wdate\" onClick=\"WdatePicker()\" ");
+							}else if(this.DATETIME_FORMATTER.equals(col.getFormatter())){
+								sb.append(" style=\"width: 160px\" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\" ");
+							}else{
+								sb.append(" style=\"width: 120px\" class=\"inuptxt\" ");
+							}
+							if(oConvertUtils.isNotEmpty(col.getDefaultVal())){
+								sb.append(" value=\""+col.getDefaultVal()+"\" ");
+							}
+							sb.append(" />");
+
+							
+							//sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value="+col.getDefaultVal()==null?"":"\""+col.getDefaultVal()+"\""+"/>");
+							
+						}
+					}else if("group".equals(col.getQueryMode())){
+
+						if(this.DATE_FORMATTER.equals(col.getFormatter())){
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
+							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
+						}else if(this.DATETIME_FORMATTER.equals(col.getFormatter())){
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin1\"  style=\"width: 140px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
+							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end2\"  style=\"width: 140px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
+						}else{
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
+							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 94px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
+						}
+
+					}
+					sb.append("</span>");
+				}
+			}
+		}
 	}
 
 
@@ -1179,12 +1624,15 @@ public class DataGridTag extends TagSupport {
 				urlfont.append(dataGridUrl.getUrlfont());
 				urlfont.append("\'></i>");			
 			}
+
 			if (OptTypeDirection.Confirm.equals(dataGridUrl.getType())) {
+
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
 					sb.append("href+=\"<a href=\'#\'  "+urlclass.toString()+"  onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+name+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
 					sb.append("href+=\"[<a href=\'#\' onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+name+"\')" + style.toString() + "> \";");
 				}
+
 			}
 			if (OptTypeDirection.Del.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
@@ -1205,11 +1653,24 @@ public class DataGridTag extends TagSupport {
 				
 			}
 			if (OptTypeDirection.OpenWin.equals(dataGridUrl.getType())) {
-				sb.append("href+=\"[<a href=\'#\' onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+name+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">\";");
+
+				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
+					sb.append("href+=\"<a href=\'#\' "+urlclass.toString()+" onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+name+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">"+urlfont.toString()+"\";");
+				}else{
+					sb.append("href+=\"[<a href=\'#\' onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+name+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">\";");
+				}
+
 			}															//update-end--Author:liuht  Date:20130228 for：弹出窗口设置参数不生效
 			if (OptTypeDirection.Deff.equals(dataGridUrl.getType())) {
-				sb.append("href+=\"[<a href=\'" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
+
+				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
+					sb.append("href+=\"<a href=\'" + url + "' "+urlclass.toString()+" title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">"+urlfont.toString()+"\";");
+				}else{
+					sb.append("href+=\"[<a href=\'" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
+				}
+
 			}
+
 			if (OptTypeDirection.OpenTab.equals(dataGridUrl.getType())) {
 				sb.append("href+=\"[<a href=\'#\' onclick=addOneTab('" + dataGridUrl.getTitle() + "','" + url  + "')>\";");
 			}
@@ -1299,7 +1760,12 @@ public class DataGridTag extends TagSupport {
 			if((column.isFrozenColumn()&&frozen==0)||(!column.isFrozenColumn()&&frozen==1)){
 			String field;
 			if (treegrid) {
+
 				field = column.getTreefield();
+				if(StringUtils.isEmpty(field)){
+					field = column.getField();
+				}
+
 			} else {
 				field = column.getField();
 			}
@@ -1367,6 +1833,7 @@ public class DataGridTag extends TagSupport {
 				}else{
 					sb.append(","+column.getExtendParams());
 				}
+
 				
 			}
 
@@ -1374,6 +1841,7 @@ public class DataGridTag extends TagSupport {
 			if (column.isHidden()) {
 				sb.append(",hidden:true");
 			}
+
 			if (!treegrid) {
 				// 字段排序
 				if ((column.isSortable()) && (field.indexOf("_") <= 0 && field != "opt")) {
@@ -1388,6 +1856,7 @@ public class DataGridTag extends TagSupport {
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" return "+column.getFormatterjs()+"(value,rec,index);}");
 				}
+
 			}else {
 				// 显示图片
 				if (column.isImage()) {
@@ -1795,6 +2264,7 @@ public class DataGridTag extends TagSupport {
 		sb.append("function get" + name + "Selections(field){" + "var ids = [];" + "var rows = $(\'#" + name + "\')." + grid + "(\'getSelections\');" + "for(var i=0;i<rows.length;i++){" + "ids.push(rows[i][field]);" + "}" + "ids.join(\',\');" + "return ids" + "};");
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');}");
+
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -1829,6 +2299,7 @@ public class DataGridTag extends TagSupport {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
+
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			sb.append("var queryParams=$(\'#" + name + "\').datagrid('options').queryParams;");
@@ -1847,6 +2318,7 @@ public class DataGridTag extends TagSupport {
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
+
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#"+name+"tb\").find(\":input\").val(\"\");");

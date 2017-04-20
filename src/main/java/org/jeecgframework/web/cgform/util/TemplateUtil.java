@@ -1,15 +1,5 @@
 package org.jeecgframework.web.cgform.util;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import org.apache.commons.lang.StringUtils;
-import org.jeecgframework.core.util.FormUtil;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
-import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
-
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,18 +10,25 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang.StringUtils;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
+
 /**
  * Created by zzl on 2015/6/19.
  * online 自定义模板工具类
  * 提供获取模板路径方法
  */
 public class TemplateUtil {
-    public static final String BASE_DIR="online/template/";
-    public static final String TEMPLET_CODE_DEFAULT="ledefault"; //Online默认样式：default(easyui)  | Online默认样式：ledefault(ace)
-    public static final String TEMPLET_ONE_DEFAULT="jform.ftl";
-    public static final String TEMPLET_ONE_MANY_DEFAULT="jformunion.ftl";
-    public static final String TEMPLET_VIEW_DIR_DEFAULT="html";
-    public static final String TEMPLET_LIST="autolist.ftl";
+    public static final String BASE_DIR = "online/template/";
+    public static final String TEMPLET_CODE_DEFAULT = "default"; //Online默认样式：default(easyui)  | Online默认样式：ledefault(ace)
+    public static final String TEMPLET_ONE_DEFAULT = "jform.ftl";
+    public static final String TEMPLET_ONE_MANY_DEFAULT = "jformunion.ftl";
+    public static final String TEMPLET_VIEW_DIR_DEFAULT = "html";
+    public static final String TEMPLET_LIST = "autolist.ftl";
     public  enum TemplateType{
         ADD("add"),UPDATE("update"),LIST("list"),DETAIL("detail");
         private String name;
@@ -85,22 +82,40 @@ public class TemplateUtil {
         }
         String templateCode=entity.getTemplateCode();
         String templateName=null;
+
         switch (type){
             case ADD:
-                templateName=entity.getTemplateAddName();
+//                templateName=entity.getTemplateAddName();
+            	if(CgAutoListConstant.JFORM_TYPE_MAIN_TALBE==formType){
+            		templateName="jformunion.ftl";
+            	}else{
+            		templateName="jform.ftl";
+            	}
                 break;
             case UPDATE:
-                templateName=entity.getTemplateUpdateName();
+//                templateName=entity.getTemplateUpdateName();
+            	if(CgAutoListConstant.JFORM_TYPE_MAIN_TALBE==formType){
+            		templateName="jformunion.ftl";
+            	}else{
+            		templateName="jform.ftl";
+            	}
                 break;
             case LIST:
                 templateName=entity.getTemplateListName();
+                templateName="autolist.ftl";
                 break;
             case DETAIL:
-                templateName=entity.getTemplateDetailName();
+//                templateName=entity.getTemplateDetailName();
+            	if(CgAutoListConstant.JFORM_TYPE_MAIN_TALBE==formType){
+            		templateName="jformunion.ftl";
+            	}else{
+            		templateName="jform.ftl";
+            	}
                 break;
             default:
                 templateName=entity.getTemplateListName();
         }
+
         StringBuffer buffer=new StringBuffer(BASE_DIR+templateCode+"/");
         buffer.append(TEMPLET_VIEW_DIR_DEFAULT+"/");
         buffer.append(templateName);
@@ -273,11 +288,13 @@ public class TemplateUtil {
 				}
 				if ((i+1) == tdCount)// 最后一列不显示 && 第一列也不显示
 				{   
+
 					if(row == 0){
 						tr += "<td></td>";
 					} else {
 						tr += "<td><a href=\"javascript:void(0);\" class=\"delrow \">删除</a></td>";
 					}
+
 				}
 				if (row == 0)// 统计的行只有一行
 				{

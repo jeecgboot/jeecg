@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.minidao.annotation.MiniDao;
+import org.jeecgframework.minidao.annotation.Sql;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,5 +24,9 @@ public interface CgFormFieldDao {
 	
 	@Arguments("tableName")
 	public List<Map<String, Object>> getCgFormHiddenFieldByTableName(String tableName);
+	
+	@Arguments("id")
+	@Sql("select count(1) from cgform_head where physice_id=:id ")
+	public int getByphysiceId(String id);
 	
 }

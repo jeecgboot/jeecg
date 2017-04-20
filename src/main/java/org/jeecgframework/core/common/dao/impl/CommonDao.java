@@ -65,6 +65,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				return users.get(0);
 			}
 		}
+
 		return null;
 	}
 	
@@ -181,7 +182,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				}
 				if (uploadFile.getByteField() != null) {
 					// 二进制文件保存在数据库中
+
 //					reflectHelper.setMethodValue(uploadFile.getByteField(), StreamUtils.InputStreamTOByte(mf.getInputStream()));
+
 				}
 				File savefile = new File(savePath);
 				if (uploadFile.getRealPath() != null) {
@@ -190,6 +193,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				}
 				saveOrUpdate(object);
 				// 文件拷贝到指定硬盘目录
+
 					if("txt".equals(extend)){
 						//利用utf-8字符集的固定首行隐藏编码原理
 						//Unicode:FF FE   UTF-8:EF BB   
@@ -208,11 +212,13 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 									out.close();
 								}
 							}  else {
+
 								//GBK
 								String contents = new String(mf.getBytes(),"GBK");
 								OutputStream out = new FileOutputStream(savePath);
 								out.write(contents.getBytes());
 								out.close();
+
 							}
 						  } catch(Exception e){
 							  String contents = new String(mf.getBytes(),"UTF-8");
@@ -225,6 +231,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				} else {
 					FileCopyUtils.copy(mf.getBytes(), savefile);
 				}
+
 				
 //				if (uploadFile.getSwfpath() != null) {
 //					// 转SWF
@@ -489,7 +496,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		for (Object obj : all) {
 			trees.add(comboTree(obj, comboTreeModel, in, recursive));
 		}
+
 		all.clear();
+
 		return trees;
 
 	}
@@ -541,10 +550,11 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
                 tree.setChildren(children);
             }
         }
-		
+
 		if(curChildList!=null){
 			curChildList.clear();
 		}
+
 		return tree;
 	}
 	/**
@@ -643,11 +653,12 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
             	String functionType = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
             	tg.setFunctionType(functionType);
             }
-            
+
             if(treeGridModel.getIconStyle() != null){
             	String iconStyle = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getIconStyle()));
             	tg.setIconStyle(iconStyle);
             }
+
 			treegrid.add(tg);
 		}
 		return treegrid;

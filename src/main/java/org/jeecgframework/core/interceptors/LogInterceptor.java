@@ -12,14 +12,14 @@ import org.jeecgframework.core.common.model.json.LogAnnotation;
 import org.springframework.stereotype.Component;
 
 /**
- * 
+ * 日志拦截器
  * @author  张代浩
  *
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class LogInterceptor {
-	@Before("execution(* com.renfang.controller.*.*(..))")
+	//@Before("execution(* com.renfang.controller.*.*(..))")
 	public void beforeMethod(JoinPoint joinPoint) throws Exception {
 		String temp = joinPoint.getStaticPart().toShortString();
 		String longTemp = joinPoint.getStaticPart().toLongString();

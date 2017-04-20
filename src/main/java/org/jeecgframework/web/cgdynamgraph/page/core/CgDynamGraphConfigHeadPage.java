@@ -55,13 +55,14 @@ public class CgDynamGraphConfigHeadPage implements java.io.Serializable {
 	private java.lang.String cgrSql;
 	/**描述*/
 	private java.lang.String content;
-	
+
 	/**图表类型*/
 	private  String graphType;
 	/**数据结构类型*/
 	private String dataStructure;
 	/**是否分页*/
 	private String isPagination;
+
 
 	
 	
@@ -149,6 +150,7 @@ public class CgDynamGraphConfigHeadPage implements java.io.Serializable {
 	public void setContent(java.lang.String content){
 		this.content = content;
 	}
+
 	@Column(name ="graph_type",length=36)
 	public String getGraphType() {
 		return graphType;
@@ -175,5 +177,6 @@ public class CgDynamGraphConfigHeadPage implements java.io.Serializable {
 	public void setIsPagination(String isPagination) {
 		this.isPagination = isPagination;
 	}
+
 
 }

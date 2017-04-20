@@ -1,0 +1,212 @@
+.wu-example{clear:both;}
+.webuploader-container {
+	position: relative;
+	top:12.5px;
+	display:inline-block;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+.webuploader-pick {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	text-align: center;
+	overflow: hidden;
+	background: #00b7ee;
+	margin-bottom:5px;
+}
+.btn-L{
+	border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 20px;
+}
+.btn-M{
+	border-radius: 15px;
+	padding: 4px 17px;
+    font-size: 14px;
+}
+.btn-S{
+	border-radius: 15px;
+    padding: 2px 15px;
+    font-size: 12px;
+}
+
+.webuploader-pick-hover {
+	/* background: #00a2d4;蓝色 */
+	 background: #5cb85c;color:#fff;/* 绿色 */
+	 /* background:#808080;color:#fff;黑色 */
+}  
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events:none;
+}
+.upbtn {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    background-image: none;
+    margin-left:5px;
+/*     border-width: 1px;
+    border-style: solid; */
+    border-color: transparent;
+    border-image: initial;
+    border-radius: 5px;
+    margin-bottom:5px;
+}
+.btn-default{
+    color: rgb(51, 51, 51);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(204, 204, 204);
+}
+.btn-default:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+.btn-green{
+	color: #fff;
+    background-color:#18a689;
+    border-color: #398439;
+}
+.btn-green:hover{
+	color: #fff;
+    background-color: #5cb85c ipormtatnt;
+    border-color: #4cae4c;
+}
+.btn-blue{
+	color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+.btn-blue:hover {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+.uploadBtn:hover{
+    background: #d8d8d8;
+    color: #666;
+    text-shadow: 1px 1px 1px #fff;
+}
+.uploadBtn{
+	border: none;
+    outline: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 0px 0px 10px;
+    clear: both;
+    padding: 7px 25px;
+    text-shadow: 0 1px 1px #777;
+    font-weight: bold;
+    font-family: "Century Gothic", Helvetica, sans-serif;
+    font-size: 22px;
+    -moz-box-shadow: 0px 0px 3px #aaa;
+    -webkit-box-shadow: 0px 0px 3px #aaa;
+    box-shadow: 0px 0px 3px #aaa;
+    background: #4797ED;
+    height:28px;line-height:28px
+}
+.tiptext{
+	font-family:'黑体'
+}
+.icon-cha{
+	cursor:pointer;
+	width:16px;
+	height:16px;
+	display:inline-block;
+	vertical-align:middle;
+	text-indent: -999px;
+	background:url('icons/cha.png') no-repeat center center;
+}
+.icon-down{
+	cursor:pointer;
+	width:16px;
+	height:16px;
+	display:inline-block;
+	vertical-align:middle;
+	text-indent: -999px;
+	background:url('icons/down.png') no-repeat center center;
+}
+.tempimg{
+	margin-right:5px;
+	width:100px;
+	height:100px;
+}
+.tempIMGdiv{
+	margin-top:5px;
+}
+.tempIMGdiv ul{list-style: none;}
+.tempIMGdiv ul li{
+	width: 100px;
+    height: 100px;
+    text-align: center;
+    margin: 0 8px 20px 0;
+    position: relative;
+    display: inline;
+    float: left;
+    overflow: hidden;
+}
+
+.hidetitle{
+	position: absolute;
+	height: 30px;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#80000000', endColorstr='#80000000')\0;
+	background: rgba( 0, 0, 0, 0.5 );
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: 300;
+	display:none;
+}
+.hidetitle span{
+	width: 24px;
+    height: 24px;
+    display: inline;
+    float: right;
+    text-indent: -9999px;
+    overflow: hidden;
+    background: url(icons/imgtitle.png) no-repeat;
+    margin: 5px 1px 1px;
+    cursor: pointer;
+    
+}
+
+.hidetitle span.titledel{background-position: -48px -24px;}
+.hidetitle span.titledown{background-position: -24px -24px;}
+.hidetitle span.titledel:hover{background-position: -48px 0;}
+.hidetitle span.titledown:hover{background-position: -24px 0;}
+
+.temptable{
+	display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey
+}
+.temptable tbody{    
+	display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}	
+.temptable tr{
+	 /* background-color:#f5f5f5 */
+	 background-color:#ebd4c9
+}
+.temptable .icontd1{
+	width:20px;text-align:center;
+}
+.mb20{margin-bottom: 20px;}

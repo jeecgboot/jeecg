@@ -63,10 +63,18 @@ public class CgformTemplateEntity implements java.io.Serializable {
 	private String templateComment;
 
 	private String templateZipName;
+
 	private String templateListName;
 	private String templateAddName;
 	private String templateUpdateName;
 	private String templateDetailName;
+
+	
+	/**
+	 * 状态 0 失效 1 有效
+	 */
+	private Integer status;
+	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -353,4 +361,15 @@ public class CgformTemplateEntity implements java.io.Serializable {
 	public void setTemplateDetailName(String templateDetailName) {
 		this.templateDetailName = templateDetailName;
 	}
+
+	@Column(name="status")
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	
 }

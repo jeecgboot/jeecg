@@ -28,7 +28,17 @@
 		</tr>
 		<tr>
 			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.value"/>: </label></td>
+			<!--update-end--Author:luobaoli  Date:20150701 for：取消非空校验-->
 			<td class="value"><input id="cgJavaValue" name="cgJavaValue" type="text" style="width: 300px;height: 26px" value="${cgformEnhanceJavaPage.cgJavaValue}"/><span class="Validform_checktip"></span></td>
+			<!--update-end--Author:luobaoli  Date:20150701 for：取消非空校验-->
+		</tr>
+		<tr>
+			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.iseffect"/>: </label></td>
+			<td class="value">
+				<input type="radio" name="activeStatus" value="0" ${cgformEnhanceJavaPage.activeStatus eq 0 ? 'checked' : '' } /><t:mutiLang langKey="common.disable"/>
+				<input type="radio" name="activeStatus" value="1" ${empty cgformEnhanceJavaPage.activeStatus or cgformEnhanceJavaPage.activeStatus eq '1' ? 'checked' : '' } /><t:mutiLang langKey="common.enable"/>
+				<span class="Validform_checktip"></span>
+			</td>
 		</tr>
 	</table>
 </t:formvalid>

@@ -10,6 +10,12 @@
 				url : "logController.do?getBroswerBar&reportType=${reportType}",
 				success : function(jsondata) {
 					data = eval(jsondata);
+
+					var xAxisCategories = new Array();
+					for(var i = 0; i < data[0].data.length; i++){
+						xAxisCategories[i] = data[0].data[i].name;
+					}
+
 					chart = new Highcharts.Chart({
 						chart : {
 							renderTo : 'containerline',
@@ -21,10 +27,10 @@
 							text : "<t:mutiLang langKey="user.browser.analysis"/>"
 						},
 						xAxis : {
-							categories : [ 'IE9', 'MSIE 7.0', 'MSIE 8.0', 'MSIE 7.0', 'Firefox', 'Chrome' ]
+							categories : xAxisCategories
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage}%</b>',
+							pointFormat : '{series.name}: <b>{point.y}</b>',
 							percentageDecimals : 1
 
 						},
@@ -42,7 +48,7 @@
 									color : '#000000',
 									connectorColor : '#000000',
 									formatter : function() {
-										return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
+										return '<b>' + this.point.name + '</b>: ' + this.y;
 									}
 								}
 							}

@@ -26,6 +26,9 @@
 									${subTableField.extend_json?if_exists}
 									value="${subTableData['${subTableField.field_name}']?if_exists?html}" 
 									<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									<#if subTableField.field_valid_type?if_exists?html != ''>
 										datatype="${subTableField.field_valid_type?if_exists?html}" 
 										<#else>
@@ -53,6 +56,9 @@
 										${subTableField.extend_json?if_exists}
 										value="${subTableData['${subTableField.field_name}']?if_exists?html}" 
 										<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+										 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										<#if subTableField.field_valid_type?if_exists?html != ''>
 											datatype="${subTableField.field_valid_type?if_exists?html}" 
 											<#else>
@@ -74,6 +80,9 @@
 														${subTableField.extend_json?if_exists} 
 														name="${sub}[${subTableData_index}].${subTableField.field_name}" 
 														type="radio" 
+														 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 														<#if dictdata_index==0&&subTableField.is_null != 'Y'>datatype="*"</#if> 
 														<#if subTableField.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 														<#if dictdata.typecode?if_exists?html=="${subTableData['${subTableField.field_name}']?if_exists?html}"> checked="true</#if> 
@@ -99,6 +108,9 @@
 														${subTableField.extend_json?if_exists} 
 														name="${sub}[${subTableData_index}].${subTableField.field_name}" 
 														type="checkbox" 
+														 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 														<#if subTableField.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 														<#if dictdata_index==0&&subTableField.is_null != 'Y'>datatype="*"</#if> 
 														<#list checkboxlist as x >
@@ -123,6 +135,9 @@
 											<#if subTableField.operationCodesReadOnly?if_exists>
 												onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if><#if subTableField.is_null != 'Y'>datatype="*"
 											</#if> 
+											 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 											class="ui-input-select province fld"
 											>
 											<#list dataList as dictdata> 
@@ -151,6 +166,9 @@
 									value="${subTableData['${subTableField.field_name}']?if_exists?html}" 
 									onClick="WdatePicker({<#if subTableField.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 									<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									<#if subTableField.field_valid_type?if_exists?html != ''>
 										datatype="${subTableField.field_valid_type?if_exists?html}" 
 										<#else>
@@ -173,6 +191,9 @@
 									value="${subTableData['${subTableField.field_name}']?if_exists?html}" 
 									onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if subTableField.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 									<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									<#if subTableField.field_valid_type?if_exists?html != ''>
 										datatype="${subTableField.field_valid_type?if_exists?html}" 
 										<#else>
@@ -208,6 +229,9 @@
 									class="ui-input-text xl input fld" 
 									name="${sub}[0].${subTableField.field_name}" 
 									id="${sub}[0].${subTableField.field_name}" 
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									${subTableField.extend_json?if_exists}
 									<#if subTableField.field_valid_type?if_exists?html != ''>
 										datatype="${subTableField.field_valid_type?if_exists?html}" 
@@ -233,6 +257,9 @@
 										class="ui-input-text xl input fld" 
 										name="${sub}[0].${subTableField.field_name}" 
 										id="${sub}[0].${subTableField.field_name}" 
+										 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+										<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+										<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										${subTableField.extend_json?if_exists}
 										<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 										<#if subTableField.field_valid_type?if_exists?html != ''>
@@ -256,6 +283,9 @@
 														${subTableField.extend_json?if_exists} 
 														name="${sub}[0].${subTableField.field_name}" 
 														type="radio" 
+														 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 														<#if dictdata_index==0&&subTableField.is_null != 'Y'>datatype="*"</#if> 
 														<#if subTableField.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 													/><label></label>${dictdata.typename?if_exists?html}
@@ -278,6 +308,9 @@
 														${subTableField.extend_json?if_exists} 
 														name="${sub}[0].${subTableField.field_name}" 
 														type="checkbox" 
+														 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 														<#if subTableField.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 														<#if dictdata_index==0&&subTableField.is_null != 'Y'>datatype="*"</#if> 
 													/><label></label>${dictdata.typename?if_exists?html}
@@ -322,7 +355,10 @@
 									maxlength="256" 
 									class="ui-input-text xl input fld" 
 									name="${sub}[0].${subTableField.field_name}" 
-									id="${sub}[0].${subTableField.field_name}" 
+									id="${sub}[0].${subTableField.field_name}"
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 --> 
 									${subTableField.extend_json?if_exists}
 									onClick="WdatePicker({<#if subTableField.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 									<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
@@ -344,6 +380,9 @@
 									class="ui-input-text xl input fld" 
 									name="${sub}[0].${subTableField.field_name}" 
 									id="${sub}[0].${subTableField.field_name}" 
+									 <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if subTableField.field_must_input?if_exists?html != ''><#if subTableField.field_must_input == 'Y' || subTableField.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									${subTableField.extend_json?if_exists}
 									onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if subTableField.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 									<#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>

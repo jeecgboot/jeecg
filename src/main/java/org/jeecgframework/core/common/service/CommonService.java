@@ -258,6 +258,7 @@ public interface CommonService {
 	 */
 	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
 
+
     /**
      * 构建树形数据表
 	 * 
@@ -350,7 +351,7 @@ public interface CommonService {
 			int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
-	
+
 	/**
 	 * 执行存储过程
 	 * @param executeSql
@@ -358,4 +359,5 @@ public interface CommonService {
 	 * @return
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params);
+
 }

@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import org.hamcrest.Matchers;
-import org.jeecgframework.core.junit.AbstractUnitTest;
+import org.jeecgframework.AbstractUnitTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -70,6 +70,7 @@ public class ControllerTestDemo  extends AbstractUnitTest{
 		this.mockMvc.perform(requestBuilder)
 		.andDo(print()) //打印报文
 		.andExpect(jsonPath("$.rows[0].id").exists()); // 验证id 属性是否存在
+
 
 	}
 }

@@ -354,14 +354,10 @@ public class CommonServiceImpl implements CommonService {
 	public <T> List<T> getAutoList(Autocomplete autocomplete) {
 		StringBuffer sb = new StringBuffer("");
 		for (String searchField : autocomplete.getSearchField().split(",")) {
-			sb.append("  or " + searchField + " like '%"
-					+ autocomplete.getTrem() + "%' ");
+			sb.append("  or " + searchField + " like '%"+ autocomplete.getTrem() + "%' ");
 		}
-		String hql = "from " + autocomplete.getEntityName() + " where 1!=1 "
-				+ sb.toString();
-		return commonDao.getSession().createQuery(hql)
-				.setFirstResult(autocomplete.getCurPage() - 1)
-				.setMaxResults(autocomplete.getMaxRows()).list();
+		String hql = "from " + autocomplete.getEntityName() + " where 1!=1 "+ sb.toString();
+		return commonDao.getSession().createQuery(hql).setFirstResult(autocomplete.getCurPage() - 1).setMaxResults(autocomplete.getMaxRows()).list();
 	}
 
 	
@@ -413,7 +409,6 @@ public class CommonServiceImpl implements CommonService {
 	public Long getCountForJdbc(String sql) {
 		return commonDao.getCountForJdbc(sql);
 	}
-
 	public Long getCountForJdbcParam(String sql, Object[] objs) {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
@@ -449,4 +444,5 @@ public class CommonServiceImpl implements CommonService {
 	public <T> List<T> executeProcedure(String procedureSql,Object... params) {
 		return this.commonDao.executeProcedure(procedureSql, params);
 	}
+
 }

@@ -2,31 +2,34 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+	<base href="${basePath}/"/>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>jeecg</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="online/template/ledefault/css/vendor.css">
-	<link rel="stylesheet" href="online/template/ledefault/css/bootstrap-theme.css">
-	<link rel="stylesheet" href="online/template/ledefault/css/bootstrap.css">
-	<link rel="stylesheet" href="online/template/ledefault/css/app.css">
+	<link rel="stylesheet" href="${basePath}/online/template/ledefault/css/vendor.css">
+	<link rel="stylesheet" href="${basePath}/online/template/ledefault/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="${basePath}/online/template/ledefault/css/bootstrap.css">
+	<link rel="stylesheet" href="${basePath}/online/template/ledefault/css/app.css">
 	  
-	<link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css"/>
-	<link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
-	<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
-	<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
-	<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
-	<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
-	<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
-	<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
-	<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script>
-	<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
-	<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
-	<script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
-	<script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
-	<script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
-	<script type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+	<link rel="stylesheet" href="${basePath}/plug-in/Validform/css/metrole/style.css" type="text/css"/>
+	<link rel="stylesheet" href="${basePath}/plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
+	<script type="text/javascript" src="${basePath}/plug-in/jquery/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/tools/dataformat.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/easyui/locale/zh-cn.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/tools/syUtil.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/lhgDialog/lhgdialog.min.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/tools/curdtools_zh-cn.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/tools/easyuiextend.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/Validform/js/datatype_zh-cn.js"></script>
+	<script type="text/javascript" src="${basePath}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+	<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.config.js"></script>
+  	<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.all.min.js"></script>
 	
 </head>
 
@@ -78,23 +81,24 @@
 	}
 </script>
 <body>
-	<form id="formobj" action="cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post">
+	<form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post">
 	<input type="hidden" id="btn_sub" class="btn_sub"/>
 	
 	<script type="text/javascript">
 		$(function() {
 		    //查看模式情况下,删除和上传附件功能禁止使用
-		    if (location.href.indexOf("load=detail") != -1) {
-		        $(".jeecgDetail").hide();
-		    }
-		    if (location.href.indexOf("mode=read") != -1) {
-		        //查看模式控件禁用
-		        $("#formobj").find(":input").attr("disabled", "disabled");
-		    }
-		    if (location.href.indexOf("mode=onbutton") != -1) {
-		        //其他模式显示提交按钮
-		        $("#sub_tr").show();
-		    }
+		    if(location.href.indexOf("goDetail.do")!=-1){
+				$(".jeecgDetail").hide();
+			}
+			
+			if(location.href.indexOf("goDetail.do")!=-1){
+				//查看模式控件禁用
+				$("#formobj").find(":input").attr("disabled","disabled");
+			}
+			if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
+				//其他模式显示提交按钮
+				$("#sub_tr").show();
+			}
 		});
 		function upload() {
 		<#list columns as po>

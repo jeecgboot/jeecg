@@ -1,21 +1,22 @@
 <#setting number_format="0.#####################">
 ﻿<html>
 	<head>
+		<base href="${basePath}/"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 		<meta name="keywords" content="Jeecg 移动表单" />
 		<meta name="description" content="Jeecg 移动表单" />
 		<title>Jeecg 移动表单</title>
-		<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/formviewm.css" />
-		<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/theme/default.css" />
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/head.load.min.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/lang-cn.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/ajaxfileupload.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/address-cn.js"></script>
-		<script type="text/javascript" src="online/template/${this_olstylecode}/js/utils.js"></script>
+		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/formviewm.css" />
+		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/theme/default.css" />
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/head.load.min.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/lang-cn.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/ajaxfileupload.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/address-cn.js"></script>
+		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/utils.js"></script>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
 		<style id="__wechat_default_css">
 			::-webkit-scrollbar{
 				width: 10px;
@@ -51,7 +52,7 @@
 			<h1 id="logo" class="logo"><a></a></h1>
 		</div>
 		<div class="ui-content">
-			<form id="form1" class="form" action="cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
+			<form id="form1" class="form" action="${basePath}/cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 				<input type="hidden" id="btn_sub" class="btn_sub"/>
 				<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
 				<input type="hidden" name="id" value="${id?if_exists?html}" >
@@ -73,13 +74,16 @@
 										${po.extend_json?if_exists}
 										value="${data['${tableName}']['${po.field_name}']?if_exists?html}" 
 										<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
+										<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										<#if po.field_valid_type?if_exists?html != ''>
 											datatype="${po.field_valid_type?if_exists?html}" 
 											<#else>
 												<#if po.type == 'int'>
-													datatype="n"  <#if po.is_null == 'Y'>ignore="ignore" </#if>
+													datatype="n" 
 													<#elseif po.type=='double'>
-													datatype="/^(-?\d+)(\.\d+)?$/" <#if po.is_null == 'Y'>ignore="ignore" </#if>
+													datatype="/^(-?\d+)(\.\d+)?$/"
 													<#else>
 													<#if po.is_null != 'Y'>datatype="*"</#if>
 												</#if>
@@ -99,6 +103,9 @@
 											id="${po.field_name}" 
 											${po.extend_json?if_exists}
 											value="${data['${tableName}']['${po.field_name}']?if_exists?html}" 
+											<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 											<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 											<#if po.field_valid_type?if_exists?html != ''>
 												datatype="${po.field_valid_type?if_exists?html}" 
@@ -121,6 +128,9 @@
 															${po.extend_json?if_exists} 
 															name="${po.field_name}" 
 															type="radio" 
+															<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+															<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+															<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 															<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 															<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 															<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true</#if> 
@@ -146,6 +156,9 @@
 															${po.extend_json?if_exists} 
 															name="${po.field_name}" 
 															type="checkbox" 
+															<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+															<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+															<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 															<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 															<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 															<#list checkboxlist as x >
@@ -167,6 +180,9 @@
 													id="${po.field_name}" 
 													${po.extend_json?if_exists} 
 													name="${po.field_name}" 
+													<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+												<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 													<#if po.operationCodesReadOnly?if_exists>
 														onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if><#if po.is_null != 'Y'>datatype="*"
 													</#if> 
@@ -193,6 +209,9 @@
 											placeholder="${po.content}" 
 											class="ui-input-text s detail fld" 
 											name="${po.field_name}"> 
+											<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 											<#if po.operationCodesReadOnly?if_exists>readonly = "readonly" </#if>
 											<#if po.field_valid_type?if_exists?html != ''>datatype="${po.field_valid_type?if_exists?html}" 
 												<#else>
@@ -214,6 +233,9 @@
 											${po.extend_json?if_exists}
 											value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
 											onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
+											<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 											<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 											<#if po.field_valid_type?if_exists?html != ''>
 												datatype="${po.field_valid_type?if_exists?html}" 
@@ -236,6 +258,9 @@
 											${po.extend_json?if_exists}
 											value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd HH:mm:ss")}</#if>"
 											onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
+											<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 											<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 											<#if po.field_valid_type?if_exists?html != ''>
 												datatype="${po.field_valid_type?if_exists?html}" 
@@ -329,7 +354,7 @@
 					$("#btnSubmit").click(function(){
 						if(validateForm()){
 							$.post(
-							   'cgFormBuildController.do?saveOrUpdate',
+							   '${basePath}/cgFormBuildController.do?saveOrUpdate',
 							   $("#form1").serialize(),
 							   function(data){
 							   	  var d = $.parseJSON(data);

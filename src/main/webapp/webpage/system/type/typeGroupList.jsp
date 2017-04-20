@@ -99,12 +99,12 @@ function typeGridTree_UpdateType() {
 <div id="main_typegroup_list" class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid" 
-        idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="createDate" onLoadSuccess="loadSuccess">
+        idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="createDate" onLoadSuccess="loadSuccess" queryMode="group">
             <t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="dict.name" field="typegroupname" width="100" query="true"></t:dgCol>
-            <t:dgCol title="dict.code" field="typegroupcode" width="100" treefield="code"></t:dgCol>
+            <t:dgCol title="dict.code" field="typegroupcode" width="100" treefield="code" query="true"></t:dgCol>
             <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-            <t:dgDelOpt url="systemController.do?delTypeGroup&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgDelOpt>
+            <t:dgDelOpt url="systemController.do?delTypeGroup&id={id}" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgDelOpt>
             <t:dgFunOpt funname="queryTypeValue(id,typegroupname)" title="common.type.view" urlclass="ace_button"  urlfont="fa-search"></t:dgFunOpt>
             <t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="icon-add" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
             <%--<t:dgToolBar title="common.add.param" langArg="lang.dictionary.value" icon="icon-add" funname="typeGridTree_AddType"></t:dgToolBar>--%>
@@ -147,4 +147,3 @@ function typeGridTree_UpdateType() {
         $('#userListpanel').empty();
     }
 </script>
-<%--// add-end--Author:zhangguoming  Date:20140928 for：数据字典修改--%>

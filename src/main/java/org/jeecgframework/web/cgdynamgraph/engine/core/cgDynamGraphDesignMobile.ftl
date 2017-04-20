@@ -27,6 +27,9 @@
 		<script src="plug-in/jquery-ui/js/jquery-ui-1.9.2.custom.min.js"></script>
 		
 		<script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
+		<!-- //update--begin--author:zhangjiaqiang date:20170315 for:修订layer提示框异常-->
+		<script type="text/javascript" src="plug-in/layer/layer.js"></script>
+		<!-- //update--begin--author:zhangjiaqiang date:20170315 for:修订layer提示框异常 -->
 		<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
 		<script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script> 
 		<script type="text/javascript" src="plug-in/tools/syUtil.js"></script>

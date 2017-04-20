@@ -36,7 +36,7 @@
 		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label"> <t:mutiLang langKey="common.isshow"/>  </label></td>
 		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  <t:mutiLang langKey="common.href"/>  </label></td>
 		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  <t:mutiLang langKey="common.query.module"/>  </label></td>
-		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  <t:mutiLang langKey="common.type"/> </label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  取值表达式 </label></td>
 		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  <t:mutiLang langKey="dict.code"/>  </label></td>
 		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">  <t:mutiLang langKey="common.isquery"/>  </label></td>
 	</tr>

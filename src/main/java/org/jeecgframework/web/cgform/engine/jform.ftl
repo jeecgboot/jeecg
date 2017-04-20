@@ -29,6 +29,7 @@
 						</label>
 					</td>
 					<td class="value">
+						<!--update-begin--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
@@ -72,6 +73,7 @@
 				                    	}
 				                    }
 				            ">
+				        <!--update-end--Author:钟世云  Date:20150610 for：online支持树配置-->
 						<#elseif po.show_type=='text'>
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
@@ -195,7 +197,7 @@
 										overrideEvents:['onDialogClose'],
 										fileTypeDesc:'文件格式:',
 										queueID:'filediv_${po.field_name}',
-										fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
+										<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
 										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
 										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
 										onUploadStart : function(file) { 
@@ -338,9 +340,11 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
+  			<!--update-start--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   			if(data.obj!=null && data.obj!='undefined'){
   				$("input[name='id']").val(data.obj.id);
   			}
+  			<!--update-end--Author:luobaoli  Date:20150614 for：需要判断data.obj存在，才能取id值-->
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();

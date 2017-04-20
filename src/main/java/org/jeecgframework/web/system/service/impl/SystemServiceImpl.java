@@ -1,5 +1,6 @@
 package org.jeecgframework.web.system.service.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
@@ -23,6 +24,7 @@ import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
@@ -72,7 +74,9 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		log.setOperatetype(operatetype);
 		log.setNote(oConvertUtils.getIp());
 		log.setBroswer(broswer);
-		log.setOperatetime(DateUtils.gettimestamp());
+		/*start dangzhenghui 201703016TASK #1784 【online bug】Online 表单保存的时候，报错*/
+		log.setOperatetime(new Date());
+		/* end dangzhenghui 201703016TASK #1784 【online bug】Online 表单保存的时候，报错*/
 		log.setTSUser(ResourceUtil.getSessionUserName());
 		commonDao.save(log);
 	}
@@ -152,6 +156,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 	}
 
+
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param roleId
@@ -206,7 +211,46 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 		return operationCodes;
 	}
-
+	/**
+	 * 获取页面控件权限控制的
+	 * JS片段
+	 * @param out
+	 */
+	public String getAuthFilterJS() {
+		StringBuilder out = new StringBuilder();
+		out.append("<script type=\"text/javascript\">");
+		out.append("$(document).ready(function(){");
+		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
+			return "";
+		}else{
+			HttpServletRequest request = ContextHolderUtils.getRequest();
+			Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
+			if (null!=operationCodes) {
+				for (String MyoperationCode : operationCodes) {
+					if (oConvertUtils.isEmpty(MyoperationCode))
+						break;
+					TSOperation operation = this.getEntity(TSOperation.class, MyoperationCode);
+					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
+						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
+							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
+						}else {
+							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
+							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
+						}
+					}
+				}
+			}else{
+				return "";
+			}
+			
+		}
+		out.append("});");
+		out.append("</script>");
+		return out.toString();
+	}
+	
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -231,6 +275,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
         if ("3".equals(ResourceUtil.getOrgCodeLengthType())) { // 类型2-编码长度为3，如001
             orgCodeLength = 3;
         }
+
 
         String  newOrgCode = "";
         if(!StringUtils.hasText(pid)) { // 第一级编码

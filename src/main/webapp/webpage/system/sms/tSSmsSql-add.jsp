@@ -5,10 +5,6 @@
  <head>
   <title>业务SQL表</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-  <script type="text/javascript" src="plug-in/ckfinder/ckfinder.js"></script>
-  <script type="text/javascript">
-  //编写自定义JS代码
-  </script>
  </head>
  <body>
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="tSSmsSqlController.do?doAdd" tiptype="1">
@@ -27,9 +23,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="sqlName" name="sqlName" type="text" style="width: 150px" class="inputxt"  
-								               datatype="*"
->
+					     	 <input id="sqlName" name="sqlName" type="text" style="width: 150px" class="inputxt"  datatype="*" >
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">SQL名称</label>
 						</td>
@@ -41,7 +35,7 @@
 						</label>
 					</td>
 					<td class="value">
-						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="sqlContent" name="sqlContent"></textarea>
+						  	 <textarea style="width:600px;height:100px" class="inputxt" rows="6" id="sqlContent" name="sqlContent"></textarea>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">SQL内容</label>
 						</td>
@@ -49,4 +43,3 @@
 			</table>
 		</t:formvalid>
  </body>
-  <script src = "webpage/system/sms/tSSmsSql.js"></script>		

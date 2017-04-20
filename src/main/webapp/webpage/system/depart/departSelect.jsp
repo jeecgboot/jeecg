@@ -5,7 +5,6 @@
 <head>
 <title>组织机构集合</title>
 <t:base type="jquery"></t:base>
-<!-- update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式 -->
 <link rel="stylesheet" type="text/css" href="plug-in/ztree/css/zTreeStyle.css">
 <script type="text/javascript" src="plug-in/ztree/js/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>

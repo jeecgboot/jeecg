@@ -6,6 +6,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -65,6 +66,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * 角色处理类
@@ -127,7 +130,7 @@ public class RoleController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 		;
 	}
-	
+
 	@RequestMapping(params = "delUserRole")
 	@ResponseBody
 	public AjaxJson delUserRole(@RequestParam(required=true)String userid,@RequestParam(required=true)String roleid) {
@@ -149,6 +152,7 @@ public class RoleController extends BaseController {
 		}
 		return ajaxJson;
 	}
+
 	
 
 	/**
@@ -168,6 +172,7 @@ public class RoleController extends BaseController {
 			delRoleFunction(role);
 
             systemService.executeSql("delete from t_s_role_org where role_id=?", role.getId()); // 删除 角色-机构 关系信息
+
             role = systemService.getEntity(TSRole.class, role.getId());
 			userService.delete(role);
 			message = "角色: " + role.getRoleName() + "被删除成功";
@@ -177,6 +182,7 @@ public class RoleController extends BaseController {
 			message = "角色: 仍被用户使用，请先删除关联关系";
 		}
 		j.setMsg(message);
+		logger.info(message);
 		return j;
 	}
 
@@ -245,7 +251,7 @@ public class RoleController extends BaseController {
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 		}
-
+		logger.info(message);
 		return j;
 	}
 
@@ -271,6 +277,7 @@ public class RoleController extends BaseController {
 	public ModelAndView userList(HttpServletRequest request) {
 
 		request.setAttribute("roleId", request.getParameter("roleId"));
+
 		return new ModelAndView("system/role/roleUserList");
 	}
 	
@@ -296,6 +303,7 @@ public class RoleController extends BaseController {
         cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         cq.add();
         */
+
 		Criterion cc = null;
 		if (roleUser.size() > 0) {
 			for(int i = 0; i < roleUser.size(); i++){
@@ -309,6 +317,8 @@ public class RoleController extends BaseController {
 			cc =Restrictions.eq("id", "-1");
 		}
 		cq.add(cc);
+        cq.eq("deleteFlag", Globals.Delete_Normal);
+		cq.add();
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, user);
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
@@ -423,6 +433,7 @@ public class RoleController extends BaseController {
 		return j;
 	}
 
+
 	/**
 	 * 设置权限
 	 * 
@@ -463,13 +474,101 @@ public class RoleController extends BaseController {
 		}
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id","functionName", "TSFunctions");
 
-		comboTrees = systemService.ComboTree(functionList, comboTreeModel,loginActionlist, true);
+		comboTrees = comboTree(functionList, comboTreeModel,loginActionlist, true);
 		MutiLangUtil.setMutiComboTree(comboTrees);
 
-		
+
 		functionList.clear();
+		functionList = null;
 		loginActionlist.clear();
+		loginActionlist = null;
+
+		//System.out.println(JSON.toJSONString(comboTrees,true));		
 		return comboTrees;
+	}
+
+	private List<ComboTree> comboTree(List<TSFunction> all, ComboTreeModel comboTreeModel, List<TSFunction> in, boolean recursive) {
+		List<ComboTree> trees = new ArrayList<ComboTree>();
+		for (TSFunction obj : all) {
+			trees.add(comboTree(obj, comboTreeModel, in, recursive));
+		}
+		all.clear();
+		return trees;
+
+	}
+	
+	/**
+     * 构建ComboTree
+     * @param obj
+     * @param comboTreeModel ComboTreeModel comboTreeModel = new ComboTreeModel("id","functionName", "TSFunctions");
+     * @param in
+     * @param recursive 是否递归子节点
+     * @return
+     */
+	@SuppressWarnings("unchecked")
+	private ComboTree comboTree(TSFunction obj, ComboTreeModel comboTreeModel, List<TSFunction> in, boolean recursive) {
+		ComboTree tree = new ComboTree();
+		String id = oConvertUtils.getString(obj.getId());
+		tree.setId(id);
+		tree.setText(oConvertUtils.getString(obj.getFunctionName()));
+		
+		
+		
+		if (in == null) {
+		} else {
+			if (in.size() > 0) {
+				for (TSFunction inobj : in) {
+					String inId = oConvertUtils.getString(inobj.getId());
+                    if (inId.equals(id)) {
+						tree.setChecked(true);
+					}
+				}
+			}
+		}
+
+		List<TSFunction> curChildList = obj.getTSFunctions();
+
+		Collections.sort(curChildList, new Comparator<Object>(){
+			@Override
+	        public int compare(Object o1, Object o2) {
+	        	TSFunction tsFunction1=(TSFunction)o1;  
+	        	TSFunction tsFunction2=(TSFunction)o2;  
+	        	int flag=tsFunction1.getFunctionOrder().compareTo(tsFunction2.getFunctionOrder());
+	        	  if(flag==0){
+	        	   return tsFunction1.getFunctionName().compareTo(tsFunction2.getFunctionName());
+	        	  }else{
+	        	   return flag;
+	        	  }  
+	        }             
+	    });
+
+		if (curChildList != null && curChildList.size() > 0) {
+			tree.setState("closed");
+			//tree.setChecked(false);
+
+            if (recursive) { // 递归查询子节点
+                List<ComboTree> children = new ArrayList<ComboTree>();
+                for (TSFunction childObj : curChildList) {
+                    ComboTree t = comboTree(childObj, comboTreeModel, in, recursive);
+                    children.add(t);
+                }
+                tree.setChildren(children);
+            }
+        }
+
+		if(obj.getFunctionType() == 1){
+			if(curChildList != null && curChildList.size() > 0){
+				tree.setIconCls("icon-user-set-o");
+			}else{
+				tree.setIconCls("icon-user-set");
+			}
+		}
+
+		if(curChildList!=null){
+			curChildList.clear();
+		}
+
+		return tree;
 	}
 
 	/**
@@ -716,6 +815,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
+
 		String operationcodes = null;
 		try {
 			operationcodes = URLDecoder.decode(
@@ -723,6 +823,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);
@@ -777,6 +878,7 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String roleId = request.getParameter("roleId");
 		String functionId = request.getParameter("functionId");
+
 		String dataRulecodes = null;
 		try {
 			dataRulecodes = URLDecoder.decode(
@@ -784,6 +886,7 @@ public class RoleController extends BaseController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
 		cq1.eq("TSRole.id", roleId);
 		cq1.eq("TSFunction.id", functionId);

@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 public class SimpleJdbcTemplate {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
-	
+
 	protected JdbcTemplate  jdbcTemplate;
 	protected NamedParameterJdbcTemplate  namedJdbcTemplate;
 	
@@ -32,6 +32,7 @@ public class SimpleJdbcTemplate {
 		namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		simpleJdbcInsert=new SimpleJdbcInsert(dataSource);
 	}
+
 
 	/**
 	 * 根据sql语句，返回对象集合
@@ -68,7 +69,9 @@ public class SimpleJdbcTemplate {
 			if(parameters!=null){
 				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz), parameters);
 			}else{
+
 				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz),Long.class);
+
 
 			}
 		}catch (Exception e) {
@@ -85,11 +88,13 @@ public class SimpleJdbcTemplate {
 	public long findForLong(final String sql,Map parameters){
 		try{
 			Assert.hasText(sql,"sql语句不正确!");
+
 			if(parameters!=null){
 				return namedJdbcTemplate.queryForObject(sql, parameters,Long.class);
 			}else{
 				return jdbcTemplate.queryForObject(sql,Long.class);
 			}
+
 		}catch (Exception e) {
 			return 0;
 		}
@@ -184,10 +189,11 @@ public class SimpleJdbcTemplate {
         int[] updateCounts = jdbcTemplate.batchUpdate(sql,batch);
         return updateCounts;
 	}
-	
+
 	protected BeanPropertyRowMapper resultBeanMapper(Class clazz) {
 		return BeanPropertyRowMapper.newInstance(clazz);
 	}
+
 
 	protected BeanPropertySqlParameterSource paramBeanMapper(Object object) {
 		return new BeanPropertySqlParameterSource(object);

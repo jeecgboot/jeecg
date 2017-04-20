@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.tag.vo.datatable.SortDirection;
 
 
 /**
@@ -18,14 +17,29 @@ public class DataGrid {
 	private int page = 1;// 当前页
 	private int rows = 10;// 每页显示记录数
 	private String sort = null;// 排序字段名
-	private SortDirection order = SortDirection.asc;// 按什么排序(asc,desc)
+
+	private String order = "asc";// 按什么排序(asc,desc)
+
 	private String field;//字段
 	private String treefield;//树形数据表文本字段
 	private List results;// 结果集
 	private int total;//总记录数
 	private String footer;//合计列
 	private String sqlbuilder;//合计列
+
+	//数据格式
+	private String dataStyle = "easyui";
+
 	
+	
+	public String getDataStyle() {
+		return dataStyle;
+	}
+
+	public void setDataStyle(String dataStyle) {
+		this.dataStyle = dataStyle;
+	}
+
 	public String getSqlbuilder() {
 		return sqlbuilder;
 	}
@@ -85,13 +99,22 @@ public class DataGrid {
 		this.sort = sort;
 	}
 
-	public SortDirection getOrder() {
+//	public SortDirection getOrder() {
+//		return order;
+//	}
+//
+//	public void setOrder(SortDirection order) {
+//		this.order = order;
+//	}
+	
+	public String getOrder() {
 		return order;
 	}
 
-	public void setOrder(SortDirection order) {
+	public void setOrder(String order) {
 		this.order = order;
 	}
+	
 	public String getTreefield() {
 		return treefield;
 	}
@@ -108,4 +131,10 @@ public class DataGrid {
 		this.footer = footer;
 	}
 	
+	public void clear(){
+		if(results!=null){
+			results.clear();
+			results = null;
+		}
+	}
 }

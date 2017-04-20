@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% 
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
 <html>
 <title></title>
+<link rel="stylesheet" href="<%=basePath %>/plug-in/easyui/themes/icon.css" />
 <style type="text/css">
     body, table {
         font-size:12px;
@@ -46,13 +51,14 @@
 		        <th style="white-space:nowrap">版本号[${versionNumber2}]</th>
 		    </tr>
 		    <c:forEach items="${dataLogDiffs }" varStatus="itemStatus" var="item">
-		    	<tr <c:if test="${itemStatus.index%2==0}">class="alter"</c:if> <c:if test="${item.diff=='Y'}">style="background-color:pink;color:blue;font-weight:bold;"</c:if>>
+		    	<tr <c:if test="${itemStatus.index%2==0}">class="alter"</c:if> <c:if test="${item.diff=='Y'}">style="background-color: rgba(255, 192, 203, 0.31);color:red;"</c:if>>
 					<td>${item.name }</td>
 					<td>${item.value1 }</td>
-					<td><c:if test="${item.diff=='Y'}"><span style="color:red;">-></span></c:if></td>
+					<td><c:if test="${item.diff=='Y'}"><span class="icon-goright" style="display:inline-block;height:15px;width:15px"></span></c:if></td>
 					<td>${item.value2 }</td>
 				</tr>
 	        </c:forEach>
+	        
 		</tbody>
 	</table>
 </body>

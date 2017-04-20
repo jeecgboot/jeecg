@@ -3108,7 +3108,9 @@ z-index: 12;
     min-width: 180px;
     position: relative;
     z-index: 1;
+    /*update-begin--Author:zhangguoming  Date:20140604 for：云桌面全局视图，添加纵向滚动条*/
     overflow: auto !important;
+    /*update-end--Author:zhangguoming  Date:20140604 for：云桌面全局视图，添加纵向滚动条*/
 }
 .amg_folder_appbutton {
     display: block;
@@ -3196,9 +3198,11 @@ z-index: 12;
 }
 .ie6_0 .toolBar_bg, .ie7_0 .toolBar_bg {
 }
+/*update-begin--Author:zhangguoming  Date:20140617 for：云桌面，修改首页风格时的提示框样式*/
 .window {
 	/*background: url("../images/transparent.gif") repeat scroll 0 0 transparent;*/
 }
+/*update-end--Author:zhangguoming  Date:20140617 for：云桌面，修改首页风格时的提示框样式*/
 .window_title {
 	height: 25px;
 	text-align: center;

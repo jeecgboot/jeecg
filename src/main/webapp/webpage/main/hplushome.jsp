@@ -47,7 +47,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v3.6.6
+            <b>当前版本：</b>v_3.7
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -135,10 +135,65 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.6.6</a><code class="pull-right">2017.02.08</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.7</a><code class="pull-right">2017.04.20</code>
                                     </h5>
                                 </div>
                                 <div id="v50" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本为跨时代精良重构版，简化平台功能，优化系统性能，制作完善文档，公司项目平台最佳选择！</div>
+                                        <ol>
+                                        	<li>精简平台代码，重写demo模块，删除无用的JS插件;</li>
+                                        	<li>美化平台界面，涉及表单、按钮、链接、my97时间控件、树控件等;</li>
+											<li>优化平台，提高平台性能，解决内存溢出问题;</li>
+											<li>重构权限（涉及菜单、按钮、表单权限、数据权限等）;</li>
+											<li>角色权限树状采用ztree重写，支持切换级联模式;</li>
+											<li>公告管理，优化改造，提高性能;</li>
+											<li>Onlinecoding 代码生成器，支持树的生成;</li>
+											<li>Online、自定义表单，请求方式改造（重要）;</li>
+											<li>online 代码生成器模板重构，采用自定义方式;</li>
+											<li>Online自定义样式表增加激活状态;</li>
+											<li>online 一对多模型，支持UE编辑器;</li>
+											<li>online 表单对外接口，支持增删改查;</li>
+											<li>online sql增强上下文变量修改;</li>
+											<li>online 加强校验机制，校验规则采用选择方式;</li>
+											<li>提示信息采用layer风格提示框;</li>
+											<li>自定义表单支持表单权限控制;</li>
+											<li>自定义表单支持JS增强、Java增强;</li>
+											<li>自定义表单，支持默认字段赋值;</li>
+											<li>自定义表单，支持精细化校验配置;</li>
+											<li>自定义表单，预览页面美化;</li>
+											<li>自定义表单数据中心，支持与工作流对接;</li>
+											<li>自定义表单，支持双击生成控件功能;</li>
+											<li>自定义表单，支持精细化校验规则;</li>
+											<li>Datagrid列表标签、支持多字段排序;</li>
+											<li>封装popup组件：部门选择、用户选择;</li>
+											<li>重构树标签，简化树列表功能写法;</li>
+											<li>封装新组织机构选择标签，不同的展示风格供用户选择;</li>
+											<li>封装新的上传标签，支持文件图片，简化上传功能;</li>
+											<li>Datagrid列表标签，查询条件时间控件自动生成，无需配置;</li>
+											<li>Datagrid列表标签，支持切换UI，目前新增支持jqgrid列表展示形式;</li>
+											<li>easpoi，导出支持字典配置;</li>
+											<li>解决jeecg maven启动打包等问题;</li>
+											<li>解决多数据源添加报错bug;</li>
+											<li>解决组织机构维护bug修复;</li>
+											<li>解决，点击报表打印，页面乱问题;</li>
+											<li>解决，在线用户数据不准确问题;</li>
+											<li>解决，easyui列表序号分页错误;</li>
+											<li>日志输出格式修改;</li>
+											<li>弹出窗口最大化JS，处理;</li>
+                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
+                                            <li>更多插件发布，敬请期待。。</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v44">v3.6.6</a><code class="pull-right">2017.02.08</code>
+                                    </h5>
+                                </div>
+                                <div id="v44" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本微服务版本，支持插件开发，让我们共同期待后续版本的到来</div>
                                         <ol>
@@ -254,10 +309,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v41">v3.6.2</a><code class="pull-right">2016.03.15</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v31">v3.6.2</a><code class="pull-right">2016.03.15</code>
                                     </h5>
                                 </div>
-                                <div id="v41" class="panel-collapse collapse">
+                                <div id="v31" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本是一个移动开发版，主要是拓展移动开发能力和可插拔插件开发能力</div>
                                         <ol>
@@ -281,10 +336,10 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v40">v3.6.0</a><code class="pull-right">2015.12.04</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v30">v3.6.0</a><code class="pull-right">2015.12.04</code>
                                     </h5>
                                 </div>
-                                <div id="v40" class="panel-collapse collapse">
+                                <div id="v30" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ol>
                                             <li>表单设计器</li>

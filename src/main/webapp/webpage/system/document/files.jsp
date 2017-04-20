@@ -15,7 +15,9 @@
 		<span class="Validform_checktip">标题名称在3~50位字符,且不为空</span>
 	</div>
 	<div class="form">
+	<!-- 		update-begin--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能-->
 		<t:upload name="fiels" buttonText="上传文件" uploader="systemController.do?saveFiles&fileKey=${doc.id}" extend="office" id="file_upload" formData="documentTitle"></t:upload>
+	<!-- 		update-end--Author:huangzq  Date:20151205 for：[733]上传下载，没有编辑功能-->
 	</div>
 	<div class="form" id="filediv" style="height: 50px"></div>
 	</fieldset>

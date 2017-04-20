@@ -1286,6 +1286,7 @@ background: url(/images/bgs/backg2.png) repeat-x 0 -120px;
 border: 1px solid #b4b4b4;
 }
 
+/* update-begin -- scott --20160917--图形报表h+风格，页面控件按钮变形 */
 input[type="text"] {
 	background-color: #fff;
     border: 1px solid #D7D7D7;
@@ -1338,6 +1339,7 @@ a.l-btn span.l-btn-left .icon-ok{
 	color: #666666;
 	cursor: pointer;
 }
+/* update-end -- scott --20160917--图形报表h+风格，页面控件按钮变形 */
 
 .mod1 .mod-header {
 	height: 30px;

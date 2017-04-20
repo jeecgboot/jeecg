@@ -164,7 +164,7 @@ public class SelectZTreeTag extends TagSupport {
 		+ "		);"
 		+ "});"
 		+ "</script>");
-		sb.append("		   <input id=\""+id+"\" type=\"text\" readonly value=\"\" style=\"width:"+windowWidth+";height:"+windowHeight+"\" class=\"form-control\" onclick=\"showMenu();\" />");
+		sb.append("		   <input id=\""+id+"\" name=\""+id+"\"  type=\"text\" readonly value=\"\" style=\"width:"+windowWidth+";height:"+windowHeight+"\" class=\"form-control\" onclick=\"showMenu();\" />");
 		sb.append("<div id=\"menuContent\" class=\"menuContent\" style=\"display:none; position: absolute;\" >");
 		sb.append("		<ul id=\"treeDemo\" class=\"ztree\" style=\"margin-top:0; width:100%;background-color:#f9f9f9\"></ul>");
 		sb.append("</div>");

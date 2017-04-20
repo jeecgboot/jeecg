@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="enhance.js"/>: </label></td>
-			<td class="value"><textarea id="cgJsStr" name="cgJsStr" cols="150" rows="30">${cgformenhanceJsPage.cgJsStr}</textarea> <span class="Validform_checktip"></span></td>
+			<td class="value"><textarea id="cgJsStr" name="cgJsStr" cols="130" rows="30">${cgformenhanceJsPage.cgJsStr}</textarea> <span class="Validform_checktip"></span></td>
 		</tr>
 	</table>
 </t:formvalid>

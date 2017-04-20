@@ -7,7 +7,9 @@
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <script type="text/javascript" src="plug-in/easyui/portal/jquery.portal.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/easyui/portal/portal.css">
+<!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 <%@include file="/context/layui.jsp"%>
+<!--add-end--Author:wangkun Date:20160813 for:内部聊天修改-->
 <link rel="shortcut icon" href="images/favicon.ico">
 <style type="text/css">
 a {
@@ -19,9 +21,11 @@ a:hover {
 	color: black;
 	text-decoration: none;
 }
+/*update-start--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色*/
 .tree-node-selected{
     background: #eaf2ff;
 }
+/*update-end--Author:zhangguoming  Date:20140622 for：左侧树调整：加大宽度、更换节点图标、修改选中颜色*/
 </style>
 <SCRIPT type="text/javascript">
 

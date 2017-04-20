@@ -61,7 +61,6 @@ function InitLeftMenu() {
 	    navaa.find(".panel-body").css("height",winheight);
 	 });
 
-
 	// begin author：屈然博 2013-8-04 for：避免监听树自带三角点击事件
 	$('.easyui-tree').tree({
 		onClick: function(node){

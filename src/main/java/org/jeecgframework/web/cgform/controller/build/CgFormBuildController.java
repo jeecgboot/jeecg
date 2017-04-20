@@ -39,6 +39,7 @@ import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,17 +65,25 @@ public class CgFormBuildController extends BaseController {
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
-	@RequestMapping(params = "goAddFtlForm")
-	public void goAddFtlForm(HttpServletRequest request,HttpServletResponse response) {
-		 ftlForm(request,response);
+	@RequestMapping(value = "ftlForm/{tableName}/goAdd")
+	public void goAdd(@PathVariable("tableName") String tableName,HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(tableName,"",request,response);
 	}
-	@RequestMapping(params = "goUpdateFtlForm")
-	public void goUpdateFtlForm(HttpServletRequest request,HttpServletResponse response) {
-		 ftlForm(request,response);
+	@RequestMapping(value = "ftlForm/{tableName}/goAddButton")
+	public void goAddButton(@PathVariable("tableName") String tableName,HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(tableName,"onbutton",request,response);
 	}
-	@RequestMapping(params = "goDatilFtlForm")
-	public void goDatilFtlForm(HttpServletRequest request,HttpServletResponse response) {
-		 ftlForm(request,response);
+	@RequestMapping(value = "ftlForm/{tableName}/goUpdate")
+	public void goUpdate(@PathVariable("tableName") String tableName,HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(tableName,"",request,response);
+	}
+	@RequestMapping(value = "ftlForm/{tableName}/goUpdateButton")
+	public void goUpdateButton(@PathVariable("tableName") String tableName,HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(tableName,"onbutton",request,response);
+	}
+	@RequestMapping(value = "ftlForm/{tableName}/goDetail")
+	public void goDatilFtlForm(@PathVariable("tableName") String tableName,HttpServletRequest request,HttpServletResponse response) {
+		 ftlForm(tableName,"read",request,response);
 	}
 
 	/**
@@ -91,25 +100,28 @@ public class CgFormBuildController extends BaseController {
 				request.setAttribute("olstylecode", mp.get("form_template_mobile").toString().trim());
 			}
 		}
-		ftlForm(request,response);
+		ftlForm(tableName,"",request,response);
+		
 	}
 
-	
 	/**
 	 * form表单页面跳转
 	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping(params = "ftlForm")
-	public void ftlForm(HttpServletRequest request,HttpServletResponse response) {
+//	@SuppressWarnings("unchecked")
+//	@RequestMapping(params = "ftlForm")
+	private void ftlForm(String tableName,String mode,HttpServletRequest request,HttpServletResponse response) {
 		try {
 			long start = System.currentTimeMillis();
-			String tableName =request.getParameter("tableName");
+//			String tableName =request.getParameter("tableName");
 	        Map<String, Object> data = new HashMap<String, Object>();
 	        String id = request.getParameter("id");
-			String mode=request.getParameter("mode");
+
+//			String mode=request.getParameter("mode");
+
 			String tablename = PublicUtil.replaceTableName(tableName);
 			String templateName=tablename+"_";
 			//String templateName=tableName+"_";
+
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
 				templateName+=TemplateUtil.TemplateType.ADD.getName();
@@ -130,8 +142,10 @@ public class CgFormBuildController extends BaseController {
 	    	CgFormHeadEntity head = (CgFormHeadEntity)data.get("head");
 	        Map<String, Object> dataForm = new HashMap<String, Object>();
 	        if(StringUtils.isNotEmpty(id)){
+
 	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
 	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
+
 	        }
 	        Iterator it=dataForm.entrySet().iterator();
 		    while(it.hasNext()){
@@ -142,8 +156,10 @@ public class CgFormBuildController extends BaseController {
 		    }
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
+
 	        tableData.put(tablename, dataForm);
 	        //tableData.put(tableName, dataForm);
+
 	        //获取附表表表单数据
 	    	if(StringUtils.isNotEmpty(id)){
 		    	if(head.getJformType()==CgAutoListConstant.JFORM_TYPE_MAIN_TALBE){
@@ -168,12 +184,20 @@ public class CgFormBuildController extends BaseController {
 	    	//装载附件信息数据
 	    	pushFiles(data, id);
 	    	pushImages(data, id);
+	    	
+	    	//增加basePath
+	    	String basePath = request.getContextPath();
+	    	data.put(CgAutoListConstant.BASEPATH, basePath);
+	    	
 			String content =null;
 			response.setContentType("text/html;charset=utf-8");
+
 			String urlTemplateName = request.getParameter("olstylecode");
+
 			if(oConvertUtils.isEmpty(urlTemplateName)){
 				urlTemplateName = (String) request.getAttribute("olstylecode");
 			}
+
 			
 			if(StringUtils.isNotBlank(urlTemplateName)){
 				data.put("this_olstylecode",urlTemplateName);
@@ -184,6 +208,7 @@ public class CgFormBuildController extends BaseController {
 				LogUtil.debug("-------------formTemplate-----------"+head.getFormTemplate());
 				content=getTableTemplate(templateName,request,data);
 			}
+
 			response.getWriter().print(content);
 			response.getWriter().flush();
 			long end = System.currentTimeMillis();
@@ -199,7 +224,7 @@ public class CgFormBuildController extends BaseController {
 		}
 
 	}
-	
+
 	/**
 	 * 获取url指定模板
 	 * @param templateName
@@ -212,7 +237,9 @@ public class CgFormBuildController extends BaseController {
 		CgformTemplateEntity entity=cgformTemplateService.findByCode(templateName);
 		if(entity!=null){
 			FreemarkerHelper viewEngine = new FreemarkerHelper();
+
 			dataMap.put("DictData", ApplicationContextUtil.getContext().getBean("dictDataTag"));
+
 			content = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, templateType), dataMap);
 		}
 		return content;
@@ -234,9 +261,11 @@ public class CgFormBuildController extends BaseController {
 
 		Template template = templetContext.getTemplate(templateName, ftlVersion);
 		try {
+
 			template.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
 			template.setDateFormat("yyyy-MM-dd");  
 			template.setTimeFormat("HH:mm:ss");
+
 			template.process(data, writer);
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -245,48 +274,57 @@ public class CgFormBuildController extends BaseController {
 		}
 		return stringWriter.toString();
 	}
+
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
 		StringBuilder sb= new StringBuilder("");
 		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
-		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
-		sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
-		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/My97DatePicker/WdatePicker.js\"></script>");
+		String basePath = request.getContextPath();
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery/jquery-1.8.3.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/dataformat.js\"></script>");
+		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\""+basePath+"/plug-in/accordion/css/accordion.css\">");
+		sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum,basePath));
+
+		sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
+		//sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\""+basePath+"/plug-in/accordion/css/icons.css\">");
+
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/easyui/locale/zh-cn.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/syUtil.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/My97DatePicker/WdatePicker.js\"></script>");
 //		sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/common.css\" type=\"text/css\"></link>");
 		//common.css
-		sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum,basePath));
 //		sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
-		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
-		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
-		sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/Map.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_zh-cn.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_zh-cn.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js\"></script>");
+		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum,basePath));
+
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/layer/layer.js\"></script>");
+
+		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/easyuiextend.js\"></script>");
+		sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum,basePath));
+		sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/Map.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/js/Validform_Datatype_zh-cn.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/js/datatype_zh-cn.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js\"></script>");
 		//style.css
-		sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum,basePath));
 		//tablefrom.css
-		sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
-		//umedit
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/umeditor/themes/default/css/umeditor.css\" type=\"text/css\"></link>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/umeditor.config.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/umeditor.min.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/umeditor/lang/zh-cn/zh-cn.js\"></script>");
+		sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum,basePath));
+
+		//uedit
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/ueditor/ueditor.config.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/ueditor/ueditor.all.js\"></script>");
+
 		
 		return sb.toString();
 	}
+
+
 	
 	/**
 	 * 如果表单带有附件，则查询出来传递到页面
@@ -333,6 +371,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		data.put("imageList", images);
 	}
+
 	/**
 	 * 保存或更新
 	 * 
@@ -501,6 +540,7 @@ public class CgFormBuildController extends BaseController {
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
 
 				dataBaseService.executeJavaExtend(formId, buttonCode, data);
+
 			}
 			j.setSuccess(true);
 			message = "操作成功";

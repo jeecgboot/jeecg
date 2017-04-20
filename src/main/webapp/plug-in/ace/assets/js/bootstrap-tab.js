@@ -28,6 +28,9 @@ var addTabs = function (options) {
         //加入TABS
         $(".nav-tabs").append(title);
         $(".tab-content").append(content);
+    }else{
+    	//切换后重新加载页面
+        $("#" + id).find("iframe").attr("src",options.url);
     }
     //激活TAB
     $("#tab_" + id).addClass('active');

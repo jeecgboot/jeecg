@@ -21,4 +21,10 @@ public interface UserService extends CommonService{
 	 *@return
 	 */
 	public int getUsersOfThisRole(String id);
+	
+	/**
+	 * 物理删除用户
+	 * @param user
+	 */
+	public String trueDel(TSUser user);
 }

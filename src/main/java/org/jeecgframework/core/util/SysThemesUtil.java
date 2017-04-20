@@ -46,7 +46,19 @@ public class SysThemesUtil {
 		sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+sysThemesEnum.getThemes()+"/easyui.css\" type=\"text/css\"></link>");
 		return sb.toString();
 	}
-	
+
+	/**
+	 * easyui.css 样式
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getEasyUiTheme(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\""+basePath+"/plug-in/easyui/themes/"+sysThemesEnum.getThemes()+"/easyui.css\" type=\"text/css\"></link>");
+		return sb.toString();
+	}
+
+
 	/**
 	 * easyui main.css
 	 * @param sysThemesEnum
@@ -61,6 +73,23 @@ public class SysThemesUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * easyui main.css
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getEasyUiMainTheme(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		if("metro".equals(sysThemesEnum.getThemes())){
+			sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\""+basePath+"/plug-in/easyui/themes/metro/main.css\" type=\"text/css\"></link>");
+		}else if("metrole".equals(sysThemesEnum.getThemes())){
+			sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\""+basePath+"/plug-in/easyui/themes/metrole/main.css\" type=\"text/css\"></link>");
+		}
+		return sb.toString();
+	}
+
+
 	
 	/**
 	 * easyui main.css
@@ -96,6 +125,27 @@ public class SysThemesUtil {
 
 		return sb.toString();
 	}
+
+	/**
+	 * tools common.css 样式
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getCommonTheme(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		if("metro".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/tools/css/metro/common.css\" type=\"text/css\"></link>");
+		}else if("metrole".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/tools/css/metrole/common.css\" type=\"text/css\"></link>");
+		}else{
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/tools/css/common.css\" type=\"text/css\"></link>");
+		}
+
+		sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/ace/css/font-awesome.css\" type=\"text/css\"></link>");
+
+		return sb.toString();
+	}
+
 	
 	/**
 	 * lhgdialog 样式
@@ -113,6 +163,24 @@ public class SysThemesUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * lhgdialog 样式
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getLhgdialogTheme(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		if("metro".equals(sysThemesEnum.getThemes())){
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/lhgDialog/lhgdialog.min.js?skin=metro\"></script>");
+		}else if("metrole".equals(sysThemesEnum.getThemes())){
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/lhgDialog/lhgdialog.min.js?skin=metrole\"></script>");
+		}else{
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/lhgDialog/lhgdialog.min.js\"></script>");
+		}
+		return sb.toString();
+	}
+
 	
 	/**
 	 * lhgdialog 样式
@@ -180,6 +248,24 @@ public class SysThemesUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * Validform style.css
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getValidformStyleTheme(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		if("metro".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/metro/style.css\" type=\"text/css\"/>");
+		}else if("metrole".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/metrole/style.css\" type=\"text/css\"/>");
+		}else{
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/style.css\" type=\"text/css\"/>");
+		}
+		return sb.toString();
+	}
+
 	
 	/**
 	 * Validform tablefrom.css
@@ -197,4 +283,22 @@ public class SysThemesUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * Validform tablefrom.css
+	 * @param sysThemesEnum
+	 * @return
+	 */
+	public static String getValidformTablefrom(SysThemesEnum sysThemesEnum,String basePath){
+		StringBuffer sb = new StringBuffer("");
+		if("metro".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/metro/tablefrom.css\" type=\"text/css\"/>");
+		}else if("metrole".equals(sysThemesEnum.getThemes())){
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/metrole/tablefrom.css\" type=\"text/css\"/>");
+		}else{
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/Validform/css/tablefrom.css\" type=\"text/css\"/>");
+		}
+		return sb.toString();
+	}
+
 }

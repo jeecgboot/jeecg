@@ -28,7 +28,7 @@
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label">模板:</label></td>
-			<td class="value"><t:ckeditor name="ftlContent" isfinder="false" type="height:500,width:1400"
+			<td class="value"><t:ckeditor name="ftlContent" type="height:500,width:1400"
 				value="${cgformFtlPage.ftlContent == NULL || cgformFtlPage.ftlContent == '' ? cgformStr : cgformFtlPage.ftlContent}"></t:ckeditor></td>
 		</tr>
 	</table>

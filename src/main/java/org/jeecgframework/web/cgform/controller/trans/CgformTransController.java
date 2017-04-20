@@ -69,7 +69,9 @@ public class CgformTransController {
 			e1.printStackTrace();
 		}
 		String html = "";
-		Collections.sort(list,new StringSort(dataGrid.getOrder()));
+
+		Collections.sort(list,new StringSort(SortDirection.toEnum(dataGrid.getOrder())));
+
 		List<String> tables = cgFormFieldService.findByQueryString("select tableName from CgFormHeadEntity");
 		list.removeAll(tables);
 		List<String> index = new ArrayList<String>();
@@ -198,11 +200,13 @@ public class CgformTransController {
 							cgFormField.setLength(Integer.valueOf(columnt
 									.getPrecision()));
 						}
+
 						else{
 							if(cgFormField.getType().equals(DataBaseConst.INT)){
 								cgFormField.setLength(10);
 							}
 						}
+
 						if (StringUtil.isNotEmpty(columnt.getScale()))
 							cgFormField.setPointLength(Integer.valueOf(columnt
 									.getScale()));
@@ -211,9 +215,11 @@ public class CgformTransController {
 					columnsList.add(cgFormField);
 				}
 				cgFormHead.setColumns(columnsList);
+
 				if(oConvertUtils.isEmpty(cgFormHead.getJformCategory())){
 					cgFormHead.setJformCategory("bdfl_ptbd");
 				}
+
 				cgFormFieldService.saveTable(cgFormHead, "");
 				if (yes != "")
 					yes += ",";

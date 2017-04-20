@@ -33,10 +33,12 @@
 //                var $script = $("script[src='plug-in/jquery/jquery-1.8.3.js']");
 //                $($script).remove();
 //                alert($script.attr("src"));
+
 			  $(".dock_tool_theme").live("click",function(){
 				  $("#themeSetting_wrap2").append("<div id='themeSetting_wrap' style='display:none;'></div>");
 				  $("#themeSetting_wrap").html($("#themeSetting_wrap1").html());
 				  $("#themeSetting_wrap").show();
+
 			  })
             });
         </script>
@@ -217,7 +219,6 @@
                          onclick="exit('loginController.do?logout','确定退出该系统吗 ?',1);"></div>
 				</li>
 			</ul>  
-			<!--  <a class="startMenuImg logout_botton" title="注销当前用户" onclick="exit('loginController.do?logout','确定退出该系统吗 ?',1);" cmd="logout"></a> -->	 
 				</div>
 		</div>
 	</body>

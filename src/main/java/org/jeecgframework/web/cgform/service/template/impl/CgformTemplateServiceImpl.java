@@ -91,6 +91,17 @@ public class CgformTemplateServiceImpl extends CommonServiceImpl implements Cgfo
 
 	@Override
 	public List<CgformTemplateEntity> getTemplateListByType(String type) {
-		return findByProperty(CgformTemplateEntity.class,"templateType",type);
+
+		String hql =  "";
+		if("1".equals(type)){
+			hql = "from CgformTemplateEntity where templateType in ('1','3') and status = 1";
+			return findHql(hql);
+		}else if("2".equals(type)){
+			hql = "from CgformTemplateEntity where templateType in ('2','3') and status = 1";
+			return findHql(hql);
+		}else{
+			return null;
+		}
+
 	}
 }

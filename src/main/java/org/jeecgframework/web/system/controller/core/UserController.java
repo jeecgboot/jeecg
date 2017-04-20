@@ -146,19 +146,6 @@ public class UserController extends BaseController {
 		}
 	}
 
-	/**
-	 * 用户列表页面跳转[跳转到标签和手工结合的html页面]
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "userDemo")
-	public String userDemo(HttpServletRequest request) {
-		// 给部门查询条件中的下拉框准备数据
-		List<TSDepart> departList = systemService.getList(TSDepart.class);
-		request.setAttribute("departsReplace", RoletoJson.listToReplaceStr(departList, "departname", "id"));
-		return "system/user/userList2";
-	}
-	
 	
 	/**
 	 * 用户列表页面跳转
@@ -333,8 +320,10 @@ public class UserController extends BaseController {
 		}
 		List<TSRole> roleList = systemService.getList(TSRole.class);
 		comboBoxs = TagUtil.getComboBox(roleList, roles, comboBox);
+
 		roleList.clear();
 		roles.clear();
+
 		return comboBoxs;
 	}
 
@@ -380,7 +369,6 @@ public class UserController extends BaseController {
 
         Short[] userstate = new Short[]{Globals.User_Normal, Globals.User_ADMIN, Globals.User_Forbidden};
         cq.in("status", userstate);
-
         cq.eq("deleteFlag", Globals.Delete_Normal);
 
         String orgIds = request.getParameter("orgIds");
@@ -394,6 +382,7 @@ public class UserController extends BaseController {
 
             cq.add(Property.forName("id").in(subCq.getDetachedCriteria()));
         }
+
 
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
@@ -416,6 +405,7 @@ public class UserController extends BaseController {
                 cfeList.add(cfe);
             }
         }
+
         TagUtil.datagrid(response, dataGrid);
     }
 
@@ -445,6 +435,7 @@ public class UserController extends BaseController {
 			return j;
 		}
 	}
+
 	
 	/**
 	 * 用户信息录入和更新
@@ -470,6 +461,7 @@ public class UserController extends BaseController {
 			user.setDeleteFlag(Globals.Delete_Forbidden);
 			userService.updateEntitie(user);
 			message = "用户：" + user.getUserName() + "删除成功";
+
 			
 /**
 			if (roleUser.size()>0) {
@@ -477,6 +469,7 @@ public class UserController extends BaseController {
 				delRoleUser(user);
 
                 systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
+
                 userService.delete(user);
 				message = "用户：" + user.getUserName() + "删除成功";
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -493,7 +486,12 @@ public class UserController extends BaseController {
 		return j;
 	}
 	
-	
+	/**
+	 * 真实删除
+	 * @param user
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping(params = "trueDel")
 	@ResponseBody
 	public AjaxJson trueDel(TSUser user, HttpServletRequest req) {
@@ -505,7 +503,8 @@ public class UserController extends BaseController {
 			return j;
 		}
 		user = systemService.getEntity(TSUser.class, user.getId());
-		List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
+
+		/*List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 		if (!user.getStatus().equals(Globals.User_ADMIN)) {
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
@@ -520,13 +519,21 @@ public class UserController extends BaseController {
 			}
 		} else {
 			message = "超级管理员不可删除";
+		}*/
+		
+		try {
+			message = userService.trueDel(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message ="删除失败";
 		}
+
 
 		j.setMsg(message);
 		return j;
 	}
 
-	public void delRoleUser(TSUser user) {
+	/*public void delRoleUser(TSUser user) {
 		// 同步删除用户角色关联表
 		List<TSRoleUser> roleUserList = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
 		if (roleUserList.size() >= 1) {
@@ -534,7 +541,7 @@ public class UserController extends BaseController {
 				systemService.delete(tRoleUser);
 			}
 		}
-	}
+	}*/
 	/**
 	 * 检查用户名
 	 * 
@@ -581,6 +588,7 @@ public class UserController extends BaseController {
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
 //            users.setTSDepart(user.getTSDepart());
+
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
@@ -643,6 +651,7 @@ public class UserController extends BaseController {
             systemService.batchSave(userOrgList);
         }
     }
+
 
     protected void saveRoleUser(TSUser user, String roleidstr) {
 		String[] roleids = roleidstr.split(",");
@@ -743,6 +752,7 @@ public class UserController extends BaseController {
 
 		return new ModelAndView("system/user/userOrgSelect");
     }
+
 
 	public void idandname(HttpServletRequest req, TSUser user) {
 		List<TSRoleUser> roleUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -1060,6 +1070,7 @@ public class UserController extends BaseController {
 				 ClientManager.getInstance().getClient().getFunctions().clear();
 			} catch (Exception e) {
 			}
+
 		}else{
 			j.setMsg("请登录后再操作");
 		}

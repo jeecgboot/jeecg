@@ -51,7 +51,7 @@
 			</#list>
 		<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 			<#list pageColumns as po>
-			<#if (pageColumns?size>10)>
+			<#if (pageColumns?size>20)>
 			<#if po_index%2==0>
 				<tr>
 				</#if>
@@ -65,7 +65,11 @@
 					</td>
 					<td class="value">
 						 <#if po.showType=='text'>
-					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#elseif po.isNull != 'Y'> datatype="*"</#if>>
+					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
+					     	 <#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+					     	 class="inputxt" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#elseif po.isNull != 'Y'> datatype="*"</#if>>
 						<#elseif po.showType=='popup'>
 						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <#if po.fieldValidType?if_exists?html != ''>
 							datatype="${po.fieldValidType?if_exists?html}"
@@ -74,12 +78,23 @@
 							<#elseif po.type=='double'>
 								     datatype="/^(-?\d+)(\.\d+)?$/" 
 							<#elseif po.isNull != 'Y'>datatype="*"
-						</#if><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if>>
+						</#if>
+						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+						<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+						<#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if>>
 						  <#elseif po.showType=='textarea'>
-						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}"></textarea>
+						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" 
+						  	 <#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+						  	 name="${po.fieldName}"></textarea>
 					      <#elseif po.showType=='password'>
 					      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt"  
-					      						<#if po.fieldValidType?if_exists?html != ''>
+					      					<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+					      							<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
 								               <#elseif po.type == 'int'>
 								               datatype="n" 
@@ -90,10 +105,16 @@
 						       >
 							<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 							  <t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
+									<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 									<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 							<#elseif po.showType=='date'>
 							   <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
 					      						class="Wdate" onClick="WdatePicker()"
+					      						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
 								               <#elseif po.isNull != 'Y'>datatype="*"
@@ -101,6 +122,9 @@
 					      	<#elseif po.showType=='datetime'>
 							   <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
 					      						 class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+					      						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 					      						<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
 								               <#elseif po.isNull != 'Y'>datatype="*"
@@ -121,7 +145,7 @@
 												overrideEvents:['onDialogClose'],
 												fileTypeDesc:'文件格式:',
 												queueID:'filediv_file',
-												fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',
+												<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
 												fileSizeLimit:'15MB',
 												swf:'plug-in/uploadify/uploadify.swf',	
 												uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
@@ -179,7 +203,10 @@
 							<#--update-end--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 					      	<#else>
 					      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt"  
-					      						<#if po.fieldValidType?if_exists?html != ''>
+					      					<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
+					      							<#if po.fieldValidType?if_exists?html != ''>
 								               datatype="${po.fieldValidType?if_exists?html}"
 								               <#elseif po.type == 'int'>
 								               datatype="n" 
@@ -191,7 +218,7 @@
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
 						</td>
-			<#if (columns?size>10)>
+			<#if (columns?size>20)>
 				<#if (po_index%2==0)&&(!po_has_next)>
 				<td align="right">
 					<label class="Validform_label">

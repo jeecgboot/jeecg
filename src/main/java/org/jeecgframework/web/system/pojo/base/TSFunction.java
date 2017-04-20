@@ -22,7 +22,9 @@ import org.jeecgframework.core.common.entity.IdEntity;
  */
 @Entity
 @Table(name = "t_s_function")
+
 @org.hibernate.annotations.Proxy(lazy = false)
+
 
 public class TSFunction extends IdEntity implements java.io.Serializable {
 	private TSFunction TSFunction;//父菜单
@@ -33,13 +35,17 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	private String functionOrder;//菜单排序
 	private Short functionType;//菜单类型
 	private TSIcon TSIcon = new TSIcon();//菜单图标
+
 	private String functionIconStyle;//菜单图标样式
+
 	private TSIcon TSIconDesk;// 云桌面菜单图标
+
 	/*private int subFunctionSize;
 	@Formula(value = "(SELECT count(t_s_function.id) FROM t_s_function where t_s_function.parentfunctionid = id)")
 	public int getSubFunctionSize() {
 		return subFunctionSize;
 	}*/
+
 
 	/**创建时间*/
 	private java.util.Date createDate;
@@ -155,6 +161,7 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 		}
 		return false;
 	}
+
 	public boolean hasSubFunction(List<TSFunction> functions) {
 		for (TSFunction f : functions) {
 			if(f.getTSFunction()!=null){
@@ -169,9 +176,9 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	/*public void setSubFunctionSize(int subFunctionSize) {
 		this.subFunctionSize = subFunctionSize;
 	}*/
-	
-	
+
     @ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "desk_iconid")
     public TSIcon getTSIconDesk() {
         return TSIconDesk;
@@ -179,9 +186,12 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
     public void setTSIconDesk(TSIcon TSIconDesk) {
         this.TSIconDesk = TSIconDesk;
     }
+
     
 	private List<TSFunction> TSFunctions = new ArrayList<TSFunction>();
+
 	@ManyToOne(fetch = FetchType.EAGER)
+
 	@JoinColumn(name = "iconid")
 	public TSIcon getTSIcon() {
 		return TSIcon;
@@ -189,8 +199,9 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	public void setTSIcon(TSIcon tSIcon) {
 		TSIcon = tSIcon;
 	}
-	
+
     @ManyToOne(fetch = FetchType.EAGER)
+
 	@JoinColumn(name = "parentfunctionid")
 	public TSFunction getTSFunction() {
 		return this.TSFunction;
@@ -266,6 +277,7 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	public void setFunctionIconStyle(String functionIconStyle) {
 		this.functionIconStyle = functionIconStyle;
 	}
+
 	
 
 }

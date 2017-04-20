@@ -1,4 +1,14 @@
-﻿//﻿var jq = jQuery.noConflict();
+﻿﻿//update-begin--Author:scott  --- Date:20170401 --- for：inputclick ajax请求追加根路径，防止深路径访问有问题----
+var basePath;
+try{
+	var local = window.location;  
+	var contextPath = local.pathname.split("/")[1];  
+	basePath = local.protocol+"//"+local.host+"/"+contextPath;
+	//alert(basePath);
+}catch(e){}
+
+
+//﻿var jq = jQuery.noConflict();
 /**
  * 增删改工具栏
  */
@@ -65,6 +75,7 @@ function addTreeNode(title,addurl,gname) {
  * @param addurl//目标页面地址
  * @param id//主键字段
  */
+
 function update(title,url, id,width,height,isRestful) {
 	gridname=id;
 	var rowsData = $('#'+id).datagrid('getSelections');
@@ -84,6 +95,7 @@ function update(title,url, id,width,height,isRestful) {
 	}
 	createwindow(title,url,width,height);
 }
+
 
 /**
  * 如果页面是详细查看页面，无效化所有表单元素，只能进行查看
@@ -215,7 +227,11 @@ function editfs(title,url) {
 		return;
 	}
 	url += '&id='+rowid;
-	openwindow(title,url,name,800,500);
+
+	width = window.top.document.body.offsetWidth;
+	height =window.top.document.body.offsetHeight-100;
+	openwindow(title,url,name,width,height);
+
 }
 // 删除调用函数
 function delObj(url,name) {
@@ -271,15 +287,69 @@ function tip_old(msg) {
 function tip(msg) {
 	try{
 		$.dialog.setting.zIndex = getzIndex(true);
-		$.messager.show({
-			title : 'Tip Message',
-			msg : msg,
-			timeout : 1000 * 6
-		});
+//		$.messager.show({
+//			title : 'Tip Message',
+//			msg : msg,
+//			timeout : 1000 * 6
+//		});
+
+		var navigatorName = "Microsoft Internet Explorer"; 
+		if( navigator.appName == navigatorName ){ 
+			$.messager.show({
+				title : 'Tip Message',
+				msg : msg,
+				timeout : 1000 * 6
+			});
+		}else{
+			var icon = 7;
+			if(msg.indexOf("success") > -1){
+				icon = 1;
+			}else if(msg.indexOf("fail") > -1){
+				icon = 2;
+			}
+			layer.open({
+				title:'Tip Message',
+				offset:'rb',
+				content:msg,
+				time:3000,
+				btn:false,
+				shade:false,
+				icon:icon,
+				shift:2
+			});
+		}
+
 	}catch(e){
 		alertTipTop(msg,'10%');
 	}
 }
+
+/**
+ * Layer风格alert提示
+ */
+function alerLayerTip(msg) {
+	if(msg==null || msg==''){
+		msg = "系统异常，请看系统日志!";
+	}
+	try{
+		var navigatorName = "Microsoft Internet Explorer"; 
+		if( navigator.appName == navigatorName ){
+			$.messager.alert('提示信息',msg);
+		}else{
+			layer.open({
+				title:'提示信息',
+				content:msg,
+				time:6000,
+				btn:false,
+				shade:false,
+				icon:2
+			});
+		}
+	}catch(e){
+		alert(msg);
+	}
+}
+
 /**
  * Tip Message像alert一样 定位顶部的位置
  */
@@ -438,6 +508,12 @@ function opensearchdwin(title, url, width, height) {
  * @param saveurl
  */
 function openwindow(title, url,name, width, height) {
+
+	if(width=="100%" || height=="100%"){
+		width = window.top.document.body.offsetWidth;
+		height =window.top.document.body.offsetHeight-100;
+	}
+
 	gridname=name;
 	if (typeof (width) == 'undefined'&&typeof (height) != 'undefined')
 	{
@@ -551,11 +627,30 @@ function openwindow(title, url,name, width, height) {
  */
 function createdialog(title, content, url,name) {
 	$.dialog.setting.zIndex = getzIndex(true);
-	$.dialog.confirm(content, function(){
-		doSubmit(url,name);
-		rowid = '';
-	}, function(){
-	});
+
+	var navigatorName = "Microsoft Internet Explorer"; 
+	if( navigator.appName == navigatorName ){ 
+		$.dialog.confirm(content, function(){
+			doSubmit(url,name);
+			rowid = '';
+		}, function(){
+		});
+	}else{
+		layer.open({
+			title:title,
+			content:content,
+			icon:7,
+			yes:function(index){
+				doSubmit(url,name);
+				rowid = '';
+			},
+			btn:['ok','cancel'],
+			btn2:function(index){
+				layer.close(index);
+			}
+		});
+	}
+
 }
 /**
  * 执行保存
@@ -869,14 +964,16 @@ function closetab(title) {
 //popup  
 //object: this  name:需要选择的列表的字段  code:动态报表的code
 function inputClick(obj,name,code) {
-	 $.dialog.setting.zIndex = getzIndex(true);
 	 if(name==""||code==""){
 		 alert("Popup parameter not prepare");
 		 return;
 	 }
+
+	 var inputClickUrl = basePath + "/cgReportController.do?popup&id="+code;
+
 	 if(typeof(windowapi) == 'undefined'){
 		 $.dialog({
-				content: "url:cgReportController.do?popup&id="+code,
+				content: "url:"+inputClickUrl,
 				zIndex: getzIndex(),
 				lock : true,
 				title:"Select",
@@ -909,7 +1006,7 @@ function inputClick(obj,name,code) {
 			});
 		}else{
 			$.dialog({
-				content: "url:cgReportController.do?popup&id="+code,
+				content: "url:"+inputClickUrl,
 				zIndex: getzIndex(),
 				lock : true,
 				title:"Select",
@@ -1071,7 +1168,7 @@ function jeecgAutoParse(data){
     	});
 			return parsed;
 }
-
+//add--start--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
 /**
  * 更新跳转新页面
  * @param title 编辑框标题 未实现标题改变
@@ -1119,7 +1216,9 @@ function viewNotCreateWin(title,url, id,isRestful)
 	}
 	window.location.href=url
 }
+//add--end--Author:xugj date:20160531 for: TASK #1089 【demo】针对jeecgdemo，实现一个新的页面方式
 
+//add--start--Author:gengjiajia date:20160802 for: TASK #1175 批量添加数据的时popup多值的传递
 //popup  
 //object: pobj当前操作的文本框. tablefield:对应字典TEXT,要从popup报表中获取的字段.inputnames:对应字典CODE,当前需要回填数据的文本框名称. pcode:动态报表的code
 function popupClick(pobj,tablefield,inputnames,pcode) {
@@ -1363,3 +1462,4 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 			});
 		}
 	}
+//add--end--Author:gengjiajia date:20160802 for: TASK #1175 批量添加数据的时popup多值的传递

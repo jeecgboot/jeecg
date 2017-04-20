@@ -25,17 +25,17 @@ import com.alibaba.fastjson.JSON;
 @Component
 @Aspect
 public class EhcacheAspect {
-	private static Cache dictCache;
-	private static Cache eternalCache;
-	
-	static {
-		if (eternalCache == null) {
-			eternalCache = CacheManager.getInstance().getCache("eternalCache");
-		}
-		if (dictCache == null) {
-			dictCache = CacheManager.getInstance().getCache("dictCache");
-		}
-	}
+//	private static Cache dictCache;
+//	private static Cache eternalCache;
+//	
+//	static {
+//		if (eternalCache == null) {
+//			eternalCache = CacheManager.getInstance().getCache("eternalCache");
+//		}
+//		if (dictCache == null) {
+//			dictCache = CacheManager.getInstance().getCache("dictCache");
+//		}
+//	}
 
 	@Pointcut("@annotation(org.jeecgframework.core.annotation.Ehcache)")
 	public void simplePointcut() {
@@ -48,6 +48,10 @@ public class EhcacheAspect {
 	@Around("simplePointcut()")
 	public Object aroundLogCalls(ProceedingJoinPoint joinPoint)
 			throws Throwable {
+
+		Cache eternalCache = CacheManager.getInstance().getCache("eternalCache");
+		Cache dictCache = CacheManager.getInstance().getCache("eternalCache");
+
 		String targetName = joinPoint.getTarget().getClass().toString();
 		String methodName = joinPoint.getSignature().getName();
 		Object[] arguments = joinPoint.getArgs();  

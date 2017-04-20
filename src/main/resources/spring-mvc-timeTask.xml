@@ -18,19 +18,6 @@
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor" scheduler="scheduler" />
 		
-	<!-- 定时任务配置   taskDemoService 可配置到管理界面 -->
-	<bean id="taskDemoServiceTaskJob"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="taskDemoService" />
-		<property name="targetMethod" value="work" />
-		<property name="concurrent" value="true" />
-	</bean>
-
-	<bean id="taskDemoServiceTaskCronTrigger" class="org.jeecgframework.core.timer.DataBaseCronTriggerBean">
-		<property name="jobDetail" ref="taskDemoServiceTaskJob" />
-		<property name="cronExpression" value="0 0/1 * * * ?" />
-	</bean>
-	
 	
 	<!-- 定时任务配置   smsSendTask 可配置到管理界面 -->
 	<bean id="smsSendTaskJob"

@@ -1,4 +1,6 @@
 ${config_iframe}
+
+<#--update-start--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->
 <script type="text/javascript">
 /**
 *表单的高度,表单的宽度
@@ -56,10 +58,12 @@ function createDataGrid${config_id}(){
 					{field:'ck',checkbox:true},
 					<#list config_fieldList  as x>  
 						 {	field:'${x['field_id']}',
+						 <#--  update-begin--Author: chenj  Date:20160808 for：TASK 行编辑模式标题修改 -->
 						 	title:'${x['field_title']}',
 						 <#--  update-end--Author: chenj  Date:20160808 for：TASK 行编辑模式标题修改 -->
 						 	editor:<#switch x['field_type']>
                                                   <#case "string">
+                                                  <#--  update-begin--Author: chenj  Date:20160805 for：TASK #1247 [bug]论坛问题处理 -->
 											 	<#if x['field_showType']=="list">
 											 	{
 												 	type:'combobox',
@@ -77,7 +81,7 @@ function createDataGrid${config_id}(){
 															</#list>
 															],
 														</#if>
-														required:true
+
 													}
 												}
 											 	<#elseif x['field_showType']=="radio">
@@ -97,7 +101,6 @@ function createDataGrid${config_id}(){
 															</#list>
 															],
 														</#if>
-														required:true
 													}
 												}
 											 	<#else>
@@ -112,14 +115,12 @@ function createDataGrid${config_id}(){
 												 	  {
 													 	type:'datebox',
 														options:{
-															required:true
 														}
 													  }
 												 	<#elseif x['field_showType']=="datetime">
 												 	{
 													 	type:'datetimebox',
 														options:{
-															required:true
 														}
 													  }
 												 	<#else>
@@ -146,7 +147,9 @@ function createDataGrid${config_id}(){
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
 						 			href+="<img src='"+value+"'/>";
 						 		}else{
+						 			<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 			href+="<a href='"+value+"' class='ace_button' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 			<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}
 						 		return href;
 						 	},
@@ -184,6 +187,7 @@ function createDataGrid${config_id}(){
 						 	},
 						 	</#if>
 						 	<#--return row.${x['field_id']}; update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
+						 	<#--  update-begin--Author: chenj  Date:20160805 for：TASK #1247 [bug]论坛问题处理 -->
 						 	<#if x['field_showType']=="list">
 							 	formatter:function(value,row){
 								 	<#if  (x['field_dictlist']?size >0)>
@@ -206,11 +210,14 @@ function createDataGrid${config_id}(){
 						if(!rec.id){return '';}
 						var href='';
 						<#if config_noliststr?index_of("delete")==-1>
+						<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
 						href+="<i class='fa fa-trash-o'></i>删除</a>";
+						<#-- //update-end--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						</#if>
 						<#list config_buttons as x>
 							<#if x['buttonStyle'] == 'link' && x['buttonStatus']=='1' && config_noliststr?index_of("${x['buttonCode']}")==-1>
+								<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 								href+="<a style='margin-left:5px;' href='javascript:void(0)' class='ace_button' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
 								<#if x['optType'] == 'action'>
 								href+=" onclick=\"doBusButtonForLink('cgFormBuildController.do?doButton&formId=${x['formId']}&buttonCode=${x['buttonCode']}&tableName=${config_id}','${x['buttonName']}','${config_id}List','"+rec.id+"')\"";
@@ -233,6 +240,7 @@ function createDataGrid${config_id}(){
 								<#else>
 									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
 								</#if>
+								<#-- //update-end--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 							</#if>
 						</#list>
 						return href;
@@ -250,7 +258,7 @@ function createDataGrid${config_id}(){
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>('getPager').pagination({onBeforeRefresh:function(pageNumber, pageSize){ $(this).pagination('loading');$(this).pagination('loaded'); }});
 	//将没有权限的按钮屏蔽掉
 	<#list config_nolist as x>
-		$("#${config_id}Listtb").find("#${x}").hide();
+		$("#${config_id}Listtb").find("${x}").hide();
 	</#list>
 	}
 	
@@ -395,19 +403,25 @@ function createDataGrid${config_id}(){
 		url = url + '&id='+rowData;
 		createdialog('确认 ', '确定'+content+'吗 ?', url,gridname);
 	}
-
+    //----author:jg_xugj---start----date:20151219-------- for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 	//新增
 	function ${config_id}add(){
+		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		//add('${config_name}录入','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		
-		add('${config_name}录入','cgFormBuildController.do?goAddFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		add('${config_name}录入','cgFormBuildController/ftlForm/${config_id}/goAdd.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
+		//update-begin--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		//update('${config_name}编辑','rest/cgform/form/${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh,true);
+		//update-end--Author:luobaoli  Date:20150705 for：请求URL修改为REST风格
 		
-		update('${config_name}编辑','cgFormBuildController.do?goUpdateFtlForm&tableName=${config_id}&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		update('${config_name}编辑','cgFormBuildController/ftlForm/${config_id}/goUpdate.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
+	
+//-------------------------------------------------------------------------------------------------------------------------
 	
 		//添加行
 	function ${config_id}addRow(){
@@ -485,10 +499,13 @@ function createDataGrid${config_id}(){
 		}
 		return true;
 	}
+	
+	//-------------------------------------------------------------------------------------------------------------------------------
 	//查看
 	function ${config_id}view(){
-		detail('查看','cgFormBuildController.do?goDatilFtlForm&tableName=${config_id}&mode=read&olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		detail('查看','cgFormBuildController/ftlForm/${config_id}/goDetail.do?olstylecode=${_olstylecode}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
+    //----author:jg_xugj---end----date:20151219-------- for：#813 【online表单】扩展出三个请求：独立的添加、查看、编辑请求，原来的保留
 	
 	
 	//批量删除
@@ -633,4 +650,4 @@ function createDataGrid${config_id}(){
 </#if>
 	</div>
 </div>
-<!--update-end--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->
+<#--update-end--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->

@@ -193,9 +193,11 @@ public class CgReportQueryParamUtil
 		if(!StringUtil.isEmpty(value)){
 			String result = "";
 			if(CgReportConstant.TYPE_STRING.equalsIgnoreCase(fieldType)){
+
 				//if(ResourceUtil.fuzzySearch&&(!value.contains("*"))){
 				//	value="*"+value+"*";
 				//}
+
 				result = "'" +value+ "'";
 			}else if(CgReportConstant.TYPE_DATE.equalsIgnoreCase(fieldType)){
 				result = getDateFunction(value, "yyyy-MM-dd");

@@ -7,6 +7,7 @@
 		<link href="plug-in/sliding/css/main.css" rel="stylesheet" type="text/css" />
 
         <script>
+
             $(function(){
             	$(".menuSearch_Info").live("click",function(){
             		//$(this).blur();
@@ -18,6 +19,7 @@
             			createwindow(title,url,1000,500);
             		})
             });
+
         </script>
 	</head>
 	<body>

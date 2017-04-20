@@ -64,6 +64,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	private java.lang.String fieldHref;
 	/**控件校验*/
 	private java.lang.String fieldValidType;
+	/**
+	 * 字段校验是否必填
+	 */
+	private String fieldMustInput;
+	
 	/**查询类型single(默认：单字段查询),group(范围查询)*/
 	private java.lang.String queryMode;
 	/**功能注释*/
@@ -561,4 +566,17 @@ public class CgFormFieldEntity implements java.io.Serializable {
 		this.extendJson = extendJson;
 	}
 
+
+	@Column(name="field_must_input")
+	public String getFieldMustInput() {
+		return fieldMustInput;
+	}
+	
+	public void setFieldMustInput(String fieldMustInput) {
+		this.fieldMustInput = fieldMustInput;
+	}
+
+	
+	
+	
 }

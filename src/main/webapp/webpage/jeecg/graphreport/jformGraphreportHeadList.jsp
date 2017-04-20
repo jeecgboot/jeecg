@@ -5,15 +5,15 @@
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="jformGraphreportHeadList" checkbox="true" fitColumns="false" title="图表配置" actionUrl="jformGraphreportHeadController.do?datagrid" idField="id" fit="true" queryMode="group">
    <t:dgCol title="id"  field="id"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
-   <t:dgCol title="名称"  field="name"   query="true" queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="图表名称"  field="name"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="编码"  field="code"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="查询数据SQL"  field="cgrSql"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="描述"  field="content"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="y轴文字"  field="ytext"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="x轴数据"  field="categories"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="是否显示明细"  field="isShowList"   query="true" queryMode="single" dictionary="sf_yn" width="120"></t:dgCol>
-   <t:dgCol title="扩展JS"  field="xpageJs"    queryMode="group"  width="120"></t:dgCol>
-   <t:dgCol title="操作" field="opt" width="200"></t:dgCol>
+   <t:dgCol title="扩展JS"  field="xpageJs"    queryMode="group"  hidden="true" width="120"></t:dgCol>
+   <t:dgCol title="操作" field="opt" width="250"></t:dgCol>
    <t:dgDelOpt title="删除" url="jformGraphreportHeadController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
    <t:dgFunOpt  funname="addlisttab(code,content)" title="function.test" urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
    <t:dgFunOpt  funname="popMenuLinkGraph(code,content)" title="config.place" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
@@ -21,8 +21,6 @@
    <t:dgToolBar title="编辑" icon="icon-edit" url="jformGraphreportHeadController.do?goUpdate" funname="update" width="100%" height="100%"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jformGraphreportHeadController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
    <t:dgToolBar title="查看" icon="icon-search" url="jformGraphreportHeadController.do?goUpdate" funname="detail"></t:dgToolBar>
-   <t:dgToolBar title="EXCEL导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>
-   <t:dgToolBar title="EXCEL导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
     </t:datagrid>
   </div>
  </div>
