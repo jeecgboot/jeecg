@@ -80,14 +80,18 @@ JEECG 功能特点
 技术文档
 -----------------------------------
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
-* [JEECG 开发入门视频](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
-* [JEECG 入门常见问题](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
+* [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
+* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
 * 在线演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
-* JEECG 云平台插件下载中心：[http://yun.jeecg.org](http://yun.jeecg.org)
-* [JEECG更多版本下载地址](http://www.jeecg.org/forum.php?mod=viewthread&tid=1229&extra=page%3D1)
-* 不熟悉maven的同学，直接下载 => [myeclipse非maven版本](http://git.oschina.net/jeecg/jeecg-no_maven)
-* Maven依赖下载慢解决方案 => [享受一下mvn时飞的感觉](http://www.jeecg.org/forum.php?mod=viewthread&tid=3949)
-* maven依赖下载有问题的，可以直接下载官方提供的 => [JEECG本地Maven仓库](http://git.oschina.net/jeecg/jeecg-local-maven)
+* JEECG Maven镜像官方配置 => [http://t.cn/RJCp7wO](http://t.cn/RJCp7wO)
+
+    
+技术交流
+-----------------------------------
+* 	QQ交流群： ③289782002、②106838471(满)、①106259349(满)、④176031980(满)</br>
+* 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
+* 	官方网站： [http://www.guojusoft.com](http://www.guojusoft.com)
+* 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
 
 
 
@@ -97,12 +101,6 @@ JEECG云插件中心
 * 更多插件下载地址：[http://yun.jeecg.org/](http://yun.jeecg.org)
 ![github](http://img.blog.csdn.net/20160623162220022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 
-
-    
-技术交流
------------------------------------
-* 	作者：[张代浩](http://blog.csdn.net/zhangdaiscott)</br>
-* 	QQ交流群： ③289782002、②106838471(满)、①106259349(满)、④176031980(满)</br>
 
 
 社区荣誉

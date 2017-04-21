@@ -1,23 +1,32 @@
 
-入门必看（常见问题贴）：http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1
 
 1. 标准开发环境：
     eclipse + maven + jdk7 + tomcat7 + mysql
-2. 手工执行初始化SQL脚本 
+	
+2. 手工执行初始化SQL脚本
     docs/db/jeecg-3.7-mysql-20170420.sql
-3. 如果遇到maven依赖下载失败的情况，请通过以下链接，找到对应版本jeecg本地仓库
-    http://git.oschina.net/jeecg/jeecg-local-maven
-4.  jeecg平台开发手册在目录: docs/技术文档
-5.  jeecg入门视频下载
-    http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1
-6. 更多资料访问官方论坛：www.jeecg.org
-7. 开发环境搭建文档
-   http://www.jeecg.org/forum.php?mod=viewthread&tid=2537&extra=page%3D1
-8. jeecg目前走微服务模式，采用插件机制，更多业务组件以插件方式提供
+	注意： 必须手工执行doc\db下的数据库脚本
+	
+3. 开发环境搭建入门
+   http://blog.csdn.net/zhangdaiscott/article/details/50915206
+   
+4. 技术交流  
+   QQ交流群： ③289782002、②106838471(满)、①106259349(满)、④176031980(满)
+   官方论坛： http://www.jeecg.org 
+   官方网站： http://www.guojusoft.com
+   官方博客： http://blog.csdn.net/zhangdaiscott
+   
+5. 常见问题贴(入门必看)
+    http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1
+	
+6. jeecg maven镜像官方配置文档(重要)
+    http://www.jeecg.org/forum.php?mod=viewthread&tid=3949
+	
+7. Jeecg目前走微服务模式，采用插件机制，更多业务组件以插件方式提供
    云插件中心：http://yun.jeecg.org
    
-9. 技术交流  
-   JEECG技术QQ群③ ：289782002
-   技术论坛： www.jeecg.org 
-   
-   注意： 必须手工执行doc\db下的数据库脚本
+8. jeecg平台开发手册
+    docs/技术文档
+	
+9. jeecg入门视频下载
+    http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1
