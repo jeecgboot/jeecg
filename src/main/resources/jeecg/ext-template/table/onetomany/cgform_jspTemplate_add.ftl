@@ -66,9 +66,6 @@
 				<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 					<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
 						<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if>  hasLabel="false"  title="${po.content}" <#if po.isNull != 'Y'>datatype="*"</#if>
-						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-						<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 						></t:dictSelect>     
 				<#elseif po.showType=='date'>
 					  <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" 
@@ -215,9 +212,6 @@
 					  		>
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
 							<t:dictSelect field="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="${po.showType?if_exists?html}" <#if po.isNull != 'Y'>datatype="*"</#if>
-							<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-							<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-							<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 										<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 						<#elseif po.showType=='date'>
 							<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" 

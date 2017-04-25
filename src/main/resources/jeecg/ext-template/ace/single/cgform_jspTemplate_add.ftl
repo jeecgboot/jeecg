@@ -99,9 +99,6 @@
 						      	  <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#else><#if po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#else><#if po.isNull != 'Y'>datatype="*"</#if></#if></#if> />
 							<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 								<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control'}"
-								<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-								<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-								<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 								<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> hasLabel="false"  title="${po.content}"></t:dictSelect>     
 							<#elseif po.showType=='date'>
 								<input id="${po.fieldName}" name="${po.fieldName}" type="text"

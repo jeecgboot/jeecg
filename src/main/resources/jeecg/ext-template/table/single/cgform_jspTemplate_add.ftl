@@ -96,7 +96,7 @@
 							<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt easyui-combotree" 
 							<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#elseif po.isNull != 'Y'> datatype="*"</#if>
 							<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-							<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+							<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 							<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 							data-options="panelHeight:'220',
 				                    url: '${entityName?uncap_first}Controller.do?datagrid&field=id,${cgformConfig.cgFormHead.treeFieldnamePage}',  
@@ -127,7 +127,7 @@
 					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" 
 					     	 <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.type == 'int'> datatype="n"<#elseif po.type=='double'> datatype="/^(-?\d+)(\.\d+)?$/"<#elseif po.isNull != 'Y'> datatype="*"</#if> 
 					     	<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-					     	  <#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					     	  <#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 					     	  <#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 					     	  />
 						<#elseif po.showType=='popup'>
@@ -140,40 +140,37 @@
 							<#elseif po.isNull != 'Y'>datatype="*"
 						</#if>
 						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 						<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 						<#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> />
 						  <#elseif po.showType=='textarea'>
 						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}" 
 						  	 <#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-						  	 <#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+						  	 <#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 						  	 <#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 						  	 ></textarea>
 					      <#elseif po.showType=='password'>
 					      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt"  
 					      						<#if po.fieldValidType?if_exists?html != ''>datatype="${po.fieldValidType?if_exists?html}" <#elseif po.type == 'int'> datatype="n" <#elseif po.type=='double'>datatype="/^(-?\d+)(\.\d+)?$/" <#elseif po.isNull != 'Y'>datatype="*"</#if>
 					      			<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->/>
 							<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 							  <t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}"
 									<#if po.dictTable?if_exists?html != ''>dictTable="${po.dictTable?if_exists?html}" dictField="${po.dictField?if_exists?html}" dictText="${po.dictText?if_exists?html}"<#else>typeGroupCode="${po.dictField}"</#if> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}" <#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}" <#elseif po.isNull != 'Y'> datatype="*"</#if> 
-									<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-									<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-									<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 									></t:dictSelect>     
 							<#elseif po.showType=='date'>
 							   <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="Wdate" onClick="WdatePicker()" 
 					      						<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}" <#elseif po.isNull != 'Y'> datatype="*"</#if> 
 					      						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-					      						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					      						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 					      						<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 					      						/>    
 					      	<#elseif po.showType=='datetime'>
 							   <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" 
 					      						<#if po.fieldValidType?if_exists?html != ''> datatype="${po.fieldValidType?if_exists?html}"<#elseif po.isNull != 'Y'> datatype="*"</#if> 
 					      						<#-- update--begin--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
-					      						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull == 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					      						<#if po.fieldMustInput??><#if po.fieldMustInput == 'Y' || po.isNull != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
 					      						<#-- update--end--author:zhangjiaqiang Date:20170414 for:增加校验必填项 -->
 					      						/>
 							<#elseif po.showType=='file'>
