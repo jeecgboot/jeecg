@@ -47,6 +47,11 @@ public class RandCodeImageServlet extends HttpServlet {
 	 * 干扰线的长度=1.414*lineWidth
 	 */
 	private static final int lineWidth = 2;
+	
+	public RandCodeImageServlet() {
+		// 兼容linux图形处理
+		System.setProperty("java.awt.headless", "true");
+	}
 
 	@Override
 	public void doGet(final HttpServletRequest request,
