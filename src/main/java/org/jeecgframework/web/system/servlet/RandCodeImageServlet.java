@@ -52,6 +52,8 @@ public class RandCodeImageServlet extends HttpServlet {
 	public void doGet(final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException,
 			IOException {
+		// 兼容linux图形
+		System.setProperty("java.awt.headless", "true");
 		// 设置页面不缓存
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache");
