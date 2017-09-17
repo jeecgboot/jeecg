@@ -3,7 +3,9 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="jeecgMysearchList" checkbox="true" pagination="false" fitColumns="false" title="自定义列表查询条件" actionUrl="jeecgListDemoController.do?datagrid" idField="id" fit="true" queryMode="group">
+  <!-- update-begin--Author:LiShaoQing  Date:20170802 for：[]自定义查询条件页面增加分页功能-------------------- -->
+  <t:datagrid name="jeecgMysearchList" pageSize="500" checkbox="true" pagination="true" fitColumns="false" title="自定义列表查询条件" actionUrl="jeecgListDemoController.do?datagrid" idField="id" fit="true" queryMode="group">
+  <!-- update-end--Author:LiShaoQing  Date: 20170802 for：[]自定义查询条件页面增加分页功能---------------------- -->
     <t:dgCol title="id"  field="id" hidden="true"   queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="名称"  field="name" autocomplete="true"   width="200"></t:dgCol>
     <t:dgCol title="年龄"  field="age"  width="120"></t:dgCol>

@@ -6,7 +6,6 @@
 <head>
 <title>智能表单-代码生成</title>
 <t:base type="jquery,easyui,tools"></t:base>
-<script type="text/javascript" src="plug-in/cgform/js/cgformField.js"></script>
 <script type="text/javascript" src="plug-in/cgform/js/fileTree.js"></script>
 <script type="text/javascript">
 function browseFolder(path) {

@@ -98,6 +98,7 @@ public class SelectZTreeTag extends TagSupport {
 		sb.append("<link rel=\"stylesheet\" href=\"plug-in/ztree/css/zTreeStyle.css\" type=\"text/css\"></link>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.core-3.5.min.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js\"></script>");
+
 		sb.append("<script type=\"text/javascript\">"
 		+"function beforeClick(treeId, treeNode) {"
 		+ "   var zTree = $.fn.zTree.getZTreeObj('treeDemo');"
@@ -112,12 +113,12 @@ public class SelectZTreeTag extends TagSupport {
 		+ "			v += nodes[i].name + ',';"
 		+ "		}"
 		+ "		if (v.length > 0 ) v = v.substring(0, v.length-1);"
-		+ "		var cityObj = $("+id+");"
+		+ "		var cityObj = $('#"+id+"');"
 		+ "		cityObj.attr('value', v);"
 		+ "} "
 		+ " function showMenu() {"
-		+ "		var cityObj = $("+id+");"
-		+ "		var cityOffset = $("+id+").offset();"
+		+ "		var cityObj = $('#"+id+"');"
+		+ "		var cityOffset = $('#"+id+"').offset();"
 		+ " $('#menuContent').css({left:cityOffset.left + 'px', top:cityOffset.top + cityObj.outerHeight() + 'px'}).slideDown('fast');"		
 		+ "    $('body').bind('mousedown', onBodyDown);"
 		+ "} "
@@ -164,6 +165,7 @@ public class SelectZTreeTag extends TagSupport {
 		+ "		);"
 		+ "});"
 		+ "</script>");
+
 		sb.append("		   <input id=\""+id+"\" name=\""+id+"\"  type=\"text\" readonly value=\"\" style=\"width:"+windowWidth+";height:"+windowHeight+"\" class=\"form-control\" onclick=\"showMenu();\" />");
 		sb.append("<div id=\"menuContent\" class=\"menuContent\" style=\"display:none; position: absolute;\" >");
 		sb.append("		<ul id=\"treeDemo\" class=\"ztree\" style=\"margin-top:0; width:100%;background-color:#f9f9f9\"></ul>");

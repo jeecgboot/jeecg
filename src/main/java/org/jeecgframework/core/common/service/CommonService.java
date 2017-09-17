@@ -181,8 +181,10 @@ public interface CommonService {
 	 * @param isOffset
 	 * @return
 	 */
-	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
+
+	public void getDataGridReturn(CriteriaQuery cq,
 			final boolean isOffset);
+
 
 	/**
 	 * 

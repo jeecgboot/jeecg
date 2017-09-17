@@ -159,8 +159,10 @@
 			<input type="hidden" id="typeMode" value="1"/>
 			<a id="selecrAllBtn" onclick="selecrAll();"><t:mutiLang langKey="select.all" /></a> 
 			<a id="resetBtn" onclick="reset();"><t:mutiLang langKey="common.reset" /></a>
+			<!-- update-begin--Author:xuelin  Date:20170331 for：[#1714]【功能】角色分配菜单权限的时候，权限树采用ztree重写，不再采用easyui的树-------------------- -->
 			<a id="changeBtn" onclick="changeMode();"><t:mutiLang langKey="common.typemode" /></a>
 			<ul id="functionid" class="ztree"></ul>
+			<!-- update-end--Author:xuelin  Date:20170331 for：[#1714]【功能】角色分配菜单权限的时候，权限树采用ztree重写，不再采用easyui的树---------------------- -->			
 		</div>
 	</div>
 	<div region="east" style="width: 300px; overflow: hidden;" split="true">

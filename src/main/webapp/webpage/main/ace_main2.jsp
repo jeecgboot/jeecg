@@ -10,7 +10,10 @@
 		<link rel="stylesheet" href="plug-in/jquery/jquery.contextmenu.css"/>
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="plug-in/ace/css/bootstrap.css" />
-		<link rel="stylesheet" href="plug-in/ace/css/font-awesome.css" />
+		<!-- update-start--Author: dangzhenghui Date:20170608 for: TASK #2088 【图标问题】首页风格图标统一 -->
+		<link href="plug-in-ui/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
+		<!-- update-start--Author: dangzhenghui Date:20170608 for: TASK #2088 【图标问题】首页风格图标统一 -->
 		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
 		<!-- text fonts -->
 		<link rel="stylesheet" href="plug-in/ace/css/ace-fonts.css" />
@@ -544,12 +547,15 @@
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
 			-->
+			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="shortcut" name="indexStyle" /> <span>ShortCut风格</span></td>
 			</tr>
+			<!-- update-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="sliding" name="indexStyle"  /><span>Sliding云桌面</span></td>
 			</tr>
+			<!-- update-end--Author:longjb  Date:2013-03-15 for:新增首页风格  -->	
 			<tr>
 				<td class="value"><input type="radio" value="ace" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>

@@ -1,7 +1,11 @@
 package org.jeecgframework.core.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 /**
@@ -10,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public class ReflectHelper {
 
+	@SuppressWarnings("rawtypes")
 	private Class cls;
 	/**
 	 * 传过来的对象
@@ -107,4 +112,65 @@ public class ReflectHelper {
 		}
 		return value;
 	}
+
+	/**
+	 * 把map中的内容全部注入到obj中
+	 * @param data
+	 * @return
+	 */
+	public Object setAll(Map<String, Object> data){
+		if(data == null || data.keySet().size() <= 0){
+			return null;
+		}
+		for(Entry<String, Object> entry : data.entrySet()){
+			this.setMethodValue(entry.getKey(), entry.getValue());
+        }
+		return obj;
+	}
+	/**
+	 * 把map中的内容全部注入到obj中
+	 * @param o
+	 * @param data
+	 * @return
+	 */
+	public static Object setAll(Object o, Map<String, Object> data){
+		ReflectHelper reflectHelper = new ReflectHelper(o);
+		reflectHelper.setAll(data);
+		return o;
+	}
+	/**
+	 * 把map中的内容全部注入到新实例中
+	 * @param clazz
+	 * @param data
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T setAll(Class<T> clazz, Map<String, Object> data){
+		T o = null;
+		try {
+			o = clazz.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			o = null;
+			return o;
+		}
+		return (T) setAll(o, data);
+	}
+
+	/**
+	 * 根据传入的class将mapList转换为实体类list
+	 * @param mapist
+	 * @param clazz
+	 * @return
+	 */
+	public static <T> List<T> transList2Entrys(List<Map<String,Object>> mapist, Class<T> clazz){
+		List<T> list = new ArrayList<T>();
+		if(mapist != null && mapist.size() > 0){
+			for(Map<String,Object> data : mapist){
+				list.add(ReflectHelper.setAll(clazz, data));
+			}
+		}
+		return list;
+	}
+
 }

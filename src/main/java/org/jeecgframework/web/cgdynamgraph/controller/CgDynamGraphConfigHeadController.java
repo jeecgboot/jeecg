@@ -12,6 +12,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.p3.core.util.plugin.ViewVelocity;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -110,6 +111,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		try{
 			cgDynamGraphConfigHeadService.delMain(cgDynamGraphConfigHead);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表删除]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "动态报表配置抬头删除失败";
@@ -135,6 +137,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 				CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead = systemService.getEntity(CgDynamGraphConfigHeadEntity.class, id);
 				cgDynamGraphConfigHeadService.delMain(cgDynamGraphConfigHead);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+				logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表批量删除]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -162,6 +165,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		try{
 			cgDynamGraphConfigHeadService.addMain(cgDynamGraphConfigHead, cgDynamGraphConfigItemList,cgDynamGraphConfigParamList);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表录入]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "动态报表配置抬头添加失败";
@@ -187,6 +191,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		try{
 			cgDynamGraphConfigHeadService.updateMain(cgDynamGraphConfigHead, cgDynamGraphConfigItemList, cgDynamGraphConfigParamList);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表更新]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "更新动态报表配置抬头失败";

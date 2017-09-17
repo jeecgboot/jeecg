@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
-<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operatetime" sortOrder="desc" pageSize="500" extendParams="view:scrollview,">
+<t:datagrid title="log.manage" name="logList" actionUrl="logController.do?datagrid" idField="id" sortName="operatetime" sortOrder="desc" pageSize="500" extendParams="view:scrollview">
 	<t:dgCol title="log.level" field="loglevel" replace="登录_1,退出_2,插入_3,删除_4,修改_5,上传_6,其他_7"></t:dgCol>
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="log.content" field="logcontent" width="200"></t:dgCol>
 	<t:dgCol title="operate.ip" field="note" width="200"></t:dgCol>
-	<t:dgCol title="操作人ID" field="TSUser.userName" width="200"></t:dgCol>
-	<t:dgCol title="操作人名" field="TSUser.realName" width="200"></t:dgCol>
-	<t:dgCol title="common.browser.recommend" field="broswer" width="100"></t:dgCol>
+	<t:dgCol title="操作人ID" field="username" width="200"></t:dgCol>
+	<t:dgCol title="操作人名" field="realname" width="200"></t:dgCol>
+	<t:dgCol title="(推荐使用IE8+,<br>谷歌浏览器可以获得更快,<br>更安全的页面响应速度) " field="broswer" width="100"></t:dgCol>
 	<t:dgCol title="operate.time" field="operatetime" formatter="yyyy-MM-dd hh:mm:ss" width="200"></t:dgCol>
 </t:datagrid>
 <div id="logListtb" style="padding: 3px; height: 25px">

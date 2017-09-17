@@ -11,6 +11,12 @@ import net.sf.ehcache.Element;
  */
 public class EhcacheUtil {
 
+	//缓存NAME静态名称
+	public static String DictCache = "dictCache";
+	public static String EternalCache = "eternalCache";
+	public static String TagCache = "tagCache";
+
+	
 	public static CacheManager manager = CacheManager.create();
 
 	public static Object get(String cacheName, Object key) {
@@ -37,6 +43,24 @@ public class EhcacheUtil {
 			return cache.remove(key);
 		}
 		return false;
+	}
+	
+	/**
+	 * 清空系统Ehcache缓存
+	 */
+	public static void clean() {
+		Cache dictCache = manager.getCache(DictCache);
+		Cache eternalCache = manager.getCache(EternalCache);
+		Cache tagCache = manager.getCache(TagCache);
+		if (dictCache != null) {
+			dictCache.removeAll();
+		}
+		if (eternalCache != null) {
+			eternalCache.removeAll();
+		}
+		if (tagCache != null) {
+			tagCache.removeAll();
+		}
 	}
 
 	public static void main(String[] args) {

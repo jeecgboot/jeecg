@@ -107,18 +107,21 @@
 .panel-body {
   border-color: #ddd;
 }
+/*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+/*update--begin--author:zhangjiaqiang date:20170622 for:增加一个样式引用*/
+.north-header,
+/*update--end--author:zhangjiaqiang date:20170622 for:增加一个样式引用*/
 .panel-header {
-  /* background-color: #ffffff; */
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #e8e8e8 100%);
+  background-color: #F3F3F4; 
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
   height: 30px;
   line-height: 30px;
   padding: 0 15px;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #e7eaec !important;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
 }
+/*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰--------------------	*/
 .panel-body {
   background-color: #fff;
   color: #444;
@@ -246,9 +249,11 @@
 .window .window-body {
   border-color: #ddd;
 }
+/* update-begin--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 ------------------- */
 .window {
-  background-color: #ffffff;
+  background-color: transparent;
 }
+/* update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 -------------------- */	
 .window-proxy {
   border: 1px dashed #ddd;
 }
@@ -520,17 +525,20 @@
   opacity: 0.3;
   filter: alpha(opacity=30);
 }
+/* update-begin--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
+/* update-begin--Author:xuelin  Date:20170520 for：TASK #2007 【样式改进】多tab，没有靠左，间隙过大-------------------- */
 .tabs {
   list-style-type: none;
   height: 26px;
   margin: 0px;
-  padding: 0px;
-  padding-left: 4px;
+  padding: 5px 0px 0px 3px;
   font-size: 12px;
   width: 5000px;
   border-style: solid;
   border-width: 0 0 1px 0;
 }
+/* update-end--Author:xuelin  Date:20170520 for：TASK #2007 【样式改进】多tab，没有靠左，间隙过大-------------------- */
+/* update-end--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li {
   float: left;
   display: inline-block;
@@ -539,6 +547,7 @@
   position: relative;
   border: 0;
 }
+/* update-begin--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li a.tabs-inner {
   display: inline-block;
   text-decoration: none;
@@ -550,11 +559,12 @@
   white-space: nowrap;
   border-width: 1px;
   border-style: solid;
-  -moz-border-radius: 0px 0px 0 0;
-  -webkit-border-radius: 0px 0px 0 0;
-  border-radius: 0px 0px 0 0;
-  -webkit-border-radius: 5px;/* scott 20160229 TAB 边框圆润*/
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;/* scott 20160229 TAB 边框圆润*/
 }
+/* update-end--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li.tabs-selected a.tabs-inner {
   font-weight: bold;
   outline: none;
@@ -734,10 +744,13 @@
   color: #444;
   filter: none;
 }
+/* update-begin--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li.tabs-selected a.tabs-inner {
-  background-color: #fff;
+  background: #ffffff;
+  background-color: #ffffff;
   color: #8f0911;
 }
+/* update-end--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li a.tabs-inner {
   /*color: #777;*/
   background-color: #ffffff;
@@ -824,7 +837,7 @@ a.l-btn-plain span.l-btn-left {
   line-height: 16px;
   padding: 0;
 } */
-
+/* update-begin--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 a.l-btn span span.l-btn-text {
   display: inline-block;
   vertical-align: baseline;
@@ -832,13 +845,19 @@ a.l-btn span span.l-btn-text {
   height: 16px;
   line-height: 16px;
   padding: 0;
-  margin: 4;
+ /* update-begin--Author:scott  Date:20170615 for：单选按钮模式，查询条件文字居中------------------- */
+  margin: 2.5;
+  /* update-end--Author:scott  Date:20170615 for：单选按钮模式，查询条件文字居中------------------- */
 }
+/* update-end--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化-------------------- */	
 
+/* update-begin--Author:xuelin  Date:20170622 for：TASK #2162 【样式优化】老的button样式修改，上下居中-------------------- */
 a.l-btn span span.l-btn-icon-left {
-  padding: 0 0 0 20px;
+  padding: 1px 0 0 20px;
   background-position: left center;
 }
+/* update-end--Author:xuelin  Date:20170622 for：TASK #2162 【样式优化】老的button样式修改，上下居中---------------------- */
+
 a.l-btn span span.l-btn-icon-right {
   padding: 0 20px 0 0;
   background-position: right center;
@@ -873,17 +892,26 @@ a:hover.l-btn-disabled span.l-btn-left {
 a.l-btn .l-btn-focus {
   outline: #e9e9e9 solid 0;
 }
+/*update-begin--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 兼容处理 */
+a.easyui-linkbutton{
+	padding: 1px 6px 1px 1px;
+}
+/*update-end--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 兼容处理  */
 a.l-btn {
   color: #777;
-  background-image: url('images/linkbutton_bg.png');
+  /*update-begin--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 此处原为单选查询按钮美化，已做兼容处理 */
+  /*padding: 1px 6px 1px 1px;*/
+  /*update-end--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 此处原为单选查询按钮美化，已做兼容处理  */
+/*   background-image: url('images/linkbutton_bg.png');
   background-repeat: no-repeat;
   background: #e9e9e9;
   background-repeat: repeat-x;
-  /*border: 1px solid #e9e9e9;*/ /*解决自定义表单布局样式问题*/
+  border: 1px solid #e9e9e9; 解决自定义表单布局样式问题
   background: -webkit-linear-gradient(top,#e9e9e9 0,#e9e9e9 100%);
   background: -moz-linear-gradient(top,#e9e9e9 0,#e9e9e9 100%);
   background: -o-linear-gradient(top,#e9e9e9 0,#e9e9e9 100%);
-  background: linear-gradient(to bottom,#e9e9e9 0,#e9e9e9 100%);
+  background: linear-gradient(to bottom,#e9e9e9 0,#e9e9e9 100%); */
+  
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#e9e9e9,endColorstr=#e9e9e9,GradientType=0);
   -moz-border-radius: 0px 0px 0px 0px;
@@ -994,13 +1022,13 @@ a:hover.l-btn-disabled {
   float: left;
   width: 10000px;
 }
-  /*background: #EDEDED;*/
+/*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-header-row{
   font-weight: bold;
   height: 25px;
-  background-color:#f7f7f7;
-  background:-webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
+  background-color:#F3F3F4;
 }
+/*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-row {
   height: 25px;
 }
@@ -1021,20 +1049,24 @@ a:hover.l-btn-disabled {
   padding: 0;
   overflow: hidden;
 }
+
+/*update-begin--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid-------------------- */
 .datagrid-cell,
 .datagrid-cell-group,
 .datagrid-header-rownumber,
 .datagrid-cell-rownumber {
   margin: 0;
-  padding: 0 4px;	
+  padding: 0 8px;	
   white-space: nowrap;
   word-wrap: normal;
   overflow: hidden;
   height: 34px;
   line-height: 34px;
   /*font-weight: normal; */
-  font-size: 12px;
+  font-size: 13px;
+  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+/*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-cell-group {
   text-align: center;
 }
@@ -1145,20 +1177,32 @@ a:hover.l-btn-disabled {
 .datagrid-mask-msg {
   border-color: #ddd;
 }
-.datagrid-toolbar,
+/*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+/*update-begin--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题2 查询区域底色改成白色-------------------- */
+.datagrid-toolbar{
+   background: #FFF; 
+}
+/* update-begin--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
 .datagrid-pager {
-   background: #f8f8f8; 
+   /*background: #FAFAFA; */
 }
-
+/* update-end--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
+/*update-end--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题2 查询区域底色改成白色---------------------- */
+/*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+/* update-begin--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 .datagrid-toolbar .datagrid-toolbar{
-  background-color: #e9e9e9;
-  border-top:1px solid #d8d8d8;
+/*update-begin--Author:xuelin-scott  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+  /*border-top:1px solid #d8d8d8;
   border-left:1px solid #d8d8d8;
-  border-right:1px solid #d8d8d8;
-  height:34px;
-  line-height:34px;
+  border-right:1px solid #d8d8d8;*/
+  /*update-end--Author:xuelin-scott  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+  /*update-begin--Author:xuelin Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案   升级bootstrap到3.3.7后兼容性 --*/
+  height:30px;
+  /*update-begin--Author:xuelin Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案   升级bootstrap到3.3.7后兼容性 --*/
+  /*line-height:34px;*/
   margin-top: 3px;
-}
+ }
+/* update-end--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化-------------------- */	
 
 .datagrid-header,
 .datagrid-toolbar,
@@ -1166,28 +1210,33 @@ a:hover.l-btn-disabled {
 .datagrid-footer-inner {
   border-color: #ddd;
 }
+/*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
+/*update-begin--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-header td{
    font-weight: bold;
-   border-color: #ddd;
+   border-color: #e7e7e7;
+  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+/*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-body td,
 .datagrid-footer td {
-  border-color: #ddd;
+  border-color: #e7e7e7;
 }
 .datagrid-htable,
 .datagrid-btable,
 .datagrid-ftable {
-  color: #444;
+  color: #676A6C;
 }
 .datagrid-row-alt {
   background: #f9f9f9;
 }
 .datagrid-row-over{
-  background: #f9f9f9;
+  background: #F5F5F5;
   color: #444;
   cursor: default;
   font-weight: normal;
 }
+/*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-header td.datagrid-header-over {
   background: #E6E6E6;
   color: #444;
@@ -1291,10 +1340,13 @@ a:hover.l-btn-disabled {
 .pagination-loading {
   background: url('images/loading.gif') no-repeat;
 }
+/* update-begin--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
 .pagination-page-list,
 .pagination .pagination-num {
   border-color: #ddd;
+  border-radius: 0;
 }
+/* update-end--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
 .calendar {
   border-width: 1px;
   border-style: solid;
@@ -1658,20 +1710,27 @@ a:hover.l-btn-disabled {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
-  opacity: 0.6;
+  opacity: 1.0;
   filter: alpha(opacity=60);
 }
+/*update-begin--Author:xuelin  Date:20170603 for：TASK #2032 【美化】边角圆润些，看看好看些-------------------- */
+/*update-begin--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题6 边角圆润些，看看好看些-------------------- */
 .searchbox a.l-btn .l-btn-left {
    padding: 0px 0 6px 0px;
-   height: 16px !important;
+   height: 18px !important;
+   /*border-radius: 3px !important;*/
+   border:0;
 }
+/*update-end--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题6 边角圆润些，看看好看些---------------------- */
+/*update-end--Author:xuelin  Date:20170603 for：TASK #2032 【美化】边角圆润些，看看好看些---------------------- */
+/* update-begin--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 .searchbox a.l-btn-plain:hover {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
   border: 0;
   padding: 0 6px 0 0;
-  opacity: 1.0;
+  opacity: 0.6;
   filter: alpha(opacity=100);
 }
 .searchbox a.m-btn-plain-active {
@@ -1679,6 +1738,16 @@ a:hover.l-btn-disabled {
   -webkit-border-radius: 0;
   border-radius: 0;
 }
+.searchbox .l-btn-left{
+	background: #21B9BB !important;
+    border-radius: 0 !important;
+    color: white !important;
+    background-color: #21B9BB !important;
+    border-top-color: #21B9BB !important;
+    border-bottom-color: #21B9BB !important;
+    letter-spacing: 3px;
+}
+/* update-end--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 .searchbox-button {
   background: url('images/searchbox_button.png') no-repeat center center;
 }
@@ -1687,7 +1756,11 @@ a:hover.l-btn-disabled {
   background-color: #fff;
   width: 255px !important;
   height: 24px !important;
-}
+  /*update-begin--Author:xuelin  Date:20170603 for：TASK #2032 【美化】边角圆润些，看看好看些-------------------- */
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  /*update-end--Author:xuelin  Date:20170603 for：TASK #2032 【美化】边角圆润些，看看好看些-------------------- */
+  }
 }
 .searchbox a.l-btn-plain {
   background: #ffffff;
@@ -1924,11 +1997,13 @@ a.m-btn-plain-active {
 .m-btn-downarrow {
   background: url('images/menu_arrows.png') no-repeat 2px center;
 }
+/* update-begin--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 a.m-btn-plain-active {
   border-color: #ddd;
-  background-color: #E6E6E6;
+  background-color: #FFFFFF;
   color: #444;
 }
+/* update-end--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化------------------- */
 .s-btn-downarrow {
   display: inline-block;
   margin: 0 0 0 4px;
@@ -1971,14 +2046,122 @@ a.s-btn-plain-active {
   background-color: #E6E6E6;
   color: #444;
 }
+/*update-begin--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题7 断网后，点击下一页提示风格-------------------- */
+.messager-window{
+	color: #7d8289;
+    font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+    width: 280px;
+    -webkit-box-shadow: 2px 2px 3px #aaa;
+    -moz-box-shadow: 2px 2px 3px #aaa;
+    background: #fff;
+    position: absolute;
+    top: 0px;
+    right: 50px;
+    z-index: 99999;
+    display: none;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999');
+    padding:0 !important;
+    border: 1px solid #ECECEC;
+}
+
+.messager-header{
+    padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    background-color: #F8F8F8 !important;
+    border-radius: 0;
+ /* border-radius: 2px 2px 0 0;
+ 	border-top-right-radius: 3px;
+    border-top-left-radius: 3px; */
+  	background: none !important;
+    background-image: none !important;
+    padding: 0px 0px 1px 0px;
+}
+.messager-header .messager-title{
+	padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    background-color: #F8F8F8;
+    border-radius: 2px 2px 0 0;
+    font-weight: normal;
+}
+.messager-header .messager-tool{	
+    position: absolute;
+    right: 20px;
+    top: 10px !important;
+    width: 30%;
+    height: 43px !important;
+    line-height: 43px !important;
+}
+.messager-close,.messager-close:visited{
+	background: url('images/panel_tools.png') no-repeat -16px 0px;
+    margin: 8px 10px 0 0 !important;
+    text-decoration: none !important;
+    float: right;
+}
+.messager-close:hover{
+	color: #C2C2D2 !important;
+	text-decoration: none !important;
+}
 .messager-body {
+  /*
   padding: 10px;
   overflow: hidden;
+  */
+  position: relative;
+  padding: 20px;
+  line-height: 24px;
+  word-break: break-all;
+  overflow: hidden;
+  font-size: 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border:0 !important;
 }
 .messager-button {
-  text-align: center;
-  padding-top: 10px;
+   text-align: center; 
+   margin-bottom: -10px;
 }
+
+.messager-button a {
+    width: 28;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    border: 1px solid #21B9BB;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #21B9BB;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.messager-button span {
+	background: transparent !important;
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: #fff !important;
+	height: 24px !important;
+    line-height: 24px !important;
+}
+
+.messager-button a:hover {
+	color: #fff;
+    background-color: #26C3C5;
+    text-decoration: none;
+}
+/*update-end--Author:xuelin  Date:20170607 for：TASK #2083 【样式】JEECG样式专项工作  问题7 断网后，点击下一页提示风格-------------------- */
 .messager-icon {
   float: left;
   width: 32px;
@@ -2230,3 +2413,9 @@ a.s-btn-plain-active {
 	margin-right: 10px;
 	cursor: pointer;
 }
+/*update-begin--Author:xuelin  Date:20170624 for：TASK #2167 【技术研究】列表表头表头怎么换行-------------------- */
+.datagrid-header-row td .datagrid-cell{
+	height: inherit;
+    line-height: normal;
+}
+/*update-end--Author:xuelin  Date:20170624 for：TASK #2167 【技术研究】列表表头表头怎么换行---------------------- */

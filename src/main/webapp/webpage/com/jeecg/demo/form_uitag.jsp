@@ -18,9 +18,12 @@
 }
 -->
 </style>
+<!-- update-begin--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
+</head>
+<body>
 <t:formvalid formid="formobj" dialog="false" layout="div" callback="test" action="jeecgFormDemoController.do?testsubmit" beforeSubmit="setContentc">
-	<legend>字典示例 | t:dictSelect </legend>
 	<fieldset>
+	<legend>字典示例 | t:dictSelect </legend>
 	<table>
 		<tr>
 			<td align="center" width="100px"><label class="Validform_label">radio:</label></td>
@@ -43,15 +46,15 @@
 		</tr>
 		<tr>
 			<td align="center" width="100px"><label class="Validform_label">数据表字典:</label></td>
-			<td class="value"><t:dictSelect field="name" defaultVal="1" dictTable="t_s_base_user" dictField="username" dictText="realname" title="用户"></t:dictSelect> 
+			<td class="value"><t:dictSelect field="name" defaultVal="1" dictTable="t_s_base_user" dictCondition="where delete_flag=0" dictField="username" dictText="realname" title="用户"></t:dictSelect> 
 			<span class="Validform_checktip"></span>
 			</td>
 		</tr>
 	</table>
 	</fieldset>
 
-	<legend>树</legend>
 	<fieldset>
+	<legend>树</legend>
 	<table>
 		<tr>
 			<td align="center" width="100px"><label class="Validform_label">comboTree:</label></td>
@@ -68,8 +71,8 @@
 	</table>
 	</fieldset>
 
-	<legend>自动补全 | t:autocomplete</legend>
 	<fieldset>
+	<legend>自动补全 | t:autocomplete</legend>
 	<table>
 		<tr>
 			<td align="center" width="100px"><label class="Validform_label">autocomplete:</label></td>
@@ -80,8 +83,8 @@
 	</table>
 	</fieldset>
 
-	<legend>选择控件 | t:choose</legend>
 	<fieldset>
+	<legend>选择控件 | t:choose</legend>
 	<table>
 		<tr>
 			<td align="center" width="100px"><label class="Validform_label">choose:</label></td>
@@ -94,8 +97,8 @@
 		</tr>
 	</table>
 	</fieldset>
-	<legend>国际化语言输出 | t:mutiLang</legend>
 	<fieldset>
+	<legend>国际化语言输出 | t:mutiLang</legend>
 	<table>
 		<tr>
 			<td align="center" width="100px"><label>国际化:</label></td>
@@ -109,8 +112,8 @@
 	</table>
 	</fieldset>
 
-	<legend>通用POPUP选择用户\部门 </legend>
 	<fieldset>
+	<legend>通用POPUP选择用户\部门 </legend>
 	<table>		
 		<tr>
 			<td>选择部门：</td><td><t:departSelect selectedNamesInputId="orgNames" selectedIdsInputId="orgIds" departIdsDefalutVal="8a8ab0b246dc81120146dc8180ba0017," departNamesDefalutVal="JEECG开源社区,"></t:departSelect></td>
@@ -123,23 +126,29 @@
 			<td>选择用户：</td><td><t:userSelect title="用户名称" selectedNamesInputId="userNames" selectedIdsInputId="userIds" windowWidth="1000px" windowHeight="600px"></t:userSelect></td>
 		</tr>
 	</table>
-	</fieldset>
+	</fieldset> 
 	
-	<legend>文件上传 | t:webUploader </legend>
 	<fieldset>
+	<legend>文件上传 | t:webUploader </legend>
 	<table>		
 		<tr>
 			<td>多文件上传：</td>
-			<td><t:webUploader auto="true" name="fileName1" extensions="doc,txt,jpg" buttonStyle="btn-green btn-L" ></t:webUploader></td>
+			<!-- 文件路径对应的参数name为‘fileName1’、业务类型是‘photosucai’、自动上传、上传文件扩展名限制doc,txt,jpg、按钮风格：绿色大号按钮 -->
+			<td><t:webUploader name="fileName1" bizType="photosucai" auto="true" extensions="doc,txt,jpg" buttonStyle="btn-green btn-L" ></t:webUploader></td>
 		</tr>
 		<tr>
 			<td>单文件上传：</td>
-			<td><t:webUploader name="fileName2" fileSingleSizeLimit="1" buttonStyle="btn-green btn-M mb20" fileNumLimit="1"></t:webUploader></td>
+			<!-- 文件路径对应的参数name为‘fileName2’、单个文件大小限制为500kb、按钮风格：绿色中号按钮、上传文件数量限制为1 -->
+			<td><t:webUploader name="fileName2" fileSingleSizeLimit="500" buttonStyle="btn-green btn-M mb20" fileNumLimit="1"></t:webUploader></td>
 		</tr>
 		<tr>
 			<td>图片上传：</td>
-			<td><t:webUploader auto="true" buttonText="选择图片" name="fileName3" buttonStyle="btn-blue btn-S" type="image" fileNumLimit="3"></t:webUploader></td>
+			<!-- 文件路径对应的参数name为‘fileName3’、不显示上传文件列表、自动上传、上传按钮显示文字为‘选择图片’、按钮风格：蓝色小按钮、上传类型为图片上传、上传文件数量限制为3 -->
+			<td><t:webUploader name="fileName3" displayTxt="false" auto="true" buttonText="选择图片" buttonStyle="btn-blue btn-S" type="image" fileNumLimit="3"></t:webUploader></td>
 		</tr>
 	</table>
 	</fieldset>
 </t:formvalid>
+</body>
+</html>
+<!-- update-end--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->

@@ -485,6 +485,7 @@ public class TagUtil {
 				object = null;
 				dg.clear();
 				dg = null;
+				System.gc();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -515,6 +516,10 @@ public class TagUtil {
 				pw.close();
 
 				object.clear();
+
+				dg.clear();
+				dg = null;
+				System.gc();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -550,6 +555,11 @@ public class TagUtil {
 				pw.close();
 
 				object.clear();
+
+				dg.clear();
+				dg = null;
+				System.gc();
+				extMap = null;
 
 			} catch (Exception e2) {
 				// TODO: handle exception

@@ -38,7 +38,7 @@ public class TempletContext {
 	 * PUB-生产（使用ehcache）
 	 * DEV-开发
 	 */
-	private static String _sysMode = null;
+	public static String _sysMode = null;
 	static{
 		PropertiesUtil util = new PropertiesUtil("sysConfig.properties");
 		_sysMode = util.readProperty(CgAutoListConstant.SYS_MODE_KEY);
@@ -126,7 +126,9 @@ public class TempletContext {
 	    	String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
 			//cache的键：类名.方法名.参数名
 			String cacheKey = FreemarkerHelper.class.getName()+".getTemplateFormCache."+tableName+"."+version;
-			ehCache.remove(cacheKey);
+			if(ehCache!=null){
+				ehCache.remove(cacheKey);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

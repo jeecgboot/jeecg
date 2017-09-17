@@ -14,6 +14,7 @@ import javax.persistence.Column;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.annotation.query.QueryTimeFormat;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -26,6 +27,7 @@ import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.p3.core.util.oConvertUtils;
 import org.jeecgframework.web.system.pojo.base.TSDataRule;
 import org.springframework.util.NumberUtils;
 
@@ -42,7 +44,18 @@ public class HqlGenerateUtil {
 	private static final String END = "_end";
 	private static final String BEGIN = "_begin";
 
-	private static final SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private static final ThreadLocal<SimpleDateFormat> local = new ThreadLocal<SimpleDateFormat>();
+	private static SimpleDateFormat getTime(){
+		SimpleDateFormat time = local.get();
+		if(time == null){
+			time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			local.set(time);
+		}
+		return time;
+	}
+
+	/**自定义sql表达式时rule_column的默认前缀*/
+	private static final String SQL_RULES_COLUMN = "SQL_RULES_COLUMN";
 
 	/**
 	 * 自动生成查询条件HQL 模糊查询 不带有日期组合
@@ -99,6 +112,19 @@ public class HqlGenerateUtil {
 			Map<String, TSDataRule> ruleMap,
 			Map<String, String[]> parameterMap, String alias) {
 		PropertyDescriptor origDescriptors[] = PropertyUtils.getPropertyDescriptors(searchObj);
+		///直接拿到rulemap判断有没有key为xxx的直接循环组装cq
+
+		boolean addPreCondition = true;
+		for (String c : ruleMap.keySet()) {
+			if(oConvertUtils.isNotEmpty(c) && c.startsWith(SQL_RULES_COLUMN)){
+				if(addPreCondition){
+					cq.add(Restrictions.sqlRestriction("1=1"));
+					addPreCondition = false;
+				}
+				cq.add(Restrictions.sqlRestriction("("+ruleMap.get(c).getRuleValue()+")"));
+			}
+		}
+
 		String aliasName, name, type;
 		for (int i = 0; i < origDescriptors.length; i++) {
 			aliasName = (alias.equals("") ? "" : alias + ".")+ origDescriptors[i].getName();
@@ -130,18 +156,33 @@ public class HqlGenerateUtil {
 
 					// for：查询拼装的替换
 					if (value != null && !value.equals("")) {
-						HqlRuleEnum rule = PageValueConvertRuleEnum.convert(value);
 
-//						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))&&!"class java.lang.Integer".contains(type)){
-//							value="*%"+String.valueOf(value.toString())+"%*";
-//						} else {
-//							rule = HqlRuleEnum.EQ;
-//						}
-
+						//checkbox多选查询
+						if (null != value && value.toString().startsWith(",") && value.toString().endsWith(",")) {
+							String[] vals = value.toString().replace(",,", ",").split(",");
+							//Criteria.add(Restrictions.or(cq, Restrictions.or(Restrictions.or(lhs, rhs))));
+							Disjunction dis = Restrictions.disjunction();//替代多个Restrictions.or
+							for (String val : vals) {
+								if (StringUtils.isNotBlank(val)) {
+									dis.add(Restrictions.eq(name, val));
+								}
+							}
+							cq.add(dis);							
+						}else{
 						
-						value = PageValueConvertRuleEnum.replaceValue(rule,
-								value);
-						ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
+							HqlRuleEnum rule = PageValueConvertRuleEnum.convert(value);
+
+	//						if(HqlRuleEnum.LIKE.equals(rule)&&(!(value+"").contains("*"))&&!"class java.lang.Integer".contains(type)){
+	//							value="*%"+String.valueOf(value.toString())+"%*";
+	//						} else {
+	//							rule = HqlRuleEnum.EQ;
+	//						}
+
+							
+							value = PageValueConvertRuleEnum.replaceValue(rule,value);
+							ObjectParseUtil.addCriteria(cq, aliasName, rule, value);
+						}
+
 					} else if (parameterMap != null) {
 
 						Object beginValue_=null , endValue_ =null;
@@ -191,19 +232,19 @@ public class HqlGenerateUtil {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (beginValue.length() == 19) {
-							cq.ge(aliasName, time.parse(beginValue));
+							cq.ge(aliasName, getTime().parse(beginValue));
 						} else if (beginValue.length() == 10) {
-							cq.ge(aliasName,time.parse(beginValue + " 00:00:00"));
+							cq.ge(aliasName,getTime().parse(beginValue + " 00:00:00"));
 						}
 					}
 					if (StringUtils.isNotBlank(endValue)) {
 						if (userDefined != null) {
 							cq.ge(aliasName, userDefined.parse(beginValue));
 						} else if (endValue.length() == 19) {
-							cq.le(aliasName, time.parse(endValue));
+							cq.le(aliasName, getTime().parse(endValue));
 						} else if (endValue.length() == 10) {
 							// 对于"yyyy-MM-dd"格式日期，因时间默认为0，故此添加" 23:59:59"并使用time解析，以方便查询日期时间数据
-							cq.le(aliasName, time.parse(endValue + " 23:59:59"));
+							cq.le(aliasName, getTime().parse(endValue + " 23:59:59"));
 						}
 					}
 					if (isNotEmpty(value)) {
@@ -341,7 +382,13 @@ public class HqlGenerateUtil {
 				return ruleMap;
 			}
 			for (TSDataRule rule : list) {
-				ruleMap.put(rule.getRuleColumn(), rule);
+
+				String column = rule.getRuleColumn();
+				if(oConvertUtils.isEmpty(column)){
+					column = SQL_RULES_COLUMN+rule.getId();
+				}
+				ruleMap.put(column, rule);
+
 			}
 		}
 		return ruleMap;

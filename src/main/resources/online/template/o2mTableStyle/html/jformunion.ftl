@@ -1,6 +1,15 @@
 <#setting number_format="0.#####################">
 <!DOCTYPE html>
 <html lang="zh-CN">
+<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
+<#assign hasFileField = false />
+<#list columns as po>
+	<#if po.show_type=='file' || po.show_type == 'image'>
+		<#assign hasFileField = true />
+		<#break>
+	</#if>
+</#list>
+<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 <head>
 	<base href="${basePath}/"/>
 	<meta charset="utf-8">
@@ -30,7 +39,12 @@
 	<script type="text/javascript" src="${basePath}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
 	<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.config.js"></script>
   	<script type="text/javascript"  charset="utf-8" src="${basePath}/plug-in/ueditor/ueditor.all.min.js"></script>
-	
+  	<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
+  	<#if hasFileField == true>
+	  	<link rel="stylesheet" href="${basePath}/plug-in/uploadify/css/uploadify.css" type="text/css" />
+		<script type="text/javascript" src="${basePath}/plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+	</#if>
+	<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 </head>
 
 
@@ -63,8 +77,9 @@
 	function resetTrNum(tableId) {
 		$tbody = $("#"+tableId+"");
 		$tbody.find('>tr').each(function(i){
-			$(':input, select', this).each(function(){
-				var $this = $(this), name = $this.attr('name'), val = $this.val();
+			<#-- update--begin--author:zhangjiaqiang date:20170608 for:修订初始化下标功能 -->
+			$(':input, select,a,button', this).each(function(){
+				var $this = $(this), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
 				if(name!=null){
 					if (name.indexOf("#index#") >= 0){
 						$this.attr("name",name.replace('#index#',i));
@@ -75,6 +90,23 @@
 						$this.attr("name",name.replace(new_name,i));
 					}
 				}
+				if(id!=null){
+					if (id.indexOf("#index#") >= 0){
+						$this.attr("id",id.replace('#index#',i));
+					}else{
+						var s = id.indexOf("[");
+						var e = id.indexOf("]");
+						var new_id = id.substring(s+1,e);
+						$this.attr("id",id.replace(new_id,i));
+					}
+				}
+				if(onclick_str!=null){
+					if (onclick_str.indexOf("#index#") >= 0){
+						$this.attr("onclick",onclick_str.replace(/#index#/g,i));
+					}else{
+					}
+				}
+				<#-- update--end--author:zhangjiaqiang date:20170608 for:修订初始化下标功能 -->
 			});
 			$(this).find('div[name=\'xh\']').html(i+1);
 		});
@@ -83,7 +115,6 @@
 <body>
 	<form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post">
 	<input type="hidden" id="btn_sub" class="btn_sub"/>
-	
 	<script type="text/javascript">
 		$(function() {
 		    //查看模式情况下,删除和上传附件功能禁止使用
@@ -101,11 +132,13 @@
 			}
 		});
 		function upload() {
+		<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 		<#list columns as po>
-	  		<#if po.show_type=='file'>
+	  		<#if po.show_type=='file' || po.show_type == 'image'>
 	  		$('#${po.field_name}').uploadify('upload', '*');		
 	  		</#if>
 	  	</#list>
+	  	<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 		}
 		var neibuClickFlag = false;
 		function neibuClick() {
@@ -113,11 +146,13 @@
 		    $('#btn_sub').trigger('click');
 		}
 		function cancel() {
+		<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 		<#list columns as po>
-	  		<#if po.show_type=='file'>
+	  		<#if po.show_type=='file' || po.show_type == 'image'>
 			$('#${po.field_name}').uploadify('cancel', '*');
 	 	 	</#if>
 	  	</#list>
+	  	<#-- update--begin--author:zhangjiaqiang date:20170607 for:增加对于图片文件的支持 -->
 		}
 		function uploadFile(data) {
 		    if (!$("input[name='id']").val()) {
@@ -139,7 +174,7 @@
 		        }
 		    }
 		}
-		$.dialog.setting.zIndex = 1990;
+		$.dialog.setting.zIndex = getzIndex();
 		function del(url, obj) {
 		    $.dialog.confirm("确认删除该条记录?",
 		    function() {
@@ -264,5 +299,43 @@
 		</#list>
 	</table>
 	<script type="text/javascript">${js_plug_in?if_exists}</script>	
+	<#-- update--begin--author:zhangjiaqiang date:20170608 for:通用上传脚本 -->
+	<script>
+		
+//通用弹出式文件上传
+function commonUpload(callback,inputId){
+    $.dialog({
+           content: "url:${basePath}/systemController.do?commonUpload",
+           lock : true,
+           title:"文件上传",
+           <#-- update--begin--author:zhangjiaqiang date:20170601 for:修订弹出框对应的index -->
+           zIndex:getzIndex(),
+            <#-- update--end--author:zhangjiaqiang date:20170601 for:修订弹出框对应的index -->
+           width:700,
+           height: 200,
+           parent:windowapi,
+           cache:false,
+       ok: function(){
+               var iframe = this.iframe.contentWindow;
+               iframe.uploadCallback(callback,inputId);
+               return true;
+       },
+       cancelVal: '关闭',
+       cancel: function(){
+       } 
+   });
+}
+//通用弹出式文件上传-回调
+function commonUploadDefaultCallBack(url,name,inputId){
+	var linkElement = document.getElementById(inputId+"_href");
+	var inputElement = document.getElementById(inputId);
+	linkElement.setAttribute("href",url);
+	linkElement.innerHTML="下载";
+	inputElement.setAttribute("value",url);
+	//$("#"+inputId+"_href").attr('href',url).html('下载');
+	//$("#"+inputId).val(url);
+}
+	</script>
+		<#-- update--end--author:zhangjiaqiang date:20170608 for:通用上传脚本 -->
 </body>
 </html>

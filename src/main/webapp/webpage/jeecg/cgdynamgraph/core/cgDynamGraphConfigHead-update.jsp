@@ -93,7 +93,7 @@
         </tr>
         
 	</table>
-	<div style="width: auto; height: 200px;"><%-- 增加一个div，用于调节页面大小，否则默认太小 --%>
+	<div style="width:auto;"><%-- 增加一个div，用于调节页面大小，否则默认太小 --%>
 		<div style="width: 800px; height: 1px;"></div>
 		<t:tabs id="ttp" iframe="false" tabPosition="top" fit="false"><t:tab href="cgDynamGraphConfigHeadController.do?cgDynamGraphConfigParamList&id=${cgDynamGraphConfigHeadPage.id}" icon="icon-search" title="报表参数" id="cgDynamGraphConfigParam"></t:tab></t:tabs>				
 		<t:tabs id="tt" iframe="false" tabPosition="top" fit="false"><t:tab href="cgDynamGraphConfigHeadController.do?cgDynamGraphConfigItemList&id=${cgDynamGraphConfigHeadPage.id}" icon="icon-search" title="dynamic.report.config.detail" id="cgDynamGraphConfigItem"></t:tab></t:tabs>

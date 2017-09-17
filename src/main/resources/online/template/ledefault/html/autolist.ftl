@@ -1,5 +1,4 @@
 ${config_iframe}
-
 <#--update-start--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->
 <script type="text/javascript">
 /**
@@ -75,10 +74,18 @@ function createDataGrid${config_id}(){
 						 			return href;
 						 		}
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
-						 			href+="<img src='"+value+"'/>";
+						 		<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
+						 			href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=50 height=50 />";
+						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
 						 		}else{
 						 			<#-- //update-begin--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
+						 			<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+						 			href+="[<a href='"+value+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
+						 			<#else>
 						 			href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 			</#if>
+						 			<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 						 			<#-- //update-end--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}
 						 		return href;
@@ -109,7 +116,9 @@ function createDataGrid${config_id}(){
 						 		if(value==null || value.length==0){
 						 			return href;
 						 		}
-						 		href+="<img src='"+value+"' width=100 height=50/>";
+						 		<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
+						 		href+="<img src='"+value+"' width=50 height=50  onmouseover='tipImg(this)' onmouseout='moveTipImg()'/>";
+						 		<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
 						 		return href;
 						 	},
 						 	styler: function(value,row,index){
@@ -117,6 +126,64 @@ function createDataGrid${config_id}(){
 						 	},
 						 	</#if>
 						 	<#-- update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
+						 	<#-- update--begin--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
+						 	<#if x['field_showType'] == 'tree'>
+						 		formatter:function(value,rec,index){
+						 			if(value != null && value != ''){
+						 				if(value.indexOf(",") > 0){
+						 					var valueArray = value.split(",");
+						 					var resultValue = "";
+						 					for(var i = 0; i < valueArray.length; i++){
+						 						var result = $.ajax({
+													url:'categoryController.do?tree',
+													type:'POST',
+													dataType:'JSON',
+													data:{
+														selfCode:valueArray[i]
+													},
+													async:false
+												});
+												var responseText = result.responseText;
+												if(typeof responseText == 'string'){
+													responseText = JSON.parse(responseText);
+												}
+												if(responseText.length != undefined && responseText.length > 0 && responseText[0].text != undefined){
+													if(resultValue != ''){
+														  resultValue = resultValue + "," + responseText[0].text;
+													}else{
+														resultValue = responseText[0].text;
+													}
+												}
+						 					}
+						 					return resultValue;
+						 				}else{
+						 					var result = $.ajax({
+												url:'categoryController.do?tree',
+												type:'POST',
+												dataType:'JSON',
+												data:{
+													selfCode:value
+												},
+												async:false
+											});
+											var responseText = result.responseText;
+											if(typeof responseText == 'string'){
+												responseText = JSON.parse(responseText);
+											}
+											if(responseText.length != undefined && responseText.length > 0 && responseText[0].text != undefined){
+												return responseText[0].text;
+											}
+											else{
+												return value;
+											}
+						 				}
+						 				
+						 			}else{
+							 			return value;
+						 			}
+						 		},
+						 	</#if>
+						 	<#-- update--end--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
 						 	sortable:true,
 						 	width:${x['field_length']}
 						 	},
@@ -127,35 +194,55 @@ function createDataGrid${config_id}(){
 						var href='';
 						<#if config_noliststr?index_of("delete")==-1>
 						<#-- //update-begin--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
+						<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+						<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+						href+="[<a href='javascript:void(0)' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
+						href += "删除</a>]";
+						<#else>
 						href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
 						href+="<i class='fa fa-trash-o'></i>删除</a>";
+						</#if>
+						<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 						<#-- //update-end--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						</#if>
 						<#list config_buttons as x>
 							<#if x['buttonStyle'] == 'link' && x['buttonStatus']=='1' && config_noliststr?index_of("${x['buttonCode']}")==-1>
 								<#-- //update-begin--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
-								href+="<a style='margin-left:5px;' href='javascript:void(0)' class='ace_button' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+								<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+									href+="[<a href='javascript:void(0)' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								<#else>
+									href+="<a style='margin-left:5px;' href='javascript:void(0)' class='ace_button' buttonCode='${x['buttonCode']}' formId ='${x['formId']}' ";
+								
+								</#if>
+								<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 								<#if x['optType'] == 'action'>
 								href+=" onclick=\"doBusButtonForLink('cgFormBuildController.do?doButton&formId=${x['formId']}&buttonCode=${x['buttonCode']}&tableName=${config_id}','${x['buttonName']}','${config_id}List','"+rec.id+"')\"";
 								<#else>
 								href+=" onclick=\"${x['buttonCode']}('"+rec.id+"');\"";
 								</#if>
 								href+=" id=\"${x['buttonCode']}\">";
-								<#if x['buttonName']?index_of("测试") gt -1>
-									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
-									href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("导入") gt -1 || x['buttonName']?index_of("下载") gt -1>
-									href+="<i class='fa fa-download'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("导出") gt -1 || x['buttonName']?index_of("上传") gt -1>
-									href+="<i class='fa fa-upload'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("复制") gt -1>
-									href+="<i class='fa fa-copy'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("剪切") gt -1>
-									href+="<i class='fa fa-cut'></i>${x['buttonName']}</a>";
+								<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+								<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+									href+="${x['buttonName']}</a>]";
 								<#else>
-									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									<#if x['buttonName']?index_of("测试") gt -1>
+										href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
+										href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("导入") gt -1 || x['buttonName']?index_of("下载") gt -1>
+										href+="<i class='fa fa-download'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("导出") gt -1 || x['buttonName']?index_of("上传") gt -1>
+										href+="<i class='fa fa-upload'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("复制") gt -1>
+										href+="<i class='fa fa-copy'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("剪切") gt -1>
+										href+="<i class='fa fa-cut'></i>${x['buttonName']}</a>";
+									<#else>
+										href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									</#if>
 								</#if>
+								<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 								<#-- //update-begin--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 							</#if>
 						</#list>
@@ -383,10 +470,25 @@ function createDataGrid${config_id}(){
 			if(val.field != 'opt'&&val.field != 'ck'){
 				fields+=val.field+',';
 			}
-		}); 
-		window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields)
+		});
+        <#--//update-begin--Author:dangzhenghui  Date:20170429 for：TASK #1906 【online excel】Online excel 导出功能改进 -->
+        var id='&id=';
+        $.each($('#${config_id}List').datagrid('getSelections'), function(i, val){
+            id+=val.id+",";
+        });
+        window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields+id)
+        <#--//update-end--Author:dangzhenghui  Date:20170429 for：TASK #1906 【online excel】Online excel 导出功能改进 -->
 	}
-	
+	<#--update--begin--author:zhangjiaqiang Date:20170507 for:修订页面回车查询异常 -->
+	//回车查询
+	function EnterPress(e){
+		var e = e || window.event;
+		if(e.keyCode == 13){
+			${config_id}Listsearch();
+			return false;
+		}
+	}
+	<#--update--end--author:zhangjiaqiang Date:20170507 for:修订页面回车查询异常 -->
 	
 	//JS增强
 	${config_jsenhance}
@@ -394,7 +496,9 @@ function createDataGrid${config_id}(){
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>
 <div id="${config_id}Listtb" style="padding:3px; height: auto">
 <div name="searchColums">
-<form name="searchColumsForm" id="searchColumsForm">
+<#--update--begin--author:zhangjiaqiang Date:20170507 for:修订页面回车查询异常 -->
+<form name="searchColumsForm" id="searchColumsForm" onkeydown="EnterPress(event);">
+<#--update--end--author:zhangjiaqiang Date:20170507 for:修订页面回车查询异常 -->
 <#if config_querymode == "group">
 	<#list config_queryList  as x>
 		<#if x['field_isQuery']=="Y">

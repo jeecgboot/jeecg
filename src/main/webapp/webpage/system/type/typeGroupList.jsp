@@ -96,19 +96,20 @@ function typeGridTree_UpdateType() {
 </t:datagrid>
 <input type="hidden" id="typeGroupId" name="typeGroupId" value="">
 --%>
+
 <div id="main_typegroup_list" class="easyui-layout" fit="true">
     <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid" 
-        idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="createDate" onLoadSuccess="loadSuccess" queryMode="group">
+        idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="createDate" onLoadSuccess="loadSuccess" queryMode="group" btnCls="bootstrap btn btn-info btn-xs">
             <t:dgCol title="common.code" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="dict.name" field="typegroupname" width="100" query="true"></t:dgCol>
             <t:dgCol title="dict.code" field="typegroupcode" width="100" treefield="code" query="true"></t:dgCol>
             <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
             <t:dgDelOpt url="systemController.do?delTypeGroup&id={id}" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgDelOpt>
             <t:dgFunOpt funname="queryTypeValue(id,typegroupname)" title="common.type.view" urlclass="ace_button"  urlfont="fa-search"></t:dgFunOpt>
-            <t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="icon-add" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
+            <t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="fa fa-plus" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
             <%--<t:dgToolBar title="common.add.param" langArg="lang.dictionary.value" icon="icon-add" funname="typeGridTree_AddType"></t:dgToolBar>--%>
-            <t:dgToolBar title="common.edit" icon="icon-edit" url="systemController.do?aouTypeGroup" funname="update"></t:dgToolBar>
+            <t:dgToolBar title="common.edit" icon="fa fa-edit" url="systemController.do?aouTypeGroup" funname="update"></t:dgToolBar>
         </t:datagrid>
     </div>
 </div>

@@ -316,8 +316,14 @@ function createDataGrid${config_id}(){
 			if(val.field != 'opt'&&val.field != 'ck'){
 				fields+=val.field+',';
 			}
-		}); 
-		window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields)
+		});
+        //update-begin--Author:dangzhenghui  Date:20170429 for：TASK #1906 【online excel】Online excel 导出功能改进
+        var id='&id=';
+        $.each($('#${config_id}List').datagrid('getSelections'), function(i, val){
+            id+=val.id+",";
+        });
+        window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields+id)
+        //update-end--Author:dangzhenghui  Date:20170429 for：TASK #1906 【online excel】Online excel 导出功能改进
 	}
 	
 	

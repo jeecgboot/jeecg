@@ -13,7 +13,7 @@
 					value="${data['${tableName}']['${po.field_name}']?if_exists?html}" 
 					<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 					<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != "Y">ignore="checked"<#else>ignore="ignore"</#if>
 					<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					<#if po.field_valid_type?if_exists?html != ''>
 						datatype="${po.field_valid_type?if_exists?html}" 
@@ -42,7 +42,7 @@
 						${po.extend_json?if_exists}
 						value="${data['${tableName}']['${po.field_name}']?if_exists?html}" 
 						<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != "Y">ignore="checked"<#else>ignore="ignore"</#if>
 					<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						<#if po.field_valid_type?if_exists?html != ''>
@@ -66,9 +66,6 @@
 										${po.extend_json?if_exists} 
 										name="${po.field_name}" 
 										type="radio" 
-										<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-										<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-										<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 										<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 										<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true</#if> 
@@ -94,9 +91,6 @@
 										${po.extend_json?if_exists} 
 										name="${po.field_name}" 
 										type="checkbox" 
-										<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-										<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-										<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 										<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
 										<#list checkboxlist as x >
@@ -122,7 +116,7 @@
 									onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if><#if po.is_null != 'Y'>datatype="*"
 								</#if> 
 								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-							<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+							<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != "Y">ignore="checked"<#else>ignore="ignore"</#if>
 							<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 								class="ui-input-select fld"
 								>
@@ -151,7 +145,7 @@
 							${po.extend_json?if_exists}
 							value="<#if data['${tableName}']['${po.field_name}']??>${data['${tableName}']['${po.field_name}']?if_exists?string("yyyy-MM-dd")}</#if>"
 							<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-							<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+							<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != "Y">ignore="checked"<#else>ignore="ignore"</#if>
 							<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 							onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 							<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
@@ -178,7 +172,7 @@
 						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 						<#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+					<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != "Y">ignore="checked"<#else>ignore="ignore"</#if>
 					<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						<#if po.field_valid_type?if_exists?html != ''>
 							datatype="${po.field_valid_type?if_exists?html}" 

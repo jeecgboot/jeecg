@@ -1,12 +1,16 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
 
+import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.SysThemesUtil;
+import org.jeecgframework.tag.core.JeecgTag;
 
 /**
  * 
@@ -16,7 +20,7 @@ import org.jeecgframework.core.util.MutiLangUtil;
  * @date： 日期：2012-12-7 时间：上午10:17:45
  * @version 1.0
  */
-public class UploadTag extends TagSupport {
+public class UploadTag extends JeecgTag {
 	private static final long serialVersionUID = 1L;
 	protected String id;// ID
 	protected String uploader;//url
@@ -33,8 +37,16 @@ public class UploadTag extends TagSupport {
 	protected boolean view=false;//生成查看删除链接
 
 	protected String formId;//参数名称
+
+	private boolean outhtml = true;
 	
-	
+	public boolean isOuthtml() {
+		return outhtml;
+	}
+	public void setOuthtml(boolean outhtml) {
+		this.outhtml = outhtml;
+	}
+
 	public String getFormId() {
 		return formId;
 	}
@@ -82,7 +94,16 @@ public class UploadTag extends TagSupport {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@SuppressWarnings("unchecked")
 	public int doStartTag() throws JspTagException {
+
+		List<String> idList  = (List<String>) pageContext.getRequest().getAttribute("nameList");
+		if(idList == null || idList.isEmpty()){
+			idList = new ArrayList<String>();
+		}
+		idList.add(id);
+		pageContext.getRequest().setAttribute("nameList", idList);
+
 		return EVAL_PAGE;
 	}
 	public int doEndTag() throws JspTagException {
@@ -102,19 +123,31 @@ public class UploadTag extends TagSupport {
 		}
 		return EVAL_PAGE;
 	}
+	@SuppressWarnings("unchecked")
 	public StringBuffer end() {
-		StringBuffer sb = new StringBuffer();
+
+		StringBuffer sb = this.getTagCache();
+		if(sb != null){
+			return sb;
+		}
+		sb = new StringBuffer();
+
 		if("pic".equals(extend))
 		{
-			extend="*.jpg;*,jpeg;*.png;*.gif;*.bmp;*.ico;*.tif";
+			extend="*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.ico;*.tif";
 		}
 		if(extend.equals("office"))
 		{
 			extend="*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm";
 		}
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+
+		if(outhtml){
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+		}
+
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/Map.js\"></script>");
+
 		sb.append("<script type=\"text/javascript\">"
 				+"var flag = false;"
 				+"var fileitem=\"\";"
@@ -140,11 +173,22 @@ public class UploadTag extends TagSupport {
 					String[] paramnames=formData.split(",");				
 					for (int i = 0; i < paramnames.length; i++) {
 						String paramname=paramnames[i];
-						sb.append("var "+paramname+"=$(\'#"+paramname+"\').val();");
+
+						String fieldName = paramname;
+						if(paramname.indexOf("_")> -1 ){
+							fieldName = paramname.substring(0, paramname.indexOf("_"));
+						}
+						sb.append("var "+fieldName+"=$(\'#"+paramname+"\').val();");
+
 					}				 
 			        sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", {");
 			        for (int i = 0; i < paramnames.length; i++) {
 						String paramname=paramnames[i];
+
+						if(paramname.indexOf("_")> -1 ){
+							paramname = paramname.substring(0, paramname.indexOf("_"));
+						}
+
 						if (i==paramnames.length-1) {
 							sb.append("'"+paramname+"':"+paramname+"");	
 						}else{
@@ -176,6 +220,14 @@ public class UploadTag extends TagSupport {
 				sb.append("var win = frameElement.api.opener;"  	  
 	            +"win.reloadTable();"
 	            +"win.tip(serverMsg);"
+
+	            +"if(subDlgIndex && $('#infoTable-loading')){"
+				+"$('#infoTable-loading').hide();"
+
+				+"if(!subDlgIndex.closed)subDlgIndex.close();"
+
+				+"}"
+
 	            +"frameElement.api.close();");
 				}
 				else
@@ -232,22 +284,36 @@ public class UploadTag extends TagSupport {
 				//+"tip('<span>文件上传成功:'+totalBytesUploaded/1024 + ' KB 已上传 ,总数' + totalBytesTotal/1024 + ' KB.</span>');"  	  	             
 				+"}"
 	   			+"});"
-				+"});"
-				+"function upload() {"
-				+"	$(\'#"+id+"\').uploadify('upload', '*');"
-				+"		return flag;"
-				+"}"
-				+"function cancel() {"
-				+"$(\'#"+id+"\').uploadify('cancel', '*');"				
-				+"}"				
-				+"</script>");	
+				+"});");
+
+		       if(outhtml){
+		    	   List<String> idList  = (List<String>) pageContext.getRequest().getAttribute("nameList");
+		    	   sb.append("function upload() {");
+		    	   for (int i = 0; i < idList.size(); i++) {
+		    		   String tempId = idList.get(i);
+		    		   sb.append("	$(\'#"+tempId+"\').uploadify('upload', '*');");
+					
+		    	   }
+		    	   sb.append("return flag;");
+		   			sb.append("}");
+		   			sb.append("function cancel() {");
+		   		 for (int i = 0; i < idList.size(); i++) {
+		    		   String tempId = idList.get(i);
+		   			sb.append("$(\'#"+tempId+"\').uploadify('cancel', '*');");	
+		   		 }
+		   			sb.append("}");		
+		       }
+				sb.append("</script>");	
+
 		       sb.append("<span id=\""+id+"span\"><input type=\"file\" name=\""+name+"\" id=\""+id+"\" /></span>");
 		       if(view)
 		       {
 		       sb.append("<span id=\"viewmsg\"></span>");
 		       sb.append("<input type=\"hidden\" name=\"fileKey\" id=\"fileKey\" />");
 		       }
-		        
+
+				this.putTagCache(sb);
+
 		return sb;
 	}
 	
@@ -268,6 +334,27 @@ public class UploadTag extends TagSupport {
 	public void setExtend(String extend) {
 		this.extend = extend;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UploadTag [id=").append(id).append(", uploader=")
+				.append(uploader).append(", name=").append(name)
+				.append(", formData=").append(formData).append(", extend=")
+				.append(extend).append(", buttonText=").append(buttonText)
+				.append(", multi=").append(multi).append(", queueID=")
+				.append(queueID).append(", dialog=").append(dialog)
+				.append(", callback=").append(callback).append(", auto=")
+				.append(auto).append(", onUploadSuccess=")
+				.append(onUploadSuccess).append(", view=").append(view)
+				.append(", formId=").append(formId).append(", outhtml=")
+				.append(outhtml).append(", fileSizeLimit=").append(fileSizeLimit)
+				.append(",sysTheme=").append(SysThemesUtil.getSysTheme(ContextHolderUtils.getRequest()).getStyle())
+				.append(",brower_type=").append(ContextHolderUtils.getSession().getAttribute("brower_type"))
+				.append("]");
+		return builder.toString();
+	}
+
 
 	 
 	

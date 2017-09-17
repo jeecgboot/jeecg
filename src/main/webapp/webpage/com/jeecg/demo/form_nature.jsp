@@ -4,6 +4,7 @@
 <html>
 <head>
 <title>form_nature</title>
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"/>
 <t:base type="jquery,easyui,tools"></t:base>
 
 <!-- ztree -->
@@ -18,12 +19,16 @@
 <!-- 自动补全 -->
 <link rel="stylesheet" href="plug-in/jquery/jquery-autocomplete/jquery.autocomplete.css" type="text/css"></link>
 <script type="text/javascript" src="plug-in/jquery/jquery-autocomplete/jquery.autocomplete.min.js"></script>
+
+<!-- 联动 -->
+<script src="plug-in/jquery/jquery.regionselect.js" type="text/javascript"></script>
 </head>
 <body>
 <t:formvalid layout="div" formid="dd" dialog="" >
 
- <legend>文件上传</legend>
+<!-- update-begin--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
  <fieldset>
+ <legend>文件上传</legend>
 	<div id="uploader" class="wu-example">
 	    <!--用来存放文件信息-->
 	    <div id="thelist" class="uploader-list"></div>
@@ -33,8 +38,8 @@
 	</div>
  </fieldset>
  
- <legend>autocomplete</legend>
  <fieldset>
+ <legend>autocomplete</legend>
   <table>
 	<tr>
 		<td style="width:90px;text-align: right;">用户名自动补全:</td>
@@ -45,30 +50,27 @@
  </table>
  </fieldset>
   
- <legend>联动下拉省市区</legend>
  <fieldset>
- 	<table>
-	<tr>
-		<td style="width:90px;text-align: right;">联动下拉省市区:</td>
-		<td>
-		<script src="plug-in/jquery/jquery.regionselect.js" type="text/javascript"></script>
-			 <input type="text" id="province" style="width:32%;" value=""/> 
-			 <input type="text" id="city" style="width:32%;" value=""/> 
-			<input type="text" id="area" style="width:32%;" value=""/> 
-		</td>
-	</tr>
- 	</table>
+ <legend>联动下拉省市区</legend>
+	<!-- update-begin_author:taoYan date:20170803 for:修复ie下样式变乱   -->
+ 	<div style="width:80%;margin:5px 0 0 10px;">
+	  <input type="text" id="province" style="width:32%;" value=""/> 
+	  <input type="text" id="city" style="width:32%;" value=""/> 
+	  <input type="text" id="area" style="width:32%;" value=""/> 
+ 	</div>
  </fieldset>
  
- <legend>ztree</legend>
  <fieldset>
+ <legend>ztree</legend>
+ 	<div style="clear:both"></div>
  	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
  </fieldset>
+ <!-- update-end-author:taoYan date:20170803 for:修复ie下样式变乱  -->
  
-  <legend>ueditor</legend>
  <fieldset>
+ <legend>ueditor</legend>
  	 	<table>
 	<tr>
 		<!-- <td align="right"><label class="Validform_label">demo:</label> -->
@@ -85,24 +87,10 @@
  	</table>
  </fieldset>
 </t:formvalid>
+<!-- update-end--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
 
-
-</body>
-</html>
+<!-- update-begin--Author:taoYan  Date:20170803 for：代码格式修改 -->
 <script type="text/javascript">
-var setting = {
-		check: {
-			enable: true
-		},
-		view: {
-			dblClickExpand: true
-		},
-		data: {
-			simpleData: {
-				enable: true
-			}
-		}
-	};
 function printobj(obj){
 	var str='[';
 	for(var a in obj){
@@ -116,7 +104,20 @@ function getTremValueuserName() {
 }
 $(function() {
 	//ztree
-	var zNodes=eval('${regions}');
+	var setting = {
+		check: {
+			enable: true
+		},
+		view: {
+			dblClickExpand: true
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		}
+	};
+	var zNodes=jQuery.parseJSON('${regions}');
 	$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	
 	//省市区下拉
@@ -203,8 +204,11 @@ $(function() {
         $("#userNameAuto").val(row['userName']);
     });
 	/*-------------------------------------------自动补全----------------------------------------------*/
-	
+
+	$("div.webuploader-container").css("width","78px");
+
 });
-
-
 </script>
+</body>
+</html>
+<!-- update-end--Author:taoYan  Date:20170803 for：代码格式修改 -->

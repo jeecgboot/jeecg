@@ -40,7 +40,9 @@ public class ${entityName}Entity implements java.io.Serializable {
 	<#list columns as po>
 	/**${po.content}*/
 	<#if po.isShow != 'N'>
-	@Excel(name="${po.content}"<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if>)
+	<#--update-start--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
+    @Excel(name="${po.content}",width=15<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if><#if po.dictTable?if_exists?html!="">,dictTable ="${po.dictTable}",dicCode ="${po.dictField}",dicText ="${po.dictText}"</#if><#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!="">,dicCode="${po.dictField}"</#if>)
+	<#--update-end--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
 	</#if>
 	<#--update-start--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]-->
 	private <#if po.type=='java.sql.Blob'>byte[]<#else>${po.type}</#if> ${po.fieldName};

@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿﻿$(function() {
 	$("#nav").hide();
 	//easy ui树加载会在文档加载完执行,所以初始化菜单要延迟一秒 by jueyue
 
@@ -109,7 +109,14 @@ function openThisNoed(node) {
 		var fun = $(node.target).find('a').attr("onclick");
 		var params = fun.substring(7, fun.length - 1).replaceAll("'", "")
 				.split(",");
-		addTab(params[0], params[1], params[2]);
+
+		if(params.length > 3){
+			params = fun.substring(14, fun.length - 1).replaceAll("'", "").split(",");
+			addTab4MenuId(params[0], params[1], params[2], params[3]);
+		}else{
+			addTab(params[0], params[1], params[2]);
+		}
+
 	}
 	// end author：屈然博 2013-7-12 for：叶子节点扩大点击范围
 	
@@ -169,6 +176,89 @@ function addTab(subtitle, url, icon) {
 	tabClose();
 
 }
+//add-begin--Author:yugwu  Date:20170802 for:TASK #2240 【ie兼容问题】IE下，列表加载很慢 IE特殊处理，效率与效果两害相权取其轻----
+var isIE8ShortCut = false;
+var userAgent = navigator.userAgent;
+if (userAgent.indexOf("Opera") <= -1 && userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1) {
+	var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+    reIE.test(userAgent);
+    var fIEVersion = parseFloat(RegExp["$1"]);
+    if(fIEVersion < 9){
+    	isIE8ShortCut = true;
+    }
+}
+//add-end--Author:yugwu  Date:20170802 for:TASK #2240 【ie兼容问题】IE下，列表加载很慢 IE特殊处理，效率与效果两害相权取其轻----
+//add-begin--Author:yugwu  Date:20170629 for:[TASK #2185] 【bug】shortcut及经典下同名菜单冲突，只能点开一个----
+function addTab4MenuId(subtitle, url, icon, funmenuid) {
+	var progress = $("div.messager-progress");
+	if(progress.length){return;}
+	rowid="";
+
+//	$.messager.progress({
+//		text : loading,
+//		interval : 200
+//	});
+
+	showloading();
+
+	var oldTabIndex;
+	var hastab = false;
+	var allTabs = $('#maintabs').tabs('tabs');
+	for(var tempi=0; tempi < allTabs.length; tempi++){
+		var singleTab = allTabs[tempi];
+		var isequal = false;
+		if(funmenuid){
+			isequal = (funmenuid == singleTab.panel('options').menuid && subtitle == singleTab.panel('options').title);
+		}else{
+			isequal = (subtitle == singleTab.panel('options').title);
+		}
+		if(isequal){
+			oldTabIndex = tempi;
+			hastab = true;
+			break;
+		}
+	}
+	if (!hastab) {
+		//判断是否进行iframe方式打开tab，默认为href方式
+		if(url.indexOf('isHref') != -1){
+			$('#maintabs').tabs('add', {
+				menuid : funmenuid,
+				title : subtitle,
+				href : url,
+				closable : true,
+				icon : icon
+			});		
+		}else{
+
+			var iframeContent = '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>';
+
+			if(!isIE8ShortCut){
+			}else{
+				iframeContent = '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>';
+			}
+
+			$('#maintabs').tabs('add', {
+				menuid : funmenuid,
+				title : subtitle,
+				content : iframeContent,
+				closable : true,
+				icon : icon
+			});	
+
+		}
+
+	} else {
+		$('#maintabs').tabs('select', oldTabIndex);
+
+//		$.messager.progress('close');
+
+	}
+
+	window.setTimeout(hiddenloading,3000);
+
+	tabClose();
+}
+//add-end--Author:yugwu  Date:20170629 for:[TASK #2185] 【bug】shortcut及经典下同名菜单冲突，只能点开一个----
 var title_now;
 function addLeftOneTab(subtitle, url, icon) {
 	rowid="";
@@ -221,6 +311,9 @@ function tabClose() {
 	$(".tabs-inner").dblclick(function() {
 		var subtitle = $(this).children(".tabs-closable").text();
 		$('#tabs').tabs('close', subtitle);
+
+		hiddenloading();
+
 	})
 	/* 为选项卡绑定右键 */
 	$(".tabs-inner").bind('contextmenu', function(e) {
@@ -233,6 +326,9 @@ function tabClose() {
 
 		$('#mm').data("currtab", subtitle);
 		// $('#maintabs').tabs('select',subtitle);
+
+		hiddenloading();
+
 		return false;
 	});
 }
@@ -315,3 +411,11 @@ $.parser.onComplete = function() {/* 页面所有easyui组件渲染成功后，�
 		$.messager.progress('close');
 	}, 200);
 };
+
+function hiddenloading(){
+	$("#panelloadingDiv").hide();
+}
+
+function showloading(){
+	$("#panelloadingDiv").show();
+}

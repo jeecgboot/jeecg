@@ -139,7 +139,7 @@ public class CategoryController extends BaseController {
 			TSCategoryEntity t = categoryService.get(TSCategoryEntity.class,
 					category.getId());
 
-			category.getParent().setCode("".equals(t.getParent().getCode())?null:t.getParent().getCode());
+			category.getParent().setCode(t.getParent()==null||"".equals(t.getParent().getCode())? null :t.getParent().getCode());
 
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(category, t);

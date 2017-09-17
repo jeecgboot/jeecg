@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿﻿﻿/**
  * jQuery EasyUI 1.3.2
  * 
  * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
@@ -2146,12 +2146,14 @@ _1b2.find(">div.panel-header>div.panel-tool .panel-tool-a").appendTo(opts.tools)
 }
 _1a2(_1b2.children("div.panel-header"));
 if(opts.title&&!opts.noheader){
-var _1b3=$("<div class=\"panel-header\"><div class=\"panel-title\">"+opts.title+"</div></div>").prependTo(_1b2);
+
+var _1b3=$("<div class=\"panel-header\"><div class=\"panel-title messager-title\">"+opts.title+"</div></div>").prependTo(_1b2);
 if(opts.iconCls){
 _1b3.find(".panel-title").addClass("panel-with-icon");
 $("<div class=\"panel-icon\"></div>").addClass(opts.iconCls).appendTo(_1b3);
 }
-var tool=$("<div class=\"panel-tool\"></div>").appendTo(_1b3);
+var tool=$("<div class=\"panel-tool messager-tool\"></div>").appendTo(_1b3);
+
 tool.bind("click",function(e){
 e.stopPropagation();
 });
@@ -2196,7 +2198,7 @@ return false;
 });
 }
 if(opts.closable){
-$("<a class=\"panel-tool-close\" href=\"javascript:void(0)\"></a>").appendTo(tool).bind("click",function(){
+$("<a class=\"panel-tool-close messager-close\" href=\"javascript:void(0)\"></a>").appendTo(tool).bind("click",function(){
 _1b4(_1b1);
 return false;
 });
@@ -2642,10 +2644,12 @@ _1f6(_201);
 };
 function _206(_207){
 var _208=$.data(_207,"window");
-var win=$(_207).panel($.extend({},_208.options,{border:false,doSize:true,closed:true,cls:"window",headerCls:"window-header",bodyCls:"window-body "+(_208.options.noheader?"window-body-noheader":""),onBeforeDestroy:function(){
+
+var win=$(_207).panel($.extend({},_208.options,{border:false,doSize:true,closed:true,cls:"window",headerCls:"window-header messager-header",bodyCls:"window-body "+(_208.options.noheader?"window-body-noheader":""),onBeforeDestroy:function(){
 if(_208.options.onBeforeDestroy.call(_207)==false){
 return false;
 }
+
 if(_208.shadow){
 _208.shadow.remove();
 }
@@ -3063,7 +3067,10 @@ win.append(_239);
 if(_23a){
 var tb=$("<div class=\"messager-button\"></div>").appendTo(win);
 for(var _23b in _23a){
+
 $("<a></a>").attr("href","javascript:void(0)").text(_23b).css("margin-left",10).bind("click",eval(_23a[_23b])).appendTo(tb).linkbutton();
+	//$("<a></a>").text(_23b).css("margin-left",10).bind("click",eval(_23a[_23b])).appendTo(tb);
+
 }
 }
 win.window({title:_238,noheader:(_238?false:true),width:300,height:"auto",modal:true,collapsible:false,minimizable:false,maximizable:false,resizable:false,onClose:function(){
@@ -6549,7 +6556,9 @@ function _467(_468){
 var opts=$.data(_468,"datagrid").options;
 var dc=$.data(_468,"datagrid").dc;
 var wrap=$.data(_468,"datagrid").panel;
-var _469=wrap.width();
+
+var _469=wrap.width()+5;
+
 var _46a=wrap.height();
 var view=dc.view;
 var _46b=dc.view1;
@@ -8285,7 +8294,10 @@ return;
 }
 var _5f5=["<table class=\"datagrid-btable\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tbody>"];
 for(var i=0;i<rows.length;i++){
-var cls=(i%2&&opts.striped)?"class=\"datagrid-row datagrid-row-alt\"":"class=\"datagrid-row\"";
+
+//var cls=(i%2&&opts.striped)?"class=\"datagrid-row datagrid-row-alt\"":"class=\"datagrid-row\"";
+var cls="class=\"datagrid-row\"";
+
 var _5f6=opts.rowStyler?opts.rowStyler.call(_5f0,i,rows[i]):"";
 var _5f7=_5f6?"style=\""+_5f6+"\"":"";
 var _5f8=_5f3.rowIdPrefix+"-"+(_5f2?1:2)+"-"+i;
@@ -11377,3 +11389,30 @@ return _85f;
 }};
 })(jQuery);
 
+$.extend($.fn.datagrid.methods, { 
+     fixRownumber : function (jq) { 
+         return jq.each(function () { 
+             var panel = $(this).datagrid("getPanel"); 
+             //获取最后一行的number容器,并拷贝一份 
+             var clone = $(".datagrid-cell-rownumber", panel).last().clone(); 
+             clone.css({ 
+                 "position" : "absolute", 
+                 left : -1000 
+             }).appendTo("body"); 
+             var width = clone.width("auto").width(); 
+             //默认宽度是25,大于25的时候进行fix 
+             if (width > 25) { 
+                 //多加5个像素,保持一点边距 
+                 $(".datagrid-header-rownumber,.datagrid-cell-rownumber", panel).width(width + 5); 
+                 //修改了宽度之后,需要对容器进行重新计算,所以调用resize 
+                 $(this).datagrid("resize"); 
+                 //一些清理工作 
+                 clone.remove(); 
+                 clone = null; 
+             } else { 
+                 //还原成默认状态 
+                 $(".datagrid-header-rownumber,.datagrid-cell-rownumber", panel).removeAttr("style"); 
+             } 
+         }); 
+     } 
+ }); 

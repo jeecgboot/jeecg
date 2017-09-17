@@ -20,11 +20,13 @@ import javax.persistence.Table;
 public class TSUser extends TSBaseUser implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private String signatureFile;// 签名文件
-	@Excel(name = "手机")
+
+	@Excel(name = "手机" ,width = 20)
 	private String mobilePhone;// 手机
-	@Excel(name = "办公电话")
+	@Excel(name = "办公电话",width = 20)
 	private String officePhone;// 办公电话
-	@Excel(name = "邮箱")
+	@Excel(name = "邮箱",width = 25)
+
 	private String email;// 邮箱
 	/**创建时间*/
 	private java.util.Date createDate;
@@ -38,6 +40,18 @@ public class TSUser extends TSBaseUser implements java.io.Serializable {
 	private java.lang.String updateBy;
 	/**修改人名称*/
 	private java.lang.String updateName;
+	/**头像*/
+	private java.lang.String portrait;
+	/**开发权限标志*/
+	private java.lang.String devFlag;
+	@Column(name = "dev_flag", length = 2)
+	public String getDevFlag() {
+		return devFlag;
+	}
+
+	public void setDevFlag(String devFlag) {
+		this.devFlag = devFlag;
+	}
 	@Column(name = "signatureFile", length = 100)
 	public String getSignatureFile() {
 		return this.signatureFile;
@@ -168,5 +182,13 @@ public class TSUser extends TSBaseUser implements java.io.Serializable {
 	 */
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;
+	}
+	@Column(name = "portrait", length = 100)
+	public String getPortrait() {
+		return portrait;
+	}
+
+	public void setPortrait(String portrait) {
+		this.portrait = portrait;
 	}
 }

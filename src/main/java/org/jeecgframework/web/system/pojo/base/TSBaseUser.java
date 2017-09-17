@@ -17,12 +17,14 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@Excel(name = "用户名")
+
+	@Excel(name = "用户名",width = 15)
 	private String userName;// 用户名
-	@Excel(name = "真实姓名")
+	@Excel(name = "真实姓名",width = 15)
 	private String realName;// 真实姓名
 	private String browser;// 用户使用浏览器类型
-	@Excel(name = "角色编码(多个角色编码用逗号分隔，非必填)")
+	@Excel(name = "角色编码(多个角色编码用逗号分隔，非必填)",width =50)
+
 	private String userKey;// 用户验证唯一标示
 	private String password;//用户密码
 	private Short activitiSync;//是否同步工作流引擎
@@ -33,7 +35,7 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	
 	private byte[] signature;// 签名文件
 
-	@Excel(name = "组织机构编码(多个组织机构编码用逗号分隔，非必填)")
+	@Excel(name = "组织机构编码(多个组织机构编码用逗号分隔，非必填)",width = 50)
 	private String departid;
 
 	public void setDepartid(String departid){

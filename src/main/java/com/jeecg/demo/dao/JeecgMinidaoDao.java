@@ -3,13 +3,12 @@ package com.jeecg.demo.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecgframework.minidao.annotation.Arguments;
-import org.jeecgframework.minidao.annotation.MiniDao;
-import org.jeecgframework.minidao.annotation.ResultType;
-import org.jeecgframework.minidao.annotation.Sql;
+import com.jeecg.chat.entity.ChatMessageHistory;
+import org.jeecgframework.minidao.annotation.*;
 
 import com.jeecg.demo.entity.JeecgDemoEntity;
 import com.jeecg.demo.entity.JeecgLogReport;
+import org.jeecgframework.minidao.pojo.MiniDaoPage;
 
 /**
  * Minidao例子
@@ -24,13 +23,11 @@ public interface JeecgMinidaoDao {
 	
  	@Sql("select ID,NAME,PID from t_s_region order by name_en")
     List<Map<String, String>> getAllRegions();
- 	
- 	
- 	@Arguments({"jeecgDemo", "page", "rows"})
-	@ResultType(JeecgDemoEntity.class)
-	public List<JeecgDemoEntity> getAllEntities(JeecgDemoEntity jeecgDemo, int page, int rows);
 
- 	@Sql("SELECT count(*) FROM jeecg_demo")
+ 	@ResultType(JeecgDemoEntity.class)
+	public MiniDaoPage<JeecgDemoEntity> getAllEntities(@Param("jeecgDemo") JeecgDemoEntity jeecgDemo, @Param("page")  int page, @Param("rows") int rows,@Param("authSql") String authSql);
+
+	@Sql("SELECT count(*) FROM jeecg_demo")
 	Integer getCount();
 
 	@Sql("SELECT SUM(salary) FROM jeecg_demo")

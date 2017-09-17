@@ -10,7 +10,9 @@
 <t:formvalid formid="formobj" layout="div" dialog="true">
 	<fieldset class="step">
 	
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.username"/> --%>操作人:${tsLog.TSUser.userName } </label>
+	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.username"/> --%>操作ID:${tsLog.username } </label>
+	 </div>
+	 <div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.realname"/> --%>操作人:${tsLog.realname } </label>
 	 </div>
 	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.logtype"/> --%>日志类型: </label>
 	   <!-- 以后再统一由数据字典维护  fangwenrong-->
@@ -22,8 +24,8 @@
 	   <c:if test="${tsLog.operatetype==6}"><t:mutiLang langKey="common.upload"/></c:if>
 	   <c:if test="${tsLog.operatetype==7}"><t:mutiLang langKey="common.other"/></c:if>
 	</div>
-	<div class="form"><label class="form"> <t:mutiLang langKey="log.content"/>: </label> ${tsLog.logcontent }</div>
-	<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.loglevel"/> --%>日志等级: </label>
+		<div class="form"><label class="form"> <t:mutiLang langKey="log.content"/>: </label><textarea style="width: 100% ;background-color:#f4f4f4" rows="6" >${tsLog.logcontent }</textarea> </div>
+		<div class="form"><label class="form"> <%-- <t:mutiLang langKey="common.loglevel"/> --%>日志等级: </label>
 	   <!-- 以后再统一由数据字典维护  fangwenrong-->
 	   <c:if test="${tsLog.loglevel==1}">INFO</c:if>
 	   <c:if test="${tsLog.loglevel==2}">WARRING</c:if>

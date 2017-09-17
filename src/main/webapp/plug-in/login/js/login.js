@@ -10,6 +10,9 @@ $(document).ready(function() {
 
 	}else{
 	}
+
+	$.cookie("BROWSER_TYPE",navigator.appName);
+
 	
 	$("#userName").attr("nullmsg",pleaseinutusername);
 	$("#userName").attr("title",username);
@@ -83,12 +86,14 @@ $('#forgetpass').click(function(e) {
 $('#but_login').click(function(e) {
 	submit();
 });
-//回车登录
-$(document).keydown(function(e){
-	if(e.keyCode == 13) {
-		submit();
-	}
-});
+
+////回车登录
+//$(document).keydown(function(e){
+//	if(e.keyCode == 13) {
+//		submit();
+//	}
+//});
+
 //表单提交
 function submit()
 {
@@ -318,6 +323,10 @@ function unloading() {
 	$('#preloader').fadeOut('fast', function() {
 		$('#overlay').fadeOut();
 	});
+
+	$("#overlay").remove();
+	$("#preloader").remove();
+
 }
 // 表单晃动
 function jrumble() {

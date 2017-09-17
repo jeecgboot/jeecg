@@ -1,7 +1,7 @@
 JEECG 微云快速开发平台
 ===============
 
-当前最新版本： 3.7（发布日期：20170420）
+当前最新版本： 3.7.1（发布日期：20170918）
 
 前言：
 -----------------------------------
@@ -80,6 +80,7 @@ JEECG 功能特点
 技术文档
 -----------------------------------
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
+* [JEECG maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
 * [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
 * [JEECG 视频教程](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)

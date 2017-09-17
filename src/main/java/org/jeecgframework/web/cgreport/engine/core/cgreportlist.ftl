@@ -98,10 +98,10 @@ $(function(){$('#${config_id}List').datagrid(
 <div name="searchColums">
 	<#list config_queryList  as x>
 		<span style="display:-moz-inline-box;display:inline-block;">
-		<span style="display:-moz-inline-box;display:inline-block;width: 100px;text-align:right;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" title="${x['field_txt']}">${x['field_txt']}：</span>
+		<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 100px;text-align:right;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" title="${x['field_txt']}">${x['field_txt']}：</span>
 		<#if x['search_mode']=="group">
 			<input type="text" name="${x['field_name']}_begin"  style="width: 94px"  <#if x['field_type']=="Date">class="easyui-datebox"</#if> />
-			<span style="display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;">~</span>
+			<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;">~</span>
 			<input type="text" name="${x['field_name']}_end"  style="width: 94px" <#if x['field_type']=="Date">class="easyui-datebox"</#if> />
 		</#if>
 		<#if x['search_mode']=="single">

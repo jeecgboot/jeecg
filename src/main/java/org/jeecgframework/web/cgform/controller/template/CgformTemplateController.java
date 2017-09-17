@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -25,11 +26,13 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.FileUtils;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.p3.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -328,7 +331,7 @@ public class CgformTemplateController extends BaseController {
 		List<CgformTemplateEntity> cgformTemplates = this.cgformTemplateService.getListByCriteriaQuery(cq, false);
 		modelMap.put(NormalExcelConstants.FILE_NAME,"自定义模板");
 		modelMap.put(NormalExcelConstants.CLASS,CgformTemplateEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("自定义模板列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("自定义模板列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 			"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST, cgformTemplates);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -346,7 +349,7 @@ public class CgformTemplateController extends BaseController {
 		if(StringUtils.isNotBlank(id)) {
 			CgformTemplateEntity entity = cgformTemplateService.getEntity(CgformTemplateEntity.class, id);
 			if (entity != null && entity.getTemplateCode() != null) {
-				File dirFile=new File(getUploadBasePath(request)+"/"+entity.getTemplateCode());
+				File dirFile=new File(getUploadBasePath(request)+File.separator+entity.getTemplateCode());
 				if(dirFile.exists()&&dirFile.isDirectory()){
 					flag=true;
 				}
@@ -442,7 +445,7 @@ public class CgformTemplateController extends BaseController {
 			tempDir.mkdirs();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			MultipartFile file = entity.getValue();
-			picTempFile=new File(tempDir.getAbsolutePath(),"/index_"+request.getSession().getId()+"."+FileUtils.getExtend(file.getOriginalFilename()));
+			picTempFile=new File(tempDir.getAbsolutePath(),File.separator+"index_"+request.getSession().getId()+"."+FileUtils.getExtend(file.getOriginalFilename()));
 			try{
 				if(picTempFile.exists())
 					org.apache.commons.io.FileUtils.forceDelete(picTempFile);
@@ -477,7 +480,7 @@ public class CgformTemplateController extends BaseController {
 			tempDir.mkdirs();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			MultipartFile file = entity.getValue();
-			picTempFile=new File(tempDir.getAbsolutePath(),"/zip_"+request.getSession().getId()+"."+ FileUtils.getExtend(file.getOriginalFilename()));
+			picTempFile=new File(tempDir.getAbsolutePath(),File.separator+"zip_"+request.getSession().getId()+"."+ FileUtils.getExtend(file.getOriginalFilename()));
 			try{
 				if(picTempFile.exists())
 					org.apache.commons.io.FileUtils.forceDelete(picTempFile);
@@ -506,17 +509,19 @@ public class CgformTemplateController extends BaseController {
 		String defaultPath="default.jpg";
 		String defaultCode="default/images/";
 		//无图片情况
-		if(path==null){
+
+		if(oConvertUtils.isEmpty(path)){
 			path=defaultPath;
 			code=defaultCode;
 		}else{
 			//临时图片
-			if(code==null){
+			if(oConvertUtils.isEmpty(code)){
 				code="temp/";
 			}else{
 				code+="/images/";
 			}
 		}
+
 		FileInputStream fis = null;
 		OutputStream out = null;
 		response.setContentType("image/" + FileUtils.getExtend(path));
@@ -530,16 +535,19 @@ public class CgformTemplateController extends BaseController {
 			byte[] b = new byte[fis.available()];
 			fis.read(b);
 			out.write(b);
-			out.flush();
+
+			//out.flush();
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.toString());
+//			e.printStackTrace();
 		} finally {
 			if (fis != null) {
 				try {
 					fis.close();
 					out.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.info(e.toString());
 				}
 			}
 		}
@@ -625,7 +633,14 @@ public class CgformTemplateController extends BaseController {
 	//下载文件
 	private  void downLoadFile(InputStream inputStream,String fileName,long size,HttpServletResponse response){
 		try{
-			fileName=new String(fileName.getBytes("utf-8"),"iso-8859-1");
+
+			String userAgent =ContextHolderUtils.getRequest().getHeader("user-agent").toLowerCase();
+			if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+			}else {  
+				fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1");
+			} 
+
 		}catch (Exception e){
 			e.printStackTrace();
 		}

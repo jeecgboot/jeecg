@@ -4,14 +4,14 @@
     eclipse + maven + jdk7 + tomcat7 + mysql
 	
 2. 手工执行初始化SQL脚本
-    docs/db/jeecg-3.7-mysql-20170420.sql
+    docs/db/jeecg-init-mysql.sql
 	注意： 必须手工执行doc\db下的数据库脚本
 	
 3. 开发环境搭建入门
    http://blog.csdn.net/zhangdaiscott/article/details/50915206
    
 4. 技术交流  
-   QQ交流群： ③289782002、②106838471(满)、①106259349(满)、④176031980(满)
+   QQ交流群： ⑤293658367、③289782002(满)、②106838471(满)、①106259349(满)、④176031980(满)
    官方论坛： http://www.jeecg.org 
    官方网站： http://www.guojusoft.com
    官方博客： http://blog.csdn.net/zhangdaiscott
@@ -21,12 +21,9 @@
 	
 6. jeecg maven镜像官方配置文档(重要)
     http://www.jeecg.org/forum.php?mod=viewthread&tid=3949
-	
-7. Jeecg目前走微服务模式，采用插件机制，更多业务组件以插件方式提供
-   云插件中心：http://yun.jeecg.org
    
-8. jeecg平台开发手册
+7. jeecg平台开发手册
     docs/技术文档
 	
-9. jeecg入门视频下载
+8. jeecg入门视频下载
     http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1

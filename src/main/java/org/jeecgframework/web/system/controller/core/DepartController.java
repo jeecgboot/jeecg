@@ -569,7 +569,7 @@ public class DepartController extends BaseController {
 		}*/
 		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
 		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ ResourceUtil.getSessionUser().getRealName(),
 				"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,tsDeparts);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -585,7 +585,7 @@ public class DepartController extends BaseController {
 			, DataGrid dataGrid,ModelMap modelMap) {
 		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
 		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 				"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -705,7 +705,9 @@ public class DepartController extends BaseController {
 				map = new HashMap<String,Object>();
 				map.put("id", depart.getId());
 				map.put("name", depart.getDepartname());
-				
+
+				map.put("code",depart.getOrgCode());
+
 				if(ids.length>0){
 					for(String id:ids){
 						if(id.equals(depart.getId())){

@@ -6,13 +6,13 @@
   <t:datagrid name="jeecgDemoList" checkbox="true" sortName="birthday,name" pagination="true" fitColumns="false" title="jeecg_demo" actionUrl="jeecgListDemoController.do?datagrid" idField="id" fit="true" queryMode="group">
     <t:dgCol title="id"  field="id"   hidden="true"   queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="名称"  field="name" query="true" autocomplete="true"   width="120"></t:dgCol>
-    <t:dgCol title="年龄"  extend="{style:'width:50px'}" editor="numberbox" field="age"  query="true" width="120"></t:dgCol>
+    <t:dgCol title="年龄"  extend="{style:'width:50px'}"  style="background-color:#3a87ad_50,background-color:#f89406_100" editor="numberbox" field="age"  query="true" width="120"></t:dgCol>
     <t:dgCol title="生日"  hidden="true"  field="birthday" formatter="yyyy-MM-dd"   queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="部门"  field="depId" query="true" queryMode="single" dictionary="t_s_depart,id,departname"  width="120"></t:dgCol>
     <t:dgCol title="部门code" field="extField"></t:dgCol>
-    <t:dgCol title="性别"  field="sex"  query="true" dictionary="sex" width="120"></t:dgCol>
+    <t:dgCol title="性别"  field="sex"  query="true" showMode="radio" dictionary="sex" width="120" extendParams="styler:fmtype"></t:dgCol>
     <t:dgCol title="电话"  field="phone" queryMode="group"  width="120"></t:dgCol>
-    <t:dgCol title="工资"  field="salary"  queryMode="group"  width="120"></t:dgCol>
+    <t:dgCol title="工资"  field="salary"  queryMode="group" width="120"></t:dgCol>
      <t:dgCol title="创建日期"  field="createDate" formatter="yyyy-MM-dd" query="true" queryMode="group" editor="datebox" width="120"></t:dgCol>
      <t:dgCol title="邮箱"  field="email"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
      <t:dgCol title="入职状态"  field="status" query="true" extend="{style:{width:'300px';color:'red'};datatype:'*';}" defaultVal='N'  dictionary="sf_yn" width="80"></t:dgCol>
@@ -27,6 +27,7 @@
    <t:dgDelOpt title="删除" url="jeecgListDemoController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
    <t:dgFunOpt exp="status#eq#N" title="审核" funname="szqm(id)" urlclass="ace_button"  urlfont="fa-check" />
    <t:dgToolBar title="录入" icon="icon-add" url="jeecgListDemoController.do?goAdd" funname="add" width="770" height="500"></t:dgToolBar>
+   <t:dgToolBar title="弹出TAB表单" icon="icon-add" url="jeecgListDemoController.do?goAdd" funname="addbytab" width="770" height="500"></t:dgToolBar>
    <t:dgToolBar title="录入-提交按钮" icon="icon-add" url="jeecgListDemoController.do?addWithbtn" funname="addWithbtn" width="770"></t:dgToolBar>
    <t:dgToolBar title="编辑" icon="icon-edit" url="jeecgListDemoController.do?goUpdate" funname="update" width="770"></t:dgToolBar>
    <t:dgToolBar title="批量删除"  icon="icon-remove" url="jeecgListDemoController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
@@ -41,11 +42,25 @@
   </div>
  </div>
  <script type="text/javascript">
+	//列表字段颜色 demo,逻辑判断函数 
+	function fmtype(val,row,index){
+	    //可添加更多CSS样式
+	    var s1 = 'background-color:#f89406;color:#FFF;';
+	    var s2 = 'background-color:#3a87ad;color:#FFF;';
+	    var s3 = 'background-color:#21B9BB;';
+	    if (val =='1') {
+	        return s1
+	    }
+	    if (val =='0') {
+	        return s2
+	    }
+	    return s3
+	}
  function testReloadPage(){
 		document.location = "http://www.baidu.com"; 
 	}
 	function szqm(id) {
-		createwindow('审核入职', 'jeecgListDemoController.do?goCheck&id=' + id,320,180);
+		createwindow('审核入职', 'jeecgListDemoController.do?goCheck&id=' + id,420,280);
 	}
 	function addNewPage(id){
 		addOneTab("TAB方式添加", "jeecgListDemoController.do?addTab&type=table&id="+id);
@@ -56,6 +71,11 @@ function addWithbtn(title,addurl,gname,width,height){
 	openwindow("添加",addurl,gname,770,500);
 	
 }
+
+//打开tab页面
+function addbytab(){
+	addOneTab("添加表单", "jeecgListDemoController.do?addWithbtn");
+ }
  
 //导入
 function ImportXls() {

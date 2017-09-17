@@ -85,3 +85,8 @@ body {
 	color:#fff;
 	background-color:#71b83d;
 }
+/*update-begin--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些-------------------- */
+tbody > tr > td[align='right']{
+	min-width: 110px;
+}
+/*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */

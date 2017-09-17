@@ -130,6 +130,7 @@ div.edui-box {
     margin: 1px;
 }
 /*UI工具栏、编辑区域、底部*/
+
 .edui-default .edui-editor {
     border: 1px solid #d4d4d4;
     background-color: white;
@@ -138,6 +139,7 @@ div.edui-box {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    margin-top: 5px;
 }
 
 .edui-default .edui-editor-toolbarbox {
@@ -1821,3 +1823,11 @@ div.edui-box {
 .edui-default  .edui-pastecontainer .edui-button  .edui-state-hover .edui-plaintxticon{
     background-position: -72px -34px;
 }
+/*update-begin--Author:xuelin  Date:20170608 for：TASK #2083 【样式】JEECG样式专项工作  问题  UE编辑器上方空格去掉-------------------- */
+.inputxt.edui-default{
+	border: 0 !important;
+	height: 0;
+	padding-top: 0;
+	padding-left: 0;
+}
+/*update-end--Author:xuelin  Date:20170608 for：TASK #2083 【样式】JEECG样式专项工作  问题   UE编辑器上方空格去掉---------------------- */

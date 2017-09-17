@@ -5,6 +5,7 @@
 <head>
 <t:base type="jquery,tools"></t:base>
 </head>
+<!-- update--begin--author:zhangjiaqiang date:20170314 for:修订页面内容过多不可滚动 -->
 <body >
 	<div style="width:95%;">
 	    <legend>${notice.noticeTitle}</legend>
@@ -17,5 +18,6 @@
 		    </div>
 	    </div>
     </div>
+    <!-- update--end--author:zhangjiaqiang date:20170314 for:修订页面内容过多不可滚动 -->
 </body>
 </html>

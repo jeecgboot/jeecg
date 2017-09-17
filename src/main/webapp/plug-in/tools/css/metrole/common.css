@@ -41,6 +41,9 @@ input[type="text"] {
 	border: 1px solid #D7D7D7;
 	border-radius: 3PX;
 	/*height: 14PX;*/
+	/*	//update-start--Author: scott  Date:20170609 for：特殊bpm表单页面输入框高度变形问题处理 */
+	height: 30px;
+	/*	//update-start--Author: scott  Date:20170609 for：特殊bpm表单页面输入框高度变形问题处理 */
 	/* padding: 7px 0 7px 5px; */
 	padding:  0 2px ;
 	line-height: 14PX;
@@ -48,16 +51,24 @@ input[type="text"] {
 	display: inline-block;
 }
 /*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
-a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
+a[class="ace_button"]:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-begin--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好------------------- */
+a.ace_button:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-end--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好---------------------- */
+/*update-begin--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid-------------------- */
  .ace_button
  {
   background-color: #21b9bb;
   border-color: #21b9bb;
   color: #FFFFFF;
   border-radius: 3px;
-  padding: 1px 5px;
+  /*update-begin--Author:xuelin  Date:20170603 for：TASK #2042 【UI美化】Jeecg button样式，参考p3插件风格优化改进-------------------- */
+  padding: 2px 6px;
+  /*update-end--Author:xuelin  Date:20170603 for：TASK #2042 【UI美化】Jeecg button样式，参考p3插件风格优化改进---------------------- */
   font-size: 12px;
   line-height: 1.5;
   display: inline-block;
+  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
  }
+/*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 /*	//update-end--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/

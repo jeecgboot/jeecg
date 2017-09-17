@@ -3,14 +3,14 @@ package org.jeecgframework.tag.core.easyui;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
 
+import org.jeecgframework.tag.core.JeecgTag;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
-
+import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ListtoMenu;
+import org.jeecgframework.core.util.SysThemesUtil;
 
 
 /**
@@ -21,7 +21,7 @@ import org.jeecgframework.core.util.ListtoMenu;
  * @date： 日期：2012-12-7 时间：上午10:17:45
  * @version 1.0
  */
-public class MenuTag extends TagSupport {
+public class MenuTag extends JeecgTag {
 	private static final long serialVersionUID = 1L;
 	protected String style="easyui";//菜单样式
 	protected List<TSFunction> parentFun;//一级菜单
@@ -43,10 +43,12 @@ public class MenuTag extends TagSupport {
 
 	public int doEndTag() throws JspTagException {
 		JspWriter out = null;
+		StringBuffer endString = null;
 		try {
 
 			out = this.pageContext.getOut();
-			out.print(end().toString());
+			endString = end();
+			out.print(endString.toString());
 			out.flush();
 //			String menu = (String) this.pageContext.getSession().getAttribute("leftMenuCache"+style);
 //			if(menu!=null){
@@ -64,7 +66,11 @@ public class MenuTag extends TagSupport {
 		}finally{
 			try {
 				out.clearBuffer();
-				end().setLength(0);
+				//添加缓存后，不需要清空，并且清空后会对缓存造成影响
+//				if(endString != null){
+//					endString.setLength(0);
+//				}
+				//end().setLength(0);
 			} catch (Exception e2) {
 			}
 		}
@@ -72,7 +78,12 @@ public class MenuTag extends TagSupport {
 	}
 
 	public StringBuffer end() {	
-		StringBuffer sb = new StringBuffer();
+
+		StringBuffer sb = this.getTagCache();
+		if(sb != null){
+			return sb;
+		}
+		sb = new StringBuffer();
 
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
@@ -114,6 +125,9 @@ public class MenuTag extends TagSupport {
 		if(style.equals("hplus")){
 			sb.append(ListtoMenu.getHplusMultistageTree(menuFun));
 		}
+
+		this.putTagCache(sb);
+
 		return sb;
 	}
 	public void setStyle(String style) {
@@ -123,6 +137,18 @@ public class MenuTag extends TagSupport {
 	public void setMenuFun(Map<Integer, List<TSFunction>> menuFun) {
 		this.menuFun = menuFun;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MenuTag [style=").append(style);
+		builder.append(",sessionid=").append(ContextHolderUtils.getSession().getId());
+		builder.append(",sysTheme=").append(SysThemesUtil.getSysTheme(ContextHolderUtils.getRequest()).getStyle())
+				.append(",brower_type=").append(ContextHolderUtils.getSession().getAttribute("brower_type"))
+				.append("]");
+		return builder.toString();
+	}
+
 
 	
 

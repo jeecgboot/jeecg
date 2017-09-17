@@ -14,6 +14,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -95,7 +96,7 @@ public class CgformButtonController extends BaseController {
 		message = "删除成功";
 		cgformButtonService.delete(cgformButton);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-		
+		logger.info("["+IpUtil.getIpAddr(request)+"][online表单自定义按钮删除]"+message);
 		j.setMsg(message);
 		return j;
 	}
@@ -140,6 +141,7 @@ public class CgformButtonController extends BaseController {
 			cgformButtonService.save(cgformButton);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
+		logger.info("["+IpUtil.getIpAddr(request)+"][online表单自定义按钮添加编辑]"+message);
 		j.setMsg(message);
 		return j;
 	}

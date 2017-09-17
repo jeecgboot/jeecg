@@ -137,6 +137,7 @@ public class DictSelectTag extends TagSupport {
 				if (!StringUtils.isBlank(this.id)) {
 					sb.append(" id=\"" + id + "\"");
 				}
+				this.datatype(sb);
 				sb.append(">");
 				select("common.please.select", "", sb);
 				for (Map<String, Object> map : list) {
@@ -335,7 +336,7 @@ public class DictSelectTag extends TagSupport {
 				+ " as text from " + dictTable;
 
 	       if(dictCondition!=null){
-	           sql+=dictCondition;
+	           sql+=" "+dictCondition+" ";
 	       }
 
 		systemService = ApplicationContextUtil.getContext().getBean(

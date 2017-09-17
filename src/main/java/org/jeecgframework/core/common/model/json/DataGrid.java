@@ -136,5 +136,9 @@ public class DataGrid {
 			results.clear();
 			results = null;
 		}
+
+		field = null;
+		treefield = null;
+
 	}
 }

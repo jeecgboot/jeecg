@@ -17,10 +17,12 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -35,6 +37,7 @@ import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,14 +138,25 @@ public class CgFormHeadController extends BaseController {
 				cgFormHead);
 		this.cgFormFieldService.getDataGridReturn(cq, true);
 
-		List<CgFormHeadEntity> list=dataGrid.getResults();
-		Map<String,Map<String,Object>> extMap = new HashMap<String, Map<String,Object>>();
-		for(CgFormHeadEntity temp:list){
-		        //此为针对原来的行数据，拓展的新字段
-		        Map m = new HashMap();
-		        m.put("hasPeizhi",String.valueOf(this.cgFormFieldService.getByphysiceId(temp.getId())));
-		        extMap.put(temp.getId(), m);
+		List<CgFormHeadEntity> list = dataGrid.getResults();
+		Map<String,Map<String,Object>> extMap = new HashMap<String, Map<String,Object>>();		
+		List<Map<String,Object>> pzlist = this.cgFormFieldService.getPeizhiCountByIds(list);
+		for(Map<String,Object> temp:pzlist){
+	        //此为针对原来的行数据，拓展的新字段
+			Map<String,Object> m = new HashMap<String,Object>();
+	        m.put("hasPeizhi",temp.get("hasPeizhi")==null?"0":temp.get("hasPeizhi"));
+	        extMap.put(temp.get("id").toString(), m);
 		}
+		//因数据查询优化，补全空数据。考虑到效率问题，不使用嵌套循环。
+		for(CgFormHeadEntity temp:list){
+	        //此为针对原来的行数据，拓展的新字段
+		    if (extMap.get(temp.getId())==null) {
+		    	Map<String,Object> m = new HashMap<String,Object>();
+				m.put("hasPeizhi","0");
+			 	extMap.put(temp.getId(), m); 
+			}       
+		}
+		
 		TagUtil.datagrid(response, dataGrid, extMap);
 
 	}
@@ -164,7 +178,7 @@ public class CgFormHeadController extends BaseController {
 		cgFormFieldService.removeSubTableStr4Main(cgFormHead);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
-
+		logger.info("["+IpUtil.getIpAddr(request)+"][online表单配置删除]"+message+"表名："+cgFormHead.getTableName());
 		j.setMsg(message);
 		return j;
 	}
@@ -186,7 +200,7 @@ public class CgFormHeadController extends BaseController {
 		cgFormFieldService.removeSubTableStr4Main(cgFormHead);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
-
+		logger.info("["+IpUtil.getIpAddr(request)+"][online表单配置移除]"+message+"表名："+cgFormHead.getTableName());
 		j.setMsg(message);
 		return j;
 	}
@@ -207,7 +221,6 @@ public class CgFormHeadController extends BaseController {
 		cgFormFieldService.delete(cgFormField);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
-		
 		j.setMsg(message);
 		return j;
 	}
@@ -225,8 +238,28 @@ public class CgFormHeadController extends BaseController {
 			HttpServletRequest request) {
 		String message;
 		AjaxJson j = new AjaxJson();
-		cgFormHead = systemService.getEntity(CgFormHeadEntity.class,
-				cgFormHead.getId());
+		cgFormHead = systemService.getEntity(CgFormHeadEntity.class,cgFormHead.getId());
+
+		logger.info("---同步数据库 ---doDbSynch-----> TableName:"+cgFormHead.getTableName()+" ---修改时间 :"+cgFormHead.getUpdateDate()+" ----创建时间:"+cgFormHead.getCreateDate() +"---请求IP ---+"+oConvertUtils.getIpAddrByRequest(request));
+		//安全控制，判断不在online管理中表单不允许操作
+		String sql = "select count(*) from cgform_head where table_name = '"+cgFormHead.getTableName()+"'";
+		Long i = systemService.getCountForJdbc(sql);
+		if(i==0){
+			message = "同步失败，非法无授权访问！";
+			logger.info(message+" ----- 请求IP ---+"+IpUtil.getIpAddr(request));
+			j.setMsg(message);
+			return j;
+		}
+		TSUser currentUser = ResourceUtil.getSessionUser();
+        if("0".equals(currentUser.getDevFlag())){
+            message = "同步失败，您不是开发人员无授权访问！";
+            logger.info(message+" ----- 请求IP ---+"+IpUtil.getIpAddr(request));
+            j.setMsg(message);
+            return j;
+        }
+        //TODO 校验登录用户是否拥有开发权限
+
+		
 		//同步数据库
 		try {
 			boolean bl = cgFormFieldService.dbSynch(cgFormHead,synMethod);
@@ -243,6 +276,7 @@ public class CgFormHeadController extends BaseController {
 				}
 
 				j.setMsg(message);
+				logger.info("["+IpUtil.getIpAddr(request)+"][online表单配置同步数据库]"+message+"表名："+cgFormHead.getTableName());
 			}else{
 				message = "同步失败";		
 				j.setMsg(message);
@@ -344,6 +378,7 @@ public class CgFormHeadController extends BaseController {
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 		}
+		logger.info("["+IpUtil.getIpAddr(request)+"][online表单配置保存]"+message+"表名："+cgFormHead.getTableName());
 		j.setMsg(message);
 		return j;
 	}

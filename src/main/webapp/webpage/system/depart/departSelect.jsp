@@ -5,9 +5,12 @@
 <head>
 <title>组织机构集合</title>
 <t:base type="jquery"></t:base>
+<!-- update--start--by:jg_renjie--at:20160318 for:#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式 -->
+<!-- update-start--Author:jg_renjie  Date:20160317 for：组织机构改为ztree -->
 <link rel="stylesheet" type="text/css" href="plug-in/ztree/css/zTreeStyle.css">
 <script type="text/javascript" src="plug-in/ztree/js/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+<!-- update-end--Author:jg_renjie  Date:20160317 for：组织机构改为ztree -->
 <script type="text/javascript">
 	var setting = {
 	  check: {
@@ -63,7 +66,10 @@
 	});
 </script>
 </head>
-<body style="overflow-y: hidden" scroll="no">
+<!-- add-begin--Author:weict  Date:20170609 for：TASK #2101 【bug】组织机构没有垂直滚动条-------------------- -->
+<body style="overflow-y: auto" scroll="no">
+<!-- add-end--Author:weict  Date:20170609 for：TASK #2101 【bug】组织机构没有垂直滚动条---------------------- -->
+
 <input id="orgIds" name="orgIds" type="hidden" value="${orgIds}">
 <ul id="departSelect" class="ztree" style="margin-top: 30px;"></ul>
 <%-- <t:datagrid name="departList" title="common.department.list" actionUrl="departController.do?departSelectDataGrid" idField="id" checkbox="true" showRefresh="false">

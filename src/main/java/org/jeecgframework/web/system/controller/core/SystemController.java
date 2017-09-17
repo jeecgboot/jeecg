@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +31,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.enums.StoreUploadFilePathEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
@@ -1143,7 +1146,7 @@ public class SystemController extends BaseController {
     }
 
 	@RequestMapping(params = "diffDataVersion")
-	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2){
+	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2) throws ParseException {
 		String hql1 = "from TSDatalogEntity where id = '" + id1 + "'";
 		TSDatalogEntity datalogEntity1 = this.systemService.singleResult(hql1);
 
@@ -1179,7 +1182,14 @@ public class SystemController extends BaseController {
 				dataLogDiff.setName(string);
 
 				if (map1.containsKey(string)) {
-					value1 = map1.get(string).toString();
+					if ("createDate".equals(string)&&StringUtil.isNotEmpty(map1.get(string))){
+						java.util.Date date=new Date((String) map1.get(string));
+						SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						value1=simpledateformat.format(date);
+					}else {
+						value1 = map1.get(string).toString();
+					}
+
 					if (value1 == null) {
 						dataLogDiff.setValue1("");
 					}else {
@@ -1188,9 +1198,16 @@ public class SystemController extends BaseController {
 				}else{
 					dataLogDiff.setValue1("");
 				}
-				
+
 				if (map2.containsKey(string)) {
-					value2 = map2.get(string).toString();
+					if ("createDate".equals(string)&&StringUtil.isNotEmpty(map2.get(string))){
+						java.util.Date date=new Date((String) map2.get(string));
+						SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						value2=simpledateformat.format(date);
+					}else {
+						value2 = map2.get(string).toString();
+					}
+
 					if (value2 == null) {
 						dataLogDiff.setValue2("");
 					}else {
@@ -1247,10 +1264,12 @@ public class SystemController extends BaseController {
 	        //如果是上传操作
 	        if("1".equals(upFlag)){
 	        	String fileName = null;
+	        	String bizType=request.getParameter("bizType");//上传业务名称
+	        	String bizPath=StoreUploadFilePathEnum.getPath(bizType);//根据业务名称判断上传路径
 	        	String nowday=new SimpleDateFormat("yyyyMMdd").format(new Date());
-	    		File file = new File(ctxPath+File.separator+nowday);
+	    		File file = new File(ctxPath+File.separator+bizPath+File.separator+nowday);
 	    		if (!file.exists()) {
-	    			file.mkdir();// 创建文件根目录
+	    			file.mkdirs();// 创建文件根目录
 	    		}
 	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 	            MultipartFile mf=multipartRequest.getFile("file");// 获取上传文件对象
@@ -1260,7 +1279,7 @@ public class SystemController extends BaseController {
 	    		FileCopyUtils.copy(mf.getBytes(), savefile);
 				msg="上传成功";
 				j.setMsg(msg);
-				String dbpath=nowday+File.separator+fileName;
+				String dbpath=bizPath+File.separator+nowday+File.separator+fileName;
 				j.setObj(dbpath);
 				//1、将文件路径赋值给obj,前台可获取之,随表单提交,然后数据库中存储该路径
 				//2、demo这里用的是AjaxJson对象,开发者可自定义返回对象,但是用t标签的时候路径属性名需为  obj或 filePath 或自己在标签内指定若在标签内指定则action返回路径的名称应保持一致
@@ -1307,7 +1326,15 @@ public class SystemController extends BaseController {
 		if("1".equals(flag)){
 			response.setContentType("application/x-msdownload;charset=utf-8");
 			String fileName=dbpath.substring(dbpath.lastIndexOf(File.separator)+1);
-			response.setHeader("Content-disposition", "attachment; filename="+ new String(fileName.getBytes("utf-8"), "ISO8859-1"));
+
+			String userAgent = request.getHeader("user-agent").toLowerCase();
+			if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+			}else {  
+				fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");  
+			} 
+			response.setHeader("Content-disposition", "attachment; filename="+ fileName);
+
 		}else{
 			response.setContentType("image/jpeg;charset=utf-8");
 		}

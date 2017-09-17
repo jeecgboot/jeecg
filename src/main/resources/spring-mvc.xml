@@ -27,12 +27,16 @@
 		<property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
 			</list>
 		</property>
 	</bean>
+	<!-- 注册handler method和request的mapping关系。  -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射， 配置一个基于注解的定制的WebBindingInitializer，解决日期转换问题，方法级别的处理器映射 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<!-- class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" -->
 		<property name="cacheSeconds" value="0" />
 		<property name="messageConverters">
 			<list>
@@ -81,6 +85,13 @@
 	<!-- 异常处理类 -->
 	<bean id="exceptionHandler"
 		class="org.jeecgframework.core.common.exception.GlobalExceptionResolver" />
+	<!--  单点登录 kisso 注入初始化，也支持使用 web.xml 初始化 -->
+	<bean id="kissoInit" class="com.baomidou.kisso.web.WebKissoConfigurer" init-method="initKisso">
+		<property name="ssoPropPath" value="sso.properties" />
+		<!-- 不同环境配置选择设置 ,dev_mode/开发模式 ,test_mode/测试模式 ,online_mode/生产模式-->
+		<property name="runMode" value="test_mode" />
+	</bean>
+	
 	<!-- 拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
@@ -113,9 +124,22 @@
 						<!--移动图表-->
 						<value>cgDynamGraphController.do?design</value>
 						<value>cgDynamGraphController.do?datagrid</value>
+						<!--online表单对外接口-->
+						<!--<value>cgFormDataController.do?getFormInfo</value>
+						<value>cgFormDataController.do?deleteFormInfo</value>
+						<value>cgFormDataController.do?addFormInfo</value>
+						<value>cgFormDataController.do?updateFormInfo</value>-->
 
 						<!-- 菜单样式图标预览 -->
 						<value>webpage/common/functionIconStyleList.jsp</value>
+						<value>timeTaskController.do?remoteTask</value>
+						
+					</list>
+				</property>
+				<!-- 模糊匹配 -->
+				<property name="excludeContainUrls">
+					<list>
+						<value>toLogin.do</value>
 					</list>
 				</property>
 			</bean>
@@ -124,6 +148,9 @@
 
 	<!-- 智能表单配置引入 -->
 	<import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml" />
+	<!--集成cxf webservice接口
+	<import resource="classpath:cxf-servlet.xml" />
+	-->
 	<!-- jeecg plugin dev -->
 	<import resource="classpath:config/spring-config-p3.xml" />
 </beans>

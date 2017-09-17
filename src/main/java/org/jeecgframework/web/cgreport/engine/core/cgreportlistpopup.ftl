@@ -80,13 +80,17 @@ $(function(){$('#${config_id}List').datagrid(
 </script>
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>
 <div id="${config_id}Listtb" style="padding:3px; height: auto">
+<#-- update--begin--author:scott date:20170608 for:无查询条件不生成 -->
+<#if  (config_queryList?size >0)>
 <div name="searchColums">
+</#if>
+<#-- update--end--author:scott date:20170608 for:无查询条件不生成 -->
 	<#list config_queryList  as x>
 		<span style="display:-moz-inline-box;display:inline-block;">
-		<span style="display:-moz-inline-box;display:inline-block;width: 100px;text-align:right;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" title="${x['field_txt']}">${x['field_txt']}：</span>
+		<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 100px;text-align:right;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" title="${x['field_txt']}">${x['field_txt']}：</span>
 		<#if x['search_mode']=="group">
 			<input type="text" name="${x['field_name']}_begin"  style="width: 94px"  <#if x['field_type']=="Date">class="easyui-datebox"</#if> />
-			<span style="display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;">~</span>
+			<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;">~</span>
 			<input type="text" name="${x['field_name']}_end"  style="width: 94px" <#if x['field_type']=="Date">class="easyui-datebox"</#if> />
 		</#if>
 		<#if x['search_mode']=="single">
@@ -104,13 +108,17 @@ $(function(){$('#${config_id}List').datagrid(
 		</#if>
 		</span>	
 	</#list>
-	</div>
-	<div style="height:30px;" class="datagrid-toolbar">
+<#-- update--begin--author:scott date:20170608 for:无查询条件不生成 -->	
 <#if  (config_queryList?size >0)>
+</div>
+</#if>
+<#if  (config_queryList?size >0)>
+	<div style="height:30px;" class="datagrid-toolbar">
 		<span style="float:right">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="${config_id}Listsearch()">查询</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset_${config_id}('${config_id}List')">重置</a>
 		</span>
-</#if>
 	</div>
+</#if>
+<#-- update--end--author:scott date:20170608 for:无查询条件不生成 -->
 </div>

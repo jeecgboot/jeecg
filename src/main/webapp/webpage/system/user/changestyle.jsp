@@ -15,6 +15,7 @@
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
 			-->
+			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="acele" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>

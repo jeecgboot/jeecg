@@ -147,6 +147,11 @@ span.error{
     -moz-box-shadow:0px 0px 3px #aaa;
     -webkit-box-shadow:0px 0px 3px #aaa;
     box-shadow:0px 0px 3px #aaa;
+   /*update-begin author:taoYan date:20170905 for:css3兼容低版本IE 暂注释[ie8兼容模式导致表单提交不成功]*/
+   /*  position:relative;
+    z-index:2;
+    behavior:url(plug-in/diy/htc/PIE.htc); */
+   /*update-end author:taoYan date:20170905 for:css3兼容低版本IE 暂注释[ie8兼容模式导致表单提交不成功]*/
     
 }
 #steps form div label.Validform_label{

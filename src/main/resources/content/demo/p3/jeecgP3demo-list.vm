@@ -1,0 +1,133 @@
+#parse("content/base/back/common/macro.vm")
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+<link rel="stylesheet" href="$!{basePath}/plug-in-ui/hplus/css/font-awesome.css"/>
+## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<form role="form" class="form-inline" action="$!{basePath}/demo/jeecgP3demo.do?list" method="post"  id="formSubmit">
+				<div  class="col-md-10" style="width:100%">
+					<div class="panel panel-default">
+						<div class="panel-heading">列表</div>
+						<div class="panel-body">
+							<div class="search">
+										 <div class="form-group col-sm-3">
+											<label for="name" class="control-label col-sm-3 line34">姓名</label>
+											<div class="col-sm-8">
+												<input type="text" name="name" id="name" value="$!{jeecgP3demo.name}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="sex" class="control-label col-sm-3 line34">性别</label>
+											<div class="col-sm-8">
+												<input type="text" name="sex" id="sex" value="$!{jeecgP3demo.sex}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="age" class="control-label col-sm-3 line34">年龄</label>
+											<div class="col-sm-8">
+												<input type="text" name="age" id="age" value="$!{jeecgP3demo.age}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="address" class="control-label col-sm-3 line34">地址</label>
+											<div class="col-sm-8">
+												<input type="text" name="address" id="address" value="$!{jeecgP3demo.address}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="phone" class="control-label col-sm-3 line34">电话</label>
+											<div class="col-sm-8">
+												<input type="text" name="phone" id="phone" value="$!{jeecgP3demo.phone}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="memo" class="control-label col-sm-3 line34">备注</label>
+											<div class="col-sm-8">
+												<input type="text" name="memo" id="memo" value="$!{jeecgP3demo.memo}" class="form-control">
+											</div>
+										 </div>
+								 ## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+								<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜  索</button>
+								## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+								<div class="clearfix"></div>
+							</div>
+							<div id="legend">
+								## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+								<legend  class="le"><button type="button" class="btn btn-primary" onclick="doUrl('$!{basePath}/demo/jeecgP3demo.do?toAdd')" ><i class="fa fa-plus"></i> 新增</button></legend> 
+								## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+							</div>
+							<table class="table table-striped">
+								<thead>
+									<th>
+					        		 <input type="checkbox" name="ckAll" id="ckAll" />
+					        		</th>
+											<th>姓名</th>
+											<th>性别</th>
+											<th>年龄</th>
+											<th>地址</th>
+											<th>电话</th>
+											<th>备注</th>
+									<th>操作</th>
+								</thead>
+								<tbody>
+								#if($!{pageInfos})
+									#foreach($!{info} in $!{pageInfos})
+										<tr>			
+											<td><input type="checkbox" name="ck" value="$!{info.id}" /></td>
+														<td>$!{info.name}</td>
+														#*--//update-begin--Author:dangzhenghui  Date:20170519 for：P3demo修改--------------------*#
+														<td>#showDictTag("sex","$info.sex")
+														#*--//update-end--Author:dangzhenghui  Date:20170519 for：P3demo修改--------------------*#
+														</td>
+														<td>$!{info.age}</td>
+														<td>$!{info.address}</td>
+														<td>$!{info.phone}</td>
+														<td>$!{info.memo}</td>
+											<td class="last">
+											## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+											<a class="btn btn-success btn-xs" href="javascript:doUrl('$!{basePath}/demo/jeecgP3demo.do?toEdit&id=$!{info.id}')" ><i class="fa fa-edit"></i> 编辑</a>
+											<a class="btn btn-danger btn-xs" href="javascript:delData('$!{basePath}/demo/jeecgP3demo.do?doDelete&id=$!{info.id}')"><i class="fa fa-trash-o"></i> 删除</a>
+											## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+											</td>
+										</tr>
+									 #end
+								 #end
+								</tbody>
+							</table>
+							<div class="text-right">
+								<!--公用翻页代码-->
+								#set($attr='formSubmit')
+								#showPageList($pageInfos $attr)
+								<!--END公用翻页代码-->
+							</div>
+						</div>
+					</div>
+				</div>  
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+$("#ckAll").click(function(){ 
+	if($(this).prop("checked")){ 
+	 $(":checkbox").prop("checked",true) 
+	}else{ 
+	$(":checkbox").prop("checked",false)  
+	} 
+}); 
+
+//jquery获取复选框值    
+function getCkValue(){  
+  var chk_value =[];    
+  $('input[name="ck"]:checked').each(function(){    
+   chk_value.push($(this).val());    
+  });    
+  //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);    
+}    
+
+</script>

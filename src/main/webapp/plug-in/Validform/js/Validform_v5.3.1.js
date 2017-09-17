@@ -195,7 +195,9 @@
 			"s":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/,
 			"s6-18":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/,
 			"p":/^[0-9]{6}$/,
-			"m":/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/,
+			/*update-begin--Author:dangzhenghui  Date:20170627 for：手机支持170号段*/
+			"m":/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/,
+			/*update-end--Author:dangzhenghui  Date:20170627 for：手机支持170号段*/
 			"e":/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 			"url":/^(\w+:\/\/)?\w+(\.\w+)+.*$/
 		},
@@ -1292,6 +1294,7 @@
 	
 	function creatMsgbox(){
 		if($("#Validform_msg").length!==0){return false;}
+
 		msgobj=$('<div id="Validform_msg"><div class="Validform_title">'+tipmsg.tit+'<a class="Validform_close" href="javascript:void(0);">&chi;</a></div><div class="Validform_info"></div><div class="iframe"><iframe frameborder="0" scrolling="no" height="100%" width="100%"></iframe></div></div>').appendTo("body");//提示信息框;
 		msgobj.find("a.Validform_close").click(function(){
 			msgobj.hide();
@@ -1319,3 +1322,4 @@
 	};
 	
 })(jQuery,window);
+

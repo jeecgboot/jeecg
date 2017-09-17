@@ -35,7 +35,7 @@ public class DataBaseCronTriggerBean extends CronTriggerBean{
 				e.printStackTrace();
 			}
 
-			DynamicTask.updateSpringMvcTaskXML(this,task.getCronExpression());
+			//DynamicTask.updateSpringMvcTaskXML(this,task.getCronExpression());
 		}
 	}
 

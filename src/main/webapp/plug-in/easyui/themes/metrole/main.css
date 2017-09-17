@@ -871,10 +871,10 @@ a:hover {
 /* 内容页 */
 .button ,a.l-btn span.l-btn-left {
 	border: 1px solid #cccccc;
-	/* update-begin--author:scott--date:20170331---for:树选框虚线问题解决*/
-	/*border-radius: 4px;*/
+	/* update-begin--Author:scott  Date:20170714 for：Easyui默认按钮样式优化------------------- */
+	border-radius: 3px;
 	background-color: #eee;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
 		to(#f2f2f2));
 	background: -moz-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
 		to(#f2f2f2));
@@ -883,11 +883,12 @@ a:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7,
 		endcolorstr=#f2f2f2, gradientType=0);
 	height: 24px;
-	padding: 0 1px;
+	padding: 1px 1px;
 	cursor: pointer;
 	line-height: 24px;
 	display: inline-block;
 	color: #8f0911;
+	/* update-end--Author:scott  Date:20170714 for：Easyui默认按钮样式优化------------------- */
 	/* margin-right:5px; */
 	white-space:nowrap;
 	
@@ -5409,11 +5410,22 @@ a.view {
 .layout-panel-north{
 	z-index:1;
 }
+
+/* update-begin--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 样式冲突，整个页面下移【分页按钮】------------------- */
 .datagrid-pager a.l-btn span.l-btn-left{
-	height:20px;
-	line-height:20px;
-	padding:0px 10px 0px 5px;
+	/* line-height:20px; */
+	/*update-begin--Author:xuelin  Date:20170606 for：TASK #2048 【样式问题】分页按钮变胖--解决冲突：toolbar按钮中文字下沉------------------ */
+	padding:0px 4px 0px 4px;
+	height:22px;	
+	/*update-end--Author:xuelin  Date:20170606 for：TASK #2048 【样式问题】分页按钮变胖--解决冲突：toolbar按钮中文字下沉-------------------- */
+	/* update-begin--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
+	border:0;
+	background: #fff;
+	background-color: #fff;
+	/* update-end--Author:xuelin  Date:20170608 for：TASK #2090 【样式】分页样式改造，参考 jqgrid风格-------------------- */	
 }
+/* update-end--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 样式冲突，整个页面下移【分页按钮】-------------------- */	
+
 .tooltip {
     border-radius: 5px;
     border-style: solid;

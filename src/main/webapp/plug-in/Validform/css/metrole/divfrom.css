@@ -158,8 +158,10 @@ span.error{
     box-shadow:0px 0px 3px #aaa;
     
 }
+/*update-begin--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些-------------------- */
 #steps form div label.Validform_label{
-    width:90px;
+    width: 130px;
+    margin-left: 10px;
     float:left;
     text-align:left;
     margin-right:15px;
@@ -167,6 +169,7 @@ span.error{
     color:#666;
     /* text-shadow:1px 1px 1px #fff; */ /* scott 20160229 Div有白块*/
 }
+/*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */
 
 /*==========@周俊峰    定义form textarea的样式去掉 width: 157px; 解决textarea不能通过cols来设置宽度的问题===========*/
 #steps form textarea{

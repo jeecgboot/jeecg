@@ -31,7 +31,9 @@ public class UserSelectTag extends TagSupport {
 	private String inputWidth; 				//输入框宽度
 	private String windowWidth; 			//弹出窗口宽度
 	private String windowHeight; 			//弹出窗口高度
-	
+
+	private String callback;//自定义回掉函数
+
 	
     public String getUserIdsDefalutVal() {
 		return userIdsDefalutVal;
@@ -102,9 +104,21 @@ public class UserSelectTag extends TagSupport {
 	public void setUserNamesDefalutVal(String userNamesDefalutVal) {
 		this.userNamesDefalutVal = userNamesDefalutVal;
 	}
+
+	public String getCallback() {
+		if(oConvertUtils.isEmpty(callback)){
+			callback = "callbackUserSelect";
+		}
+		return callback;
+	}
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
+
 
 	public int doEndTag() throws JspTagException {
 		JspWriter out = null;
@@ -167,11 +181,14 @@ public class UserSelectTag extends TagSupport {
 		
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("function openUserSelect() {");
-		sb.append("    $.dialog.setting.zIndex = 9999; ");
-		sb.append("    $.dialog({content: 'url:userController.do?userSelect', zIndex: 2100, title: '" + title + "', lock: true, width: '" + windowWidth + "', height: '" + windowHeight + "', opacity: 0.4, button: [");
-		sb.append("       {name: '" + commonConfirm + "', callback: callbackUserSelect, focus: true},");
+
+		sb.append("    $.dialog({content: 'url:userController.do?userSelect', zIndex: getzIndex(), title: '" + title + "', lock: true, width: '" + windowWidth + "', height: '" + windowHeight + "', opacity: 0.4, button: [");
+
+		sb.append("       {name: '" + commonConfirm + "', callback: "+getCallback()+", focus: true},");
+
 		sb.append("       {name: '" + commonCancel + "', callback: function (){}}");
-		sb.append("   ]}).zindex();");
+		sb.append("   ]});");
+
 		sb.append("}");
 		
 		sb.append("function callbackUserSelect() {");

@@ -53,7 +53,7 @@
 							        class="form-control easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -77,6 +77,11 @@
 				                    	convertTreeData(rows, '${head.treeFieldname}');
 				                    	return rows; 
 				                    },
+				                     <#-- update--begin--author:zhangjiaqiang Date:20170518 for:修订树形菜单选择必填项问题-->
+				                    onSelect:function(node){
+				                    	$('#${po.field_name}').val(node.id);
+				                    },
+				                     <#-- update--end--author:zhangjiaqiang Date:20170518 for:修订树形菜单选择必填项问题 -->
 				                    onLoadSuccess: function() {
 				                    	var win = frameElement.api.opener;
 				                    	var currRow = win.getDataGrid().treegrid('getSelected');
@@ -99,7 +104,7 @@
 							        class="form-control" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -117,7 +122,7 @@
 							        class="form-control" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -129,10 +134,16 @@
 					        <@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
 								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="radio"
-					            <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
+					            <#-- update--begin--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
+							   	<#if dictdata_index==0>
+								   	<#if po.field_valid_type?if_exists?html != ''>
+					               	 	datatype="${po.field_valid_type?if_exists?html}"
+					                <#elseif po.is_null != 'Y'>
+					                	datatype="*"
+					                </#if>
+					                <#if po.field_must_input?if_exists?html != ''><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
+				                </#if>
+				                <#-- update--end--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
 								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
 								<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true" </#if>>
 									${dictdata.typename?if_exists?html}
@@ -145,11 +156,17 @@
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
 								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="checkbox"
-								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
-									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
-					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
+					           <#-- update--begin--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
+							   	<#if dictdata_index==0>
+								   	<#if po.field_valid_type?if_exists?html != ''>
+					               	 	datatype="${po.field_valid_type?if_exists?html}"
+					                <#elseif po.is_null != 'Y'>
+					                	datatype="*"
+					                </#if>
+					                <#if po.field_must_input?if_exists?html != ''><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
+				                </#if>
+				                <#-- update--end--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
 								<#list checkboxlist as x >
 								<#if dictdata.typecode?if_exists?html=="${x?if_exists?html}"> checked="true" </#if></#list>>
 									${dictdata.typename?if_exists?html}
@@ -160,9 +177,15 @@
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<select id="${po.field_name}" ${po.extend_json?if_exists} class="form-control" name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if>
 								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-								<#if po.is_null != 'Y'>datatype="*"</#if> >
+								 <#-- update--begin--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
+								   	<#if po.field_valid_type?if_exists?html != ''>
+					               	 	datatype="${po.field_valid_type?if_exists?html}"
+					                <#elseif po.is_null != 'Y'>
+					                	datatype="*"
+					                </#if>>
+				                <#-- update--end--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
 									<#list dataList as dictdata> 
 									<option value="${dictdata.typecode?if_exists?html}" 
 									<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> selected="selected" </#if>>
@@ -176,7 +199,7 @@
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							         value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 							         <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 							       class="form-control" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
 					              <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
@@ -192,7 +215,7 @@
 							       class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
 						         <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 						       <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -207,7 +230,7 @@
 							       value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 						       <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -217,16 +240,18 @@
 						
 						<#elseif po.show_type=='file'>
 								<table>
-									<#list imageList as imageB>
-										<#if imageB['field'] == po.field_name>
+									<#-- update--begin--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
+									<#list filesList as fileB>
+										<#if fileB['field'] == po.field_name>
 										<tr style="height:34px;">
-										<td>${imageB['title']}</td>
+										<td>${fileB['title']}</td>
 										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
 										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
 										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>
+									<#-- update--end--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
 								</table>
 								<#if !(po.operationCodesReadOnly ??)>
 							    <div class="form jeecgDetail">
@@ -263,16 +288,18 @@
 						<#--update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
 						<#elseif po.show_type=='image'>
 								<table>
-									<#list filesList as fileB>
-										<#if fileB['field'] == po.field_name>
+								<#-- update--begin--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
+									<#list imageList as imageB>
+										<#if imageB['field'] == po.field_name>
 										<tr style="height:34px;">
-										<td>${fileB['title']}</td>
-										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
+										<td>${imageB['title']}</td>
+										<td><a href="${basePath}/commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
+										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
+										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
 										</tr>
 										</#if>
 									</#list>
+									<#-- update--end--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
 								</table>
 								<#if !(po.operationCodesReadOnly ??)>
 							    <div class="form jeecgDetail">
@@ -311,7 +338,7 @@
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							        class="form-control" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
-									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if></#if>
+									<#if po.file_must_input??><#if po.file_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"

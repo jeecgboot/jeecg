@@ -3,7 +3,7 @@
 <t:base type="jquery,easyui,tools"></t:base>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding:0px;border:0px">
-<t:datagrid fitColumns="false" checkbox="true" name="cgreportConfigHeadList" title="dynamic.table.head" 
+<t:datagrid fitColumns="true" checkbox="true" name="cgreportConfigHeadList" title="dynamic.table.head" 
             actionUrl="cgreportConfigHeadController.do?datagrid" idField="id" fit="true" queryMode="group" sortName="createDate" sortOrder="desc">
 	<t:dgCol title="" field="id" hidden="true" queryMode="single" width="120" ></t:dgCol>
 	<t:dgCol title="报表名称" field="name" query="true" queryMode="single" width="120"></t:dgCol>

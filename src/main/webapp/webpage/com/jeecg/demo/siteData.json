@@ -1,0 +1,11 @@
+{
+"success":true,
+"msg":[
+		{"id":"1","name":"百度","site":"http://www.baidu.com"}, 
+		{"id":"2","name":"csdn","site":"http://www.csdn.com"},
+		{"id":"3","name":"jeecg","site":"http://www.jeecg.org"}, 
+		{"id":"3","name":"论坛","site":"http://www.jeecg.org"},
+		{"id":"3","name":"源码下载","site":"http://www.jeecg.org/forum.php?mod=viewthread&tid=1229&extra=page%3D1"},
+		{"id":"3","name":"官网","site":"http://www.guojusoft.com"}
+]
+}

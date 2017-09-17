@@ -47,7 +47,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7
+            <b>当前版本：</b>v_3.7.1
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -115,7 +115,7 @@
                 <div class="ibox-content">
                     <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.org" target="_blank">http://www.jeecg.org</a>
                     </p>
-                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">176031980</a>
+                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">293658367</a>
                     </p>
                     <p><i class="fa fa-weixin"></i>微信公众号：<a href="javascript:;">jeecg</a>
                     </p>
@@ -135,12 +135,86 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.7</a><code class="pull-right">2017.04.20</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.7.1</a><code class="pull-right">2017.09.20</code>
                                     </h5>
                                 </div>
                                 <div id="v50" class="panel-collapse collapse in">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本为跨时代精良重构版，简化平台功能，优化系统性能，制作完善文档，公司项目平台最佳选择！</div>
+                                        <ol>
+                                        	<li>【功能升级】简化在线定时任务配置，支持分布式;</li>
+											<li>【功能升级】jeecg 集成单点登录机制;</li>
+											<li>【功能升级】jeecg excel导出 支持选中行的数据;</li>
+											<li>【功能升级】在线聊天支持头像设置;</li>
+											<li>【功能升级】online表单，sql增强支持minidao语法;</li>
+											<li>【功能升级】多数据源，sql支持minidao语法;</li>
+											<li>【功能升级】jeecg安全机制加强，增加开发者模式;</li>
+											<li>【功能升级】登录验证码容易混淆字母去掉;</li>
+											<li>【功能升级】校验机制，手机号码支持170校验;</li>
+											<li>【功能升级】系统Ehcache缓存清空功能;</li>
+											<li>【权限改造】增加权限拦截器排除注解@JAuth(auth=Permission.SKIP_AUTH);</li>
+											<li>【权限改造】数据权限规则支持复杂配置，例如or等复杂规则;</li>
+											<li>【权限改造】系统按钮和表单权限原来是反控制设计，改成正控制，授权的人才有权限，未授权看不到对应按钮;</li>
+											<li>【权限改造】权限拦截器支持模糊匹配;</li>
+											<li>【online】Online 表单支持树控件;</li>
+											<li>【online】Online 表单各种控件对校验规则支持;</li>
+											<li>【online】Online 一对多对上传组件支持;</li>
+											<li>【代码生成器】UE编辑器控件类型问题处理;</li>
+											<li>【代码生成器】代码生成器模板，对图片类型上传组件支持;</li>
+											<li>【代码生成器】online生成代码，无用太多，简化代码(1. 系统标准字段，表单页面，添加和修改页面，不生成隐藏字段);</li>
+											<li>【代码生成器】代码生成，支持行编辑模式生成;</li>
+											<li>【代码生成器】代码生成t:dictSelect异常处理;</li>
+											<li>【UI标签】列表表头支持换行;</li>
+											<li>【UI标签】列表表头支持复杂表头;</li>
+											<li>【UI标签】上传标签必填属性增加;</li>
+											<li>online表单默认模板，升级功能;</li>
+											<li>【IE8问题】IE兼容性优化专项工作;</li>
+											<li>【IE8兼容】移动报表，功能测试乱码问题处理;</li>
+											<li>【UI优化】默认validform的提示框美化;</li>
+											<li>【UI优化】分页效果，页数多，页数遮挡问题解决;</li>
+											<li>【UI优化】多tab，支持bootstrap图标样式;</li>
+											<li>【UI优化】h+风格下，列表风格美化;</li>
+											<li>【UI优化】提示风格做成切换，根据风格切换采用easyui风格或者layui;</li>
+											<li>【UI优化】列表上方button支持boostrap图标样式;</li>
+											<li>【UI改进】列表加载慢的时候会出现白板效果处理;</li>
+											<li>【UI优化】Online 功能测试的列表链接样式，根据浏览器IE进行切换;</li>
+											<li>【UI优化】日志功能查看，表单样式优化;</li>
+											<li>【demo】列表字段 设置颜色 demo;</li>
+											<li>【demo】左右布局demo;</li>
+											<li>【demo】springjdbc demo;</li>
+											<li>【demo】 通用上传功能demo;</li>
+											<li>【demo】树形列表 分页demo;</li>
+											<li>【demo】采用jeecg-p3插件模式demo;</li>
+											<li>【demo】popup赋多个值 demo;</li>
+											<li>【demo】 ztree 实现一个可编辑的树;</li>
+											<li>【demo】datagrid 多表头demo;</li>
+											<li>【demo】Minidao 数据权限例子;</li>
+											<li>【demo】采用标签实现多tab例子;</li>
+											<li>【demo】列表标签，exp显示表达式demo;</li>
+											<li>【demo】分页多选排序demo;</li>
+											<li>【bug】三级菜单删除不成功;</li>
+											<li>【bug】shortcut及经典下同名菜单冲突，只能点开一个;</li>
+											<li>【bug】shortcut 风格下 layui 确认框 删除确认后不关闭问题;</li>
+											<li>【bug】SimpleDateFormat多线程不安全，解决;</li>
+											<li>【bug】连接池关闭异常处理;</li>
+											<li>【性能优化】online表单访问慢，优化 ;</li>
+											<li>【性能优化】优化登录逻辑  ;</li>
+											<li>【性能优化】Maven 集成yuicompressor，实现打包压缩静态资源 js css，提高web效率;</li>
+											<li>TabsTag.java等，发布模式下缓存机制有效（开发模式无缓存）;</li>
+											<li>【性能问题】表索引追加，提高系统性能;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v45">v3.7</a><code class="pull-right">2017.04.20</code>
+                                    </h5>
+                                </div>
+                                <div id="v45" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本微服务版本，支持插件开发，让我们共同期待后续版本的到来</div>
                                         <ol>
                                         	<li>精简平台代码，重写demo模块，删除无用的JS插件;</li>
                                         	<li>美化平台界面，涉及表单、按钮、链接、my97时间控件、树控件等;</li>

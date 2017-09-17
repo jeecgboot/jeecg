@@ -392,7 +392,7 @@ public class ${entityName}Controller extends BaseController {
 		List<${entityName}Entity> ${entityName?uncap_first}s = this.${entityName?uncap_first}Service.getListByCriteriaQuery(cq,false);
 		modelMap.put(NormalExcelConstants.FILE_NAME,"${ftl_description}");
 		modelMap.put(NormalExcelConstants.CLASS,${entityName}Entity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 			"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,${entityName?uncap_first}s);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -408,7 +408,7 @@ public class ${entityName}Controller extends BaseController {
 			, DataGrid dataGrid,ModelMap modelMap) {
     	modelMap.put(NormalExcelConstants.FILE_NAME,"${ftl_description}");
     	modelMap.put(NormalExcelConstants.CLASS,${entityName}Entity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
     	"导出信息"));
     	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
     	return NormalExcelConstants.JEECG_EXCEL_VIEW;

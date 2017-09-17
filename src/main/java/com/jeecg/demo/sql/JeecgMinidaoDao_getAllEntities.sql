@@ -23,3 +23,6 @@ SELECT * FROM jeecg_demo WHERE 1=1
 <#if jeecgDemo.status ?exists && jeecgDemo.status ?length gt 0>
 	and status = :jeecgDemo.status
 </#if>
+<#if authSql ?exists && authSql ?length gt 0>
+	${authSql}
+</#if>

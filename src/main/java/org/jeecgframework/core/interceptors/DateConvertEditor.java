@@ -24,7 +24,11 @@ public class DateConvertEditor extends PropertyEditorSupport {
 				} else if (text.indexOf(":") > 0 && text.length() == 21) {
 					text = text.replace(".0", "");
 					setValue(this.datetimeFormat.parse(text));
-				} else {
+
+				} else if (text.indexOf(":") > 0 && text.indexOf(".") > 0 && text.length() > 21) {
+					text = text.substring(0, text.indexOf("."));
+					setValue(this.datetimeFormat.parse(text));
+				}else {
 					throw new IllegalArgumentException(
 							"Could not parse date, date format is error ");
 				}

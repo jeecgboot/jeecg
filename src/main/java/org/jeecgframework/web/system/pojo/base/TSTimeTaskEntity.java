@@ -48,7 +48,40 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	private java.lang.String updateBy;
 	/**修改人名称*/
 	private java.lang.String updateName;
+
+	/**任务类名**/
+	private java.lang.String className;
+	/**运行任务的服务器IP**/
+	private java.lang.String runServerIp;
+	/**远程主机（域名/IP+项目路径）**/
+	private java.lang.String runServer;
 	
+	@Column(name ="RUN_SERVER",nullable=false,length=300)
+	public java.lang.String getRunServer() {
+		return runServer;
+	}
+
+	public void setRunServer(java.lang.String runServer) {
+		this.runServer = runServer;
+	}
+
+	@Column(name ="RUN_SERVER_IP",nullable=false,length=15)
+	public java.lang.String getRunServerIp() {
+		return runServerIp;
+	}
+
+	public void setRunServerIp(java.lang.String runServerIp) {
+		this.runServerIp = runServerIp;
+	}
+
+	@Column(name ="CLASS_NAME",nullable=false,length=300)
+	public java.lang.String getClassName() {
+		return className;
+	}
+
+	public void setClassName(java.lang.String className) {
+		this.className = className;
+	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id

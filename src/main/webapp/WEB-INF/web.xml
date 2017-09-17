@@ -6,7 +6,7 @@
 	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg-3.7</param-value>
+		<param-value>jeecg-3.7.1</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -124,6 +124,20 @@
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
 	
+
+	<!-- 集成cxf webservice接口
+	 <servlet>  
+        <description>Apache CXF Endpoint</description>  
+        <display-name>cxf</display-name>  
+        <servlet-name>cxf</servlet-name>  
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>  
+        <load-on-startup>2</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>cxf</servlet-name>  
+        <url-pattern>/cxf/*</url-pattern>  
+    </servlet-mapping> 
+     -->
 	<!-- restUrl风格配置 -->
 	<servlet>
 		<servlet-name>restSpringMvc</servlet-name>

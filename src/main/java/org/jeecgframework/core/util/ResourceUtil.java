@@ -69,7 +69,7 @@ public class ResourceUtil {
 	public static final String getSessionattachmenttitle(String sessionName) {
 		return bundle.getString(sessionName);
 	}
-	public static final TSUser getSessionUserName() {
+	public static final TSUser getSessionUser() {
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
@@ -101,7 +101,7 @@ public class ResourceUtil {
 	}
 	
 	/**
-	 * 获得请求路径
+	 * 获得请求路径【注意： 不通用】
 	 * 
 	 * @param request
 	 * @return
@@ -115,9 +115,14 @@ public class ResourceUtil {
 			requestPath += "?" + queryString;
 		}
 
-		if (requestPath.indexOf("&") > -1) {// 去掉其他参数
+		if (requestPath.indexOf("&") > -1) {// 去掉其他参数(保留一个参数) 例如：loginController.do?login
 			requestPath = requestPath.substring(0, requestPath.indexOf("&"));
 		}
+
+		if(requestPath.indexOf("=")!=-1){
+			requestPath = requestPath.substring(0,requestPath.indexOf(".do")+3);
+		}
+
 		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
 		return requestPath;
 	}
@@ -256,7 +261,7 @@ public class ResourceUtil {
 //				|| 
 		if (key.equals(DataBaseConstant.SYS_USER_CODE)
 				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
-			returnValue = getSessionUserName().getUserName();
+			returnValue = getSessionUser().getUserName();
 		}
 		//替换为系统登录用户真实名字
 //		if (key.equals(DataBaseConstant.CREATE_NAME)
@@ -266,19 +271,19 @@ public class ResourceUtil {
 		if (key.equals(DataBaseConstant.SYS_USER_NAME)
 				|| key.equals(DataBaseConstant.SYS_USER_NAME_TABLE)
 			) {
-			returnValue =  getSessionUserName().getRealName();
+			returnValue =  getSessionUser().getRealName();
 		}
 
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
 
-			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
+			returnValue = getSessionUser().getCurrentDepart().getOrgCode()
 					.substring(0, Integer.valueOf(getOrgCodeLengthType()) + 1);
 
 		}
 		//替换为系统用户登录所使用的机构编码
 		if (key.equals(DataBaseConstant.SYS_ORG_CODE)|| key.equals(DataBaseConstant.SYS_ORG_CODE_TABLE)) {
-			returnValue = getSessionUserName().getCurrentDepart().getOrgCode();
+			returnValue = getSessionUser().getCurrentDepart().getOrgCode();
 		}
 		//替换为当前系统时间(年月日)
 		if (key.equals(DataBaseConstant.SYS_DATE)|| key.equals(DataBaseConstant.SYS_DATE_TABLE)) {
@@ -287,6 +292,10 @@ public class ResourceUtil {
 		//替换为当前系统时间（年月日时分秒）
 		if (key.equals(DataBaseConstant.SYS_TIME)|| key.equals(DataBaseConstant.SYS_TIME_TABLE)) {
 			returnValue = DateUtils.formatTime();
+		}
+		//流程状态默认值（默认未发起）
+		if (key.equals(DataBaseConstant.BPM_STATUS_TABLE)|| key.equals(DataBaseConstant.BPM_STATUS_TABLE)) {
+			returnValue = "1";
 		}
 		if(returnValue!=null){returnValue = returnValue + moshi;}
 		return returnValue;

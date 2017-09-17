@@ -14,9 +14,9 @@
 .demo p:first-child {
   text-align: center;
   font-family: cursive;
-  font-size: 150px;
+  font-size: 80px;
   font-weight: bold;
-  line-height: 100px;
+  line-height: 80px;
   letter-spacing: 5px;
   color: #fff;
 }
@@ -65,7 +65,7 @@
   text-align: center;
   color: #666;
   font-family: cursive;
-  font-size: 20px;
+  font-size: 10px;
   text-shadow: 0 1px 0 #fff;
   letter-spacing: 1px;
   line-height: 2em;

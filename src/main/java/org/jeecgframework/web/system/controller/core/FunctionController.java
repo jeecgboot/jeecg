@@ -18,6 +18,7 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.NumberComparator;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -157,9 +158,18 @@ public class FunctionController extends BaseController {
 				.updateBySqlString("delete from t_s_role_function where functionid='"
 						+ function.getId() + "'");
 
+		TSFunction parent = function.getTSFunction();
 		try{
+
+			if(parent != null){
+				parent.getTSFunctions().remove(function);
+			}
 			systemService.delete(function);
 		}catch (Exception e){
+			if(parent != null){
+				parent.getTSFunctions().add(function);
+			}
+
 			e.printStackTrace();
 			message=MutiLangUtil.getMutiLangInstance().getLang("common.menu.del.fail");
 		}
@@ -261,13 +271,18 @@ public class FunctionController extends BaseController {
 		if (function.getTSFunction().getId().equals("")) {
 			function.setTSFunction(null);
 		} else {
-			TSFunction parent = systemService.getEntity(TSFunction.class,
-					function.getTSFunction().getId());
+			TSFunction parent = systemService.getEntity(TSFunction.class,function.getTSFunction().getId());
 			function.setFunctionLevel(Short.valueOf(parent.getFunctionLevel()+ 1 + ""));
 		}
 		if (StringUtil.isNotEmpty(function.getId())) {
 			message = MutiLangUtil.paramUpdSuccess("common.menu");
-			userService.saveOrUpdate(function);
+			TSFunction t = systemService.getEntity(TSFunction.class,function.getId());
+			try {
+				MyBeanUtils.copyBeanNotNull2Bean(function, t);
+				userService.saveOrUpdate(t);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			systemService.addLog(message, Globals.Log_Type_UPDATE,Globals.Log_Leavel_INFO);
 
 			List<TSFunction> subFunction = systemService.findByProperty(TSFunction.class, "TSFunction.id", function.getId());
@@ -678,7 +693,9 @@ public class FunctionController extends BaseController {
 		String sql = "SELECT id FROM t_s_data_rule WHERE functionId='"+dataRule.getTSFunction()
 				.getId()+"' AND rule_column='"+dataRule.getRuleColumn()+"' AND rule_conditions='"+dataRule
 				.getRuleConditions()+"'";
-		
+
+		sql+=" AND rule_column IS NOT NULL AND rule_column <> ''";
+
 		List<String> hasOperList = this.systemService.findListbySql(sql); 
 		return hasOperList.size();
 	}

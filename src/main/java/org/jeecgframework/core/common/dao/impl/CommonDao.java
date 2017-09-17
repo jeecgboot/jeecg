@@ -106,7 +106,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	@SuppressWarnings("unchecked")
 	public Object uploadFile(UploadFile uploadFile) {
 		Object object = uploadFile.getObject();
-		if(uploadFile.getFileKey()!=null)
+
+		if(uploadFile.getFileKey()!=null && !"TSDocument".equals(object.getClass().getSimpleName()))
+
 		{
 			updateEntitie(object);
 		}

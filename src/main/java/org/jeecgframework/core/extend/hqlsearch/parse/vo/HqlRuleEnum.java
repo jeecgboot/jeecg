@@ -6,6 +6,7 @@ package org.jeecgframework.core.extend.hqlsearch.parse.vo;
  */
 public enum HqlRuleEnum {
 
+	SQL_RULES("USE_SQL_RULES","自定义SQL表达式"),
     GT(">","大于"),
     GE(">=","大于等于"),
     LT("<","小于"),

@@ -22,12 +22,12 @@ public class PublicUtil {
 		ReflectHelper reflectHelper=new ReflectHelper(obj);
 		if(isCreate){
 			reflectHelper.setMethodValue("createDate", new Date());
-			reflectHelper.setMethodValue("createBy", ResourceUtil.getSessionUserName().getId());
-			reflectHelper.setMethodValue("createName", ResourceUtil.getSessionUserName().getUserName());
+			reflectHelper.setMethodValue("createBy", ResourceUtil.getSessionUser().getId());
+			reflectHelper.setMethodValue("createName", ResourceUtil.getSessionUser().getUserName());
 		}
 		reflectHelper.setMethodValue("updateDate", new Date());
-		reflectHelper.setMethodValue("updateBy", ResourceUtil.getSessionUserName().getId());
-		reflectHelper.setMethodValue("updateName", ResourceUtil.getSessionUserName().getUserName());
+		reflectHelper.setMethodValue("updateBy", ResourceUtil.getSessionUser().getId());
+		reflectHelper.setMethodValue("updateName", ResourceUtil.getSessionUser().getUserName());
 	}
 	/**
 	 * 设置checkbox的值 -- Y/N

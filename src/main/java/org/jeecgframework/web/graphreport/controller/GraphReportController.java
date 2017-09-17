@@ -100,6 +100,9 @@ public class GraphReportController extends BaseController {
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
 		StringBuilder sb= new StringBuilder("");
+
+		sb.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>");
+
 		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
 		sb.append(SysThemesUtil.getReportTheme(sysThemesEnum));
 		sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));

@@ -95,7 +95,13 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		log.setNote(oConvertUtils.getIp());
 		log.setBroswer(broswer);
 		log.setOperatetime(DateUtils.gettimestamp());
-		log.setTSUser(ResourceUtil.getSessionUserName());
+//		log.setTSUser(ResourceUtil.getSessionUser());
+		/*start chenqian 201708031TASK #2317 【改造】系统日志表，增加两个字段，避免关联查询 [操作人账号] [操作人名字]*/
+		TSUser u = ResourceUtil.getSessionUser();
+		log.setUserid(u.getId());
+		log.setUsername(u.getUserName());
+		log.setRealname(u.getRealName());
+		/*update-end--Author chenqian 201708031TASK #2317 【改造】系统日志表，增加两个字段，避免关联查询 [操作人账号] [操作人名字]*/
 		commonDao.save(log);
 	}
 }

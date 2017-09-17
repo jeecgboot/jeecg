@@ -48,7 +48,10 @@ input[type="text"] {
 }
 
 /*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
-a[class="ace_button"]:hover{ color:#DDDDDD!important; text-decoration:none;}
+a[class="ace_button"]:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-begin--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好------------------- */
+a.ace_button:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-end--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好---------------------- */
  .ace_button
  {
   background-color: #21b9bb;

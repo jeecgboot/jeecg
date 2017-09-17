@@ -20,9 +20,9 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @Entity
 @Table(name = "t_s_role")
 public class TSRole extends IdEntity implements java.io.Serializable {
-	@Excel(name = "角色名称")
+	@Excel(name = "角色名称",width = 20)
 	private String roleName;//角色名称
-	@Excel(name = "角色编码")
+	@Excel(name = "角色编码",width = 20)
 	private String roleCode;//角色编码
 	/**创建时间*/
 	private java.util.Date createDate;

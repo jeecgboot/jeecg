@@ -73,7 +73,9 @@ function createDataGrid${config_id}(){
 						 			return href;
 						 		}
 						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
-						 			href+="<img src='"+value+"'/>";
+						 		<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
+						 			href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=50 height=50  />";
+						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
 						 		}else{
 						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 			href+="<a href='"+value+"' class='ace_button' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
@@ -92,8 +94,15 @@ function createDataGrid${config_id}(){
 						var href='';
 						<#if config_noliststr?index_of("delete")==-1>
 						<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
-						href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
-						href+="<i class='fa fa-trash-o'></i>删除</a>";
+						<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+						<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+							href+="[<a href='javascript:void(0)' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
+							href+="删除</a>]";
+						<#else>
+							href+="<a href='javascript:void(0)' class='ace_button' onclick=delObj('cgAutoListController.do?del&configId=${config_id}&id="+rec.id+"','${config_id}List')>";
+							href+="<i class='fa fa-trash-o'></i>删除</a>";
+						</#if>
+						<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 						<#-- //update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						</#if>
 						<#list config_buttons as x>
@@ -106,21 +115,27 @@ function createDataGrid${config_id}(){
 								href+=" onclick=\"${x['buttonCode']}('"+rec.id+"');\"";
 								</#if>
 								href+=" id=\"${x['buttonCode']}\">";
-								<#if x['buttonName']?index_of("测试") gt -1>
-									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
-									href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("导入") gt -1 || x['buttonName']?index_of("下载") gt -1>
-									href+="<i class='fa fa-download'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("导出") gt -1 || x['buttonName']?index_of("上传") gt -1>
-									href+="<i class='fa fa-upload'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("复制") gt -1>
-									href+="<i class='fa fa-copy'></i>${x['buttonName']}</a>";
-								<#elseif x['buttonName']?index_of("剪切") gt -1>
-									href+="<i class='fa fa-cut'></i>${x['buttonName']}</a>";
+								<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+								<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+									href+="${x['buttonName']}</a>]";
 								<#else>
-									href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									<#if x['buttonName']?index_of("测试") gt -1>
+										href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("配置") gt -1 ||  x['buttonName']?index_of("设置") gt -1>
+										href+="<i class='fa fa-cog'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("导入") gt -1 || x['buttonName']?index_of("下载") gt -1>
+										href+="<i class='fa fa-download'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("导出") gt -1 || x['buttonName']?index_of("上传") gt -1>
+										href+="<i class='fa fa-upload'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("复制") gt -1>
+										href+="<i class='fa fa-copy'></i>${x['buttonName']}</a>";
+									<#elseif x['buttonName']?index_of("剪切") gt -1>
+										href+="<i class='fa fa-cut'></i>${x['buttonName']}</a>";
+									<#else>
+										href+="<i class='fa fa-wrench'></i>${x['buttonName']}</a>";
+									</#if>
 								</#if>
+								<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 								<#-- //update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 							</#if>
 						</#list>

@@ -176,18 +176,19 @@ public class RandCodeImageServlet extends HttpServlet {
  * 
  */
 enum RandCodeImageEnum {
+
 	/**
 	 * 混合字符串
 	 */
-	ALL_CHAR("0123456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), // 去除小写的l和o这个两个不容易区分的字符；
+	ALL_CHAR("0123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ"), // 去除小写的l和o这个两个不容易区分的字符；
 	/**
 	 * 字符
 	 */
-	LETTER_CHAR("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+	LETTER_CHAR("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ"),
 	/**
 	 * 小写字母
 	 */
-	LOWER_CHAR("abcdefghijklmnopqrstuvwxyz"),
+	LOWER_CHAR("abcdefghijkmnopqrstuvwxyz"),
 	/**
 	 * 数字
 	 */
@@ -195,7 +196,8 @@ enum RandCodeImageEnum {
 	/**
 	 * 大写字符
 	 */
-	UPPER_CHAR("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	UPPER_CHAR("ABCDEFGHJKLMNOPQRSTUVWXYZ");
+
 	/**
 	 * 待生成的字符串
 	 */

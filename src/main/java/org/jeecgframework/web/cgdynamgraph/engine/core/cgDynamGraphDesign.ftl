@@ -13,7 +13,28 @@
 		<link rel="stylesheet" type="text/css" href="plug-in/accordion/css/icons.css">
 		<link rel="stylesheet" href="plug-in/jquery-ui/css/ui-lightness/jquery-ui-1.9.2.custom.min.css">
 		<link rel="stylesheet" href="plug-in/ichart/css/gallery.css">
-		
+<!-- //update--begin--author:yugwu date:20170618 for:[TASK #2138] 【ie8兼容】移动报表，功能测试乱码 -->
+<!--[if gte IE 6]>
+<!--[if lte IE 8]>
+		<script type="text/javascript" src="plug-in/html5ie/js/html5.js"></script>
+		<script type="text/javascript" src="plug-in/html5ie/js/excanvas.compiled.js"></script>
+		<style type="text/css">
+			#canvasDiv{
+				behavior: url(/plug-in/html5ie/css/ie-css3.htc);
+			}
+		</style>
+		<script type="text/javascript">
+			document.createElement("section");
+			document.createElement("article");
+			document.createElement("footer");
+			document.createElement("header");
+			document.createElement("hgroup");
+			document.createElement("nav");
+			document.createElement("menu");
+		</script>
+<![endif]-->
+<![endif]-->
+<!-- //update--end--author:yugwu date:20170618 for:[TASK #2138] 【ie8兼容】移动报表，功能测试乱码 -->
 		<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
 		<script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
 		<script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>

@@ -103,6 +103,9 @@
 .panel-body {
   border-color: #95B8E7;
 }
+/*update--begin--author:zhangjiaqiang date:20170622 for:增加一个样式引用*/
+.north-header,
+/*update--end--author:zhangjiaqiang date:20170622 for:增加一个样式引用*/
 .panel-header {
   background-color: #E0ECFF;
   background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
@@ -2222,3 +2225,9 @@ a.s-btn-plain-active {
 	margin-right: 10px;
 	cursor: pointer;
 }
+/*update-begin--Author:xuelin  Date:20170624 for：TASK #2167 【技术研究】列表表头表头怎么换行-------------------- */
+.datagrid-header-row td .datagrid-cell{
+	height: inherit;
+    line-height: normal;
+}
+/*update-end--Author:xuelin  Date:20170624 for：TASK #2167 【技术研究】列表表头表头怎么换行---------------------- */

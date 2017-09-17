@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.jeecgframework.codegenerate.util.CodeResourceUtil;
+import org.jeecgframework.codegenerate.util.def.ConvertDef;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormIndexEntity;
@@ -119,8 +121,7 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 				if(oldindexes!=null){
 					for(CgFormIndexEntity cgform : oldindexes){
 						//TODO 索引的创建和删除，需要兼容多数据库
-						String sql = "DROP INDEX " + cgform.getIndexName() + " ON " + formhead.getTableName();
-						this.getSession().createSQLQuery(sql).executeUpdate();
+						dropIndexs(cgform,formhead);
 					}
 				}
 			} catch (HibernateException e) {
@@ -138,7 +139,7 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 			}
 		}
 		return isChange;
-	}
+	}	
 
 	@Override
 	public void createIndexes(CgFormHeadEntity cgFormHead) {
@@ -146,14 +147,64 @@ public class CgFormIndexServiceImpl extends CommonServiceImpl implements CgFormI
 		List<CgFormIndexEntity> indexes = this.getSession().createSQLQuery("select * from cgform_index where table_id = '" + cgFormHead.getId() + "'").addEntity(CgFormIndexEntity.class).list();
 		if(indexes.size()!=0){
 			for(CgFormIndexEntity cgform : indexes){
-				String sql = "";
-				if(cgform.getIndexType().equals("normal")){
-					sql = "create index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
-				}else{
-					sql = "create " + cgform.getIndexType() + " index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+				if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_MYSQL)){
+					//mysql
+					String sql = "";
+					if(cgform.getIndexType().equals("normal")){
+						sql = "create index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}else{
+						sql = "create " + cgform.getIndexType() + " index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}
+					this.getSession().createSQLQuery(sql).executeUpdate();
+				}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_ORACLE)){
+					//oracle
+					String sql = "";
+					if(cgform.getIndexType().equals("normal")){
+						sql = "create index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}else{
+						sql = "create " + cgform.getIndexType() + " index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}
+					this.getSession().createSQLQuery(sql).executeUpdate();
+				}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_postgresql)){
+					//postgresql
+					String sql = "";
+					if(cgform.getIndexType().equals("normal")){
+						sql = "create index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}else{
+						sql = "create " + cgform.getIndexType() + " index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}
+					this.getSession().createSQLQuery(sql).executeUpdate();
+				}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_SQL_SERVER)){
+					//sqlserver
+					String sql = "";
+					if(cgform.getIndexType().equals("normal")){
+						sql = "create index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}else{
+						sql = "create " + cgform.getIndexType() + " index " + cgform.getIndexName() + " on " + formhead.getTableName() + "(" + cgform.getIndexField() + ")";
+					}
+					this.getSession().createSQLQuery(sql).executeUpdate();
 				}
-				this.getSession().createSQLQuery(sql).executeUpdate();
 			}
 		}
 	}
+	private void dropIndexs(CgFormIndexEntity cgform,CgFormHeadEntity formhead){
+		if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_MYSQL)){
+			//mysql
+			String sql = "DROP INDEX " + cgform.getIndexName() + " ON " + formhead.getTableName();
+			this.getSession().createSQLQuery(sql).executeUpdate();
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_ORACLE)){
+			//oracle
+			String sql = "DROP INDEX " + cgform.getIndexName();
+			this.getSession().createSQLQuery(sql).executeUpdate();
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_postgresql)){
+			//postgresql
+			String sql = "DROP INDEX " + cgform.getIndexName();
+			this.getSession().createSQLQuery(sql).executeUpdate();
+		}else if(CodeResourceUtil.DATABASE_TYPE.equals(ConvertDef.DATABASE_TYPE_SQL_SERVER)){
+			//sqlserver
+			String sql = "DROP INDEX " + cgform.getIndexName() + " ON " + formhead.getTableName();
+			this.getSession().createSQLQuery(sql).executeUpdate();
+		}
+	}
+		
 }

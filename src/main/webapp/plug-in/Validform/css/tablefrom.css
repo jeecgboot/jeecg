@@ -12,6 +12,8 @@ body {
 	padding:3px 2px;
 }
 .formtable select{
+	/* author:scott date:2017-08-09 for: ie8下 select无边框 */
+	border:1px solid #a5aeb6;
 	padding:3px 2px;
 	width:155px;
 }

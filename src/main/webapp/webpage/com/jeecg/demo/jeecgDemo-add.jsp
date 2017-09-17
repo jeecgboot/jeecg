@@ -141,7 +141,7 @@
 						</label>
 					</td>
 					<td class="value">
-					<t:webUploader type="image" name="touxiang" auto="true"></t:webUploader>
+					<t:webUploader type="image" displayTxt="false" bizType="photosucai" name="touxiang" auto="true" dataType="*"></t:webUploader>
 						<span class="Validform_checktip Validform_right" style="display: none;">图片已上传</span>
 					</td>
 				</tr>
@@ -153,7 +153,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<t:webUploader auto="true" name="fujian" fileNumLimit="3"></t:webUploader>
+						<t:webUploader auto="true" name="fujian" fileNumLimit="3" dataType="*"></t:webUploader>
 						<span class="Validform_checktip Validform_right" style="display: none;">文件已上传</span>
 					</td>
 				</tr>

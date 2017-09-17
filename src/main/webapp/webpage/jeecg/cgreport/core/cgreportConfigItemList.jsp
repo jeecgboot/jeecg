@@ -43,9 +43,10 @@
 	<tbody id="add_cgreportConfigItem_table">
 		<c:if test="${fn:length(cgreportConfigItemList)  <= 0 }">
 			<tr>
-				<td align="center"><input style="width: 20px;" type="checkbox" name="ck" /></td>
+				<td align="center"><input style="width: 20px;" type="checkbox" name="ck" />
 				<input name="cgreportConfigItemList[0].id" type="hidden" />
 				<input name="cgreportConfigItemList[0].cgrheadId" type="hidden" />
+				</td>
 				<td align="left"><input name="cgreportConfigItemList[0].fieldName" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
 				<td align="left"><input name="cgreportConfigItemList[0].orderNum" maxlength="3" type="text" class="inputxt" style="width: 30px;"></td>
 				<td align="left"><input name="cgreportConfigItemList[0].fieldTxt" maxlength="1000" type="text" class="inputxt" style="width: 120px;"></td>
@@ -64,9 +65,10 @@
 		<c:if test="${fn:length(cgreportConfigItemList)  > 0 }">
 			<c:forEach items="${cgreportConfigItemList}" var="poVal" varStatus="stuts">
 				<tr>
-					<td align="center"><input style="width: 20px;" type="checkbox" name="ck" /></td>
+					<td align="center"><input style="width: 20px;" type="checkbox" name="ck" />
 					<input name="cgreportConfigItemList[${stuts.index }].id" type="hidden" value="${poVal.id }" />
 					<input name="cgreportConfigItemList[${stuts.index }].cgrheadId" type="hidden" value="${poVal.cgrheadId }" />
+					</td>
 					<td align="left"><input name="cgreportConfigItemList[${stuts.index }].fieldName" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="${poVal.fieldName }"></td>
 					<td align="left"><input name="cgreportConfigItemList[${stuts.index }].orderNum" maxlength="10" type="text" class="inputxt" style="width: 30px;" value="${poVal.orderNum }"></td>
 					<td align="left"><input name="cgreportConfigItemList[${stuts.index }].fieldTxt" maxlength="1000" type="text" class="inputxt" style="width: 120px;" value="${poVal.fieldTxt }"></td>

@@ -435,16 +435,19 @@ function openOrCloseSetKeyOp(boo){
  * fix修复
  */
 function fixTab(){
+
 	$('#tabs').tabs({
+		width: 2000,
 	    onSelect:function(title){
 	        if(title=="数据库属性"){fix("database");}
 	        else if(title=="页面属性"){fix("page");}
 	        else if(title=="校验字典"){fix("check");}
 	        else if(title=="外键"){fix("key");}
 	        else if(title=="索引"){fix("index");}
-	        $('#tabs .panel-body').css('width','auto');
 	    }
 	});
+
+	
 	$('#t_table_database').scroll(function(){
  		 $('#tab_div_database_title').css('margin-left',-($('#t_table_database').scrollLeft()));
 	});

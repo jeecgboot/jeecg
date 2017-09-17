@@ -66,7 +66,19 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	public void updateMain(${entityName}Entity ${entityName?uncap_first},
 	        <#list subTab as sub>List<${sub.entityName}Entity> ${sub.entityName?uncap_first}List<#if sub_has_next>,</#if></#list>) {
 		//保存主表信息
-		this.saveOrUpdate(${entityName?uncap_first});
+		<#-- update--begin--author:zhangjiaqiang date:20170601 for:service当中增加进行获取数据库当中的数据信息 -->
+		if(StringUtil.isNotEmpty(${entityName?uncap_first}.get${jeecg_table_id?cap_first}())){
+			try {
+				${entityName}Entity temp = findUniqueByProperty(${entityName}Entity.class, "${jeecg_table_id}", ${entityName?uncap_first}.get${jeecg_table_id?cap_first}());
+				MyBeanUtils.copyBeanNotNull2Bean(${entityName?uncap_first}, temp);
+				this.saveOrUpdate(temp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			this.saveOrUpdate(${entityName?uncap_first});
+		}
+		<#-- update--end--author:zhangjiaqiang date:20170601 for:service当中增加进行获取数据库当中的数据信息 -->
 		//===================================================================================
 		//获取参数
 	    <#list subTab as sub>

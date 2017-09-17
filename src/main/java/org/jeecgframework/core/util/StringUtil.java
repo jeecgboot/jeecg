@@ -359,6 +359,36 @@ public class StringUtil {
 	}
 
 	/**
+	 * 转化为String时过滤空
+	 * @param o
+	 * @return
+	 */
+	public static String formatEmpty(Object o){
+		if(o == null){
+			return "";
+		}else{
+			return o.toString();
+		}
+	}
+	/**
+	 * 将多个对象拼接成一个String
+	 * @param objs
+	 * @return
+	 */
+	public static String concate(Object... objs){
+		if(objs == null || objs.length <= 0){
+			return "";
+		}
+		StringBuffer result = new StringBuffer();
+		for(int i=0; i<objs.length; i++){
+			result.append(formatEmpty(objs[i]));
+			result.append("_");
+		}
+		return result.toString();
+	}
+
+
+	/**
 	 * 自定义的分隔字符串函数 例如: 1,2,3 =>[1,2,3] 3个元素 ,2,3=>[,2,3] 3个元素 ,2,3,=>[,2,3,] 4个元素 ,,,=>[,,,] 4个元素
 	 * 
 	 * 5.22算法修改，为提高速度不用正则表达式 两个间隔符,,返回""元素

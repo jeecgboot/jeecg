@@ -786,4 +786,17 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 		return cgFormFieldDao.getByphysiceId(id);
 	}
 
+	@Override
+	public List<Map<String,Object>> getPeizhiCountByIds(List<CgFormHeadEntity> list) {
+		StringBuffer ids = new StringBuffer("");
+		for(CgFormHeadEntity temp:list){
+		        ids.append(",'"+temp.getId()+"'");		        
+		}
+
+		//该分类无数据
+		if (StringUtils.isBlank(ids.toString())) {
+			return new ArrayList<Map<String,Object>>();
+		}
+		return cgFormFieldDao.getPeizhiCountByIds(ids.toString().replaceFirst(",", ""));
+	}
 }

@@ -35,6 +35,12 @@ public class SysContextSqlConvert {
 		return "";
 		String sqlValue="";
 		HqlRuleEnum ruleEnum=HqlRuleEnum.getByValue(dataRule.getRuleConditions());
+
+		if(ruleEnum == HqlRuleEnum.SQL_RULES){
+			sqlValue +=" and ("+ dataRule.getRuleValue()+")";
+			return sqlValue;
+		}
+
 		//#{sys_user_code}%
 		String ValueTemp = dataRule.getRuleValue();
 		String moshi = "";

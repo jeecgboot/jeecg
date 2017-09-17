@@ -46,6 +46,8 @@ public class CgAutoListConstant {
 	public static final String FIELD_TITLE = "field_title";
 	/** 字段是否显示 */
 	public static final String FIELD_ISSHOW = "field_isShow";
+	/** 字段是否允许为空 */
+	public static final String FIELD_IS_NULL = "field_isNull";
 	/** 字段是否查询 */
 	public static final String FIELD_ISQUERY = "field_isQuery";
 	/** 字段查询模式 */

@@ -1,4 +1,11 @@
-﻿﻿//update-begin--Author:scott  --- Date:20170401 --- for：inputclick ajax请求追加根路径，防止深路径访问有问题----
+﻿
+if(!window.console){
+    window.console = {};
+}
+if(!window.console.log){
+    window.console.log = function(msg){};
+}
+
 var basePath;
 try{
 	var local = window.location;  
@@ -198,6 +205,7 @@ function createdetailwindow(title, addurl,width,height) {
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}else{
+
 		W.$.dialog({
 			content: 'url:'+addurl,
 			zIndex: getzIndex(),
@@ -209,8 +217,12 @@ function createdetailwindow(title, addurl,width,height) {
 			opacity : 0.3,
 			cache:false, 
 		    cancelVal: 'Close',
-		    cancel: true /*为true等价于function(){}*/
+		    cancel: function(){
+		    	windowapi.zindex();
+		    }
+			//true /*为true等价于function(){}*/
 		});
+
 	}
 	
 }
@@ -294,7 +306,9 @@ function tip(msg) {
 //		});
 
 		var navigatorName = "Microsoft Internet Explorer"; 
-		if( navigator.appName == navigatorName ){ 
+
+		if(navigator.appName == navigatorName||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){
+
 			$.messager.show({
 				title : 'Tip Message',
 				msg : msg,
@@ -333,7 +347,9 @@ function alerLayerTip(msg) {
 	}
 	try{
 		var navigatorName = "Microsoft Internet Explorer"; 
-		if( navigator.appName == navigatorName ){
+
+		if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){
+
 			$.messager.alert('提示信息',msg);
 		}else{
 			layer.open({
@@ -413,7 +429,8 @@ function createwindow(title, addurl,width,height) {
 		    cancel: true /*为true等价于function(){}*/
 		});
 	}else{
-		W.$.dialog({
+
+		/*W.*/$.dialog({//使用W，即为使用顶级页面作为openner，造成打开的次级窗口获取不到关联的主窗口
 			content: 'url:'+addurl,
 			lock : true,
 			width:width,
@@ -431,6 +448,7 @@ function createwindow(title, addurl,width,height) {
 		    cancelVal: 'Close',
 		    cancel: true /*为true等价于function(){}*/
 		});
+
 	}
     //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
 	
@@ -629,7 +647,9 @@ function createdialog(title, content, url,name) {
 	$.dialog.setting.zIndex = getzIndex(true);
 
 	var navigatorName = "Microsoft Internet Explorer"; 
-	if( navigator.appName == navigatorName ){ 
+
+	if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){
+
 		$.dialog.confirm(content, function(){
 			doSubmit(url,name);
 			rowid = '';
@@ -1153,8 +1173,14 @@ function JeecgExcelExport(url,datagridId){
 		if(val.field != 'opt'){
 			fields+=val.field+',';
 		}
-	}); 
-	window.location.href = url+ encodeURI(fields+params);
+	});
+
+    var id='&id=';
+    $.each($('#'+ datagridId).datagrid('getSelections'), function(i, val){
+        id+=val.id+",";
+    });
+    window.location.href = url+ encodeURI(fields+params+id);
+
 }
 /**
  * 自动完成的解析函数
@@ -1463,3 +1489,70 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 		}
 	}
 //add--end--Author:gengjiajia date:20160802 for: TASK #1175 批量添加数据的时popup多值的传递
+
+/*
+ * 鼠标放在图片上方，显示大图
+ */
+var bigImgIndex = null;
+function tipImg(obj){
+	try{
+		var navigatorName = "Microsoft Internet Explorer"; 
+		if( navigator.appName != navigatorName ){ 
+			if(obj.nodeName == 'IMG'){
+				var e = window.event;
+				var x = e.clientX+document.body.scrollLeft + document.documentElement.scrollLeft
+				var y = e.clientY+document.body.scrollTop + document.documentElement.scrollTop 
+				var src = obj.src;
+				var width = obj.naturalWidth;
+				var height = obj.naturalHeight;
+				bigImgIndex = layer.open({
+					content:[src,'no'],
+					type:2,
+					offset:[y+"px",x+"px"],
+					title:false,
+					area:[width+"px",height+"px"],
+					shade:0,
+					closeBtn:0
+				});
+			}
+		}
+	}catch(e){
+		
+	}
+	
+}
+
+function moveTipImg(){
+	try{
+		if(bigImgIndex != null){
+			layer.close(bigImgIndex);
+		}
+	}catch(e){
+		
+	}
+}
+function treeFormater(value,row,index){
+	if(value != null && value != ''){
+			var result = $.ajax({
+				url:'categoryController.do?tree',
+				type:'POST',
+				dataType:'JSON',
+				data:{
+					selfCode:value
+				},
+				async:false
+			});
+		var responseText = result.responseText;
+		if(typeof responseText == 'string'){
+			responseText = JSON.parse(responseText);
+		}
+		if(responseText.length != undefined && responseText.length > 0 && responseText[0].text != undefined){
+			return responseText[0].text;
+		}
+		else
+			return value;
+		}else{
+			return value;
+		}
+}
+//<!-- update-begin-author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->

@@ -1,0 +1,395 @@
+/* line 3, app/styles/app.scss */
+.nav,
+.nav-tabs {
+ /* margin: 5px 0;
+ border-bottom: none;*/
+ border-top: 1px solid #e5e5e5;
+}
+/* line 8, app/styles/app.scss */
+.nav ul li,
+.nav-tabs ul li {
+  border-right: 1px solid #fff;
+  border-left: 1px solid #c7c7c7;
+  border: 0;
+}
+/* line 12, app/styles/app.scss */
+.nav ul li:first-child,
+.nav-tabs ul li:first-child {
+  border-right: 0px solid #fff;
+}
+/* line 18, app/styles/app.scss */
+.nav ul li a,
+.nav-tabs ul li a {
+  color: #333;
+  border-radius: 0;
+  padding: 0 15px;
+}
+/* line 23, app/styles/app.scss */
+.nav ul li.active,
+.nav-tabs ul li.active {
+  background-color: #ddd;
+}
+/* line 25, app/styles/app.scss */
+.nav ul li.active a,
+.nav-tabs ul li.active a {
+  color: #70070d;
+  border-radius: 0;
+}
+/* line 33, app/styles/app.scss */
+.panel {
+  border-radius: 0;
+}
+/* line 35, app/styles/app.scss */
+.panel .panel-heading {
+  color: #8f0911;
+}
+/* line 38, app/styles/app.scss */
+.panel .dropdown {
+  float: left;
+  margin-right: 10px;
+}
+
+/* line 43, app/styles/app.scss */
+.oper-bar {
+  background-color: #e9e9e9;
+  border-top: 1px solid #d8d8d8;
+  border-left: 1px solid #d8d8d8;
+  border-right: 1px solid #d8d8d8;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 15px;
+}
+/* line 50, app/styles/app.scss */
+.oper-bar ul {
+  *zoom: 1;
+  padding: 0;
+}
+/* line 6, app/styles/_common.scss */
+.oper-bar ul:before, .oper-bar ul:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+/* line 12, app/styles/_common.scss */
+.oper-bar ul:after {
+  clear: both;
+}
+/* line 53, app/styles/app.scss */
+.oper-bar ul li {
+  float: left;
+  margin: 10px 0 0 10px;
+}
+/* line 60, app/styles/app.scss */
+.oper-bar ul li.new .icon-new, .oper-bar ul li.delete .icon-new, .oper-bar ul li.edit .icon-new, .oper-bar ul li.save .icon-new {
+  background: url(../images/new.png) no-repeat;
+}
+/* line 63, app/styles/app.scss */
+.oper-bar ul li.new .icon-delete, .oper-bar ul li.delete .icon-delete, .oper-bar ul li.edit .icon-delete, .oper-bar ul li.save .icon-delete {
+  background: url(../images/delete.png) no-repeat;
+}
+/* line 66, app/styles/app.scss */
+.oper-bar ul li.new .icon-edit, .oper-bar ul li.delete .icon-edit, .oper-bar ul li.edit .icon-edit, .oper-bar ul li.save .icon-edit {
+  background: url(../images/edit.png) no-repeat;
+}
+/* line 69, app/styles/app.scss */
+.oper-bar ul li.new .icon-save, .oper-bar ul li.delete .icon-save, .oper-bar ul li.edit .icon-save, .oper-bar ul li.save .icon-save {
+  background: url(../images/save.png) no-repeat;
+}
+/* line 72, app/styles/app.scss */
+.oper-bar ul li.new .icon-new,
+.oper-bar ul li.new .icon-delete,
+.oper-bar ul li.new .icon-edit,
+.oper-bar ul li.new .icon-save, .oper-bar ul li.delete .icon-new,
+.oper-bar ul li.delete .icon-delete,
+.oper-bar ul li.delete .icon-edit,
+.oper-bar ul li.delete .icon-save, .oper-bar ul li.edit .icon-new,
+.oper-bar ul li.edit .icon-delete,
+.oper-bar ul li.edit .icon-edit,
+.oper-bar ul li.edit .icon-save, .oper-bar ul li.save .icon-new,
+.oper-bar ul li.save .icon-delete,
+.oper-bar ul li.save .icon-edit,
+.oper-bar ul li.save .icon-save {
+  float: left;
+  margin: 4px 3px 0 0;
+  width: 14px;
+  height: 14px;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+}   
+/* line 95, app/styles/app.scss */
+.logo {
+  height: 60px;
+  background: #fff url(../images/logo-bg.png) no-repeat 0 18px;
+  margin: 0;
+  background-size: 100%;
+}
+/* line 98, app/styles/app.scss */
+.logo .icon-logo {
+  margin-top: 10px;
+}
+.logo .icon-logo h2{
+  float: left;
+  margin: 10px 0 0 30px;
+  font-weight: bold;
+  font-size: 30px;
+  background-color: #fff;
+  padding: 0 15px;
+}
+/* line 101, app/styles/app.scss */
+.logo img {
+  width: 236px;
+  height: 35px;
+}
+.header-topp .row .col-md-12{
+  height: 30px;
+  line-height: 30px;
+  background-color: #221814;
+  text-align: left;
+  color: white;
+}
+.header-topp .row .col-md-12 > div{
+  float: right;
+  margin-right: 15px;
+}
+.quit a{
+  color: #fff;
+}
+.quit a:hover{
+  text-decoration: none;
+  color: #8f0911;
+}
+.quit .icon-quit{
+  background: url(../images/icon-quit.png) no-repeat;
+}
+.welcome .icon-user{
+  background: url(../images/icon-user.png) no-repeat;
+}
+.time .icon-calendar{
+  background: url(../images/icon-calendar.png) no-repeat;
+}
+.quit .icon-quit,
+.welcome .icon-user,
+.time .icon-calendar{
+  float: left;
+  margin: 6px 5px 0 0;
+  width: 16px;
+  height: 16px;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+}
+.time .icon-calendar{
+  width: 14px;
+  height: 14px;
+}
+.header-topp .icon-calendar:before,
+.header-topp .icon-user:before{
+  content: "";
+}
+.btn-default{
+  height: 24px;
+  line-height: 24px;
+  padding: 0 12px;
+  background-color: #eee;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+}
+.form-group,
+select{
+  margin-right: 15px;
+}
+select{
+	height: 31px;
+}
+.layout-wraper{
+  padding: 0 15px;
+}
+.layout-wraper h3{
+  color: #8f0911;
+}
+.layout-header{
+  height: 36px;
+  line-height: 36px;
+  background-color: #e4e4e4;
+}
+.form-wrapper {
+  border: 1px solid #e4e4e4;
+  background-color: #fff;
+  margin: 0;
+}
+.form-wrapper .row{
+  margin: 0 0;
+}
+.layout-header .btn {
+  margin: 6px 5px 0 0;
+  float: left;
+}
+.layout-wraper .row{
+  border-bottom: 1px solid #e4e4e4;
+}
+.layout-wraper .row .row:last-child{
+  border-bottom: none;
+}
+.layout-wraper .row > div{
+  line-height: 36px;
+  border-left: 1px solid #e4e4e4;
+}
+.layout-wraper .row > div:first-child{
+  border-left: none;
+}
+.layout-wraper .row .checkbox{
+ margin: 0 15px 0 0;
+}
+.layout-wraper .row .checkbox input{
+  margin: 11px 0 0 -15px;
+}
+.layout-wraper .row input,
+.layout-wraper .row select{
+  margin: 4px 0 4px 0;
+
+}
+/*tab页签样式*/
+.tab-wrapper{
+  /*border: 1px solid #ddd;*/
+  margin-top: 15px;
+}
+.tab-wrapper:first-child{
+  margin-top: 0;
+}
+.tab-wrapper .nav-tabs{
+  font-size: 14px;    
+  font-weight: bold;
+  background-color: #ddd;
+  margin: 0;
+}
+.tab-wrapper .nav > li{
+  border-right:1px solid #fff;
+  border-left:1px solid #c7c7c7;
+}
+.tab-wrapper .nav > li:first-child{
+  border-left: none;
+}
+.tab-wrapper .nav > li > a{
+  padding: 5px 15px;
+  color: #333;
+}
+.tab-wrapper{
+  padding-left: 0px;
+  background-color: #f8f8f8;
+}
+.tab-wrapper .nav-tabs > li.active > a,
+.tab-wrapper .nav-tabs > li.active > a:hover,
+.tab-wrapper .nav-tabs > li.active > a:focus {
+  color: #8f0911;
+}
+.con-wrapper .row{
+  border-bottom: 1px solid #e4e4e4;
+  margin: 0;
+}
+.con-wrapper .row .row:last-child{
+  border-bottom: none;
+}
+.con-wrapper .row > div{
+  line-height: 36px;
+  min-height: 36px;
+  border-left: 1px solid #e4e4e4;
+}
+.con-wrapper .row > div:first-child{
+  border-left: none;
+}
+.con-wrapper{
+  display: none;
+}
+.con-wrapper h4{
+ /* color: #8f0911;*/
+ margin: 10px 0 10px -15px;
+}
+.con-wrapper .row .checkbox{
+ margin: 0 15px 0 0;
+}
+.con-wrapper .row .checkbox input{
+  margin: 11px 0 0 -15px;
+}
+.con-wrapper .row input,
+.con-wrapper .row select{
+  margin: 3px 0 4px 0;
+}
+.font-red {
+	color: #8f0911;
+}
+.benma_ui_tab{
+  background-color: #ddd;
+  width: 100%;
+}
+.header-topp .row .col-md-12 .version{
+  float: left;
+  margin-left: 40px;
+}
+.header-topp .row .col-md-12 .version a{
+  color: white;
+}
+.header-topp .row .col-md-12 .version a:hover{
+  color: #8f0911;
+}
+.label-gray{
+  font-size : 10px;
+  float: left;
+  margin: 5px 10px 0 0;
+  padding: .4em 1.2em .4em .4em;
+  position: relative;
+  border: 1px solid #f1f1f1;
+  background-color: #f8f8f8;
+  color: #000;
+}
+.label-gray .icon-close{
+  position:absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  background: url(../images/icon-close.png) no-repeat;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+  cursor: pointer;
+}
+/* .glyphicon{
+top:5px;
+}
+*/
+.s-line{
+  float: left;
+  margin: 10px 15px 0 0;
+  width: 350px;
+}
+.s-line label{
+  float: left;
+  text-align: right;
+  padding: 0 10px 0 0;
+  width: 175px;
+  height: 30px;
+  line-height: 30px;
+  font-weight: normal;
+}
+.mar-15{
+  margin: 15px 0 0 0;
+}
+
+.form-inline .s-line input, 
+.form-inline .s-line select{
+  float: left;
+  width: 160px;
+}
+
+
+
+
+
+
+
+
+
+
+

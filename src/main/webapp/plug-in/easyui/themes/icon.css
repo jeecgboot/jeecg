@@ -78,3 +78,8 @@
 .icon-goright{
 	background:url('icons/goright.png') no-repeat center center;
 }
+.icon-ok64{
+	display:inline-block;
+	width:64px;height:64px;
+	background:url('icons/ok64.png') no-repeat center center;
+}

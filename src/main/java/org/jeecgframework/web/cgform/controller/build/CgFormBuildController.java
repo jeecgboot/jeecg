@@ -21,6 +21,7 @@ import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.ContextHolderUtils;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
@@ -122,6 +123,26 @@ public class CgFormBuildController extends BaseController {
 			String templateName=tablename+"_";
 			//String templateName=tableName+"_";
 
+			Map<String, Object> dataForm = new HashMap<String, Object>();
+	        if(StringUtils.isNotEmpty(id)){
+
+	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
+	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
+
+		        if(dataForm!=null){
+		        	Iterator it=dataForm.entrySet().iterator();
+				    while(it.hasNext()){
+				    	Map.Entry entry=(Map.Entry)it.next();
+				        String ok=(String)entry.getKey();
+				        Object ov=entry.getValue();
+				        data.put(ok, ov);
+				    }
+		        }else{
+		        	id = null;
+		        	dataForm = new HashMap<String, Object>();
+		        }
+	        }
+
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
 				templateName+=TemplateUtil.TemplateType.ADD.getName();
@@ -140,20 +161,7 @@ public class CgFormBuildController extends BaseController {
 	    	data = new HashMap(configData);
 	    	//如果该表是主表查出关联的附表
 	    	CgFormHeadEntity head = (CgFormHeadEntity)data.get("head");
-	        Map<String, Object> dataForm = new HashMap<String, Object>();
-	        if(StringUtils.isNotEmpty(id)){
-
-	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
-	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
-
-	        }
-	        Iterator it=dataForm.entrySet().iterator();
-		    while(it.hasNext()){
-		    	Map.Entry entry=(Map.Entry)it.next();
-		        String ok=(String)entry.getKey();
-		        Object ov=entry.getValue();
-		        data.put(ok, ov);
-		    }
+	      
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
 
@@ -186,9 +194,12 @@ public class CgFormBuildController extends BaseController {
 	    	pushImages(data, id);
 	    	
 	    	//增加basePath
-	    	String basePath = request.getContextPath();
+	    	//String basePath = request.getContextPath();
+	    	String basePath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	    	data.put(CgAutoListConstant.BASEPATH, basePath);
-	    	
+
+	    	data.put("brower_type", ContextHolderUtils.getSession().getAttribute("brower_type"));
+
 			String content =null;
 			response.setContentType("text/html;charset=utf-8");
 
@@ -278,9 +289,13 @@ public class CgFormBuildController extends BaseController {
 	private String getHtmlHead(HttpServletRequest request){
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
+		if(lang==null||lang.length()<=0){
+			lang = "zh-cn";
+		}
 		StringBuilder sb= new StringBuilder("");
 		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
-		String basePath = request.getContextPath();
+		//String basePath = request.getContextPath();
+		String basePath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery/jquery-1.8.3.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/dataformat.js\"></script>");
 		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\""+basePath+"/plug-in/accordion/css/accordion.css\">");
@@ -412,10 +427,11 @@ public class CgFormBuildController extends BaseController {
 			    	try {
 						dataBaseService.insertTable(tableName, data);
 						j.setSuccess(true);
-						message = "业务提交成功";
+						message = "保存成功";
 			    	}catch (Exception e) {
 			    		j.setSuccess(false);
-						message = "业务提交失败";
+						message = "保存失败";
+						e.printStackTrace();
 			    	}
 			    	//--author：luobaoli---------date:20150615--------for: 处理service层抛出的异常
 				} catch (Exception e) {
@@ -432,17 +448,17 @@ public class CgFormBuildController extends BaseController {
 					int num = dataBaseService.updateTable(tableName, id, data);
 					if (num>0) {
 						j.setSuccess(true);
-						message = "业务更新成功";
+						message = "保存成功";
 					}else {
 						j.setSuccess(false);
-						message = "业务更新失败";
+						message = "保存失败";
 					}
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 					j.setSuccess(false);
 					message = e.getMessage();
 				}
+				logger.info("["+IpUtil.getIpAddr(request)+"][online表单单表数据保存和更新]"+message+"表名："+tableName);
 			}
 		}
 		j.setMsg(message);
@@ -505,6 +521,7 @@ public class CgFormBuildController extends BaseController {
 					message = e.getMessage();
 				}
 			}
+		    logger.info("["+IpUtil.getIpAddr(request)+"][online表单一对多数据保存和更新]"+message+"表名："+tableName);
 		}
 		j.setMsg(message);
 		j.setObj(data);
@@ -544,6 +561,7 @@ public class CgFormBuildController extends BaseController {
 			}
 			j.setSuccess(true);
 			message = "操作成功";
+			logger.info("["+IpUtil.getIpAddr(request)+"][online表单自定义按钮action触发]"+message+"表名："+tableName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = "操作失败";

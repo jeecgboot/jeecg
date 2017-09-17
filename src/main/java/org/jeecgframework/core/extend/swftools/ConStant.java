@@ -21,6 +21,7 @@ public class ConStant {
 	public static final String SWFTOOLS_BASE_DIR = "swftools";
 	/**PDF-SWF*/
 	public static final String SWFTOOLS_PDF2SWF_PATH ="pdf2swf.exe";
+	public static final String SWFTOOLS_PDF2SWF="pdf2swf";
 	/**GIF-SWF*/
 	public static final String SWFTOOLS_GIF2SWF_PATH ="gif2swf.exe";
 	/**PNG-SWF*/
@@ -46,6 +47,32 @@ public class ConStant {
 		if(extend.equals("pdf"))
 		{
 			SWFTOOLS_HOME+=SWFTOOLS_PDF2SWF_PATH;
+		}
+		if(extend.equals("gif"))
+		{
+			SWFTOOLS_HOME+=SWFTOOLS_GIF2SWF_PATH;
+		}
+		if(extend.equals("png"))
+		{
+			SWFTOOLS_HOME+=SWFTOOLS_PNG2SWF_PATH;
+		}
+		if(extend.equals("jpeg"))
+		{
+			SWFTOOLS_HOME+=SWFTOOLS_JPEG2SWF_PATH;
+		}
+		if(extend.equals("wav"))
+		{
+			SWFTOOLS_HOME+=SWFTOOLS_WAV2SWF_PATH;
+		}
+		return SWFTOOLS_HOME;
+	}
+	public static String getSWFToolsForLinux(String extend)
+	{
+
+		SWFTOOLS_HOME="";
+		if(extend.equals("pdf"))
+		{
+			SWFTOOLS_HOME+=SWFTOOLS_PDF2SWF;
 		}
 		if(extend.equals("gif"))
 		{

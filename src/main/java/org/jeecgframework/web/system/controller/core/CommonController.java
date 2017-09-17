@@ -63,6 +63,7 @@ public class CommonController extends BaseController {
 	@RequestMapping(params = "listTurn")
 	public ModelAndView listTurn(HttpServletRequest request) {
 		String turn = request.getParameter("turn");// 跳转的目标页面
+		logger.info("--通用页面跳转--listTurn-------"+turn);
 		return new ModelAndView(turn);
 	}
 
@@ -76,7 +77,7 @@ public class CommonController extends BaseController {
 		String fileid = request.getParameter("fileid");
 		String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "org.jeecgframework.web.system.pojo.base.TSAttachment");
 		String contentfield = oConvertUtils.getString(request.getParameter("contentfield"));
-		Class fileClass = MyClassLoader.getClassByScn(subclassname);// 附件的实际类
+		Class<?> fileClass = MyClassLoader.getClassByScn(subclassname);// 附件的实际类
 		Object fileobj = systemService.getEntity(fileClass, fileid);
 		ReflectHelper reflectHelper = new ReflectHelper(fileobj);
 		String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
@@ -93,6 +94,9 @@ public class CommonController extends BaseController {
 			return new ModelAndView("common/upload/imageView");
 		} else {
 			String swfpath = oConvertUtils.getString(reflectHelper.getMethodValue("swfpath"));
+
+			swfpath=swfpath.replace("\\","/");
+
 			request.setAttribute("swfpath", swfpath);
 			return new ModelAndView("common/upload/swfView");
 		}
@@ -100,29 +104,49 @@ public class CommonController extends BaseController {
 	}
 
 	/**
-	 * 附件预览读取
+	 * 附件预览读取/下载文件
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "viewFile")
 	public void viewFile(HttpServletRequest request, HttpServletResponse response) {
 		String fileid =oConvertUtils.getString(request.getParameter("fileid"));
-		String subclassname = oConvertUtils.getString(request.getParameter("subclassname"), "com.jeecg.base.pojo.TSAttachment");
-		Class fileClass = MyClassLoader.getClassByScn(subclassname);// 附件的实际类
-		Object fileobj = systemService.getEntity(fileClass, fileid);
-		ReflectHelper reflectHelper = new ReflectHelper(fileobj);
-		UploadFile uploadFile = new UploadFile(request, response);
-		String contentfield = oConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
-		byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
-		String path = oConvertUtils.getString(reflectHelper.getMethodValue("realpath"));
-		String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
-		String attachmenttitle = oConvertUtils.getString(reflectHelper.getMethodValue("attachmenttitle"));
-		uploadFile.setExtend(extend);
-		uploadFile.setTitleField(attachmenttitle);
-		uploadFile.setRealPath(path);
-		uploadFile.setContent(content);
-		//uploadFile.setView(true);
-		systemService.viewOrDownloadFile(uploadFile);
+
+		String subclassname = request.getParameter("subclassname");
+		if(oConvertUtils.isEmpty(subclassname)){
+			TSAttachment tsAttachment = systemService.getEntity(TSAttachment.class, fileid);
+			UploadFile uploadFile = new UploadFile(request, response);
+			//byte[] content = tsAttachment.getAttachmentcontent();
+			String path = tsAttachment.getRealpath();;
+			String extend = tsAttachment.getExtend();
+			String attachmenttitle = tsAttachment.getAttachmenttitle();
+			uploadFile.setExtend(extend);
+			uploadFile.setTitleField(attachmenttitle);
+			uploadFile.setRealPath(path);
+			//uploadFile.setContent(content);
+			//uploadFile.setView(true);
+			systemService.viewOrDownloadFile(uploadFile);
+			logger.info("--附件预览----TSAttachment---viewFile-----path--"+path);
+		}else{
+			subclassname = oConvertUtils.getString(subclassname);
+			Class<?> fileClass = MyClassLoader.getClassByScn(subclassname);// 自定义附件实体类
+			Object fileobj = systemService.getEntity(fileClass, fileid);
+			ReflectHelper reflectHelper = new ReflectHelper(fileobj);
+			UploadFile uploadFile = new UploadFile(request, response);
+			String contentfield = oConvertUtils.getString(request.getParameter("contentfield"), uploadFile.getByteField());
+			byte[] content = (byte[]) reflectHelper.getMethodValue(contentfield);
+			String path = oConvertUtils.getString(reflectHelper.getMethodValue("realpath"));
+			String extend = oConvertUtils.getString(reflectHelper.getMethodValue("extend"));
+			String attachmenttitle = oConvertUtils.getString(reflectHelper.getMethodValue("attachmenttitle"));
+			uploadFile.setExtend(extend);
+			uploadFile.setTitleField(attachmenttitle);
+			uploadFile.setRealPath(path);
+			uploadFile.setContent(content);
+			//uploadFile.setView(true);
+			systemService.viewOrDownloadFile(uploadFile);
+			logger.info("--附件预览---自定义实体类："+subclassname+"--viewFile-----path--"+path);
+		}
+
 	}
 
 	@RequestMapping(params = "importdata")
@@ -243,6 +267,7 @@ public class CommonController extends BaseController {
 		message = "" + attachment.getAttachmenttitle() + "删除成功";
 		systemService.delete(objfile);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		logger.info("--删除附件---delObjFile----"+message);
 		
 		j.setMsg(message);
 		return j;

@@ -85,3 +85,11 @@ function scrollToTabDefined(element) {
         marginLeft: 0 - scrollVal + 'px'
     }, "fast");
 }
+
+function hiddenloading(){
+	$("#panelloadingDiv").hide();
+}
+
+function showloading(){
+	$("#panelloadingDiv").show();
+}

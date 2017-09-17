@@ -1,5 +1,7 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +48,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import com.baomidou.kisso.SSOConfig;
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.SSOToken;
+import com.baomidou.kisso.common.util.HttpUtil;
 
 /**
  * 登陆初始化控制器
@@ -95,6 +103,14 @@ public class LoginController extends BaseController{
 		if (req.getParameter("langCode")!=null) {
 			req.getSession().setAttribute("lang", req.getParameter("langCode"));
 		}
+
+		//单点登录（返回链接）
+		String returnURL = req.getParameter("ReturnURL");
+		if(StringUtils.isNotEmpty(returnURL)){
+			req.getSession().setAttribute("ReturnURL", returnURL);
+		}
+
+		
 		//验证码
 		String randCode = req.getParameter("randCode");
 		if (StringUtils.isEmpty(randCode)) {
@@ -103,7 +119,11 @@ public class LoginController extends BaseController{
 		} else if (!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode")))) {
 			j.setMsg(mutiLangService.getLang("common.verifycode.error"));
 			j.setSuccess(false);
-		} else {
+		} else if (isInBlackList(IpUtil.getIpAddr(req))){
+			j.setMsg(mutiLangService.getLang("common.blacklist.error"));
+			j.setSuccess(false);
+		}
+		else {
 			//用户登录验证逻辑
 			TSUser u = userService.checkUserExits(user);
 			if (u == null) {
@@ -140,8 +160,10 @@ public class LoginController extends BaseController{
 		}
 		return j;
 	}
-	
-	
+	private boolean isInBlackList(String ip){
+		Long orgNum =systemService.getCountForJdbc("select count(*) from t_s_black_list where ip =  '" + ip + "'");
+		return orgNum!=0?true:false;
+	}
 	/**
 	 * 变更在线用户组织
 	 * 
@@ -176,8 +198,20 @@ public class LoginController extends BaseController{
 
         HttpSession session = ContextHolderUtils.getSession();
 
-        session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
+		user.setDepartid(orgId);
+
+		session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
         message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
+
+        String browserType = "";
+        Cookie[] cookies = req.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			if("BROWSER_TYPE".equals(cookie.getName())){
+				browserType = cookie.getValue();
+			}
+		}
+        session.setAttribute("brower_type", browserType);
 
         //当前session为空 或者 当前session的用户信息与刚输入的用户信息一致时，则更新Client信息
         Client clientOld = ClientManager.getInstance().getClient(session.getId());
@@ -211,7 +245,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "login")
 	public String login(ModelMap modelMap,HttpServletRequest request,HttpServletResponse response) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		String roles = "";
 		if (user != null) {
 			List<TSRoleUser> rUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -225,6 +259,7 @@ public class LoginController extends BaseController{
 			
             modelMap.put("roleName", roles.length()>3?roles.substring(0,3)+"...":roles);
             modelMap.put("userName", user.getUserName().length()>5?user.getUserName().substring(0, 5)+"...":user.getUserName());
+            modelMap.put("portrait", user.getPortrait());
 
             modelMap.put("currentOrgName", ClientManager.getInstance().getClient().getUser().getCurrentDepart().getDepartname());
 
@@ -243,8 +278,42 @@ public class LoginController extends BaseController{
 			zIndexCookie.setMaxAge(3600*24);//一天
 			response.addCookie(zIndexCookie);
 
+			/*
+			 * 单点登录 - 登录需要跳转登录前页面，自己处理 ReturnURL 使用 
+			 * HttpUtil.decodeURL(xx) 解码后重定向
+			 */
+			String returnURL = (String)request.getSession().getAttribute("ReturnURL");
+			log.info("login 资源路径returnURL："+returnURL);
+			if(StringUtils.isNotEmpty(returnURL)){
+				SSOToken st = new SSOToken(request);
+				st.setId(UUID.randomUUID().getMostSignificantBits());
+				st.setUid(user.getUserName());
+				st.setType(1);
+				//request.setAttribute(SSOConfig.SSO_COOKIE_MAXAGE, maxAge);
+				// 可以动态设置 Cookie maxAge 超时时间 ，优先于配置文件的设置，无该参数 - 默认读取配置文件数据 。
+				//  maxAge 定义：-1 浏览器关闭时自动删除 0 立即删除 120 表示Cookie有效期2分钟(以秒为单位)
+//				request.setAttribute(SSOConfig.SSO_COOKIE_MAXAGE, 60);
+				SSOHelper.setSSOCookie(request, response, st, true);
+				returnURL = HttpUtil.decodeURL(returnURL);
+				log.info("login 资源路径returnURL："+returnURL);
+				request.getSession().removeAttribute("ReturnURL");
+				try {
+					response.sendRedirect(returnURL);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
 			return sysTheme.getIndexPath();
 		} else {
+
+			//单点登录 - 返回链接
+			String returnURL = (String)request.getSession().getAttribute("ReturnURL");
+			if(StringUtils.isNotEmpty(returnURL)){
+				request.setAttribute("ReturnURL", returnURL);
+			}
+
 			return "login/login";
 		}
 
@@ -259,7 +328,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(params = "logout")
 	public ModelAndView logout(HttpServletRequest request) {
 		HttpSession session = ContextHolderUtils.getSession();
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 
 		try {
 			systemService.addLog("用户" + user!=null?user.getUserName():"" + "已退出",Globals.Log_Type_EXIT, Globals.Log_Leavel_INFO);
@@ -280,7 +349,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "left")
 	public ModelAndView left(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		HttpSession session = ContextHolderUtils.getSession();
         ModelAndView modelAndView = new ModelAndView();
 		// 登陆者的权限
@@ -369,8 +438,16 @@ public class LoginController extends BaseController{
 
 	           StringBuilder hqlsb2=new StringBuilder("select distinct c from TSFunction c,TSRoleFunction rf,TSRoleOrg b,TSUserOrg a ")
 	           							.append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=rf.TSRole.id and rf.TSFunction.id=c.id and a.tsUser.id=?");
+	           //TODO hql执行效率慢 为耗时最多地方
+
+	           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	           log.info("================================开始时间:"+sdf.format(new Date())+"==============================");
+	           long start = System.currentTimeMillis();
 	           List<TSFunction> list1 = systemService.findHql(hqlsb1.toString(),user.getId());
 	           List<TSFunction> list2 = systemService.findHql(hqlsb2.toString(),user.getId());
+	           long end = System.currentTimeMillis();
+	           log.info("================================结束时间:"+sdf.format(new Date())+"==============================");
+	           log.info("================================耗时:"+(end-start)+"ms==============================");
 	           for(TSFunction function:list1){
 		              loginActionlist.put(function.getId(),function);
 		       }
@@ -479,7 +556,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "top")
 	public ModelAndView top(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -500,7 +577,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(params = "shortcut_top")
 	public ModelAndView shortcut_top(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		HttpSession session = ContextHolderUtils.getSession();
 		// 登陆者的权限
 		if (user.getId() == null) {
@@ -522,7 +599,7 @@ public class LoginController extends BaseController{
     @RequestMapping(params = "primaryMenu")
     @ResponseBody
 	public String getPrimaryMenu() {
-		List<TSFunction> primaryMenu = getFunctionMap(ResourceUtil.getSessionUserName()).get(0);
+		List<TSFunction> primaryMenu = getFunctionMap(ResourceUtil.getSessionUser()).get(0);
         String floor = "";
 
         if (primaryMenu == null) {
@@ -616,7 +693,7 @@ public class LoginController extends BaseController{
 	@ResponseBody
 	public String getPrimaryMenuDiy() {
 		//取二级菜单
-		List<TSFunction> primaryMenu = getFunctionMap(ResourceUtil.getSessionUserName()).get(1);
+		List<TSFunction> primaryMenu = getFunctionMap(ResourceUtil.getSessionUser()).get(1);
 		String floor = "";
 		if (primaryMenu == null) {
 			return floor;
@@ -691,7 +768,7 @@ public class LoginController extends BaseController{
 		if(oConvertUtils.isNotEmpty(getPrimaryMenuForWebos)){
 			j.setMsg(getPrimaryMenuForWebos.toString());
 		}else{
-			String PMenu = ListtoMenu.getWebosMenu(getFunctionMap(ResourceUtil.getSessionUserName()));
+			String PMenu = ListtoMenu.getWebosMenu(getFunctionMap(ResourceUtil.getSessionUser()));
 			ContextHolderUtils.getSession().setAttribute("getPrimaryMenuForWebos", PMenu);
 			j.setMsg(PMenu);
 		}

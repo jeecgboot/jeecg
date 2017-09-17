@@ -167,7 +167,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<t:webUploader name="touxiang" auto="true" type="image"></t:webUploader>
+						<t:webUploader displayTxt="false" bizType="photosucai" name="touxiang" auto="true" type="image"></t:webUploader>
 					</td>
 				</tr>
 				

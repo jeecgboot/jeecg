@@ -192,7 +192,15 @@ public class DbTableProcess {
 	 * @throws SQLException
 	 */
 	public static Map<String, ColumnMeta> getColumnMetadataFormDataBase(String schemaName, String tableName, Session session) throws SQLException{
-		Connection conn = SessionFactoryUtils.getDataSource(session.getSessionFactory()).getConnection();
+		Connection conn = null;
+
+		try {
+			conn = SessionFactoryUtils.getDataSource(session.getSessionFactory()).getConnection();
+		} catch (Exception e) {
+			logger.error(e);
+			e.printStackTrace();
+		}
+		
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getColumns(null, schemaName, tableName, "%");	
 		ColumnMeta columnMeta;

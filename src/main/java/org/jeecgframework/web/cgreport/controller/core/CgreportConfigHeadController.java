@@ -12,6 +12,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.p3.core.util.plugin.ViewVelocity;
 import org.jeecgframework.tag.core.easyui.TagUtil;
@@ -135,6 +136,7 @@ public class CgreportConfigHeadController extends BaseController {
 		try{
 			cgreportConfigHeadService.delMain(cgreportConfigHead);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online报表删除]["+cgreportConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "动态报表配置抬头删除失败";
@@ -160,6 +162,7 @@ public class CgreportConfigHeadController extends BaseController {
 				CgreportConfigHeadEntity cgreportConfigHead = systemService.getEntity(CgreportConfigHeadEntity.class, id);
 				cgreportConfigHeadService.delMain(cgreportConfigHead);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+				logger.info("["+IpUtil.getIpAddr(request)+"][online报表批量删除]["+cgreportConfigHead.getCode()+"]"+message);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -187,6 +190,7 @@ public class CgreportConfigHeadController extends BaseController {
 		try{
 			cgreportConfigHeadService.addMain(cgreportConfigHead, cgreportConfigItemList,cgreportConfigParamList);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online报表录入]["+cgreportConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "动态报表配置抬头添加失败";
@@ -212,6 +216,7 @@ public class CgreportConfigHeadController extends BaseController {
 		try{
 			cgreportConfigHeadService.updateMain(cgreportConfigHead, cgreportConfigItemList, cgreportConfigParamList);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online报表更新]["+cgreportConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "更新动态报表配置抬头失败";

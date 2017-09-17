@@ -1,27 +1,42 @@
 package com.jeecg.demo.controller;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.batik.transcoder.Transcoder;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.fop.svg.PDFTranscoder;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.common.model.json.Highchart;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.DBTypeUtil;
 import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.jeecgframework.p3.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -30,6 +45,7 @@ import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,6 +86,9 @@ public class JeecgListDemoController extends BaseController {
 	@Autowired
 	private JeecgMinidaoDao jeecgMinidaoDao;
 
+    private static final String BROSWER_COUNT_ANALYSIS = "broswer.count.analysis";
+    @Autowired
+    private MutiLangServiceI mutiLangService;
 
 	
 	/**
@@ -77,7 +96,6 @@ public class JeecgListDemoController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	//JeecgListDemoController.do?minidaoListDemo
 	@RequestMapping(params = "minidaoListDemo")
 	public ModelAndView minidaoListDemo(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/taglist_minidao");
@@ -86,7 +104,6 @@ public class JeecgListDemoController extends BaseController {
 	/**
 	 * 行编辑列表
 	 */
-	//JeecgListDemoController.do?rowListDemo
 	@RequestMapping(params = "rowListDemo")
 	public ModelAndView rowListDemo(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/list_rowedtior");
@@ -101,15 +118,173 @@ public class JeecgListDemoController extends BaseController {
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/jeecgDemoList");
 	}
-	
+
+	@RequestMapping(params = "multiHeaList")
+	public ModelAndView multiHeaList(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/jeecgDemoList-multihead");
+	}
+
 	/**
 	 * 自定义查询条件
 	 */
-	//JeecgListDemoController.do?mysearchListDemo
 	@RequestMapping(params = "mysearchListDemo")
 	public ModelAndView mysearchListDemo(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/taglist_mysearch");
 	}
+
+	/**
+	 * 综合报表 页面跳转
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "broswerStatisticTabs")
+	public ModelAndView broswerStatisticTabs(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/reportDemo");
+	}
+	
+	
+	/**
+	 * 综合报表 datagrid
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "listAllStatisticByJdbc")
+	public void listAllStatisticByJdbc(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		List<Map<String,Object>> maplist=systemService.findForJdbc("select l.broswer broswer ,count(broswer) broswercount from t_s_log l group by l.broswer", null);
+		Long countSutent = systemService.getCountForJdbc("select count(*) from t_s_log where 1=1");
+		for(Map map:maplist){
+			Long personcount = Long.parseLong(map.get("broswercount").toString());
+			Double  percentage = 0.0;
+			if (personcount != null && personcount.intValue() != 0) {
+				percentage = new Double(personcount)/countSutent;
+			}
+			
+			map.put("rate", String.format("%.2f", percentage*100)+"%");
+		}
+		Long count = 0L;
+		if(JdbcDao.DATABSE_TYPE_SQLSERVER.equals(DBTypeUtil.getDBType())){
+			count = systemService.getCountForJdbcParam("select count(0) from (select l.broswer  broswer ,count(broswer) broswercount from t_s_log  l group by l.broswer) as t( broswer, broswercount)",null);
+		}else{
+			count = systemService.getCountForJdbcParam("select count(0) from (select l.broswer broswer ,count(broswer) broswercount from t_s_log l group by l.broswer)t",null);
+		}
+		
+		dataGrid.setTotal(count.intValue());
+		dataGrid.setResults(maplist);
+		TagUtil.datagrid(response, dataGrid);
+	}
+
+	
+	/**
+	 * highchart
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "broswerCount")
+	@ResponseBody
+	public List<Highchart> studentCount(HttpServletRequest request,String reportType, HttpServletResponse response) {
+		List<Highchart> list = new ArrayList<Highchart>();
+		Highchart hc = new Highchart();
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT broswer as className ,count(broswer)  FROM TSLog group by broswer");
+		List userBroswerList = systemService.findByQueryString(sb.toString());
+		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
+		List lt = new ArrayList();
+		hc = new Highchart();
+		hc.setName(mutiLangService.getLang(BROSWER_COUNT_ANALYSIS));
+		hc.setType(reportType);
+		Map<String, Object> map;
+		if (userBroswerList.size() > 0) {
+			for (Object object : userBroswerList) {
+				map = new HashMap<String, Object>();
+				Object[] obj = (Object[]) object;
+				map.put("name", obj[0]);
+				map.put("y", obj[1]);
+				Long groupCount = (Long) obj[1];
+				Double  percentage = 0.0;
+				if (count != null && count.intValue() != 0) {
+					percentage = new Double(groupCount)/count;
+				}
+				map.put("percentage", percentage*100);
+				lt.add(map);
+			}
+		}
+		hc.setData(lt);
+		list.add(hc);
+		return list;
+	}
+	
+	/**
+	 * 报表打印
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(params = "export")
+	public void export(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		String type = request.getParameter("type");
+		String svg = request.getParameter("svg");
+		String filename = request.getParameter("filename");
+
+		filename = filename == null ? "chart" : filename;
+		ServletOutputStream out = response.getOutputStream();
+		try {
+			if (null != type && null != svg) {
+				svg = svg.replaceAll(":rect", "rect");
+				String ext = "";
+				Transcoder t = null;
+				if (type.equals("image/png")) {
+					ext = "png";
+					t = new PNGTranscoder();
+				} else if (type.equals("image/jpeg")) {
+					ext = "jpg";
+					t = new JPEGTranscoder();
+				} else if (type.equals("application/pdf")) {
+					ext = "pdf";
+					t = (Transcoder) new PDFTranscoder();
+				} else if (type.equals("image/svg+xml"))
+					ext = "svg";
+				response.addHeader("Content-Disposition",
+						"attachment; filename=" + new String(filename.getBytes("GBK"),"ISO-8859-1") + "." + ext);
+				response.addHeader("Content-Type", type);
+
+				if (null != t) {
+					TranscoderInput input = new TranscoderInput(
+							new StringReader(svg));
+					TranscoderOutput output = new TranscoderOutput(out);
+
+					try {
+						t.transcode(input, output);
+					} catch (TranscoderException e) {
+						out
+								.print("Problem transcoding stream. See the web logs for more details.");
+						e.printStackTrace();
+					}
+				} else if (ext.equals("svg")) {
+					// out.print(svg);
+					OutputStreamWriter writer = new OutputStreamWriter(out,
+							"UTF-8");
+					writer.append(svg);
+					writer.close();
+				} else
+					out.print("Invalid type: " + type);
+			} else {
+				response.addHeader("Content-Type", "text/html");
+				out
+						.println("Usage:\n\tParameter [svg]: The DOM Element to be converted."
+								+ "\n\tParameter [type]: The destination MIME type for the elment to be transcoded.");
+			}
+		} finally {
+			if (out != null) {
+				out.flush();
+				out.close();
+			}
+		}
+	}
+
+	
 	
 	
 	@RequestMapping(params = "minidaoDatagrid")
@@ -119,10 +294,13 @@ public class JeecgListDemoController extends BaseController {
 		 * 例如数据库表字段：{USER_NAME}
 		 * 转化实体对应字段：{userName}
 		 */
-		List<JeecgDemoEntity> list = jeecgMinidaoDao.getAllEntities(jeecgDemo, dataGrid.getPage(), dataGrid.getRows());
-		Integer count = jeecgMinidaoDao.getCount();
-		dataGrid.setTotal(count);
-		dataGrid.setResults(list);
+
+		String authSql = JeecgDataAutorUtils.loadDataSearchConditonSQLString();
+		MiniDaoPage<JeecgDemoEntity> list = jeecgMinidaoDao.getAllEntities(jeecgDemo, dataGrid.getPage(), dataGrid.getRows(),authSql);
+
+		dataGrid.setTotal(list.getTotal());
+		dataGrid.setResults(list.getResults());
+
 		String total_salary = String.valueOf(jeecgMinidaoDao.getSumSalary());
 		/*
 		 * 说明：格式为 字段名:值(可选，不写该值时为分页数据的合计) 多个合计 以 , 分割
@@ -158,7 +336,7 @@ public class JeecgListDemoController extends BaseController {
 		 * 说明：格式为 字段名:值(可选，不写该值时为分页数据的合计) 多个合计 以 , 分割
 		 */
 		//dataGrid.setFooter("salary:"+(total_salary.equalsIgnoreCase("null")?"0.0":total_salary)+",age,email:合计");
-		List<JeecgDemoEntity> list=dataGrid.getResults();
+		List<JeecgDemoEntity> list = dataGrid.getResults();
 		Map<String,Map<String,Object>> extMap = new HashMap<String, Map<String,Object>>();
 		for(JeecgDemoEntity temp:list){
 		        //此为针对原来的行数据，拓展的新字段
@@ -167,9 +345,8 @@ public class JeecgListDemoController extends BaseController {
 		        extMap.put(temp.getId(), m);
 		}
 		//dataGrid.setFooter("extField,salary,age,name:合计");
-		TagUtil.datagrid(response, dataGrid,extMap);
 		dataGrid.setFooter("salary,age,name:合计");
-		TagUtil.datagrid(response, dataGrid);
+		TagUtil.datagrid(response, dataGrid,extMap);
 	}
 	
 	@RequestMapping(params = "addTab")
@@ -396,7 +573,7 @@ public class JeecgListDemoController extends BaseController {
 		List<JeecgDemoEntity> jeecgDemos = this.jeecgDemoService.getListByCriteriaQuery(cq,false);
 		modelMap.put(NormalExcelConstants.FILE_NAME,"jeecg_demo");
 		modelMap.put(NormalExcelConstants.CLASS,JeecgDemoEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("jeecg_demo列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),"导出信息"));
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("jeecg_demo列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,jeecgDemos);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
@@ -411,7 +588,7 @@ public class JeecgListDemoController extends BaseController {
 			, DataGrid dataGrid,ModelMap modelMap) {
     	modelMap.put(NormalExcelConstants.FILE_NAME,"jeecg_demo");
     	modelMap.put(NormalExcelConstants.CLASS,JeecgDemoEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("jeecg_demo列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("jeecg_demo列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
     	"导出信息"));
     	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
     	return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -556,5 +733,52 @@ public class JeecgListDemoController extends BaseController {
 		net.sf.json.JSONArray arr=net.sf.json.JSONArray.fromObject(list);
 		req.setAttribute("logs",arr);
 		return new ModelAndView("com/jeecg/demo/logrp-chart");
+	}
+	/**
+	 * 批量添加
+	 * @param request
+	 * @return
+	 * 2017年6月9日--下午4:33:30
+	 */
+	@RequestMapping(params = "jdbcBatchSave")
+	@ResponseBody
+	public AjaxJson jdbcBatchSave(HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "springjdbc 批处理添加测试用户成功";
+			try{
+				jeecgDemoService.jdbcBatchSave();
+				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			}catch(Exception e){
+				e.printStackTrace();
+				message = "springjdbc 批处理添加测试用户失败";
+				throw new BusinessException(e.getMessage());
+			}
+		logger.info(message);
+		j.setMsg(message);
+		return j;
+	}
+	
+	/**
+	 * 调用存储过程
+	 * @param request
+	 * @return
+	 * 2017年6月9日--下午4:33:43
+	 */
+	@RequestMapping(params = "jdbcProcedure")
+	@ResponseBody
+	public AjaxJson jdbcProcedure(HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String message = "jdbc调用存储过程成功";
+			try{
+				jeecgDemoService.jdbcProcedure();
+				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			}catch(Exception e){
+				e.printStackTrace();
+				message = "jdbc调用存储过程失败";
+				throw new BusinessException(e.getMessage());
+			}
+		
+		j.setMsg(message);
+		return j;
 	}
 }

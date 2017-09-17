@@ -37,73 +37,46 @@
 </div>
 <table border="0" cellpadding="2" cellspacing="0" id="jformGraphreportItem_table">
 	<tr bgcolor="#E6E6E6">
-		<td align="center" bgcolor="#EEEEEE">序号</td>
-		<td align="center" bgcolor="#EEEEEE">操作</td>
-				  <td align="left" bgcolor="#EEEEEE">
-						字段名
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						字段文本
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						排序
-				  </td>
-				  <td align="left"   bgcolor="#EEEEEE">
-						字段类型
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						是否显示
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						是否查询
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						查询模式
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						字典Code
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						显示图表
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						图表类型
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						图表名称
-				  </td>
-				  <td align="left" bgcolor="#EEEEEE">
-						标签名称
-				  </td>
+<!-- update-begin--Author:yugwu  Date:20170801 for：TASK #2236 【online 】文字样式调整-------------------- -->
+		<td align="center" bgcolor="#EEEEEE"><label class="Validform_label">序号</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">操作</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字段名</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字段文本</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">排序</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字段类型</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">是否显示</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">是否查询</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">查询模式</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">字典Code</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">显示图表</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">图表类型</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">图表名称</label></td>
+		<td align="left" bgcolor="#EEEEEE"><label class="Validform_label">标签名称</label></td>
+<!-- update-end--Author:yugwu  Date:20170801 for：TASK #2236 【online 】文字样式调整-------------------- -->
 	</tr>
 	<tbody id="add_jformGraphreportItem_table">
 	<c:if test="${fn:length(jformGraphreportItemList)  <= 0 }">
 			<tr>
 				<td align="center"><div style="width: 25px;" name="xh">1</div></td>
-				<td align="center"><input style="width:20px;"  type="checkbox" name="ck"/></td>
+				<td align="center"><input style="width:20px;"  type="checkbox" name="ck"/>
 					<input name="jformGraphreportItemList[0].id" type="hidden"/>
 					<input name="jformGraphreportItemList[0].fieldHref" type="hidden"/>
 					<input name="jformGraphreportItemList[0].replaceVa" type="hidden"/>
 					<input name="jformGraphreportItemList[0].cgreportHeadId" type="hidden"/>
+					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].fieldName" maxlength="36" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:120px;" />
 					  <label class="Validform_label" style="display: none;">字段名</label>
 					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].fieldTxt" maxlength="1000" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:120px;" />
 					  <label class="Validform_label" style="display: none;">字段文本</label>
 					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].orderNum" maxlength="5" 
-					  		type="text" class="inputxt"  style="width:40px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:40px;" />
 					  <label class="Validform_label" style="display: none;">排序</label>
 					</td>
 				  <td align="left" style="width: 120px;">
@@ -128,9 +101,7 @@
 					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].dictCode" maxlength="500" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:120px;" />
 					  <label class="Validform_label" style="display: none;">字典Code</label>
 					</td>
 				  <td align="left">
@@ -145,16 +116,12 @@
 					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].graphName" maxlength="100" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:120px;" />
 					  <label class="Validform_label" style="display: none;">图表名称</label>
 					</td>
 				  <td align="left">
 					  	<input name="jformGraphreportItemList[0].tabName" maxlength="50" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					               >
+					  		type="text" class="inputxt"  style="width:120px;" />
 					  <label class="Validform_label" style="display: none;">标签名称</label>
 					</td>
    			</tr>
@@ -163,30 +130,25 @@
 		<c:forEach items="${jformGraphreportItemList}" var="poVal" varStatus="stuts">
 			<tr>
 				<td align="center"><div style="width: 25px;" name="xh">${stuts.index+1 }</div></td>
-				<td align="center"><input style="width:20px;"  type="checkbox" name="ck" /></td>
+				<td align="center"><input style="width:20px;"  type="checkbox" name="ck" />
 					<input name="jformGraphreportItemList[${stuts.index }].id" type="hidden" value="${poVal.id }"/>
 					<input name="jformGraphreportItemList[${stuts.index }].fieldHref" type="hidden" value="${poVal.fieldHref }"/>
 					<input name="jformGraphreportItemList[${stuts.index }].replaceVa" type="hidden" value="${poVal.replaceVa }"/>
 					<input name="jformGraphreportItemList[${stuts.index }].cgreportHeadId" type="hidden" value="${poVal.cgreportHeadId }"/>
+					</td>
 				   <td align="left">
 					  	<input name="jformGraphreportItemList[${stuts.index }].fieldName" maxlength="36" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					                value="${poVal.fieldName }">
+					  		type="text" class="inputxt"  style="width:120px;" value="${poVal.fieldName }">
 					  <label class="Validform_label" style="display: none;">字段名</label>
 				   </td>
 				   <td align="left">
 					  	<input name="jformGraphreportItemList[${stuts.index }].fieldTxt" maxlength="1000" 
-					  		type="text" class="inputxt"  style="width:120px;"
-					               
-					                value="${poVal.fieldTxt }">
+					  		type="text" class="inputxt"  style="width:120px;" value="${poVal.fieldTxt }">
 					  <label class="Validform_label" style="display: none;">字段文本</label>
 				   </td>
 				   <td align="left">
 					  	<input name="jformGraphreportItemList[${stuts.index }].orderNum" maxlength="10" 
-					  		type="text" class="inputxt"  style="width:40px;"
-					               
-					                value="${poVal.orderNum }">
+					  		type="text" class="inputxt"  style="width:40px;" value="${poVal.orderNum }">
 					  <label class="Validform_label" style="display: none;">排序</label>
 				   </td>
 				   <td align="left" >

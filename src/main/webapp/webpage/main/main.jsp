@@ -5,8 +5,10 @@
 <head>
 <title><t:mutiLang langKey="jeect.platform"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
+<!-- add-start--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal依赖的js及css文件 -->
 <script type="text/javascript" src="plug-in/easyui/portal/jquery.portal.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/easyui/portal/portal.css">
+<!-- add-end--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal依赖的js及css文件 -->
 <!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 <%@include file="/context/layui.jsp"%>
 <!--add-end--Author:wangkun Date:20160813 for:内部聊天修改-->

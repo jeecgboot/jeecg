@@ -36,6 +36,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ContextHolderUtils;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.ResourceUtil;
@@ -99,7 +100,10 @@ public class CgAutoListController extends BaseController{
 			paras.put("_olstylecode",template);
 		}
         paras.put("this_olstylecode",template);
-		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
+
+        paras.put("brower_type", ContextHolderUtils.getSession().getAttribute("brower_type"));
+
+        CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
 		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
 
 		PrintWriter writer = null;
@@ -209,7 +213,15 @@ public class CgAutoListController extends BaseController{
 			if(dicList.size() > 0){
 				for(Map<String, Object> resultMap:result){
 					StringBuffer sb = new StringBuffer();
-					String value = (String)resultMap.get(b.getFieldName());
+
+					Object obj = resultMap.get(b.getFieldName());
+					String value = null;
+					if(obj instanceof Integer){
+						value = String.valueOf(obj);
+					}else{
+						value = (String)obj;
+					}
+
 					if(oConvertUtils.isEmpty(value)){continue;}
 					String[] arrayVal = value.split(",");
 					if(arrayVal.length > 1){
@@ -315,6 +327,7 @@ public class CgAutoListController extends BaseController{
 
 		cgTableService.delete(table, id);
 		String message = "删除成功";
+		log.info("["+IpUtil.getIpAddr(request)+"][online表单数据删除]"+message+"表名："+configId);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
 		j.setMsg(message);
@@ -343,6 +356,7 @@ public class CgAutoListController extends BaseController{
 		}
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
+		log.info("["+IpUtil.getIpAddr(request)+"][online表单数据批量删除]"+message+"表名："+configId);
 		j.setMsg(message);
 		return j;
 	}
@@ -393,6 +407,9 @@ public class CgAutoListController extends BaseController{
 			fm.put(CgAutoListConstant.FIELD_QUERYMODE, bean.getQueryMode());
 			fm.put(CgAutoListConstant.FIELD_SHOWTYPE, bean.getShowType());
 			fm.put(CgAutoListConstant.FIELD_TYPE, bean.getType());
+
+			fm.put(CgAutoListConstant.FIELD_IS_NULL, bean.getIsNull());
+
 			fm.put(CgAutoListConstant.FIELD_LENGTH, bean.getFieldLength()==null?"120":bean.getFieldLength());
 			fm.put(CgAutoListConstant.FIELD_HREF, bean.getFieldHref()==null?"":bean.getFieldHref());
 			loadDic(fm,bean);
@@ -487,7 +504,7 @@ public class CgAutoListController extends BaseController{
 	 */
 	private void loadAuth(Map<String, Object> paras, HttpServletRequest request) {
 		List<TSOperation>  nolist = (List<TSOperation>) request.getAttribute(Globals.NOAUTO_OPERATIONCODES);
-		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
+		if(ResourceUtil.getSessionUser().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 			nolist = null;
 		}
 		List<String> list = new ArrayList<String>();

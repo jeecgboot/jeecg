@@ -50,6 +50,21 @@
 		<tag-class>org.jeecgframework.tag.core.easyui.DataGridTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>数据列表</description>
+		<!-- update-begin-Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案  -->	
+		<attribute>
+			<name>btnCls</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>列表上方button样式class属性</description>
+		</attribute>
+		<!-- update-end-Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案  -->	
+		<!-- update-begin-author:zhangjiaqiang  Date:20170626 for:TASK #2168 【UI改造】这里能显示多行文本 -->
+		<attribute>
+			<name>nowrap</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>列表内容是否可换行(false：可换行)</description>
+		</attribute>
+		<!-- update-end-author:zhangjiaqiang  Date:20170626 for:TASK #2168 【UI改造】这里能显示多行文本 -->
 		<attribute>
 			<name>name</name>
 			<required>true</required>
@@ -222,6 +237,14 @@
 			<description>字段标题</description>
 		</attribute>
 		
+		<!-- update-begin-Author:xuelin  Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换 -->
+		<attribute>
+			<name>showMode</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>列表查询字段生成模式：radio/checkbox/select</description>
+		</attribute>
+		<!-- update-end-Author:xuelin  Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换 --> 
 		<attribute>
 			<name>langArg</name>
 			<required>false</required>
@@ -231,7 +254,6 @@
 
 		<attribute>
 			<name>field</name>
-			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>字段值</description>
 		</attribute>
@@ -382,6 +404,11 @@
    			<rtexprvalue>true</rtexprvalue>
    			<description>UI标签库列表默认查询条件</description>
   		</attribute>
+  		<attribute>
+  			<name>newColumn</name>
+  			<rtexprvalue>true</rtexprvalue>
+  			<description>是否另起一行</description>
+  		</attribute>
 	</tag>
 	<tag>
 		<name>dgDelOpt</name>
@@ -419,11 +446,15 @@
 			<description>是否显示改链接的表达式,例 字段名#表达式符号#字段值(name#eq#admin)
 				表达式类型支持eq,ne,empty</description>
 		</attribute>
+		<!-- //update-begin-Author:xuelin  Date:20170704 for：TASK #2206 【UI标签】确认功能是否可用，取消这个属性 -->
+		<!-- 		
 		<attribute>
 			<name>funname</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义函数名称</description>
-		</attribute>
+		</attribute> 
+		-->		
+		<!-- //update-end-Author:xuelin  Date:20170704 for：TASK #2206 【UI标签】确认功能是否可用，取消这个属性 -->
 		<attribute>
 			<name>operationCode</name>
 			<rtexprvalue>true</rtexprvalue>
@@ -615,7 +646,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>工具条选项图标</description>
 		</attribute>
-		
+		<!-- author:zhangjiqaing date：20170620 for:task 2158 增加控件ID -->
+		<attribute>
+			<name>id</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件ID</description>
+		</attribute>
+		<!-- author:zhangjiqaing date：20170620 for:task 2158 增加控件ID -->
 		<attribute>
 			<name>title</name>
 			<required>true</required>
@@ -1000,6 +1037,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>上传文件大小设置</description>
 		</attribute>
+		<!-- update-begin-author:zhangjiaqiang date:20170714 for:去除必填项 -->
+		<attribute>
+			<name>outhtml</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否生成HTML（true/false）</description>
+		</attribute>
+		<!-- update-end-author:zhangjiaqiang date:20170714 for:去除必填项 -->
 	</tag>
 	<tag>
 		<name>ckeditor</name>
@@ -1651,6 +1695,12 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>用户id默认值</description>
 		</attribute>
+		<attribute>
+			<name>callback</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>用户选择弹框确认回调函数</description>
+		</attribute>
 	</tag>
 	<tag>
 		<name>selectZTree</name>
@@ -1779,6 +1829,30 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>文件处理action</description>
+		</attribute>
+		<attribute>
+			<name>dataType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>只要该属性有值,均视之为不为空</description>
+		</attribute>
+		<attribute>
+			<name>nullMsg</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>为空时候的提示信息</description>
+		</attribute>
+		<attribute>
+			<name>bizType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>业务类型[StoreUploadFilePathEnum],根据该类型确定上传路径</description>
+		</attribute>
+		<attribute>
+			<name>displayTxt</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否显示上传列表[默认显示]true显示false隐藏</description>
 		</attribute>
 	</tag>
 	<!-- add-end- Author:taoyan  Date:20170327 for：文件上传标签  -->

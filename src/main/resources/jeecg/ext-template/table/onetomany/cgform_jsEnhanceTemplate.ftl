@@ -42,7 +42,9 @@ function commonUpload(callback,inputId){
            content: "url:systemController.do?commonUpload",
            lock : true,
            title:"文件上传",
-           zIndex:2100,
+           <#-- update--begin--author:zhangjiaqiang date:20170601 for:修订弹出框对应的index -->
+           zIndex:getzIndex(),
+            <#-- update--end--author:zhangjiaqiang date:20170601 for:修订弹出框对应的index -->
            width:700,
            height: 200,
            parent:windowapi,

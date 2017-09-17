@@ -206,7 +206,9 @@
 				</td>
 			</tr>
 		</table>
-		<div style="width: auto; height: 200px;">
+		<!-- update-begin--Author:xuelin  Date:20170620 for：TASK #2132 【浏览器兼容问题】IE8(兼容模式)下自定义报表，列出不来-------------------- -->
+		<div style="width: auto; ">
+		<!-- update-end--Author:xuelin  Date:20170620 for：TASK #2132 【浏览器兼容问题】IE8(兼容模式)下自定义报表，列出不来---------------------- -->
 			<div style="width: 800px; height: 1px;"></div>
 			<div id="ttp" tabPosition="top" border=flase style="margin:0px;padding:0px;overflow:hidden;width:auto;" class="easyui-tabs" fit="false">
 				<div title="报表参数" href="cgreportConfigHeadController.do?cgreportConfigParamList_vm&id=" style="margin:0px;padding:0px;overflow:hidden;"></div>

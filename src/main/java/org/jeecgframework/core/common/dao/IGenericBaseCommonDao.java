@@ -236,8 +236,10 @@ public interface IGenericBaseCommonDao {
 	 * @param isOffset
 	 * @return
 	 */
-	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
+
+	public void getDataGridReturn(CriteriaQuery cq,
 			final boolean isOffset);
+
 
 	/**
 	 * 执行SQL

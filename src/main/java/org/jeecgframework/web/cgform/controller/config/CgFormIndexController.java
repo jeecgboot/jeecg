@@ -264,7 +264,7 @@ public class CgFormIndexController extends BaseController {
 		List<CgFormIndexEntity> cgFormIndexs = this.cgFormIndexService.getListByCriteriaQuery(cq,false);
 		modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
 		modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 			"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,cgFormIndexs);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -280,7 +280,7 @@ public class CgFormIndexController extends BaseController {
 			, DataGrid dataGrid,ModelMap modelMap) {
     	modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
     	modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
     	"导出信息"));
     	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
     	return NormalExcelConstants.JEECG_EXCEL_VIEW;

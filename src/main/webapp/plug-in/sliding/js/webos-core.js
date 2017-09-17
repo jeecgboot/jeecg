@@ -621,7 +621,10 @@ Sidebar=function(me){
                  var pid = p.attr("id");
                  var key = pid.substring(0,pid.length-3);
                  if(key=="left"){
-                     return -60;
+                	 if(p.css("height").replace("px","")<=825)
+                		 return -60;
+                	 else
+                		 return 60;
                  }else if(key=="top"){
                      return 0;
                  }else{

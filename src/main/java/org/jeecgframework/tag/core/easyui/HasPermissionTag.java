@@ -37,7 +37,7 @@ public class HasPermissionTag extends TagSupport{
 	}
 	
 	public boolean showTagBody(String code) {
-		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
+		if(ResourceUtil.getSessionUser().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 			return false;
 		}else{
 			//权限判断；

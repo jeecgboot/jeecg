@@ -219,6 +219,7 @@
                          onclick="exit('loginController.do?logout','确定退出该系统吗 ?',1);"></div>
 				</li>
 			</ul>  
+			<!--  <a class="startMenuImg logout_botton" title="注销当前用户" onclick="exit('loginController.do?logout','确定退出该系统吗 ?',1);" cmd="logout"></a> -->	 
 				</div>
 		</div>
 	</body>

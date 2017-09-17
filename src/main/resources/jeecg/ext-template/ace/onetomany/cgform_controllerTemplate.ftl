@@ -440,7 +440,7 @@ public class ${entityName}Controller extends BaseController {
 	public String exportXlsByT(ModelMap map) {
 		map.put(NormalExcelConstants.FILE_NAME,"${ftl_description}");
 		map.put(NormalExcelConstants.CLASS,${entityName}Page.class);
-		map.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ ResourceUtil.getSessionUserName().getRealName(),
+		map.put(NormalExcelConstants.PARAMS,new ExportParams("${ftl_description}列表", "导出人:"+ ResourceUtil.getSessionUser().getRealName(),
 		"导出信息"));
 		map.put(NormalExcelConstants.DATA_LIST,new ArrayList());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;

@@ -29,6 +29,6 @@ b.username as name,
 FROM
 	t_s_log a join t_s_base_user b on b.id=a.userid 
 GROUP BY
-	a.userid
+	a.userid,b.username
 ORDER BY
 	ct DESC

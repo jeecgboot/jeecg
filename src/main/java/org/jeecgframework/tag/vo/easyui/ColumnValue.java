@@ -33,4 +33,10 @@ public class ColumnValue {
 		this.value = value;
 	}
 
+	public String toString(){
+		return new StringBuffer().append("ColumnValue [name=").append(name)
+				.append(",text=").append(text)
+				.append(",value=").append(value)
+				.append("]").toString();
+	}
 }

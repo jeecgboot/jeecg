@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 
 
 /**
@@ -31,7 +32,11 @@ public class WebUploaderTag extends TagSupport {
 	private String buttonText;//控件按钮显示文本
 	private String extensions;//允许的文件后缀，不带点，多个用逗号分割
 	private String extendParams;//类似css写法 这是文件上传时候需要传递的参数
+	private String dataType;//只要该属性有值,均视之为不为空
+	private String nullMsg;//空的时候的提示信息,默认会根据当前控件的类型提示,文件类则提示“请选择文件”;图片类则提示“请选择图片”.
 	private String readOnly="false";//保留字段
+	private String bizType;//业务类型,根据该类型确定上传路径
+	private boolean displayTxt=true;//是否显示上传列表[默认显示]true显示false隐藏
 	//private static String imgexts="gif,jpg,jpeg,bmp,png";
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -67,28 +72,29 @@ public class WebUploaderTag extends TagSupport {
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/webuploader/webuploader.min.js\"></script>");
 		sb.append("<div id='"+name+"uploader' class='wu-example'><div id='"+name+"thelist' class='uploader-list'></div><div class='btns'><div id='"+name+"picker'>"+getButtonText()+"</div>");
 		sb.append("</div></div>");
-		if("image".equals(type)&&(null==showImgDiv||"".equals(showImgDiv.trim()))){
+		if("image".equals(type)&&oConvertUtils.isEmpty(showImgDiv)){
 			showImgDiv="tempdiv_"+name;
 			sb.append("<div id='"+showImgDiv+"'></div>");
 		}
+			//不要在sb中拼写<%=basePath%>,传到前台直接乱码 
 			sb.append("<script type=\"text/javascript\">Array.prototype.removeItem = function(val){var index = this.indexOf(val);if (index > -1) {this.splice(index, 1);}};"
 					+ "var exsitPathArr_"+name+" =new Array();"
 					+"$(function() { var state = 'pending';var $list=$('#"+ name +"thelist');"
 					+"var uploader = WebUploader.create({"
-					+"swf: '<%=basePath%>/plug-in/webuploader/Uploader.swf',"
+					+"swf: 'plug-in/webuploader/Uploader.swf',"
 					+"server :\'"+url+"\',"//getUrl()
 					+" pick: '#"+ name +"picker',duplicate: "+duplicate+",resize: false,"
 					+"auto:"+auto+","
 					+"fileVal:'"+fileVal+"',"
 					+"fileNumLimit:"+fileNumLimit+","
 					+"fileSingleSizeLimit:"+fileSingleSizeLimit);
-			if(null!=extensions&&!"".equals(extensions)){
+			if(oConvertUtils.isNotEmpty(extensions)){
 				sb.append(",accept:{extensions:'"+extensions+"'}");
 			}
-			if(null==extendParams||"".equals(extendParams)){
-				sb.append(",formData:{isup:'1'}});");
+			if(oConvertUtils.isEmpty(extendParams)){
+				sb.append(",formData:{isup:'1',bizType:'"+bizType+"'}});");
 			}else{
-				sb.append(",formData:{isup:'1',"+extendParams+"}});");
+				sb.append(",formData:{isup:'1',bizType:'"+bizType+"',"+extendParams+"}});");
 			}
 			if(!auto){
 				sb.append("\r\nvar upbtnrdo4=\"<div id='"+name+"ctlBtn' class='upbtn btn-blue "+btnCss+"'>开始上传</div>\";$('#"+name+"picker').find('div:eq(0)').after(upbtnrdo4);upbtnrdo4='';\r\n");
@@ -120,7 +126,11 @@ public class WebUploaderTag extends TagSupport {
 			sb.append("img+=xpath==0?' style=\"display:none;\"' :' ';");
 			sb.append("img+=' class=\"titledown\">'+xpath+'</span></div></li>';$('#"+showImgDiv+"').find('ul').append(img);}}\r\n");
 			//添加table文字显示上传文件
-			sb.append("var addtrFile=function(id,name,text,downsrc,delflag){var trhtml='<tr class=\"item\" id=\"'+id+'\"><td>'+name+'</td><td class=\"state\">'+text+'</td><td class=\"icontd\"><span';"); 
+			String tipTableStyle="";
+			if(!displayTxt){
+				tipTableStyle=" style=\"display:none\" ";
+			}
+			sb.append("var addtrFile=function(id,name,text,downsrc,delflag){var trhtml='<tr "+tipTableStyle+" class=\"item\" id=\"'+id+'\"><td>'+name+'</td><td class=\"state\">'+text+'</td><td class=\"icontd\"><span';"); 
 			sb.append("trhtml+=downsrc==0?' style=\"display:none;\"' :' ';");
 			sb.append("trhtml+=' class=\"down icon-down\">'+downsrc+'</span></td><td class=\"icontd\"><span';");
 			if("true".equals(readOnly)||"readOnly".equals(readOnly)){
@@ -129,17 +139,22 @@ public class WebUploaderTag extends TagSupport {
 			sb.append("trhtml+=' class=\"del icon-cha\">'+delflag+'</span></td><td></td></tr>';$list.children('table').append(trhtml);}");
 			//获取文件名
 			sb.append("\r\nvar mygetFileName=function(filepath){if(filepath.lastIndexOf('\\\\')>0){return filepath.substring(filepath.lastIndexOf('\\\\')+1);\r\n}else if(filepath.lastIndexOf('/')>0){return filepath.substring(filepath.lastIndexOf('/')+1);}else{return filepath;}}");
+			//如果dataType有值
+			if(oConvertUtils.isNotEmpty(dataType)){
+				sb.append("\r\n$('#"+name+"uploader').find('div.btns').append('<input nullMsg=\""+getNullMsg()+"\" dataType=\"*\" type=\"hidden\" id= \""+name+"dataTypeInp\" />');");
+			}
+			sb.append("\r\nvar reset_"+name+"_dataTypeInpVal=function(addOrdel){var obj = $(\"#" + name + "dataTypeInp\");if(obj.length>0){var objval=obj.val()||'';\r\nif (addOrdel == 1) {if(objval==''){obj.val('1');}else{obj.val(objval.toString()+(parseInt(objval.length)+1));}}else{if(objval.length <=1){obj.val('');}else{obj.val(objval.substr(0,objval.length-1));\r\n}\r\n}obj.blur();}}");
 			//设置默认值
-			if(null!=pathValues&&!"".equals(pathValues)){
+			if(oConvertUtils.isNotEmpty(pathValues)){
 				sb.append("\r\n$list.append( '<div class=\"fordel\"><input type=\"hidden\" name=\""+name+"\" value=\""+pathValues.replace("\\","\\\\")+"\" /></div>' );\r\n");
 				if("image".equals(type)){
-					sb.append("var pvs='"+pathValues.replace("\\","\\\\")+"';exsitPathArr_"+name+"=pvs.split(',');for(var a = 0; a< exsitPathArr_"+name+".length; a++){\r\nvar singlePath=exsitPathArr_"+name+"[a];\r\nif(''!=singlePath){var singleSrc=\""+showAndDownUrl+"\"+singlePath;"+name+"addImgli(singleSrc,'name'+a,singlePath,1);}}");
+					sb.append("var pvs='"+pathValues.replace("\\","\\\\")+"';exsitPathArr_"+name+"=pvs.split(',');for(var a = 0; a< exsitPathArr_"+name+".length; a++){\r\nvar singlePath=exsitPathArr_"+name+"[a];\r\nif(''!=singlePath){reset_"+name+"_dataTypeInpVal(1);var singleSrc=\""+showAndDownUrl+"\"+singlePath;"+name+"addImgli(singleSrc,'name'+a,singlePath,1);}}");
 				}else{
-					sb.append("var pvs='"+pathValues.replace("\\","\\\\")+"';exsitPathArr_"+name+"=pvs.split(',');for(var a = 0; a< exsitPathArr_"+name+".length; a++){\r\nvar singlePath=exsitPathArr_"+name+"[a];\r\nif(''!=singlePath){var rf6=randomFor(6);addtrFile('id'+a+rf6,mygetFileName(singlePath),'--历史上传文件--',singlePath,singlePath);}}");
+					sb.append("var pvs='"+pathValues.replace("\\","\\\\")+"';exsitPathArr_"+name+"=pvs.split(',');for(var a = 0; a< exsitPathArr_"+name+".length; a++){\r\nvar singlePath=exsitPathArr_"+name+"[a];\r\nif(''!=singlePath){reset_"+name+"_dataTypeInpVal(1);var rf6=randomFor(6);addtrFile('id'+a+rf6,mygetFileName(singlePath),'--历史上传文件--',singlePath,singlePath);}}");
 				}
 			}
 			//删除请求
-			sb.append("\r\nvar imgDelReq=function(delpath,spanobj){$.post('"+url+"',{path:delpath,isdel:\"1\"},function(aj){var data=JSON.parse(aj);if(data.success){exsitPathArr_"+name+".removeItem(delpath);$list.children('.fordel').children('input').val(exsitPathArr_"+name+".join(','));var myimgli=$(spanobj).closest('li');myimgli.off().find('.hidetitle').off().end().remove();}});}\r\n");
+			sb.append("\r\nvar imgDelReq=function(delpath,spanobj){$.post('"+url+"',{path:delpath,isdel:\"1\"},function(aj){var data=JSON.parse(aj);if(data.success){reset_"+name+"_dataTypeInpVal(0);exsitPathArr_"+name+".removeItem(delpath);$list.children('.fordel').children('input').val(exsitPathArr_"+name+".join(','));var myimgli=$(spanobj).closest('li');myimgli.off().find('.hidetitle').off().end().remove();}});}\r\n");
 			sb.append("var "+name+"addFile=function(file,filepath){\r\nuploader.makeThumb(file, function(error,src) {\r\nif(error){return false;}\r\nif(isSupportBase64()){if(filepath==''){"+name+"addImgli(src,file.id,0,0);}\r\n}else if(filepath!=''){\r\nvar actSrc=\""+showAndDownUrl+"\"+filepath;\r\n"+name+"addImgli(actSrc,file.id,0,0);}}, thumbnailWidth, thumbnailHeight );}");
 			sb.append("\r\nvar updatetdState=function(id,content){$list.children('table').find('#"+name+"'+id).find('.state').text('--'+content+'--');}\r\n");
 			//当文件被加入队列以后触发。
@@ -149,7 +164,7 @@ public class WebUploaderTag extends TagSupport {
 			//上传过程中触发，携带上传进度。
 			sb.append("	uploader.on( 'uploadProgress', function( file, percentage ) {var $li = $('#"+name+"'+file.id+' td:last'),$percent = $li.find('.progress .progress-bar');if ( !$percent.length ) {$percent = $('<div class=\"progress progress-striped active\"><div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%\"></div></div>').appendTo($li).find('.progress-bar');}updatetdState(file.id,'上传中');$percent.css( 'width', percentage * 100 + '%' );});");
 			//当文件上传成功时触发，会给表单增加一个input赋值 filePath
-			sb.append("uploader.on( 'uploadSuccess', function(file,response) {if(response.success){updatetdState(file.id,'上传成功');"
+			sb.append("uploader.on( 'uploadSuccess', function(file,response) {if(response.success){updatetdState(file.id,'上传成功');reset_"+name+"_dataTypeInpVal(1);"
 					+"var filepath=response['"+name+"']||response.obj;$('#"+name+"'+file.id+' td:first').append('<input type=\"hidden\" name=\""+name+"\" value=\"'+filepath+'\" />');"+name+"addFile(file, filepath);}else{updatetdState(file.id,'上传出错'+response.msg);}});\r\n");
 			//上传失败
 			sb.append("uploader.on( 'uploadError', function( file,reason ) {updatetdState(file.id,'上传出错-code:'+reason);});");
@@ -175,7 +190,7 @@ public class WebUploaderTag extends TagSupport {
 			//删除
 			sb.append("$list.on(\"click\", \".del\", function () {var delspantext=$(this).text();var itemObj=$(this).closest(\".item\");var id=itemObj.attr(\"id\").substring("+name.length()+");var delpath=itemObj.find(\"input[name='"+name+"']\").val();if(undefined==delpath||null==delpath){delpath=delspantext;if(delspantext==0){itemObj.remove();uploader.removeFile(id);var myimgli=$('#"+showImgDiv+"').find(\"img[name='\"+id+\"img']\").closest('li');myimgli.off().find('.hidetitle').off().end().remove();\r\nreturn false;}}");
 			//sb.append("$list.on(\"click\", \".del\", function () {var delspantext=$(this).text();var itemObj=$(this).closest(\".item\");var id=itemObj.attr(\"id\").substring("+name.length()+");var delpath=itemObj.find(\"input[name='"+name+"']\").val();if((undefined==delpath||null==delpath) && delspantext==1){itemObj.remove();var fordelInput=$list.children('.fordel').children('input');if($(this).text()==0){uploader.removeFile(id);var myimgli=$('#"+showImgDiv+"').find(\"img[name='\"+id+\"img']\").closest('li');myimgli.off().find('.hidetitle').off().end().remove();}\r\nif(fordelInput.length>0){fordelInput.val(exsitPathArr_"+name+".join(','));}return false;}");
-			sb.append("$.post('"+url+"',{path:delpath,isdel:\"1\"},function(aj){var data=JSON.parse(aj);if(data.success){var fordelInput = $list.children('.fordel').children('input');itemObj.remove();if(delspantext==0){uploader.removeFile(id);var myimgli=$('#"+showImgDiv+"').find(\"img[name='\"+id+\"img']\").closest('li');\r\nmyimgli.off().find('.hidetitle').off().end().remove();}else if(fordelInput.length > 0) {exsitPathArr_"+name+".removeItem(delpath);fordelInput.val(exsitPathArr_"+name+".join(','));\r\n}\r\n}\r\n});\r\n});");
+			sb.append("$.post('"+url+"',{path:delpath,isdel:\"1\"},function(aj){var data=JSON.parse(aj);if(data.success){reset_"+name+"_dataTypeInpVal(0);var fordelInput = $list.children('.fordel').children('input');itemObj.remove();if(delspantext==0){uploader.removeFile(id);var myimgli=$('#"+showImgDiv+"').find(\"img[name='\"+id+\"img']\").closest('li');\r\nmyimgli.off().find('.hidetitle').off().end().remove();}else if(fordelInput.length > 0) {exsitPathArr_"+name+".removeItem(delpath);fordelInput.val(exsitPathArr_"+name+".join(','));\r\n}\r\n}\r\n});\r\n});");
 			sb.append("if(location.href.indexOf('load=detail')!=-1){$('#"+name+"uploader').find('.btns').css('display','none');");
 			if("image".equals(type)){
 				sb.append("$('#"+showImgDiv+"').find('.titledel').css('display','none');");
@@ -201,7 +216,7 @@ public class WebUploaderTag extends TagSupport {
 		this.auto = auto;
 	}
 	public String getButtonStyle() {
-		if(null==buttonStyle||"".equals(buttonStyle)){
+		if(oConvertUtils.isEmpty(buttonStyle)){
 			buttonStyle="btn-green btn-S";
 		}
 		return  buttonStyle;
@@ -259,6 +274,11 @@ public class WebUploaderTag extends TagSupport {
 		return extendParams;
 	}
 	public void setExtendParams(String extendParams) {
+
+		if(StringUtil.isNotEmpty(extendParams) && !extendParams.endsWith(",")){
+			extendParams = extendParams + ",";
+		}
+
 		this.extendParams = extendParams;
 	}
 	public String getPathValues() {
@@ -287,7 +307,7 @@ public class WebUploaderTag extends TagSupport {
 		this.type = type;
 	}
 	public String getButtonText() {
-		if(null==buttonText||"".equals(buttonText)){
+		if(oConvertUtils.isEmpty(buttonText)){
 			buttonText="选择文件";
 		}
 		return buttonText;
@@ -301,7 +321,33 @@ public class WebUploaderTag extends TagSupport {
 	public void setExtensions(String extensions) {
 		this.extensions = extensions;
 	}
-	
+	public String getDataType() {
+		return dataType;
+	}
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	public String getNullMsg() {
+		if(oConvertUtils.isEmpty(nullMsg)){
+			this.nullMsg="请选择"+("file".equals(type)?"文件!":"图片!");
+		}
+		return nullMsg;
+	}
+	public void setNullMsg(String nullMsg) {
+		this.nullMsg = nullMsg;
+	}
+	public String getBizType() {
+		return bizType;
+	}
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
+	public boolean isDisplayTxt() {
+		return displayTxt;
+	}
+	public void setDisplayTxt(boolean displayTxt) {
+		this.displayTxt = displayTxt;
+	}
 	//根据上传文件的后缀重置type
 	/*private void typeResetByext(String ext){
 		if(null!=ext&&!"".equals(ext)){

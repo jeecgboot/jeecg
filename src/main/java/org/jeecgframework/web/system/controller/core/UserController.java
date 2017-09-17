@@ -25,6 +25,7 @@ import org.jeecgframework.core.common.model.json.ValidForm;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.ListtoMenu;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.PasswordUtil;
@@ -102,7 +103,7 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "menu")
 	public void menu(HttpServletRequest request, HttpServletResponse response) {
 		SetListSort sort = new SetListSort();
-		TSUser u = ResourceUtil.getSessionUserName();
+		TSUser u = ResourceUtil.getSessionUser();
 		// 登陆者的权限
 		Set<TSFunction> loginActionlist = new HashSet<TSFunction>();// 已有权限菜单
 		List<TSRoleUser> rUsers = systemService.findByProperty(TSRoleUser.class, "TSUser.id", u.getId());
@@ -168,7 +169,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "userinfo")
 	public String userinfo(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		request.setAttribute("user", user);
 		return "system/user/userinfo";
 	}
@@ -180,12 +181,37 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(params = "changepassword")
 	public String changepassword(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		request.setAttribute("user", user);
 		return "system/user/changepassword";
 	}
-	
-	
+	@RequestMapping(params = "changeportrait")
+	public String changeportrait(HttpServletRequest request) {
+		TSUser user = ResourceUtil.getSessionUser();
+		request.setAttribute("user", user);
+		return "system/user/changeportrait";
+	}
+	/**
+	 * 修改密码
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "saveportrait")
+	@ResponseBody
+	public AjaxJson saveportrait(HttpServletRequest request,String fileName) {
+		AjaxJson j = new AjaxJson();
+		TSUser user = ResourceUtil.getSessionUser();
+		user.setPortrait(fileName);
+		j.setMsg("修改成功");
+		try {
+			systemService.updateEntitie(user);
+		} catch (Exception e) {
+			j.setMsg("修改失败");
+			e.printStackTrace();
+		}
+		return j;
+	}
+
 
 	/**
 	 * 修改密码
@@ -196,7 +222,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public AjaxJson savenewpwd(HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
+		logger.info("["+IpUtil.getIpAddr(request)+"][修改密码] start");
 		String password = oConvertUtils.getString(request.getParameter("password"));
 		String newpassword = oConvertUtils.getString(request.getParameter("newpassword"));
 		String pString = PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt());
@@ -211,6 +238,7 @@ public class UserController extends BaseController {
 			}
 			systemService.updateEntitie(user);
 			j.setMsg("修改成功");
+			logger.info("["+IpUtil.getIpAddr(request)+"][修改密码]修改成功 userId:"+user.getUserName());
 
 		}
 		return j;
@@ -219,12 +247,13 @@ public class UserController extends BaseController {
 
 	/**
 	 * 
-	 * 修改用户密码
+	 * 跳转重置用户密码页面
 	 * @author Chj
 	 */
 	
 	@RequestMapping(params = "changepasswordforuser")
 	public ModelAndView changepasswordforuser(TSUser user, HttpServletRequest req) {
+		logger.info("["+IpUtil.getIpAddr(req)+"][跳转重置用户密码页面]["+user.getUserName()+"]");
 		if (StringUtil.isNotEmpty(user.getId())) {
 			user = systemService.getEntity(TSUser.class, user.getId());
 			req.setAttribute("user", user);
@@ -244,12 +273,21 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "savenewpwdforuser")
 	@ResponseBody
 	public AjaxJson savenewpwdforuser(HttpServletRequest req) {
+		logger.info("["+IpUtil.getIpAddr(req)+"][重置密码] start");
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		String id = oConvertUtils.getString(req.getParameter("id"));
 		String password = oConvertUtils.getString(req.getParameter("password"));
+		
 		if (StringUtil.isNotEmpty(id)) {
 			TSUser users = systemService.getEntity(TSUser.class,id);
+			if("admin".equals(users.getUserName()) && !"admin".equals(ResourceUtil.getSessionUser().getUserName())){
+				message = "超级管理员[admin]，只有admin本人可操作，其他人无权限!";
+				logger.info("["+IpUtil.getIpAddr(req)+"]"+message);
+				j.setMsg(message);
+				return j;
+			}
+			
 			//System.out.println(users.getUserName());
 			users.setPassword(PasswordUtil.encrypt(users.getUserName(), password, PasswordUtil.getStaticSalt()));
 			users.setStatus(Globals.User_Normal);
@@ -257,6 +295,7 @@ public class UserController extends BaseController {
 			systemService.updateEntitie(users);	
 			message = "用户: " + users.getUserName() + "密码重置成功";
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(req)+"][重置密码]"+message);
 		} 
 		
 		j.setMsg(message);
@@ -291,6 +330,7 @@ public class UserController extends BaseController {
 			message = "用户：" + user.getUserName() + "激活成功!";
 		}
 		systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+		logger.info("["+IpUtil.getIpAddr(req)+"][锁定账户]"+message);
 		}catch(Exception e){
 			message = "操作失败!";
 		}
@@ -461,6 +501,7 @@ public class UserController extends BaseController {
 			user.setDeleteFlag(Globals.Delete_Forbidden);
 			userService.updateEntitie(user);
 			message = "用户：" + user.getUserName() + "删除成功";
+			logger.info("["+IpUtil.getIpAddr(req)+"][逻辑删除用户]"+message);
 
 			
 /**
@@ -523,6 +564,7 @@ public class UserController extends BaseController {
 		
 		try {
 			message = userService.trueDel(user);
+			logger.info("["+IpUtil.getIpAddr(req)+"][真实删除用户]"+message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			message ="删除失败";
@@ -584,6 +626,7 @@ public class UserController extends BaseController {
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
+			users.setDevFlag(user.getDevFlag());
 
             systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
             saveUserOrgList(req, user);
@@ -623,7 +666,7 @@ public class UserController extends BaseController {
 
 		}
 		j.setMsg(message);
-
+		logger.info("["+IpUtil.getIpAddr(req)+"][添加编辑用户]"+message);
 		return j;
 	}
 
@@ -997,7 +1040,7 @@ public class UserController extends BaseController {
 	}
 	@RequestMapping(params = "changestyle")
 	public String changeStyle(HttpServletRequest request) {
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		if(user==null){
 			return "login/login";
 		}
@@ -1032,7 +1075,7 @@ public class UserController extends BaseController {
 	public AjaxJson saveStyle(HttpServletRequest request,HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		j.setSuccess(Boolean.FALSE);
-		TSUser user = ResourceUtil.getSessionUserName();
+		TSUser user = ResourceUtil.getSessionUser();
 		if(user!=null){
 			String indexStyle = request.getParameter("indexStyle");
 //			String cssTheme = request.getParameter("cssTheme");
@@ -1123,7 +1166,7 @@ public class UserController extends BaseController {
 		}
 		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
 		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 				"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,tsUsers);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -1140,7 +1183,7 @@ public class UserController extends BaseController {
 			, DataGrid dataGrid,ModelMap modelMap) {
 		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
 		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 				"导出信息"));
 		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -1273,6 +1316,7 @@ public class UserController extends BaseController {
 		}
 		return j;
 	}
+
 
 	/**
 	 * 选择用户跳转页面

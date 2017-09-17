@@ -3,7 +3,7 @@
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
-  <t:datagrid name="jformGraphreportHeadList" checkbox="true" fitColumns="false" title="图表配置" actionUrl="jformGraphreportHeadController.do?datagrid" idField="id" fit="true" queryMode="group">
+  <t:datagrid name="jformGraphreportHeadList" checkbox="true" fitColumns="true" title="图表配置" actionUrl="jformGraphreportHeadController.do?datagrid" idField="id" fit="true" queryMode="group">
    <t:dgCol title="id"  field="id"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="图表名称"  field="name"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="编码"  field="code"   query="true" queryMode="single"  width="120"></t:dgCol>

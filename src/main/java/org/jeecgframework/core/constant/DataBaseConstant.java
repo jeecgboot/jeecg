@@ -127,6 +127,15 @@ public interface DataBaseConstant {
 	 * 更新日期时间
 	 */
 	public static final String UPDATE_TIME_TABLE = "update_time";
+	
+	/**
+	 * 业务流程状态
+	 */
+	public static final String BPM_STATUS = "bpmStatus";
+	/**
+	 * 业务流程状态
+	 */
+	public static final String BPM_STATUS_TABLE = "bpm_status";
 	//*********系统建表标准字段****************************************
 	//****************************************************************************************
 }

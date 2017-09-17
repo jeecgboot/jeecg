@@ -11,7 +11,9 @@
 	  <input id="id" name="id" type="hidden" value="${cgformTemplatePage.id }">
 	  <div style="float: left;height: 99%;width: 30%;margin-top: 20px">
 		  <img id="prePic" src="" alt="预览图" width="99%" height="200px" />
+		  <!-- update--begin---author:zhangjiaqiang date:20170301 for:TASK #1707 【功能改进】目前的操作模式是右侧选择图片上传 -->
 <!-- 		  <a class="easyui-linkbutton" href="javascript:void(0)" onclick="uploadPic()">上传</a> -->
+ <!-- update--begin---author:zhangjiaqiang date:20170301 for:TASK #1707 【功能改进】目前的操作模式是右侧选择图片上传 -->
 	  </div>
 	  <div style="float: right;height: 99%;width:70%">
 		  <table style="width: 100%;height: 100%" cellpadding="0" cellspacing="1" class="formtable">
@@ -56,6 +58,7 @@
 					  <label class="Validform_label" style="display: none;">类型</label>
 				  </td>
 			  </tr>
+			   <!-- update--begin--author:zhangjiaqiang date:20170305 for:TASK #1749 【新功能】自定义样式表加个字段 【是否激活】 -->
 			  <tr>
                 <td align="right">
                     <label class="Validform_label" style="width: 100px">
@@ -75,6 +78,7 @@
                     <label class="Validform_label" style="display: none;">是否激活</label>
                 </td>
             </tr>
+             <!-- update--begin--author:zhangjiaqiang date:20170305 for:TASK #1749 【新功能】自定义样式表加个字段 【是否激活】 -->
 			 <%-- <tr>
 				  <td align="right"  style="display: none">
 					  <label class="Validform_label">
@@ -140,7 +144,7 @@
 					  </label>
 				  </td>
 				  <td class="value">
-                    <textarea style="width:400px;" class="inputxt" rows="6" id="templateComment"
+                    <textarea style="width:400px;height: 60px" class="inputxt" rows="6" id="templateComment"
 							  name="templateComment">${cgformTemplatePage.templateComment}</textarea>
 					  <span class="Validform_checktip"></span>
 					  <label class="Validform_label" style="display: none;">表单风格描述</label>

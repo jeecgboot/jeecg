@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.EhcacheUtil;
@@ -86,9 +88,12 @@ public class ClientManager {
 	 */
 	public void removeClinet(String sessionId){
 		try {
-			ContextHolderUtils.getSession().removeAttribute(sessionId);
-		} catch (Exception e) {
-		}
+			ContextHolderUtils.removeSession(sessionId);
+		} catch (Exception e) {}
+		try {
+			HttpSession session = ContextHolderUtils.getSession();
+			session.removeAttribute(sessionId);
+		} catch (Exception e) {}
 		removeClientFromCachedMap(sessionId);
 	}
 	/**

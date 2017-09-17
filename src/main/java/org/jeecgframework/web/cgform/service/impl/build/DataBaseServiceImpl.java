@@ -20,6 +20,7 @@ import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.minidao.util.FreemarkerParseFactory;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
 import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
@@ -32,6 +33,7 @@ import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIncrementer;
@@ -56,6 +58,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	private AbstractRoutingDataSource dataSource;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
 	/**
 	 * 表单添加
 	 * @param tableName 表名
@@ -150,7 +156,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 							newV = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 						} else if (dateStr.indexOf(":") > 0 && dateStr.length() == 19) {
 							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
-						} 
+
+						}else if (dateStr.indexOf(":") > 0 && dateStr.indexOf(".0") > 0 && dateStr.length()== 21) {
+							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr.substring(0, dateStr.indexOf(".0")));
+						}
+						
 						/*String dateType = fieldConfig.getShowType();
 						if("datetime".equalsIgnoreCase(dateType)){
 							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(String.valueOf(beforeV));
@@ -254,7 +264,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		Map<String, Object> map = commonDao.findOneForJdbc(sqlBuffer.toString(), id);
 		return map;
 	}
-
 	/**
 	 * sql业务增强
 	 *
@@ -266,18 +275,47 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			//获取sql参数注入参数
 			String sqlPlugin = cgformButtonSqlVo.getCgbSqlStr();
 			if(StringUtils.isNotEmpty(sqlPlugin)){
+
+				boolean isMiniDao = false;
+				logger.debug("sql plugin -------->"+sqlPlugin);						
+				String sqlPluginTemp = formateSQl(sqlPlugin,  data);
+				logger.debug("sql formate plugin -------->"+sqlPluginTemp);
+				try{
+					//注入系统环境变量（支持占位符用法）
+					data = minidaoReplaceExtendSqlSysVar(data);
+					sqlPlugin = FreemarkerParseFactory.parseTemplateContent(sqlPluginTemp, data);
+					isMiniDao = true;
+				}catch(Exception e){
+					logger.debug(e.getMessage());
+					logger.debug("minidao转换不成功，使用正常sql处理");
+					sqlPlugin = sqlPluginTemp;
+				}
+
 				String [] sqls = sqlPlugin.split(";");
 				for(String sql:sqls){
+
+					//添加逻辑后，有可能造成sql为空
+					if(sql == null || sql.toLowerCase().trim().equals("")){
+						continue;
+					}
 
 					/*if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
 							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){*/
 					if(true){
 
 						//执行sql
-						logger.debug("sql plugin -------->"+sql);
-						sql = formateSQl(sql,  data);
-						logger.debug("sql plugin -------->"+sql);
-						int num = this.executeSql(sql);
+
+						int num = 0;
+						if(isMiniDao){
+							try {
+								num = namedParameterJdbcTemplate.update(sql, data);
+							} catch (Throwable e) {
+								e.printStackTrace();
+							}
+						}else{
+							num = this.executeSql(sql);
+						}
+
 						if(num>0){
 							logger.debug("sql plugin --execute success------>"+sql);
 						}else{
@@ -288,7 +326,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		}
 	}
-
+	
 	private CgformButtonSqlEntity getCgformButtonSqlByCodeFormId(String buttonCode, String formId) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformButtonSqlEntity t");
@@ -535,7 +573,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 */
 	private void fillUpdateSysVar(String tableName,Map<String, Object> data) {
 
-		if (ResourceUtil.getSessionUserName()==null){
+		if (ResourceUtil.getSessionUser()==null){
 			return;
 		}
 
@@ -565,7 +603,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 */
 	private void fillInsertSysVar(String tableName,Map<String, Object> data) {
 
-		if (ResourceUtil.getSessionUserName()==null){
+		if (ResourceUtil.getSessionUser()==null){
 			return;
 		}
 
@@ -599,8 +637,30 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)){
 			data.put(DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
+		if(data.containsKey(DataBaseConstant.BPM_STATUS_TABLE)
+				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.BPM_STATUS_TABLE)){
+			data.put(DataBaseConstant.BPM_STATUS_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.BPM_STATUS_TABLE));
+		}
 	}
+	
 	/**
+	 * 【Minidao写法】
+	 * 将Sql增强中的系统变量替换掉
+	 * @param sql
+	 * @return
+	 */
+	private Map<String, Object> minidaoReplaceExtendSqlSysVar(Map<String, Object> data){
+		data.put("sys."+DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		data.put("sys."+DataBaseConstant.SYS_USER_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
+		data.put("sys."+DataBaseConstant.SYS_ORG_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE));
+		data.put("sys."+DataBaseConstant.SYS_COMPANY_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE));
+		data.put("sys."+DataBaseConstant.SYS_DATE_TABLE, DateUtils.formatDate());
+		data.put("sys."+DataBaseConstant.SYS_TIME_TABLE, DateUtils.formatTime());
+		return data;
+	}
+	
+	/**
+	 * 【老写法】
 	 * 将Sql增强中的系统变量替换掉
 	 * @param sql
 	 * @return

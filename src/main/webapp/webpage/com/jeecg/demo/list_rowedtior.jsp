@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
+<!-- update-begin-author:taoYan date:20170814 for:行编辑ie8兼容问题 -->
+<t:base type="jquery-webos,easyui,tools,DatePicker,autocomplete"></t:base>
+<!-- update-end-author:taoYan date:20170814 for:行编辑ie8兼容问题 -->
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="jeecgrowList"  checkbox="true" pagination="true" fitColumns="true" 
@@ -64,10 +66,14 @@
 	function endEdit(gname){
 		var  editIndex = $('#'+gname).datagrid('getRows').length-1;
 		for(var i=0;i<=editIndex;i++){
-			if($('#'+gname).datagrid('validateRow', i))
+			if($('#'+gname).datagrid('validateRow', i)){
 				$('#'+gname).datagrid('endEdit', i);
-			else
+			}else{
+
+				tip("请选择必填项(带有红色三角形状的字段)!");
+
 				return false;
+			}
 		}
 		return true;
 	}

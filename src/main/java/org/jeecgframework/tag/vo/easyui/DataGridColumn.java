@@ -45,7 +45,26 @@ public class DataGridColumn {
 
 	private String defaultVal = "";//列默认值
 
+	protected String showMode;//表单元素,查询表单中显示样式,默认样式select	
+
+	protected boolean newColumn;
 	
+	public boolean isNewColumn() {
+		return newColumn;
+	}
+
+	public void setNewColumn(boolean newColumn) {
+		this.newColumn = newColumn;
+	}
+
+	public String getShowMode() {
+		return showMode;
+	}
+
+	public void setShowMode(String showMode) {
+		this.showMode = showMode;
+	}
+
 	public String getEditor() {
 		return editor;
 	}
@@ -298,6 +317,15 @@ public class DataGridColumn {
 		this.defaultVal = defaultVal;
 	}
 
+	@Override
+	public String toString() {
+		return "DataGridColumn [title=" + title + ", field=" + field + ", width=" + width + ", showLen=" + showLen + ", rowspan=" + rowspan + ", colspan=" + colspan + 
+		", align=" + align + ", sortable=" + sortable + ", checkbox=" + checkbox + ", formatter=" + formatter + ", formatterjs=" + formatterjs + ", hidden=" + hidden + 
+		", treefield=" + treefield + ", image=" + image + ", query=" + query + ", queryMode=" + queryMode + ", autoLoadData=" + autoLoadData + ", frozenColumn=" + frozenColumn + 
+		", url=" + url + ", funname=" + funname + ", arg=" + arg + ", dictionary=" + dictionary + ", popup=" + popup + ", replace=" + replace + ", extend=" + extend +
+		", style=" + style + ", imageSize=" + imageSize + ", downloadName=" + downloadName + ", autocomplete=" + autocomplete + ", extendParams="
+				+ extendParams + ", editor=" + editor + ", defaultVal=" + defaultVal + ", showMode=" + showMode + ", newColumn=" + newColumn + "]";
+	}
 	
 	
 }

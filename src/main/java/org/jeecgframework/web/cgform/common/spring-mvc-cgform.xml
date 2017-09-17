@@ -23,6 +23,8 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- update begin  online代码生成器支持 自定义word改造 -->
 	<!-- FreeMarker 自定义word代码生成器 -->
 	<bean id="freemarkerWord" class="freemarker.template.Configuration">
 		<property name="templateLoader" ref="templetLoaderWord" />
@@ -38,6 +40,7 @@
 			</map>
 		</property>
 	</bean>
+	<!-- update end  online代码生成器支持 自定义word改造 -->
 
 	<!-- 拦截器 -->
 	<mvc:interceptors>

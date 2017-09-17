@@ -135,7 +135,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<t:webUploader type="image" name="touxiang" auto="false" pathValues="${jeecgDemoPage.touxiang}"></t:webUploader>
+						<t:webUploader type="image" displayTxt="false" bizType="photosucai" name="touxiang" auto="false" pathValues="${jeecgDemoPage.touxiang}" dataType="*" nullMsg="请选择头像(自定义提示信息)"></t:webUploader>
 					</td>
 				</tr>
 				
@@ -146,7 +146,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<t:webUploader auto="true" pathValues="${jeecgDemoPage.fujian}" name="fujian" duplicate="true" fileNumLimit="3"></t:webUploader>
+						<t:webUploader auto="true" pathValues="${jeecgDemoPage.fujian}" name="fujian" duplicate="true" fileNumLimit="3" dataType="*" nullMsg="请选择附件(自定义提示信息)"></t:webUploader>
 					</td>
 				</tr>
 					<tr>

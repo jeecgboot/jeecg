@@ -79,7 +79,7 @@ public class NoticeController extends BaseController{
 	public AjaxJson getNoticeList(Integer isRead,HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
 		try {
-			TSUser user = ResourceUtil.getSessionUserName();
+			TSUser user = ResourceUtil.getSessionUser();
 
 			String sql = "SELECT notice.*,noticeRead.is_read as is_read FROM t_s_notice notice "
 					+ "LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
@@ -150,7 +150,7 @@ public class NoticeController extends BaseController{
 			notice = this.systemService.getEntity(TSNotice.class, notice.getId());
 			request.setAttribute("notice", notice);
 
-			TSUser user = ResourceUtil.getSessionUserName();
+			TSUser user = ResourceUtil.getSessionUser();
 			String hql = "from TSNoticeReadUser where noticeId = '"+notice.getId()+"' and userId = '"+user.getId()+"'";
 			List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
 			if (noticeReadList != null && !noticeReadList.isEmpty()) {
@@ -180,7 +180,7 @@ public class NoticeController extends BaseController{
 //			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, notice, request.getParameterMap());
 //			this.noticeService.getDataGridReturn(cq, true);
 
-			TSUser user = ResourceUtil.getSessionUserName();
+			TSUser user = ResourceUtil.getSessionUser();
 			String sql = "SELECT notice.*,noticeRead.is_read as is_read FROM t_s_notice notice "
 					+ " LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
 					+ " WHERE noticeRead.del_flag = 0 and noticeRead.user_id = '"+user.getId()+"' "
@@ -224,7 +224,7 @@ public class NoticeController extends BaseController{
 	public AjaxJson updateNoticeRead(String noticeId,HttpServletRequest req) {
 		AjaxJson j = new AjaxJson();
 		try {
-//			TSUser user = ResourceUtil.getSessionUserName();
+//			TSUser user = ResourceUtil.getSessionUser();
 //			TSNoticeReadUser readUser = new TSNoticeReadUser();
 //			readUser.setNoticeId(noticeId);
 //			readUser.setUserId(user.getId());

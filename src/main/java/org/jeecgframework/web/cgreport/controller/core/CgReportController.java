@@ -98,17 +98,24 @@ public class CgReportController extends BaseController {
 		HttpSession session = ContextHolderUtils.getSession();
 		String lang = (String)session.getAttribute("lang");
 		StringBuilder sb= new StringBuilder("");
+
 		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
 		sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
+		sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
+//		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
+		sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
 		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getBootstrapTabTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
+		sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
 
 		sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
 

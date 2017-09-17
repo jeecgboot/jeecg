@@ -6,6 +6,7 @@ import java.util.Set;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
+import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -65,6 +66,11 @@ public interface SystemService extends CommonService{
 	 * @return
 	 */
 	public  Set<String> getOperationCodesByUserIdAndFunctionId(String userId,String functionId);
+	/***
+	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮
+	 */
+	public List<TSOperation> getOperationsByUserIdAndFunctionId(String userId,String functionId);
+	
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
 	 * @param roleId
@@ -158,5 +164,12 @@ public interface SystemService extends CommonService{
 	 */
 
 	public void addDataLog(String tableName, String dataId, String dataContent);
+
+	/***
+	 * 根据授权组Id 和 菜单Id 获取具有操作权限的数据规则
+	 */
+	public Set<String> getOperationsByGroupIdAndFunctionId(String groupId,String functionId);
+	
+	public Set<String> getOperationCodesByGroupIdAndGroupDataId(String groupId,String functionId);
 
 }

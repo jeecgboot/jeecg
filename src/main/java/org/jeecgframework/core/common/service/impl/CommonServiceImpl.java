@@ -240,9 +240,11 @@ public class CommonServiceImpl implements CommonService {
 	 * @param isOffset
 	 * @return
 	 */
-	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
+
+	public void getDataGridReturn(final CriteriaQuery cq,
 			final boolean isOffset) {
-		return commonDao.getDataGridReturn(cq, isOffset);
+		commonDao.getDataGridReturn(cq, isOffset);
+
 	}
 
 	/**

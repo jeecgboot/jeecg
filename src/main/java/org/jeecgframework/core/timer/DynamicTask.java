@@ -1,27 +1,28 @@
 package org.jeecgframework.core.timer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
+import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.IpUtil;
+import org.jeecgframework.core.util.MyClassLoader;
+import org.jeecgframework.p3.core.common.utils.StringUtil;
+import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
+import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.system.service.TimeTaskServiceI;
 import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Service;
+
+
 
 /**
  * 动态任务,用以动态调整Spring的任务
@@ -36,154 +37,164 @@ public class DynamicTask {
 
 	@Resource
 	private Scheduler schedulerFactory;
+
+	@Autowired
+	private TimeTaskServiceI timeTaskService;
+	
+	@Autowired
+	private SystemService systemService;
+	
 	
 	/**
-	 * 更新定时任务的触发表达式
-	 * 
-	 * @param triggerName
-	 *            触发器名字
-	 * @param start
-	 *            触发表达式
-	 * @return 成功则返回true，否则返回false
+	 * 启动定时任务
+	 * @param task
 	 */
-	public boolean startOrStop(String triggerName,
-			boolean start) {
+	private boolean startTask(TSTimeTaskEntity task){
 		try {
-			CronTrigger trigger = (CronTrigger) getTrigger(triggerName,
-					Scheduler.DEFAULT_GROUP);
-			if(start){
-				schedulerFactory.resumeTrigger(trigger.getName(), trigger.getGroup());
-				logger.info("trigger the start successfully!!");
-			}else{
-				schedulerFactory.pauseTrigger(trigger.getName(), trigger.getGroup());
-				logger.info("trigger the pause successfully!!");
-			}
-			return true;
-		}  catch (SchedulerException e) {
-			logger.error("Fail to reschedule. " + e);
-			return false;
-		}
-	}
-
-	/**
-	 * 更新定时任务的触发表达式
-	 * 
-	 * @param triggerName
-	 *            触发器名字
-	 * @param cronExpression
-	 *            触发表达式
-	 * @return 成功则返回true，否则返回false
-	 */
-	public boolean updateCronExpression(String triggerName,
-			String cronExpression) {
-		try {
-			CronTrigger trigger = (CronTrigger) getTrigger(triggerName,
-					Scheduler.DEFAULT_GROUP);
-			if (trigger == null) {
-				return false;
-			}
-			if (StringUtils.equals(trigger.getCronExpression(), cronExpression)) {
-				logger.info("cronExpression is same with the running Schedule , no need to update.");
-				return true;
-			}
-			trigger.setCronExpression(cronExpression);
-			schedulerFactory.rescheduleJob(trigger.getName(), trigger.getGroup(),
-					trigger);
-			updateSpringMvcTaskXML(trigger,cronExpression);
-			logger.info("Update the cronExpression successfully!!");
+			/* 
+			//quartz 2.2
+			JobDetailImpl jobDetail = new JobDetailImpl();
+			jobDetail.setName(taskCode);
+			jobDetail.setGroup(Scheduler.DEFAULT_GROUP);
+			jobDetail.setJobClass(getClassByTask(task.getJob_class()));
+			CronTriggerImpl cronTrigger = new CronTriggerImpl("cron_" + taskCode,Scheduler.DEFAULT_GROUP, jobDetail.getName(),Scheduler.DEFAULT_GROUP);
+			cronTrigger.setCronExpression(cronExpress);
+			*/
+			//quartz 1.6
+			JobDetail jobDetail = new JobDetail();
+			jobDetail.setName(task.getId());
+			jobDetail.setGroup(Scheduler.DEFAULT_GROUP);
+			jobDetail.setJobClass(MyClassLoader.getClassByScn(task.getClassName()));
+			CronTrigger cronTrigger = new CronTrigger("cron_" + task.getId(),Scheduler.DEFAULT_GROUP, jobDetail.getName(),Scheduler.DEFAULT_GROUP);
+			cronTrigger.setCronExpression(task.getCronExpression());
+			schedulerFactory.scheduleJob(jobDetail, cronTrigger);
 			return true;
 		} catch (ParseException e) {
-			logger.error("The new cronExpression - " + cronExpression
-					+ " not conform to the standard. " + e);
-			return false;
+			logger.error("startTask ParseException"+ e.getMessage());			
 		} catch (SchedulerException e) {
-			logger.error("Fail to reschedule. " + e);
-			return false;
+			logger.error("startTask SchedulerException"+" cron_" + task.getId()+ e.getMessage());	
 		}
+		return false;
+	}
+	
+	/**
+	 * 结束计划任务
+	 * @param task
+	 * @throws SchedulerException
+	 */
+	private boolean endTask(TSTimeTaskEntity task){
+		
+		try{
+			/*
+			//quartz 2.2
+			JobKey jobKey = new JobKey(taskName, Scheduler.DEFAULT_GROUP);
+			schedulerFactory.deleteJob(jobKey);
+			*/
+			//quartz 1.6
+			schedulerFactory.unscheduleJob("cron_" + task.getId(), Scheduler.DEFAULT_GROUP);
+			return true;
+		}catch (SchedulerException e) {
+			logger.error("endTask SchedulerException" + " cron_" + task.getId() + e.getMessage());
+		}
+		return false;
 	}
 
+	
 	/**
-	 * 获取触发器
-	 * 
-	 * @param triggerName
-	 *            触发器名字
-	 * @param groupName
-	 *            触发器组名字
-	 * @return 对应Trigger
+	 * 开关定时任务
+	 * @param task
+	 * @param start
+	 * @return
+	 * @throws SchedulerException 
 	 */
-	private Trigger getTrigger(String triggerName, String groupName) {
-		Trigger trigger = null;
-		if (StringUtils.isBlank(groupName)) {
-			logger.warn("Schedule Job Group is empty!");
-			return null;
+	public boolean startOrStop(TSTimeTaskEntity task, boolean start){
+		boolean isSuccess = start ? startTask(task) : endTask(task);
+		if(isSuccess){
+			task.setIsStart(start?"1":"0");
+			timeTaskService.updateEntitie(task);
+			systemService.addLog((start?"开启任务":"停止任务")+task.getTaskId(), Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+			logger.info((start?"开启任务":"停止任务")+"-------TaskId:"+task.getTaskId()+"-------Describe:"+task.getTaskDescribe()+"-----ClassName:"+task.getClassName() );
 		}
-		if (StringUtils.isBlank(triggerName)) {
-			logger.warn("Schedule trigger Name is empty!");
-			return null;
-		}
-		try {
-			trigger = schedulerFactory.getTrigger(triggerName, groupName);
-		} catch (SchedulerException e) {
-			logger.warn("Fail to get the trigger (triggerName: " + triggerName
-					+ ", groupName : " + groupName + ")");
-			return null;
-		}
-		if (trigger == null) {
-			logger.warn("Can not found the trigger of triggerName: "
-					+ triggerName + ", groupName : " + groupName);
-		}
-		return trigger;
+		return isSuccess;
 	}
+	
 	/**
-	 * 更新spring-mvc-timeTask.xml 配置文件
-	 * @param trigger
-	 * @param cronExpression 
+	 * 更新触发规则
+	 * @param task
+	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public synchronized static void updateSpringMvcTaskXML(CronTrigger trigger, String cronExpression) {
-		Document document = null;
-		File file = null;
-		SAXReader saxReader = new SAXReader();
+	public boolean updateCronExpression(TSTimeTaskEntity task) {		
+		
 		try {
-			URI url = DynamicTask.class.getClassLoader().getResource("spring-mvc-timeTask.xml").toURI();
-			file = new File(url.getPath());
-			document = saxReader.read(new FileInputStream(file));
-		} catch (Exception e) {
-			logger.error("读取系统中用到的SQL 语句XML出错");
-			throw new RuntimeException("---------读取spring-mvc-timeTask.xml文件出错:" + e.getMessage());
-		}
-		Element root = document.getRootElement();
-		List<Element> beans = root.elements();
-		for (Element bean : beans) {
-			if(bean.attribute("id")!=null&&
-					bean.attribute("id").getValue().equals(trigger.getName())){
-				beans = bean.elements();
-				for (Element temp : beans) {
-					if(temp.attribute("name")!=null&&
-							temp.attribute("name").getValue().equals("cronExpression")){
-						temp.attribute("value").setValue(cronExpression);
-						break;
-					}
-				}
-				break;
+			String newExpression = task.getCronExpression();		
+			task = timeTaskService.get(TSTimeTaskEntity.class, task.getId());		
+			
+			//任务运行中
+			if("1".equals(task.getIsStart())){
+				CronTriggerBean trigger = (CronTriggerBean)schedulerFactory.getTrigger("cron_" + task.getId(), Scheduler.DEFAULT_GROUP);             
+				String originExpression = trigger.getCronExpression(); 	 
+				//检查运行中的任务触发规则是否与新规则一致
+			    if (!originExpression.equalsIgnoreCase(newExpression)) {  
+			        trigger.setCronExpression(newExpression);  
+			        schedulerFactory.rescheduleJob("cron_" + task.getId(), Scheduler.DEFAULT_GROUP, trigger); 
+			    } 
 			}
-		}
-		XMLWriter  fileWriter = null;
-		try {
-			OutputFormat xmlFormat = OutputFormat.createPrettyPrint();
-			xmlFormat.setEncoding("utf-8");
-			fileWriter = new XMLWriter(new FileOutputStream(file),xmlFormat);
-			fileWriter.write(document);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			try {
-				fileWriter.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			
+			//检查数据库中的任务触发规则与新规则是否一致
+			if (!task.getCronExpression().equalsIgnoreCase(newExpression)) {  
+			    task.setCronExpression(newExpression);
+			    timeTaskService.updateEntitie(task);
 			}
+			
+			return true;
+		} catch (SchedulerException e) {
+			logger.error("updateCronExpression SchedulerException" + " cron_" + task.getId() + e.getMessage());
+		} catch (ParseException e) {
+			logger.error("updateCronExpression ParseException" + " cron_" + task.getId() + e.getMessage());
 		}
 		
+		return false;
+	}
+	
+	
+	/**
+	 * 系统初始加载任务
+	 * @throws UnknownHostException 
+	 */
+	public void loadTask(){
+
+		//String serverIp = InetAddress.getLocalHost().getHostAddress();
+		List<String> ipList = IpUtil.getLocalIPList();
+		TSTimeTaskEntity timTask = new TSTimeTaskEntity();
+		timTask.setIsEffect("1");
+		timTask.setIsStart("1");
+		List<TSTimeTaskEntity> tasks = (List<TSTimeTaskEntity>)timeTaskService.findByExample(TSTimeTaskEntity.class.getName(), timTask);	
+		logger.info(" register time task class num is ["+tasks.size()+"] ");
+		if(tasks.size() > 0){
+			for (TSTimeTaskEntity task : tasks) {
+				//startTask(task);
+				try {
+
+					String runServerIp = task.getRunServerIp();					
+					if(ipList.contains(runServerIp) || StringUtil.isEmpty(runServerIp) || "本地".equals(runServerIp)){//当前服务器IP匹配成功
+
+						//quartz 1.6
+						JobDetail jobDetail = new JobDetail();
+						jobDetail.setName(task.getId());
+						jobDetail.setGroup(Scheduler.DEFAULT_GROUP);
+						jobDetail.setJobClass(MyClassLoader.getClassByScn(task.getClassName()));
+						CronTrigger cronTrigger = new CronTrigger("cron_" + task.getId(),Scheduler.DEFAULT_GROUP, jobDetail.getName(),Scheduler.DEFAULT_GROUP);
+						cronTrigger.setCronExpression(task.getCronExpression());
+						schedulerFactory.scheduleJob(jobDetail, cronTrigger);
+						logger.info(" register time task class is { "+task.getClassName()+" } ");
+					}
+				} catch (ParseException e) {
+					logger.error("startTask ParseException"+ e.getMessage());			
+				} catch (SchedulerException e) {
+					logger.error("startTask SchedulerException"+" cron_" + task.getId()+ e.getMessage());	
+				}
+			}
+		}
 	}
 
 }

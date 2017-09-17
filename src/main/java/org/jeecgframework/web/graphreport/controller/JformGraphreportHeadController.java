@@ -16,6 +16,7 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -109,6 +110,7 @@ public class JformGraphreportHeadController extends BaseController {
 		try{
 			jformGraphreportHeadService.delMain(jformGraphreportHead);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online图表删除]["+jformGraphreportHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "图表配置删除失败";
@@ -135,6 +137,7 @@ public class JformGraphreportHeadController extends BaseController {
 				);
 				jformGraphreportHeadService.delMain(jformGraphreportHead);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+				logger.info("["+IpUtil.getIpAddr(request)+"][online图表批量删除]["+jformGraphreportHead.getCode()+"]"+message);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -160,6 +163,7 @@ public class JformGraphreportHeadController extends BaseController {
 		try{
 			jformGraphreportHeadService.addMain(jformGraphreportHead, jformGraphreportItemList);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online图表录入]["+jformGraphreportHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "图表配置添加失败";
@@ -183,6 +187,7 @@ public class JformGraphreportHeadController extends BaseController {
 		try{
 			jformGraphreportHeadService.updateMain(jformGraphreportHead, jformGraphreportItemList);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+			logger.info("["+IpUtil.getIpAddr(request)+"][online图表更新]["+jformGraphreportHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "更新图表配置失败";

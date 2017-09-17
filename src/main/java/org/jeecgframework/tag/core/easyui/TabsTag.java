@@ -3,12 +3,12 @@ package org.jeecgframework.tag.core.easyui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
-
+import org.jeecgframework.core.util.ContextHolderUtils;
+import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.tag.core.JeecgTag;
 import org.jeecgframework.tag.vo.easyui.Tab;
 
 
@@ -20,7 +20,8 @@ import org.jeecgframework.tag.vo.easyui.Tab;
  * @date： 日期：2012-12-7 时间：上午10:17:45
  * @version 1.0
  */
-public class TabsTag extends TagSupport {
+public class TabsTag extends JeecgTag {
+	private static final long serialVersionUID = 1L;
 	private String id;// 容器ID
 	private String width;// 宽度
 	private String heigth;// 高度
@@ -113,7 +114,13 @@ public class TabsTag extends TagSupport {
 	}
 
 	public StringBuffer end() {
-		StringBuffer sb = new StringBuffer();
+
+		StringBuffer sb = this.getTagCache();
+		if(sb != null){
+			return sb;
+		}
+		sb = new StringBuffer();
+
 		if (iframe) {
 			sb.append("<script type=\"text/javascript\">");
 			sb.append("$(function(){");
@@ -152,7 +159,7 @@ public class TabsTag extends TagSupport {
 			sb.append("function createFrame" + id + "(id)");
 			sb.append("{");
 
-			sb.append("var s = \'<iframe id=\"+id+\" scrolling=\"no\" frameborder=\"0\"  src=\"about:jeecg\" width=\""+oConvertUtils.getString(width, "100%")+"\" height=\""+oConvertUtils.getString(heigth, "99.5%")+"\"></iframe>\';");
+			sb.append("var s = \'<iframe id=\"+id+\" scrolling=\"no\" frameborder=\"0\"  src=\"about:blank\" width=\""+oConvertUtils.getString(width, "100%")+"\" height=\""+oConvertUtils.getString(heigth, "99.5%")+"\"></iframe>\';");
 
 			sb.append("return s;");
 			sb.append("}");
@@ -165,9 +172,9 @@ public class TabsTag extends TagSupport {
 			if (!iframe) {
 				for (Tab tab : tabList) {
 					if (tab.getHref() != null) {
-						sb.append("<div title=\"" + tab.getTitle() + "\" href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\"></div>");
+						sb.append("<div title=\"" + tab.getTitle() + "\" " + (tab.getIcon() != null ? ("iconCls=\"" + tab.getIcon() + "\" ") : "") + " href=\"" + tab.getHref() + "\" style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\"></div>");
 					} else {
-						sb.append("<div title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\">");
+						sb.append("<div " + (tab.getIcon() != null ? ("iconCls=\"" + tab.getIcon() + "\" ") : "") + " title=\"" + tab.getTitle() + "\"  style=\"margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width=auto;\">");
 
 						sb.append("<iframe id=\""+tab.getId()+"\" scrolling=\"no\" frameborder=\"0\"  src=\""+tab.getIframe()+"\" width=\""+oConvertUtils.getString(tab.getWidth(), "100%")+"\" height=\""+oConvertUtils.getString(tab.getHeigth(), "99.5%")+"\"></iframe>");
 
@@ -177,8 +184,10 @@ public class TabsTag extends TagSupport {
 				}
 			}
 			sb.append("</div>");
-			
 		}
+
+		this.putTagCache(sb);
+
 		return sb;
 	}
 
@@ -196,5 +205,38 @@ public class TabsTag extends TagSupport {
 		tab.setClosable(closable);
 		tabList.add(tab);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TabsTag [id=").append(id).append(", width=")
+				.append(width).append(", heigth=").append(heigth)
+				.append(", plain=").append(plain).append(", fit=").append(fit)
+				.append(", border=").append(border)
+				.append(", scrollIncrement=").append(scrollIncrement)
+				.append(", scrollDuration=").append(scrollDuration)
+				.append(", tools=").append(tools).append(", tabs=")
+				.append(tabs).append(", iframe=").append(iframe)
+				.append(", tabPosition=").append(tabPosition);
+		builder.append(",tabList=[");
+		for(Tab tab : tabList){
+			builder.append(tab.getId()+",");
+			builder.append(tab.getIframe()+",");
+			builder.append(tab.getTitle()+",");
+			builder.append(tab.getHeigth()+",");
+			builder.append(tab.getWidth()+",");
+			builder.append(tab.getIcon()+",");
+			builder.append(tab.getContent()+",");
+			builder.append(tab.isCache()+",");
+			builder.append(tab.isClosable()+",");
+			builder.append(tab.getHref()+";");
+		}
+		builder.append("]");
+		builder.append(",sysTheme=").append(SysThemesUtil.getSysTheme(ContextHolderUtils.getRequest()).getStyle())
+				.append(",brower_type=").append(ContextHolderUtils.getSession().getAttribute("brower_type"))
+				.append("]");
+		return builder.toString();
+	}
+
 
 }

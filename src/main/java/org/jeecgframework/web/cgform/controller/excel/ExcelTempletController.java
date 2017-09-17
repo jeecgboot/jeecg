@@ -85,8 +85,10 @@ public class ExcelTempletController extends BaseController {
 	 */
 	@SuppressWarnings("all")
 	@RequestMapping(params = "exportXls")
+
 	public String exportXls(HttpServletRequest request, ModelMap modelMap,
-							HttpServletResponse response, String field, DataGrid dataGrid) {
+							HttpServletResponse response, String field, DataGrid dataGrid,String id) {//update-begin--Author:dangzhenghui  Date:20170429 for：TASK #1906 【online excel】Online excel 导出功能改进
+
 
 		String codedFileName = "文件";
 		String sheetName = "导出信息";
@@ -136,8 +138,20 @@ public class ExcelTempletController extends BaseController {
 					}
 				}
 			}
+
+			List<Map<String, Object>> nresult=new ArrayList<Map<String, Object>>();
+			if (StringUtil.isNotEmpty(id)){
+				for(Map map:result){
+					if(id.contains((String )map.get("id"))){
+						nresult.add(map);
+					}
+				}
+			}else {
+				nresult.addAll(result);
+			}
+
 			modelMap.put(MapExcelConstants.ENTITY_LIST, entityList);
-			modelMap.put(MapExcelConstants.MAP_LIST, result);
+			modelMap.put(MapExcelConstants.MAP_LIST, nresult);
 			modelMap.put(MapExcelConstants.FILE_NAME, codedFileName);
 			modelMap.put(MapExcelConstants.PARAMS, new ExportParams(null, sheetName));
 			return MapExcelConstants.JEECG_MAP_EXCEL_VIEW;

@@ -17,10 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.jeecgframework.codegenerate.database.JeecgReadTable;
 import org.jeecgframework.codegenerate.pojo.Columnt;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
@@ -43,7 +45,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/cgformTransController")
 public class CgformTransController {
-
+	private static final Logger logger = Logger.getLogger(CgformTransController.class);
+	private static String GENERATE_FORM_IDS;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 
@@ -105,22 +108,32 @@ public class CgformTransController {
 	public AjaxJson transEditor(HttpServletRequest request, String id)
 			throws Exception {
 		AjaxJson j = new AjaxJson();
+
+		//TODO 1.存在缺陷，表单移除再点击生成违法生成
+		//TODO 2.重复提醒，在前段没提示信息
+		if(GENERATE_FORM_IDS!=null && GENERATE_FORM_IDS.equals(id)){
+			j.setMsg("不允许重复生成!");
+			j.setSuccess(false);
+			return j;
+		}else{
+			GENERATE_FORM_IDS = id;
+		}
+
+		
 		String ids[] = id.split(",");
 		String no = "";
 		String yes = "";
 		for (int i = 0; i < ids.length; i++) {
 			if (StringUtil.isNotEmpty(ids[i])) {
-				List<CgFormHeadEntity> cffList = cgFormFieldService
-						.findByProperty(CgFormHeadEntity.class, "tableName",
-								ids[i]);
+				List<CgFormHeadEntity> cffList = cgFormFieldService.findByProperty(CgFormHeadEntity.class, "tableName",ids[i]);
 				if (cffList.size() > 0) {
 					if (no != "")
 						no += ",";
 					no += ids[i];
 					continue;
 				}
-				List<Columnt> list = new JeecgReadTable()
-						.readOriginalTableColumn(ids[i]);
+				logger.info("["+IpUtil.getIpAddr(request)+"] [online数据库导入表] "+"  --表名："+ids[i]);
+				List<Columnt> list = new JeecgReadTable().readOriginalTableColumn(ids[i]);
 				CgFormHeadEntity cgFormHead = new CgFormHeadEntity();
 				cgFormHead.setJformType(1);
 				cgFormHead.setIsCheckbox("Y");
@@ -192,13 +205,11 @@ public class CgformTransController {
 								cgFormField.setLength(Integer.valueOf(columnt.getCharmaxLength()));
 							}catch(Exception e){}
 						} else {
-							cgFormField.setLength(Integer.valueOf(columnt
-									.getCharmaxLength()));
+							cgFormField.setLength(Integer.valueOf(columnt.getCharmaxLength()));
 						}
 					} else {
 						if (StringUtil.isNotEmpty(columnt.getPrecision())) {
-							cgFormField.setLength(Integer.valueOf(columnt
-									.getPrecision()));
+							cgFormField.setLength(Integer.valueOf(columnt.getPrecision()));
 						}
 
 						else{
@@ -208,8 +219,7 @@ public class CgformTransController {
 						}
 
 						if (StringUtil.isNotEmpty(columnt.getScale()))
-							cgFormField.setPointLength(Integer.valueOf(columnt
-									.getScale()));
+							cgFormField.setPointLength(Integer.valueOf(columnt.getScale()));
 
 					}
 					columnsList.add(cgFormField);
@@ -217,7 +227,7 @@ public class CgformTransController {
 				cgFormHead.setColumns(columnsList);
 
 				if(oConvertUtils.isEmpty(cgFormHead.getJformCategory())){
-					cgFormHead.setJformCategory("bdfl_ptbd");
+					cgFormHead.setJformCategory("bdfl_include");
 				}
 
 				cgFormFieldService.saveTable(cgFormHead, "");

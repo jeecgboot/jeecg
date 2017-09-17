@@ -415,7 +415,9 @@ public class ListtoMenu {
 		}
 		menuString.append("<li iconCls=\"");
 		menuString.append(icon);
-		menuString.append("\"> <a onclick=\"addTab(\'");
+
+		menuString.append("\"> <a onclick=\"addTab4MenuId(\'");
+
 		menuString.append(getMutiLang(function.getFunctionName()));
 		menuString.append("\',\'");
 		menuString.append(function.getFunctionUrl());
@@ -434,6 +436,10 @@ public class ListtoMenu {
 
 		menuString.append("\',\'");
 		menuString.append(icon);
+
+		menuString.append("\',\'");
+		menuString.append(function.getId());
+
 		menuString.append("\')\"  title=\"");
 		menuString.append(getMutiLang(function.getFunctionName()));
 		menuString.append("\" url=\"");
@@ -818,10 +824,10 @@ public class ListtoMenu {
             for (TSFunction function : list) {
                 menuString.append("<li>");
 
-    			if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
-    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+function.getFunctionIconStyle()+"\"></i>");
+				if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
     			}else{
-    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\""+SysACEIconEnum.toEnum(function.getTSIcon().getIconClas()).getThemes()+"\"></i>");
+    				menuString.append("<a href=\"#\" class=\"dropdown-toggle\" ><i class=\"fa fa-columns\"></i>");
     			}
 
                 

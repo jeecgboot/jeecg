@@ -28,7 +28,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
 	TSUser currentUser = null;
 	try {
-		currentUser = ResourceUtil.getSessionUserName();
+		currentUser = ResourceUtil.getSessionUser();
 	} catch (RuntimeException e) {
 		//logger.warn("当前session为空,无法获取用户");
 	}
@@ -94,6 +94,15 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		    	 }
 		         continue;
 		     }
+		     /*找到名为"流程状态"的属性*/
+		     else if (DataBaseConstant.BPM_STATUS.equals(propertyNames[index]))
+		     {
+		         /*使用拦截器将对象的"流程状态"属性赋上值*/
+		    	 if(oConvertUtils.isEmpty(state[index])){
+		    		 state[index] = String.valueOf(1);//1：未提交
+		    	 }
+		         continue;
+		     }
 		 }
 	} catch (RuntimeException e) {
 		e.printStackTrace();
@@ -107,7 +116,7 @@ public boolean onFlushDirty(Object entity, Serializable id,
 		String[] propertyNames, Type[] types) {
 	TSUser currentUser = null;
 	try {
-		currentUser = ResourceUtil.getSessionUserName();
+		currentUser = ResourceUtil.getSessionUser();
 	} catch (RuntimeException e1) {
 		//logger.warn("当前session为空,无法获取用户");
 	}

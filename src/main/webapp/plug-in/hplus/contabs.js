@@ -105,6 +105,14 @@ $(function () {
         }
     });
 
+    function hiddenloading(){
+		$("#panelloadingDiv").hide();
+	}
+    
+    function showloading(){
+		$("#panelloadingDiv").show();
+	}
+
     function menuItem() {
         // 获取标识数据
         var dataUrl = $(this).attr('href'),
@@ -138,7 +146,9 @@ $(function () {
             $('.J_menuTab').removeClass('active');
 
             // 添加选项卡对应的iframe
-            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+
+            var str1 = '<iframe class="J_iframe" onreadystatechange="hiddenloading();" onload="hiddenloading();" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+
             $('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
 
             //显示loading提示
@@ -150,6 +160,9 @@ $(function () {
 //            });
             // 添加选项卡
             $('.J_menuTabs .page-tabs-content').append(str);
+
+            showloading();
+
             scrollToTab($('.J_menuTab.active'));
         }
         //var last = $("a[data-id='"+dataUrl+"']");
@@ -184,6 +197,8 @@ $(function () {
     function closeTab() {
         var closeTabId = $(this).parents('.J_menuTab').data('id');
         var currentWidth = $(this).parents('.J_menuTab').width();
+
+        hiddenloading();
 
         // 当前元素处于活动状态
         if ($(this).parents('.J_menuTab').hasClass('active')) {
@@ -271,6 +286,9 @@ $(function () {
             $(this).remove();
         });
         $('.page-tabs-content').css("margin-left", "0");
+
+        hiddenloading();
+
     }
     $('.J_tabCloseOther').on('click', closeOtherTabs);
 

@@ -96,7 +96,7 @@ public class ExtendJsonConvert {
 				} catch (Exception e) {
 					re.append(key+"="+"\"");
 					re.append(obj.get(key)+"\"");
-					re.append("\" ");
+					//re.append("\" ");
 				}
 			}
 		}catch (Exception e) {

@@ -689,8 +689,9 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 	/**
 	 * 返回easyui datagrid DataGridReturn模型对象
 	 */
-	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
-			final boolean isOffset) {
+
+	public void getDataGridReturn(CriteriaQuery cq,final boolean isOffset) {
+
 		Criteria criteria = cq.getDetachedCriteria().getExecutableCriteria(getSession());
 		CriteriaImpl impl = (CriteriaImpl) criteria;
 		// 先把Projection和OrderBy条件取出来,清空两者来执行Count操作
@@ -741,10 +742,15 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		}
 		// DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(),
 		// cq.getField().split(","), cq.getClass1(), false);
-		List list = criteria.list();
+		List<?> list = criteria.list();
 		cq.getDataGrid().setResults(list);
 		cq.getDataGrid().setTotal(allCounts);
-		return new DataGridReturn(allCounts, list);
+
+		cq.clear();
+		cq = null;
+
+		//return new DataGridReturn(allCounts, list);
+
 	}
 
 	/**

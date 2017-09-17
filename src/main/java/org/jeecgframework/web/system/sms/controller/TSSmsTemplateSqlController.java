@@ -290,7 +290,7 @@ public class TSSmsTemplateSqlController extends BaseController {
 //			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, tSSmsTemplateSql, request.getParameterMap());
 //			
 //			List<TSSmsTemplateSqlEntity> tSSmsTemplateSqls = this.tSSmsTemplateSqlService.getListByCriteriaQuery(cq,false);
-//			workbook = ExcelExportUtil.exportExcel(new ExportParams("消息模板_业务SQL配置表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//			workbook = ExcelExportUtil.exportExcel(new ExportParams("消息模板_业务SQL配置表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 //					"导出信息"), TSSmsTemplateSqlEntity.class, tSSmsTemplateSqls);
 //			fOut = response.getOutputStream();
 //			workbook.write(fOut);
@@ -333,7 +333,7 @@ public class TSSmsTemplateSqlController extends BaseController {
 //			}
 //			// 产生工作簿对象
 //			HSSFWorkbook workbook = null;
-//			workbook = ExcelExportUtil.exportExcel(new ExportParams("消息模板_业务SQL配置表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//			workbook = ExcelExportUtil.exportExcel(new ExportParams("消息模板_业务SQL配置表列表", "导出人:"+ResourceUtil.getSessionUser().getRealName(),
 //					"导出信息"), TSSmsTemplateSqlEntity.class, null);
 //			fOut = response.getOutputStream();
 //			workbook.write(fOut);

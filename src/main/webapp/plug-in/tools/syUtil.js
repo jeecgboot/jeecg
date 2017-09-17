@@ -44,12 +44,17 @@ $.fn.datagrid.defaults.loadMsg = '加载中....';
  */
 var easyuiErrorFunction = function(XMLHttpRequest) {
 	$.messager.progress('close');
+
 	try{
 		var emsg = XMLHttpRequest.responseText.substring(XMLHttpRequest.responseText.indexOf('错误描述'),XMLHttpRequest.responseText.indexOf('错误信息'));
+		if(emsg==undefined||emsg==''){
+			emsg = "网络异常！";
+		}
 		 $.messager.alert('错误',emsg);
 	}catch(ex){
-		 $.messager.alert('错误',XMLHttpRequest.responseText+'');
+		 $.messager.alert('错误',XMLHttpRequest.responseText==''?'网络异常！':XMLHttpRequest.responseText);
 	}
+
 };
 $.fn.datagrid.defaults.onLoadError = easyuiErrorFunction;
 $.fn.treegrid.defaults.onLoadError = easyuiErrorFunction;
@@ -360,7 +365,7 @@ $.ajaxSetup({
 	type : 'POST',
 	error : function(XMLHttpRequest, textStatus, errorThrown) {
 		$.messager.progress('close');
-		$.messager.alert('错误', XMLHttpRequest.responseText);
+		$.messager.alert('错误', XMLHttpRequest.responseText==''?'网络异常！':XMLHttpRequest.responseText);
 	}
 });
 

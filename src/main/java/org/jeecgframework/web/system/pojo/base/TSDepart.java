@@ -23,19 +23,19 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @Table(name = "t_s_depart")
 public class TSDepart extends IdEntity implements java.io.Serializable {
 	private TSDepart TSPDepart;//上级部门
-	@Excel(name = "部门名称")
+	@Excel(name = "部门名称" ,width = 20)
 	private String departname;//部门名称
-	@Excel(name = "部门描述")
+	@Excel(name = "部门描述",width = 20)
 	private String description;//部门描述
-	@Excel(name = "机构编码")
+	@Excel(name = "机构编码",width = 20)
     private String orgCode;//机构编码
-	@Excel(name = "机构类型编码")
+	@Excel(name = "机构类型编码",width = 25)
     private String orgType;//机构编码
-	@Excel(name = "电话")
+	@Excel(name = "电话",width = 20)
 	private String mobile;//电话
-	@Excel(name = "传真")
+	@Excel(name = "传真",width = 20)
 	private String fax;//传真
-	@Excel(name = "地址")
+	@Excel(name = "地址",width = 20)
 	private String address;//地址
 	
 	private String departOrder;//排序

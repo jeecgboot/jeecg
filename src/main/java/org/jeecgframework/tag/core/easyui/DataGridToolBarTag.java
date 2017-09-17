@@ -21,7 +21,9 @@ public class DataGridToolBarTag extends TagSupport {
 	private String height;
 	private String operationCode;//按钮的操作Code
 	private String langArg;//按钮的操作Code
-	
+
+	private String id;//控件ID
+
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -31,7 +33,7 @@ public class DataGridToolBarTag extends TagSupport {
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setToolbar(url, title, icon, exp,onclick, funname,operationCode,width,height);
+		parent.setToolbar(url, title, icon, exp,onclick, funname,operationCode,width,height,id);
 		return EVAL_PAGE;
 	}
 	
@@ -71,4 +73,11 @@ public class DataGridToolBarTag extends TagSupport {
 	public void setLangArg(String langArg) {
 		this.langArg = langArg;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 }

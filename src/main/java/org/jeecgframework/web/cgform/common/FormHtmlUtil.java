@@ -284,8 +284,8 @@ public class FormHtmlUtil {
 	private static String getFileFormHtml(CgFormFieldEntity cgFormFieldEntity){
     	StringBuilder html = new StringBuilder("");
 
-    	html.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
-    	html.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+//    	html.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
+//    	html.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
 
     	html.append("<table>");
     	html.append("<#list filesList as fileB>");
@@ -305,8 +305,8 @@ public class FormHtmlUtil {
 
     	//html.append("fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',");
 
-    	html.append("fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',");
-    	html.append("uploader:'cgUploadController.do?saveFiles&jsessionid='+\\$(\"#sessionUID\").val()+'',");
+    	html.append("fileSizeLimit:'15MB',swf:'\\${basePath}/plug-in/uploadify/uploadify.swf',");
+    	html.append("uploader:'\\${basePath}/cgUploadController.do?saveFiles&jsessionid='+\\$(\"#sessionUID\").val()+'',");
     	html.append("onUploadStart : function(file) { ");
     	html.append("var cgFormId=\\$(\"input[name='id']\").val();");
     	html.append("\\$('#").append(cgFormFieldEntity.getFieldName()).append("').uploadify(\"settings\", \"formData\", {'cgFormId':cgFormId,'cgFormName':'").append(cgFormFieldEntity.getTable().getTableName()).append("','cgFormField':'").append(cgFormFieldEntity.getFieldName()).append("'});} ,");
@@ -317,13 +317,13 @@ public class FormHtmlUtil {
     	html.append("</div><div class=\"form\" id=\"filediv_").append(cgFormFieldEntity.getFieldName()).append("\"> </div>");
     	
     	html.append("<script type=\"text/javascript\">");
-    	html.append("function uploadFile(data){");
-    	html.append("if(!\\$(\"input[name='id']\").val()){");
-    	html.append("if(data.obj != null && data.obj != 'undefined'){\\$(\"input[name='id']\").val(data.obj.id);}}");
-    	html.append("if(\\$(\".uploadify-queue-item\").length > 0){upload();}else{if (neibuClickFlag){alert(data.msg); neibuClickFlag = false;}else {var win = frameElement.api.opener; win.reloadTable(); win.tip(data.msg); frameElement.api.close();}}}");
+//    	html.append("function uploadFile(data){");
+//    	html.append("if(!\\$(\"input[name='id']\").val()){");
+//    	html.append("if(data.obj != null && data.obj != 'undefined'){\\$(\"input[name='id']\").val(data.obj.id);}}");
+//    	html.append("if(\\$(\".uploadify-queue-item\").length > 0){upload();}else{if (neibuClickFlag){alert(data.msg); neibuClickFlag = false;}else {var win = frameElement.api.opener; win.reloadTable(); win.tip(data.msg); frameElement.api.close();}}}");
     	html.append("function upload() {\\$('#").append(cgFormFieldEntity.getFieldName()).append("').uploadify('upload', '\\*');}");
     	html.append("function cancel() {\\$('#").append(cgFormFieldEntity.getFieldName()).append("').uploadify('cancel', '\\*');}");
-    	html.append("var neibuClickFlag = false;function neibuClick() {neibuClickFlag = true;\\$('#btn_sub').trigger('click');}");
+//    	html.append("var neibuClickFlag = false;function neibuClick() {neibuClickFlag = true;\\$('#btn_sub').trigger('click');}");
     	html.append("</script>");
 
       	return html.toString();

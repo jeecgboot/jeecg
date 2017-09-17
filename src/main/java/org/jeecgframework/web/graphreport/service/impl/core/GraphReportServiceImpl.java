@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class GraphReportServiceImpl extends CommonServiceImpl implements
 		GraphReportServiceI {
+	private Logger log = Logger.getLogger(GraphReportServiceImpl.class);
 	@Autowired
 	private JdbcDao jdbcDao;
 
@@ -67,6 +69,7 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 			int page, int rows) {
 		sql = handleElInSQL(sql, params);
 		String querySql = getFullSql(sql,params);
+		log.info("-------------动态报表功能--------querySql--" + querySql);
 		List<Map<String,Object>> result = null;
 		if(page==-1 && rows==-1){
 			result = jdbcDao.findForJdbc(querySql);
@@ -164,6 +167,7 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 		if(oConvertUtils.isEmpty(sql)){
 			return null;
 		}
+		log.info("-------------动态报表字段--------getSqlFields--" + sql);
 		List<Map<String, Object>> result = jdbcDao.findForJdbc(sql, 1, 1);
 		if(result.size()<1){
 			throw new BusinessException("该报表sql没有数据");

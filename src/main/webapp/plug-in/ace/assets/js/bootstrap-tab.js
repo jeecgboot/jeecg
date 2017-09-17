@@ -9,8 +9,11 @@ var addTabs = function (options) {
     //如果TAB不存在，创建一个新的TAB
     if (!$("#" + id)[0]) {
         //固定TAB中IFRAME高度
-        //mainHeight = $(document.body).height();
-        mainHeight = 683;//Ace 右侧高度默认
+
+        mainHeight = screen.height;
+        mainHeight = mainHeight*0.72;//Ace 右侧高度默认
+
+        //
         //创建新TAB的title
         title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
         //是否允许关闭
@@ -47,7 +50,9 @@ var addTabs = function (options) {
         title: '菜单',
         items: [
             {
-                label:'刷新缓存',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+                label:'刷新缓存',icon:'plug-in/diy/icons/refresh.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑---------------------- 
                 //last就是当前选中的元素
                 var tab = last.children("a").attr("aria-controls").toString();
                 //$("#tabs").find("li[aria-controls='"+tab+"']").remove();
@@ -57,7 +62,10 @@ var addTabs = function (options) {
             }
             },
             {
-                label:'关闭',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+                label:'关闭',icon:'plug-in/diy/icons/closeone.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑---------------------- 
                 //last就是当前选中的元素
                 var closeText = last.children("a").text().trim();
                 var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
@@ -87,14 +95,18 @@ var addTabs = function (options) {
             }
             },
             {
-                label:'全部关闭',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+            	label:'全部关闭',icon:'plug-in/diy/icons/closeall.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
                 $("#tabs>ul>li").remove();
                 $("#tabs>div>div").remove();
                 //tabs.tabs("refresh");
             }
             },
             {
-                label:'除此之外全部关闭',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+                label:'除此之外全部关闭',icon:'plug-in/diy/icons/closeother.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
                 var closeText = last.children("a").text().trim();
                 var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
                 //此是当前页则关闭，如果不是当前页面，要激活选择页面
@@ -116,7 +128,9 @@ var addTabs = function (options) {
             },
             null,
             {
-                label:'当前页右侧全部关闭',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+                label:'当前页右侧全部关闭',icon:'plug-in/diy/icons/closeright.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
                 var closeText = last.children("a").text().trim();
                 var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
                 if(closeText==nowText){
@@ -154,7 +168,9 @@ var addTabs = function (options) {
             }
             },
             {
-                label:'当前页左侧全部关闭',icon:'plug-in/diy/icons/shopping-basket.png',action:function(){
+            	// add-begin--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑-------------------- 
+            	label:'当前页左侧全部关闭',icon:'plug-in/diy/icons/closeleft.png',action:function(){
+                // add-end--Author:weict  Date:20170614 for：TASK #2108 【ace样式】Ace 风格右键操作太丑----------------------    
                 var closeText = last.children("a").text().trim();
                 var nowText = $("#tabs").find("li[class='active']").children("a").text().trim();
                 if(closeText==nowText){

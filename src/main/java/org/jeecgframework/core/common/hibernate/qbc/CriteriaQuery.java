@@ -703,18 +703,21 @@ public class CriteriaQuery {
 	public void clear(){
 		criterionList.clear();
 		jqcriterionList.clear();
-		jqcriterionList.clear();
-		map.clear();
-		ordermap.clear();
-		entityClass=null;
 		alias.clear();
-		dataGrid.clear();
+		if(map!=null){map.clear();}
+		if(ordermap!=null){ordermap.clear();}
+		entityClass=null;
+
+		dataGrid = null;
+		dataTables = null;
+		detachedCriteria = null;
+
 		criterionList = null;
 		jqcriterionList = null;
 		jqcriterionList = null;
 		map = null;
 		ordermap = null;
 		alias = null;
-		dataGrid = null;
+		field = null;
 	}
 }
