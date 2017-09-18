@@ -32,9 +32,9 @@ public class FormValidationTag extends JeecgTag {
 	protected String action;// 表单提交路径
 	protected String tabtitle;// 表单选项卡
 	protected String tiptype = "4";//校验方式
-
+//	update-start--Author:longjb  Date:20150317 for：修改增加css样式类属性
 	protected String styleClass ;//table 样式
-
+//	update-start--Author:longjb  Date:20150323 for：修改增加css主题类属性
 	protected String cssTheme;//主题样式目录默认为空
 	
 	public String getCssTheme() {
@@ -44,7 +44,7 @@ public class FormValidationTag extends JeecgTag {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
+//	update-end--Author:longjb  Date:20150323 for：修改增加css主题类属性
 	public String getStyleClass() {
 		return styleClass;
 	}
@@ -52,7 +52,7 @@ public class FormValidationTag extends JeecgTag {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
-
+//	update-end--Author:longjb  Date:20150317 for：修改增加css样式类属性
 	public void setTabtitle(String tabtitle) {
 		this.tabtitle = tabtitle;
 	}
@@ -80,7 +80,7 @@ public class FormValidationTag extends JeecgTag {
 	public void setAction(String action) {
 		this.action = action;
 	}
-
+	//add-start--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 	/**
 	 * 根据key获取缓存
 	 * @param key
@@ -97,11 +97,11 @@ public class FormValidationTag extends JeecgTag {
 	public void putTagCache(String key, StringBuffer tagCache){
 		EhcacheUtil.put(EhcacheUtil.TagCache, key, tagCache);
 	}
-
+	//add-end--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 	
 	public int doStartTag() throws JspException {
 		JspWriter out = null;
-
+		//update-start--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 		StringBuffer sb = this.getTagCache("doStartTag"+"_"+toString());
 		try {
 			out = this.pageContext.getOut();
@@ -110,7 +110,7 @@ public class FormValidationTag extends JeecgTag {
 				out.flush();
 				return EVAL_PAGE;
 			}
-
+		//update-end--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 				sb = new StringBuffer();
 				/*//			if(cssTheme==null){//手工设置值优先
 				Cookie[] cookies = ((HttpServletRequest) super.pageContext
@@ -131,17 +131,18 @@ public class FormValidationTag extends JeecgTag {
 				sb.append("<div id=\"steps\">");
 			}
 			sb.append("<form id=\"" + formid + "\" " );
-
+//			update-start--Author:longjb  Date:20150317 for：修改增加css样式类属性
 			if(this.getStyleClass()!=null){
 				sb.append("class=\""+this.getStyleClass()+"\" ");
 			}
-
+//			update-end--Author:longjb  Date:20150317 for：修改增加css样式类属性
 					sb.append(" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
 			if ("btn_sub".equals(btnsub) && dialog)
 				sb.append("<input type=\"hidden\" id=\"" + btnsub + "\" class=\"" + btnsub + "\"/>");
-
+			
+			//update-start--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 			this.putTagCache("doStartTag"+"_"+toString(), sb);
-
+			//update-end--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 			out.print(sb.toString());
 			out.flush();
 		} catch (IOException e) {
@@ -159,7 +160,7 @@ public class FormValidationTag extends JeecgTag {
 	
 	public int doEndTag() throws JspException {
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
-
+		//update-start--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 		StringBuffer sb = this.getTagCache("doEndTag"+"_"+lang+"_"+toString());
 		JspWriter out = null;
 		try {
@@ -169,7 +170,7 @@ public class FormValidationTag extends JeecgTag {
 				out.flush();
 				return EVAL_PAGE;
 			}
-
+		//update-end--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 			SysThemesEnum sysThemesEnum = null;
 			if(StringUtil.isEmpty(cssTheme)||"null".equals(cssTheme)){
 				sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
@@ -178,7 +179,7 @@ public class FormValidationTag extends JeecgTag {
 			}
 			sb = new StringBuffer();
 			if (layout.equals("div")) {
-
+			//	update-start--Author:longjb  Date:20150323 for：修改增加css主题类属性
 //				if("metro".equals(cssTheme)){
 //					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/divfrom.css\" type=\"text/css\"/>");
 //				}else{
@@ -200,7 +201,8 @@ public class FormValidationTag extends JeecgTag {
 			sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
 			//tablefrom.css
 			sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
-
+			
+			//	update-end--Author:longjb  Date:20150323 for：修改增加css主题类属性
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
@@ -214,35 +216,35 @@ public class FormValidationTag extends JeecgTag {
 					sb.append("<SCRIPT type=\"text/javascript\" src=\"plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js\"></SCRIPT>");
 				}
 			}
-
+			//update--begin---author:zhangjiaqiang date:20170223 for:提示弹出框修订
 			sb.append("<script src=\"plug-in/layer/layer.js\"></script>");
-
+			//update--begin---author:zhangjiaqiang date:20170223 for:提示弹出框修订
 			sb.append("<script type=\"text/javascript\">");
-
+			//update--begin--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			sb.append("var subDlgIndex = null;");
-
+			//update--end--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			sb.append("$(function(){");
 			sb.append("$(\"#" + formid + "\").Validform({");
 			if(this.getTiptype()!=null && !"".equals(this.getTiptype())){	
-
+				//update--begin---author:zhangjiaqiang date:20170223 for:提示弹出框修订
 				if(tiptype.equals("1")){
 					sb.append("tiptype:function(msg,o,cssctl){");
 					sb.append("if(o.type == 3){");
 					sb.append("layer.open({");
 					sb.append("title:'提示信息',");
-
+					//update--begin--author:zhangjiaqiang date:20170320 for:修订提示框去除阴影，显示时间5秒
 					sb.append("content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,");
-
+					//update--end--author:zhangjiaqiang date:20170320 for:修订提示框去除阴影，显示时间5秒
 					sb.append("cancel:function(index){o.obj.focus();layer.close(index);},");
-
+					//update--begin--author:zhangjiaqiang date:20170509 for:修订IE浏览器下面js异常
 					sb.append("yes:function(index){o.obj.focus();layer.close(index);}");
-
+					//update--end--author:zhangjiaqiang date:20170509 for:修订IE浏览器下面js异常
 					sb.append("})");
 					sb.append("}},");
 				}else{
 					sb.append("tiptype:"+this.getTiptype()+",");
 				}
-
+				//update--end---author:zhangjiaqiang date:20170223 for:提示弹出框修订
 			}else{
 				sb.append("tiptype:1,");
 			}
@@ -273,25 +275,21 @@ public class FormValidationTag extends JeecgTag {
 			sb.append("ajaxPost:true,");
 			if (beforeSubmit != null) {
 				sb.append("beforeSubmit:function(curform){var tag=false;");
-
-				sb.append("tag = " + beforeSubmit );
+				//update--begin--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
+				submitLoading(sb);
+				//update--end--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
+				sb.append("return " + beforeSubmit );
 				if(beforeSubmit.indexOf("(") < 0){
 					sb.append("(curform);");
-				}else if(!beforeSubmit.endsWith(";")){
-					sb.append(";");
 				}
-				sb.append("if(tag){");
-
-				submitLoading(sb);
-
-				sb.append("}else{ return false;}");
-
+				sb.append("},");
+				//update--begin--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			}else{
 				sb.append("beforeSubmit:function(curform){var tag=false;");
 				submitLoading(sb);
+				sb.append("},");
 			}
-			sb.append("},");
-
+			//update--end--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			if (usePlugin != null) {
 				StringBuffer passsb = new StringBuffer();
 				if (usePlugin.indexOf("password") >= 0) {
@@ -313,7 +311,7 @@ public class FormValidationTag extends JeecgTag {
 					passsb.append("}");// trigger结尾
 					passsb.append("}");// passwordstrength结尾
 				}
-
+//				 update-start--Author:gaofeng  Date:20140711 for：修改在使用jptransform时的逗号","拼接错误
 				sb.append("usePlugin:{");
 				if (usePlugin.indexOf("password") >= 0) {
 					sb.append(passsb);
@@ -325,19 +323,19 @@ public class FormValidationTag extends JeecgTag {
 					}
 					jqsb.append("jqtransform :{selector:\"select\"}");
 				}
-
+//				update-end--Author:gaofeng  Date:20140711 for：修改在使用jptransform时的逗号","拼接错误
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append(jqsb);
 				}
 				sb.append("},");
 			}
 			sb.append("callback:function(data){");
-
+			//update--begin--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			sb.append("if(subDlgIndex && subDlgIndex != null){");
 			sb.append("$('#infoTable-loading').hide();");
 			sb.append("subDlgIndex.close();");
 			sb.append("}");
-
+			//update--end--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 			if (dialog) {
 				if(callback!=null&&callback.contains("@Override")){//复写默认callback
 					sb.append(callback.replaceAll("@Override", "") + "(data);");
@@ -378,26 +376,27 @@ public class FormValidationTag extends JeecgTag {
 				}
 				sb.append("</div></div>");
 			}
-
+			//update-start--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 			this.putTagCache("doEndTag"+"_"+lang+"_"+toString(), sb);
-
+			//update-end--Author:yugwu  Date:20170828 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 			out.print(sb.toString());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			try {
-
+				//update-begin--Author:scott  Date:20160530 for：清空降低缓存占用
 //				sb.setLength(0);
 //				sb = null;
-
+				//update-end--Author:scott  Date:20160530 for：清空降低缓存占用
 				out.clearBuffer();
 			} catch (Exception e2) {
 			}
 		}
 		return EVAL_PAGE;
 	}
-
+	
+	//update--begin--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 	/**
 	 * 增加显示加载图层
 	 * @param sb
@@ -418,7 +417,7 @@ public class FormValidationTag extends JeecgTag {
 		sb.append("infoTable.parent().append('<div id=\"infoTable-loading\" style=\"text-align:center;\"><img src=\"plug-in/layer/skin/default/loading-0.gif\"/></div>');");
 		sb.append("infoTable.css('display','none');");
 	}
-
+	//update--end--author:zhangjiaqiang Date:20170424 for:修订页面加载数据
 	public void setUsePlugin(String usePlugin) {
 		this.usePlugin = usePlugin;
 	}
@@ -443,6 +442,7 @@ public class FormValidationTag extends JeecgTag {
 		this.tiptype = tiptype;
 	}
 
+	//update-start--Author:yugwu  Date:20170830 for:key生成逻辑重新编写----
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -461,6 +461,6 @@ public class FormValidationTag extends JeecgTag {
 				.append("]");
 		return builder.toString();
 	}
-
+	//update-end--Author:yugwu  Date:20170830 for:key生成逻辑重新编写----
 	
 }
