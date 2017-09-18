@@ -88,6 +88,7 @@ JEECG 功能特点
 * [JEECG 版本更新日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
 * JEECG官方Maven镜像配置 : [http://t.cn/RJCp7wO](http://t.cn/RJCp7wO)
 * 在线演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
+* JEECG 3.7.1 版本(非maven-myeclipse)	链接：http://pan.baidu.com/s/1kVMKWuF 密码：b8kf
     
 技术交流
 -----------------------------------
