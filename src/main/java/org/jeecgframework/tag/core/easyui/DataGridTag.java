@@ -455,6 +455,7 @@ public class DataGridTag extends JeecgTag {
 
 		dataGridColumn.setShowMode(showMode);
 		columnList.add(dataGridColumn);
+
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
 			for (String MyoperationCode : operationCodes) {
@@ -468,6 +469,7 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 		}
+
 		if (field != "opt") {
 			fields += field + ",";
 			if ("group".equals(queryMode)) {
@@ -785,6 +787,7 @@ public class DataGridTag extends JeecgTag {
 		}
 		sb.append("<div class=\"tool_bar_div bg-info\"></div>");
 		sb.append("');");
+
 		//表格顶部查询
 		if(hasQueryColum(columnList) && !columnList.isEmpty()){
 			for (DataGridColumn column : columnList) {
@@ -993,6 +996,7 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 		}		
+
 		
 		//工具栏的处理方式
 		if(toolBarList.size() > 0){
@@ -1262,6 +1266,7 @@ public class DataGridTag extends JeecgTag {
 		if(btnCls!=null && btnCls.indexOf("bootstrap")==0){
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap/css/bootstrap-btn.css\" type=\"text/css\"></link>");    
 		}
+
 		width = (width == null) ? "auto" : width;
 		height = (height == null) ? "auto" : height;
 		sb.append("<script type=\"text/javascript\">");     
@@ -1276,11 +1281,13 @@ public class DataGridTag extends JeecgTag {
 			}else{
 				sb.append("treeField:'text',");
 			}
+
 			sb.append(" onBeforeLoad: function(row,param){\n" +
 					"                    if (!row) {    \n" +
 					"                     delete param.id;  \n" +
 					"                    }\n" +
 					"                },");
+
 		} else {
 			grid = "datagrid";
 			sb.append("$(\'#" + name + "\').datagrid({");
@@ -1362,7 +1369,9 @@ public class DataGridTag extends JeecgTag {
 		this.getField(sb);
 		sb.append("]],");
 		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
+
 		sb.append(" $(this).datagrid(\"fixRownumber\");");
+
 		if(openFirstNode&&treegrid){
 			sb.append(" if(data==null){");
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
@@ -1711,6 +1720,7 @@ public class DataGridTag extends JeecgTag {
 
 				addQueryBuilder(sb,"easyui-linkbutton");
 			}
+
 		}
 		this.putTagCache(sb);
 		return sb;
@@ -1721,6 +1731,7 @@ public class DataGridTag extends JeecgTag {
 	 * @param sb
 	 */
 	private void getSearchFormInfo(StringBuffer sb) {
+
 		//如果表单是组合查询		
 		if("group".equals(getQueryMode())){
 			for (DataGridColumn col : columnList) {
@@ -1931,6 +1942,7 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 		}
+
 	}
 
 
@@ -2569,6 +2581,7 @@ public class DataGridTag extends JeecgTag {
 	}
   
 	public String getNoAuthOperButton(){
+
 		StringBuffer sb = new StringBuffer();
 		if(ResourceUtil.getSessionUser().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
@@ -2594,6 +2607,7 @@ public class DataGridTag extends JeecgTag {
 			}
 			
 		}
+
 		//org.jeecgframework.core.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
 		return sb.toString(); 
 	}
@@ -2736,6 +2750,7 @@ public class DataGridTag extends JeecgTag {
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap/css/bootstrap-btn.css\" type=\"text/css\"></link>");    
 		}
 
+
 		width = (width == null) ? "auto" : width;
 		height = (height == null) ? "auto" : height;
 //		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/metro/main.css\" />");
@@ -2799,7 +2814,9 @@ public class DataGridTag extends JeecgTag {
 		this.getField(sb);
 		sb.append("]],");
 		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
+
 		sb.append(" $(this).datagrid(\"fixRownumber\");");
+
 		if(openFirstNode&&treegrid){
 			sb.append(" if(data==null){");
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
@@ -3304,6 +3321,7 @@ appendLine(sb,"					}}\">关系</th>");
 		appendLine(sb,"	</table>");
 		appendLine(sb,"</div>");
 		appendLine(sb,"<div data-options=\"region:'south',border:false\" style=\"text-align:right;padding:5px 0 3px;\">");
+
 		if (btnCls != null && !btnCls.equals("easyui")) {
 			String defalutCls = "btn btn-default btn-xs";
 			if (btnCls.replace("bootstrap", "").trim().length() > 0) {
@@ -3316,6 +3334,7 @@ appendLine(sb,"					}}\">关系</th>");
 			appendLine(sb,"<a class=\""+buttonSytle+"\" data-options=\"iconCls:'icon-ok'\" href=\"javascript:void(0)\" onclick=\"javascript:queryBuilderSearch()\">确定</a>");
 			appendLine(sb,"<a class=\""+buttonSytle+"\" data-options=\"iconCls:'icon-cancel'\" href=\"javascript:void(0)\" onclick=\"javascript:$('#"+name+"_qbwin').window('close')\">取消</a>");
 		}
+
 		
 		appendLine(sb,"		</div>");
 		appendLine(sb,"	</div>	");
@@ -3344,12 +3363,14 @@ appendLine(sb,"					}}\">关系</th>");
 			if (btnCls.replace("bootstrap", "").trim().length() > 0) {
 				defalutCls = btnCls.replace("bootstrap", "").trim();
 			}
+
 			sb.append("var toolbar = '<div>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"append()\">&nbsp;<i class=\"fa fa-plus\"></i>&nbsp;</button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"edit()\">&nbsp;<i class=\"fa fa-pencil-square-o\"></i></button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"removeIt()\">&nbsp;<i class=\"fa fa-trash\"></i></button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"save()\">&nbsp;<i class=\"fa fa-save\"></i></button>");
 			sb.append("</div>';");
+
 			
 		}else{		
 			appendLine(sb,"var toolbar = [{");
