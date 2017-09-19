@@ -1,0 +1,15 @@
+官方提供：mysql\oracle\SqlServer脚步，其他数据库，可以通过工具自行转换。
+转换方法参考：http://blog.csdn.net/zhangdaiscott/article/details/46412453?yyue=a21bo.50862.201879
+
+脚步说明：
+
+1.oracle 导入命令
+   说明： jeecg脚本导出用户是jeecg
+   imp jeecgos/jeecgos@orcl file=jeecg.dmp
+   导入其他用户的表
+   imp jeecgos/jeecgos@orcl file=/opt/datatmp/jeecgbpm-oracle11g-20160413.dmp  fromuser=scott touser=jeecgos ignore=y commit=y buffer=300000000 feedback=10000
+
+
+2. oracle、SqlServer脚步索引会有部分丢失，为了系统性能，请自行补加索引。
+3. jeecg系统数据库切换配置方法，参考常见问题贴29
+   http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1
