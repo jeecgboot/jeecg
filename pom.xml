@@ -958,22 +958,7 @@
 	</organization>
 	<build>
 		<plugins>
-			<!-- 多war开发Maven支持-->
-		     <plugin>  
-		        <groupId>org.apache.maven.plugins</groupId>  
-		        <artifactId>maven-war-plugin</artifactId>  
-		        <version>2.6</version>
-		        <configuration>
-					 <warSourceExcludes>%regex[^plug-in.+(?:(?&lt;!(?:-|\.)min)\.js)]
-					 ,%regex[^plug-in/accordion.+(?:(?&lt;!(?:-|\.)min)\.css)]
-					 ,%regex[^plug-in/bootstrap.+(?:(?&lt;!(?:-|\.)min)\.css)]
-					 ,%regex[^plug-in/easyui/themes/black.+(?:(?&lt;!(?:-|\.)min)\.css)]
-					 ,%regex[^plug-in/easyui/themes/default.+(?:(?&lt;!(?:-|\.)min)\.css)]
-					 ,%regex[^plug-in/Validform.+(?:(?&lt;!(?:-|\.)min)\.css)]
-					 </warSourceExcludes>  
-		        </configuration>
-		     </plugin>
-
+			
 		   <!-- tomcat插件 -->
 	       <plugin>
 	                <groupId>org.codehaus.mojo</groupId>
@@ -1029,52 +1014,7 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
-			<plugin>
-				<!-- YUI Compressor Maven压缩插件 -->
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.3.0</version>
-				<executions>
-					<execution>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>compress</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<!-- 读取js,css文件采用UTF-8编码 -->
-					<encoding>UTF-8</encoding>
-					<!-- 不显示js可能的错误 -->
-					<jswarn>false</jswarn>
-					<!-- 若存在已压缩的文件，会先对比源文件是否有改动  有改动便压缩，无改动就不压缩 -->
-					<force>false</force>
-					<!-- 在指定的列号后插入新行 -->
-					<linebreakpos>-1</linebreakpos>
-					<!-- 压缩之前先执行聚合文件操作 -->
-					<preProcessAggregates>true</preProcessAggregates>
-					<!-- 压缩后保存文件后缀 无后缀 -->
-					<nosuffix>true</nosuffix>
-					<!-- 源目录，即需压缩的根目录 -->
-					<sourceDirectory>src/main/webapp/plug-in</sourceDirectory>
-					<!-- 压缩js和css文件 -->
-					<includes>
-						<include>plug-in/**/*.js</include>
-						<include>plug-in/accordion/css/*.css</include>
-						<include>plug-in/bootstrap/css/*.css</include>
-						<include>plug-in/easyui/themes/black/*.css</include>
-						<include>plug-in/easyui/themes/default/*.css</include>
-						<include>plug-in/Validform/**/*.css</include>
-					</includes>
-					<!-- 以下目录和文件不会被压缩 -->
-					<excludes>
-						<exclude>plug-in/**/*.min.js</exclude>
-						<exclude>plug-in/**/*.dev.js</exclude>
-						<exclude>plug-in/*/css/*.min.css</exclude>
-					</excludes>
-
-				</configuration>
-			</plugin>
+			
 		</plugins>
 		<finalName>jeecg</finalName>
 		<resources>
