@@ -79,6 +79,7 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
+* [JEECG_3.7新版开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
 * [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
