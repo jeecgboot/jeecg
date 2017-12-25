@@ -106,6 +106,14 @@
 	<!-- 设定主仓库，按设定顺序进行查找  -->
 	<repositories>
 		<repository>
+            <id>nexus-aliyun</id>
+            <name>aliyun Repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+        </repository>
+		<repository>
             <id>jeecg</id>
             <name>jeecg Repository</name>
             <url>http://maven.jeecg.org/nexus/content/repositories/jeecg</url>
