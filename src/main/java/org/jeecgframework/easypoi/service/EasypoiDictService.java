@@ -3,7 +3,7 @@ package org.jeecgframework.easypoi.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jeecgframework.core.util.ApplicationContextUtil;
+import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.dao.JeecgDictDao;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service("easypoiDictService")
 public class EasypoiDictService implements EasypoiDictServiceI {
+	private Logger log = Logger.getLogger(EasypoiDictService.class);
+	
 	@Autowired
 	private JeecgDictDao jeecgDictDao;
 	@Autowired
@@ -38,8 +40,12 @@ public class EasypoiDictService implements EasypoiDictServiceI {
 		if(StringUtil.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
 		}else {
-			dicText = StringUtil.isEmpty(dicText, dicCode);
-			dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
+			try {
+				dicText = StringUtil.isEmpty(dicText, dicCode);
+				dictList = jeecgDictDao.queryCustomDict(dicTable, dicCode, dicText);
+			} catch (Exception e) {
+				log.error(e.toString());
+			}
 		}
 		for(DictEntity t:dictList){
 			dictReplace.add(mutiLangService.getLang(t.getTypename())+"_"+t.getTypecode());

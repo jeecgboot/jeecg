@@ -17,16 +17,13 @@
     <t:dgCol title="邮箱"  field="email"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="入职状态"  field="status" query="true"   dictionary="sf_yn" width="120"></t:dgCol>
     <t:dgCol title="个人介绍"  field="content"  hidden="true"   queryMode="group"  width="500"></t:dgCol>
-    <!-- add-begin--Author:weict  Date:20170609 for：TASK #2087 【demo】springjdbc demo-------------------- -->
     <t:dgToolBar title="批量插入用户DEMO" icon="icon-add" url="jeecgListDemoController.do?jdbcBatchSave"  funname="toController"  ></t:dgToolBar>
     <t:dgToolBar title="调用存储批量删除用户DEMO" icon="icon-add" url="jeecgListDemoController.do?jdbcProcedure" funname="toController" ></t:dgToolBar>
-    <!-- add-end--Author:weict  Date:20170609 for：TASK #2087 【demo】springjdbc demo---------------------- -->
 
        
   </t:datagrid>
   </div>
  </div>
- <!-- add-begin--Author:weict  Date:20170609 for：TASK #2087 【demo】springjdbc demo-------------------- -->
  <script type="text/javascript">
  function toController(title,url,name){
  $.ajax({

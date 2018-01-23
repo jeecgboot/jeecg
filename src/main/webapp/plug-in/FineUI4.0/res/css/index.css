@@ -1,0 +1,135 @@
+﻿#header table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+    #header table td {
+        padding: 0;
+    }
+
+#header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+
+#header .f-btn {
+    border-width: 0;
+    padding: 10px;
+}
+
+#header .icontopaction .f-btn-icon {
+    width: 22px;
+    font-size: 22px;
+    line-height: 22px;
+    height: 22px;
+}
+
+#header .icontopaction .f-btn-text {
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 4px;
+}
+
+
+#header .icononlyaction .f-btn-icon,
+#header .icononlyaction .f-btn-text {
+    font-size: 30px;
+    line-height: 42px;
+    height: 42px;
+}
+
+
+#header .userpicaction .f-btn-icon {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+}
+
+#header .userpicaction .f-btn-text {
+    margin-left: 8px;
+    font-size: 14px;
+    line-height: 42px;
+}
+
+
+#header .searchbox {
+    position: absolute;
+    top: 50%;
+    margin-top: -13px;
+    left: 280px;
+    margin-bottom: 0;
+    opacity: .60;
+    filter: alpha(opacity=60);
+}
+
+.f-compactmode #header .searchbox {
+    margin-top: -12px;
+}
+
+.f-largemode #header .searchbox,
+.f-largespacemode #header .searchbox {
+    margin-top: -18px;
+}
+
+#header .searchbox .f-field-triggerbox-icons {
+    background-color: transparent;
+}
+
+
+.copyright-menutext {
+    cursor: default;
+}
+
+    .copyright-menutext .copyright {
+        text-align: center;
+    }
+
+        .copyright-menutext .copyright .version img {
+            width: 58px;
+            padding: 8px 0 3px;
+        }
+
+
+
+ul.list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    ul.list li {
+        margin-bottom: 5px;
+    }
+
+
+.iscorp {
+    color: red;
+    font-size: 11px;
+    line-height: 11px;
+}
+
+
+
+.tabtool.viewcode .ui-icon {
+    font-weight: bold;
+}
+
+
+ul.applytrial {
+    list-style-type: none;
+    margin: 10px 0 0 10px;
+    border-left-width: 1px;
+    border-left-style: dashed;
+    padding-left: 15px;
+}
+
+    ul.applytrial li {
+        padding: 1px 0;
+    }

@@ -162,14 +162,14 @@ public class UserSelectTag extends TagSupport {
 		if(hasLabel && oConvertUtils.isNotEmpty(title)){
 			sb.append(title + "：");
 		}
-		sb.append("<input readonly=\""+readonly+"\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openUserSelect()\" ");
+		sb.append("<input class=\"inuptxt\" readonly=\""+readonly+"\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openUserSelect()\" ");
 		if(StringUtils.isNotBlank(userNamesDefalutVal)){
 			sb.append(" value=\""+userNamesDefalutVal+"\"");
 		}
 		sb.append(" />");
 		
 		if(oConvertUtils.isNotEmpty(selectedIdsInputId)){
-			sb.append("<input id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
+			sb.append("<input class=\"inuptxt\" id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
 			if(StringUtils.isNotBlank(userIdsDefalutVal)){
 				sb.append(" value=\""+userIdsDefalutVal+"\"");
 			}

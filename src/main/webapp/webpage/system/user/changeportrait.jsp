@@ -10,9 +10,7 @@
 <t:formvalid formid="formobj" refresh="false" dialog="true" action="userController.do?saveportrait" usePlugin="password" layout="table">
 	<input id="id" type="hidden" value="${user.id }">
 			<div class="container">
-					<%--dangzhenghui begin 20170612 for 去掉路径--%>
 				<t:webUploader auto="true" buttonText="选择头像" name="fileName" buttonStyle="btn-blue btn-S" type="image" fileNumLimit="3" displayTxt="flase"></t:webUploader>
-					<%--dangzhenghui begin 20170612for 去掉路径--%>
 				</div>
 <%--		<tbody>
 		<tr>

@@ -1,14 +1,13 @@
 package org.jeecgframework.web.cgform.entity.template;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.lang.String;
-import java.lang.Double;
-import java.lang.Integer;
-import java.math.BigDecimal;
-import javax.persistence.*;
-import javax.xml.soap.Text;
-import java.sql.Blob;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;

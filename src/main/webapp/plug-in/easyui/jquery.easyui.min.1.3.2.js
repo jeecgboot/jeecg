@@ -11389,7 +11389,7 @@ return _85f;
 }};
 })(jQuery);
 
-$.extend($.fn.datagrid.methods, { 
+/*$.extend($.fn.datagrid.methods, { 
      fixRownumber : function (jq) { 
          return jq.each(function () { 
              var panel = $(this).datagrid("getPanel"); 
@@ -11415,4 +11415,4 @@ $.extend($.fn.datagrid.methods, {
              } 
          }); 
      } 
- }); 
+ }); */

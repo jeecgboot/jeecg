@@ -144,10 +144,9 @@
 										               <#else>
 							          					<#if subTableField.is_null != 'Y'>datatype="*"</#if>
 										               </#if>>
-										                  <a  target="_blank" id="${sub}[${subTableData_index}].${subTableField.field_name}_href">未上传</a>
-											  <br>
-										<input class="form-control" type="button" value="上传附件"
+										<input class="ui-button" type="button" value="上传附件"
 															onclick="commonUpload(commonUploadDefaultCallBack,'${sub}[${subTableData_index}].${subTableField.field_name}')"/>
+										                  <a  target="_blank" id="${sub}[${subTableData_index}].${subTableField.field_name}_href">未上传</a>
 										              	<#-- update--end--author:zhangjiaqiang date:20170607 for:优化上传功能 --> 
 											<#else>
 												<input id="${sub}[${subTableData_index}].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[${subTableData_index}].${subTableField.field_name}" type="text"
@@ -335,10 +334,9 @@
 									               <#else>
 						               				<#if subTableField.is_null != 'Y'>datatype="*"</#if>
 									               </#if>>
-									                  <a  target="_blank" id="${sub}[0].${subTableField.field_name}_href">未上传</a>
-											  <br>
-										<input class="form-control" type="button" value="上传附件"
+										<input class="ui-button" type="button" value="上传附件"
 															onclick="commonUpload(commonUploadDefaultCallBack,'${sub}[0].${subTableField.field_name}')"/>
+									                  <a  target="_blank" id="${sub}[0].${subTableField.field_name}_href">未上传</a>
 									               	<#-- update--begin--author:zhangjiaqiang date:20170607 for:优化上传功能 -->
 										<#else>
 											<input id="${sub}[0].${subTableField.field_name}" ${subTableField.extend_json?if_exists} name="${sub}[0].${subTableField.field_name}" type="text"

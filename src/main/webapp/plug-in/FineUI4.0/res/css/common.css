@@ -1,0 +1,48 @@
+﻿body {
+    padding: 10px;
+}
+
+
+.marginr {
+    margin-right: 5px;
+}
+
+.clear {
+    clear: both;
+}
+
+ul.result, ol.result {
+    margin: 10px 0;
+    padding: 0;
+    border-top: solid 1px #ddd;
+}
+
+    ul.result li, ol.result li {
+        list-style-type: none;
+        margin: 0;
+        padding: 5px;
+        border-bottom: solid 1px #ddd;
+    }
+
+
+table.result {
+    margin: 10px 0;
+    width: 500px;
+    border-collapse: collapse;
+}
+
+    table.result th {
+        font-weight: bold;
+    }
+
+    table.result td, table.result th {
+        border-bottom: solid 1px #ddd;
+        padding: 5px;
+        text-align: left;
+    }
+
+
+.highlight {
+    font-weight: bold;
+    color: red;
+}

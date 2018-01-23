@@ -34,7 +34,7 @@ public class TableSQLServerHandleImpl implements DbTableHandleI {
 		String result ="";
 		if (dataType.equalsIgnoreCase("varchar")) {
 			result="string";
-		} else if(dataType.equalsIgnoreCase("double")){
+		} else if(dataType.equalsIgnoreCase("float")){
 			result="double";
 		}else if (dataType.equalsIgnoreCase("int")) {
 			result="int";
@@ -43,7 +43,9 @@ public class TableSQLServerHandleImpl implements DbTableHandleI {
 		}else if (dataType.equalsIgnoreCase("Datetime")) {
 			result="date";
 		}else if (dataType.equalsIgnoreCase("numeric")) {
-			result="double";
+			result="bigdecimal";
+		}else if (dataType.equalsIgnoreCase("varbinary")) {
+			result="blob";
 		}
 		return result;
 	}
@@ -65,11 +67,17 @@ public class TableSQLServerHandleImpl implements DbTableHandleI {
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("date")){
 			result = cgfromcolumnMeta.getColumnName()+" datetime"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("int")){
-			result = cgfromcolumnMeta.getColumnName()+" int"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" int "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("double")){
+			result = cgfromcolumnMeta.getColumnName()+" float "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("bigdecimal")){
 			result = cgfromcolumnMeta.getColumnName()+" numeric("+cgfromcolumnMeta.getColumnSize()+","+cgfromcolumnMeta.getDecimalDigits()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("text")){
+			result = cgfromcolumnMeta.getColumnName()+" text"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("blob")){
+			result = cgfromcolumnMeta.getColumnName()+" varbinary("+cgfromcolumnMeta.getColumnSize()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}
-		result += (StringUtils.isNotEmpty(cgfromcolumnMeta.getFieldDefault())?" DEFAULT "+cgfromcolumnMeta.getFieldDefault():" ");
+		//result += (StringUtils.isNotEmpty(cgfromcolumnMeta.getFieldDefault())?" DEFAULT "+cgfromcolumnMeta.getFieldDefault():" ");
 		return result;
 	}
 
@@ -80,30 +88,31 @@ public class TableSQLServerHandleImpl implements DbTableHandleI {
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("date")){
 			result = cgfromcolumnMeta.getColumnName()+" datetime"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("int")){
-			result = cgfromcolumnMeta.getColumnName()+" int("+cgfromcolumnMeta.getColumnSize()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" int "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("double")){
-			result = cgfromcolumnMeta.getColumnName()+" double("+cgfromcolumnMeta.getColumnSize()+","+cgfromcolumnMeta.getDecimalDigits()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" float "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("bigdecimal")){
-			result = cgfromcolumnMeta.getColumnName()+" decimal("+cgfromcolumnMeta.getColumnSize()+","+cgfromcolumnMeta.getDecimalDigits()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" numeric("+cgfromcolumnMeta.getColumnSize()+","+cgfromcolumnMeta.getDecimalDigits()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("text")){
 			result = cgfromcolumnMeta.getColumnName()+" text"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("blob")){
 			result = cgfromcolumnMeta.getColumnName()+" varbinary("+cgfromcolumnMeta.getColumnSize()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}//update-end--Author:liuht  Date:20131223 
-		result += (StringUtils.isNotEmpty(cgfromcolumnMeta.getFieldDefault())?" DEFAULT "+cgfromcolumnMeta.getFieldDefault():" ");
+		//result += (StringUtils.isNotEmpty(cgfromcolumnMeta.getFieldDefault())?" DEFAULT "+cgfromcolumnMeta.getFieldDefault():" ");
 		return result;
 	}
 	
 	private String getRenameFieldDesc(ColumnMeta cgfromcolumnMeta) {
 		String result ="";
+
 		if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("string")){
 			result = cgfromcolumnMeta.getColumnName()+" varchar("+cgfromcolumnMeta.getColumnSize()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("date")){
 			result = cgfromcolumnMeta.getColumnName()+" datetime"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("int")){
-			result = cgfromcolumnMeta.getColumnName()+" int("+cgfromcolumnMeta.getColumnSize()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" int "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}else if(cgfromcolumnMeta.getColunmType().equalsIgnoreCase("double")){
-			result = cgfromcolumnMeta.getColumnName()+" double("+cgfromcolumnMeta.getColumnSize()+","+cgfromcolumnMeta.getDecimalDigits()+")"+" "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
+			result = cgfromcolumnMeta.getColumnName()+" float "+(cgfromcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}
 		return result;
 	}

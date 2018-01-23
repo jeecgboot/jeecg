@@ -174,6 +174,12 @@ public class TagUtil {
 
 		int i;
 		String fieldName;
+
+		if(list==null){
+			list = new ArrayList();
+		}
+
+		
 		for (int j = 0; j < list.size(); ++j) {
 
 			//jsonTemp.append("{");

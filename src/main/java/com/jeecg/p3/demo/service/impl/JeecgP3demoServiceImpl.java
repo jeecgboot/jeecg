@@ -47,4 +47,11 @@ public class JeecgP3demoServiceImpl implements JeecgP3demoService {
 		jeecgP3demoDao.delete(jeecgP3demo);
 		
 	}
+
+	@Override
+	public MiniDaoPage<JeecgP3demoEntity> getAllByOrder(JeecgP3demoEntity query, int page, int rows, String sort,
+			String order) {
+		return jeecgP3demoDao.getAllByOrder(query,page,rows,sort,order);
+	}
+
 }

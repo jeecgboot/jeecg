@@ -145,7 +145,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 				}
 				
 				//步骤三：  根据重组请求URL,进行权限授权判断
-				if((!hasMenuAuth(requestPath,clickFunctionId,currLoginUser)) && !currLoginUser.getUserName().equals("admin")){
+				if((!(hasMenuAuth(requestPath,clickFunctionId,currLoginUser)) && !currLoginUser.getUserName().equals("admin"))){
 
 					if(isAjax){
 							processAjax(response);
@@ -187,7 +187,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					if(!currLoginUser.getUserName().equals("admin")){
 						//获取菜单对应的页面控制权限（包括表单字段和操作按钮）
 
-						List<TSOperation> operations = systemService.getOperationsByUserIdAndFunctionId(currLoginUser.getId(), functionId);
+						List<TSOperation> operations = systemService.getOperationsByUserIdAndFunctionId(currLoginUser, functionId);
 						request.setAttribute(Globals.NOAUTO_OPERATIONCODES, operations);
 						if(operations==null){
 							request.setAttribute(Globals.OPERATIONCODES, null);
@@ -205,7 +205,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 					//request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				//}
 				//if(!oConvertUtils.isEmpty(functionId)){
-
 					
 //					List<TSOperation> allOperation=this.systemService.findByProperty(TSOperation.class, "TSFunction.id", functionId);
 //					List<TSOperation> newall = new ArrayList<TSOperation>();
@@ -217,7 +216,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 //						String hasOperSql="SELECT operation FROM t_s_role_function fun, t_s_role_user role WHERE  " +
 //							"fun.functionid='"+functionId+"' AND fun.operation is not null  AND fun.roleid=role.roleid AND role.userid='"+currLoginUser.getId()+"' ";
-
 //						List<String> hasOperList = this.systemService.findListbySql(hasOperSql); 
 //					    for(String operationIds:hasOperList){
 //							    for(String operationId:operationIds.split(",")){
@@ -255,7 +253,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 					 if(!currLoginUser.getUserName().equals("admin")){
 						 //Globals.BUTTON_AUTHORITY_CHECK
-						 Set<String> dataruleCodes = systemService.getOperationCodesByUserIdAndDataId(currLoginUser.getId(), functionId);
+						 Set<String> dataruleCodes = systemService.getOperationCodesByUserIdAndDataId(currLoginUser, functionId);
 						 request.setAttribute("dataRulecodes", dataruleCodes);
 						 for (String dataRuleId : dataruleCodes) {
 							TSDataRule dataRule = systemService.getEntity(TSDataRule.class, dataRuleId);

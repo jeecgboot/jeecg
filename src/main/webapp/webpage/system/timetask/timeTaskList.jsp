@@ -9,11 +9,9 @@
 	<t:dgCol title="common.taskid" field="taskId"></t:dgCol>
 	<t:dgCol title="common.task.desc" field="taskDescribe" width="100"></t:dgCol>
 	<t:dgCol title="cron.expression" field="cronExpression" width="100"></t:dgCol>
-	<!-- update-begin-Author:xuelin  Date:20170820 for：TASK #1742 【新功能】定时任务配置  -->
 	<t:dgCol title="common.task.className" field="className" width="200"></t:dgCol>
 	<t:dgCol title="common.task.runServerIp" field="runServerIp" width="60"></t:dgCol>
 	<t:dgCol title="common.task.runServer" field="runServer" width="100"></t:dgCol>
-	<!-- update-end-Author:xuelin  Date:20170820 for：TASK #1742 【新功能】定时任务配置  -->
 	<t:dgCol title="common.iseffect" field="isEffect" replace="未生效_0,已生效_1" width="100"></t:dgCol>
 	<t:dgCol title="running.state" field="isStart" replace="停止_0,运行_1" width="100"></t:dgCol>
 	<t:dgCol title="common.createby" field="createBy" hidden="true"></t:dgCol>

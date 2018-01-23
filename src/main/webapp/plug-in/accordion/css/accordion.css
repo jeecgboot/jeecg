@@ -21,7 +21,22 @@ a:hover{ color:blue; text-decoration:none;}
 .easyui-tree li div.selected a{color:#416AA3;text-decoration: none; font-weight:bold;}
 .icon{width:18px; line-height:18px; display:inline-block;}
 .deafult{background:url('../images/folder.png') no-repeat;}
-/*update-begin author:taoYan date:20170801 for:ie下输入框无边框*/
-#searchColums .inuptxt{border:1px solid #a5aeb6;}
-/*update-end author:taoYan date:20170801 for:ie下输入框无边框*/
 
+/*update-begin--Author:xuelin  Date:20171221 for：[#2458]【样式问题】online表单，shortcut风格下checkbox 样式问题-------------------- */
+input[type="checkbox"] {
+    margin: 3px 1px 3px 4px;
+    height: 14px;
+    vertical-align: text-top;
+    margin-top: 2px;
+}
+/*update-end--Author:xuelin  Date:20171221 for：[#2458]【样式问题】online表单，shortcut风格下checkbox 样式问题-------------------- */
+
+/*update-begin--Author:xuelin  Date:20171221 for：[#2456]【样式bug】shortcut下online功能测试的列表有问题-------------------- */
+form[name="searchColumsForm"]{
+	    margin-bottom: 0;
+}
+.datagrid-toolbar .datagrid-toolbar{
+	/*border-top: 1px solid #dddddd;*/
+	height:27px ;
+}
+/*update-end--Author:xuelin  Date:20171221 for：[#2456]【样式bug】shortcut下online功能测试的列表有问题-------------------- */

@@ -240,9 +240,6 @@ public class TSFunction extends IdEntity implements java.io.Serializable {
 	
 	@Column(name = "functionurl", length = 100)
 	public String getFunctionUrl() {
-		if(this.getTSFunctions() != null && this.getTSFunctions().size() > 0){
-			return "";
-		}
 		return this.functionUrl;
 	}
 

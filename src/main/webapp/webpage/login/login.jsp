@@ -62,9 +62,7 @@
                 <!--update-begin--Author:zhangliang  Date:20170628 for：TASK #2116 【性能问题】优化登录逻辑---------------------->
                 <form id="loinForm" class="form-horizontal"    method="post">
                 <!--update-end--Author:zhangliang  Date:20170628 for：TASK #2116 【性能问题】优化登录逻辑---------------------->
-                <!-- add-begin--Author:zhoujf  Date:20170602 for:单点登录 -->
                 <input type="hidden" id="ReturnURL"  name="ReturnURL" value="${ReturnURL }"/>
-                <!-- add-end--Author:zhoujf  Date:20170602 for:单点登录 -->
                 <div class="widget-main">
                  <div class="alert alert-warning alert-dismissible" role="alert" id="errMsgContiner">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -77,9 +75,7 @@
                   <div class="space-6"></div>
                       <label class="block clearfix">
 								<span class="block input-icon input-icon-right">
-								<!-- update-start--Author:yugwu  Date:20170901 for:TASK #2324 【改进】登录记住用户名不起作用---- -->
 									<input type="text"  name="userName" iscookie="true" class="form-control" placeholder="请输入用户名"  id="userName" value="admin"/>
-								<!-- update-end--Author:yugwu  Date:20170901 for:TASK #2324 【改进】登录记住用户名不起作用---- -->
 									<i class="ace-icon fa fa-user"></i>
 								</span>
                       </label>
@@ -105,6 +101,9 @@
                           <i class="ace-icon fa fa-key"></i>
                           <span class="bigger-110" >登录</span>
                         </button>
+                        <!-- //update--begin--author:zhangjiaqiang date:20170929 for:TASK #2341 【新功能】邮件找回密码的功能，向用户邮箱发一个修改密码的链接，自助修改密码-->
+                        <a href="loginController.do?goResetPwdMail" class="btn btn-link">忘记密码 ?</a>
+                         <!-- //update--begin--author:zhangjiaqiang date:20170929 for:TASK #2341 【新功能】邮件找回密码的功能，向用户邮箱发一个修改密码的链接，自助修改密码-->
                       </div>
                       <div class="space-4"></div>
 
@@ -121,7 +120,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7.1</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7.2</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;
@@ -151,9 +150,7 @@
 <script type="text/javascript" src="plug-in/mutiLang/zh-cn.js"></script>
 <script type="text/javascript" src="plug-in/login/js/jquery.tipsy.js"></script>
 <script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>
-<!-- add-begin--Author:gengjiajia  Date:20160727 for:TASK #1217 【IE兼容】jeecg h+首页兼容性问题,不兼容的浏览器直接切换套shortcut风格 -->
 <script type="text/javascript" src="plug-in/login/js/login.js"></script>
-<!-- add-end--Author:gengjiajia  Date:20160727 for:TASK #1217 【IE兼容】jeecg h+首页兼容性问题,不兼容的浏览器直接切换套shortcut风格 -->
 <script type="text/javascript">
 	$(function(){
 		optErrMsg();

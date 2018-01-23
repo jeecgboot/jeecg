@@ -1,0 +1,132 @@
+#parse("content/base/back/common/macro.vm")
+<!DOCTYPE html>
+<html lang="en">
+#parse("content/base/back/common/head.vm")
+## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+<link rel="stylesheet" href="$!{basePath}/plug-in-ui/hplus/css/font-awesome.css"/>
+## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+<link rel="stylesheet" href="$!{basePath}/plug-in-ui/hplus/css/plugins/bootstrap-table/bootstrap-table.min.css">
+
+<script src="$!{basePath}/plug-in-ui/hplus/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="$!{basePath}/plug-in-ui/js/bootstrap-table-object.js"></script>
+<body style='overflow:scroll;overflow-x:hidden'>
+	<div class="container bs-docs-container" style="width:100%;">
+		<div class="row">
+			<form role="form" class="form-inline" action="$!{basePath}/demo/jeecgP3demo.do?list" method="post"  id="formSubmit">
+				<div  class="col-md-10" style="width:100%">
+					<div class="panel panel-default">
+						<div class="panel-heading">列表</div>
+						<div class="panel-body">
+							<div class="search">
+										 <div class="form-group col-sm-3">
+											<label for="name" class="control-label col-sm-3 line34">姓名</label>
+											<div class="col-sm-8">
+												<input type="text" name="name" id="name" value="$!{jeecgP3demo.name}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="sex" class="control-label col-sm-3 line34">性别</label>
+											<div class="col-sm-8">
+												<input type="text" name="sex" id="sex" value="$!{jeecgP3demo.sex}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="age" class="control-label col-sm-3 line34">年龄</label>
+											<div class="col-sm-8">
+												<input type="text" name="age" id="age" value="$!{jeecgP3demo.age}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="address" class="control-label col-sm-3 line34">地址</label>
+											<div class="col-sm-8">
+												<input type="text" name="address" id="address" value="$!{jeecgP3demo.address}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="phone" class="control-label col-sm-3 line34">电话</label>
+											<div class="col-sm-8">
+												<input type="text" name="phone" id="phone" value="$!{jeecgP3demo.phone}" class="form-control">
+											</div>
+										 </div>
+										 <div class="form-group col-sm-3">
+											<label for="memo" class="control-label col-sm-3 line34">备注</label>
+											<div class="col-sm-8">
+												<input type="text" name="memo" id="memo" value="$!{jeecgP3demo.memo}" class="form-control">
+											</div>
+										 </div>
+								 ## update--begin--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+								<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜  索</button>
+								## update--end--author:zhangjiaqiang date:20170524 for:美化p3列表页面的按钮
+								<div class="clearfix"></div>
+							</div>
+							<div class="hidden-xs" id="demo-list-tableToolbar" role="group">
+								<button class="btn btn-primary" onclick="doUrl('$!{basePath}/demo/jeecgP3demo.do?toAdd')" ><i class="fa fa-plus"></i> 新增</button>
+							</div>
+							<table id="demo-list-table" data-mobile-responsive="true" data-click-to-select="true">
+                                <thead>
+                                    <tr>
+                                        <th data-field="selectItem" data-checkbox="true" data-sortable="true"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <script>
+								var p3demo = {
+									id:'demo-list-table',
+									seItem:null,
+									table:null,
+									layerIndex:-1
+								};
+								p3demo.initColumn = function(){
+									return [
+										{field:'selectItem',checkbox:true},
+										{field:'name',title:'姓名',align:'center',valign:'center',sortable:true},
+										{field:'sex',title:'性别',align:'center',valign:'center',sortable:true,formatter: function (value, row, index) {
+											if(value == '0'){
+												return '男'
+											}else if(value == '1'){
+												return '女'
+											}
+										}},
+										{field:'age',title:'年龄',align:'center',valign:'center',sortable:true}
+									];
+								}
+								$(function () {
+                                    var defaultColunms = p3demo.initColumn();
+                                    var table = new BSTable(p3demo.id, "jeecgP3demo.do?dataList", defaultColunms);
+                                    table.init();
+                                    p3demo.table = table;
+                                });
+							</script>
+							<div class="text-right">
+								<!--公用翻页代码-->
+								#set($attr='formSubmit')
+								#showPageList($pageInfos $attr)
+								<!--END公用翻页代码-->
+							</div>
+						</div>
+					</div>
+				</div>  
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+$("#ckAll").click(function(){ 
+	if($(this).prop("checked")){ 
+	 $(":checkbox").prop("checked",true) 
+	}else{ 
+	$(":checkbox").prop("checked",false)  
+	} 
+}); 
+
+//jquery获取复选框值    
+function getCkValue(){  
+  var chk_value =[];    
+  $('input[name="ck"]:checked').each(function(){    
+   chk_value.push($(this).val());    
+  });    
+  //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);    
+}    
+
+</script>	

@@ -46,7 +46,7 @@ public class ResourceUtil {
 	 */
 	public static Map<String, TSIcon> allTSIcons = new HashMap<String,TSIcon>();
 	/**
-	 * 动态数据源【缓存】
+	 * 动态数据源参数配置【缓存】
 	 */
 	public static Map<String, DynamicDataSourceEntity> dynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>(); 
 	
@@ -120,7 +120,13 @@ public class ResourceUtil {
 		}
 
 		if(requestPath.indexOf("=")!=-1){
-			requestPath = requestPath.substring(0,requestPath.indexOf(".do")+3);
+
+			if(requestPath.indexOf(".do")!=-1){
+				requestPath = requestPath.substring(0,requestPath.indexOf(".do")+3);
+			}else{
+				requestPath = requestPath.substring(0,requestPath.indexOf("?"));
+			}
+
 		}
 
 		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径

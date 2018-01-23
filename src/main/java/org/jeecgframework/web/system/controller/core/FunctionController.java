@@ -451,7 +451,11 @@ public class FunctionController extends BaseController {
 		treeGridModel.setFunctionType("functionType");
 
 		treeGrids = systemService.treegrid(functionList, treeGridModel);
-
+		for (TreeGrid tg : treeGrids) {
+			if("closed".equals(tg.getState()))tg.setSrc("");
+		}
+		
+		
 		MutiLangUtil.setMutiTree(treeGrids);
 		return treeGrids;
 	}

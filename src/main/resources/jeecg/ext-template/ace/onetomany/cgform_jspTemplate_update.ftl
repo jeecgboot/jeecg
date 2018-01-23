@@ -145,9 +145,11 @@
 								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' />
 						    	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-						    <#elseif po.showType=='popup'>
-						    	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' />
+						   <#elseif po.showType=='popup'>
+								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+								<#-- update--begin--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
+								<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictField}','${po.dictTable}')"</#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/> 
+								<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 						    	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						    <#elseif po.showType=='textarea'>
 						  	 	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -609,14 +611,150 @@
 								  		type="text"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
 							    	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							    	<#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
+					
+								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+								<#elseif po.showType=='popup'>
+							    	<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+					  				<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if> value="${'$'}{poVal.${po.fieldName} }" />
+									<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 							    <#elseif po.showType=='file' || po.showType == 'image'>
 							    <#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
 												<input type="hidden" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" />
-												<a  target="_blank" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}_href">未上传</a>
-											   <#-- update--begin--author:zhangjiaqiang date:20170614 for:修订上传附件按钮的大小 -->
+											  <#-- update--begin--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
+											    <#-- update--begin--author:zhangjiaqiang date:20170614 for:修订上传附件按钮的大小 -->
 											   <input class="btn btn-sm btn-success" style="margin-left:10px;" type="button" value="上传附件"
 															onclick="commonUpload(commonUploadDefaultCallBack,'${sub.entityName?uncap_first}List\\[#index#\\]\\.${po.fieldName}')"/>
 							       				<#-- update--begin--author:zhangjiaqiang date:20170614 for:修订上传附件按钮的大小 -->
+							       				<a  target="_blank" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}_href"></a>
+							       				<#-- update--end--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
+							       <#-- update--begin--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
+							<#elseif po.showType=='tree'>
+								<input id="${po.fieldName}" ${po.extendJson?if_exists}  type="text"
+							       style="width: 150px" class="inputxt" <@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>
+					               onclick="show${po.fieldName?cap_first }Tree();" readonly="readonly">
+					               <input type="hidden" id="${po.fieldName}Id" name="${po.fieldName}"  class="show${po.fieldName?cap_first}">  
+									<div id="show${po.fieldName?cap_first }TreeContent" class="menuContent" style="display: none; position: absolute; border: 1px #CCC solid; background-color: #F0F6E4;z-index:9999;">  
+									    <ul id="show${po.fieldName?cap_first }Tree" class="ztree" style="margin-top:0;"></ul>  
+									</div>
+								<script>
+									$(function(){
+										if(!$.fn.zTree){
+											$("head").append('<link rel="stylesheet" href="plug-in/ztree/css/zTreeStyle.css"/>');
+											$("head").append('<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.core-3.5.min.js\"><\/script>');
+											$("head").append('<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js\"><\/script>');
+										}
+										var defaultVal = $("#${po.fieldName}Id").val();
+										$("#${po.fieldName}").val(getTreeResult(defaultVal));
+										$("body").bind("mousedown", onBodyDownBy${po.fieldName?cap_first });  
+									});
+									
+									var ${po.fieldName}Setting = {  
+										   check: {  
+								                enable: true
+									        }, 
+										    view: {  
+										        dblClickExpand: false  
+										    },  
+										    data: {  
+										        simpleData: {  
+										            enable: true  
+										        },
+										        key:{
+										        	name:'text'
+										        }
+										    },  
+										    callback: {  
+										        onClick: ${po.fieldName}OnClick,
+										        onCheck: ${po.fieldName}OnCheck
+										    }   
+										}; 
+									function ${po.fieldName}OnCheck(e, treeId, treeNode) { 
+										    var idVal = $("#${po.fieldName}Id").val();
+										    var textVal = $("#${po.fieldName}").val();
+										    if(treeNode.checked){
+										    	//选中
+										    	if(idVal != null && idVal != ''){
+										    		$("#${po.fieldName}Id").val(idVal + ',' +treeNode.id);  
+											    }else{
+												    $("#${po.fieldName}Id").val(treeNode.id);  
+											    }
+											    if(textVal != null && textVal != ''){
+											    	 $("#${po.fieldName}").val(textVal + ',' + treeNode.text);  
+											    }else{
+												    $("#${po.fieldName}").val(treeNode.text);  
+											    }
+										    }else{
+										    	idVal = idVal.replace(treeNode.id,"");
+										    	if(idVal.indexOf(",") == 0){
+										    		idVal = idVal.substring(1);
+										    	}else if(idVal.indexOf(",,") > -1){
+										    		idVal = idVal.replace(",,",",");
+										    	}else if(idVal.indexOf(",") == idVal.length -1){
+										    		idVal = idVal.substring(0,idVal.length - 1);
+										    	}
+										    	textVal = textVal.replace(treeNode.text,"");
+										    	if(textVal.indexOf(",") == 0){
+										    		textVal = textVal.substring(1);
+										    	}else if(textVal.indexOf(",,") > -1){
+										    		textVal = textVal.replace(",,",",");
+										    	}else if(textVal.indexOf(",") == textVal.length -1){
+										    		textVal = textVal.substring(0,textVal.length - 1);
+										    	}
+										    	$("#${po.fieldName}").val(textVal);
+										    	 $("#${po.fieldName}Id").val(idVal);
+										    }
+										    e.stopPropagation();
+										}  
+									function ${po.fieldName}OnClick(e, treeId, treeNode) {  
+										    var zTree = $.fn.zTree.getZTreeObj("show${po.fieldName?cap_first }Tree");  
+										  	zTree.checkNode(treeNode, !treeNode.checked, true,true);
+										  	e.stopPropagation();
+										}    
+									function show${po.fieldName?cap_first }Tree(){
+										 $.ajax({  
+									        url:'categoryController.do?tree',  
+									        type:'POST',  
+									        dataType:'JSON',
+									        async:false,  
+									          data:{
+									        	selfCode:'${po.dictField}'
+									        },
+									        success:function(res){
+									            var obj = res; 
+									            $.fn.zTree.init($("#show${po.fieldName?cap_first }Tree"), ${po.fieldName}Setting, obj);  
+									            var deptObj = $("#${po.fieldName}");  
+									            var deptOffset = $("#${po.fieldName}").offset();  
+									            $("#show${po.fieldName?cap_first }TreeContent").css({left:deptOffset.left + "px", top:deptOffset.top + deptObj.outerHeight() + "px"}).slideDown("fast");  
+									            $('#show${po.fieldName?cap_first }Tree').css({width:deptObj.outerWidth() - 12 + "px"});  
+									            var zTree = $.fn.zTree.getZTreeObj("show${po.fieldName?cap_first }Tree");  
+									            var idVal =  $("#${po.fieldName}Id").val();
+									            if(idVal != null && idVal != ''){
+										             if(idVal.indexOf(",") > -1){
+										            	var idArray = idVal.split(",");
+										            	for(var i = 0; i < idArray.length; i++){
+										            		var node = zTree.getNodeByParam("id", idArray[i], null);
+										            		zTree.checkNode(node, true, true);
+										            	}
+										            }else{
+										            	var node = zTree.getNodeByParam("id", idVal, null);
+										            		zTree.checkNode(node, true, true);
+										            } 
+									            } 
+									            
+									        }  
+									    });  
+									    }
+									    function onBodyDownBy${po.fieldName?cap_first }(event){
+									    	if(event.target.id == '' || (event.target.id.indexOf('switch') == -1 
+										    	&& event.target.id.indexOf('check') == -1 
+										    	&& event.target.id.indexOf('span') == -1
+										    	&& event.target.id.indexOf('ico') == -1)){  
+										    	$("#show${po.fieldName?cap_first }TreeContent").fadeOut("fast");  
+	   											 //$("body").unbind("mousedown", onBodyDownBy${po.fieldName?cap_first });
+   											 }
+									    }
+								</script>
+								<#-- update--begin--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
 							       <#else>
 							       <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							       	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="form-control"  style="width:120px;"<@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>

@@ -64,7 +64,7 @@ abbr[title] {
 }
 b,
 strong {
-  font-weight: bold;
+  font-weight: normal;
 }
 dfn {
   font-style: italic;
@@ -187,7 +187,7 @@ textarea {
   overflow: auto;
 }
 optgroup {
-  font-weight: bold;
+  font-weight: normal;
 }
 table {
   border-collapse: collapse;
@@ -1453,7 +1453,7 @@ dd {
   line-height: 1.42857143;
 }
 dt {
-  font-weight: bold;
+  font-weight: normal;
 }
 dd {
   margin-left: 0;
@@ -1559,7 +1559,7 @@ kbd {
 kbd kbd {
   padding: 0;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -2278,7 +2278,9 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 8px;
+  /*update-begin--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
+  padding: 4px;
+  /*update-end--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #dddddd;
@@ -2294,6 +2296,7 @@ th {
 .table > colgroup + thead > tr:first-child > td,
 .table > thead:first-child > tr:first-child > td {
   border-top: 0;
+  font-weight: normal;
 }
 .table > tbody + tbody {
   border-top: 2px solid #dddddd;
@@ -2360,7 +2363,7 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.active:hover > td,
 .table-hover > tbody > tr:hover > .active,
 .table-hover > tbody > tr.active:hover > th {
-  background-color: #e8e8e8;
+  background-color: #F5F5F5;
 }
 .table > thead > tr > td.success,
 .table > tbody > tr > td.success,
@@ -2516,7 +2519,7 @@ label {
   display: inline-block;
   max-width: 100%;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: normal;
 }
 input[type="search"] {
   -webkit-box-sizing: border-box;
@@ -2555,10 +2558,12 @@ output {
   color: #555555;
 }
 .form-control {
-  display: block;
-  width: 100%;
-  height: 31px;
-  padding: 6px 12px;
+  /*update-begin--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
+  /*display: block;
+  width: 100%;*/
+  height: 26px;
+  padding: 2px 5px;
+  /*update-end--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
   font-size: 12px;
   line-height: 1.42857143;
   color: #555555;
@@ -2573,10 +2578,9 @@ output {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
-  border-color: #66afe9;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  /*update-begin--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
+  border : 1px solid #76B4AC !important;outline:none !important;
+  /*update-end--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
 }
 .form-control::-moz-placeholder {
   color: #999999;
@@ -3038,7 +3042,7 @@ select[multiple].input-lg {
 .btn:hover,
 .btn:focus,
 .btn.focus {
-  color: #8f0911;
+  color: #333;
   text-decoration: none;
 }
 .btn:active,
@@ -3062,25 +3066,25 @@ fieldset[disabled] a.btn {
   pointer-events: none;
 }
 .btn-default {
-  color: #8f0911;
+  color: #333;
   background-color: #ffffff;
   border-color: #cccccc;
 }
 .btn-default:focus,
 .btn-default.focus {
-  color: #8f0911;
+  color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
 }
 .btn-default:hover {
-  color: #8f0911;
+  color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: #8f0911;
+  color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
@@ -4088,7 +4092,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #8f0911;
+  color: #333;
   background-color: #ddd;
   /*border: 1px solid #dddddd;*/
   border-bottom-color: transparent;
@@ -4150,7 +4154,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  color: #8f0911;
+  color: #333;
   background-color: #ddd;
 }
 .nav-stacked > li {
@@ -4900,7 +4904,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   display: inline;
   padding: .2em .6em .3em;
   font-size: 75%;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1;
   color: #ffffff;
   text-align: center;
@@ -4968,7 +4972,7 @@ a.label:focus {
   min-width: 10px;
   padding: 3px 7px;
   font-size: 11px;
-  font-weight: bold;
+  font-weight: normal;
   color: #ffffff;
   line-height: 1;
   vertical-align: middle;
@@ -5087,7 +5091,7 @@ a.thumbnail.active {
   color: inherit;
 }
 .alert .alert-link {
-  font-weight: bold;
+  font-weight: normal;
 }
 .alert > p,
 .alert > ul {
@@ -5740,8 +5744,8 @@ button.list-group-item-danger.active:focus {
   border-color: #dddddd;
 }
 .panel-default > .panel-heading {
-  color: #8f0911;
-  font-weight: bold;
+  color: #333;
+  font-weight: normal;
   background-color: #f5f5f5;
   border-color: #dddddd;
 }
@@ -5896,7 +5900,7 @@ button.list-group-item-danger.active:focus {
 .close {
   float: right;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1;
   color: #000000;
   text-shadow: 0 1px 0 #ffffff;

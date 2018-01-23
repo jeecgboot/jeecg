@@ -22,9 +22,9 @@ public class FreemarkerHelper {
 		_tplConfig.setSharedVariable("DictData", (TemplateDirectiveModel)ApplicationContextUtil.getContext().getBean("dictDataTag"));
 		_tplConfig.setSharedVariable("mutiLang", (TemplateDirectiveModel)ApplicationContextUtil.getContext().getBean("mutiLangTag"));
 		_tplConfig.setClassForTemplateLoading(FreemarkerHelper.class, "/");
-		_tplConfig.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");  
-		_tplConfig.setDateFormat("yyyy-MM-dd");  
-		_tplConfig.setTimeFormat("HH:mm:ss"); 
+		_tplConfig.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");
+		_tplConfig.setDateFormat("yyyy-MM-dd");
+		_tplConfig.setTimeFormat("HH:mm:ss");
 	}
 
 	/**

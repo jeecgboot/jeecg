@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:cache="http://www.springframework.org/schema/cache" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:redis="http://www.springframework.org/schema/redis"
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context-3.1.xsd
+     http://www.springframework.org/schema/cache 
+     http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+     http://www.springframework.org/schema/redis
+     http://www.springframework.org/schema/redis/spring-redis-1.0.xsd">
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 最大空闲连接数 -->
+        <property name="maxIdle" value="${redis.adapter.maxIdle}" />
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="${redis.adapter.minIdle}" />
+        <!-- 在获取连接的时候检查有效性 -->
+        <property name="testOnBorrow" value="${redis.adapter.testOnBorrow}" />
+        <!-- return 一个jedis实例给pool时，是否检查连接可用性 （ping()） -->
+        <property name="testOnReturn" value="${redis.adapter.testOnReturn}" />
+        <!-- idle状态监测用异步线程evict进行检查， -->
+        <property name="testWhileIdle" value="${redis.adapter.testWhileIdle}" />
+        <!-- 一次最多evict的pool里的jedis实例个数 -->
+        <property name="numTestsPerEvictionRun" value="${redis.adapter.numTestsPerEvictionRun}" />
+        <!-- test idle 线程的时间间隔 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.adapter.timeBetweenEvictionRunsMillis}" />
+    </bean>
+    
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  
+        p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"  p:pool-config-ref="jedisPoolConfig"/>
+
+<!--     <bean id="sentinelConfig"
+        class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+        master名称 sentinel.conf里面配置的主节点名称
+        <constructor-arg name="master" value="${redis.adapter.masterName}" />
+        sentinel的ip和端口列表
+        <constructor-arg name="sentinelHostAndPorts">
+            <set>
+                <value>${redis.adapter.sentinel1}</value>
+                <value>${redis.adapter.sentinel2}</value>
+                <value>${redis.adapter.sentinel3}</value>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jedisConnectionFactory"
+        class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg ref="sentinelConfig" />
+        <constructor-arg ref="jedisPoolConfig" />
+    </bean>
+    
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/> -->
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"> 
+    	<property name="connectionFactory"   ref="jedisConnectionFactory" /> 
+  	</bean> 
+  
+    <!-- 暂时注释，此配置支持更多类型  20171108
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+        <property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="hashKeySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+		</property>
+		<property name="hashValueSerializer">
+			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+		</property>
+    </bean>-->
+</beans>

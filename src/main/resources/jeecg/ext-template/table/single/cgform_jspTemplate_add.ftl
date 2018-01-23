@@ -146,7 +146,9 @@
 							<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						<#elseif po.showType=='popup'>
 							<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-							<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> />
+							<#-- update--begin--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
+							<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>  />
+							<#-- update--end--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
 						  	<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						<#elseif po.showType=='textarea'>
 						  	 <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
@@ -349,6 +351,9 @@
 									        type:'POST',  
 									        dataType:'JSON',
 									        async:false,  
+									         data:{
+									        	selfCode:'${po.dictField}'
+									        },
 									        success:function(res){
 									            var obj = res; 
 									            $.fn.zTree.init($("#show${po.fieldName?cap_first }Tree"), ${po.fieldName}Setting, obj);  

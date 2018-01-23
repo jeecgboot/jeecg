@@ -196,7 +196,9 @@
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"
 					               <#else>
-							       onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');" 
+					               <#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+							       onClick="popupClick(this,'${po.dict_text?if_exists?html}','${po.dict_field?if_exists?html}','${po.dict_table?if_exists?html}');" 
+					               <#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 					               </#if>
 						       	   <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"

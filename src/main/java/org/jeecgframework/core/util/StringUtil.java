@@ -451,6 +451,28 @@ public class StringUtil {
 	}
 
 	/**
+	 * 把 名=值 参数表转换成字符串 {"a":"1","b":"2"}
+	 * @param map
+	 * @return
+	 */
+	public static String HashMapToJsonContent(HashMap<String, String> map) {
+		if (map != null && map.size() > 0) {
+			String result = "{";
+			Iterator it = map.keySet().iterator();
+			while (it.hasNext()) {
+				String name = (String) it.next();
+				String value = (String) map.get(name);
+				result += (result.equals("{")) ? "" : ", ";
+				result += String.format("\"%s\":\"%s\"", name, value);
+			}
+			result += "}";
+			return result;
+		}
+		return null;
+	}
+
+
+	/**
 	 * 解析字符串返回 名称=值的参数表 (a=1&b=2 => a=1,b=2)
 	 * 
 	 * @see test.koubei.util.StringUtilTest#testParseStr()

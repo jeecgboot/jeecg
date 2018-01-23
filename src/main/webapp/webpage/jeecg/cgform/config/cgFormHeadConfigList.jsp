@@ -26,13 +26,11 @@
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
 	<t:dgCol title="配置表版本" field="physiceId" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt"></t:dgCol>
-	  <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
 	<t:dgFunOpt funname="remCgForm(id)" title="common.remove"  urlclass="ace_button"  urlfont="fa-remove"></t:dgFunOpt>
 	<t:dgFunOpt funname="importFields(id,content)" title="导入字段"  urlclass="ace_button"  urlfont="fa-download"></t:dgFunOpt>
 	<t:dgFunOpt funname="addbytab(id,content)" title="form.template"  urlclass="ace_button"  urlfont="fa-plus"></t:dgFunOpt>
 	<t:dgFunOpt funname="addlisttab(tableName,content,id)" title="function.test"  urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
 	<t:dgFunOpt funname="popMenuLink(tableName,content)" title="config.place"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
-	  <!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
 	<t:dgToolBar title="edit.form" icon="icon-edit" width="900" height="600" url="cgFormHeadController.do?addorupdate" funname="updateForm"></t:dgToolBar>
 	<t:dgToolBar title="custom.button" icon="icon-edit" url="cgformButtonController.do?cgformButton" funname="cgFormButton"></t:dgToolBar>
 	<t:dgToolBar title="js.enhance" icon="icon-edit" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>

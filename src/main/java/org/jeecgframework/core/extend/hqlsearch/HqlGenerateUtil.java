@@ -7,8 +7,12 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 
@@ -90,6 +94,7 @@ public class HqlGenerateUtil {
 				List<QueryCondition> list  = JSONHelper.toList(json , QueryCondition.class);
 				String sql=getSql(list,"",searchObj.getClass());
 				LogUtil.debug("DEBUG sqlbuilder:"+sql);
+				//TODO 此用法在多表关联查询，两个表存在相同字段的时候，会存在问题（hibernate维护的实体关系）
 				cq.add(Restrictions.sqlRestriction(sql));
 			}
 		}catch(Exception e){
@@ -121,7 +126,7 @@ public class HqlGenerateUtil {
 					cq.add(Restrictions.sqlRestriction("1=1"));
 					addPreCondition = false;
 				}
-				cq.add(Restrictions.sqlRestriction("("+ruleMap.get(c).getRuleValue()+")"));
+				cq.add(Restrictions.sqlRestriction("("+getSqlRuleValue(ruleMap.get(c).getRuleValue())+")"));
 			}
 		}
 
@@ -267,6 +272,36 @@ public class HqlGenerateUtil {
 		}
 	}
 
+	private static String getSqlRuleValue(String sqlRule){
+		try {
+			Set<String> varParams = getSqlRuleParams(sqlRule);
+			for(String var:varParams){
+				String tempValue = ResourceUtil.converRuleValue(var);
+				sqlRule = sqlRule.replace("#{"+var+"}",tempValue);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sqlRule;
+	}
+	
+	private static Set<String> getSqlRuleParams(String sql) {
+		if(oConvertUtils.isEmpty(sql)){
+			return null;
+		}
+		Set<String> varParams = new HashSet<String>();
+		String regex = "\\#\\{\\w+\\}";
+		
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(sql);
+		while(m.find()){
+			String var = m.group();
+			varParams.add(var.substring(var.indexOf("{")+1,var.indexOf("}")));
+		}
+		return varParams;
+	}
+
+
 	/**
 	 * 判断数据规则是不是包含这个实体类
 	 * 
@@ -405,7 +440,13 @@ public class HqlGenerateUtil {
 	 */
 	public static String getSql(List<QueryCondition> list,String tab,Class claszz){
 		StringBuffer sb=new StringBuffer();
-		sb.append(" 1=1 ");
+
+		if(list.get(0).getRelation().equals("or")) {
+			sb.append(" 1=0 ");
+		} else {
+			sb.append(" 1=1 ");
+		}
+
 		for(QueryCondition c :list){
 			String column = invokeFindColumn(claszz,c.getField());
 			String type = invokeFindType(claszz,c.getField());
@@ -413,7 +454,6 @@ public class HqlGenerateUtil {
 			c.setField(column);
 			sb.append(tab+c);sb.append("\r\n");
 			if(c.getChildren()!=null){
-				
 				List list1= JSONHelper.toList(c.getChildren(), QueryCondition.class);
 				sb.append(tab);
 				sb.append(c.getRelation()+"( ");
@@ -450,7 +490,16 @@ public class HqlGenerateUtil {
 		String column=null;
 		Field field;
 		try {
-			field = clazz.getDeclaredField(field_name);
+
+			//TODO	只能向上找一级，其他则失败。
+			boolean flag = getSuperDeclaredField(clazz,field_name);
+			if(flag) {
+				field = clazz.getDeclaredField(field_name);
+			} else {
+				Class cla = clazz.getSuperclass();
+				field = cla.getDeclaredField(field_name);
+			}
+
 			PropertyDescriptor pd = new PropertyDescriptor(field.getName(),clazz);  
 	        Method getMethod = pd.getReadMethod();//获得get方法 
 			Column col=getMethod.getAnnotation(Column.class);
@@ -526,4 +575,24 @@ public class HqlGenerateUtil {
 		}
 		return cq;
 	}
+
+	/**
+	 * 判断有没有field字段
+	 * @param clazz
+	 * @param fieldName
+	 * @return
+	 */
+	public static boolean getSuperDeclaredField(Class clazz,String fieldName) {
+		Field[] fields=clazz.getDeclaredFields();
+		boolean b=false;
+		for (int i = 0; i < fields.length; i++) {
+		    if(fields[i].getName().equals(fieldName))
+		    {
+		        b=true;
+		        break;
+		    }
+		}
+		return b;
+	}
+
 }

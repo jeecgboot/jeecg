@@ -1,20 +1,36 @@
 package org.jeecgframework.web.system.controller.core;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.LogUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.YouBianCodeUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -23,11 +39,13 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSDepartExcelView;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.pojo.base.TSUserOrg;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +56,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 
 
 /**
@@ -538,6 +551,18 @@ public class DepartController extends BaseController {
 		req.setAttribute("controller_name","departController");
 		return new ModelAndView("common/upload/pub_excel_upload");
 	}
+	
+	/**
+	 * 导入功能跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "uploadDepart")
+	public ModelAndView uploadDepart(HttpServletRequest req) {
+		req.setAttribute("controller_name","departController");
+		req.setAttribute("method_name", "importDepartExcel");
+		return new ModelAndView("common/upload/pub_excel_upload");
+	}
 
 	/**
 	 * 导出excel
@@ -591,6 +616,110 @@ public class DepartController extends BaseController {
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 
+	private synchronized String getMaxLocalCode(String parentCode){
+		if(oConvertUtils.isEmpty(parentCode)){
+			parentCode = "";
+		}
+		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT org_code FROM t_s_depart");
+
+		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
+			sb.append(" where LEN(org_code) = ").append(localCodeLength);
+		}else{
+			sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
+		}
+
+		if(oConvertUtils.isNotEmpty(parentCode)){
+			sb.append(" and  org_code like '").append(parentCode).append("%'");
+		}
+
+		sb.append(" ORDER BY org_code DESC");
+		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
+		String returnCode = null;
+		if(objMapList!=null && objMapList.size()>0){
+			returnCode = (String)objMapList.get(0).get("org_code");
+		}
+
+		return returnCode;
+	}
+	
+	@RequestMapping(params = "importDepartExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson importDepartExcel(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			try {
+				List<TSDepartExcelView> list = ExcelImportUtil.importExcel(file.getInputStream(),TSDepartExcelView.class,params);
+				Map<String,TSDepart> departMap=new HashMap<String, TSDepart>();
+				saveDepartExcelView(list,departMap);
+				if(departMap.isEmpty()){
+					j.setMsg("必须有一个或一个以上的祖先节点！");
+					return j;
+				}
+				j.setMsg("文件导入成功！");
+			} catch (Exception e) {
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return j;
+	}
+	
+	private void saveDepartExcelView(List<TSDepartExcelView> list,Map<String,TSDepart> departMap){
+		Iterator<TSDepartExcelView> iterator = list.iterator();
+		while(iterator.hasNext()){
+			TSDepartExcelView next = iterator.next();
+			String parentId=next.getParentId();
+			if(StringUtil.isEmpty(parentId)){
+				TSDepart depart=generateDepart(next,null);
+				departMap.put(next.getId(), depart);
+				iterator.remove();
+			}else if(departMap.containsKey(parentId)){
+				TSDepart parentDepart=departMap.get(parentId);
+				TSDepart depart=generateDepart(next,parentDepart);
+				departMap.put(next.getId(), depart);
+				iterator.remove();
+			}
+		}
+		if(departMap.isEmpty()){
+			return;
+		}
+		if(!list.isEmpty())saveDepartExcelView(list,departMap);
+	}
+	
+	private TSDepart generateDepart(TSDepartExcelView next,TSDepart parentDepart){
+		TSDepart depart=new TSDepart();
+		depart.setDepartname(next.getDepartName());
+		depart.setDescription(next.getDescription());
+		depart.setOrgType(next.getOrgType());
+		depart.setAddress(next.getAddress());
+		depart.setMobile(next.getMobile());
+		depart.setFax(next.getFax());
+		if(parentDepart!=null){
+			String localMaxCode  = getMaxLocalCode(parentDepart.getOrgCode());
+			depart.setOrgCode(YouBianCodeUtil.getSubYouBianCode(parentDepart.getOrgCode(), localMaxCode));
+			depart.setTSPDepart(parentDepart);
+		}else{
+			String localMaxCode  = getMaxLocalCode(null);
+			depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
+		}
+		this.systemService.save(depart);
+		return depart;
+	}
+
+	
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
 	@ResponseBody

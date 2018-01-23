@@ -63,10 +63,8 @@
 			<t:dgCol title="更新人名称" field="updateName" hidden="true" queryMode="single" width="120"></t:dgCol>
 			<t:dgCol title="更新人登录名称" field="updateBy" hidden="true" queryMode="single" width="120"></t:dgCol>
 			<t:dgCol title="更新日期" field="updateDate" formatter="yyyy-MM-dd" hidden="true" queryMode="single" width="120"></t:dgCol>
-			<!-- update-begin--Author:zhuxm  Date:20170313 for：[1772]部门、公司编码修改成显示名称 -->
 			<t:dgCol title="所属部门" dictionary="t_s_depart,org_code,departname" field="sysOrgCode" hidden="ture" queryMode="single" width="120"></t:dgCol>
 			<t:dgCol title="所属公司" dictionary="t_s_depart,org_code,departname" field="sysCompanyCode" hidden="false" queryMode="single" width="120"></t:dgCol>
-			<!-- update-end--Author:zhuxm  Date:20170313 for：[1772]部门、公司编码显示修改成名称 -->
 			<t:dgCol title="操作" field="opt" width="150"></t:dgCol>
 			<!-- update-begin--Author:zhangjq  Date:20160904 for：[1342]【系统图标统一调整】讲{消息中间件}{系统监控}的链接按钮，改成ace风格的-->
 			<t:dgFunOpt funname="popDataContent(id)" title="复制数据" urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>

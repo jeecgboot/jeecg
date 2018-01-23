@@ -93,11 +93,12 @@ function typeGridTree_UpdateType() {
 	<t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="icon-add" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.add.param" langArg="lang.dictionary.value" icon="icon-add" funname="typeGridTree_AddType"></t:dgToolBar>
 	<t:dgToolBar title="common.edit" icon="icon-edit" funname="typeGridTree_UpdateType"></t:dgToolBar>
+	<t:dgToolBar title="common.refreshType" icon="fa fa-refresh" url="systemController.do?refreshTypeGroupAndTypes" funname="doSubmit"></t:dgToolBar>
 </t:datagrid>
 <input type="hidden" id="typeGroupId" name="typeGroupId" value="">
 --%>
 
-<div id="main_typegroup_list" class="easyui-layout" fit="true">
+<div id="main_typegroup_list" class="easyui-layout" fit="true">  
     <div region="center" style="padding:0px;border:0px">
         <t:datagrid name="typeGridTree" title="common.data.dictionary" actionUrl="systemController.do?typeGroupGrid" 
         idField="id" treegrid="false" pagination="false"  sortOrder="desc" sortName="createDate" onLoadSuccess="loadSuccess" queryMode="group" btnCls="bootstrap btn btn-info btn-xs">
@@ -110,6 +111,7 @@ function typeGridTree_UpdateType() {
             <t:dgToolBar title="common.add.param" langArg="lang.dictionary.type" icon="fa fa-plus" url="systemController.do?aouTypeGroup" funname="add"></t:dgToolBar>
             <%--<t:dgToolBar title="common.add.param" langArg="lang.dictionary.value" icon="icon-add" funname="typeGridTree_AddType"></t:dgToolBar>--%>
             <t:dgToolBar title="common.edit" icon="fa fa-edit" url="systemController.do?aouTypeGroup" funname="update"></t:dgToolBar>
+            <t:dgToolBar title="common.refreshType" icon="fa fa-refresh" url="systemController.do?refreshTypeGroupAndTypes" funname="doSubmit"></t:dgToolBar>
         </t:datagrid>
     </div>
 </div>
@@ -148,3 +150,4 @@ function typeGridTree_UpdateType() {
         $('#userListpanel').empty();
     }
 </script>
+<%--// add-end--Author:zhangguoming  Date:20140928 for：数据字典修改--%>

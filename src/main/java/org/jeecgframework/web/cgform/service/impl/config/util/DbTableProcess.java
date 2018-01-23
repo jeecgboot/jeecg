@@ -69,15 +69,14 @@ public class DbTableProcess {
 	
 	public  List<String> updateTable(CgFormHeadEntity table,Session session) throws DBException{
 		//StringBuilder sb = new StringBuilder();
-		String tableName = DbTableUtil.getDataType(session).equals("ORACLE")?table.getTableName().toUpperCase():table.getTableName();
+		String dataType = DbTableUtil.getDataType(session);
+		String tableName = dataType.equals("ORACLE")?table.getTableName().toUpperCase():table.getTableName();
 		String alterTable="alter table  "+tableName+" ";
 		List<String> strings = new ArrayList<String>();
 	       //对表的修改列和删除列的处理，解决hibernate没有该机制
 	       try {
 			 Map<String, ColumnMeta> dataBaseColumnMetaMap = getColumnMetadataFormDataBase(null ,tableName,session);
-			
 			 Map<String, ColumnMeta> cgFormColumnMetaMap = getColumnMetadataFormCgForm(table);
-			 
 			 Map<String,String> newAndOldFieldMap =getNewAndOldFieldName(table);
 			
 			 
@@ -87,7 +86,7 @@ public class DbTableProcess {
 					 ColumnMeta cgFormColumnMeta = cgFormColumnMetaMap.get(columnName);
 					if(newAndOldFieldMap.containsKey(columnName)&&(dataBaseColumnMetaMap.containsKey(newAndOldFieldMap.get(columnName)))){
 						ColumnMeta dataColumnMeta = dataBaseColumnMetaMap.get(newAndOldFieldMap.get(columnName));
-						if (DbTableUtil.getDataType(session).equals("SQLSERVER")) {
+						if ("SQLSERVER".equals(dataType)) {
 							//sqlserver 修改类名称需要调用存储过程
 							strings.add(getReNameFieldName(cgFormColumnMeta));
 						}else {
@@ -103,26 +102,30 @@ public class DbTableProcess {
 								}
 						}
 						//判断注释是不是相同,修改注释
-						if(!dataColumnMeta.equalsComment(cgFormColumnMeta)){
+
+						if(!"SQLSERVER".equals(dataType) && !dataColumnMeta.equalsComment(cgFormColumnMeta)){
 							strings.add(getCommentSql(cgFormColumnMeta));
 						}
 					}else{//不包含就是要增加
 						strings.add(alterTable+getAddColumnSql(cgFormColumnMeta));
-						if(StringUtils.isNotEmpty(cgFormColumnMeta.getComment())){
+						if(!"SQLSERVER".equals(dataType) && StringUtils.isNotEmpty(cgFormColumnMeta.getComment())){
 							strings.add(getCommentSql(cgFormColumnMeta));
 						}
+
 					}
 				}else {//已经存在的判断是否修改了类型长度。。
 					//判断是否类型、长度、是否为空、精度被修改，如果有修改则处理修改
 					ColumnMeta dataColumnMeta = dataBaseColumnMetaMap.get(columnName);
 					ColumnMeta cgFormColumnMeta = cgFormColumnMetaMap.get(columnName);
 					//如果不相同，则表示有变化，则需要修改
-					if (!dataColumnMeta.equals(cgFormColumnMeta)) {
+
+					if (!dataColumnMeta.equalsByDataType(cgFormColumnMeta,dataType)) {
 						strings.add(alterTable+getUpdateColumnSql(cgFormColumnMeta,dataColumnMeta));
 					}
-					if(!dataColumnMeta.equalsComment(cgFormColumnMeta)){
+					if(!"SQLSERVER".equals(dataType) && !dataColumnMeta.equalsComment(cgFormColumnMeta)){
 						strings.add(getCommentSql(cgFormColumnMeta));
 					}
+
 				}
 				
 			}
@@ -142,14 +145,12 @@ public class DbTableProcess {
 		return strings;
 	}
 	
-	private static void createTable(String xml, CgFormHeadEntity table,
-			Session session) throws HibernateException, SQLException, DBException {
+	private static void createTable(String xml, CgFormHeadEntity table,Session session) throws HibernateException, SQLException, DBException {
 				
 		//FIXME 考虑JNDI的情况
 		//重新构建一个Configuration
-		org.hibernate.cfg.Configuration newconf=new org.hibernate.cfg.Configuration(); 
-		newconf.addXML(xml)
-		.setProperty("hibernate.dialect",((SessionImpl)session).getFactory().getDialect().getClass().getName());
+		org.hibernate.cfg.Configuration newconf = new org.hibernate.cfg.Configuration(); 
+		newconf.addXML(xml).setProperty("hibernate.dialect",((SessionImpl)session).getFactory().getDialect().getClass().getName());
 //       .setProperty("hibernate.connection.username",propertiesUtil.readProperty("jdbc.username.jeecg"))
 //       .setProperty("hibernate.connection.password",propertiesUtil.readProperty("jdbc.password.jeecg"))  
 //       .setProperty("hibernate.dialect",propertiesUtil.readProperty("hibernate.dialect"))
@@ -157,8 +158,7 @@ public class DbTableProcess {
 //       .setProperty("hibernate.connection.driver_class",propertiesUtil.readProperty("jdbc.driver.class")); 
 //       
 			SchemaExport dbExport;
-			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(
-					session.getSessionFactory()).getConnection());
+			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(session.getSessionFactory()).getConnection());
 			dbExport.execute(true, true, false, true);
 
 			//抛出执行异常，抛出第一个即可  

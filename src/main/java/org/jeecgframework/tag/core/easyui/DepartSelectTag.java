@@ -151,13 +151,13 @@ public class DepartSelectTag extends TagSupport {
 		if(hasLabel && oConvertUtils.isNotEmpty(title)){
 			sb.append(title + "：");
 		}
-		sb.append("<input readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openDepartmentSelect()\" ");
+		sb.append("<input class=\"inuptxt\" readonly=\"true\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openDepartmentSelect()\" ");
 		if(StringUtils.isNotBlank(departNamesDefalutVal)){
 			sb.append(" value=\""+departNamesDefalutVal+"\"");
 		}
 		sb.append(" />");
 		String orgIds = "";		
-		sb.append("<input id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
+		sb.append("<input class=\"inuptxt\" id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
 		if(StringUtils.isNotBlank(departIdsDefalutVal)){
 			sb.append(" value=\""+departIdsDefalutVal+"\"");
 			orgIds = "&orgIds=" + departIdsDefalutVal;

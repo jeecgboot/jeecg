@@ -8,13 +8,7 @@
  </head>
  <body>
 		<t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jeecgListDemoController.do?doUpdate" >
-					<input id="id" name="id" type="hidden" value="${jeecgDemoPage.id }">
-					<input id="createDate" name="createDate" type="hidden" value="${jeecgDemoPage.createDate }">
-					<input id="createBy" name="createBy" type="hidden" value="${jeecgDemoPage.createBy }">
-					<input id="createName" name="createName" type="hidden" value="${jeecgDemoPage.createName }">
-					<input id="updateBy" name="updateBy" type="hidden" value="${jeecgDemoPage.updateBy }">
-					<input id="updateDate" name="updateDate" type="hidden" value="${jeecgDemoPage.updateDate }">
-					<input id="updateName" name="updateName" type="hidden" value="${jeecgDemoPage.updateName }">
+		<input id="id" name="id" type="hidden" value="${jeecgDemoPage.id }">
 		<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 					<tr>
 						<td align="right">
@@ -158,7 +152,7 @@
 						<td class="value">
 									<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
 									<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
-							    	<textarea name="content" readonly="true" id="content" style="width: 650px;height:300px">${jeecgDemoPage.content}</textarea>
+							    	<textarea name="content" readonly="true" id="content" style="width: 450px;height:300px">${jeecgDemoPage.content}</textarea>
 								    <script type="text/javascript">
 								        var editor = UE.getEditor('content');
 								    </script>

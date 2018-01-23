@@ -167,6 +167,9 @@ span.error{
     margin-right:15px;
     line-height:20px;
     color:#666;
+    /*update-begin--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+    padding: 0px;
+    /*update-end--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
     /* text-shadow:1px 1px 1px #fff; */ /* scott 20160229 Div有白块*/
 }
 /*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */

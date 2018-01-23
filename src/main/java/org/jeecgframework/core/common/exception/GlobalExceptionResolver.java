@@ -132,7 +132,10 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
-			pw.close();
+			try {
+				pw.close();
+			} catch (Exception e2) {
+			}
 		}
 		empty.clear();
 		return empty;

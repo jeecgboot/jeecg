@@ -7,13 +7,9 @@
    <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
    <t:dgCol title="状态" field="isRead" width="40" replace="已读_1,未读_0"></t:dgCol>
    <t:dgCol title="标题" field="noticeTitle" width="120"></t:dgCol>
-<!-- update-begin Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对 -->
    <t:dgCol title="时间" field="createTime" formatter="yyyy-MM-dd hh:mm" width="80"></t:dgCol>
- <!-- update-end Author:xugj  Date:20160330 for：#1012 【平台bug】系统公告列表时间格式不对 -->
    <t:dgCol title="common.operation" field="opt" width="40"></t:dgCol>
-   <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
    <t:dgFunOpt funname="doRead(id,isRead)" title="common.read" urlclass="ace_button"  urlfont="fa-trash-o"></t:dgFunOpt>
-<!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
   </t:datagrid>
   </div>
  </div>

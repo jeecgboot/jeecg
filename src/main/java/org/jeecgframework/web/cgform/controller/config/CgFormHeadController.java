@@ -34,6 +34,9 @@ import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
+import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
+import org.jeecgframework.web.cgform.service.impl.config.TableSQLServerHandleImpl;
+import org.jeecgframework.web.cgform.service.impl.config.util.DbTableUtil;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.system.pojo.base.TSType;
@@ -262,6 +265,14 @@ public class CgFormHeadController extends BaseController {
 		
 		//同步数据库
 		try {
+			if("force".equals(synMethod)){
+				DbTableHandleI dbTableHandle = DbTableUtil.getTableHandle(systemService.getSession());
+				if(dbTableHandle instanceof TableSQLServerHandleImpl){
+					String dropsql =  dbTableHandle.dropTableSQL(cgFormHead.getTableName());
+					systemService.executeSql(dropsql); 
+				}
+			}
+			
 			boolean bl = cgFormFieldService.dbSynch(cgFormHead,synMethod);
 			if(bl){
 				//追加主表的附表串
@@ -323,6 +334,21 @@ public class CgFormHeadController extends BaseController {
 			}
 		}
 		*/
+
+		/**
+		 * 判断表名在库中是否存在，防止创建重名表，冲掉原有系统表
+		 */
+		if(oConvertUtils.isEmpty(cgFormHead.getId())){
+			String sql = "select count(*) from tmp_tables where wl_table_name = ?";
+			long i = systemService.getCountForJdbcParam(sql, new String[]{cgFormHead.getTableName()});
+			if(i>0){
+				logger.info("["+IpUtil.getIpAddr(request)+"][系统已经存在，online表名："+cgFormHead.getTableName());
+				j.setMsg("系统中已经存在该表，不允许创建");
+				return j;
+			}
+		}
+
+		
 		//step.2 判定表格是否存在
 		StringBuffer msg = new StringBuffer();
 		CgFormHeadEntity table = judgeTableIsNotExit(cgFormHead,oldTable,msg);

@@ -21,5 +21,7 @@ public interface JeecgP3demoService {
 	public MiniDaoPage<JeecgP3demoEntity> getAll(JeecgP3demoEntity jeecgP3demo,int page,int rows);
 
 	public void delete(JeecgP3demoEntity jeecgP3demo);
-	
+
+	public MiniDaoPage<JeecgP3demoEntity> getAllByOrder(JeecgP3demoEntity query, int offset, int limit, String sort,String order);
+
 }

@@ -2,7 +2,6 @@
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html >
 <html>
-<!-- update-begin--Author:xuelin  Date:20170408 for：[#1814]【标签】弹出组织机构选择，树列表方式，修改默认值显示样式-------------------- -->
 <head>
 <title><t:mutiLang langKey="common.department.list"/></title>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
@@ -59,7 +58,6 @@
 	} 
 </script>
 </head>
-<!-- update-begin--Author:xuelin  Date:20170409 for：[#1814]【标签】弹出组织机构选择，树列表方式，自适应窗体缩放-------------------- -->
 <body style="overflow: hidden;" scroll="no" data-options="fit:true,border:false" class="easyui-layout">
 	<div region="center" style="padding: 1px;" data-options="fit:true,border:true">
 		<table id="orgSelect" class="easyui-treegrid"
@@ -77,6 +75,4 @@
 		<div id="tb"><div class="panel-title"><t:mutiLang langKey="please.select.department"/></div></div>
 	</div>
 </body>
-<!-- update-end--Author:xuelin  Date:20170409 for：[#1814]【标签】弹出组织机构选择，树列表方式，自适应窗体缩放---------------------- -->
-<!-- update-end--Author:xuelin  Date:20170408 for：[#1814]【标签】弹出组织机构选择，树列表方式，修改默认值显示样式---------------------- -->
 </html>

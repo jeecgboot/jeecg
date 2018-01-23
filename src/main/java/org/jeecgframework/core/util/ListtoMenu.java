@@ -1038,4 +1038,95 @@ public class ListtoMenu {
 		}
 		return menuString.toString();
 	}
+
+		/**
+		 * 获取fineUI菜单树
+		 * @param map
+		 * @return
+		 */
+		public static String getFineuiMultistageTree(Map<Integer, List<TSFunction>> map) {
+			if(map==null||map.size()==0||!map.containsKey(0)){return "不具有任何权限,\n请找管理员分配权限";}
+			StringBuffer menuString = new StringBuffer();
+			List<TSFunction> list = map.get(0);
+			int curIndex = 0;
+			for (TSFunction function : list) {
+				String order = function.getFunctionOrder();
+				menuString.append("<li class='menu-item'>");
+				if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+					menuString.append("<a href><i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+				}else{
+					menuString.append("<a href><i class=\"fa fa-columns\"></i>");
+				}
+				menuString.append("<span class=\"menu-text\">");
+				menuString.append(getMutiLang(function.getFunctionName()));
+				menuString.append("</span>");
+				if(!function.hasSubFunction(map)){
+					menuString.append("</a></li>");
+					//menuString.append(getSubMenu(function,1,map));
+				}else{
+					menuString.append("<i class=\"icon-font icon-right\"></i>");
+					/**/
+					//menuString.append("<b class=\"arrow icon-angle-down\"></b></a><ul  class=\"submenu\" >");
+					//class="" id="3" style='display: block;'
+					menuString.append("</a><ul  class=\"menu-item-child\" id='menu-child-"+order+ "' >");
+					menuString.append(getFineuiSubMenu(function,1,map));
+					menuString.append("</ul></li>");
+				}
+				curIndex++;
+			}
+			return menuString.toString();
+		}
+		
+		private static String getFineuiSubMenu(TSFunction parent, int level, Map<Integer, List<TSFunction>> map) {
+			StringBuffer menuString = new StringBuffer();
+			List<TSFunction> list = map.get(level);
+			for (TSFunction function : list) {
+				if (function.getTSFunction().getId().equals(parent.getId())){
+					if(!function.hasSubFunction(map)){
+						menuString.append(getLeafOfFineuiTree(function,map));
+					}else{
+						menuString.append(getLeafOfFineuiTree(function,map));
+
+					}
+				}
+			}
+			return menuString.toString();
+		}
+		
+		private static String getLeafOfFineuiTree(TSFunction function,Map<Integer, List<TSFunction>> map) {
+			StringBuffer menuString = new StringBuffer();
+			String icon = "folder";
+			if (function.getTSIcon() != null) {
+				icon = ResourceUtil.allTSIcons.get(function.getTSIcon().getId()).getIconClas();
+			}
+			//addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?home'});
+			String name = getMutiLang(function.getFunctionName()) ;
+			menuString.append("<li> <a class=\"F_menuItem\" href=\"").append(function.getFunctionUrl()).append("\">");
+			if(!function.hasSubFunction(map)){
+				if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+					menuString.append("<i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+				}
+				menuString.append("<span>");
+				menuString.append(name);
+				menuString.append("</span>");
+				menuString.append("</a>");
+				menuString.append("</li>");
+			}else {
+				if(function.getFunctionIconStyle()!=null&&!function.getFunctionIconStyle().trim().equals("")){
+					menuString.append("<i class=\"fa "+function.getFunctionIconStyle()+"\"></i>");
+				}else{
+					menuString.append("<i class=\"fa fa-columns\"></i>");
+				}
+				menuString.append("<span>");
+				menuString.append(name);
+				menuString.append("</span>");
+				menuString.append("<i class=\"icon-font icon-right\"></i>");
+				menuString.append("</a>");
+				menuString.append("<ul class=\"menu-item-child\" >");
+				menuString.append(getFineuiSubMenu(function,2,map));
+				menuString.append("</ul></li>");
+			}
+			return menuString.toString();
+		}
+
 }

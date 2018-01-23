@@ -27,6 +27,8 @@ import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.ListtoMenu;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.NumberComparator;
+import org.jeecgframework.core.util.PasswordUtil;
+import org.jeecgframework.core.util.PropertiesUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -34,6 +36,7 @@ import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSPasswordResetkey;
 import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
@@ -41,6 +44,7 @@ import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
+import org.jeecgframework.web.system.sms.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,7 +53,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.baomidou.kisso.SSOConfig;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.SSOToken;
 import com.baomidou.kisso.common.util.HttpUtil;
@@ -79,6 +82,147 @@ public class LoginController extends BaseController{
 	public void setUserService(UserService userService) {
 
 		this.userService = userService;
+	}
+
+	/**
+	 * 跳转到密码重置界面
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping(params = "goResetPwd")
+	public ModelAndView goResetPwd(String key){
+		return new ModelAndView("login/resetPwd")
+				.addObject("key", key);
+	}
+	
+	/**
+	 * 密码重置
+	 * @param key
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(params = "resetPwd")
+	@ResponseBody
+	public AjaxJson resetPwd(String key,String password){
+		AjaxJson ajaxJson = new AjaxJson();
+		TSPasswordResetkey passwordResetkey = systemService.get(TSPasswordResetkey.class, key);
+		Date now = new Date();
+		if(passwordResetkey != null && passwordResetkey.getIsReset() != 1 && (now.getTime() - passwordResetkey.getCreateDate().getTime()) < 1000*60*60*3){
+			TSUser user = systemService.findUniqueByProperty(TSUser.class, "userName", passwordResetkey.getUsername());
+			user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
+			systemService.updateEntitie(user);
+			passwordResetkey.setIsReset(1);
+			systemService.updateEntitie(passwordResetkey);
+			ajaxJson.setMsg("密码重置成功");
+		}else{
+			ajaxJson.setSuccess(false);
+			ajaxJson.setMsg("无效重置密码KEY");
+		}
+		
+		return ajaxJson;
+	}
+	
+	/**
+	 * 跳转到密码重置填写邮箱界面
+	 * @return
+	 */
+	@RequestMapping(params="goResetPwdMail")
+	public ModelAndView goResetPwdMail(){
+		return new ModelAndView("login/goResetPwdMail");
+	}
+	
+	/**
+	 * 发送重置密码邮件
+	 * @return
+	 */
+	@RequestMapping(params="sendResetPwdMail")
+	@ResponseBody
+	public AjaxJson sendResetPwdMail(String email,HttpServletRequest request){
+		AjaxJson ajaxJson = new AjaxJson();
+		try {
+			
+			if(StringUtils.isEmpty(email)){
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("邮件地址不能为空");
+				return ajaxJson;
+			}
+			TSUser user = systemService.findUniqueByProperty(TSUser.class, "email", email);
+			if(user == null){
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("用户名对应的用户信息不存在");
+				return ajaxJson;
+			}
+			
+			//保存重置密码数据信息
+			String hql = "from TSPasswordResetkey bean where bean.username = '" + user.getUserName() + "' and bean.isReset = 0 order by bean.createDate desc limit 1";
+			List<TSPasswordResetkey> resetKeyList = systemService.findHql(hql);
+			if(resetKeyList != null && !resetKeyList.isEmpty()){
+				TSPasswordResetkey resetKey = resetKeyList.get(0);
+				Date now = new Date();
+				if(resetKey.getEmail().equals(email) && (now.getTime() - resetKey.getCreateDate().getTime()) < (1000*60*60*3 - 1000*60*5)){
+					ajaxJson.setSuccess(false);
+					ajaxJson.setMsg("已发送重置密码邮件，请稍候再次尝试发送");
+					return ajaxJson;
+					
+				}
+			}
+			
+			TSPasswordResetkey passwordResetKey = new TSPasswordResetkey();
+			passwordResetKey.setEmail(email);
+			passwordResetKey.setUsername(user.getUserName());
+			passwordResetKey.setCreateDate(new Date());
+			passwordResetKey.setIsReset(0);
+			userService.save(passwordResetKey);
+			
+			
+			PropertiesUtil util = new PropertiesUtil("sysConfig.properties");
+			StringBuffer contentBuffer = new StringBuffer();
+			contentBuffer.append("<div id=\"contentDiv\" onmouseover=\"getTop().stopPropagation(event);\" onclick=\"getTop().preSwapLink(event, 'spam', 'ZC4218-CzCkK82QMqgXIghRxZ93S79');\"");
+			contentBuffer.append("style=\"position:relative;font-size:14px;height:auto;padding:15px 15px 10px 15px;z-index:1;zoom:1;line-height:1.7;\" class=\"body\">");
+			contentBuffer.append("<div id=\"qm_con_body\"><div id=\"mailContentContainer\" class=\"qmbox qm_con_body_content qqmail_webmail_only\" style=\"\">");
+			contentBuffer.append("<table style=\"margin: 25px auto;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"648\" align=\"center\">");
+			String title = util.readProperty("resetpwd.mail.title");
+			contentBuffer.append("<tbody><tr><td style=\"color:#40AA53;\"><h1 style=\"margin-bottom:10px;\">"+title +"</h1></td></tr>");
+			contentBuffer.append("<tr><td style=\"border-left: 1px solid #D1FFD1; padding: 20px 20px 0px; background: none repeat scroll 0% 0% #ffffff; border-top: 5px solid #40AA53; border-right: 1px solid #D1FFD1;\">");
+			contentBuffer.append("<p>你好 </p></td></tr>");
+			contentBuffer.append("<tr><td style=\"border-left: 1px solid #D1FFD1; padding: 0px 45px 0px; background: none repeat scroll 0% 0% #ffffff; border-right: 1px solid #D1FFD1;\">");
+			String content = util.readProperty("resetpwd.mail.content");
+			if(content.indexOf("${username}") > -1){
+				content = content.replace("${username}", user.getUserName());
+			}
+			contentBuffer.append("<p>"+content+"</p></td></tr>");
+			contentBuffer.append("<tr><td style=\"border-left: 1px solid #D1FFD1; padding: 10px 20px; background: none repeat scroll 0% 0% #ffffff; border-right: 1px solid #D1FFD1;\">");
+			contentBuffer.append("<p style=\"font-weight:bold\">请点击下面链接进行密码重置：<br><br>");
+			String url = request.getScheme() + "://" + request.getServerName()+ ":" + request.getServerPort() + request.getContextPath() +"/loginController.do?goResetPwd&key=" + passwordResetKey.getId();
+			contentBuffer.append("<a href=\"" + url + "\" target=\"_blank\">");
+			contentBuffer.append(url);
+			contentBuffer.append("</a></p></td></tr>");
+			contentBuffer.append("<tr><td style=\"border-bottom: 1px solid #D1FFD1; border-left: 1px solid #D1FFD1; padding: 0px 20px 20px; background: none repeat scroll 0% 0% #ffffff; border-right: 1px solid #D1FFD1;\">");
+			contentBuffer.append("<hr style=\"color:#ccc;\">");
+			String commentUrl = "http://www.jeecg.org";
+			contentBuffer.append("<p style=\"color:#060;font-size:9pt;\">想了解更多信息，请访问 <a href=\""+commentUrl+"\" target=\"_blank\">"+commentUrl+"</a></p>");
+			contentBuffer.append("</td></tr></tbody></table>");
+			contentBuffer.append("<br><br><div style=\"width:1px;height:0px;overflow:hidden\"><img style=\"width:0;height:0\" src=\"javascript:;\"></div>");
+			contentBuffer.append("<style type=\"text/css\">.qmbox style, .qmbox script, .qmbox head, .qmbox link, .qmbox meta {display: none !important;}</style></div></div><!-- --><style>#mailContentContainer .txt {height:auto;}</style> ");
+			MailUtil.sendEmail(util.readProperty("mail.smtpHost"), email,"邮箱重置密码", 
+					contentBuffer.toString(), util.readProperty("mail.sender"), 
+					util.readProperty("mail.user"), util.readProperty("mail.pwd"));
+			ajaxJson.setMsg("成功发送密码重置邮件");
+
+			
+		} catch (Exception e) {
+			if("javax.mail.AuthenticationFailedException".equals(e.getClass().getName())){
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("发送邮件失败：邮箱账号信息设置错误" );
+				log.error("重置密码发送邮件失败：邮箱账号信息设置错误",e);
+			}else{
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("发送邮件失败：" + e.getMessage());
+				log.error("发送邮件失败：" + e.getMessage(),e);
+			}
+				
+		}
+		return ajaxJson;
 	}
 
 	@RequestMapping(params = "goPwdInit")
@@ -127,9 +271,12 @@ public class LoginController extends BaseController{
 			//用户登录验证逻辑
 			TSUser u = userService.checkUserExits(user);
 			if (u == null) {
-				j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
-				j.setSuccess(false);
-				return j;
+				u = userService.findUniqueByProperty(TSUser.class, "email", user.getUserName());
+				if(u == null || u.getPassword().equals(PasswordUtil.encrypt(u.getUserName(), u.getPassword(), PasswordUtil.getStaticSalt()))){
+					j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
+					j.setSuccess(false);
+					return j;
+				}
 			}
 			if (u != null && u.getStatus() != 0) {
 				// 处理用户有多个组织机构的情况，以弹出框的形式让用户选择
@@ -178,6 +325,9 @@ public class LoginController extends BaseController{
 		Map<String, Object> attrMap = new HashMap<String, Object>();
 		String orgId = req.getParameter("orgId");
 		TSUser u = userService.checkUserExits(user);
+		if(u == null){
+			u = userService.findUniqueByProperty(TSUser.class, "email", user.getUserName());
+		}
 		if (oConvertUtils.isNotEmpty(orgId)) {
 			attrMap.put("orgNum", 1);
 			saveLoginSuccessInfo(req, u, orgId);
@@ -265,7 +415,7 @@ public class LoginController extends BaseController{
 
 			
 			SysThemesEnum sysTheme = SysThemesUtil.getSysTheme(request);
-			if("ace".equals(sysTheme.getStyle())||"diy".equals(sysTheme.getStyle())||"acele".equals(sysTheme.getStyle())||"hplus".equals(sysTheme.getStyle())){
+			if("fineui".equals(sysTheme.getStyle())|| "ace".equals(sysTheme.getStyle())||"diy".equals(sysTheme.getStyle())||"acele".equals(sysTheme.getStyle())||"hplus".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", getFunctionMap(user));
 			}
 
@@ -391,6 +541,12 @@ public class LoginController extends BaseController{
 				// 菜单栏排序
 				Collection<List<TSFunction>> c = functionMap.values();
 				for (List<TSFunction> list : c) {
+
+					for (TSFunction function : list) {
+						//如果有子级菜单 则地址设为空
+						if(function.hasSubFunction(functionMap))function.setFunctionUrl("");
+					}
+
 					Collections.sort(list, new NumberComparator());
 				}
 			}
@@ -538,6 +694,17 @@ public class LoginController extends BaseController{
 
 		return new ModelAndView("main/hplushome");
 	}
+
+	/**
+	 * fineUI首页跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "fineuiHome")
+	public ModelAndView fineuiHome(HttpServletRequest request) {
+		return new ModelAndView("main/fineui_home");
+	}
+
 	/**
 	 * 无权限页面提示跳转
 	 * 

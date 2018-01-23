@@ -3083,8 +3083,8 @@ fieldset[disabled] a.btn {
 }
 .btn-default:hover {
   color: #333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
+  background-color: #f7f5f5;
+  border-color: #76B4AC;
 }
 .btn-default:active,
 .btn-default.active,
@@ -3516,7 +3516,6 @@ fieldset[disabled] .btn-link:focus {
   padding: 4px 6px;
   /*font-size: 12px; 图标大一些 scott*/
   line-height: 1.5;
-  border-radius: 3px;
 }
 /* update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 -------------------- */	
 

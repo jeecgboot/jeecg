@@ -47,7 +47,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.1
+            <b>当前版本：</b>v_3.7.2
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -135,10 +135,78 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.7.1</a><code class="pull-right">2017.09.20</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v51">v3.7.2</a><code class="pull-right">2018.01.25</code>
                                     </h5>
                                 </div>
-                                <div id="v50" class="panel-collapse collapse in">
+                                <div id="v51" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本为接口开发版，采用jwt token统一验证机制，集成swagger-ui，代码生成器自动生成所需接口；另外此版本UI样式进行刮骨疗法深度优化，极大提升UI美感！</div>
+                                        <ol>
+											<li>【新功能】restful接口统一采用jwt token机制登录验证机制，方便客户端对接;</li>
+											<li>【新功能】接口权限管理，针对restful接口可细化权限控制，实现不同接口人查询不同数据;</li>
+											<li>【新功能】集成swagger支持，在线可视化接口文档;</li>
+                                        	<li>【新功能】WebUploaderTag的通用上传请求，支持ftpclient模式</li>
+											<li>【新功能】代码生成器模板修改，追加swagger-ui注解，自动生成;</li>
+											<li>【新功能】新增首页风格，参考fineUI首页 ;</li>
+											<li>【新功能】默认首页支持配置;</li>
+											<li>【新功能】Online在线风格，新增主子表风格：列表数据点击，可展开显示子表数据;</li>
+											<li>【新功能】高级组合查询功能，在线配置支持主子表关联查询，可保存查询历史;</li>
+											<li>【新功能】代码生成器新增模板，一对多新模板，全tab风格，表单字段分块布局;</li>
+											<li>【新功能】列表支持按列字段条件筛选;</li>
+											<li>【新功能】字典增加一个刷新缓存功能;</li>
+											<li>【新功能】Online功能，字段支持 唯一校验;</li>
+											<li>【新功能】Online功能，字段支持配置填值规则字段，例如：编码自动生成;</li>
+											<li>【新功能】组织机构导入新功能，模板新规则下载;</li>
+											<li>【新功能】组织机构管理新菜单，支持岗位设置、职务设置、组织机构人员管理 ;</li>
+											<li>【新功能】minidao升级版本号，支持主键自增策略;</li>
+                                        	<li>【UI美化】h+风格，列表样式优化，字体灰色改成黑色、列表上下宽度缩小，列表标题靠左</li>
+											<li>【UI美化】列表排序图标、列表分行样式</li>
+											<li>【UI美化】查询条件样式优化;</li>
+											<li>【UI美化】Checkbox 选中样式优化;</li>
+											<li>【UI美化】列表上方按钮样式修改、按钮与表格缝隙大小调整;</li>
+											<li>【UI美化】非DIV表单，label宽一些;</li>
+											<li>【UI美化】Online模板 默认图片高宽修改;</li>
+                                        	<li>【功能升级】列表支持多条件动态组合查询功能;</li>
+											<li>【功能升级】支持二级管理员，权限细化管理;</li>
+											<li>【功能升级】增加redis支持;</li>
+											<li>【功能升级】Redis单元测试类;</li>
+											<li>【功能升级】Restreful接口单元测试类;</li>
+											<li>【功能升级】密码找回功能;</li>
+											<li>【功能升级】代码生成器支持resutful接口生成（模板改造）;</li>
+											<li>【功能升级】online功能，系统表安全机制加强;</li>
+											<li>【功能升级】数据权限新增SQL片段，支持解析表达式 ;</li>
+											<li>【功能升级】多数据源改造，支持唯一db链接，提供连接关闭方法 ;</li>
+											<li>【功能升级】高级查询，支持popup模式 ;</li>
+											<li>【bug】online和代码生成器 一对多调用js错误,改成popupClick支持返回多个字段;</li>
+											<li>【bug】online代码生成器，支持字典字段驼峰转换;</li>
+											<li>【bug】定时任务BUG修改;</li>
+											<li>【bug】标签国际化异常处理;</li>
+											<li>【bug】用户管理导出功能错误处理;</li>
+											<li>【bug】定时任务实例化方式改造，引用不到spring容器的对象处理;</li>
+											<li>【bug】 Online 一对多导入失败处理;</li>
+											<li>【bug】代码生成器bug处理， popup参数配置，不应该生成excel字典注解，不然点击导出报错;</li>
+											<li>【bug】通用移动模板002问题处理;</li>
+											<li>【bug】在Sqlserver2008下Online功能同步问题处理;</li>
+											<li>【bug】online测试功能，查询条件没有翻译问题处理;</li>
+											<li>【bug】Jeecg 用户功能代码事务不严谨，control的逻辑改到service里面;</li>
+											<li>【bug】Online提示建表不能超过100个字段问题处理;</li>
+											<li>【demo】列表标签列 formatterjs 例子;</li>
+											<li>【demo】做个demo，一个页面有多个 datagrid 叠在一起;</li>
+											<li>【demo】一对多的效果demo，上下布局主子表效果;</li>
+											<li>【demo】ace风格一对多样式改造，参考fineui紧凑样式;</li>
+											<li>【demo】Select2 示例;</li>
+											<li>【demo】DEMO示例，自定义查询示例效果</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v50">v3.7.1</a><code class="pull-right">2017.09.18</code>
+                                    </h5>
+                                </div>
+                                <div id="v50" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本为跨时代精良重构版，简化平台功能，优化系统性能，制作完善文档，公司项目平台最佳选择！</div>
                                         <ol>

@@ -10,12 +10,10 @@
 	<t:dgCol title="激活状态" field="ftlStatus" replace="未激活_0,已激活_1"></t:dgCol>
 	<t:dgCol title="word路径" field="ftlWordUrl"></t:dgCol>
 	<t:dgCol title="操作" field="opt" width="100"></t:dgCol>
-	<!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
 	<t:dgDelOpt title="删除" url="cgformFtlController.do?del&id={id}&formId=${formid}" urlclass="ace_button"  urlfont="fa-trash-o" exp="ftlStatus#eq#0" />
 	<t:dgConfOpt title="激活" url="cgformFtlController.do?active&id={id}&formId=${formid}" urlclass="ace_button"  urlfont="fa-toggle-on" exp="ftlStatus#eq#0" message="确认激活模板"/>
 	<t:dgConfOpt title="取消激活" url="cgformFtlController.do?cancleActive&id={id}&formId=${formid}"  urlclass="ace_button"  urlfont="fa-toggle-off"  exp="ftlStatus#eq#1" message="确认取消激活"/>
 	<t:dgFunOpt funname="ftleditor(id,cgformName)" title="模板编辑" urlclass="ace_button"  urlfont="fa-edit"></t:dgFunOpt>
-	<!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
 	<t:dgToolBar title="Word模板上传" icon="icon-add" url="cgformFtlController.do?addorupdate&cgformId=${formid}" funname="add"></t:dgToolBar>
 </t:datagrid></div>
 </div>

@@ -281,6 +281,9 @@
 									        type:'POST',  
 									        dataType:'JSON',
 									        async:false,  
+									         data:{
+									        	selfCode:'${po.dictField}'
+									        },
 									        success:function(res){
 									            var obj = res; 
 									            $.fn.zTree.init($("#show${po.fieldName?cap_first }Tree"), ${po.fieldName}Setting, obj);  

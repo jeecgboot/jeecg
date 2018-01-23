@@ -2,6 +2,7 @@ package org.jeecgframework.core.common.hibernate.qbc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +101,9 @@ public class CriteriaQuery {
 	public CriteriaQuery(Class<?> c) {
 		this.detachedCriteria = DetachedCriteria.forClass(c);
 		this.map = new HashMap<String, Object>();
-		this.ordermap = new HashMap<String, Object>();
+
+		this.ordermap = new LinkedHashMap<String, Object>();
+
 	}
 
 	public CriteriaQuery(Class<?> c, int curPage, String myAction, String myForm) {
@@ -115,7 +118,9 @@ public class CriteriaQuery {
 		this.curPage = curPage;
 		this.detachedCriteria = DetachedCriteria.forClass(c);
 		this.map = new HashMap<String, Object>();
-		this.ordermap = new HashMap<String, Object>();
+
+		this.ordermap = new LinkedHashMap<String, Object>();
+
 	}
 
 	public CriteriaQuery(Class<?> entityClass, int curPage) {
@@ -136,7 +141,9 @@ public class CriteriaQuery {
 		this.dataGrid=dg;
 		this.pageSize=dg.getRows();
 		this.map = new HashMap<String, Object>();
-		this.ordermap = new HashMap<String, Object>();
+
+		this.ordermap = new LinkedHashMap<String, Object>();
+
 	}
 	public CriteriaQuery(Class entityClass,DataTables dataTables) {
 		this.curPage = dataTables.getDisplayStart();
@@ -149,7 +156,9 @@ public class CriteriaQuery {
 		this.dataTables=dataTables;
 		this.pageSize=dataTables.getDisplayLength();
 		this.map = new HashMap<String, Object>();
-		this.ordermap = new HashMap<String, Object>();
+
+		this.ordermap = new LinkedHashMap<String, Object>();
+
 		addJqCriteria(dataTables);
 	}
 

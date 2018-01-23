@@ -23,7 +23,9 @@ input[type="text"] {
 	background-color: #fff;
     border: 1px solid #D7D7D7;
     border-radius: 3PX;
-    height: 30PX;
+    /*update-begin author:scott date:20171113 for:TASK #2411 【样式】online功能查询条件，input上下间距调整*/
+    height: 26px;
+    /*update-end author:scott date:20171113 for:TASK #2411 【样式】online功能查询条件，input上下间距调整*/
     padding:  0 2px;
     line-height: 14PX;
     font-size: 12px;
@@ -31,7 +33,9 @@ input[type="text"] {
 }
 
 select {
-	padding: 6px 0 6px 5px;
+	/*update-begin author:scott date:20171113 for:TASK #2411 【样式】online功能查询条件，select上下间距调整*/
+	padding: 4.5px;
+	/*update-end author:scott date:20171113 for:TASK #2411 【样式】online功能查询条件，select上下间距调整*/
 }
 
 input {
@@ -870,10 +874,10 @@ a:hover {
 
 /* 内容页 */
 .button ,a.l-btn span.l-btn-left {
-	border: 1px solid #cccccc;
-	/* update-begin--Author:scott  Date:20170714 for：Easyui默认按钮样式优化------------------- */
+	border: 1px solid #ccc;
+	/* update-begin--Author:scott  Date:20170714 for：Easyui默认按钮样式优化-------#21b9bb-------#35A0E8----- */
 	border-radius: 3px;
-	background-color: #eee;
+	background-color: #ffffff;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
 		to(#f2f2f2));
 	background: -moz-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
@@ -882,12 +886,17 @@ a:hover {
 	background: -ms-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f2f2f2));
 	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7,
 		endcolorstr=#f2f2f2, gradientType=0);
+		
 	height: 24px;
-	padding: 1px 1px;
+	/* update-begin--Author:scott  Date:20171113 for：列表上方按钮间距宽一些------------------- */
+	padding: 1px 2px;
+	/* update-end--Author:scott  Date:20171113 for：列表上方按钮间距宽一些------------------ */
 	cursor: pointer;
-	line-height: 24px;
+	/* update-begin--Author:scott  Date:20171113 for：列表上方按钮文字上下文字调整------------------- */
+	line-height: 23px;
+	/* update-begin--Author:scott  Date:20171113 for：列表上方按钮文字上下文字调整------------------- */
 	display: inline-block;
-	color: #8f0911;
+	color: #444;
 	/* update-end--Author:scott  Date:20170714 for：Easyui默认按钮样式优化------------------- */
 	/* margin-right:5px; */
 	white-space:nowrap;
@@ -898,18 +907,19 @@ a.l-btn span.l-btn-left .icon-ok{
 }
 
 .button:hover,a.l-btn:hover span.l-btn-left {
-	border: 1px solid #d1d1d1;
+	border: 1px solid #76B4AC;
 	border-radius: 4px;
-	background-color: #e9e9e9;
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#e9e9e9),
+	background-color: #f7f5f5;
+	
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
 		to(#f2f2f2));
-	background: -moz-gradient(linear, 0 0, 0 100%, from(#e9e9e9),
+	background: -moz-gradient(linear, 0 0, 0 100%, from(#f7f7f7),
 		to(#f2f2f2));
 	background: -o-gradient(linear, 0 0, 0 100%, from(#e9e9e9), to(#f2f2f2));
 	background: -ms-gradient(linear, 0 0, 0 100%, from(#e9e9e9), to(#f2f2f2));
-	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#e9e9e9,
+	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#f7f7f7,
 		endcolorstr=#f2f2f2, gradientType=0);
-	color: #666666;
+	color: #007465;
 	cursor: pointer;
 }
 

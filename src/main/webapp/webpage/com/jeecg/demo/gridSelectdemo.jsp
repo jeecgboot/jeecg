@@ -6,49 +6,26 @@ table.table-list {
  	width: 99.6%;
  	font-size: 12px;
  	margin:5px auto;
- 	border:1px solid #e5e5e5;
+ 	border-collapse:collapse;
 }
-table.table-list thead {
-}
-
-table.table-list thead > tr > td{
-	text-align: left;
-	padding-left: 5px;
-	
-}
-table.table-list  tr {
-	height: 32px;
-}
-table.table-list thead th {
+table.table-list th {
 	background: #FDFDFF;
 	height: 32px;
 	text-align: center;
-	background-color: #e5e5e5
-}
-table.table-list tr > th {
-	background-color: #FBFCFF;
-	padding: 0px 5px;
-	text-align: center;
-	color: #282831;
-	font-weight: bold;
-	font-size:12px;
-	border:1px solid #e5e5e5;
 }
 table.table-list td {
 	font-weight: normal;
 	padding: 5px 5px;
-	border:1px solid #e5e5e5;
 }
 
 </style>
 <div class="easyui-layout" style="width:700px;height:400px;">
 <div data-options="region:'east',split:true" title="用户选择" style="width:200px;">
-        	<table class="table-list" cellspacing="0" id="table1">
+        	<table class="table-list" border="1" bordercolor="#e5e5e5" id="table1">
 				<thead>
 					<tr>
 						<th>姓名</th>
-						<th>操作 <a href="javascript:javaScript:void(0)"
-							ng-click="clear()" class="btn btn-sm fa fa-close" onclick="deleteAll()"></a></th>
+						<th>操作 <a href="javascript:javaScript:void(0)" ng-click="clear()" class="btn btn-sm fa fa-close" onclick="deleteAll()"></a></th>
 					</tr>
 				</thead>
 				<tbody>

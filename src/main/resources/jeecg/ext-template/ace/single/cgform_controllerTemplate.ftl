@@ -71,7 +71,19 @@ import javax.validation.Validator;
 import java.net.URI;
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.jeecgframework.jwt.util.GsonUtil;
+import org.jeecgframework.jwt.util.ResponseMessage;
+import org.jeecgframework.jwt.util.Result;
+import com.alibaba.fastjson.JSONArray;
 <#-- restful 通用方法生成 -->
+
+<#-- swagger api  start -->
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+<#-- swagger api end -->
 
 <#-- 列为文件类型的文件代码生成 -->
 <#assign fileFlag = false />
@@ -97,6 +109,9 @@ import java.util.HashMap;
  */
 @Controller
 @RequestMapping("/${entityName?uncap_first}Controller")
+<#-- update--begin--author:zhangjiaqiang date:20171031 for:API 注解 start -->
+@Api(value="${entityName}",description="${ftl_description}",tags="${entityName?uncap_first}Controller")
+<#-- update--end--author:zhangjiaqiang date:20171031 for:API 注解 start -->
 public class ${entityName}Controller extends BaseController {
 	/**
 	 * Logger for this class
@@ -479,31 +494,41 @@ public class ${entityName}Controller extends BaseController {
 	</#if>
 	<#-- 列为文件类型的文件代码生成 -->
 	
+	<#-- update--begin--author:zhangjiaqiang date:20171113 for:TASK #2415 【restful接口模板】模板再次改造，封装了通用了返回结果，加了必要校验 -->
 	<#-- restful 通用方法生成 -->
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public List<${entityName}Entity> list() {
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	@ApiOperation(value="${ftl_description}列表信息",produces="application/json",httpMethod="GET")
+	<#-- update--end--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	public ResponseMessage<List<${entityName}Entity>> list() {
 		List<${entityName}Entity> list${entityName}s=${entityName?uncap_first}Service.getList(${entityName}Entity.class);
-		return list${entityName}s;
+		return Result.success(list${entityName}s);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> get(@PathVariable("id") String id) {
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	@ApiOperation(value="根据ID获取${ftl_description}信息",notes="根据ID获取${ftl_description}信息",httpMethod="GET",produces="application/json")
+	<#-- update--end--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	public ResponseMessage<?> get(@ApiParam(required=true,name="id",value="ID")@PathVariable("id") String id) {
 		${entityName}Entity task = ${entityName?uncap_first}Service.get(${entityName}Entity.class, id);
 		if (task == null) {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
+			return Result.error("根据ID获取${ftl_description}信息为空");
 		}
-		return new ResponseEntity(task, HttpStatus.OK);
+		return Result.success(task);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> create(@RequestBody ${entityName}Entity ${entityName?uncap_first}, UriComponentsBuilder uriBuilder) {
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	@ApiOperation(value="创建${ftl_description}")
+	public ResponseMessage<?> create(@ApiParam(name="${ftl_description}对象")@RequestBody ${entityName}Entity ${entityName?uncap_first}, UriComponentsBuilder uriBuilder) {
+		<#-- update--end--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<${entityName}Entity>> failures = validator.validate(${entityName?uncap_first});
 		if (!failures.isEmpty()) {
-			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+			return Result.error(JSONArray.toJSONString(BeanValidators.extractPropertyAndMessage(failures)));
 		}
 
 		//保存
@@ -511,23 +536,21 @@ public class ${entityName}Controller extends BaseController {
 			${entityName?uncap_first}Service.save(${entityName?uncap_first});
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return Result.error("${ftl_description}信息保存失败");
 		}
-		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
-		String id = ${entityName?uncap_first}.getId();
-		URI uri = uriBuilder.path("/rest/${entityName?uncap_first}Controller/" + id).build().toUri();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(uri);
-
-		return new ResponseEntity(headers, HttpStatus.CREATED);
+		return Result.success(${entityName?uncap_first});
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> update(@RequestBody ${entityName}Entity ${entityName?uncap_first}) {
+	@ResponseBody
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	@ApiOperation(value="更新${ftl_description}",notes="更新${ftl_description}")
+	<#-- update--end--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	public ResponseMessage<?> update(@ApiParam(name="${ftl_description}对象")@RequestBody ${entityName}Entity ${entityName?uncap_first}) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<${entityName}Entity>> failures = validator.validate(${entityName?uncap_first});
 		if (!failures.isEmpty()) {
-			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+			return Result.error(JSONArray.toJSONString(BeanValidators.extractPropertyAndMessage(failures)));
 		}
 
 		//保存
@@ -535,17 +558,33 @@ public class ${entityName}Controller extends BaseController {
 			${entityName?uncap_first}Service.saveOrUpdate(${entityName?uncap_first});
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return Result.error("更新${ftl_description}信息失败");
 		}
 
 		//按Restful约定，返回204状态码, 无内容. 也可以返回200状态码.
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return Result.success("更新${ftl_description}信息成功");
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
-		${entityName?uncap_first}Service.deleteEntityById(${entityName}Entity.class, id);
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	@ApiOperation(value="删除${ftl_description}")
+	<#-- update--begin--author:zhangjiaqiang date:20171031 for:TASK #2397 【新功能】代码生成器模板修改，追加swagger-ui注解 -->
+	public ResponseMessage<?> delete(@ApiParam(name="id",value="ID",required=true)@PathVariable("id") String id) {
+		logger.info("delete[{}]" + id);
+		// 验证
+		if (StringUtils.isEmpty(id)) {
+			return Result.error("ID不能为空");
+		}
+		try {
+			${entityName?uncap_first}Service.deleteEntityById(${entityName}Entity.class, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.error("${ftl_description}删除失败");
+		}
+
+		return Result.success();
 	}
 	<#-- restful 通用方法生成 -->
+	<#-- update--end--author:zhangjiaqiang date:20171113 for:TASK #2415 【restful接口模板】模板再次改造，封装了通用了返回结果，加了必要校验 -->
 }

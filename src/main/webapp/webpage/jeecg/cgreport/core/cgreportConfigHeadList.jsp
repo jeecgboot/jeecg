@@ -4,7 +4,7 @@
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding:0px;border:0px">
 <t:datagrid fitColumns="true" checkbox="true" name="cgreportConfigHeadList" title="dynamic.table.head" 
-            actionUrl="cgreportConfigHeadController.do?datagrid" idField="id" fit="true" queryMode="group" sortName="createDate" sortOrder="desc">
+            actionUrl="cgreportConfigHeadController.do?datagrid" idField="id" fit="true" queryMode="group" sortName="createDate" sortOrder="desc" superQuery="true">
 	<t:dgCol title="" field="id" hidden="true" queryMode="single" width="120" ></t:dgCol>
 	<t:dgCol title="报表名称" field="name" query="true" queryMode="single" width="120"></t:dgCol>
 	<t:dgCol title="common.code" field="code" query="true" queryMode="single" width="120"></t:dgCol>
@@ -45,3 +45,7 @@
 		  addOneTab(content, "cgReportController.do?list&id="+tableName);
 	}
  </script>
+ 
+<div id="menu" class="easyui-menu" style="width: 30px; display: none;">  
+	<div id="btn_More" data-options="iconCls:'icon-remove'" onclick="MoreInfo()">更多</div>        
+</div>

@@ -134,19 +134,13 @@
 						</label>
 					</td>
 					<td class="value">
-						<!-- update-begin--Author:xuelin  Date:20170329 for：[#1821]【bug】多数据源管理，密码采用加密方式存储，加密解密总报错-------------------- -->
 						<input type="password" class="inputxt" id="dbPassword" name="dbPassword" ignore="ignore"
 							   value="${showDbPassword}">
-						<!-- update-end--Author:xuelin  Date:20170329 for：[#1821]【bug】多数据源管理，密码采用加密方式存储，加密解密总报错---------------------- -->
 						<span class="Validform_checktip"></span>
-						<!-- //---update-begin------author:chenj-----date:20160801----for:TASK #1246 【改进】多数据源增加测试有效功能 -->
 						<a href="#"  id="dbtest" >
 						[<label class="Validform_label">测试</label>]
 						</a>
 						<span class="Validform_checktip"  id="dbmsg"></span>
-						
-						
-						<!-- //---update-end------author:chenj-----date:20160801----for:TASK #1246 【改进】多数据源增加测试有效功能 -->
 					</td>
 					
 				</tr>

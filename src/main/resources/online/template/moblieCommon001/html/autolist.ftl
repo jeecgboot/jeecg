@@ -438,9 +438,14 @@ function createDataGrid${config_id}(){
 <form name="searchColumsForm" id="searchColumsForm" onkeydown="EnterPress(event);">
 <#--update--end--author:zhangjiaqiang Date:20170507 for:修订页面回车查询异常 -->
 <#if config_querymode == "group">
+<#--update--begin--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
+<span style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
+<#--update--end--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
 	<#list config_queryList  as x>
 		<#if x['field_isQuery']=="Y">
-		<span style="display:-moz-inline-box;display:inline-block;">
+		<#--update--begin--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
+		<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
+		<#--update--end--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
 		<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 100px;text-align:right;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" title="${x['field_title']}">${x['field_title']}：</span>
 		</#if>
 		<#if x['field_queryMode']=="group">
@@ -457,7 +462,7 @@ function createDataGrid${config_id}(){
 			<#if x['field_isQuery']=="Y">
 				<#if  (x['field_dictlist']?size >0)>
 					<select name = "${x['field_id']}"  style="width: 104px">
-					<option value = "">---请选择---</option>
+					<option value = "">-- 请选择 --</option>
 					<#list x['field_dictlist']  as xd>
 						<option value = "${xd['typecode']}">${xd['typename']}</option>
 					</#list>
@@ -478,6 +483,17 @@ function createDataGrid${config_id}(){
 		</#if>
 		</span>	
 	</#list>
+	<#--update--begin--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
+	</span>
+	<#if  (config_queryList?size >0)>
+	<#if config_querymode == "group" >
+		<span style="float:right">
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="${config_id}Listsearch()">查询</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" onclick="${config_id}searchReset('${config_id}List')">重置</a>
+		</span>
+	</#if>
+	</#if>
+	<#--update--end--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
 </#if>
 </form>
 	</div>
@@ -504,12 +520,6 @@ function createDataGrid${config_id}(){
 	</span>
 	
 <#if  (config_queryList?size >0)>
-	<#if config_querymode == "group" >
-		<span style="float:right">
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="${config_id}Listsearch()">查询</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" onclick="${config_id}searchReset('${config_id}List')">重置</a>
-		</span>
-	</#if>
 	<#if config_querymode == "single">
 		<span style="float:right">
 		<input id="${config_id}Listsearchbox" class="easyui-searchbox"  data-options="searcher:${config_id}Listsearchbox,prompt:'请输入关键字',menu:'#${config_id}Listmm'"></input>

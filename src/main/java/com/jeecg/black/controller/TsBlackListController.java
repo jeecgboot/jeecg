@@ -1,69 +1,58 @@
 package com.jeecg.black.controller;
-import com.jeecg.black.entity.TsBlackListEntity;
-import com.jeecg.black.service.TsBlackListServiceI;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.jeecgframework.core.beanvalidator.BeanValidators;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.common.TreeChildCount;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.MyBeanUtils;
-
-import java.io.OutputStream;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.poi.excel.ExcelExportUtil;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.jwt.util.GsonUtil;
+import org.jeecgframework.jwt.util.ResponseMessage;
+import org.jeecgframework.jwt.util.Result;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jeecgframework.core.util.ResourceUtil;
-import java.io.IOException;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import java.util.Map;
-import java.util.HashMap;
-import org.jeecgframework.core.util.ExceptionUtil;
-
-import org.springframework.http.ResponseEntity;
+import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.web.system.enums.InterfaceEnum;
+import org.jeecgframework.web.system.pojo.base.InterfaceRuleDto;
+import org.jeecgframework.web.system.service.SystemService;
+import org.jeecgframework.web.system.util.InterfaceUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.jeecgframework.core.beanvalidator.BeanValidators;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import java.net.URI;
-import org.springframework.http.MediaType;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.jeecg.black.entity.TsBlackListEntity;
+import com.jeecg.black.service.TsBlackListServiceI;
 
 /**   
  * @Title: Controller  
@@ -75,6 +64,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @Controller
 @RequestMapping("/tsBlackListController")
+@Api(value = "测试用黑名单服务", description = "测试用黑名单服务接口", tags = "sysBlackAPI")
 public class TsBlackListController extends BaseController {
 	/**
 	 * Logger for this class
@@ -336,71 +326,117 @@ public class TsBlackListController extends BaseController {
 		return j;
 	}
 	
+	
+	@ApiOperation(value = "黑名单列表数据", produces = "application/json", httpMethod = "GET")
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public List<TsBlackListEntity> list() {
-		List<TsBlackListEntity> listTsBlackLists=tsBlackListService.getList(TsBlackListEntity.class);
-		return listTsBlackLists;
+	public ResponseMessage<List<TsBlackListEntity>> list(HttpServletRequest request, HttpServletResponse response) {
+		InterfaceRuleDto interfaceRuleDto = InterfaceUtil.getInterfaceRuleDto(request, InterfaceEnum.blacklist_list);
+		if(interfaceRuleDto==null){
+			return Result.error("您没有该接口的权限！");
+		}
+		CriteriaQuery query=new CriteriaQuery(TsBlackListEntity.class);
+		InterfaceUtil.installCriteriaQuery(query, interfaceRuleDto, InterfaceEnum.blacklist_list);
+		query.add();
+		List<TsBlackListEntity> listTsBlackLists = this.tsBlackListService.getListByCriteriaQuery(query, false);
+		return Result.success(listTsBlackLists);
 	}
-	
+
+	@ApiOperation(value = "根据ID获取黑名单信息", notes = "根据ID获取黑名单信息", httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> get(@PathVariable("id") String id) {
-		TsBlackListEntity task = tsBlackListService.get(TsBlackListEntity.class, id);
-		if (task == null) {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
+	public ResponseMessage<?> get(@PathVariable("id") String id,HttpServletRequest request) {
+		InterfaceRuleDto interfaceRuleDto = InterfaceUtil.getInterfaceRuleDto(request, InterfaceEnum.blacklist_get);
+		if(interfaceRuleDto==null){
+			return Result.error("您没有该接口的权限！");
 		}
-		return new ResponseEntity(task, HttpStatus.OK);
+		// 验证
+		if (StringUtils.isEmpty(id)) {
+			return Result.error("ID不能为空");
+		}
+		TsBlackListEntity task = tsBlackListService.get(TsBlackListEntity.class, id);
+		return Result.success(task);
 	}
 
+	@ApiOperation(value = "创建黑名单")
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> create(@RequestBody TsBlackListEntity tsBlackList, UriComponentsBuilder uriBuilder) {
-		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+	public ResponseMessage<?> create(@RequestBody TsBlackListEntity tsBlackList,HttpServletRequest request) {
+		InterfaceRuleDto interfaceRuleDto = InterfaceUtil.getInterfaceRuleDto(request, InterfaceEnum.blacklist_add);
+		if(interfaceRuleDto==null){
+			return Result.error("您没有该接口的权限！");
+		}
+		logger.info("create[{}]" + GsonUtil.toJson(tsBlackList));
+		//调用JSR303 Bean Validator进行校验，如果出错返回1000错误码及json格式的错误信息.
 		Set<ConstraintViolation<TsBlackListEntity>> failures = validator.validate(tsBlackList);
 		if (!failures.isEmpty()) {
-			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+			return Result.errorValid(BeanValidators.extractPropertyAndMessage(failures));
 		}
-
-		//保存
-		try{
+		
+		// 验证
+//		if (StringUtils.isEmpty(tsBlackList.getIp())) {
+//			return Result.error("IP不能为空");
+//		}
+		// 保存
+		try {
 			tsBlackListService.save(tsBlackList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return Result.error("黑名单保存失败");
 		}
-		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
-		String id = tsBlackList.getId();
-		URI uri = uriBuilder.path("/rest/tsBlackListController/" + id).build().toUri();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(uri);
-
-		return new ResponseEntity(headers, HttpStatus.CREATED);
+		return Result.success(tsBlackList);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> update(@RequestBody TsBlackListEntity tsBlackList) {
-		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
+	@ApiOperation(value = "更新黑名单", notes = "更新黑名单")
+	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseMessage<?> update(@RequestBody TsBlackListEntity tsBlackList,HttpServletRequest request) {
+		InterfaceRuleDto interfaceRuleDto = InterfaceUtil.getInterfaceRuleDto(request, InterfaceEnum.blacklist_edit);
+		if(interfaceRuleDto==null){
+			return Result.error("您没有该接口的权限！");
+		}
+		logger.info("update[{}]" + GsonUtil.toJson(tsBlackList));
+		//调用JSR303 Bean Validator进行校验，如果出错返回1000错误码及json格式的错误信息.
 		Set<ConstraintViolation<TsBlackListEntity>> failures = validator.validate(tsBlackList);
 		if (!failures.isEmpty()) {
-			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
+			return Result.errorValid(BeanValidators.extractPropertyAndMessage(failures));
 		}
 
-		//保存
-		try{
+		// 验证
+		if (StringUtils.isEmpty(tsBlackList.getId())) {
+			return Result.error("ID不能为空");
+		}
+
+		// 更新
+		try {
 			tsBlackListService.saveOrUpdate(tsBlackList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return Result.error("黑名单更新失败");
 		}
-
-		//按Restful约定，返回204状态码, 无内容. 也可以返回200状态码.
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return Result.success(tsBlackList);
 	}
 
+	@ApiOperation(value = "删除黑名单")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
-		tsBlackListService.deleteEntityById(TsBlackListEntity.class, id);
+	@ResponseBody
+	public ResponseMessage<?> delete(@PathVariable("id") String id,HttpServletRequest request) {
+		InterfaceRuleDto interfaceRuleDto = InterfaceUtil.getInterfaceRuleDto(request, InterfaceEnum.blacklist_delete);
+		if(interfaceRuleDto==null){
+			return Result.error("您没有该接口的权限！");
+		}
+		logger.info("delete[{}]" + id);
+		// 验证
+		if (StringUtils.isEmpty(id)) {
+			return Result.error("ID不能为空");
+		}
+		try {
+			tsBlackListService.deleteEntityById(TsBlackListEntity.class, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.error("黑名单删除失败");
+		}
+
+		return Result.success();
 	}
 }

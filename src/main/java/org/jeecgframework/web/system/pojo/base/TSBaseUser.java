@@ -5,7 +5,9 @@ import org.jeecgframework.core.common.entity.IdEntity;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,7 +36,8 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private Short deleteFlag;// 状态: 0:不删除  1：删除
 	
 	private byte[] signature;// 签名文件
-
+	private String userNameEn;//英文名
+	
 	@Excel(name = "组织机构编码(多个组织机构编码用逗号分隔，非必填)",width = 50)
 	private String departid;
 
@@ -157,4 +160,45 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 		return deleteFlag;
 	}
 
+	
+	@Column(name = "user_name_en")
+	public String getUserNameEn() {
+		return userNameEn;
+	}
+	
+	public void setUserNameEn(String userNameEn) {
+		this.userNameEn = userNameEn;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TSBaseUser [userName=");
+		builder.append(userName);
+		builder.append(", realName=");
+		builder.append(realName);
+		builder.append(", browser=");
+		builder.append(browser);
+		builder.append(", userKey=");
+		builder.append(userKey);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", activitiSync=");
+		builder.append(activitiSync);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", deleteFlag=");
+		builder.append(deleteFlag);
+		builder.append(", signature=");
+		builder.append(Arrays.toString(signature));
+		builder.append(", userNameEn=");
+		builder.append(userNameEn);
+		builder.append(", departid=");
+		builder.append(departid);
+		builder.append(", userOrgList=");
+		builder.append(userOrgList);
+		builder.append(", currentDepart=");
+		builder.append(currentDepart);
+		builder.append("]");
+		return builder.toString();
+	}
 }

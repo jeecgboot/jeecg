@@ -6,9 +6,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <html>
 <title></title>
-<!-- update-begin--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.min.js"></script>
-<!-- update-end--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 <link rel="stylesheet" href="<%=basePath %>/plug-in/easyui/themes/icon.css" />
 <style type="text/css">
     body, table {
@@ -50,12 +48,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <tr>
 		        <th style="width:80px; white-space:nowrap">字段名</th>
 		        <th style="white-space:nowrap">版本号[${versionNumber1}]</th>
-		        <!-- update-begin--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 		        <th class="tdClass" style="white-space:nowrap"></th>
-		        <!-- update-end--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 		        <th style="white-space:nowrap">版本号[${versionNumber2}]</th>
 		    </tr>
-		    <!-- update-begin--Author:taoyan  Date:20170321 for:TASK #1674 【样式美化】数据对比功能样式修改  -->
 		    <c:forEach items="${dataLogDiffs }" varStatus="itemStatus" var="item">
 		    	<tr <c:if test="${itemStatus.index%2==0}">class="alter"</c:if> <c:if test="${item.diff=='Y'}">style="background-color: rgba(255, 192, 203, 0.31);color:red;"</c:if>>
 					<td>${item.name }</td>
@@ -64,11 +59,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>${item.value2 }</td>
 				</tr>
 	        </c:forEach>
-	         <!-- update-end--Author:taoyan  Date:20170321 for:TASK #1674 【样式美化】数据对比功能样式修改  -->
 	        
 		</tbody>
 	</table>
-	<!-- update-begin--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 	<script>
 	$(function(){
 		if(navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion .split(";")[1].replace(/[ ]/g,"")=="MSIE8.0") 
@@ -79,5 +72,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	});
 	</script>
-	<!-- update-end--Author:LiShaoQing  Date:20170817 for：[TASK #2282]IE下箭头被遮挡了 -->
 </body>

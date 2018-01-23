@@ -16,13 +16,9 @@
    <t:dgCol title="表单风格名"  field="templateName"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="风格编码"  field="templateCode"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="类型"   field="templateType"   query="true" queryMode="single" replace="单表_1,主子表_2,通用模板_3" width="120"></t:dgCol>
-   <!-- update-begin author:taoYan date:20170727 for:该字段似乎没有用 暂取消作为查询条件 -->
    <t:dgCol title="是否共享" hidden="true"  field="templateShare" query="false" queryMode="single" dictionary="sf_yn" width="120"></t:dgCol>
-   <!-- update-end author:taoYan date:20170727 for:该字段似乎没有用 暂取消作为查询条件 -->
-    <!-- update--begin--author:zhangjiaqiang date:20170305 for:TASK #1749 【新功能】自定义样式表加个字段 【是否激活】 -->
     <t:dgCol title="是否激活"   field="status" replace="有效_1,无效_0"  query="true" queryMode="single"  width="120"></t:dgCol>
- <!-- update--end--author:zhangjiaqiang date:20170305 for:TASK #1749 【新功能】自定义样式表加个字段 【是否激活】 -->
-   <t:dgCol title="预览图"  field="templatePic"   image="true"  imageSize="40,40" queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="预览图"  field="templatePic"   image="true"  imageSize="30,30" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="风格描述"  field="templateComment"   query="true" queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="操作" field="opt" width="100"></t:dgCol>
    <t:dgDelOpt title="删除" url="cgformTemplateController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>

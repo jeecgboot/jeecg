@@ -17,15 +17,12 @@
             <input name="ruleName" class="inputxt" value="${operation.ruleName}" datatype="s2-20" style="width: 280px;"/>
             <span class="Validform_checktip"> <t:mutiLang langKey="operatename.rang2to20"/></span>
         </div>
-       <!-- update-begin-author:taoYan date:20170814 for:编辑页面如果条件规则是自定义sql表达式则隐藏规则字段 -->
       <div class="form" <c:if test="${operation.ruleConditions=='USE_SQL_RULES'}">style="display:none;" </c:if>>
-      <!-- update-end-author:taoYan date:20170814 for:编辑页面如果条件规则是自定义sql表达式则隐藏规则字段 -->
             <label class="Validform_label"> 规则字段: </label>
             <input name="ruleColumn" class="inputxt" value="${operation.ruleColumn}" style="width: 280px;"/>
         </div>
         <div class="form">
             <label class="Validform_label"> 条件规则: </label>
-<!-- update-begin-author:taoYan date:20170811 for:TASK #2166 【数据权限】数据权限规则支持复杂配置 -->
             <t:dictSelect id="ruleConditions" field="ruleConditions" typeGroupCode="rulecon" hasLabel="false" defaultVal="${operation.ruleConditions}"></t:dictSelect>
         </div>
            <input name="TSFunction.id" value="${functionId}" type="hidden">
@@ -46,6 +43,5 @@ $("#ruleConditions").change(function(){
 	}
 });
 </script>
-<!-- update-end-author:taoYan date:20170811 for:TASK #2166 【数据权限】数据权限规则支持复杂配置 -->
 </body>
 </html>

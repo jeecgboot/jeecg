@@ -41,6 +41,42 @@ public class ColumnMeta {
 			        &&isEquals(comment,meta.getComment())&&isEquals(fieldDefault,meta.getFieldDefault());
 			}
 	}
+
+	/**
+	 * 新增对比方法： 针对Sqlserver2008数据库，不对比字段备注和默认值
+	 * 
+	 * @param obj 对象
+	 * @param dataType 数据库类型
+	 * @return
+	 */
+	public boolean equalsByDataType(Object obj,String dataType) {
+		 if (obj == this) {
+	            return true;
+	        }
+	        if (!(obj instanceof ColumnMeta)) {
+	            return false;
+	        }
+	        ColumnMeta meta = (ColumnMeta)obj;
+	        if("SQLSERVER".equals(dataType)){
+	        	  //时间类型不比较长度
+		        if (colunmType.contains("date") || colunmType.contains("blob") || colunmType.contains("text")) {
+		        	  return columnName.equals(meta.getColumnName()) &&isNullable.equals(meta.isNullable);
+				}else {
+					 return colunmType.equals(meta.getColunmType()) && isNullable.equals(meta.isNullable)&&columnSize==meta.getColumnSize();
+				}
+	        }else{
+	            if (colunmType.contains("date") || colunmType.contains("blob") || colunmType.contains("text")) {
+		        	  return columnName.equals(meta.getColumnName())
+		  	        &&isNullable.equals(meta.isNullable)
+		  	        &&isEquals(comment,meta.getComment())&&isEquals(fieldDefault,meta.getFieldDefault());
+				}else {
+					 return colunmType.equals(meta.getColunmType())
+				        &&isNullable.equals(meta.isNullable)&&columnSize==meta.getColumnSize()
+				        &&isEquals(comment,meta.getComment())&&isEquals(fieldDefault,meta.getFieldDefault());
+				}
+	        }
+	}
+
 	
 	public boolean equalsDefault(ColumnMeta meta){
 		if (meta == this) {
@@ -85,11 +121,9 @@ public class ColumnMeta {
 	public String getOldColumnName() {
 		return oldColumnName;
 	}
-	
-	
-	    public int hashCode() {
-	        return columnSize + colunmType.hashCode()*columnName.hashCode();
-	    }
+    public int hashCode() {
+        return columnSize + colunmType.hashCode()*columnName.hashCode();
+    }
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}

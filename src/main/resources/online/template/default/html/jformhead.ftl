@@ -23,7 +23,12 @@
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 							        <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 					               <#if po.field_valid_type?if_exists?html != ''>
-					               datatype="${po.field_valid_type?if_exists?html}"
+					               <#if po.field_valid_type=='only'>
+						       		   validType="${tableName},${po.field_name},id"
+						       		   datatype="*"
+						       		<#else>
+					                   datatype="${po.field_valid_type?if_exists?html}"
+					               </#if>
 					               <#else>
 					               <#if po.type == 'int'>
 					               datatype="n" 
@@ -100,7 +105,7 @@
 				               	 datatype="${po.field_valid_type?if_exists?html}"
 				                <#elseif po.is_null != 'Y'>
 				                 datatype="*"
-				                </#if>
+				                </#if>>
 				                <#-- update--end--author:zhangjiaqiang Date:20170512 for:TASK #1910 【Online 校验】radio\checkbox\select 存在问题，没有根据选择校验规则校验 -->
 									<#list dataList as dictdata> 
 									<option value="${dictdata.typecode?if_exists?html}" 
@@ -149,7 +154,7 @@
 							       <#if po.operationCodesReadOnly?if_exists> 
 							       readonly = "readonly"
 							       <#else>
-							       onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');" 
+							       onClick="popupClick(this,'${po.dict_text?if_exists?html}','${po.dict_field?if_exists?html}','${po.dict_table?if_exists?html}');" 
 							       </#if>
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"

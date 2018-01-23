@@ -1,0 +1,436 @@
+
+/*
+    Main color: #007465
+    Second color: #018574
+    Border color: #76B4AC
+*/
+
+
+/* Content */
+.ui-widget-content {
+    border-color: #ddd;
+    background-color: #fff;
+    color: #444;
+}
+
+    .ui-widget-content a {
+        color: #444;
+    }
+
+/* Header */
+.ui-widget-header {
+    border-color: #ddd;
+    background-color: #fff;
+    color: #444;
+}
+
+    .ui-widget-header a {
+        color: #444;
+    }
+
+    /* States */
+    .ui-state-default,
+    .ui-widget-content .ui-state-default,
+    .ui-widget-header .ui-state-default {
+        border-color: #ddd;
+        background-color: #ffffff;
+        color: #444;
+    }
+
+        .ui-state-default a,
+        .ui-state-default a:link,
+        .ui-state-default a:visited {
+            color: #444;
+        }
+
+    .ui-state-hover,
+    .ui-widget-content .ui-state-hover,
+    .ui-widget-header .ui-state-hover,
+    .ui-state-focus,
+    .ui-widget-content .ui-state-focus,
+    .ui-widget-header .ui-state-focus {
+        border-color: #76B4AC;
+        background-color: #fafafa;
+        color: #007465;
+    }
+
+        .ui-state-hover a,
+        .ui-state-hover a:hover,
+        .ui-state-hover a:link,
+        .ui-state-hover a:visited,
+        .ui-state-focus a,
+        .ui-state-focus a:hover,
+        .ui-state-focus a:link,
+        .ui-state-focus a:visited {
+            color: #007465;
+        }
+
+    .ui-state-active,
+    .ui-widget-content .ui-state-active,
+    .ui-widget-header .ui-state-active {
+        border-color: #76B4AC;
+        background-color: #eee;
+        color: #007465;
+    }
+
+        .ui-state-active a,
+        .ui-state-active a:link,
+        .ui-state-active a:visited {
+            color: #007465;
+        }
+
+
+    .ui-state-highlight,
+    .ui-widget-content .ui-state-highlight,
+    .ui-widget-header .ui-state-highlight {
+        border-color: #BF8A8A;
+        background-color: #fff;
+        color: #000;
+    }
+
+        .ui-state-highlight a,
+        .ui-widget-content .ui-state-highlight a,
+        .ui-widget-header .ui-state-highlight a {
+        }
+
+    .ui-state-error,
+    .ui-widget-content .ui-state-error,
+    .ui-widget-header .ui-state-error {
+        border-color: #ffa8a8;
+        background-color: #fff8f8;
+        color: #000;
+    }
+
+        .ui-state-error a,
+        .ui-widget-content .ui-state-error a,
+        .ui-widget-header .ui-state-error a {
+        }
+
+    .ui-state-error-text,
+    .ui-widget-content .ui-state-error-text,
+    .ui-widget-header .ui-state-error-text {
+        color: #000;
+    }
+
+    .ui-state-disabled,
+    .ui-widget-content .ui-state-disabled,
+    .ui-widget-header .ui-state-disabled {
+        opacity: .5;
+        filter: alpha(opacity=50);
+        background-image: none;
+    }
+
+        .ui-state-disabled .ui-icon {
+            filter: alpha(opacity=50);
+        }
+
+/* Icon font */
+.ui-icon,
+.ui-widget-content .ui-icon {
+    color: #888;
+}
+
+.ui-widget-header .ui-icon {
+    color: #888;
+}
+
+.ui-state-default .ui-icon {
+    color: #888;
+}
+
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon {
+    color: #007465;
+}
+
+.ui-state-active .ui-icon {
+    color: #007465;
+}
+
+.ui-state-highlight .ui-icon {
+    color: #888;
+}
+
+.ui-state-error .ui-icon,
+.ui-state-error-text .ui-icon {
+    color: #ff6c6c;
+}
+
+
+/* Round corner */
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+    border-top-left-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
+    border-top-right-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+    border-bottom-left-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    border-bottom-right-radius: 4px;
+}
+
+
+/* Special - ui-widget-header */
+.ui-widget-header {
+    background-color: #fafafa;
+}
+
+    .ui-widget-header .ui-state-hover,
+    .ui-widget-header .ui-state-focus {
+        background-color: #eee;
+    }
+
+/* CheckBox - RadioButton */
+.f-checkbox.f-checked {
+    background-color: #007465;
+    border-color: #007465;
+}
+
+.f-radiobutton:after {
+    background-color: #007465;
+}
+
+.f-radiobutton.f-checked {
+    border-color: #007465;
+}
+
+.ui-state-focus .f-checkbox,
+.ui-state-focus .f-radiobutton {
+    border-color: #76B4AC;
+}
+
+.f-menu-item-icon.f-menu-radiobutton.f-checked {
+	color: #007465;
+}
+
+/* Special - Remove border-color for hover state */
+.f-tab-header.ui-state-active,
+.f-tab-header.ui-state-hover,
+.f-grid-colheader-trigger.ui-state-hover,
+.f-grid-colheader.ui-state-hover {
+    border-color: #ddd;
+}
+
+
+/* Special - TabStrip */
+.f-tabstrip-plain > .f-panel-body,
+.f-tabstrip-plain > .f-panel-header,
+.f-tabstrip-plain > .f-panel-header .f-panel-tools,
+.f-tabstrip-bordercolor .f-tab-header {
+    border-color: #ddd;
+}
+
+.f-tabstrip-plain > .f-toolbar {
+    border-left-color: #ddd;
+    border-right-color: #ddd;
+}
+
+.f-tabstrip-plain.f-tabstrip-header-top > .f-panel-header .f-tabstrip-scroller,
+.f-tabstrip-plain.f-tabstrip-header-right > .f-panel-header .f-tabstrip-scroller {
+    border-bottom-color: #ddd;
+}
+
+.f-tabstrip-plain.f-tabstrip-header-bottom > .f-panel-header .f-tabstrip-scroller,
+.f-tabstrip-plain.f-tabstrip-header-left > .f-panel-header .f-tabstrip-scroller {
+    border-top-color: #ddd;
+}
+
+.f-tab-header.ui-state-active {
+    background-color: #fff;
+}
+
+
+
+/* Special - Grid selected cell */
+.f-grid-selectedcell-border {
+    border-color: #ddd !important;
+}
+
+
+/* Special - Grid selected row */
+.f-grid-row.ui-state-active {
+}
+
+    .f-grid-row.ui-state-active a,
+    .f-grid-row.ui-state-active a:link,
+    .f-grid-row.ui-state-active a:visited {
+    }
+
+    .f-grid-row.ui-state-active .ui-icon {
+    }
+
+
+/* Special - Tree header style */
+.f-tree-headerstyle .f-panel-body {
+    background-color: #fff;
+}
+
+.f-tree-headerstyle .f-tree-node.ui-widget-header .f-tree-cell-inner,
+.f-tree-minimode-item-inner {
+    border-color: #ddd;
+}
+
+.f-toolbar-buttonplain,
+.f-toolbar-buttonplain .f-buttongroup .f-btn:after {
+    border-color: #ddd !important;
+}
+
+/* Special - Button pressed state */
+.f-btn.ui-state-active {
+    background-color: #007465;
+    color: #fff;
+}
+
+    .f-btn.ui-state-active .ui-icon {
+        color: #fff;
+    }
+
+/* Special - Background color for bgpanel */
+.mainpanel {
+    background-image: url(./rain.jpg);
+    background-size: cover;
+    background-position: center 0px;
+    background-repeat: no-repeat;
+}
+
+    .bgpanel,
+    .bgpanel .ui-widget-header,
+    .bgpanel .ui-widget-content,
+    .bgpanel .f-tree-headerstyle .f-panel-body,
+    .bgpanel .f-tree-node.ui-widget-header .f-tree-cell-inner,
+    .bgpanel .f-tree-minimode-item .f-tree-minimode-item-inner,
+    .mainpanel .f-region-split {
+        background-color: transparent;
+        border-color: transparent;
+        background-image: none;
+    }
+
+        .bgpanel .ui-state-hover,
+        .bgpanel .ui-state-focus,
+        .bgpanel .ui-state-active {
+            background-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .bgpanel .ui-widget-header,
+        .bgpanel .ui-widget-content,
+        .bgpanel a,
+        .bgpanel .ui-icon {
+            color: #fff;
+        }
+
+            .bgpanel a:hover,
+            .bgpanel .ui-state-hover,
+            .bgpanel .ui-state-hover a,
+            .bgpanel .ui-state-hover .ui-icon,
+            .bgpanel .ui-state-focus,
+            .bgpanel .ui-state-focus a,
+            .bgpanel .ui-state-focus .ui-icon,
+            .bgpanel .ui-state-active,
+            .bgpanel .ui-state-active a,
+            .bgpanel .ui-state-active .ui-icon {
+                color: #fff;
+            }
+
+.leftregion,
+.centerregion {
+    border-width: 0;
+}
+
+    /* Special - TabStrip style for center region */
+    .centerregion .f-tabstrip-header .f-tab-header {
+        border-width: 0;
+    }
+
+
+
+    .centerregion .f-tabstrip-header .f-tab-header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+	
+	    .centerregion .f-tabstrip-header .f-tab-header.ui-state-active:after {
+            display: none;
+        }
+
+    .centerregion .f-tabstrip-header .f-tabstrip-header-inkbar {
+        display: block;
+        height: 2px;
+        background-color: #007465;
+    }
+
+
+    .centerregion .f-tabstrip-header .f-tab-header.ui-state-active {
+        background-color: #fafafa;
+    }
+
+    
+
+.f-compactmode .centerregion .f-tabstrip-header .f-tab-header {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.f-largemode .centerregion .f-tabstrip-header .f-tab-header,
+.f-largespacemode .centerregion .f-tabstrip-header .f-tab-header {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.centerregion .f-tabstrip-header .f-tab-header.ui-state-active:after {
+    height: 2px;
+    background-color: #007465;
+}
+
+
+/* Special - MessageBoxIcon */
+.f-messagebox-icon.f-messageicon-information,
+.f-messagebox-icon.f-messageicon-question {
+    color: #007465;
+}
+
+
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+    background-color: #efefef;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, .25);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        background-color: rgba(0, 0, 0, .3);
+    }

@@ -128,7 +128,7 @@ public class DynamicTask {
 		try {
 			String newExpression = task.getCronExpression();		
 			task = timeTaskService.get(TSTimeTaskEntity.class, task.getId());		
-			
+
 			//任务运行中
 			if("1".equals(task.getIsStart())){
 				CronTriggerBean trigger = (CronTriggerBean)schedulerFactory.getTrigger("cron_" + task.getId(), Scheduler.DEFAULT_GROUP);             
@@ -138,13 +138,16 @@ public class DynamicTask {
 			        trigger.setCronExpression(newExpression);  
 			        schedulerFactory.rescheduleJob("cron_" + task.getId(), Scheduler.DEFAULT_GROUP, trigger); 
 			    } 
+			}else{
+				//立即生效
+				startTask(task);
+				task.setIsEffect("1");
+				task.setIsStart("1");
+				timeTaskService.updateEntitie(task);
+				systemService.addLog(("立即生效开启任务")+task.getTaskId(), Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+				logger.info(("立即生效开启任务")+"-------TaskId:"+task.getTaskId()+"-------Describe:"+task.getTaskDescribe()+"-----ClassName:"+task.getClassName() );
 			}
-			
-			//检查数据库中的任务触发规则与新规则是否一致
-			if (!task.getCronExpression().equalsIgnoreCase(newExpression)) {  
-			    task.setCronExpression(newExpression);
-			    timeTaskService.updateEntitie(task);
-			}
+
 			
 			return true;
 		} catch (SchedulerException e) {

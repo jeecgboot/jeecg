@@ -14,6 +14,7 @@
 	<context:component-scan base-package="org.jeecgframework.easypoi.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
 	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
+	<context:component-scan base-package="org.jeecgframework.jwt.service.*"/>
 	<context:component-scan base-package="com.jeecg.*">
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
@@ -23,7 +24,7 @@
 	</context:component-scan>
 
 	<!-- 引入属性文件 -->
-	<context:property-placeholder location="classpath:dbconfig.properties" />
+	<context:property-placeholder location="classpath:dbconfig.properties" ignore-unresolvable="true"/>
 	<!-- 配置数据源1 -->
 	<bean name="dataSource_jeecg" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">

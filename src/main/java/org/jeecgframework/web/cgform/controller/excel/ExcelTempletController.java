@@ -1,18 +1,30 @@
 package org.jeecgframework.web.cgform.controller.excel;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.constant.DataBaseConstant;
+import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.UUIDGenerator;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -26,25 +38,11 @@ import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.jeecgframework.web.cgform.service.excel.ExcelTempletService;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 import org.jeecgframework.web.cgform.util.QueryParamUtil;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
 import org.jeecgframework.web.system.service.SystemService;
-import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jeecgframework.core.common.controller.BaseController;
-import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.core.util.ExceptionUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.UUIDGenerator;
-import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +51,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author huiyong
@@ -274,7 +274,11 @@ public class ExcelTempletController extends BaseController {
 		//数据库中版本号
 		String version = (String) configs.get(CgAutoListConstant.CONFIG_VERSION);
 		List<CgFormFieldEntity> lists = (List<CgFormFieldEntity>) configs.get(CgAutoListConstant.FILEDS);
-
+		Object subTables = configs.get("subTables");
+		List<String> subTabList = new ArrayList();
+		if (null != subTables) {
+			subTabList.addAll(Arrays.asList(subTables.toString().split(",")));
+		}
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
@@ -297,10 +301,62 @@ public class ExcelTempletController extends BaseController {
 					} else {
 						//--author：zhoujf---start------date:20170207--------for:online表单物理表查询数据异常处理
 						configId = configId.split("__")[0];
+
+						String mainId = "";
 						for (Map<String, Object> map : listDate) {
-							map.put("id", UUIDGenerator.generate());
-							dataBaseService.insertTable(configId, map);
+							//标志是否为主表数据
+							boolean isMainData = false;
+							Set<String> keySet = map.keySet();
+							Map mainData = new HashMap();
+							for (String key : keySet) {
+								if (key.indexOf("$subTable$")==-1) {
+									if (key.indexOf("$mainTable$")!=-1 && StringUtils.isNotEmpty(map.get(key).toString())) {
+										isMainData = true;
+										mainId = UUIDGenerator.generate();
+									}
+									mainData.put(key.replace("$mainTable$", ""), map.get(key));
+								}
+							}
+							map.put("$mainTable$id", mainId);//为子表准备
+							if (isMainData) {
+								mainData.put("id", mainId);//主表数据
+								dataBaseService.insertTable(configId, mainData);									
+							}
 						}
+						//导入子表数据，如果有
+						for (String subConfigId: subTabList) {
+							Map<String, Object> subConfigs = configService.queryConfigs(subConfigId, jversion);
+							List<CgFormFieldEntity> subLists = (List<CgFormFieldEntity>) subConfigs.get(CgAutoListConstant.FILEDS);
+							//将表头字段替换成数据库中对应的字段名
+							String configName = subConfigs.get("config_name").toString();
+							for (Map<String, Object> map : listDate) {
+								//标志是否为子表数据
+								boolean isSubData = false;
+								Map subData = new HashMap();
+								for (CgFormFieldEntity fieldEntity: subLists) {
+									String mainTab = fieldEntity.getMainTable();
+									String mainField = fieldEntity.getMainField();
+									boolean isForeignKey = configId.equals(mainTab) && StringUtil.isNotEmpty(mainField);
+									String tempKey = configName+"_"+fieldEntity.getContent();
+									//已经考虑兼容多个外键的情况
+									if(isForeignKey){
+										subData.put(fieldEntity.getFieldName(), map.get("$mainTable$"+mainField));
+									}
+									Object subObj = map.get("$subTable$"+tempKey);
+									if (null != subObj && StringUtils.isNotEmpty(subObj.toString())) {
+										isSubData = true;
+										//System.out.println(tempKey+"=>"+fieldEntity.getFieldName()+"--"+subObj);
+										subData.put(fieldEntity.getFieldName(), subObj);
+									}
+								}
+								//设置子表记录ID
+								if (isSubData) {
+									subData.put("id", UUIDGenerator.generate());
+									dataBaseService.insertTable(subConfigId, subData);
+								}
+							}
+						}
+
 						message = "文件导入成功！";
 					}
 				} catch (Exception e) {
@@ -415,12 +471,13 @@ public class ExcelTempletController extends BaseController {
 				map.put(getRealKey(originKey), value.toString());
 			}
 		}
-
 		private String getRealKey(String originKey) {
 			if (fieldMap.containsKey(originKey)) {
-				return fieldMap.get(originKey).getFieldName();
+				//主表字段
+				return "$mainTable$"+fieldMap.get(originKey).getFieldName();
 			}
-			return originKey;
+			//子表字段
+			return "$subTable$"+originKey;
 		}
 
 	}

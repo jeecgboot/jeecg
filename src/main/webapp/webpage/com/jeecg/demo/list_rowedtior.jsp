@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
-<!-- update-begin-author:taoYan date:20170814 for:行编辑ie8兼容问题 -->
 <t:base type="jquery-webos,easyui,tools,DatePicker,autocomplete"></t:base>
-<!-- update-end-author:taoYan date:20170814 for:行编辑ie8兼容问题 -->
 <div class="easyui-layout" fit="true">
   <div region="center" style="padding:0px;border:0px">
   <t:datagrid name="jeecgrowList"  checkbox="true" pagination="true" fitColumns="true" 

@@ -9,8 +9,8 @@ import com.qcloud.cos.sign.Credentials;
 
 public class QCloudUtils {
     private static long appId = 1251108935;
-    private static String secretId = "AKIDeCYoxueSxIQW0PHzVqz3NhuwoYN34Y7W";
-    private static String secretKey = "NkARfmtpcDnIgssupY7Zs0zpeMwCJJ9q";
+    private static String secretId = "?";
+    private static String secretKey = "?";
     private static String bucketName="jeecg";
     private  static Credentials cred=new Credentials(appId, secretId, secretKey);
     private static ClientConfig clientConfig = new ClientConfig();

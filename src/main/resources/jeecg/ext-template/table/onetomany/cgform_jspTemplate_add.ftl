@@ -84,7 +84,9 @@
 					<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 			<#elseif po.showType=='popup'>
 			<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-				<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if>/>			 
+				<#-- update--begin--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
+				<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/>			 
+				<#-- update--end--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
 			  	<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 			  <#elseif po.showType=='textarea'>
 				<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
@@ -286,6 +288,9 @@
 									        type:'POST',  
 									        dataType:'JSON',
 									        async:false,  
+									         data:{
+									        	selfCode:'${po.dictField}'
+									        },
 									        success:function(res){
 									            var obj = res; 
 									            $.fn.zTree.init($("#show${po.fieldName?cap_first }Tree"), ${po.fieldName}Setting, obj);  
@@ -423,10 +428,15 @@
 					    <#elseif po.showType=='file' || po.showType == 'image'>
 					    <#-- update--end--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
 										<input type="hidden" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" />
-										<a  target="_blank" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}_href">未上传</a>
-									  <br>
+									   <#-- update--begin--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
 									   <input class="ui-button" type="button" value="上传附件"
 													onclick="commonUpload(commonUploadDefaultCallBack,'${sub.entityName?uncap_first}List\\[#index#\\]\\.${po.fieldName}')"/>
+										<a  target="_blank" id="${sub.entityName?uncap_first}List[#index#].${po.fieldName}_href"></a>
+									<#-- update--end--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
+						<#elseif po.showType=='popup'>
+							<#-- update--begin--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
+					  		<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/>
+					  		<#-- update--end--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
 					       <#else>
 					       <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 					       	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>

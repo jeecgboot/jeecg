@@ -6,7 +6,7 @@
 	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg-3.7.1</param-value>
+		<param-value>jeecg-3.7.2</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -181,8 +181,9 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
+	<!-- 首页 -->
 	<welcome-file-list>
-		<welcome-file>/webpage/login/login.jsp</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
 
 </web-app>

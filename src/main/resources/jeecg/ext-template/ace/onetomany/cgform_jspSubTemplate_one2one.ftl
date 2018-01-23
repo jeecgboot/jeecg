@@ -61,11 +61,13 @@ $(document).ready(function(){
 					     <#elseif po.showType=='file' || po.showType == 'image'>
 					     <#-- update--end--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
 										<input type="hidden" id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" />
-										<a  target="_blank" id="${entityName?uncap_first}List[0].${po.fieldName}_href">暂时未上传文件</a>
+									   <#-- update--begin--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
 									   <#-- update--begin--author:zhangjiaqiang date:20170614 for:修订上传附件按钮的大小 -->
 									   <input class="btn btn-sm btn-success" style="margin-left:10px;" type="button" value="上传附件"
 													onclick="commonUpload(${entityName?uncap_first}List0${po.fieldName}Callback)"/> 
 										<#-- update--end--author:zhangjiaqiang date:20170614 for:修订上传附件按钮的大小 -->
+										<a  target="_blank" id="${entityName?uncap_first}List[0].${po.fieldName}_href">暂时未上传文件</a>
+										<#-- update--end--author:zhangjiaqiang date:20171120 for:TASK #2419 【代码生成器模板】一对多情况下，附件样式改造 -->
 										<script type="text/javascript">
 										function ${entityName?uncap_first}List0${po.fieldName}Callback(url,name){
 											$("#${entityName?uncap_first}List\\[0\\]\\.${po.fieldName}_href").attr('href',url).html('下载');
@@ -76,6 +78,11 @@ $(document).ready(function(){
 					      	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					      	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" <@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
 					       	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+					        <#elseif po.showType=='popup'>
+							<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+							 <input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext"   value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+							<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+					       
 					       <#else>
 					       	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					       	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> />
@@ -138,16 +145,21 @@ $(document).ready(function(){
 					       <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					      	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;" class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" <@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="<fmt:formatDate value='${'$'}{poVal.${po.fieldName}}' type="date" pattern="yyyy-MM-dd hh:mm:ss"/>"/>
 					       <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+					<#elseif po.showType=='popup'>
+					        <#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+					 		<input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext"  value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+						    <#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
+					
 					       <#elseif po.showType=='file'  || po.showType=='image'>
 							 <input type="hidden" id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" value="${'$'}{poVal.${po.fieldName} }"/>
+									   <input class="btn btn-success btn-sm" type="button" value="上传附件"
+													onclick="commonUpload(${entityName?uncap_first}List0${po.fieldName}Callback)"/> 
 										<c:if test="${'$'}{empty poVal.${po.fieldName}}">
-											<a  target="_blank" id="${entityName?uncap_first}List[0].${po.fieldName}_href">暂时未上传文件</a>
+											<a  target="_blank" id="${entityName?uncap_first}List[0].${po.fieldName}_href"></a>
 										</c:if>
 										<c:if test="${'$'}{!empty poVal.${po.fieldName}}">
 											<a  href="${'$'}{poVal.${po.fieldName}}"  target="_blank" id="${entityName?uncap_first}List[0].${po.fieldName}_href">下载</a>
 										</c:if>
-									   <input class="form-control" type="button" value="上传附件"
-													onclick="commonUpload(${entityName?uncap_first}List0${po.fieldName}Callback)"/> 
 										<script type="text/javascript">
 										function ${entityName?uncap_first}List0${po.fieldName}Callback(url,name){
 											$("#${entityName?uncap_first}List\\[0\\]\\.${po.fieldName}_href").attr('href',url).html('下载');

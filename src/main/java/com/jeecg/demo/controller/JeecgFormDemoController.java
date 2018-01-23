@@ -1,11 +1,15 @@
 package com.jeecg.demo.controller;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
 import net.sf.json.JSONArray;
 import org.apache.log4j.Logger;
@@ -18,7 +22,13 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
-import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.JSONHelper;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.MyClassLoader;
+import org.jeecgframework.core.util.NumberComparator;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
@@ -35,7 +45,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -262,6 +271,13 @@ public class JeecgFormDemoController extends BaseController {
 	public AjaxJson saveUploadFile(String documentTitle,String filename,String swfpath){
 		AjaxJson ajaxJson = new AjaxJson();
 		try {
+
+			if(StringUtil.isEmpty(filename)){
+				ajaxJson.setSuccess(false);
+				ajaxJson.setMsg("未上传文件");
+				return ajaxJson;
+			}
+
 			TSTypegroup tsTypegroup=systemService.getTypeGroup("fieltype","文档分类");
 			TSType tsType = systemService.getType("files","附件", tsTypegroup);
 			TSDocument document = new TSDocument();
@@ -328,14 +344,15 @@ public class JeecgFormDemoController extends BaseController {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		TSTypegroup tsTypegroup=systemService.getTypeGroup("fieltype","文档分类");
 		TSType tsType = systemService.getType("files","附件", tsTypegroup);
-		String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-		String documentTitle = oConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
-		if (StringUtil.isNotEmpty(fileKey)) {
-			document.setId(fileKey);
-			document = systemService.getEntity(TSDocument.class, fileKey);
-			document.setDocumentTitle(documentTitle);
 
+		String documentId = oConvertUtils.getString(request.getParameter("documentId"));// 文件ID
+		String documentTitle = oConvertUtils.getString(request.getParameter("documentTitle"));// 文件标题
+		if (StringUtil.isNotEmpty(documentId)) {
+			document.setId(documentId);
+			document = systemService.getEntity(TSDocument.class, documentId);
+			document.setDocumentTitle(documentTitle);
 		}
+
 		document.setSubclassname(MyClassLoader.getPackPath(document));
 		document.setCreatedate(DateUtils.gettimestamp());
 		document.setTSType(tsType);

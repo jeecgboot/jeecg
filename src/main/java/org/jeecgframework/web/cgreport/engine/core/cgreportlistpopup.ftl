@@ -79,10 +79,10 @@ $(function(){$('#${config_id}List').datagrid(
 	}
 </script>
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>
-<div id="${config_id}Listtb" style="padding:3px; height: auto">
 <#-- update--begin--author:scott date:20170608 for:无查询条件不生成 -->
 <#if  (config_queryList?size >0)>
-<div name="searchColums">
+<div id="${config_id}Listtb" style="padding:3px; height: auto">
+<div name="searchColums" style="border-bottom:0px">
 </#if>
 <#-- update--end--author:scott date:20170608 for:无查询条件不生成 -->
 	<#list config_queryList  as x>
@@ -96,7 +96,7 @@ $(function(){$('#${config_id}List').datagrid(
 		<#if x['search_mode']=="single">
 				<#if  (x['field_dictlist']?size >0)>
 				<select name = "${x['field_name']}" WIDTH="100" style="width: 104px">
-				<option value = "">---请选择---</option>
+				<option value = "">-- 请选择 --</option>
 				<#list x['field_dictlist']  as xd>
 					<option value = "${xd['typecode']}">${xd['typename']}</option>
 				</#list>
@@ -108,17 +108,17 @@ $(function(){$('#${config_id}List').datagrid(
 		</#if>
 		</span>	
 	</#list>
-<#-- update--begin--author:scott date:20170608 for:无查询条件不生成 -->	
-<#if  (config_queryList?size >0)>
-</div>
-</#if>
-<#if  (config_queryList?size >0)>
-	<div style="height:30px;" class="datagrid-toolbar">
+	<#-- update--begin--author:scott date:20171121 for:查询按钮调整位置 -->
+	<#if  (config_queryList?size >0)>
 		<span style="float:right">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="${config_id}Listsearch()">查询</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset_${config_id}('${config_id}List')">重置</a>
 		</span>
-	</div>
+	</#if>
+	<#-- update--end--author:scott date:2011121 for:查询按钮调整位置 -->
+<#-- update--begin--author:scott date:20170608 for:无查询条件不生成 -->
+<#if  (config_queryList?size >0)>
+</div>
+</div>
 </#if>
 <#-- update--end--author:scott date:20170608 for:无查询条件不生成 -->
-</div>

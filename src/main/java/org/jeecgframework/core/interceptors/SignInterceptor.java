@@ -31,7 +31,7 @@ public class SignInterceptor implements HandlerInterceptor {
             if (StringUtil.isEmpty(body)){
                 throw new BusinessException("body不能为空");
             }
-            Map paramMap =new HashMap();
+            Map<String, String> paramMap =new HashMap<String, String>();
             paramMap.put("body",body);
             if(!SignatureUtil.checkSign(paramMap, SIGN_KEY, sign)){
                 throw new BusinessException("签名验证失败");

@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.lang.model.util.ElementScanner6;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -702,28 +705,35 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 			criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 		}
 
-		if (StringUtils.isNotBlank(cq.getDataGrid().getSort())) {
-			String []sortArr = cq.getDataGrid().getSort().split(",");
+		Map<String, Object> ordermap = cq.getOrdermap();
+		if(ordermap==null){
+			ordermap = new LinkedHashMap<String, Object>();
+		}
+		
+		String sort = cq.getDataGrid().getSort();
+		if (StringUtils.isNotBlank(sort)) {
+			String []sortArr = sort.split(",");
 			String []orderArr = cq.getDataGrid().getOrder().split(",");
-			if(sortArr.length==orderArr.length){
-				for(int i=0;i<sortArr.length;i++){
-//					cq.addOrder(sortArr[i], SortDirection.toEnum(orderArr[i]));
-					if (SortDirection.asc.equals(SortDirection.toEnum(orderArr[i]))) {
-						cq.getDetachedCriteria().addOrder(Order.asc(sortArr[i]));
-					} else {
-						cq.getDetachedCriteria().addOrder(Order.desc(sortArr[i]));
+			if(sortArr.length != orderArr.length && orderArr.length > 0){
+				for (int i = 0; i < sortArr.length; i++) {
+					if(SortDirection.asc.equals(SortDirection.toEnum(orderArr[0]))){
+						ordermap.put(sortArr[i], SortDirection.asc);
+					}else{
+						ordermap.put(sortArr[i], SortDirection.desc);
 					}
 				}
-			}else if(orderArr.length>0){
-				for(int i=0;i<sortArr.length;i++){
-//					cq.addOrder(sortArr[i], SortDirection.toEnum(orderArr[0]));
-					if (SortDirection.asc.equals(SortDirection.toEnum(orderArr[0]))) {
-						cq.getDetachedCriteria().addOrder(Order.asc(sortArr[i]));
-					} else {
-						cq.getDetachedCriteria().addOrder(Order.desc(sortArr[i]));
+			}else if(sortArr.length == orderArr.length){
+				for (int i = 0; i < sortArr.length; i++) {
+					if(SortDirection.asc.equals(SortDirection.toEnum(orderArr[i]))){
+						ordermap.put(sortArr[i], SortDirection.asc);
+					}else{
+						ordermap.put(sortArr[i], SortDirection.desc);
 					}
 				}
 			}
+		}
+		if(!ordermap.isEmpty() && ordermap.size()>0){
+			cq.setOrder(ordermap);
 		}
 
 

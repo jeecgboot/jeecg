@@ -115,13 +115,11 @@
 	}
  
  </script>
- <!-- add-begin--Author:xuelin  Date:20170519 for：TASK #1992 【样式修改】新提示方法改进   美化布局-------------------  -->  
  <style type="text/css">
  	.value{
  		padding: 10px auto 10px 10px;
  	}
  </style>
- <!-- add-end--Author:xuelin  Date:20170519 for：TASK #1992 【样式修改】新提示方法改进   美化布局-------------------  --> 
  	</div>
     <div title="新增数据" style="height:350px;" name="editPanel" id="editPanel" fit="true" class="easyui-panel"> 
     	<div class="datagrid-toolbar" style="float:left;width: 100%;">
@@ -135,7 +133,6 @@
 		    	提交数据
 		    </a>
     	</div>
-    	<!-- update-begin--Author:xuelin  Date:20170519 for：TASK #1992 【样式修改】新提示方法改进   美化布局-------------------  -->   	
 		<t:formvalid formid="ff" dialog="true" layout="table" tiptype="4" action="jeecgListDemoController.do?saveRows">
 			<input name="demos[0].id" id="id" type="hidden" value="" /> 
 			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
@@ -205,5 +202,4 @@
 			</table>
 		
 		</t:formvalid>
-		<!-- update-end--Author:xuelin  Date:20170519 for：TASK #1992 【样式修改】新提示方法改进  美化布局-------------------- -->
     </div>

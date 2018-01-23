@@ -24,6 +24,11 @@ public class TSRole extends IdEntity implements java.io.Serializable {
 	private String roleName;//角色名称
 	@Excel(name = "角色编码",width = 20)
 	private String roleCode;//角色编码
+
+	@Excel(name="部门权限组ID")
+	private String departAgId;//组织机构ID
+	private String roleType;  //角色类型1部门角色/0系统角色
+
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**创建人ID*/
@@ -147,5 +152,22 @@ public class TSRole extends IdEntity implements java.io.Serializable {
 	 */
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;
+	}
+	@Column(name ="depart_ag_id",nullable=true,length=32)
+	public String getDepartAgId() {
+		return departAgId;
+	}
+
+	public void setDepartAgId(String departAgId) {
+		this.departAgId = departAgId;
+	}
+	
+	@Column(name ="role_type",nullable=true,length=32)
+	public String getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
 	}
 }

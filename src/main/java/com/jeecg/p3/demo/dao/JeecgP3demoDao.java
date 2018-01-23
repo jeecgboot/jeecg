@@ -49,6 +49,9 @@ public interface JeecgP3demoDao{
 	
 	@Sql("DELETE from jeecg_p3demo WHERE ID = :jeecgP3demo.id")
 	public void delete(@Param("jeecgP3demo") JeecgP3demoEntity jeecgP3demo);
+
+	@ResultType(JeecgP3demoEntity.class)
+	MiniDaoPage<JeecgP3demoEntity> getAllByOrder(@Param("jeecgP3demo")JeecgP3demoEntity query,@Param("page") int page,@Param("rows") int rows,@Param("sortName") String sort,@Param("sortOrder") String order);
 	
 }
 

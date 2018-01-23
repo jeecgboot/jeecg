@@ -7,7 +7,9 @@ var id = "";
 jQuery.post("chat/imController.do?getUserid", {
 
 }, function (text) {
-    id = text.substring(1,text.length-1);
+
+    id = text;//text.substring(1,text.length-1);
+
 });
 if(!/^http(s*):\/\//.test(location.href)){
     alert('请部署到localhost上查看该演示');

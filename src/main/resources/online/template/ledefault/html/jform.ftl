@@ -153,7 +153,12 @@
 					                <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 						       <#if po.field_valid_type?if_exists?html != ''>
-					               datatype="${po.field_valid_type?if_exists?html}"
+					                <#if po.field_valid_type=='only'>
+						       		   validType="${tableName},${po.field_name},id"
+						       		   datatype="*"
+						       		<#else>
+					                   datatype="${po.field_valid_type?if_exists?html}"
+					               </#if>
 					               <#else>
 					               <#if po.type == 'int'>
 					               datatype="n"  
@@ -524,6 +529,9 @@
 										        type:'POST',  
 										        dataType:'JSON',
 										        async:false,  
+										        data:{
+									        		selfCode:'${po.dict_field}'
+									        	},
 										        success:function(res){
 										            var obj = res; 
 										            $.fn.zTree.init($("#show${po.field_name?cap_first }Tree"), ${po.field_name}Setting, obj);  

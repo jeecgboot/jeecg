@@ -89,15 +89,30 @@
   background: url('images/panel_tools.png') no-repeat -16px 0px;
 }
 .panel-tool-min {
+/*update-begin--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
+  position: absolute;
+  right: 55px;
+  top: 7px;
+/*update-end--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
   background: url('images/panel_tools.png') no-repeat 0px 0px;
 }
 .panel-tool-max {
+/*update-begin--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
+  position: absolute;
+  right: 33px;
+  top: 7px;
+/*update-end--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
   background: url('images/panel_tools.png') no-repeat 0px -16px;
 }
 .panel-tool-restore {
   background: url('images/panel_tools.png') no-repeat -16px -16px;
 }
 .panel-tool-collapse {
+/*update-begin--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
+  position: absolute;
+  right: 78px;
+  top: 7px;
+/*update-end--Author:LiShaoQing Date:20170919 for：TASK#2340:【UI美化】高级查询右上角图标位置移动-------- */
   background: url('images/panel_tools.png') no-repeat -32px 0;
 }
 .panel-tool-expand {
@@ -112,7 +127,7 @@
 .north-header,
 /*update--end--author:zhangjiaqiang date:20170622 for:增加一个样式引用*/
 .panel-header {
-  background-color: #F3F3F4; 
+  background-color: #F9F9F9; 
   background-repeat: repeat-x;
   height: 30px;
   line-height: 30px;
@@ -131,7 +146,7 @@
   color: #777; */
   height: 30px;
   line-height: 30px;
-  color: #8f0911;
+  color: #444;
   font-weight: bold;
   font-family: 微软雅黑,microsoft Yahei","Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
@@ -167,13 +182,15 @@
   background: #fff;
   border-color: #ddd;
 }
+/* update-begin-author:tanyan date:20171031 for:折叠样式修改 */
 .accordion .accordion-header {
-  background: #ffffff;
+  /* background: #ffffff; */
   filter: none;
 }
 .accordion .accordion-header-selected {
-  background: #CCE6FF;
+  /* background: #CCE6FF; */
 }
+/* update-end-author:tanyan date:20171031 for:折叠样式修改 */
 .accordion .accordion-header-selected .panel-title {
   color: #000;
 }
@@ -748,7 +765,7 @@
 .tabs li.tabs-selected a.tabs-inner {
   background: #ffffff;
   background-color: #ffffff;
-  color: #8f0911;
+  color: #444;
 }
 /* update-end--Author:xuelin  Date:20170428 for：#1755 【美化】用户分析报表，多tab格式，是否可以美化  修改需要改底层-------------------- */
 .tabs li a.tabs-inner {
@@ -842,18 +859,19 @@ a.l-btn span span.l-btn-text {
   display: inline-block;
   vertical-align: baseline;
   width: auto;
-  height: 16px;
-  line-height: 16px;
+/* update-begin--Author:scott  Date:20170615 for：单选按钮模式，查询条件文字居中------------------- */
+   /*height: 16px;*/
+   /*line-height: 16px;*/
   padding: 0;
- /* update-begin--Author:scott  Date:20170615 for：单选按钮模式，查询条件文字居中------------------- */
-  margin: 2.5;
+ /* margin: 2.5;*/
+  margin:1px 1px 1px 1px;
   /* update-end--Author:scott  Date:20170615 for：单选按钮模式，查询条件文字居中------------------- */
 }
 /* update-end--Author:xuelin  Date:20170523 for：TASK #2004 【UI优化】单选按钮模式，查询条件格式美化-------------------- */	
 
 /* update-begin--Author:xuelin  Date:20170622 for：TASK #2162 【样式优化】老的button样式修改，上下居中-------------------- */
 a.l-btn span span.l-btn-icon-left {
-  padding: 1px 0 0 20px;
+  padding: 0 6px 0 20px;
   background-position: left center;
 }
 /* update-end--Author:xuelin  Date:20170622 for：TASK #2162 【样式优化】老的button样式修改，上下居中---------------------- */
@@ -864,7 +882,9 @@ a.l-btn span span.l-btn-icon-right {
 }
 a.l-btn span span span.l-btn-empty {
   display: inline-block;
-  margin: 0;
+  /* update-begin--Author:scott  Date:20171113 for：分页图标上下间距调整，兼容按钮样式------------------- */
+  margin: 2px;
+  /* update-end--Author:scott  Date:20171113 for：分页图标上下间距调整，兼容按钮样式------------------- */
   padding: 0;
   width: 16px;
 }
@@ -877,10 +897,12 @@ a:hover.l-btn span.l-btn-left {
   background-position: 0 bottom;
 }
 a:hover.l-btn-plain {
-   /* padding: 0 5px 0 0; */
+  /*update-start--Author: scott  Date:20171110 for:列表上方按钮间距调整回默认*/
+  padding: 0 5px 0 0;
   /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
-  padding: 1px 6px 1px 1px;
+  /*padding: 1px 6px 1px 1px;*/
   /*update-start--Author: os_renjie  Date:20160529 for:TASK #1044 【通用样式修改】让按钮别晃动*/
+  /*update-start--Author: scott  Date:20171110 for:列表上方按钮间距调整回默认*/
 
 }
 a:hover.l-btn-disabled {
@@ -894,13 +916,18 @@ a.l-btn .l-btn-focus {
 }
 /*update-begin--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 兼容处理 */
 a.easyui-linkbutton{
-	padding: 1px 6px 1px 1px;
+    /*update-start--Author: scott  Date:20171110 for:列表上方按钮间距调整回默认*/
+	padding: 0 5px 0 0;
+	/*update-start--Author: scott  Date:20171110 for:列表上方按钮间距调整回默认*/
 }
 /*update-end--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 兼容处理  */
 a.l-btn {
   color: #777;
   /*update-begin--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 此处原为单选查询按钮美化，已做兼容处理 */
   /*padding: 1px 6px 1px 1px;*/
+  /* update-begin--Author:scott  Date:20171113 for：分页图标晃动问题修改，兼容按钮样式------------------- */
+  padding: 0 5px 0 0;
+  /* update-begin--Author:scott  Date:20171113 for：分页图标晃动问题修改，兼容按钮样式------------------- */
   /*update-end--Author:xuelin  Date:20170608 for：TASK #2094 【按钮样式】原来的按钮间距有点大--- 此处原为单选查询按钮美化，已做兼容处理  */
 /*   background-image: url('images/linkbutton_bg.png');
   background-repeat: no-repeat;
@@ -912,11 +939,26 @@ a.l-btn {
   background: -o-linear-gradient(top,#e9e9e9 0,#e9e9e9 100%);
   background: linear-gradient(to bottom,#e9e9e9 0,#e9e9e9 100%); */
   
+  
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#e9e9e9,endColorstr=#e9e9e9,GradientType=0);
   -moz-border-radius: 0px 0px 0px 0px;
   -webkit-border-radius: 0px 0px 0px 0px;
-  border-radius: 0px 0px 0px 0px;
+  border-radius: 0px 0px 0px 0px; 
+  
+  
+  /* display: inline-block;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	outline: 0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	padding: 4px 10px;
+	position: relative;
+	font-weight: normal */
 }
 a.l-btn span.l-btn-left {
   background-image: url('images/linkbutton_bg.png');
@@ -937,7 +979,7 @@ a.l-btn-plain span.l-btn-left {
 }
 a:hover.l-btn-plain {
   /* background: #e9e9e9; */
-  color: #8f0911;
+  color: #444;
   /* border: 1px solid #e9e9e9; */
   -moz-border-radius: 0px 0px 0px 0px;
   -webkit-border-radius: 0px 0px 0px 0px;
@@ -991,12 +1033,17 @@ a:hover.l-btn-disabled {
 .datagrid-sort-icon {
   padding: 0;
 }
+/*update-begin author:xuelin date:20171101 for:TASK #2403 【bug】【UI】fineui效果改进和参考*/
 .datagrid-toolbar {
   height: auto;
-  padding: 5px 2px 2px 2px;
+  padding: 2px 2px 2px 2px;
   border-width: 0 0 1px 0;
   border-style: solid;
 }
+.datagrid-toolbar .datagrid-toolbar {
+	border-width: 0 0 0 0;
+}
+/*update-end author:xuelin date:20171101 for:TASK #2403 【bug】【UI】fineui效果改进和参考*/
 .datagrid-btn-separator {
   float: left;
   height: 24px;
@@ -1026,7 +1073,7 @@ a:hover.l-btn-disabled {
 .datagrid-header-row{
   font-weight: bold;
   height: 25px;
-  background-color:#F3F3F4;
+  background-color:#F9F9F9;
 }
 /*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-row {
@@ -1034,7 +1081,7 @@ a:hover.l-btn-disabled {
 }
 .datagrid-header td{
   font-weight: bold;
-  text-align: center;
+  /*text-align: center;*/
   border-width: 0 1px 1px 0;
   border-style: solid;
   margin: 0;
@@ -1060,11 +1107,10 @@ a:hover.l-btn-disabled {
   white-space: nowrap;
   word-wrap: normal;
   overflow: hidden;
-  height: 34px;
-  line-height: 34px;
+  height: 30px;
+  line-height: 30px;
   /*font-weight: normal; */
-  font-size: 13px;
-  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  text-overflow: ellipsis;
 }
 /*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-cell-group {
@@ -1105,7 +1151,7 @@ a:hover.l-btn-disabled {
 .datagrid-cell-check {
   padding: 0;
   width: 27px;
-  height: 18px;
+  /*height: 18px;*/
   font-size: 1px;
   text-align: center;
   overflow: hidden;
@@ -1117,6 +1163,60 @@ a:hover.l-btn-disabled {
   width: 15px;
   height: 18px;
 }
+/*update-begin--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--Checkbox 选中样式参考fineui效果--*/
+/*update-begin--Author:xuelin  Date:20171113 for：[#2414]【bug】发现一个bug,check样式改后，选中不准/对号不居中，有点偏下了/外观偏大*/
+input[type=checkbox]{
+		width:14px;
+		height:14px;
+        background: url(images/checkbox.png) no-repeat;
+        background-position:center center;
+        margin-top:3px;
+        border: 0;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        box-shadow: none !important;
+        drop-shadow: none !important;
+        /*update-begin--Author:xuelin  Date:20171222 for：[#2458] 【样式问题】online表单，ace风格下checkbox 样式问题--*/
+        vertical-align: middle;
+        /*update-end--Author:xuelin  Date:20171222 for：[#2458] 【样式问题】online表单，ace风格下checkbox 样式问题--*/
+}
+input[type=checkbox]:active{
+}       
+input[type=checkbox]:focus{
+        box-shadow: none !important;
+        drop-shadow: none !important;
+        outline: none !important;
+} 
+input[type=checkbox]:hover{
+        background: url(images/checkbox_hover.png) no-repeat;
+        background-position:center center;
+}
+input[type=checkbox]:checked{
+        background: url(images/checkbox_checked.png) no-repeat;
+        background-position:center center;
+}
+/**after**/
+input[type=checkbox]:active::after{
+}
+input[type=checkbox]:focus::after{
+}
+input[type=checkbox]:hover::after {
+        /*content: url(images/checkbox_hover.png);*/
+}
+
+input[type=checkbox]:checked::after {
+	/*content: url(images/checkbox_checked.png);*/
+}
+input[type=checkbox]::after{   
+    /*margin-top: 3px;
+	display:flex;
+	width:14px;
+	height:14px;
+	content: url(images/checkbox.png);*/ 
+}
+/*update-end--Author:xuelin  Date:20171113 for：[#2414]【bug】发现一个bug,check样式改后，选中不准/对号不居中，有点偏下了/外观偏大*/
+/*update-end--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--Checkbox 选中样式参考fineui效果--*/
 .datagrid-resize-proxy {
   position: absolute;
   width: 1px;
@@ -1147,10 +1247,12 @@ a:hover.l-btn-disabled {
 .datagrid-sort-desc .datagrid-sort-icon {
   padding: 0 13px 0 0;
   background: url('images/datagrid_icons.png') no-repeat -16px center;
+  float:right;
 }
 .datagrid-sort-asc .datagrid-sort-icon {
   padding: 0 13px 0 0;
   background: url('images/datagrid_icons.png') no-repeat 0px center;
+  float:right;
 }
 .datagrid-row-collapse {
   background: url('images/datagrid_icons.png') no-repeat -48px center;
@@ -1197,7 +1299,7 @@ a:hover.l-btn-disabled {
   border-right:1px solid #d8d8d8;*/
   /*update-end--Author:xuelin-scott  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
   /*update-begin--Author:xuelin Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案   升级bootstrap到3.3.7后兼容性 --*/
-  height:30px;
+  height:27px;
   /*update-begin--Author:xuelin Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案   升级bootstrap到3.3.7后兼容性 --*/
   /*line-height:34px;*/
   margin-top: 3px;
@@ -1213,9 +1315,9 @@ a:hover.l-btn-disabled {
 /*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 /*update-begin--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-header td{
-   font-weight: bold;
+   font-weight:normal;
    border-color: #e7e7e7;
-  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+   font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 /*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
 .datagrid-body td,
@@ -1228,7 +1330,7 @@ a:hover.l-btn-disabled {
   color: #676A6C;
 }
 .datagrid-row-alt {
-  background: #f9f9f9;
+  background: #fcfcfc;
 }
 .datagrid-row-over{
   background: #F5F5F5;
@@ -1238,14 +1340,15 @@ a:hover.l-btn-disabled {
 }
 /*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-header td.datagrid-header-over {
-  background: #E6E6E6;
+  background: #f3f3f3;
   color: #444;
   cursor: default;
-  font-weight: bold;
+  font-weight:normal;
 }
 .datagrid-row-selected {
-  background: #CCE6FF;
-  color: #000;
+  border-color: #76B4AC;
+  background: #eee;
+  color: #007465;
 }
 .datagrid-body .datagrid-editable .datagrid-editable-input {
   border-color: #ddd;
@@ -2267,9 +2370,12 @@ a.s-btn-plain-active {
 .tree-folder-open {
   background: url('images/tree_icons.png') no-repeat -224px 0;
 }
+/*update-begin--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--树节点图标不好看--*/
 .tree-file {
-  background: url('images/tree_icons.png') no-repeat -240px 0;
+  /*background: url('images/tree_icons.png') no-repeat -240px 0;*/
+  background: url('images/tag.png')
 }
+/*update-end--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--树节点图标不好看--*/
 .tree-loading {
   background: url('images/loading.gif') no-repeat center center;
 }
@@ -2419,3 +2525,49 @@ a.s-btn-plain-active {
     line-height: normal;
 }
 /*update-end--Author:xuelin  Date:20170624 for：TASK #2167 【技术研究】列表表头表头怎么换行---------------------- */
+
+/*update-begin author:xuelin date:20171101 for:TASK #2403 【bug】【UI】fineui效果改进和参考*/
+/*update-begin author:xuelin date:20171112 for:TASK #2411 【样式】查询条件样式修改，针对online功能*/
+#searchColums,div[name="searchColums"] {border-bottom: 1px solid #D7D7D7; padding: 3px 0 3px 0; }
+/*update-end author:xuelin date:20171112 for:TASK #2411 【样式】查询条件样式修改，针对online功能*/
+/*update-end author:xuelin date:20171101 for:TASK #2403 【bug】【UI】fineui效果改进和参考*/
+/*update-begin author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果*/
+ #filter{
+ 	-moz-box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    position:absolute;
+    border:1px solid silver;
+    background:#fff;
+    border-radius: 3px; 
+    box-sizing: border-box;
+    overflow:hidden; 
+ }
+ #keyword{
+ 	width:120px;
+ 	height:27px;
+ 	border: 1px solid #D7D7D7;
+ 	border-radius: 3px;
+ 	margin:5px;
+ }
+ #ruler{
+ 	width:70px;
+ 	margin:5px;
+ }
+ .btnDiv{
+ 	text-align:right;
+ 	border-top: 1px solid #D7D7D7;
+ 	padding:5px 5px 0 5px;
+ }
+ #curField{
+ 	padding:0 0 0 5px;
+ 	background: #ddd;
+ 	border-color: 1px solid #ddd;
+ 	height: 27px;
+ 	line-height:27px;
+ }
+ .filter-content{
+ 	text-align:left;
+ 	padding:0 0 5px 0 !important;
+ }
+/*update-end author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果*/

@@ -55,7 +55,9 @@
 		$("#btnSubmit").click(function(){
 			if(validateForm()){
 				$.post(
-				   '${basePath}/cgFormBuildController.do?saveOrUpdate',
+				 	<#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+				   '${basePath}/cgFormBuildController.do?saveOrUpdateMore',
+				    <#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 				   $("#form1").serialize(),
 				   function(data){
 				   	  var d = $.parseJSON(data);
@@ -68,6 +70,13 @@
 				);
 			}
 		});
+		 <#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+        //查看模式情况下,删除和上传附件功能禁止使用
+    	if(location.href.indexOf("goDetail.do")!=-1){
+    		$(".jeecgDetail").hide();
+    		$("#form1").find("input,select,textarea").attr("disabled","disabled");
+    	}
+    	 <#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 	 });
 	 
 	 function validateForm(){
@@ -119,7 +128,9 @@
 				
 				<#-- 提交按钮 -->
 				<li>
-					<input id="btnSubmit" type="button" class="btn-submit" value="提交" />
+					 <#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+					<input id="btnSubmit" type="button" class="btn-submit jeecgDetail" value="提交" />
+					 <#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 				</li>
 				<div style="display:block !important;" class="powerby">由<a href="#">JEECG</a>提供技术支持</div>
 			</ul>

@@ -1,12 +1,12 @@
 JEECG 微云快速开发平台
 ===============
 
-当前最新版本： 3.7.1（发布日期：20170918）
+当前最新版本： 3.7.2（发布日期：20180125）
 
 前言：
 -----------------------------------
 随着 WEB UI 框架 ( EasyUI/Jquery UI/Ext/DWZ) 等的逐渐成熟,系统界面逐渐实现统一化，代码生成器也可以生成统一规范的界面！
-代码生成+手工MERGE半智能开发将是新的趋势，单表数据模型和一对多数据模型的增删改查功能直接生成使用,可节省60%工作量，快速提高开发效率！！！ 
+代码生成+手工MERGE半智能开发将是新的趋势，单表数据模型和一对多数据模型的增删改查功能直接生成使用,可节省60%工作量，快速提高开发效率！！！
 
 
 简介
@@ -67,7 +67,7 @@ JEECG 功能特点
 *   <b>技术点十七：</b>插件开发，业务功能组件以插件方式集成平台，也可以单独部署发发布，有力支撑了SAAS云应用系统需求</br>
 
 
-* 	JEECG V3.7, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
+* 	JEECG V3.7.2, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
 * 	支持多种浏览器: IE, 火狐, Google 等</br>
 * 	支持数据库: Mysql,Oracle10g,Postgre,SqlServer等</br>
 * 	基础权限: 用户，角色，菜单权限，按钮权限，数据权限</br>
@@ -79,7 +79,7 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
-* [JEECG_3.7新版开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
+* [JEECG_3.7.2新版开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
 * [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
@@ -89,7 +89,7 @@ JEECG 功能特点
 * [JEECG 版本更新日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
 * JEECG官方Maven镜像配置 : [http://t.cn/RJCp7wO](http://t.cn/RJCp7wO)
 * 在线演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
-* JEECG 3.7.1 版本(非maven-myeclipse)	链接：http://pan.baidu.com/s/1kVMKWuF 密码：b8kf
+
     
 技术交流
 -----------------------------------

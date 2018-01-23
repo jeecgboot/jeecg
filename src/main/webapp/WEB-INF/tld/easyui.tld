@@ -50,6 +50,14 @@
 		<tag-class>org.jeecgframework.tag.core.easyui.DataGridTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>数据列表</description>
+		<!-- update-begin author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果 -->
+		<attribute>
+			<name>filter</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否启用过滤</description>
+		</attribute>
+		<!-- update-end author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果 -->
 		<!-- update-begin-Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案  -->	
 		<attribute>
 			<name>btnCls</name>
@@ -138,6 +146,11 @@
 			<description>当为true时，自动展开/合同列的大小，以适应的宽度，防止横向滚动</description>
 		</attribute>
 		<attribute>
+			<name>collapsible</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>当为true时，开启收起/展开，默认不启动</description>
+		</attribute>
+		<attribute>
 			<name>showPageList</name>
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否显示页面列表</description>
@@ -214,6 +227,21 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否使用高级查询器true,false</description>
 		</attribute>
+		<!-- update-begin-Author:LiShaoQing  Date:20171019 for：TASK #2356 【功能】添加新的高级查询按钮功能 -->
+		<attribute>
+			<name>superQuery</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否使用高级查询器true,false</description>
+		</attribute>
+		<!-- update-end-Author:LiShaoQing  Date:20171019 for：TASK #2356 【功能】添加新的高级查询按钮功能 -->
+		<!-- update-begin-Author:LiShaoQing  Date:20171227 for：添加新的高级查询构造器按钮功能 -->
+		<attribute>
+			<name>complexSuperQuery</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否使用高级查询器构造器,值不为空显示高级查询构造器按钮</description>
+		</attribute>
+		<!-- update-end-Author:LiShaoQing  Date:20171227 for：添加新的高级查询构造器按钮功能 -->
 		<attribute>
 			<name>singleSelect</name>
 			<rtexprvalue>true</rtexprvalue>
@@ -224,6 +252,18 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否使用检索可收缩功能true,false</description>
 		</attribute>
+		<!-- update-begin-Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果 -->
+		<attribute>
+			<name>isShowSubGrid</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否显示表体数据 值为true 或者false</description>
+		</attribute>
+		<attribute>
+			<name>configId</name>
+			<rtexprvalue></rtexprvalue>
+			<description>主表表名</description>
+		</attribute>
+		<!-- update-end-Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果 -->
 	</tag>
 	<tag>
 		<name>dgCol</name>
@@ -1856,5 +1896,45 @@
 		</attribute>
 	</tag>
 	<!-- add-end- Author:taoyan  Date:20170327 for：文件上传标签  -->
-	
+	<!-- add-begin-author:zhangjiaqiang Date:20170913 for:treeSelectTag -->
+	<tag>
+		<name>treeSelectTag</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.TreeSelectTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>树形选择标签</description>
+		<attribute>
+			<name>id</name>
+			<required>falase</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件ID</description>
+		</attribute>
+		<attribute>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>字段值</description>
+		</attribute>
+		<attribute>
+			<name>code</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>过滤类型编码</description>
+		</attribute>
+		<attribute>
+			<name>defaultVal</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>字段默认值</description>
+		</attribute>
+		<attribute>
+			<name>divClass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>下拉div样式</description>
+		</attribute>
+		<attribute>
+			<name>inputClass</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>输入框样式</description>
+		</attribute>
+	</tag>
+	<!-- add-end-author:zhangjiaqiang Date:20170913 for:treeSelectTag -->
 </taglib>

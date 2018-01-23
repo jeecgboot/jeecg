@@ -22,11 +22,13 @@
 
 <!-- 联动 -->
 <script src="plug-in/jquery/jquery.regionselect.js" type="text/javascript"></script>
+
+<!-- select2 -->
+<link rel="stylesheet" href="plug-in/select2/css/select2.min.css">
+<script type="text/javascript" src="plug-in/select2/js/select2.full.min.js"></script>
 </head>
 <body>
 <t:formvalid layout="div" formid="dd" dialog="" >
-
-<!-- update-begin--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
  <fieldset>
  <legend>文件上传</legend>
 	<div id="uploader" class="wu-example">
@@ -36,6 +38,17 @@
 	        <div id="picker">选择文件</div>
 	    </div>
 	</div>
+ </fieldset>
+ <fieldset>
+ <legend>select2</legend>
+  <table>
+	<tr>
+		<td style="width:90px;text-align: right;">省份选择:</td>
+		<td>
+			<input type="text" id="province-select" name="province-select" class="ac_input">
+		</td>
+	</tr>
+ </table>
  </fieldset>
  
  <fieldset>
@@ -52,7 +65,6 @@
   
  <fieldset>
  <legend>联动下拉省市区</legend>
-	<!-- update-begin_author:taoYan date:20170803 for:修复ie下样式变乱   -->
  	<div style="width:80%;margin:5px 0 0 10px;">
 	  <input type="text" id="province" style="width:32%;" value=""/> 
 	  <input type="text" id="city" style="width:32%;" value=""/> 
@@ -67,7 +79,6 @@
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
  </fieldset>
- <!-- update-end-author:taoYan date:20170803 for:修复ie下样式变乱  -->
  
  <fieldset>
  <legend>ueditor</legend>
@@ -87,9 +98,6 @@
  	</table>
  </fieldset>
 </t:formvalid>
-<!-- update-end--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
-
-<!-- update-begin--Author:taoYan  Date:20170803 for：代码格式修改 -->
 <script type="text/javascript">
 function printobj(obj){
 	var str='[';
@@ -121,9 +129,9 @@ $(function() {
 	$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	
 	//省市区下拉
-	$("#province").regionselect({
-			url:'<%=basePath%>/jeecgFormDemoController.do?regionSelect'
-	});
+ 	$("#province").regionselect({
+ 			url:'<%=basePath%>/jeecgFormDemoController.do?regionSelect'
+ 	});
 	
 	/*-------------------------------------------文件上传----------------------------------------------*/
 	var urlc= '<%=basePath%>/systemController/filedeal.do';
@@ -207,6 +215,30 @@ $(function() {
 
 	$("div.webuploader-container").css("width","78px");
 
+	var select2Data = new Array();
+	$.ajax({
+		url:'jeecgFormDemoController.do?regionSelect&pid=1',
+		type:'GET',
+		dataType:'JSON',
+		delay: 250,
+		cache: true,
+		success: function(data){
+			for(var i = 0; i < data.length; i++){
+				var select2Obj = {};
+				select2Obj.id = data[i].id;
+				select2Obj.text = data[i].name;
+				select2Data.push(select2Obj);
+			}
+			$("#province-select").select2({
+				data: select2Data,
+				placeholder:'请选择省份',//默认文字提示
+			    language: "zh-CN",//汉化
+			    allowClear: true//允许清空
+			});
+		}
+	});
+
+	
 });
 </script>
 </body>

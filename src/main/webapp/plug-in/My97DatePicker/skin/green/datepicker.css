@@ -1,17 +1,19 @@
+/*update-begin--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 .WdateDiv {
 	position: relative;
-	width: 240px;
+	width: 220px;
 	font-size: 14px;
 	color: #fff;
 	border: none;
 	background-color: #1fbba6;
-	padding: 7px;
-	border-radius:5px;
+	padding: 2px;
+	border-radius:3px;
 }
 
 .WdateDiv2 {
-	width: 520px;
+	width: 390px;
 }
+/*update-end--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 /*,.WdateDiv #dpQS --------取消此按钮的背景色*/
 .WdateDiv .NavImg a,.WdateDiv .yminput,.WdateDiv .yminputfocus
 	{
@@ -24,10 +26,12 @@
 	height: 16px;
 	cursor: pointer;
 }
-
+/*update-begin--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 .WdateDiv .NavImgll a {
+	margin-left:4px;
 	background-position: 0 5px;
 }
+/*update-end--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 
 .WdateDiv .NavImgl a {
 	background-position: 0 -10px;
@@ -42,15 +46,16 @@
 	background-position: 0 -40px;
 	float: right;
 }
-
+/*update-begin--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
+/*年月选择框 高度*/
 .WdateDiv #dpTitle {
 	line-height: 0;
-	height: 31px;
+	height: 30px;
 	padding: 6px 0 0;
 }
 
 .WdateDiv .yminput,.WdateDiv .yminputfocus {
-	margin-left: 35px;
+	margin-left: 5px;
 	width: 50px;
 	height: 20px;
 	line-height: 16px;
@@ -59,7 +64,7 @@
 	background-position: 35px -68px;
 	color:#fff;
 }
-
+/*update-end--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 .WdateDiv .yminputfocus {
 	background-color: #fff;
 	border: solid 1px #D8D8D8;
@@ -107,16 +112,17 @@
 	background: #DAF3F5;
 	border-right: #BDEBEE 1px solid;
 }
-
+/*update-begin--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 .WdateDiv td {
-	line-height: 30px;
+	/* 每日单元格 高度*/
+	line-height: 22px;
 	font-size: 14px;
 	color: #999;
 	background: #fff;
 	cursor: pointer;
 	padding: 1px;
 }
-
+/*update-end--Author:xuelin  Date:20171109 for：(#2404) 【平台UI改造】UI样式改造点---时间控件效果弹出大小，参考fineui修改--------------------*/
 .WdateDiv .MTitle td {
 	line-height: 36px;
 	color: #34495e;

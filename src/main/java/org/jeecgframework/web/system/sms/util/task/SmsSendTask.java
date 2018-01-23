@@ -28,10 +28,10 @@ public class SmsSendTask implements Job{
 	public void run() {
 		long start = System.currentTimeMillis();
 		org.jeecgframework.core.util.LogUtil.info("===================推送消息定时任务开始===================");
-		try {
+		try {			
 			tSSmsService.send();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		org.jeecgframework.core.util.LogUtil.info("===================推送消息定时任务结束===================");
 		long end = System.currentTimeMillis();

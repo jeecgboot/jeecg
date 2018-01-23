@@ -24,8 +24,11 @@ public enum OnlineGenerateEnum {
 	ONLINE_DIV_SINGLE("div.single","DIV风格表单","single","ext"),
 	ONLINE_NOPOP_SINGLE("nopop.single","NOPOP风格表单","single","ext"),
 
-	ONLINE_ROW_SINGLE("rowedit.single","行编辑风格表单","single","ext");
+	ONLINE_ROW_SINGLE("rowedit.single","行编辑风格表单","single","ext"),
 
+	ONLINE_TAB_ONETOMANY("tab.onetomany","TAB风格表单","onetomany","ext");
+
+	
 //	ONLINE_DEFAULT_SINGLE("default.single","用户扩展风格示例","single","ext"),
 //	ONLINE_DEFAULT_ONETOMANY("default.onetomany","用户扩展风格示例","onetomany","ext");
 

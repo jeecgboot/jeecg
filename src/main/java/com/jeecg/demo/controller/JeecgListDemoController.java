@@ -56,6 +56,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.jeecg.demo.dao.JeecgMinidaoDao;
 import com.jeecg.demo.entity.JeecgDemoEntity;
 import com.jeecg.demo.entity.JeecgDemoPage;
@@ -133,6 +134,15 @@ public class JeecgListDemoController extends BaseController {
 	}
 
 	/**
+	 * 自定义查询条件二
+	 */
+	@RequestMapping(params = "mysearchListDemo2")
+	public ModelAndView mysearchListDemo2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/taglist_mysearch2");
+	}
+
+
+	/**
 	 * 综合报表 页面跳转
 	 * 
 	 * @return
@@ -141,7 +151,27 @@ public class JeecgListDemoController extends BaseController {
 	public ModelAndView broswerStatisticTabs(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/reportDemo");
 	}
-	
+
+	/**
+	 * 多条件动态查询Demo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "querysBuilder")
+	public ModelAndView querysBuilder(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/querysBuilderDemo");
+	}
+
+	/**
+	 * 多条件动态查询弹框式选择
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "goFormQuerysBuilder")
+	public ModelAndView goFormQuerysBuilder(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/form_querysBuilder");
+	}
+
 	
 	/**
 	 * 综合报表 datagrid
@@ -322,6 +352,11 @@ public class JeecgListDemoController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemoEntity jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(JeecgDemoEntity.class, dataGrid);
+		if(oConvertUtils.isNotEmpty(dataGrid.getSqlbuilder())) {
+			if(dataGrid.getSqlbuilder().indexOf("≤") > 0) {
+				dataGrid.setSqlbuilder(dataGrid.getSqlbuilder().replace("≤", "<="));
+			}
+		}
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgDemo, request.getParameterMap());
 		try{
@@ -346,7 +381,7 @@ public class JeecgListDemoController extends BaseController {
 		}
 		//dataGrid.setFooter("extField,salary,age,name:合计");
 		dataGrid.setFooter("salary,age,name:合计");
-		TagUtil.datagrid(response, dataGrid,extMap);
+		TagUtil.datagrid(response, dataGrid, extMap);
 	}
 	
 	@RequestMapping(params = "addTab")
@@ -367,6 +402,18 @@ public class JeecgListDemoController extends BaseController {
 		return new ModelAndView("com/jeecg/demo/jeecgDemo-check");
 		
 	}
+
+	/**
+	 * 自定义查询
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "goBuilderDemo")
+	public ModelAndView goBuilderDemo( HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/superQueryDemo");
+		
+	}
+
 	
 	@RequestMapping(params = "doCheck")
 	@ResponseBody
@@ -555,7 +602,7 @@ public class JeecgListDemoController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		req.setAttribute("controller_name","JeecgListDemoController");
+		req.setAttribute("controller_name","jeecgListDemoController");
 		return new ModelAndView("common/upload/pub_excel_upload");
 	}
 	

@@ -137,10 +137,13 @@ function addTab4MenuId(subtitle, url, icon, funmenuid) {
 	var progress = $("div.messager-progress");
 	if(progress.length){return;}
 	rowid="";
-	$.messager.progress({
-		text : loading,
-		interval : 200
-	});
+
+//	$.messager.progress({
+//		text : loading,
+//		interval : 200
+//	});
+	showloading();
+
 	var oldTabIndex;
 	var hastab = false;
 	var allTabs = $('#maintabs').tabs('tabs');
@@ -169,14 +172,15 @@ function addTab4MenuId(subtitle, url, icon, funmenuid) {
 				icon : icon
 			});	
 		}else{
-			
+
 			$('#maintabs').tabs('add', {
 				menuid : funmenuid,
 				title : subtitle,
-				content : '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
+				content : '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
 				closable : true,
 				icon : icon
-			});		
+			});	
+
 			
 		}
 
@@ -184,6 +188,9 @@ function addTab4MenuId(subtitle, url, icon, funmenuid) {
 		$('#maintabs').tabs('select', oldTabIndex);
 		$.messager.progress('close');
 	}
+
+	window.setTimeout(hiddenloading,3000);
+
 	tabClose();
 }
 //add-end--Author:yugwu  Date:20170629 for:[TASK #2185] 【bug】shortcut及经典下同名菜单冲突，只能点开一个----
@@ -239,6 +246,9 @@ function tabClose() {
 	$(".tabs-inner").dblclick(function() {
 		var subtitle = $(this).children(".tabs-closable").text();
 		$('#tabs').tabs('close', subtitle);
+
+		hiddenloading();
+
 	})
 	/* 为选项卡绑定右键 */
 	$(".tabs-inner").bind('contextmenu', function(e) {
@@ -251,6 +261,9 @@ function tabClose() {
 
 		$('#mm').data("currtab", subtitle);
 		// $('#maintabs').tabs('select',subtitle);
+
+		hiddenloading();
+
 		return false;
 	});
 }
@@ -329,4 +342,12 @@ $.parser.onComplete = function() {/* 页面所有easyui组件渲染成功后，�
 		$.messager.progress('close');
 	}, 200);
 };
+
+function hiddenloading(){
+	$("#panelloadingDiv").hide();
+}
+
+function showloading(){
+	$("#panelloadingDiv").show();
+}
 

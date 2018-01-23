@@ -12,7 +12,6 @@
 		<link rel="shortcut icon" href="images/favicon.ico">
 		<!-- basic styles -->
 		<link href="plug-in/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
-		<!-- update-start--Author: dangzhenghui Date:20170608 for: TASK #2088 【图标问题】首页风格图标统一 -->
 		<link href="plug-in-ui/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 		<!-- update-end--Author: dangzhenghui Date:20160812 for: TASK #2088 【图标问题】首页风格图标统一-->
 		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
@@ -69,7 +68,6 @@
 
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-					<!-- update-start--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
 					<!-- 
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -143,7 +141,6 @@
 								</li>
 							</ul>
 						</li>-->
-						<!-- update-end--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
 
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -156,7 +153,6 @@
 									<i class="icon-warning-sign"></i>
 									0条公告
 								</li>
-								<!--update--begin--author:zhangjiaqiang date:20170314 for: 修订公告信息显示异常 -->
 								<li >
 									<ul id="noticeContent">
 										ajax加载
@@ -167,7 +163,6 @@
 									<a href="#" id="noticeContentLink">
 									</a>
 								</li>
-						<!--update--end--author:zhangjiaqiang date:20170314 for: 修订公告信息显示异常 -->
 								<li>
 									<a href="javascript:goAllNotice();" id="noticeFooter">
 										查看全部
@@ -420,15 +415,12 @@
 				<td class="value"><input type="radio" value="bootstrap" name="indexStyle" /> <span>BootStrap风格</span></td>
 			</tr>
 			-->
-			<!-- update-start--Author:gaofeng  Date:2014-01-10 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="shortcut" name="indexStyle" /> <span>ShortCut风格</span></td>
 			</tr>
-			<!-- update-start--Author:gaofeng  Date:2014-01-24 for:新增首页风格  -->
 			<tr>
 				<td class="value"><input type="radio" value="sliding" name="indexStyle"  /><span>Sliding云桌面</span></td>
 			</tr>
-			<!-- update-end--Author:longjb  Date:2013-03-15 for:新增首页风格  -->	
 			<tr>
 				<td class="value"><input type="radio" value="ace" name="indexStyle"  /><span>ACE平面风格</span></td>
 			</tr>

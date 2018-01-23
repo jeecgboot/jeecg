@@ -1,4 +1,4 @@
-﻿﻿// update--begin--author:zhangjiaqiang date:20170621 for:如何避免console.log引起javascript的兼容问题 
+﻿﻿﻿﻿// update--begin--author:zhangjiaqiang date:20170621 for:如何避免console.log引起javascript的兼容问题 
 if(!window.console){
     window.console = {};
 }
@@ -290,9 +290,11 @@ function deluploadify(url, id) {
 	});
 }
 // 普通询问操作调用函数
-function confirm(url, content,name) {
-	createdialog('提示信息 ', content, url,name);
+
+function confirm(url, content,name,noShade) {
+	createdialog('提示信息 ', content, url,name,noShade);
 }
+
 /**
  * 提示信息
  */
@@ -640,8 +642,10 @@ function openwindow(title, url,name, width, height) {
  * @param title
  * @param content
  * @param url
+ * @param noShade 不赋值则有遮罩
  */
-function createdialog(title, content, url,name) {
+
+function createdialog(title, content, url,name,noShade) {
 	$.dialog.setting.zIndex = getzIndex(true);
 //	$.dialog.confirm(content, function(){
 //		doSubmit(url,name);
@@ -663,6 +667,7 @@ function createdialog(title, content, url,name) {
 			title:title,
 			content:content,
 			icon:7,
+			shade: !noShade?0.3:0,
 			yes:function(index){
 				doSubmit(url,name);
 				rowid = '';
@@ -918,6 +923,12 @@ function addOneTab(subtitle, url, icon) {
 		var id = "";
 		id = createTabId(subtitle);
 		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
+
+	}else if(indexStyle=='fineui'){
+		var id = "";
+		id = createTabId(subtitle);
+		window.top.addFineuiTab({id:id,title:subtitle,close: true,url: url});
+
 	}else{
 		if (icon == '') {
 			icon = 'icon folder';
@@ -1250,6 +1261,12 @@ function viewNotCreateWin(title,url, id,isRestful)
 //add--start--Author:gengjiajia date:20160802 for: TASK #1175 批量添加数据的时popup多值的传递
 //popup  
 //object: pobj当前操作的文本框. tablefield:对应字典TEXT,要从popup报表中获取的字段.inputnames:对应字典CODE,当前需要回填数据的文本框名称. pcode:动态报表的code
+/**
+ *   object: pobj当前操作的文本框.
+ *   tablefield:对应字典TEXT,要从popup报表中获取的字段.
+ *   inputnames:对应字典CODE,当前需要回填数据的文本框名称.
+ *   pcode:动态报表的code
+ */
 function popupClick(pobj,tablefield,inputnames,pcode) {
 	 $.dialog.setting.zIndex = getzIndex(true);
 	 if(inputnames==""||pcode==""){
@@ -1291,14 +1308,18 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    		﻿	//update--begin--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+
 						    			$("input[name='"+inpu+"']").val(str);
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val(str);
 						    		}
 						    	}else{
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+
 						    			$("input[name='"+inpu+"']").val("");
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val("");
@@ -1350,14 +1371,18 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 						    	var inputs = inputname.split(".");
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+
 						    			$("input[name='"+inpu+"']").val(str);
 						    		}else{
 						    			$("input[name='"+inputfield+"']").val(str);
 						    		}
 						    	}else{
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+
 						    			$("input[name='"+inpu+"']").val("");
 						    		}else{
 						    			$("input[name='"+inputfield+"']").val("");
@@ -1408,14 +1433,14 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			var inpu = inputs[0]+"."+inputfield[i1];
 						    			$("input[name='"+inpu+"']").val(str);
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val(str);
 						    		}
 						    	}else{
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			var inpu = inputs[0]+"."+inputfield[i1];
 						    			$("input[name='"+inpu+"']").val("");
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val("");

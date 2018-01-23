@@ -1,13 +1,15 @@
 <div id="${sub}_area">
 	<#if data['${sub}']?exists&&(data['${sub}']?size>0) >
+	  <#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+	  <#list data['${sub}']  as subTableData>
 	   <div name="items">
-	     <#list data['${sub}']  as subTableData>
 	     	<li>
 				<div class="alert alert-info" role="alert">
 					 ${field['${sub}'].head.content?if_exists?html}(<span name="index">${subTableData_index+1}</span>)
-					  <button type="button" class="btn btn-default btn-sm active" name="${sub}_delBtn" style="float:right;margin-top:-5px;">删除</button>
+					  <button type="button" class="btn btn-default btn-sm active jeecgDetail" name="${sub}_delBtn" style="float:right;margin-top:-5px;">删除</button>
 				</div>
 			</li>
+			<#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 			<input type="hidden" name="${sub}[${subTableData_index}].id" id="${sub}[${subTableData_index}].id" value="${subTableData['id']?if_exists?html}"/>
 			<#list field['${sub}'].hiddenFieldList as subTableField >
 				<input type="hidden" name="${sub}[${subTableData_index}].${subTableField.field_name}" id="${sub}[${subTableData_index}].${subTableField.field_name}" value="${subTableData['${subTableField.field_name}']?if_exists?html}"/>
@@ -198,8 +200,10 @@
 						</li>
 					</#if>
 			 </#list>	
-		  </#list>
-		</div>
+		<#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+			</div>
+		</#list>
+		<#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 	 <#else>
 		  <div name="items">
 		  	<li>
@@ -388,7 +392,9 @@
 	</#if>
 </div>
 	<li>
-		<button type="button" class="btn btn-primary btn-lg btn-block" id="${sub}_addBtn">添加${field['${sub}'].head.content?if_exists?html}</button>
+	 	<#--//update-begin--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
+		<button type="button" class="btn btn-primary btn-lg btn-block jeecgDetail" id="${sub}_addBtn">添加${field['${sub}'].head.content?if_exists?html}</button>
+		<#--//update-end--Author:Yandong  Date:20171227 for：TASK #2375 【online模板】通用移动模板002，有很多问题-->
 	</li>
 	
 	<script type="text/javascript">

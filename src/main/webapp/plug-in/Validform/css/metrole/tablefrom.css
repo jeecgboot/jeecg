@@ -19,19 +19,29 @@ body {
 	width:150px;
 	
 }
-.formtable  .input_text:focus{
-	border: 1px solid #06F;
-	box-shadow: inset 0 1px 2px rgba(0, 102, 255, 0.3);
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
+input:focus {
+	 border-color: #76B4AC;
+     background-color: #fafafa;
+     color: #007465;
 }
+.formtable .inputxt:focus{
+	border-color: #76B4AC;
+    background-color: #fafafa;
+    color: #007465;
+}
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
 .formtable select{
 	padding:6px 2px;
 	width:155px;
 }
 .Validform_label {
 	font-size: 12px;
-	font-weight: 700;
+	font-weight: normal;
 /* 	color: #5E7595; */
-	padding: 5px;
+	/*update-begin--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+	padding: 20px;
+	/*update-end--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
 	white-space:nowrap;
 }
 .formtable
@@ -90,3 +100,78 @@ tbody > tr > td[align='right']{
 	min-width: 110px;
 }
 /*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */
+#tabs-project .progress{
+	background: url(../../images/bg_state-1.jpg) no-repeat -157px 0px;
+	height: 30px;
+	width: 30px;
+	float: left;
+	position: relative;
+}
+
+#tabs-project .progress1 {
+	background-position: 0 0;
+	width: 157px;
+}
+
+#tabs-project .progress div.detial {
+	position: absolute;
+	left: -40px;
+	top: 40px;
+	width: 157px;
+	height: 80px;
+	z-index: 2;
+	line-height: 18px;
+}
+
+#tabs-project .progress3 {
+	background-position: 0 -58px;
+	width: 157px;
+}
+
+#tabs-project .progress_cancel {
+	background-position: -157px -90px;
+}
+
+#tabs-project .progress_unstart {
+	background-position: -157px -60px;
+}
+
+.Button{ 
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	color: #fef4e9;
+	border: solid 1px #1D73F7;
+	background: #1D73F7;
+	background: -webkit-gradient(linear, left top, left bottom, from(#1D73F7), to(#1D51F7));
+}
+
+.disabledButton{ 
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	color: #ffffff;
+	border: solid 1px #BDBEC0;
+	background: #BDBEC0;
+	background: -webkit-gradient(linear, left top, left bottom, from(#BDBEC0), to(#BDBEC0));
+}

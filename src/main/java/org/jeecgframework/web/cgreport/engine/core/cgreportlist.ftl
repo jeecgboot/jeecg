@@ -21,7 +21,7 @@ $(function(){$('#${config_id}List').datagrid(
 					<#list config_fieldList  as x>  
 					 	<#if x_has_next>
 						{field:'${x['field_name']}',
-						 title:'${x['field_txt']}',
+						//update-begin-- author:YanDong ---date:20171026 ----for:#2381 【Online开发】 在线开发报表配置的列宽无法根据列的内容自适应
 					 	 <#if x['field_href']?? && x['field_href']!="">
 						 	formatter:function(value,rec,index){
 						 		var href='';
@@ -30,9 +30,10 @@ $(function(){$('#${config_id}List').datagrid(
 						 	},
 					 	 </#if>
 						 <#if x['is_show'] == "N" >hidden:true,</#if>
-						 width:80},
+						 title:'${x['field_txt']}'},
 						<#else>
-						{field:'${x['field_name']}',title:'${x['field_txt']}',width:80}
+						{field:'${x['field_name']}',title:'${x['field_txt']}'}
+						//update-end-- author:YanDong ---date:20171026 ----for:#2381 【Online开发】 在线开发报表配置的列宽无法根据列的内容自适应
 					  	</#if>
 					</#list>
 					</#if>
@@ -95,6 +96,7 @@ $(function(){$('#${config_id}List').datagrid(
 </script>
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>
 <div id="${config_id}Listtb" style="padding:3px; height: auto">
+<#if (config_queryList?size >0)>
 <div name="searchColums">
 	<#list config_queryList  as x>
 		<span style="display:-moz-inline-box;display:inline-block;">
@@ -107,7 +109,7 @@ $(function(){$('#${config_id}List').datagrid(
 		<#if x['search_mode']=="single">
 				<#if  (x['field_dictlist']?size >0)>
 				<select name = "${x['field_name']}" WIDTH="100" style="width: 104px">
-				<option value = "">---请选择---</option>
+				<option value = "">-- 请选择 --</option>
 				<#list x['field_dictlist']  as xd>
 					<option value = "${xd['typecode']}">${xd['typename']}</option>
 				</#list>
@@ -119,17 +121,19 @@ $(function(){$('#${config_id}List').datagrid(
 		</#if>
 		</span>	
 	</#list>
-	</div>
-	<div style="height:30px;" class="datagrid-toolbar">
-	<span style="float:left;" >
-	<a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="exportXls();">导出excel</a>
-	</span>
-	
-<#if  (config_queryList?size >0)>
+	<#-- update--begin--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
+	<#if  (config_queryList?size >0)>
 		<span style="float:right">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="${config_id}Listsearch()">查询</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset_${config_id}('${config_id}List')">重置</a>
 		</span>
+	</#if>
+	<#-- update--end--author:zhangjiaqiang date:20171115 for:TASK #2420 【online功能】查询按钮位置调整 -->
+	</div>
 </#if>
+	<div class="datagrid-toolbar">
+	<span style="float:left;" >
+	<a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="exportXls();">导出excel</a>
+	</span>
 	</div>
 </div>

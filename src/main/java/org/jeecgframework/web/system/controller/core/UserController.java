@@ -43,6 +43,8 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.datatable.DataTables;
 import org.jeecgframework.web.system.manager.ClientManager;
+import org.jeecgframework.web.system.pojo.base.InterroleEntity;
+import org.jeecgframework.web.system.pojo.base.InterroleUserEntity;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSRole;
@@ -606,68 +608,72 @@ public class UserController extends BaseController {
 	}
 
 	/**
+	 * 检查用户邮箱
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params="checkUserEmail")
+	@ResponseBody
+	public ValidForm checkUserEmail(HttpServletRequest request){
+		ValidForm validForm = new ValidForm();
+		String email=oConvertUtils.getString(request.getParameter("param"));
+		String code=oConvertUtils.getString(request.getParameter("code"));
+		List<TSUser> userList=systemService.findByProperty(TSUser.class,"email",email);
+		if(userList.size()>0&&!code.equals(email))
+		{
+			validForm.setInfo("邮箱已绑定相关用户信息");
+			validForm.setStatus("n");
+		}
+		return validForm;
+	}
+
+	
+	/**
 	 * 用户录入
 	 * 
 	 * @param user
 	 * @param req
 	 * @return
 	 */
-
 	@RequestMapping(params = "saveUser")
 	@ResponseBody
 	public AjaxJson saveUser(HttpServletRequest req, TSUser user) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
+
+		Short logType=Globals.Log_Type_UPDATE;
 		// 得到用户的角色
 		String roleid = oConvertUtils.getString(req.getParameter("roleid"));
-		String password = oConvertUtils.getString(req.getParameter("password"));
+		String orgid=oConvertUtils.getString(req.getParameter("orgIds"));
 		if (StringUtil.isNotEmpty(user.getId())) {
 			TSUser users = systemService.getEntity(TSUser.class, user.getId());
 			users.setEmail(user.getEmail());
 			users.setOfficePhone(user.getOfficePhone());
 			users.setMobilePhone(user.getMobilePhone());
 			users.setDevFlag(user.getDevFlag());
-
-            systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
-            saveUserOrgList(req, user);
-//            users.setTSDepart(user.getTSDepart());
-
 			users.setRealName(user.getRealName());
 			users.setStatus(Globals.User_Normal);
 			users.setActivitiSync(user.getActivitiSync());
-			systemService.updateEntitie(users);
-			List<TSRoleUser> ru = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-			systemService.deleteAllEntitie(ru);
+			this.userService.saveOrUpdate(users, orgid.split(","), roleid.split(","));
 			message = "用户: " + users.getUserName() + "更新成功";
-			if (StringUtil.isNotEmpty(roleid)) {
-				saveRoleUser(users, roleid);
-			}
-			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
 			TSUser users = systemService.findUniqueByProperty(TSUser.class, "userName",user.getUserName());
 			if (users != null) {
 				message = "用户: " + users.getUserName() + "已经存在";
 			} else {
-				user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
-//				if (user.getTSDepart().equals("")) {
-//					user.setTSDepart(null);
-//				}
+				user.setPassword(PasswordUtil.encrypt(user.getUserName(), oConvertUtils.getString(req.getParameter("password")), PasswordUtil.getStaticSalt()));
 				user.setStatus(Globals.User_Normal);
 				user.setDeleteFlag(Globals.Delete_Normal);
-				systemService.save(user);
-                // todo zhanggm 保存多个组织机构
-                saveUserOrgList(req, user);
+				this.userService.saveOrUpdate(user, orgid.split(","), roleid.split(","));				
 				message = "用户: " + user.getUserName() + "添加成功";
-				if (StringUtil.isNotEmpty(roleid)) {
-					saveRoleUser(user, roleid);
-				}
-				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+				logType=Globals.Log_Type_INSERT;
 			}
-
 		}
+		systemService.addLog(message, logType, Globals.Log_Leavel_INFO);
 		j.setMsg(message);
 		logger.info("["+IpUtil.getIpAddr(req)+"][添加编辑用户]"+message);
 		return j;
+
 	}
 
     /**
@@ -773,6 +779,134 @@ public class UserController extends BaseController {
 
         return new ModelAndView("system/user/user");
 	}
+
+	/**
+	 * 添加、编辑接口用户
+	 * 
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
+	 */
+	@RequestMapping(params = "addorupdateInterfaceUser")
+	public ModelAndView addorupdateInterfaceUser(TSUser user, HttpServletRequest req) {
+        TSDepart tsDepart = new TSDepart();
+		if (StringUtil.isNotEmpty(user.getId())) {
+			user = systemService.getEntity(TSUser.class, user.getId());
+			req.setAttribute("user", user);
+			interfaceroleidandname(req, user);
+		}else{
+			String roleId = req.getParameter("roleId");
+	        InterroleEntity role = systemService.getEntity(InterroleEntity.class, roleId);
+	        req.setAttribute("roleId", roleId);
+			req.setAttribute("roleName", role.getRoleName());
+		}
+		req.setAttribute("tsDepart", tsDepart);
+        return new ModelAndView("system/user/interfaceUser");
+	}
+	
+	public void interfaceroleidandname(HttpServletRequest req, TSUser user) {
+		List<InterroleUserEntity> roleUsers = systemService.findByProperty(InterroleUserEntity.class, "TSUser.id", user.getId());
+		String roleId = "";
+		String roleName = "";
+		if (roleUsers.size() > 0) {
+			for (InterroleUserEntity interroleUserEntity : roleUsers) {
+				roleId += interroleUserEntity.getInterroleEntity().getId() + ",";
+				roleName += interroleUserEntity.getInterroleEntity().getRoleName() + ",";
+			}
+		}
+		req.setAttribute("roleId", roleId);
+		req.setAttribute("roleName", roleName);
+
+	}
+	
+	/**
+	 * 接口用户录入
+	 * 
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(params = "saveInterfaceUser")
+	@ResponseBody
+	public AjaxJson saveInterfaceUser(HttpServletRequest req, TSUser user) {
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		// 得到用户的角色
+		String roleid = oConvertUtils.getString(req.getParameter("roleid"));
+		String password = oConvertUtils.getString(req.getParameter("password"));
+		if (StringUtil.isNotEmpty(user.getId())) {
+			TSUser users = systemService.getEntity(TSUser.class, user.getId());
+			users.setEmail(user.getEmail());
+			users.setOfficePhone(user.getOfficePhone());
+			users.setMobilePhone(user.getMobilePhone());
+			users.setDevFlag(user.getDevFlag());
+
+//            systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId());
+//            saveUserOrgList(req, user);
+//            users.setTSDepart(user.getTSDepart());
+
+			users.setRealName(user.getRealName());
+			users.setStatus(Globals.User_Normal);
+			users.setActivitiSync(user.getActivitiSync());
+			
+			users.setUserNameEn(user.getUserNameEn());
+			users.setUserType(user.getUserType());
+//			users.setPersonType(user.getPersonType());
+			users.setSex(user.getSex());
+			users.setEmpNo(user.getEmpNo());
+			users.setCitizenNo(user.getCitizenNo());
+			users.setFax(user.getFax());
+			users.setAddress(user.getAddress());
+			users.setPost(user.getPost());
+			users.setMemo(user.getMemo());
+			
+			systemService.updateEntitie(users);
+			List<TSRoleUser> ru = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
+			systemService.deleteAllEntitie(ru);//TODO ?
+			message = "用户: " + users.getUserName() + "更新成功";
+//			if (StringUtil.isNotEmpty(roleid)) {
+//				saveInterfaceRoleUser(users, roleid);
+//			}
+			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+		} else {
+			TSUser users = systemService.findUniqueByProperty(TSUser.class, "userName",user.getUserName());
+			if (users != null) {
+				message = "用户: " + users.getUserName() + "已经存在";
+			} else {
+				user.setPassword(PasswordUtil.encrypt(user.getUserName(), password, PasswordUtil.getStaticSalt()));
+//				if (user.getTSDepart().equals("")) {
+//					user.setTSDepart(null);
+//				}
+				user.setStatus(Globals.User_Normal);
+				user.setDeleteFlag(Globals.Delete_Normal);
+				systemService.save(user);
+                // todo zhanggm 保存多个组织机构
+//                saveUserOrgList(req, user);
+				message = "用户: " + user.getUserName() + "添加成功";
+				if (StringUtil.isNotEmpty(roleid)) {
+					saveInterfaceRoleUser(user, roleid);
+				}
+				systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			}
+
+		}
+		j.setMsg(message);
+		logger.info("["+IpUtil.getIpAddr(req)+"][添加编辑用户]"+message);
+		return j;
+	}
+	
+	protected void saveInterfaceRoleUser(TSUser user, String roleidstr) {
+		String[] roleids = roleidstr.split(",");
+		for (int i = 0; i < roleids.length; i++) {
+			InterroleUserEntity rUser = new InterroleUserEntity();
+			InterroleEntity role = systemService.getEntity(InterroleEntity.class, roleids[i]);
+			rUser.setInterroleEntity(role);
+			rUser.setTSUser(user);
+			systemService.save(rUser);
+		}
+	}
+
 
     /**
      * 用户的登录后的组织机构选择页面
@@ -1149,20 +1283,22 @@ public class UserController extends BaseController {
 			//托管
 			systemService.getSession().evict(user);
 			String id = user.getId();
-			List<TSRole> roles = systemService.getSession().createSQLQuery("select * from t_s_role where id in (select roleid from t_s_role_user where userid=:userid)")
-					.addEntity(TSRole.class).setString("userid",id).list();
+
+			String queryRole = "select * from t_s_role where id in (select roleid from t_s_role_user where userid=:userid)";
+			List<TSRole> roles = systemService.getSession().createSQLQuery(queryRole).addEntity(TSRole.class).setString("userid",id).list();
 			String roleCodes = "";
 			for(TSRole role:roles){
-				roleCodes += role.getRoleCode()+",";
+				roleCodes += ","+role.getRoleCode();
 			}
-			user.setUserKey(roleCodes.substring(0,roleCodes.length()-1));
-			List<TSDepart> departs = systemService.getSession().createSQLQuery("select * from t_s_depart where id in (select org_id from t_s_user_org where user_id=:userid)")
-					.addEntity(TSDepart.class).setString("userid",id).list();
+			user.setUserKey(roleCodes.replaceFirst(",", ""));
+			String queryDept = "select * from t_s_depart where id in (select org_id from t_s_user_org where user_id=:userid)";
+			List<TSDepart> departs = systemService.getSession().createSQLQuery(queryDept).addEntity(TSDepart.class).setString("userid",id).list();
 			String departCodes = "";
 			for(TSDepart depart:departs){
-				departCodes += depart.getOrgCode()+",";
+				departCodes += ","+depart.getOrgCode();
 			}
-			user.setDepartid(departCodes.substring(0,departCodes.length()-1));
+			user.setDepartid(departCodes.replaceFirst(",", ""));
+
 		}
 		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
 		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
@@ -1206,14 +1342,19 @@ public class UserController extends BaseController {
 			try {
 				List<TSUser> tsUsers = ExcelImportUtil.importExcel(file.getInputStream(),TSUser.class,params);
 				for (TSUser tsUser : tsUsers) {
-					tsUser.setStatus(new Short("1"));
 					String username = tsUser.getUserName();
-					String roleCodes = tsUser.getUserKey();
-					String deptCodes = tsUser.getDepartid();
-
 					if(username==null||username.equals("")){
 						j.setMsg("用户名为必填字段，导入失败");
-					}else if((roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
+						return j;
+					}
+
+					tsUser.setStatus(new Short("1"));
+					tsUser.setDevFlag("0");
+					tsUser.setDeleteFlag(new Short("0"));
+					String roleCodes = tsUser.getUserKey();
+					String deptCodes = tsUser.getDepartid();
+					tsUser.setPassword(PasswordUtil.encrypt(username, "123456", PasswordUtil.getStaticSalt()));
+					if((roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
 						List<TSUser> users = systemService.findByProperty(TSUser.class,"userName",username);
 						if(users.size()!=0){
 							//用户存在更新
@@ -1326,5 +1467,33 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "userSelect")
 	public String userSelect() {
 		return "system/user/userSelect";
+	}
+	
+	/**
+	 * 添加、编辑我的机构用户
+	 * 
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
+	 */
+	@RequestMapping(params = "addorupdateMyOrgUser")
+	public ModelAndView addorupdateMyOrgUser(TSUser user, HttpServletRequest req) {
+        List<String> orgIdList = new ArrayList<String>();
+        TSDepart tsDepart = new TSDepart();
+		if (StringUtil.isNotEmpty(user.getId())) {
+			user = systemService.getEntity(TSUser.class, user.getId());
+			
+			req.setAttribute("user", user);
+			idandname(req, user);
+			getOrgInfos(req, user);
+		}else{
+			String departid = oConvertUtils.getString(req.getParameter("departid"));
+			TSDepart org = systemService.getEntity(TSDepart.class,departid);
+			req.setAttribute("orgIds", departid);
+			req.setAttribute("departname", org.getDepartname());
+		}
+		req.setAttribute("tsDepart", tsDepart);
+        return new ModelAndView("system/user/myOrgUser");
 	}
 }

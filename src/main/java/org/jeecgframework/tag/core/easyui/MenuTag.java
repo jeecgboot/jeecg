@@ -124,6 +124,8 @@ public class MenuTag extends JeecgTag {
 		}
 		if(style.equals("hplus")){
 			sb.append(ListtoMenu.getHplusMultistageTree(menuFun));
+		}else if (style.equals("fineui")){
+			sb.append(ListtoMenu.getFineuiMultistageTree(menuFun));
 		}
 
 		this.putTagCache(sb);

@@ -69,7 +69,9 @@ public interface SystemService extends CommonService{
 	/***
 	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮
 	 */
-	public List<TSOperation> getOperationsByUserIdAndFunctionId(String userId,String functionId);
+
+	public List<TSOperation> getOperationsByUserIdAndFunctionId(TSUser currLoginUser,String functionId);
+
 	
 	/**
 	 * 根据角色ID 和 菜单Id 获取 具有操作权限的按钮Codes
@@ -106,6 +108,13 @@ public interface SystemService extends CommonService{
 	 * 刷新字典分组缓存
 	 */
 	public void refleshTypeGroupCach();
+
+	/**
+	 * 刷新字典分组缓存&字典缓存
+	 */
+	public void refreshTypeGroupAndTypes();
+
+	
 	/**
 	 * 刷新菜单
 	 *
@@ -137,7 +146,8 @@ public interface SystemService extends CommonService{
 
 	public  Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,String functionId);
 
-	public  Set<String> getOperationCodesByUserIdAndDataId(String userId,String functionId);
+	public  Set<String> getOperationCodesByUserIdAndDataId(TSUser currLoginUser,String functionId);
+
 
 	/**
 	 * 加载所有图标
@@ -166,10 +176,19 @@ public interface SystemService extends CommonService{
 	public void addDataLog(String tableName, String dataId, String dataContent);
 
 	/***
-	 * 根据授权组Id 和 菜单Id 获取具有操作权限的数据规则
+	 * 获取二级管理员页面控件权限授权配置【二级管理员后台权限配置功能】
+	 * @param groupId 部门角色组ID
+	 * @param functionId 选中菜单ID
+	 * @Param type 0:部门管理员组/1:部门角色
 	 */
-	public Set<String> getOperationsByGroupIdAndFunctionId(String groupId,String functionId);
+	public Set<String> getDepartAuthGroupOperationSet(String groupId,String functionId,String type);
 	
-	public Set<String> getOperationCodesByGroupIdAndGroupDataId(String groupId,String functionId);
+	/***
+	 * 获取二级管理员数据权限授权配置【二级管理员后台权限配置功能】
+	 * @param groupId 部门角色组ID
+	 * @param functionId 选中菜单ID
+	 * @Param type  0:部门管理员组/1:部门角色
+	 */
+	public Set<String> getDepartAuthGroupDataRuleSet(String groupId,String functionId,String type);
 
 }

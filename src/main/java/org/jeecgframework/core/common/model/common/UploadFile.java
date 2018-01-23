@@ -41,12 +41,7 @@ public class UploadFile {
 
 	public UploadFile(HttpServletRequest request, Object object) {
 		String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
-
-		if("TSDocument".equals(object.getClass().getSimpleName()) && StringUtil.isNotEmpty(fileKey)){
-			this.fileKey = fileKey;
-			this.multipartRequest =(MultipartHttpServletRequest) request;
-
-		}else if (StringUtil.isNotEmpty(fileKey)) {
+		if (StringUtil.isNotEmpty(fileKey)) {
 			this.fileKey = fileKey;
 			this.request = request;
 		} else {

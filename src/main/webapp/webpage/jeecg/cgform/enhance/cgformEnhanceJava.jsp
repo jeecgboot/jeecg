@@ -32,7 +32,6 @@
 			<td class="value"><input id="cgJavaValue" name="cgJavaValue" type="text" style="width: 300px;height: 26px" value="${cgformEnhanceJavaPage.cgJavaValue}"/><span class="Validform_checktip"></span></td>
 			<!--update-end--Author:luobaoli  Date:20150701 for：取消非空校验-->
 		</tr>
-		<!-- add-begin--Author:xuelin  Date:20170408 for：[#1838]【online表单】Java 增强拓展字段，生效状态（采用radio 默认生效）-------------------- -->
 		<tr>
 			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.iseffect"/>: </label></td>
 			<td class="value">
@@ -41,7 +40,6 @@
 				<span class="Validform_checktip"></span>
 			</td>
 		</tr>
-		<!-- add-begin--Author:xuelin  Date:20170408 for：[#1838]【online表单】Java 增强拓展字段，生效状态（采用radio 默认生效）-------------------- -->
 	</table>
 </t:formvalid>
 </body>

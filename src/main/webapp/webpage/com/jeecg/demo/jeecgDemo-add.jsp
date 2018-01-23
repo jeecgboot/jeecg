@@ -9,12 +9,6 @@
  <body>
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jeecgListDemoController.do?doAdd" >
 		<input id="id" name="id" type="hidden" value="${jeecgDemoPage.id }"/>
-		<input id="createDate" name="createDate" type="hidden" value="${jeecgDemoPage.createDate }"/>
-		<input id="createBy" name="createBy" type="hidden" value="${jeecgDemoPage.createBy }"/>
-		<input id="createName" name="createName" type="hidden" value="${jeecgDemoPage.createName }"/>
-		<input id="updateBy" name="updateBy" type="hidden" value="${jeecgDemoPage.updateBy }"/>
-		<input id="updateDate" name="updateDate" type="hidden" value="${jeecgDemoPage.updateDate }"/>
-		<input id="updateName" name="updateName" type="hidden" value="${jeecgDemoPage.updateName }"/>
 		<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
 					<td align="right">
@@ -91,7 +85,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="phone" name="phone" type="text" style="width: 150px" class="inputxt" datatype="m"/>
+					     	 <input id="phone" name="phone" type="text" style="width: 150px" class="inputxt" datatype="m" ignore="ignore"/>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">电话</label>
 						</td>
@@ -103,7 +97,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="salary" name="salary" type="text" style="width: 150px" class="inputxt" />
+					     	 <input id="salary" name="salary" type="text" style="width: 150px" class="inputxt" datatype="d"/>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">工资</label>
 						</td>
@@ -141,7 +135,7 @@
 						</label>
 					</td>
 					<td class="value">
-					<t:webUploader type="image" displayTxt="false" bizType="photosucai" name="touxiang" auto="true" dataType="*"></t:webUploader>
+					<t:webUploader type="image" displayTxt="false" bizType="photosucai" name="touxiang" auto="true" ></t:webUploader>
 						<span class="Validform_checktip Validform_right" style="display: none;">图片已上传</span>
 					</td>
 				</tr>
@@ -157,7 +151,7 @@
 						<span class="Validform_checktip Validform_right" style="display: none;">文件已上传</span>
 					</td>
 				</tr>
-				
+				<t:hasPermission code="jeecgdemo_add">
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
@@ -167,7 +161,7 @@
 					<td class="value">
 								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
 								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
-						    	<textarea name="content" id="content" style="width: 650px;height:300px"></textarea>
+						    	<textarea name="content" id="content" style="width: 450px;height:300px"></textarea>
 							    <script type="text/javascript">
 							        var editor = UE.getEditor('content');
 							    </script>
@@ -175,6 +169,7 @@
 							<label class="Validform_label" style="display: none;">个人介绍</label>
 						</td>
 				</tr>
+				</t:hasPermission>
 			</table>
 		</t:formvalid>
  </body>

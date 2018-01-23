@@ -3,7 +3,9 @@ package org.jeecgframework.web.cgform.controller.build;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,12 +32,14 @@ import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
 import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
+import org.jeecgframework.web.cgform.entity.config.CgSubTableVO;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
+import org.jeecgframework.web.cgform.util.FillRuleUtil;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +109,17 @@ public class CgFormBuildController extends BaseController {
 		
 	}
 
+	private void putFormData(List<Map<String,Object>> list,Map<String,Object> dataForm){
+		if(list!=null && !list.isEmpty()){
+			for (Map<String, Object> column : list) {
+				Object value=column.get("fill_rule_code");
+				if(value!=null && !value.equals("")){
+					dataForm.put(column.get("field_name").toString(), FillRuleUtil.executeRule(value.toString()));
+				}
+			}
+		}
+	}
+
 	/**
 	 * form表单页面跳转
 	 */
@@ -138,6 +153,7 @@ public class CgFormBuildController extends BaseController {
 				        data.put(ok, ov);
 				    }
 		        }else{
+		        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
 		        	id = null;
 		        	dataForm = new HashMap<String, Object>();
 		        }
@@ -165,6 +181,37 @@ public class CgFormBuildController extends BaseController {
 	        Map<String, Object> tableData  = new HashMap<String, Object>();
 	        //获取主表或单表表单数据
 
+			if(StringUtils.isBlank(id)){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				logger.info("============================填值规则开始时间:"+sdf.format(new Date())+"==============================");
+				long startTime = System.currentTimeMillis();
+				//给主表字段加默认值
+				putFormData((List<Map<String,Object>>) data.get("columns"),dataForm);
+				putFormData((List<Map<String,Object>>) data.get("columnhidden"),dataForm);
+				//子表加默认值
+				String subTableStr = head.getSubTableStr();
+				if(StringUtils.isNotEmpty(subTableStr)){
+					String [] subTables = subTableStr.split(",");
+					Map<String,Object> subDataForm=null;
+					List<Map<String,Object>> subTableData =null;
+					Map<String, Object> field = (Map<String, Object>) data.get("field");
+					for(String subTable:subTables){
+						CgSubTableVO subTableVO=(CgSubTableVO) field.get(subTable);
+						subTableData=new ArrayList<Map<String,Object>>();
+						subDataForm=new HashMap<String, Object>();
+						putFormData(subTableVO.getFieldList(),subDataForm);
+						putFormData(subTableVO.getHiddenFieldList(),subDataForm);
+						subTableData.add(subDataForm);
+						tableData.put(subTable,subTableData);
+					}
+				}
+				long endTime = System.currentTimeMillis();
+				logger.info("================================填值规则结束时间:"+sdf.format(new Date())+"==============================");
+				logger.info("================================填值规则耗时:"+(endTime-startTime)+"ms==============================");
+			}
+
+
+	        
 	        tableData.put(tablename, dataForm);
 	        //tableData.put(tableName, dataForm);
 

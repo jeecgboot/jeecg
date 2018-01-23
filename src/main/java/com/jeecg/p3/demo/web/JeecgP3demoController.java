@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
+import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;
 import org.jeecgframework.p3.core.common.utils.AjaxJson;
 import org.jeecgframework.p3.core.page.SystemTools;
@@ -33,7 +34,43 @@ import com.jeecg.p3.demo.service.JeecgP3demoService;
 public class JeecgP3demoController extends BaseController{
   @Autowired
   private JeecgP3demoService jeecgP3demoService;
+
+  @RequestMapping(params="dataList")
+  @ResponseBody
+  public MiniDaoPage<JeecgP3demoEntity> dataList(JeecgP3demoEntity query,
+		  @RequestParam(required = false, value = "offset", defaultValue = "1") int offset,
+		  @RequestParam(required = false, value = "limit", defaultValue = "10") int limit,
+		  String sort,String order){
+	  MiniDaoPage<JeecgP3demoEntity> list = null;
+	  if(StringUtil.isNotEmpty(sort)){
+		  list = jeecgP3demoService.getAllByOrder(query,offset,limit,sort,order);
+	  }else{
+		  //分页数据
+		   list =  jeecgP3demoService.getAll(query,offset,limit);
+	  }
+	  
+	  return list;
+  }
   
+  /**
+	  * 列表页面
+	  * @return
+	  */
+	@RequestMapping(params = "bootstrapList",method = {RequestMethod.GET,RequestMethod.POST})
+	public void bootstrapList(@ModelAttribute JeecgP3demoEntity query,HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(required = false, value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false, value = "pageSize", defaultValue = "10") int pageSize) throws Exception{
+			try {
+			 	LOG.info(request, " back list");
+				VelocityContext velocityContext = new VelocityContext();
+				velocityContext.put("jeecgP3demo",query);
+				String viewName = "demo/p3/jeecgP3demo-bootstrap-list.vm";
+				ViewVelocity.view(request,response,viewName,velocityContext);
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+	}
+
 	/**
 	  * 列表页面
 	  * @return

@@ -1,5 +1,6 @@
 package org.jeecgframework.core.util;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,18 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  */
 public class DynamicDBUtil {
 	private static final Logger logger = Logger.getLogger(DynamicDBUtil.class);
+	/**
+	 * 多数据连接池
+	 */
+	private static Map<String,BasicDataSource> dbSources = new HashMap<String,BasicDataSource>();
 	
-	private static BasicDataSource getDataSource(final DynamicDataSourceEntity dynamicSourceEntity) {
+	/**
+	 * 获取数据源【最底层方法，不要随便调用】
+	 * @param dynamicSourceEntity
+	 * @return
+	 */
+	@Deprecated
+	private static BasicDataSource getJdbcDataSource(final DynamicDataSourceEntity dynamicSourceEntity) {
 		BasicDataSource dataSource = new BasicDataSource();
 		
 		String driverClassName = dynamicSourceEntity.getDriverClass();
@@ -41,23 +52,48 @@ public class DynamicDBUtil {
 		return dataSource;
 	}
 	
-	private static JdbcTemplate getJdbcTemplate(String dbKey) {
+	/**
+	 * 通过dbkey,获取数据源
+	 * @param dbKey
+	 * @return
+	 */
+	public static BasicDataSource getDbSourceBydbKey(final String dbKey) {
+		//获取多数据源配置
 		DynamicDataSourceEntity dynamicSourceEntity = ResourceUtil.dynamicDataSourceMap.get(dbKey);
-		
-		BasicDataSource dataSource = getDataSource(dynamicSourceEntity);
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource); 
-		return jdbcTemplate;
+		//先判断缓存中是否存在数据库链接
+		BasicDataSource cacheDbSource = dbSources.get(dbKey);
+		if(cacheDbSource!=null && !cacheDbSource.isClosed()){
+			return cacheDbSource;
+		}else{
+			BasicDataSource dataSource = getJdbcDataSource(dynamicSourceEntity);
+			dbSources.put(dbKey, dataSource);
+			return dataSource;
+		}
 	}
 	
-    /**
-	 * 该方法只是方便用于main方法测试调用
-	 * @param dynamicSourceEntity
-	 * @return JdbcTemplate
+	/**
+	 * 关闭数据库连接池
+	 *  @param dbKey
+	 * @return 
+	 * @return
 	 */
-	@SuppressWarnings("unused")
-	private static JdbcTemplate getJdbcTemplate(DynamicDataSourceEntity dynamicSourceEntity) {
-		BasicDataSource dataSource = getDataSource(dynamicSourceEntity);
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource); 
+	public static void closeDBkey(final String dbKey){
+		BasicDataSource dataSource = getDbSourceBydbKey(dbKey);
+		try {
+			if(dataSource!=null && !dataSource.isClosed()){
+				dataSource.getConnection().commit();
+				dataSource.getConnection().close();
+				dataSource.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private static JdbcTemplate getJdbcTemplate(String dbKey) {
+		BasicDataSource dataSource = getDbSourceBydbKey(dbKey);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		return jdbcTemplate;
 	}
 	
@@ -77,7 +113,6 @@ public class DynamicDBUtil {
 		} else {
 			effectCount = jdbcTemplate.update(sql, param);
 		}
-		
 		return effectCount;
 	}
 

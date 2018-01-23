@@ -67,9 +67,7 @@
 </script>
 <div class="easyui-layout" style="width:1000px;height:600px;">
     <div data-options="region:'west',split:true" title="<t:mutiLang langKey='common.department'/>" style="width:200px;">
-        <!-- update--begin---author:zhangjiaqiang date:20170223 for:TASK #1706 【格式】选择用户页面，多空白 -->
         <ul id="departSelect" class="ztree" ></ul>
-         <!-- update--end---author:zhangjiaqiang date:20170223 for:TASK #1706 【格式】选择用户页面，多空白 -->
     </div>
     <div data-options="region:'center'">
         <t:datagrid checkbox="true" name="userList1" title="common.user.select" actionUrl="userController.do?datagrid"

@@ -1,4 +1,4 @@
-﻿
+﻿﻿// update--begin--author:zhangjiaqiang date:20170621 for:如何避免console.log引起javascript的兼容问题 
 if(!window.console){
     window.console = {};
 }
@@ -283,9 +283,11 @@ function deluploadify(url, id) {
 	});
 }
 // 普通询问操作调用函数
-function confirm(url, content,name) {
+
+function confirm(url, content,name,noShade) {
 	createdialog('Tip Message ', content, url,name);
 }
+
 /**
  * Tip Message
  */
@@ -643,7 +645,8 @@ function openwindow(title, url,name, width, height) {
  * @param content
  * @param url
  */
-function createdialog(title, content, url,name) {
+
+function createdialog(title, content, url,name,noShade) {
 	$.dialog.setting.zIndex = getzIndex(true);
 
 	var navigatorName = "Microsoft Internet Explorer"; 
@@ -660,6 +663,7 @@ function createdialog(title, content, url,name) {
 			title:title,
 			content:content,
 			icon:7,
+			shade: !noShade?0.3:0,
 			yes:function(index){
 				doSubmit(url,name);
 				rowid = '';
@@ -915,6 +919,12 @@ function addOneTab(subtitle, url, icon) {
 		var id = "";
 		id = createTabId(subtitle);
 		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
+
+	}else if(indexStyle=='fineui'){
+		var id = "";
+		id = createTabId(subtitle);
+		window.top.addFineuiTab({id:id,title:subtitle,close: true,url: url});
+
 	}else{
 		if (icon == '') {
 			icon = 'icon folder';
@@ -1288,14 +1298,18 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 						    	//判断传入的this格式是否为 "AA[#index#].aa"的形式
 						    	if(str.indexOf("undefined")==-1){
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			﻿//update--begin--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+						    			﻿//update--end--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决------------- 
 						    			$("input[name='"+inpu+"']").val(str);
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val(str);
 						    		}
 						    	}else{
 						    		if(inputs.length>1){
-						    			var inpu = inputs[i1]+"."+inputfield[i1];
+						    			﻿//update--begin--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
+						    			var inpu = inputs[0]+"."+inputfield[i1];
+						    			﻿//update--end--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
 						    			$("input[name='"+inpu+"']").val("");
 						    		}else{
 						    			$("input[name='"+inputfield[i1]+"']").val("");
@@ -1320,14 +1334,18 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 								    	var inputs = inputname.split(".");
 								    	if(str.indexOf("undefined")==-1){
 								    		if(inputs.length>1){
-								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			﻿//update--begin--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
+								    			var inpu = inputs[0]+"."+inputfield[i1];
+								    			﻿//update--end--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
 								    			$("input[name='"+inpu+"']").val(str);
 								    		}else{
 								    			$("input[name='"+inputfield[i1]+"']").val(str);
 								    		}
 								    	}else{
 								    		if(inputs.length>1){
-								    			var inpu = inputs[i1]+"."+inputfield[i1];
+								    			﻿//update--begin--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
+								    			var inpu = inputs[0]+"."+inputfield[i1];
+								    			﻿//update--end--author:scott date:20171031 for:TASK #2385 online和代码生成器 一对多行popup多字段赋值问题解决-----------
 								    			$("input[name='"+inpu+"']").val("");
 								    		}else{
 								    			$("input[name='"+inputfield[i1]+"']").val("");

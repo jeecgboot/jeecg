@@ -103,6 +103,10 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	/**扩展参数**/
 	private java.lang.String extendJson;
 
+	private String fillRuleCode;
+
+	
+	
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -576,7 +580,15 @@ public class CgFormFieldEntity implements java.io.Serializable {
 		this.fieldMustInput = fieldMustInput;
 	}
 
-	
+	@Column(name="fill_rule_code")
+	public String getFillRuleCode() {
+		return fillRuleCode;
+	}
+
+	public void setFillRuleCode(String fillRuleCode) {
+		this.fillRuleCode = fillRuleCode;
+	}
+
 	
 	
 }

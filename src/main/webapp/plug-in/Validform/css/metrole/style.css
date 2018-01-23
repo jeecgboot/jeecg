@@ -12,20 +12,24 @@
 	padding-left:20px;
 	background:url(../images/right.png) no-repeat left center;
 }
+/*update-begin--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
 .Validform_wrong{
 	color:red;
-	padding-left:20px;
+	padding-left:20px;	
 	white-space:nowrap;
-	background:url(../images/error.png) no-repeat left center;
+	background:url(../../images/exclamation.png) no-repeat left center;
 }
 .Validform_loading{
 	padding-left:20px;
 	background:url(../images/onLoad.gif) no-repeat left center;
 }
 .Validform_error{
-	background-color:#FFE4E1;
+	border-color: #ffa8a8 !important;
+    background-color: #fff8f8 !important;
+    color: #000 !important;
 }
-/*update-begin--Author:xuelin  Date:201708010 for：TASK #2271 【提示框样式】切换方案有问题------------------- 平面 H+*/
+/*update-end--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
+/*update-begin--Author:xuelin  Date:20170810 for：TASK #2271 【提示框样式】切换方案有问题------------------- 平面 H+*/
 #Validform_msg{
     color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #ccc; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;
     }

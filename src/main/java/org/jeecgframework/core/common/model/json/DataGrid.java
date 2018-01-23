@@ -45,6 +45,11 @@ public class DataGrid {
 	}
 
 	public void setSqlbuilder(String sqlbuilder) {
+
+		if(sqlbuilder.indexOf("≤") > 0) {
+			sqlbuilder = sqlbuilder.replace("≤", "<=");
+		}
+
 		this.sqlbuilder = sqlbuilder;
 	}
 

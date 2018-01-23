@@ -1,21 +1,14 @@
 package com.jeecg.black.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.lang.String;
-import java.lang.Double;
-import java.lang.Integer;
-import java.math.BigDecimal;
-import javax.xml.soap.Text;
-import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.SequenceGenerator;
+import org.jeecgframework.core.common.controller.CustomJsonDateDeserializer;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -122,6 +115,7 @@ public class TsBlackListEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  创建日期
 	 */
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setCreateDate(java.util.Date createDate){
 		this.createDate = createDate;
 	}
@@ -165,6 +159,7 @@ public class TsBlackListEntity implements java.io.Serializable {
 	 */
 
 	@Column(name ="UPDATE_DATE",nullable=true,length=20)
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public java.util.Date getUpdateDate(){
 		return this.updateDate;
 	}

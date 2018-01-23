@@ -5,9 +5,7 @@
    <t:dgCol title="通告ID"  field="noticeId"  hidden="true"  queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="common.role.name"  field="role.roleName"  hidden="false"  queryMode="group"  width="180"></t:dgCol>
    <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-  <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
    <t:dgDelOpt title="common.delete" url="noticeAuthorityRoleController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
-  <!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
    <t:dgToolBar title="common.authority.role" icon="icon-add" url="noticeAuthorityRoleController.do?doSave" funname="addAuthorityRole"></t:dgToolBar>
   </t:datagrid>
    <input type="hidden" id="pNoticeId" value="${noticeId}" />

@@ -20,7 +20,6 @@ import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.CgSubTableVO;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
-import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
 import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
@@ -40,8 +39,6 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,12 +59,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 	//同步方式：强制同步
 	private static final String SYN_FORCE = "force";
 	@Autowired
-	@Qualifier("jdbcTemplate")
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
 	private CgFormVersionDao cgFormVersionDao;
-	@Autowired
-	private CgformFtlServiceI cgformFtlService;
 	@Autowired
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
 	@Autowired
@@ -232,8 +224,7 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 				if (judgeTableIsExit(cgFormHead.getTableName())) {
 					// 更新表操作
 					DbTableProcess dbTableProcess = new DbTableProcess(getSession());
-					List<String> updateTable = dbTableProcess.updateTable(
-							cgFormHead, getSession());
+					List<String> updateTable = dbTableProcess.updateTable(cgFormHead, getSession());
 					for (String sql : updateTable) {
 						if(StringUtils.isNotEmpty(sql)){
 							this.executeSql(sql);

@@ -31,9 +31,7 @@
         }
 </script>
 </head>
-<!-- update--begin--author:zhangjiaqiang date:20170601 for:去除水平方向的滚动条，保存竖直方向的滚动条 -->
  <body style="overflow-x: hidden">
- <!-- update--end--author:zhangjiaqiang date:20170601 for:去除水平方向的滚动条，保存竖直方向的滚动条 -->
   <table cellpadding="0" cellspacing="1" class="formtable">
   <input id="documentTitle" type="hidden" name="documentTitle" value="blank"/>
   <input id="fileUrl" type="hidden"/>
@@ -45,9 +43,7 @@
        <label class="Validform_label"></label>
      </td>
      <td class="value">
-     <!-- update--begin--author:zhangjiaqiang date:20170601 for:切换上传资源的保存路径 -->
       <t:upload name="instruction" dialog="false" multi="false" extend="" queueID="instructionfile" view="false" auto="true" uploader="cgUploadController.do?ajaxSaveFile" onUploadSuccess="uploadSuccess"  id="instruction" formData="documentTitle"></t:upload>
-     <!-- update--end--author:zhangjiaqiang date:20170601 for:切换上传资源的保存路径 -->
      </td>
     </tr>
     <tr>

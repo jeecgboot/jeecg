@@ -5,10 +5,8 @@
 <head>
 <title><t:mutiLang langKey="jeect.platform"/></title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
-<!-- add-start--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal依赖的js及css文件 -->
 <script type="text/javascript" src="plug-in/easyui/portal/jquery.portal.js"></script>
 <link rel="stylesheet" type="text/css" href="plug-in/easyui/portal/portal.css">
-<!-- add-end--Author:jg_renjie  Date:20160315 for：配合首页改造，引入portal依赖的js及css文件 -->
 <!--add-start--Author:wangkun Date:20160813 for:内部聊天修改-->
 <%@include file="/context/layui.jsp"%>
 <!--add-end--Author:wangkun Date:20160813 for:内部聊天修改-->
@@ -199,6 +197,13 @@ a:hover {
 <div region="west" split="true" href="loginController.do?left" title="<t:mutiLang langKey="common.navegation"/>" style="width: 200px; padding: 1px;"></div>
 <!-- 中间-->
 <div id="mainPanle" region="center" style="overflow: hidden;">
+	<style type="text/css">  
+	<!--  
+	.proccess{display:none;background-color:#f2f2f2;border:0px solid;border-color:#009900;height:100%;line-height:600px;width:100%;text-align:center;margin:100;position:absolute;top:0;left:0;}  
+	.proccess b{vertical-align:middle;background:url(plug-in/layer/skin/default/loading-2.gif) no-repeat 0 center;padding-left:55px;display:inline-block;}  
+	-->  
+	</style> 
+	<div class="proccess" id="panelloadingDiv"><b>&nbsp;</b></div>
     <div id="maintabs" class="easyui-tabs" fit="true" border="false">
     <div class="easyui-tab" title="<t:mutiLang langKey="common.dash_board"/>" href="loginController.do?home" style="padding: 2px; overflow: hidden;"></div>
         <c:if test="${map=='1'}">

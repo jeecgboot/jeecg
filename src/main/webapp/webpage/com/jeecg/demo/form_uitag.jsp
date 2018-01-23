@@ -18,7 +18,6 @@
 }
 -->
 </style>
-<!-- update-begin--Author:yugwu  Date:20170626 for：[TASK #2135]【浏览器兼容问题】IE8下样式乱了-------------------- -->
 </head>
 <body>
 <t:formvalid formid="formobj" dialog="false" layout="div" callback="test" action="jeecgFormDemoController.do?testsubmit" beforeSubmit="setContentc">
@@ -145,6 +144,16 @@
 			<td>图片上传：</td>
 			<!-- 文件路径对应的参数name为‘fileName3’、不显示上传文件列表、自动上传、上传按钮显示文字为‘选择图片’、按钮风格：蓝色小按钮、上传类型为图片上传、上传文件数量限制为3 -->
 			<td><t:webUploader name="fileName3" displayTxt="false" auto="true" buttonText="选择图片" buttonStyle="btn-blue btn-S" type="image" fileNumLimit="3"></t:webUploader></td>
+		</tr>
+	</table>
+	</fieldset>
+	
+	<fieldset>
+	<legend>分类树标签  | t:treeSelectTag（CODE对应系统管理->分类管理） </legend>
+	<table>		
+		<tr>
+			<td>进口汽车分类：</td>
+			<td><t:treeSelectTag code="A03A02" field="sex" /> </td>
 		</tr>
 	</table>
 	</fieldset>

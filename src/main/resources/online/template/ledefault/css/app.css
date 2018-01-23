@@ -41,7 +41,7 @@
 }
 /* line 35, app/styles/app.scss */
 .panel .panel-heading {
-  color: #8f0911;
+  /*color: #8f0911;*/
 }
 /* line 38, app/styles/app.scss */
 .panel .dropdown {
@@ -157,7 +157,7 @@
 }
 .quit a:hover{
   text-decoration: none;
-  color: #8f0911;
+  /*color: #8f0911;*/
 }
 .quit .icon-quit{
   background: url(../images/icon-quit.png) no-repeat;
@@ -207,12 +207,14 @@ select{
   padding: 0 15px;
 }
 .layout-wraper h3{
-  color: #8f0911;
+  /*color: #8f0911;*/
 }
 .layout-header{
-  height: 36px;
+/*update-begin--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
+  /*height: 36px;
   line-height: 36px;
-  background-color: #e4e4e4;
+  background-color: #e4e4e4;*/
+  /*update-end--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式-----*/
 }
 .form-wrapper {
   border: 1px solid #e4e4e4;
@@ -282,7 +284,7 @@ select{
 .tab-wrapper .nav-tabs > li.active > a,
 .tab-wrapper .nav-tabs > li.active > a:hover,
 .tab-wrapper .nav-tabs > li.active > a:focus {
-  color: #8f0911;
+  /*color: #8f0911;*/
 }
 .con-wrapper .row{
   border-bottom: 1px solid #e4e4e4;
@@ -292,8 +294,10 @@ select{
   border-bottom: none;
 }
 .con-wrapper .row > div{
-  line-height: 36px;
-  min-height: 36px;
+  /*update-begin--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
+  line-height: 32px;
+  min-height: 32px;
+  /*update-end--Author:scott  Date:20171127 for：ace风格一对多样式改造，参考fineui紧凑样式------*/
   border-left: 1px solid #e4e4e4;
 }
 .con-wrapper .row > div:first-child{
@@ -317,7 +321,7 @@ select{
   margin: 3px 0 4px 0;
 }
 .font-red {
-	color: #8f0911;
+	/*color: #8f0911;*/
 }
 .benma_ui_tab{
   background-color: #ddd;
@@ -331,7 +335,7 @@ select{
   color: white;
 }
 .header-topp .row .col-md-12 .version a:hover{
-  color: #8f0911;
+  /*color: #8f0911;*/
 }
 .label-gray{
   font-size : 10px;

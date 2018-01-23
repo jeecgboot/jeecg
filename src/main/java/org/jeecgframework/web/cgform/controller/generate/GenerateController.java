@@ -28,6 +28,7 @@ import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.enums.OnlineGenerateEnum;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
@@ -388,6 +389,10 @@ public class GenerateController extends BaseController {
 			}
 			if(formJsCopy!=null){
 				formJsCopy.setCgJsStr(formJsCopy.getCgJsStr().replace(fieldName, JeecgReadTable.formatField(fieldName)));
+			}
+			//online代码生成，popup对应的字典字段进行java命名转换
+			if("popup".equals(field.getShowType()) && oConvertUtils.isNotEmpty(field.getDictField())){
+				field.setDictField(oConvertUtils.camelNames(field.getDictField()));
 			}
 		}
 		generateEntity.setButtons(buttons);

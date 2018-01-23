@@ -70,6 +70,23 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	}
 	
 	/**
+	 * 检查用户是否存在
+	 * */
+	public TSUser findUserByAccountAndPassword(String username,String inpassword) {
+		String password = PasswordUtil.encrypt(username, inpassword, PasswordUtil.getStaticSalt());
+		String query = "from TSUser u where u.userName = :username and u.password=:passowrd";
+		Query queryObject = getSession().createQuery(query);
+		queryObject.setParameter("username", username);
+		queryObject.setParameter("passowrd", password);
+		@SuppressWarnings("unchecked")
+		List<TSUser> users = queryObject.list();
+		if (users != null && users.size() > 0) {
+			return users.get(0);
+		}
+		return null;
+	}
+	
+	/**
 	 * admin账户初始化
 	 */
 	public void pwdInit(TSUser user,String newPwd){
@@ -106,9 +123,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 	@SuppressWarnings("unchecked")
 	public Object uploadFile(UploadFile uploadFile) {
 		Object object = uploadFile.getObject();
-
-		if(uploadFile.getFileKey()!=null && !"TSDocument".equals(object.getClass().getSimpleName()))
-
+		if(uploadFile.getFileKey()!=null)
 		{
 			updateEntitie(object);
 		}

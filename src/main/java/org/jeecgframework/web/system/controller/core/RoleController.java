@@ -592,11 +592,15 @@ public class RoleController extends BaseController {
 			for (TSRoleFunction functionOfRole : roleFunctionList) {
 				map.put(functionOfRole.getTSFunction().getId(), functionOfRole);
 			}
-			String[] roleFunctions = rolefunction.split(",");
+
 			Set<String> set = new HashSet<String>();
-			for (String s : roleFunctions) {
-				set.add(s);
+			if(StringUtil.isNotEmpty(rolefunction)){
+				String[] roleFunctions = rolefunction.split(",");
+				for (String s : roleFunctions) {
+					set.add(s);
+				}
 			}
+
 			updateCompare(set, role, map);
 			j.setMsg("权限更新成功");
 		} catch (Exception e) {

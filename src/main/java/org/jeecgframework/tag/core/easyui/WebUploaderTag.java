@@ -20,6 +20,7 @@ public class WebUploaderTag extends TagSupport {
 	private boolean auto=false;//是否自动上传上传按钮风格
 	private String buttonStyle;//默认绿色小号按钮
 	private String url = "systemController/filedeal.do";//文件上传处理url
+//	private String url = "systemController/ftpUploader.do";//ftp文件上传处理url
 	private int fileNumLimit =3;//fileNumLimit 最大文件数
 	private int fileSingleSizeLimit=5242880;//fileSingleSizeLimit单个文件最大5M[1024*1024*5]
 	private int size;//文件总大小
@@ -136,7 +137,7 @@ public class WebUploaderTag extends TagSupport {
 			if("true".equals(readOnly)||"readOnly".equals(readOnly)){
 				sb.append("trhtml+=' style=\"display:none;\"';");
 			}
-			sb.append("trhtml+=' class=\"del icon-cha\">'+delflag+'</span></td><td></td></tr>';$list.children('table').append(trhtml);}");
+			sb.append("trhtml+=' class=\"del icon-cha\" style=\"overflow:hidden;\">'+delflag+'</span></td><td></td></tr>';$list.children('table').append(trhtml);}");
 			//获取文件名
 			sb.append("\r\nvar mygetFileName=function(filepath){if(filepath.lastIndexOf('\\\\')>0){return filepath.substring(filepath.lastIndexOf('\\\\')+1);\r\n}else if(filepath.lastIndexOf('/')>0){return filepath.substring(filepath.lastIndexOf('/')+1);}else{return filepath;}}");
 			//如果dataType有值

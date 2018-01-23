@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,11 +17,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
@@ -39,6 +44,7 @@ import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.ListUtils;
 import org.jeecgframework.core.util.MutiLangSqlCriteriaUtil;
 import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.PropertiesUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SetListSort;
 import org.jeecgframework.core.util.StringUtil;
@@ -490,6 +496,29 @@ public class SystemController extends BaseController {
 		}
 		return v;
 	}
+
+	/**
+	 * 刷新字典分组缓存&字典缓存
+	 *
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "refreshTypeGroupAndTypes")
+	@ResponseBody
+	public AjaxJson refreshTypeGroupAndTypes(HttpServletRequest request) {
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		try{
+			systemService.refreshTypeGroupAndTypes();
+			message = mutiLangService.getLang("common.refresh.success");
+		} catch (Exception e) {
+			message = mutiLangService.getLang("common.refresh.fail");
+		}
+		j.setMsg(message);
+		return j;
+	}
+
+	
 	/**
 	 * 添加类型分组
 	 *
@@ -707,6 +736,10 @@ public class SystemController extends BaseController {
 
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
+		} else {
+
+			sb.append(" and LEFT(org_code,1)='A'");
+
 		}
 
 		sb.append(" ORDER BY org_code DESC");
@@ -1244,6 +1277,246 @@ public class SystemController extends BaseController {
 			request.setAttribute("dataLogDiffs", dataLogDiffs);
 		}
 		return new ModelAndView("system/dataLog/diffDataVersion");
+	}
+
+
+	/**
+	 * ftpUploader
+	 * ftp实现 文件上传处理/删除处理
+	 */
+	@RequestMapping("/ftpUploader")
+    @ResponseBody
+    public AjaxJson ftpUploader(HttpServletRequest request, HttpServletResponse response) {
+        AjaxJson j = new AjaxJson();
+        String msg="啥都没干-没传参数吧！";
+        String upFlag=request.getParameter("isup");
+        String delFlag=request.getParameter("isdel");
+        PropertiesUtil ftpConfig = new PropertiesUtil("sysConfig.properties");
+        Properties prop = ftpConfig.getProperties();
+        String ftpUrl=prop.getProperty("ftp.url");
+        String port=prop.getProperty("ftp.port");
+        String userName=prop.getProperty("ftp.userName");
+        String passWord=prop.getProperty("ftp.passWord");
+        try {
+	        //如果是上传操作
+	        if("1".equals(upFlag)){
+	        	String fileName = null;
+	        	String bizType=request.getParameter("bizType");//上传业务名称
+	        	String bizPath=StoreUploadFilePathEnum.getPath(bizType);//根据业务名称判断上传路径
+	        	String nowday=new SimpleDateFormat("yyyyMMdd").format(new Date());
+	        	String path=bizPath+File.separator+nowday;//ftp存放地址
+	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	            MultipartFile mf=multipartRequest.getFile("file");// 获取上传文件对象
+	    		fileName = mf.getOriginalFilename();// 获取文件名
+	    		if(uploadFtpFile(ftpUrl, Integer.valueOf(port), userName, passWord, path, fileName, mf.getInputStream())){
+	    			msg="上传成功";
+	    			j.setObj(path+File.separator+fileName);
+	    			//1、将文件路径赋值给obj,前台可获取之,随表单提交,然后数据库中存储该路径
+	    			//2、demo这里用的是AjaxJson对象,开发者可自定义返回对象,但是用t标签的时候路径属性名需为  obj或 filePath 或自己在标签内指定若在标签内指定则action返回路径的名称应保持一致
+	    		}else{
+	    			msg="ftp上传失败";
+	    		}
+				j.setMsg(msg);
+	        }else if("1".equals(delFlag)){//如果是删除操作
+	        	String path=request.getParameter("path");
+	        	path=path.replace("\\", "/");
+    			if(delFtpFile(ftpUrl, Integer.valueOf(port), userName, passWord, path)){
+    				msg="--------成功删除文件---------"+path;
+    			}else{
+    				j.setSuccess(false);
+    				msg="没删除成功--请重新试试";
+    			}
+	        }else{
+	        	throw new BusinessException("没有传参指定上传还是删除操作！");
+	        }
+        } catch (IOException e) {
+			j.setSuccess(false);
+			logger.info(e.getMessage());
+		}catch (BusinessException b) {
+			j.setSuccess(false);
+			logger.info(b.getMessage());
+		}
+    	logger.info("-----systemController/filedeal.do------------"+msg);
+		j.setMsg(msg);
+        return j;
+    }
+	
+	/**
+	 * ftp上传文件
+	 * @param url ftp地址
+	 * @param port ftp端口
+	 * @param userName 登录名
+	 * @param passWord 密码
+	 * @param path ftp服务器文件存放路径
+	 * @param fileName 上传之后文件名称
+	 * @param file 文件流
+	 * @return true 成功,false 失败
+	 */
+	private boolean uploadFtpFile(String url,int port,String userName, String passWord, String path, String fileName, InputStream file){
+		boolean success=false;
+		FTPClient ftp=new FTPClient();
+		try {
+			ftp.setControlEncoding("UTF-8");
+			ftp.connect(url, port);//连接
+			ftp.login(userName, passWord);//登录
+			ftp.setFileType(FTP.BINARY_FILE_TYPE);
+			int replyCode = ftp.getReplyCode();
+			if(!FTPReply.isPositiveCompletion(replyCode)){
+				ftp.disconnect();
+				return success;
+			}
+			//创建文件夹 
+			String[] dirs=path.replace(File.separator, "/").split("/");
+			if(dirs!=null && dirs.length>0)//目录路径都为英文,故不需要转码
+				for (String dir : dirs) {
+					ftp.makeDirectory(dir);
+					ftp.changeWorkingDirectory(dir);
+				}
+			ftp.storeFile(new String(fileName.getBytes("UTF-8"),"iso-8859-1"), file);
+			file.close();
+			ftp.logout();
+			success=true;
+		} catch (SocketException e) {
+			logger.info(e.getMessage());
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		}finally{
+			if(ftp.isConnected()){
+				try {
+					ftp.disconnect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return success;
+	}
+	
+	/**
+	 * ftp删除文件
+	 * @param url ftp地址
+	 * @param port ftp端口
+	 * @param userName 登录名
+	 * @param passWord 密码
+	 * @param path ftp服务器文件存放路径
+	 * @return true 成功,false 失败
+	 */
+	private boolean delFtpFile(String url,int port,String userName, String passWord,String path){
+		boolean success=false;
+		FTPClient ftp=new FTPClient();
+		try {
+			ftp.setControlEncoding("UTF-8");
+			ftp.connect(url, port);//连接
+			ftp.login(userName, passWord);//登录
+			int replyCode = ftp.getReplyCode();
+			if(!FTPReply.isPositiveCompletion(replyCode)){
+				ftp.disconnect();
+				return success;
+			}
+			String fileName=path.substring(path.lastIndexOf("/")+1);
+			ftp.changeWorkingDirectory(path.substring(0, path.lastIndexOf("/")));
+			ftp.deleteFile(new String(fileName.getBytes("UTF-8"),"iso-8859-1"));
+			ftp.logout();
+			success=true;
+		} catch (SocketException e) {
+			logger.info(e.getMessage());
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		}finally{
+			if(ftp.isConnected()){
+				try {
+					ftp.disconnect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return success;
+	}
+	
+	/**
+	 * 获取图片流/获取文件用于下载(ftp方式)
+	 * @param response
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="showOrDownByurlFTP",method = RequestMethod.GET)
+	public void getImgByurlFTP(HttpServletResponse response,HttpServletRequest request) throws Exception{
+		String flag=request.getParameter("down");//是否下载否则展示图片
+		String dbpath = request.getParameter("dbPath");
+		if("1".equals(flag)){
+			response.setContentType("application/x-msdownload;charset=utf-8");
+			String fileName=dbpath.substring(dbpath.lastIndexOf(File.separator)+1);
+			String userAgent = request.getHeader("user-agent").toLowerCase();
+			if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+			}else {  
+				fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");  
+			} 
+			response.setHeader("Content-disposition", "attachment; filename="+ fileName);
+		}else{
+			response.setContentType("image/jpeg;charset=utf-8");
+		}
+		
+		OutputStream outputStream=null;
+		try {
+			outputStream = response.getOutputStream();
+			downFtpFile(dbpath, outputStream);
+			response.flushBuffer();
+		} catch (Exception e) {
+			logger.info("--通过流的方式获取文件异常--"+e.getMessage());
+		}finally{
+			if(outputStream!=null){
+				outputStream.close();
+			}
+		}
+	}
+	
+	/**
+	 * 从ftp服务器上下载文件流到outputStream中
+	 * @param path ftp存放路径
+	 * @param out 文件输出流
+	 * @return true成功，false失败
+	 */
+	private boolean downFtpFile(String path,OutputStream out){
+		//TODO 获取ftp连接 待封装
+		PropertiesUtil ftpConfig = new PropertiesUtil("sysConfig.properties");
+        Properties prop = ftpConfig.getProperties();
+        String ftpUrl=prop.getProperty("ftp.url");
+        String port=prop.getProperty("ftp.port");
+        String userName=prop.getProperty("ftp.userName");
+        String passWord=prop.getProperty("ftp.passWord");
+		boolean success=false;
+		FTPClient ftp=new FTPClient();
+		try {
+			ftp.setControlEncoding("UTF-8");
+			ftp.connect(ftpUrl, Integer.valueOf(port));//连接
+			ftp.login(userName, passWord);//登录ftp
+			int replyCode = ftp.getReplyCode();
+			if(!FTPReply.isPositiveCompletion(replyCode)){
+				ftp.disconnect();
+				return success;
+			}
+			path=path.replace("\\", "/");
+			String fileName=path.substring(path.lastIndexOf("/")+1);
+			ftp.changeWorkingDirectory(path.substring(0, path.lastIndexOf("/")));
+			ftp.retrieveFile(new String(fileName.getBytes("UTF-8"),"iso-8859-1"), out);
+			ftp.logout();
+			success=true;
+		} catch (SocketException e) {
+			logger.info(e.getMessage());
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		}finally{
+			if(ftp.isConnected()){
+				try {
+					ftp.disconnect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return success;
 	}
 
 	

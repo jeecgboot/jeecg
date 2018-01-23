@@ -7,8 +7,13 @@
 div.formDetails label input { border : 1px solid #54A5D5; padding:2px; }
 
 div.formDetails label textarea,
-select { border : 1px solid #D7D7D7; padding:6px; width:157px; border-radius: 3px;}
-
+/*update-begin--Author:scott  Date:20171121 for：下拉框默认长度改成120px--------------------*/
+select {border : 1px solid #D7D7D7; padding:6px; width:120px; border-radius: 3px;padding: 4.5px;}
+/*update-end--Author:scott  Date:20171121 for：下拉框默认长度改成120px--------------------*/
+/*update-begin--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
+select:focus {border : 1px solid #76B4AC !important;outline:none !important;}
+textarea:focus {border : 1px solid #76B4AC !important;outline:none !important;}
+/*update-begin--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
 div.formDetails { background-color: #f2f7fe; border: solid 1px #5BB5FD; padding:5px; line-height:20px; visibility:visible; overflow:hidden; }
 
 div.formDetails label {text-align: right; width:300px; display: inline-block; visibility:visible; padding:0; margin-right:10px; margin-top:5px; }
@@ -42,7 +47,7 @@ input[type="text"] {
 	border-radius: 3PX;
 	/*height: 14PX;*/
 	/*	//update-start--Author: scott  Date:20170609 for：特殊bpm表单页面输入框高度变形问题处理 */
-	height: 30px;
+	height: 26px;
 	/*	//update-start--Author: scott  Date:20170609 for：特殊bpm表单页面输入框高度变形问题处理 */
 	/* padding: 7px 0 7px 5px; */
 	padding:  0 2px ;
@@ -50,6 +55,18 @@ input[type="text"] {
 	font-size: 12px;
 	display: inline-block;
 }
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
+input[type="text"]:focus {
+	 border-color: #76B4AC;
+     background-color: #fafafa;
+     color: #007465;
+}
+select:focus {
+	 border-color: #76B4AC;
+     background-color: #fafafa;
+     color: #007465;
+}
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
 /*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
 a[class="ace_button"]:hover{ color:#DDDDDD !important; text-decoration:none;}
 /*update-begin--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好------------------- */

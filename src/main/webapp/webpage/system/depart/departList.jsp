@@ -13,21 +13,20 @@
             <t:dgCol title="common.fax" field="fax" treefield="fieldMap.fax" width="60"></t:dgCol>
             <t:dgCol title="common.address" field="address" treefield="fieldMap.address" width="100"></t:dgCol>
             <t:dgCol title="common.operation" field="opt" width="200"></t:dgCol>
-           <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
             <t:dgDelOpt url="departController.do?del&id={id}" title="common.delete" urlclass="ace_button"  urlfont="fa-trash-o" urlStyle="background-color:#ec4758;"></t:dgDelOpt>
             <t:dgFunOpt funname="queryUsersByDepart(id)" title="view.member" urlclass="ace_button"  urlfont="fa-user"></t:dgFunOpt>
             <t:dgFunOpt funname="setRoleByDepart(id,text)" title="role.set" urlclass="ace_button"  urlfont="fa-cog" urlStyle="background-color:#1a7bb9;"></t:dgFunOpt>
-       	<!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
         </t:datagrid>
         <div id="departListtb" style="padding: 3px; height: 25px">
             <div style="float: left;">
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="addOrg()"><t:mutiLang langKey="common.add.param" langArg="common.department"/></a>
-                <!-- //update--begin--author:zhangjiaqiang Date:20170112 for:增加排序功能 -->
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('<t:mutiLang langKey="common.edit.param" langArg="common.department"/>','departController.do?update','departList','680px','450px')"><t:mutiLang langKey="common.edit.param" langArg="common.department"/></a>
-                <!-- //update--end--author:zhangjiaqiang Date:20170112 for:增加排序功能 -->
+                <!-- //update--end--author:zhangjiaqiang Date:20170112 for:增加排序功能 
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportXls()"><t:mutiLang langKey="excelImport" langArg="common.department"/></a>
+                -->
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXls()"><t:mutiLang langKey="excelOutput" langArg="common.department"/></a>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-putout" onclick="ExportXlsByT()"><t:mutiLang langKey="templateDownload" langArg="common.department"/></a>
+                <a href="#" class="easyui-linkbutton" plain="true" icon="icon-put" onclick="ImportDepartXls()"><t:mutiLang langKey="excelDepartImport" langArg="common.department"/></a>
             </div>
         </div>
     </div>
@@ -72,7 +71,7 @@
         }
         <%--$('#eastPanel').panel('setTitle','<t:mutiLang langKey="member.list"/>');--%>
         $('#main_depart_list').layout('panel','east').panel('setTitle', title);
-        $('#main_depart_list').layout('panel','east').panel('resize', {width: 500});
+        $('#main_depart_list').layout('panel','east').panel('resize', {width: 560});
         $('#userListpanel').panel("refresh", "departController.do?userList&departid=" + departid);
     }
     /**
@@ -99,6 +98,10 @@
     function ImportXls() {
         openuploadwin('Excel导入', 'departController.do?upload', "departList");
     }
+    //导入
+    function ImportDepartXls() {
+        openuploadwin('Excel导入', 'departController.do?uploadDepart', "departList");
+    }
 
     //导出
     function ExportXls() {
@@ -107,7 +110,8 @@
 
     //模板下载
     function ExportXlsByT() {
-        JeecgExcelExport("departController.do?exportXlsByT","departList");
+//        JeecgExcelExport("departController.do?exportXlsByT","departList");
+		location.href = "${webRoot}/export/template/departTemplate.xls";
     }
 
 //-->

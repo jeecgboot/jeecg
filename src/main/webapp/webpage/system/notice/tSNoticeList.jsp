@@ -11,16 +11,12 @@
    <t:dgCol title="授权级别"  field="noticeLevel"  hidden="false"  queryMode="group"  width="100" replace="全员_1,角色授权_2,用户授权_3"></t:dgCol>
    <t:dgCol title="阅读期限"  field="noticeTerm" formatter="yyyy-MM-dd" hidden="false"  queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="common.operation" field="opt" width="120"></t:dgCol>
-   <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
    <t:dgDelOpt title="common.delete" url="noticeController.do?doDel&id={id}" urlclass="ace_button"  urlfont="fa-trash-o"/>
-   <!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
    <t:dgToolBar title="common.add" icon="icon-add" url="noticeController.do?goAdd" funname="add" width="800" height="600"></t:dgToolBar>
    <t:dgToolBar title="common.edit" icon="icon-edit" url="noticeController.do?goUpdate" funname="update" width="800" height="600"></t:dgToolBar>
    <t:dgToolBar title="common.batchDelete"  icon="icon-remove" url="noticeController.do?doBatchDel" funname="deleteALLSelect"></t:dgToolBar>
-  <!-- 	//update-begin--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
   <%-- <t:dgFunOpt exp="noticeLevel#eq#2" funname="queryRoles(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>
    <t:dgFunOpt exp="noticeLevel#eq#3" funname="queryUsers(id)" title="common.authority" urlclass="ace_button"  urlfont="fa-toggle-on"></t:dgFunOpt>--%>
- <!-- 	//update-end--Author:zhangjq  Date:20160904 for：1332 【系统图标统一调整】讲{系统管理模块}{在线开发}的链接按钮，改成ace风格 -->
   </t:datagrid>
   </div>
  </div>
