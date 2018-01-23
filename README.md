@@ -11,7 +11,7 @@ JEECG 微云快速开发平台
 
 简介
 -----------------------------------
-JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台。引领新的开发模式(Online Coding->代码生成器->手工MERGE智能开发)，可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。
+JEECG（J2EE Code Generation）是一款基于代码生成器的智能开发平台。引领新的开发模式(Online Coding->代码生成器->手工MERGE智能开发)，可以帮助解决Java项目80%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。
 
 JEECG宗旨是: 简单功能由代Online Coding配置出功能;复杂功能由代码生成器生成进行手工Merge; 复杂流程业务采用表单自定义，业务流程使用工作流来实现、扩展出任务接口，供开发编写业务逻辑。实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密行，又减少了开发人员的工作量。
 
@@ -38,13 +38,16 @@ JEECG快速开发平台，可以应用在任何J2EE项目的开发中，尤其适合企业信息管理系统（MIS
 * 15.在线配置报表（无需编码，通过在线配置方式，实现曲线图，柱状图，数据等报表）
 * 16.简易Excel导入导出，支持单表导出和一对多表模式导出，生成的代码自带导入导出功能
 * 17.自定义表单，支持用户自定义表单布局，支持单表，一对多表单、支持select、radio、checkbox、textarea、date、popup、列表、宏等控件
-
+* 18.专业接口对接机制，统一采用restful接口方式，集成swagger-ui在线接口文档，Jwt token安全验证，方便客户端对接
+* 19.接口安全机制，可细化控制接口授权，非常简便实现不同客户端只看自己数据等控制
+* 20.高级组合查询功能，在线配置支持主子表关联查询，可保存查询历史
+* 21.支持二级管理员，权限细化管理
+* 22.代码生成器支持resutful接口生成
 
 JEECG 功能特点
 -----------------------------------
 * 	采用SpringMVC + Hibernate + Minidao(类Mybatis) + Easyui(UI库)+ Jquery + Boostrap + Ehcache + Redis + Ztree等基础架构</br>
-* 	采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、
-表单处理等功能，再配合Online Coding在线开发与代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少80%以上。</br>
+* 	采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、表单处理等功能，再配合Online Coding在线开发与代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少80%以上。</br>
 
 * 	JEECG 技术点总结:
 
@@ -65,7 +68,11 @@ JEECG 功能特点
 *   <b>技术点十五：</b>移动OA，移动OA审批功能，采用H5技术，实现手机移动办公，无缝对接微信、钉钉、微信企业号、也可以做APP</br>
 *   <b>技术点十六：</b>移动图表，在线配置移动报表，采用H5技术，可以手机端查看</br>
 *   <b>技术点十七：</b>插件开发，业务功能组件以插件方式集成平台，也可以单独部署发发布，有力支撑了SAAS云应用系统需求</br>
-
+*   <b>技术点十八：</b>专业接口对接机制，统一采用restful接口方式，集成swagger-ui在线接口文档，Jwt token安全验证，方便客户端对接</br>
+*   <b>技术点十九：</b>接口安全机制，可细化控制接口授权，非常简便实现不同客户端只看自己数据等控制</br>
+*   <b>技术点二十：</b>高级组合查询功能，在线配置支持主子表关联查询，可保存查询历史</br>
+*   <b>技术点二十一：</b>支持二级管理员，权限细化管理</br>
+*   <b>技术点二十二：</b>代码生成器支持resutful接口生成</br>
 
 * 	JEECG V3.7.2, 经过了专业压力测试,性能测试，保证后台数据的准确性和页面访问速度</br>
 * 	支持多种浏览器: IE, 火狐, Google 等</br>
@@ -81,12 +88,11 @@ JEECG 功能特点
 -----------------------------------
 * [JEECG_3.7.2新版开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
+* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
 * [JEECG maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
 * [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
-* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG 视频教程](http://www.jeecg.org/forum.php?mod=viewthread&tid=197&extra=page%3D1)
-* [JEECG 官方百度网盘](https://pan.baidu.com/share/home?uk=2668473880#category/type=0)
-* [JEECG 版本更新日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
+* [JEECG 视频教程](https://edu.csdn.net/lecturer/929)
+* [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
 * JEECG官方Maven镜像配置 : [http://t.cn/RJCp7wO](http://t.cn/RJCp7wO)
 * 在线演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
 
@@ -137,9 +143,13 @@ JEECG云插件中心
 系统演示
 -----------------------------------
 ###  [1].多套首页风格，支持自定义（Bootstrap风格|云桌面风格|经典风格|Shortcut风格等）
+![github](http://img.blog.csdn.net/20180123155805360?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
+![github](http://img.blog.csdn.net/20180123155931983?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
 ![github](http://img.blog.csdn.net/20160428121122932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214324659?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214353113?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
+![github](http://img.blog.csdn.net/20180123160223677?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
+![github](http://img.blog.csdn.net/20180123160244931?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
 
 ###  [2].表单自定义设计效果
 ![github](http://www.jeecg.org/data/attachment/forum/201512/17/175056vgzo2j2thph29jdp.jpg "jeecg")
