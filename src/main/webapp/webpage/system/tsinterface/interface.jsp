@@ -9,7 +9,7 @@
 		
 	$(function() {
 		$('#cc').combotree({
-			url : 'interfaceController.do?setPInterface&selfId=${interface.id}',
+			url : 'interfaceController.do?setPInterface&selfId=${tsInterface.id}',
 			panelHeight: 200,
 			width: 157,
 			onClick: function(node){
