@@ -51,7 +51,7 @@
 								<#--update-begin--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--高级查询弹出窗口遮挡 -->
 								<#if '${column.hidden?string("true", "false")}' != "true">
 									<#--update-begin--Author:LiShaoQing  Date:20180110 for：[#2452]【新功能】高级查询，支持popup功能 -->
-									<option value="${column.field}" data-popup="${column.popup}" data-dictionary="${column.dictionary}">${column.title}</option>
+									<option value="${column.field}" data-popup="${column.popup?string}" data-dictionary="${column.dictionary!}">${column.title!}</option>
 									<#--update-end--Author:LiShaoQing  Date:20180110 for：[#2452]【新功能】高级查询，支持popup功能 -->
 								</#if>
 								<#--update-end--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--高级查询弹出窗口遮挡 -->
@@ -106,7 +106,7 @@
 							<#list fields as column>
 							<#--update-begin--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--高级查询弹出窗口遮挡 -->
 								<#if '${column.hidden?string("true", "false")}' != "true">
-									<option value="${column.field}" data-popup="${column.popup}" data-dictionary="${column.dictionary}">${column.title}</option>
+									<option value="${column.field}" data-popup="${column.popup?string}" data-dictionary="${column.dictionary!}">${column.title!}</option>
 								</#if>
 							<#--update-end--Author:xuelin  Date:20171108 for：[#2404]【平台UI改造】UI样式改造点--高级查询弹出窗口遮挡 -->
 							</#list>

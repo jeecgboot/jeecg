@@ -86,16 +86,14 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
-* [JEECG_3.7.2新版开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
+* 演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
+* [JEECG_开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
 * [JEECG 开发环境搭建入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
-* [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
 * [JEECG 视频教程](https://edu.csdn.net/lecturer/929)
 * [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
-* JEECG官方Maven镜像配置 : [http://t.cn/RJCp7wO](http://t.cn/RJCp7wO)
-* 在线演示地址：[http://demo.jeecg.org](http://demo.jeecg.org)
-
+* [JEECG Maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
+* [JEECG 开发手册](http://git.oschina.net/jeecg/jeecg/attach_files)
     
 技术交流
 -----------------------------------
@@ -103,7 +101,6 @@ JEECG 功能特点
 * 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
 * 	官方网站： [http://www.guojusoft.com](http://www.guojusoft.com)
 * 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
-* 	技术支持： [JEECG社区官方支持QQ群汇总](http://www.jeecg.org/forum.php?mod=viewthread&tid=1249&extra=page%3D1)
 
 
 
@@ -148,6 +145,7 @@ JEECG云插件中心
 ![github](http://img.blog.csdn.net/20160428121122932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214324659?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
 ![github](http://img.blog.csdn.net/20150607214353113?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
+![github](http://img.blog.csdn.net/20180124192859781?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
 ![github](http://img.blog.csdn.net/20180123160223677?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
 ![github](http://img.blog.csdn.net/20180123160244931?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdkYWlzY290dA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "jeecg")
 
