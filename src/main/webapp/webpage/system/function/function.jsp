@@ -124,7 +124,7 @@
         </label>
         <input name="functionIconStyle" class="inputxt" value="${function.functionIconStyle}" />
        <%-- <a href="<%=basePath%>/webpage/common/functionIconStyleList.jsp?style=ace"  target="_blank">[ace图标样式]</a>--%>
-        <a href="http://fontawesome.dashgame.com" target="_blank"> <i class="fa fa-eye-slash"></i>图标库 </a>
+        <a href="http://fontawesome.dashgame.com" target="_blank"> <i class="fa fa-eye-slash"></i>选择图标库 </a>
     </div>
 	</fieldset>
 </t:formvalid> 
