@@ -4,10 +4,10 @@
 脚步说明：
 
 1.oracle 导入命令
-   说明： jeecg脚本导出用户是jeecg
-   imp jeecgos/jeecgos@orcl file=jeecg.dmp
+   说明： jeecg脚本导出用户是scott
+   imp scott/tiger@orcl file=jeecg_3.7.2_oracle11g.dmp
    导入其他用户的表
-   imp jeecgos/jeecgos@orcl file=/opt/datatmp/jeecgbpm-oracle11g-20160413.dmp  fromuser=scott touser=jeecgos ignore=y commit=y buffer=300000000 feedback=10000
+   imp jeecgos/jeecgos@orcl file=/opt/datatmp/jeecg_3.7.2_oracle11g.dmp fromuser=scott touser=jeecgos ignore=y commit=y buffer=300000000 feedback=10000
 
 
 2. oracle、SqlServer脚步索引会有部分丢失，为了系统性能，请自行补加索引。

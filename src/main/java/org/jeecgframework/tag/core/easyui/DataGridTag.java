@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
@@ -100,20 +102,22 @@ public class DataGridTag extends JeecgTag {
 	private boolean autoLoadData=true; // 列表是否自动加载数据
 	//private boolean frozenColumn=false; // 是否是冰冻列    默认不是
 	private String langArg;
-
+	
+	//update--begin--author:zhangjiaqiang date:20170622 for:拓展标签增加属性nowrap
 	private boolean nowrap = true;
-
+	//update--end--author:zhangjiaqiang date:20170622 for:拓展标签增加属性nowrap
 	private Boolean singleSelect;//是否单选true,false
-
+	
+	//update-start--Author:zhoujf  Date:20150608 for：修改增加easyui ass主题目录切换的属性，默认default兼容前版本
 	protected String cssTheme ;
-
+	//add-begin- Author:gengjiajia datagrid列表页面查询条件实现可收缩,添加一个属性
 	private boolean isShowSearch=false;//检索区域是否可收缩
-
+	//add-end- Author:gengjiajia datagrid列表页面查询条件实现可收缩,添加一个属性
 	
 	private String treeField;//树形列表展示列
-
+	//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 	private String btnCls;//列表上方button样式class属性	
-
+	//--update--begin--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 	protected CgFormHeadEntity head;
 	protected Map<String, Object> tableData  = new HashMap<String, Object>();
 	private String configId = "";
@@ -131,28 +135,29 @@ public class DataGridTag extends JeecgTag {
 	public void setIsShowSubGrid(boolean isShowSubGrid) {
 		this.isShowSubGrid = isShowSubGrid;
 	}
-
+	//--update--end--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 	
 	public String getBtnCls() {
 		return btnCls;
 	}
 	public void setBtnCls(String btnCls) {
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type"))){
+		//update--begin--author:zhangjiaqiang date:20170627 for:TASK #2179 【样式IE兼容问题】上边按钮效果不好
+		if(checkBrowerIsNotIE()){
 			this.btnCls = btnCls;
 		}else{
 			//IE浏览器
 			this.btnCls = "easyui";
 		}
-
+		//update--end--author:zhangjiaqiang date:20170627 for:TASK #2179 【样式IE兼容问题】上边按钮效果不好
 	}
+	//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案-------------------- 
 	public String getCssTheme() {
 		return cssTheme;
 	}
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
+//	update-end--Author:zhoujf  Date:20150608 for：修改增加easyui css主题目录切换的属性
 
 	private boolean queryBuilder = false;// 高级查询器
 	public boolean isQueryBuilder() {
@@ -162,7 +167,8 @@ public class DataGridTag extends JeecgTag {
 	public void setQueryBuilder(boolean queryBulder) {
 		this.queryBuilder = queryBulder;
 	}
-
+	
+	// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 	private boolean superQuery = false; //高级查询器
 	public boolean getSuperQuery() {
 		return superQuery;
@@ -170,7 +176,8 @@ public class DataGridTag extends JeecgTag {
 	public void setSuperQuery(boolean superQuery) {
 		this.superQuery = superQuery;
 	}
-
+	// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356【功能】添加新的高级查询功能-----
+	// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 	private String complexSuperQuery = ""; //根据表的编码是否存在展示高级查询构造器
 	
 	public String getComplexSuperQuery() {
@@ -179,7 +186,7 @@ public class DataGridTag extends JeecgTag {
 	public void setComplexSuperQuery(String complexSuperQuery) {
 		this.complexSuperQuery = complexSuperQuery;
 	}
-
+	// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 	public void setTreeField(String treeField) {
 		this.treeField = treeField;
 	}
@@ -289,17 +296,17 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setType(OptTypeDirection.Confirm);
 		dataGridUrl.setMessage(message);
 		dataGridUrl.setExp(exp);
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type"))){
+		//update--begin--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
+		if(checkBrowerIsNotIE()){
 			dataGridUrl.setUrlStyle(urlStyle);
-
+			//update-begin--Author:zhangjq  Date:20160904 for：[1343号]【UI标签】t:dgConfOpt扩展ace样式属性
 			dataGridUrl.setUrlclass(urlclass);
 			dataGridUrl.setUrlfont(urlfont);
-
+			//update-end--Author:zhangjq  Date:20160904 for：[1343号]【UI标签】t:dgConfOpt扩展ace样式属性
 		}else if(StringUtil.isEmpty(urlclass) || !"ace_button".equals(urlclass)){
 			dataGridUrl.setUrlStyle(urlStyle);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
 		installOperationCode(dataGridUrl, operationCode,urlList);
 	}
 
@@ -314,17 +321,17 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setMessage(message);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setFunname(funname);
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type").toString())){
+		//update--begin--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
+		if(checkBrowerIsNotIE()){
 			dataGridUrl.setUrlStyle(urlStyle);
-
+			//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 			dataGridUrl.setUrlclass(urlclass);
 			dataGridUrl.setUrlfont(urlfont);
-
+			//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 		}else if(StringUtil.isEmpty(urlclass) || !"ace_button".equals(urlclass)){
 			dataGridUrl.setUrlStyle(urlStyle);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
 		installOperationCode(dataGridUrl, operationCode,urlList);
 	}
 	/**
@@ -336,17 +343,17 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setUrl(url);
 		dataGridUrl.setType(OptTypeDirection.Deff);
 		dataGridUrl.setExp(exp);
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type").toString())){
+		//update--begin--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
+		if(checkBrowerIsNotIE()){
 			dataGridUrl.setUrlStyle(urlStyle);
-
+			//update--begin--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 			dataGridUrl.setUrlclass(urlclass);
 			dataGridUrl.setUrlfont(urlfont);
-
+			//update--end--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 		}else if(StringUtil.isEmpty(urlclass) || !"ace_button".equals(urlclass)){
 			dataGridUrl.setUrlStyle(urlStyle);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -361,8 +368,8 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setUrl(url);
 		dataGridUrl.setType(OptTypeDirection.ToolBar);
-
-		if("Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type").toString())){
+		//update--begin--author:zhangjiaqiang date:20170627 for:TASK #2179 【样式IE兼容问题】上边按钮效果不好
+		if(!checkBrowerIsNotIE()){
 			//IE浏览器
 			if(!icon.startsWith("icon")){
 				dataGridUrl.setIcon("icon-add");
@@ -372,15 +379,15 @@ public class DataGridTag extends JeecgTag {
 		}else{
 			dataGridUrl.setIcon(icon);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170627 for:TASK #2179 【样式IE兼容问题】上边按钮效果不好
 		dataGridUrl.setOnclick(onclick);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setFunname(funname);
 		dataGridUrl.setWidth(String.valueOf(width2));
 		dataGridUrl.setHeight(String.valueOf(height2));
-
+		//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 		dataGridUrl.setId(id);
-
+		//update--end--author:zhangjiaqiang date:20170620 for:增加控件ID
 		installOperationCode(dataGridUrl, operationCode,toolBarList);
 		
 	}
@@ -394,17 +401,17 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setType(OptTypeDirection.Fun);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setFunname(funname);
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type").toString())){
+		//update--begin--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
+		if(checkBrowerIsNotIE()){
 			dataGridUrl.setUrlStyle(urlStyle);
-
+			//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 			dataGridUrl.setUrlclass(urlclass);
 			dataGridUrl.setUrlfont(urlfont);
-
+			//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 		}else if(StringUtil.isEmpty(urlclass) || !"ace_button".equals(urlclass)){
 			dataGridUrl.setUrlStyle(urlStyle);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -422,17 +429,17 @@ public class DataGridTag extends JeecgTag {
 		dataGridUrl.setHeight(height);
 		dataGridUrl.setType(OptTypeDirection.valueOf(openModel));
 		dataGridUrl.setExp(exp);
-
-		if(!"Microsoft%20Internet%20Explorer".equals(ContextHolderUtils.getSession().getAttribute("brower_type").toString())){
+		//update--begin--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
+		if(checkBrowerIsNotIE()){
 			dataGridUrl.setUrlStyle(urlStyle);
-
+			//update--begin--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 			dataGridUrl.setUrlclass(urlclass);
 			dataGridUrl.setUrlfont(urlfont);
-
+			//update--end--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 		}else if(StringUtil.isEmpty(urlclass) || !"ace_button".equals(urlclass)){
 			dataGridUrl.setUrlStyle(urlStyle);
 		}
-
+		//update--end--author:zhangjiaqiang date:20170626 for:修订ie列表操作按钮的样式
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -454,9 +461,11 @@ public class DataGridTag extends JeecgTag {
 			boolean query, String url, String funname, 
 			String arg,String queryMode, String dictionary,boolean popup,
 			boolean frozenColumn,String extend,
-
+			//update-begin--Author:xuelin  Date:20170706 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 			String style,String downloadName,boolean isAuto,String extendParams,String editor,String defaultVal,String showMode, boolean newColumn) {
-
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
+			//update-end--Author:xuelin  Date:20170706 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 		DataGridColumn dataGridColumn = new DataGridColumn();
 		dataGridColumn.setAlign(align);
 		dataGridColumn.setCheckbox(checkbox);
@@ -491,11 +500,14 @@ public class DataGridTag extends JeecgTag {
 		dataGridColumn.setExtendParams(extendParams);
 		dataGridColumn.setEditor(editor);
 		dataGridColumn.setNewColumn(newColumn);
-
+//	    update-start--Author:chenjin  Date:20160715 for：扩展标签<t:dgCol 增加字段defaultVal=""
 		dataGridColumn.setDefaultVal(defaultVal);
-
+//	    update-end--Author:chenjin  Date:20160715 for：扩展标签<t:dgCol 增加字段defaultVal=""	
+		//update-begin--Author:xuelin  Date:20170706 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 		dataGridColumn.setShowMode(showMode);
+		//update-end--Author:xuelin  Date:20170706 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 		columnList.add(dataGridColumn);
+		//update-begin--Author:anchao  Date:20140826 for：[bugfree号]数据列权限控制--------------------
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
 		if (null!=operationCodes) {
 			for (String MyoperationCode : operationCodes) {
@@ -509,6 +521,7 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 		}
+		//update-end--Author:anchao  Date:20140826 for：[bugfree号]数据列权限控制--------------------
 		if (field != "opt") {
 			fields += field + ",";
 			if ("group".equals(queryMode)) {
@@ -621,12 +634,12 @@ public class DataGridTag extends JeecgTag {
 			title = MutiLangUtil.doMutiLang(title, langArg);
 			
 			out = this.pageContext.getOut();
-
+			//update-start--Author:yugwu  Date:20170830 将逻辑放入end方法中----
 			out.print(end().toString());
 			out.flush();
-
+			//update-end--Author:yugwu  Date:20170830 将逻辑放入end方法中----
 //			String indexStyle =null;
-
+//-----author:jg_longjb----start-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
 //			Cookie[] cookies = ((HttpServletRequest) super.pageContext
 //					.getRequest()).getCookies();
 //			for (Cookie cookie : cookies) {
@@ -645,11 +658,12 @@ public class DataGridTag extends JeecgTag {
 //					out.print(end().toString());
 //					out.flush();
 //				}
-
+//-----author:jg_longjb----end-----date:20150408--------for:读取cookie主题样式 ace界面下table的输出 
+			//update--begin--author:zhangjiaqiang date:20170408 for:增加jqgrid列表展示形式
 //			}else if("jqgrid".equals(style)){
 //				out.print(jqGrid().toString());
 //				out.flush();
-
+			//update--end--author:zhangjiaqiang date:20170408 for:增加jqgrid列表展示形式
 //			}else{
 //				out.print(datatables().toString());
 //				out.flush();
@@ -659,7 +673,7 @@ public class DataGridTag extends JeecgTag {
 		}finally{
 			if(out!=null){
 				try {
-
+					//update-begin--Author:scott  Date:20160530 for：清空降低缓存占用
 					out.clearBuffer();
 //					end().setLength(0);
 					// 清空资源
@@ -670,7 +684,7 @@ public class DataGridTag extends JeecgTag {
 					columnList.clear();
 					fields = "";
 					searchFields = "";
-
+					//update-begin--Author:scott  Date:20160530 for：清空降低缓存占用
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -682,7 +696,9 @@ public class DataGridTag extends JeecgTag {
 //         log.info("================================ DataGridTag 耗时:"+(end-start)+"ms==============================");
 		return EVAL_PAGE;
 	}
-
+	
+	
+	//update--begin--author:zhangjiaqiang date:20170408 for:增加jqgrid列表展示形式
 	/**
 	 * jqgrid构建datagrid
 	 * @return
@@ -826,6 +842,7 @@ public class DataGridTag extends JeecgTag {
 		}
 		sb.append("<div class=\"tool_bar_div bg-info\"></div>");
 		sb.append("');");
+		//update-begin--Author:xuelin Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换--------------------
 		//表格顶部查询
 		if(hasQueryColum(columnList) && !columnList.isEmpty()){
 			for (DataGridColumn column : columnList) {
@@ -852,9 +869,9 @@ public class DataGridTag extends JeecgTag {
 										if(dictionaryList != null && !dictionaryList.isEmpty()){
 											for (Map<String, Object> map : dictionaryList) {
 												if(map.containsKey(dictionaryArray[1]) && map.containsKey(dictionaryArray[2])){
-
+													//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 													sb.append(" <input type=\"radio\" value=\"" + map.get(dictionaryArray[1]) + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + map.get(dictionaryArray[1]) + "');\" />");
-
+													//update-end--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 													sb.append(map.get(dictionaryArray[2]));
 												}
 											}
@@ -870,9 +887,9 @@ public class DataGridTag extends JeecgTag {
 									String field = column.getField().replaceAll("_","\\.");
 									sb.append("<input type=\"hidden\" name=\""+field+"\" id=\""+field+"_radio\"/>");
 									for (TSType type : typeList) {
-
+										//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 										sb.append(" <input type=\"radio\" value=\"" + type.getTypecode() + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + type.getTypecode() + "');\" />");										
-
+										//update-end--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 										sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
 									}
 								}
@@ -968,7 +985,7 @@ public class DataGridTag extends JeecgTag {
 								String lang_key = string.split("_")[0];
 								text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
 								value =string.split("_")[1];
-
+								//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 								if(column.getDefaultVal()!=null&&column.getDefaultVal().trim().equals(value)){
 									sb.append(" <input type=\"radio\" value=\"" + value + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + value + "');\" checked=\"checked\" />"+text);
 									sb.append(" <script type=\"text/javascript\">");
@@ -977,7 +994,7 @@ public class DataGridTag extends JeecgTag {
 								}else{
 									sb.append(" <input type=\"radio\" value=\"" + value + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + value + "');\" />"+text);
 								}
-
+								//update-end--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 							}
 						}else if(showMode!=null && "checkbox".equals(showMode)){	
 							String field = column.getField().replaceAll("_","\\.");
@@ -1034,19 +1051,20 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 		}		
+		//update-end--Author:xuelin  Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 		
 		//工具栏的处理方式
 		if(toolBarList.size() > 0){
 			for (DataGridUrl toolBar : toolBarList) {
 				sb.append("$('#t_"+name+" .tool_bar_div').append('");
 				sb.append("<button class=\"btn btn-success\"");
-
+				//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 				if(StringUtil.isNotEmpty(toolBar.getId())){
 					sb.append(" id=\"");
 					sb.append(toolBar.getId());
 					sb.append("\"");
 				}
-
+				//update--end--author:zhangjiaqiang date:20170620 for:增加控件ID
 				sb.append(" onclick=\"");
 				sb.append(toolBar.getFunname());
 				sb.append("(\\'");
@@ -1156,7 +1174,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append("</script>");
 		return sb;
 	}
-
+	//update--end--author:zhangjiaqiang date:20170408 for:增加jqgrid列表展示形式
 	/**
 	 * datatables构造方法
 	 * 
@@ -1207,9 +1225,9 @@ public class DataGridTag extends JeecgTag {
 				sb.append(",\"mData\":\"" + column.getField() + "\"");
 				sb.append(",\"sWidth\":\"" + colwidth + "\"");
 				sb.append(",\"bSortable\":" + column.isSortable() + "");
-
+//                update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 				sb.append(",\"bVisible\":" + !column.isHidden() + "");
-
+//                update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 				sb.append(",\"bSearchable\":" + column.isQuery() + "");
 			}
 			sb.append("}");
@@ -1227,6 +1245,7 @@ public class DataGridTag extends JeecgTag {
 		this.style = style;
 	}
 
+	//update-start--Author:yugwu  Date:20170830 for:key生成逻辑重新编写----
 	public String toString(){
 		StringBuffer key = new StringBuffer();
 		key.append("DataGridTag [fields=").append(fields)
@@ -1275,7 +1294,7 @@ public class DataGridTag extends JeecgTag {
 			.append("]");
 		return key.toString();
 	};
-
+	//update-end--Author:yugwu  Date:20170830 for:key生成逻辑重新编写----
 	
 	/**
 	 * easyui构造方法
@@ -1283,7 +1302,7 @@ public class DataGridTag extends JeecgTag {
 	 * @return
 	 */
 	public StringBuffer end() {
-
+		//update-start--Author:yugwu  Date:20170830 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 		StringBuffer sb = this.getTagCache();
 		if(sb != null){
 			return sb;
@@ -1299,22 +1318,23 @@ public class DataGridTag extends JeecgTag {
 			this.putTagCache(sb);
 			return sb;
 		}
-
+		//update-end--Author:yugwu  Date:20170830 for:TASK #2258 【优化系统】jeecg的jsp页面，采用标签方式，每次都生成html，很慢----
 		String grid = "";
 		sb = new StringBuffer();
-
+		//update-begin--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 智能引用样式 样式文件Boostrap.css 改名为Boostrap-btn.css------------------- 
 		if(btnCls!=null && btnCls.indexOf("bootstrap")==0){
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap/css/bootstrap-btn.css\" type=\"text/css\"></link>");    
 		}
+		//update-end--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 智能引用样式 样式文件Boostrap.css 改名为Boostrap-btn.css-------------------- 
 		width = (width == null) ? "auto" : width;
 		height = (height == null) ? "auto" : height;
-
+		//--update--begin--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 		if(!treegrid && isShowSubGrid){
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/extends/datagrid-detailview.js\"></script>");  
 		}
-
+		//--update--end--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 		sb.append("<script type=\"text/javascript\">"); 
-
+		//--update--begin--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 		if(!treegrid && isShowSubGrid){
 			loadSubData(configId);
 			sb.append("function  detailFormatterFun(){");
@@ -1372,7 +1392,7 @@ public class DataGridTag extends JeecgTag {
 			}}
 			sb.append("}");
 		}
-
+		//--update--end--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 		sb.append("$(function(){  storage=$.localStorage;if(!storage)storage=$.cookieStorage;");
 		sb.append(this.getNoAuthOperButton());
 		if (treegrid) {
@@ -1384,17 +1404,21 @@ public class DataGridTag extends JeecgTag {
 			}else{
 				sb.append("treeField:'text',");
 			}
+			//update-begin--Author:dangzhenghui  Date:20170531 for：TASK #2038 【demo】树形列表 分页demo--------------------
 			sb.append(" onBeforeLoad: function(row,param){\n" +
 					"                    if (!row) {    \n" +
 					"                     delete param.id;  \n" +
 					"                    }\n" +
 					"                },");
+			//update-end--Author:dangzhenghui  Date:20170531 for：TASK #2038 【demo】树形列表 分页demo--------------------
 		} else {
 			grid = "datagrid";
 			sb.append("$(\'#" + name + "\').datagrid({");
+			//update-begin--Author:xuelin  Date:20171128 for：[#2421]【bug】字段过滤功能 --加载多次问题 --------------------
 			if (this.isFilter()) {
 				sb.append("onHeaderContextMenu: function(e, field){headerMenu(e, field);},");
 			}
+			//update-end--Author:xuelin  Date:20171128 for：[#2421]【bug】字段过滤功能 --加载多次问题 --------------------
 			sb.append("idField: '" + idField + "',");
 		}
 		if (title != null) {
@@ -1421,27 +1445,27 @@ public class DataGridTag extends JeecgTag {
 		} else {
 			sb.append("fit:false,");
 		}
-
+		//update--begin--author:zhangjiaqiang date:20170622 for:拓展标签增加属性nowrap
 		if(!nowrap){
 			sb.append("nowrap:false,");
 		}
-
+		//update--end--author:zhangjiaqiang date:20170622 for:拓展标签增加属性nowrap
 		sb.append("rownumbers: true,");
 		if(collapsible){
 			sb.append("collapsible: true,");
 		}
-
+//	    update-start--Author:chenjin  Date:20160715 for：扩展标签<t:dgCol 增加字段defaultVal=""		
 		if(hasQueryColum(columnList)){
 			String queryParams = "";
 			queryParams += "queryParams:{";
 			for (DataGridColumn col : columnList) {
 				if (col.isQuery()&&col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")) {
 					//sb.append("queryParams:{documentTitle:'woniu'},");
-
+				    //update-begin--Author:scott  Date:20170321 for：范围查询情况下，默认值不设值------
 					if(!"group".equals(col.getQueryMode())){
 						queryParams += col.getField()+":'"+col.getDefaultVal()+"',";
 					}
-
+				    //update-end--Author:scott  Date:20170321 for：范围查询情况下，默认值不设值------
 				}
 			}
 			if(queryParams.indexOf(",")>-1){
@@ -1451,7 +1475,9 @@ public class DataGridTag extends JeecgTag {
 			//System.out.println("queryParams===="+queryParams);
 			sb.append(queryParams);
 		}
-
+		
+		
+//	    update-end--Author:chenjin  Date:20160715 for：扩展标签<t:dgCol 增加字段defaultVal=""		
 		sb.append(StringUtil.replaceAll("loadMsg: \'{0}\',", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.data.loading")));
 		sb.append("pageSize: " + pageSize + ",");
 		sb.append("pagination:" + pagination + ",");
@@ -1480,21 +1506,23 @@ public class DataGridTag extends JeecgTag {
 		this.getField(sb);
 		sb.append("]],");
 		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
-
+		//update-begin--Author:xuelin  Date:20171228 for：TASK #2462 【bug】Easyui Datagrid rownumbers行号四位、五位显示不完全的解决办法(引)
+		//update-begin--Author:xuelin  Date:20170613 for：TASK #2109 【分页样式】页数多，遮挡问题--------------------
 		//sb.append(" $(this).datagrid(\"fixRownumber\");");
-
+		//update-end--Author:xuelin  Date:20170613 for：TASK #2109 【分页样式】页数多，遮挡问题----------------------
+		//update-end--Author:xuelin  Date:20171228 for：TASK #2462 【bug】Easyui Datagrid rownumbers行号四位、五位显示不完全的解决办法(引)
 		if(openFirstNode&&treegrid){
 			sb.append(" if(data==null){");
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
 			sb.append(" $(\'#" + name + "\').treegrid('expand',firstNode.id)}");
 		}
-
+		//update-begin--author:zhangjiaqiang date:20170408 for:处理删除数据时页面数据序号错误问题
 		sb.append("if(!"+treegrid+"){");
 		sb.append("if(data.total && data.rows.length==0) {");
 		sb.append("var grid = $(\'#"+name+"\');");
 		sb.append("var curr = grid.datagrid(\'getPager\').data(\"pagination\").options.pageNumber;");
 		sb.append("grid.datagrid({pageNumber:(curr-1)});}}");
-
+		//update-end--author:zhangjiaqiang date:20170408 for:处理删除数据时页面数据序号错误问题
 		if (StringUtil.isNotEmpty(onLoadSuccess)) {
 			sb.append(onLoadSuccess + "(data);");
 		}
@@ -1521,10 +1549,12 @@ public class DataGridTag extends JeecgTag {
 		sb.append("}");
 		sb.append("});");
 		this.setPager(sb, grid);
-
+		//update-begin longjb 20150515 for:新增表头恢复函数调用
+		//update-begin SCOTT 20150525 for: 特殊情况下，导致页面错乱，做下异常处理
 		sb.append("try{restoreheader();}catch(ex){}");
 		sb.append("});");
-
+		//update-end SCOTT 20150525 for: 特殊情况下，导致页面错乱，做下异常处理
+		//update-begin longjb 20150515 for:新增表头恢复函数调用
 		sb.append("function reloadTable(){");
 		sb.append("try{");
 		sb.append("	$(\'#\'+gridname).datagrid(\'reload\');" );
@@ -1538,7 +1568,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');");
 		sb.append("}");
-
+		//update-begin longjb 20150515 for:新增表头定义存储和恢复函数
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -1555,7 +1585,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append("}} }");
 		sb.append("storage.set( '"+name+"hiddenColumns',JSON.stringify(hiddencolumns));");
 		sb.append( "}");
-
+		//add-begin- Author:gengjiajia datagrid列表页面查询条件实现可收缩,
 		sb.append(" function isShowBut(){");
 		sb.append("	  var isShowSearchId = $(\'#isShowSearchId\').val();");
 		sb.append("	  if(isShowSearchId == \"true\"){");
@@ -1570,7 +1600,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append("	  	  $(\'#columsShow\').attr(\"src\",\"plug-in/easyui/themes/default/images/accordion_collapse.png\");");
 		sb.append("	  }");
 		sb.append("}");
-
+		//add-end- Author:gengjiajia datagrid列表页面查询条件实现可收缩
 		sb.append( "function restoreheader(){");
 		sb.append("var cols = storage.get( '"+name+"hiddenColumns');if(!cols)return;");
 		sb.append( "for(var i=0;i<cols.length;i++){");
@@ -1589,7 +1619,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
-
+		//update-end longjb 201515 for:新增表头定义存储和恢复函数
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
@@ -1604,19 +1634,21 @@ public class DataGridTag extends JeecgTag {
 			sb.append("function dosearch(params){");
 			sb.append("var jsonparams=$.parseJSON(params);");
 			sb.append("$(\'#" + name + "\')." + grid + "({url:'" + actionUrl + "&field=" + searchFields + "',queryParams:jsonparams});" + "}");
-
+			
+			//update-begin chenxu 20140423 for:修改在弹出界面中使用single查询模式时，查询条件不起作用
 			 //searchbox框执行方法
 			  searchboxFun(sb,grid);
-
+			//update-end chenxu 20140423 for:修改在弹出界面中使用single查询模式时，查询条件不起作用
 			//生成重置按钮功能js
-
+			  
+			//update-begin Robin 20140426 for:回车事件
 			//回车事件
 			sb.append("function EnterPress(e){");
 			sb.append("var e = e || window.event;");
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
-
+			//update-begin Robin 20140426 for:回车事件
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#\"+name+\"tb\").find(\":input\").val(\"\");");
@@ -1625,10 +1657,10 @@ public class DataGridTag extends JeecgTag {
 			//sb.append(func);
 			sb.append("var queryParams=$(\'#" + name + "\').datagrid('options').queryParams;");
 			sb.append("$(\'#" + name + "tb\').find('*').each(function(){queryParams[$(this).attr('name')]=$(this).val();});");
-
+			//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 			sb.append("$(\'#" + name + "tb\').find(\"input[type='checkbox']\").each(function(){$(this).attr('checked',false);});");
 			sb.append("$(\'#" + name + "tb\').find(\"input[type='radio']\").each(function(){$(this).attr('checked',false);});");
-
+			//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 			sb.append("$(\'#" + name + "\')." + grid + "({url:'" + actionUrl + "&field=" + searchFields + "',pageNumber:1});");
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证,此处避免reset时走验证，代码做了冗余
 			sb.append("}");
@@ -1636,62 +1668,70 @@ public class DataGridTag extends JeecgTag {
 		sb.append("</script>");
 		sb.append("<table width=\"100%\"   id=\"" + name + "\" toolbar=\"#" + name + "tb\"></table>");
 		sb.append("<div id=\"" + name + "tb\" style=\"padding:3px; height: auto\">");
-
+		//add-begin- Author:gengjiajia datagrid列表页面查询条件实现可收缩,是否显示收缩按钮
 		if(hasQueryColum(columnList)&&isShowSearch==true){
 			sb.append("<input  id=\"columsShow\" type=\"image\" src=\"plug-in/easyui/themes/default/images/accordion_collapse.png\" onclick=\"isShowBut()\">");
 		}
-
-
+		//add-end- Author:gengjiajia datagrid列表页面查询条件实现可收缩,是否显示收缩按钮
+		//update-begin--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造-------------------
 		boolean blink = false;
-
+		//update-end--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造-------------------
+		//update-start--Author:scott---date:20171109-----for:非组合查询情况，不生成隐藏查询区域------
 		if(hasQueryColum(columnList) && "group".equals(getQueryMode())){
-
+		//update-end--Author:scott---date:20171109-----for:非组合查询情况，不生成隐藏查询区域------
+			//update-begin--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造-------------------
 			blink = true;
-
+			//update-end--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造-------------------
+			//update-start--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
 			String searchColumStyle = toolBarList!=null&&toolBarList.size()!=0?"":"style='border-bottom: 0px'";
 			sb.append("<div name=\"searchColums\" id=\"searchColums\" "+searchColumStyle+">");
-
+			//update-end--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
+			
+			//add-begin- Author:gengjiajia datagrid列表页面查询条件实现可收缩,添加一个隐藏域，用于判断是否显示该div
 			sb.append("<input  id=\"isShowSearchId\" type=\"hidden\" value=\""+isShowSearch+"\"/>");
-
+			//add-end- Author:gengjiajia datagrid列表页面查询条件实现可收缩,添加一个隐藏域，用于判断是否显示该div
 			//-----longjb1 增加用于高级查询的参数项 
 			sb.append("<input  id=\"_sqlbuilder\" name=\"sqlbuilder\"   type=\"hidden\" />");
-
+			//update-begin-Author:LiShaoQing date:20171229 -- for: 高级查询构造器,自定义参数-----
 			sb.append("<input  id=\"_complexSqlbuilder\" name=\"complexSqlbuilder\"   type=\"hidden\" />");
-
+			//update-end-Author:LiShaoQing date:20171229 -- for: 高级查询构造器,自定义参数-----
 			//update by jg_renjie at 2016/1/11 for:TASK #823 增加form实现Form表单验证
-
+			//update-begin--author:zhangjiaqiang date:20161222 for:列表查询回车报错
 			
 			sb.append("<form onkeydown='if(event.keyCode==13){" + name + "search();return false;}' id='"+name+"Form'>");
-
+			//update-end--author:zhangjiaqiang date:20161222 for:列表查询回车报错
 			
 			//update by jg_renjie at 2016/1/11 for:TASK #823
-
+			//update--begin--author:zhangjiaqiang Date:20170415 for:构建方式增加freemarker方式
+			//update--begin--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
 			sb.append("<span style=\"max-width: 83%;display: inline-block;display:-moz-inline-box;\">");
 			getSearchFormInfo(sb);
 			sb.append("</span>");
-
+			//update--end--author:zhangjiaqiang Date:20170415 for:构建方式增加freemarker方式
+			//update--begin--author:zhangjiaqiang Date:20171113 for:查询按钮放置在查询表单后面
 			sb.append("<span>");
 			getSearchButton(sb);
 			sb.append("</span>");
-
+			//update--end--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
+			//update--end--author:zhangjiaqiang Date:20171113 for:查询按钮放置在查询表单后面
 			sb.append("</form></div>");
 			
 			
 		}
-
+		//update-start--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
 		if(toolBarList==null || toolBarList.size()==0){
-
+		//update-end--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
 			sb.append("<div style=\"height:0px;\" >");
 		}else{//TODO
-
+			//update-begin--Author:xuelin  Date:20170524 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题-------------------
 			sb.append("<div style=\"border-bottom-width:0;\" class=\"datagrid-toolbar\">");
-
+			//update-end--Author:xuelin  Date:20170524 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题-------------------
 		}
 		sb.append("<span style=\"float:left;\" >");
 		if(toolBarList.size()>0)
 		{
 			for (DataGridUrl toolBar : toolBarList) {
-
+				//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 				if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
 					if(btnCls.indexOf("bootstrap")==0){
 						if (btnCls.replace("bootstrap", "").trim().length() > 0) {
@@ -1699,13 +1739,14 @@ public class DataGridTag extends JeecgTag {
 						}else{
 							sb.append("<button class=\"btn btn-default btn-xs\" ");
 						}
-
+						
+						//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 						if(StringUtil.isNotEmpty(toolBar.getId())){
 							sb.append(" id=\"");
 							sb.append(toolBar.getId());
 							sb.append("\" ");
 						}
-
+						//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 						
 						if(StringUtil.isNotEmpty(toolBar.getOnclick()))
 						{
@@ -1725,13 +1766,13 @@ public class DataGridTag extends JeecgTag {
 						
 					}else{
 						sb.append("<a href=\"#\" class=\""+btnCls+" " + toolBar.getIcon()+"\" ");	
-
+						//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 						if(StringUtil.isNotEmpty(toolBar.getId())){
 							sb.append(" id=\"");
 							sb.append(toolBar.getId());
 							sb.append("\" ");
 						}
-
+						//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 						if(StringUtil.isNotEmpty(toolBar.getOnclick()))
 						{
 							sb.append("onclick="+toolBar.getOnclick()+"");
@@ -1752,13 +1793,13 @@ public class DataGridTag extends JeecgTag {
 				}else if(btnCls == null || btnCls.equals("easyui")){//easyUI按钮样式
 					
 					sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\""+toolBar.getIcon()+"\" ");
-
+					//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 					if(StringUtil.isNotEmpty(toolBar.getId())){
 						sb.append(" id=\"");
 						sb.append(toolBar.getId());
 						sb.append("\" ");
 					}
-
+					//update--begin--author:zhangjiaqiang date:20170620 for:增加控件ID
 					if(StringUtil.isNotEmpty(toolBar.getOnclick()))
 					{
 						sb.append("onclick="+toolBar.getOnclick()+"");
@@ -1775,11 +1816,11 @@ public class DataGridTag extends JeecgTag {
 					}
 					sb.append(">"+toolBar.getTitle()+"</a>");
 				}
-
+				//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 
 			}				
 		}
 		sb.append("</span>");
-
+		//update--begin--author:zhangjiaqiang date:20171113 for:TASK #2416 【UI标签】查询按钮换下位置，放到查询条件后面，注意查询字段多的时候换行问题（查询按钮始终在最后面，靠右）
 		 if("single".equals(getQueryMode())&& hasQueryColum(columnList)){//如果表单是单查询
 			sb.append("<span style=\"float:right\">");
 			sb.append("<input id=\""+name+"searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:"+name+ StringUtil.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.input.keyword")) +name+"mm\'\"></input>");
@@ -1792,11 +1833,13 @@ public class DataGridTag extends JeecgTag {
 			sb.append("</div>");
 			sb.append("</span>");
 		}
-
+		//update--end--author:zhangjiaqiang date:20171113 for:TASK #2416 【UI标签】查询按钮换下位置，放到查询条件后面，注意查询字段多的时候换行问题（查询按钮始终在最后面，靠右）
+		//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题------------------- 
 		sb.append("<div style=\"clear:both\"></div>");
-
+		//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题------------------- 
 		sb.append("</div>");
-
+		
+		//update-begin--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造------------------- 
 		if(blink){
 			sb.insert(0, "<link rel=\"stylesheet\" href=\"plug-in/Validform/css/style.css\" type=\"text/css\">" +
 						"<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tablefrom.css\" type=\"text/css\">" +
@@ -1804,10 +1847,10 @@ public class DataGridTag extends JeecgTag {
 						"<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_zh-cn.js\"></script>" +
 						"<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_zh-cn.js\"></script>");
 		}
-
+		//update-end--Author:guoxianhui  Date:20171128 TASK #2326 【页面优化】静态资源访问，有的会带上参数，确认下为什么，改造------------------- 
 		
 		if(queryBuilder){
-
+			//update-begin--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 ------------------- 
 			if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
 				
 				addQueryBuilder(sb,btnCls);
@@ -1816,8 +1859,9 @@ public class DataGridTag extends JeecgTag {
 
 				addQueryBuilder(sb,"easyui-linkbutton");
 			}
+			// update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 --------------------	
 		}
-
+		// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 		if(superQuery) {
 			if(btnCls != null && !btnCls.equals("easyui")) {//自定义bootstrap按钮样式
 				addSuperQuery(sb,btnCls,columnList);
@@ -1825,7 +1869,8 @@ public class DataGridTag extends JeecgTag {
 				addSuperQuery(sb,"easyui-linkbutton",columnList);
 			}
 		}
-
+		// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+		// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 		if(oConvertUtils.isNotEmpty(complexSuperQuery)){
 			if(btnCls != null && !btnCls.equals("easyui")) {//自定义bootstrap按钮样式
 				addAdvancedQuery(sb,btnCls);
@@ -1833,13 +1878,15 @@ public class DataGridTag extends JeecgTag {
 				addAdvancedQuery(sb,"easyui-linkbutton");
 			}
 		}
-
+		// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
+		//update-begin author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果-----
 		this.getFilter(sb);
-
+		//update-end author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果-----
 		this.putTagCache(sb);
 		return sb;
 	}
-
+	
+	//--update--begin--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
 	private void loadSubData(String id){
 		CgFormFieldServiceI cgFormFieldService = (CgFormFieldServiceI)ApplicationContextUtil.getContext().getBean("cgFormFieldService");
 		String tableName = id;
@@ -1855,12 +1902,15 @@ public class DataGridTag extends JeecgTag {
     	this.tableData = (Map<String, Object>)data.get("field");
     	this.head = head;
 	}
-
+	//--update--end--Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果
+	
+	//update--begin--author:zhangjiaqiang Date:20171113 for:查询按钮放置在查询表单后面
 	private void getSearchButton(StringBuffer sb) {
 		if("group".equals(getQueryMode()) && hasQueryColum(columnList)){//如果表单是组合查询
-
+			//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
+			//update--begin--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
 			sb.append("<span style=\"float:right;\">");
-
+			//update--end--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
 			if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
 				if(btnCls.indexOf("bootstrap")==0){
 					String defalutCls = "btn btn-info btn-xs";
@@ -1868,7 +1918,7 @@ public class DataGridTag extends JeecgTag {
 					if (btnCls.replace("bootstrap", "").trim().length() > 0) {
 						defalutCls = btnCls.replace("bootstrap", "").trim();
 					}
-
+					//update--begin--author:guoxianhui date:20171204 for:TASK #2446 【bug】online开发，点击查询报错
 					sb.append("<button class=\""+defalutCls+"\" type=\"button\"  onclick=\"" + name + "search()\">");
 					sb.append("<i class=\"fa fa-search\"></i>");
 					sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.query")+"</span>");
@@ -1885,36 +1935,39 @@ public class DataGridTag extends JeecgTag {
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356【功能】添加新的高级查询功能-----
 					if(superQuery) {
 						sb.append("<button class=\""+defalutCls+"\"  type=\"button\" onclick=\"queryBuilder()\">");
 						sb.append("<i class=\"fa fa-search\"></i>");
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.superquery")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356【功能】添加新的高级查询功能-----
+					// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 					if(oConvertUtils.isNotEmpty(complexSuperQuery)) {
 						sb.append("<button class=\""+defalutCls+"\"  type=\"button\" onclick=\"superQuery('"+complexSuperQuery+"')\">");
 						sb.append("<i class=\"fa fa-search\"></i>");
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
+					//update--end--author:guoxianhui date:20171204 for:TASK #2446 【bug】online开发，点击查询报错
 				}else{//自定以样式
 					sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\""+  name+ StringUtil.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.query")));
 					sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"searchReset('"+name+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.reset")) );
 					if(queryBuilder){
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")) );
 					}
-
+					// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356【功能】添加新的高级查询功能-----
 					if(superQuery) {
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.superquery")) );
 					}
-
+					// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356【功能】添加新的高级查询功能-----
+					// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 					if(oConvertUtils.isNotEmpty(complexSuperQuery)) {
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"superQuery('"+complexSuperQuery+"')\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</a>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 				}
 			}else{//默认使用easyUI按钮样式 
 				sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\""+  name+ StringUtil.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.query")));
@@ -1922,33 +1975,36 @@ public class DataGridTag extends JeecgTag {
 				if(queryBuilder){
 					sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")) );
 				}
-
+				// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 				if(superQuery) {
 					sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.superquery")) );
 				}
-
+				// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+				// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 				if(oConvertUtils.isNotEmpty(complexSuperQuery)) {
 					sb.append("<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-search\" onclick=\"superQuery('"+complexSuperQuery+"')\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</a>");
 				}
-
+				// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 			}
 			sb.append("</span>");
-
+			//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 		}
 	}
-
+	//update--end--author:zhangjiaqiang Date:20171113 for:查询按钮放置在查询表单后面
+	//update--begin--author:zhangjiaqiang Date:20170415 for:构建方式增加freemarker方式
 	/**
 	 * 构建查询form当中的信息
 	 * @param sb
 	 */
 	private void getSearchFormInfo(StringBuffer sb) {
+		//update-begin--Author:xuelin  Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 		//如果表单是组合查询		
 		if("group".equals(getQueryMode())){
 			for (DataGridColumn col : columnList) {
 				if (col.isQuery()) {
-
+					//update--begin--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
 					sb.append("<span style=\"display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;\">");
-
+					//update--end--author:zhangjiaqiang date:20171115 for:TASK #2418 【样式问题】查询字段多了，效果不好
 					sb.append("<span style=\"vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap; \" title=\""+col.getTitle()+"\">"+col.getTitle()+"：</span>");
 					if("single".equals(col.getQueryMode())){
 						if(!StringUtil.isEmpty(col.getReplace())){
@@ -1964,13 +2020,13 @@ public class DataGridTag extends JeecgTag {
 								String lang_key = string.split("_")[0];
 								text = MutiLangUtil.getMutiLangInstance().getLang(lang_key);
 								value =string.split("_")[1];
-
+//								    update-start--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""		
 								if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(value)){
 									sb.append("<option value =\""+value+"\" selected=\"selected\">"+text+"</option>");
 								}else{
 									sb.append("<option value =\""+value+"\" >"+text+"</option>");
 								}
-
+//								    update-end--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""		
 								
 							}
 							sb.append("</select>");
@@ -1981,13 +2037,13 @@ public class DataGridTag extends JeecgTag {
 										+ " as text from " + dic[0];
 								//System.out.println(dic[0]+"--"+dic[1]+"--"+dic[2]);
 							//	<input type="text" name="order_code"  style="width: 100px"  class="searchbox-inputtext" value="" onClick="inputClick(this,'account','user_msg');" />
-
+//								    update-start--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 								if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
 									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
 								}else{
 									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"inputClick(this,'"+dic[1]+"','"+dic[0]+"');\" /> ");
 								}
-
+//								    update-end--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 								
 							}else if(col.getDictionary().contains(",")&&(!col.isPopup())){
 								String[] dic = col.getDictionary().split(",");
@@ -2003,7 +2059,7 @@ public class DataGridTag extends JeecgTag {
 									String field = col.getField().replaceAll("_","\\.");
 									sb.append("<input type=\"hidden\"  name=\""+field+"\" id=\""+field+"_radio\"/>");									
 									for (Map<String, Object> map : list){	//									    
-
+										//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 										if(col.getDefaultVal()!=null && col.getDefaultVal().trim().equals(map.get("field"))){
 											sb.append(" <input type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" checked=\"checked\" />");
 											sb.append(" <script type=\"text/javascript\">");
@@ -2012,7 +2068,7 @@ public class DataGridTag extends JeecgTag {
 										}else{
 											sb.append(" <input type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" />");
 										}	
-
+										//update-end--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 										sb.append(map.get("text"));										
 									}
 								}else if (null != showMode && "checkbox".equals(showMode)) {
@@ -2033,13 +2089,13 @@ public class DataGridTag extends JeecgTag {
 									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"120\" style=\"width: 120px\"> ");
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
 									for (Map<String, Object> map : list){
-
+	//									    update-start--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 										if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(map.get("field"))){
 											sb.append(" <option value=\""+map.get("field")+"\" selected=\"selected\">");
 										}else{
 											sb.append(" <option value=\""+map.get("field")+"\">");
 										}
-
+	//									    update-end--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 	
 										sb.append(map.get("text"));
 										sb.append(" </option>");
@@ -2058,7 +2114,7 @@ public class DataGridTag extends JeecgTag {
 										sb.append("<input type=\"hidden\" name=\""+field+"\" id=\""+field+"_radio\"/>");										
 										for (TSType type : types) {
 											String typeCode = type.getTypecode();
-
+											//update-begin--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(typeCode)){
 												sb.append(" <input type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:#('#"+ field+"_radio').val('" + typeCode + "');\" checked=\"checked\" />");
 												sb.append(" <script type=\"text/javascript\">");
@@ -2067,7 +2123,7 @@ public class DataGridTag extends JeecgTag {
 											}else{
 												sb.append(" <input type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + typeCode + "');\" />");
 											}										
-
+											//update-end--Author:xuelin  Date:20170713 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换  点击重置，再查询就没效果了-------------------
 											sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
 										}
 									}
@@ -2093,7 +2149,7 @@ public class DataGridTag extends JeecgTag {
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.select")));
 									if (types != null) {
 										for (TSType type : types) {
-
+	//										    update-start--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(type.getTypecode())){
 												sb.append(" <option value=\""
 														+ type.getTypecode()
@@ -2103,7 +2159,7 @@ public class DataGridTag extends JeecgTag {
 														+ type.getTypecode()
 														+ "\">");
 											}
-
+	//										    update-end--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""	
 										
 											sb.append(MutiLangUtil.getMutiLangInstance().getLang(type.getTypename()));
 											sb.append(" </option>");
@@ -2115,7 +2171,11 @@ public class DataGridTag extends JeecgTag {
 						}else if(col.isAutocomplete()){
 							sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 						}else{
-
+							//update-begin Robin 20140426 for:回车事件 兼容IE,FF
+							//	update-start--Author:longjb  Date:20150323 for：增加class属性便于样式控制
+//							    update-start--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""
+							
+							//update-begin--Author:scott  Date:20170321 for：Formatter为时间类型，自动追加时间控件样式js------
 							sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+" ");
 							if(this.DATE_FORMATTER.equals(col.getFormatter())){
 								sb.append(" style=\"width: 120px\" class=\"Wdate\" onClick=\"WdatePicker()\" ");
@@ -2128,13 +2188,15 @@ public class DataGridTag extends JeecgTag {
 								sb.append(" value=\""+col.getDefaultVal()+"\" ");
 							}
 							sb.append(" />");
-
+							//update-end--Author:scott  Date:20170321 for：Formatter为时间类型，自动追加时间控件样式js------
+							
+//							    update-end--Author:chenjin  Date:20160718 for：扩展标签<t:dgCol 增加字段defaultVal=""		
 							
 							//sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+"  class=\"inuptxt\" style=\"width: 100px\" value="+col.getDefaultVal()==null?"":"\""+col.getDefaultVal()+"\""+"/>");
 							
 						}
 					}else if("group".equals(col.getQueryMode())){
-
+						//update-begin--Author:scott  Date:20170321 for：Formatter为时间类型，自动追加时间控件样式js------
 						if(this.DATE_FORMATTER.equals(col.getFormatter())){
 							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
@@ -2148,14 +2210,17 @@ public class DataGridTag extends JeecgTag {
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
 							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
 						}
-
+						//update-end--Author:scott  Date:20170321 for：Formatter为时间类型，自动追加时间控件样式js------
+						
+						//	update-end--Author:longjb  Date:20150323 for：增加class属性便于样式控制
 					}
 					sb.append("</span>");
 				}
 			}
 		}
+		//update-end--Author:xuelin  Date:20170712 for：TASK #2205 【UI标签库】列表查询条件动态生成，下拉换成redio模式切换----------------------
 	}
-
+	//update--begin--author:zhangjiaqiang Date:20170415 for:构建方式增加freemarker方式
 
 	/**
 	 * 生成扩展属性
@@ -2220,7 +2285,7 @@ public class DataGridTag extends JeecgTag {
 			Gson gson = new Gson();
 			Map<String, String> mp = gson.fromJson(field, Map.class);
 			for(Map.Entry<String, String> entry: mp.entrySet()) { 
-
+				//update-author：scott     for:jeecg-bpm修改-    date:20151557
 				sb.append(entry.getKey()+"=" + gson.toJson(entry.getValue()) + "\"");
 				} 
 		}
@@ -2283,9 +2348,10 @@ public class DataGridTag extends JeecgTag {
 			}
 			if (url != null && dataGridUrl.getValue() == null) {
 
+				//add-start--Author:yugwu  Date:20170912 for:formatUrl方法重写,原来不支持restful写法----
 				//url = formatUrl(url);
 				url = formatUrlPlus(url);
-
+				//add-end--Author:yugwu  Date:20170912 for:formatUrl方法重写,原来不支持restful写法----
 			}
 			String exp = dataGridUrl.getExp();// 判断显示表达式
 			if (StringUtil.isNotEmpty(exp)) {
@@ -2318,13 +2384,14 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 
+			//update-start--Author: jg_huangxg  Date:20151204 for：增加styke属性便于样式控制
 			StringBuffer style = new StringBuffer();
 			if (!StringUtil.isEmpty(dataGridUrl.getUrlStyle())) {
 				style.append(" style=\'");
 				style.append(dataGridUrl.getUrlStyle());
 				style.append("\' ");
 			}
-
+			//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 			StringBuffer urlclass = new StringBuffer();
 			if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
 				urlclass.append(" class=\'");
@@ -2337,15 +2404,15 @@ public class DataGridTag extends JeecgTag {
 				urlfont.append(dataGridUrl.getUrlfont());
 				urlfont.append("\'></i>");			
 			}
-
+			//update-end--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，
 			if (OptTypeDirection.Confirm.equals(dataGridUrl.getType())) {
-
+				//update-begin--Author:zhangjq  Date:20160904 for：[1343号]【UI标签】t:dgConfOpt扩展ace样式属性
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
 					sb.append("href+=\"<a href=\'#\'  "+urlclass.toString()+"  onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+name+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
 					sb.append("href+=\"[<a href=\'#\' onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+name+"\')" + style.toString() + "> \";");
 				}
-
+				//update-begin--Author:zhangjq  Date:20160904 for：[1343号]【UI标签】t:dgConfOpt扩展ace样式属性
 			}
 			if (OptTypeDirection.Del.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
@@ -2366,24 +2433,24 @@ public class DataGridTag extends JeecgTag {
 				
 			}
 			if (OptTypeDirection.OpenWin.equals(dataGridUrl.getType())) {
-
+				//update--begin--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
 					sb.append("href+=\"<a href=\'#\' "+urlclass.toString()+" onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+name+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">"+urlfont.toString()+"\";");
 				}else{
 					sb.append("href+=\"[<a href=\'#\' onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+name+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">\";");
 				}
-
+				//update--end--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 			}															//update-end--Author:liuht  Date:20130228 for：弹出窗口设置参数不生效
 			if (OptTypeDirection.Deff.equals(dataGridUrl.getType())) {
-
+				//update--begin--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
 					sb.append("href+=\"<a href=\'" + url + "' "+urlclass.toString()+" title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">"+urlfont.toString()+"\";");
 				}else{
 					sb.append("href+=\"[<a href=\'" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
 				}
-
+				//update--end--author:zhangjiaqiang date:20170912 for:TASK 1779 UI标签样式修订
 			}
-
+			//update-end--Author: jg_huangxg  Date:20151204 for：增加styke属性便于样式控制
 			if (OptTypeDirection.OpenTab.equals(dataGridUrl.getType())) {
 				sb.append("href+=\"[<a href=\'#\' onclick=addOneTab('" + dataGridUrl.getTitle() + "','" + url  + "')>\";");
 			}
@@ -2447,7 +2514,7 @@ public class DataGridTag extends JeecgTag {
 		return url;
 
 	}
-
+	//add-start--Author:yugwu  Date:20170912 for:formatUrl方法重写----
 	/**
 	 * formatUrl增强写法
 	 * 支持#{}、{}、##三种传参方式
@@ -2486,7 +2553,7 @@ public class DataGridTag extends JeecgTag {
 		}
 		return url;
 	}
-
+	//add-end--Author:yugwu  Date:20170912 for:formatUrl方法重写----
 	/**
 	 * 拼接字段  普通列
 	 * 
@@ -2513,22 +2580,22 @@ public class DataGridTag extends JeecgTag {
 			if((column.isFrozenColumn()&&frozen==0)||(!column.isFrozenColumn()&&frozen==1)){
 			String field;
 			if (treegrid) {
-
+				//update-begin--Author:zhoujf  Date:20170323 for：TASK #1739 【重构】t:dgCol的属性treefield是否可以去掉，进行重构
 				field = column.getTreefield();
 				if(StringUtils.isEmpty(field)){
 					field = column.getField();
 				}
-
+				//update-end--Author:zhoujf  Date:20170323 for：TASK #1739 【重构】t:dgCol的属性treefield是否可以去掉，进行重构
 			} else {
 				field = column.getField();
 			}
-
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 			sb.append("{");
 			if(StringUtil.isNotEmpty(field)){
 				sb.append("field:\'" + field + "\',");
 			}
 			sb.append("title:\'" + column.getTitle() + "\'");
-
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 			if(column.getWidth() != null){
 				sb.append(",width:"+column.getWidth());
 			}
@@ -2539,7 +2606,7 @@ public class DataGridTag extends JeecgTag {
 				sb.append(",rowspan:" + column.getRowspan());
 			}
 			if(StringUtils.isNotEmpty(column.getExtendParams())){
-
+//			      update-start--Author:chenjin  Date:20160811 for：TASK #1259 【论坛bug】论坛bug确认是否存在问题，存在进行处理,行编辑模式下，增加combobox
 				if(column.getExtendParams().indexOf("editor:'combobox'")>-1){//倘若扩展参数中包含editor:'combobox'
 					StringBuffer comboboxStr =new StringBuffer();//声明一个替换扩展参数中的editor:'combobox'的变量
 					if(!StringUtil.isEmpty(column.getDictionary())){//根据数据字典生成editor:'combobox'
@@ -2588,39 +2655,45 @@ public class DataGridTag extends JeecgTag {
 					column.setExtendParams(column.getExtendParams().replaceAll("editor:'combobox'", comboboxStr.toString()));//替换扩展参数
 					//System.out.println("column.getExtendParams()=="+column.getExtendParams());
 				}
-
+				
+				//update-start-Author:scott  Date:20160812 for：行编辑模式多余引号，逗号处理方案
 				//sb.append(","+column.getExtendParams().substring(0,column.getExtendParams().length()-1));
 				if(column.getExtendParams().endsWith(",") || column.getExtendParams().endsWith("''")){
 					sb.append(","+column.getExtendParams().substring(0,column.getExtendParams().length()-1));
 				}else{
 					sb.append(","+column.getExtendParams());
 				}
-
+				//update-end-Author:scott  Date:20160812 for：行编辑模式多余引号，逗号处理方案
+//			      update-end--Author:chenjin  Date:20160811 for：TASK #1259 论坛bug】论坛bug确认是否存在问题，存在进行处理,行编辑模式下，增加combobox
 				
 			}
-
+		   
+			
+			
+			
+//             update-start-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 			// 隐藏字段
 			if (column.isHidden()) {
 				sb.append(",hidden:true");
 			}
-
+//            update-end-Author:zhangguoming  Date:20140921 for：TASK #458 列表hidden=false，才是隐藏好像有点问题
 			if (!treegrid) {
 				// 字段排序
-
+				//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 				if ((column.isSortable()) && StringUtil.isNotEmpty(field) && (field.indexOf("_") <= 0 && field != "opt")) {
-
+				//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 					sb.append(",sortable:" + column.isSortable() + "");
 				}
 			}
 			if(column.getFormatterjs()!=null){
-
+//			      update-start--Author:chenjin  Date:20160811 for：TASK #1259 【论坛bug】论坛bug确认是否存在问题，存在进行处理,行编辑模式下，增加combobox
 				if(StringUtils.isNotEmpty(column.getExtendParams())&&column.getExtendParams().indexOf("editor:'combobox'")>-1){//倘若扩展参数中包含editor:'combobox'
 						//不再重复增加formatter参数，
 				}else{
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" return "+column.getFormatterjs()+"(value,rec,index);}");
 				}
-
+//			      update-end--Author:chenjin  Date:20160811 for：TASK #1259 【论坛bug】论坛bug确认是否存在问题，存在进行处理,行编辑模式下，增加combobox
 			}else {
 				// 显示图片
 				if (column.isImage()) {
@@ -2640,25 +2713,25 @@ public class DataGridTag extends JeecgTag {
 					}
 				} else if(column.getDownloadName() != null){
 	            	sb.append(",formatter:function(value,rec,index){");
-
+	            	//update--begin--author:zhangjiaqiang date:20170527 for:修订下载样式信息
 	            	sb.append("var html = '';");
-
+	            	//update--begin--author:zhoujf date:20170601 for:下载列空值判断
 	            	sb.append("if(value==null || value.length==0){return html;}");
-
+	            	//update--end--author:zhoujf date:20170601 for:下载列空值判断
 	            	sb.append("if(value.indexOf('.jpg')>-1 || value.indexOf('.png')>-1 || value.indexOf('.jpeg')>-1 || value.indexOf('.gif') > -1){");
 	            	sb.append(" html = '<img onMouseOver=\"tipImg(this)\" onMouseOut=\"moveTipImg()\" src=\"'+value+'\" width=50 height=50/>';");
 	            	sb.append("}else{");
 	                sb.append(" html = '<a class=\"ace_button fa fa-download\" style=\"padding:3px 5px;\" target=\"_blank\" href=\"'+value+'\">"
 	                		+ column.getDownloadName() + "</a>';}");
 	                sb.append("return html;}");
-
+	              //update--end--author:zhangjiaqiang date:20170527 for:修订下载样式信息
 	            }else if (column.getUrl() != null) { // 自定义链接
 					sb.append(",formatter:function(value,rec,index){");
 					this.getFun(sb, column);
 					sb.append("}");
-
+					//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 				}else if (StringUtil.isNotEmpty(column.getField()) && column.getField().equals("opt")) {// 加入操作
-
+					//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 					sb.append(",formatter:function(value,rec,index){");
 					// sb.append("return \"");
 					this.getOptUrl(sb);
@@ -2668,16 +2741,17 @@ public class DataGridTag extends JeecgTag {
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" return new Date().format('"+column.getFormatter()+"',value);}");
 				}
-
+				//author:xugj-----start-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
 				else if(column.getShowLen()!=null){ //设置了显示多少长度的
 					sb.append(",formatter:function(value,rec,index){");
 					sb.append(" if(value==undefined) {return ''} ");
 					sb.append(" if(value.length<=");sb.append(column.getShowLen());sb.append(") {return value}");
 					sb.append(" else{ return '<a title= '+value+'>'+ value.substring(0,");sb.append(column.getShowLen());sb.append(")+'...';}}");
 				}
-
+				//author:xugj-----end-----date:20160512 ---- for: TASK #1080 【UI标签改造】t:dgCol 显示内容长度控制
+				//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 				else if (columnValueList.size() > 0 && StringUtil.isNotEmpty(column.getField()) && !column.getField().equals("opt")) {// 值替換
-
+					//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 					String testString = "";
 					for (ColumnValue columnValue : columnValueList) {
 						if (columnValue.getName().equals(column.getField())) {
@@ -2708,9 +2782,9 @@ public class DataGridTag extends JeecgTag {
 				}
 			}
 			// 背景设置
-
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 			if (columnStyleList.size() > 0  && StringUtil.isNotEmpty(column.getField()) && !column.getField().equals("opt")) {
-
+				//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 				String testString = "";
 				for (ColumnValue columnValue : columnStyleList) {
 					if (columnValue.getName().equals(column.getField())) {
@@ -2734,7 +2808,7 @@ public class DataGridTag extends JeecgTag {
 				}
 				
 			}
-
+			//update--begin--author:zhangjiaqiang Date:20170815 for:TASK #2273 【demo】datagrid 多表头demo
 			if(StringUtil.isNotEmpty(column.getColspan())){
 				sb.append(",colspan:\"" + column.getColspan() + "\"");
 			}
@@ -2792,6 +2866,7 @@ public class DataGridTag extends JeecgTag {
 	}
   
 	public String getNoAuthOperButton(){
+		//update-begin--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		StringBuffer sb = new StringBuffer();
 		if(ResourceUtil.getSessionUser().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
@@ -2817,6 +2892,7 @@ public class DataGridTag extends JeecgTag {
 			}
 			
 		}
+		//update-end--Author:anchao  Date:20140822 for：[bugfree号]字段级权限（表单，列表）--------------------
 		//org.jeecgframework.core.util.LogUtil.info("----getNoAuthOperButton-------"+sb.toString());
 		return sb.toString(); 
 	}
@@ -2945,11 +3021,11 @@ public class DataGridTag extends JeecgTag {
 	}
 
 	public void setExtendParams(String extendParams) {
-
+		//update--begin--author:zhangjiaqiang date:20170705 for:TASK #2195 【ui标签参数美化改进】这个参数用途，为什么多个逗号
 		if(StringUtil.isNotEmpty(extendParams) && !extendParams.endsWith(",")){
 			extendParams = extendParams + ",";
 		}
-
+		//update--end--author:zhangjiaqiang date:20170705 for:TASK #2195 【ui标签参数美化改进】这个参数用途，为什么多个逗号
 		this.extendParams = extendParams;
 	}
 
@@ -2957,13 +3033,16 @@ public class DataGridTag extends JeecgTag {
 		this.langArg = langArg;
 	}
 
+	//-----author:jg_longjb----start-----date:20150408--------for:新增ace 界面下的button class样式
 	public StringBuffer aceStyleTable() {
 		String grid = "";
 		StringBuffer sb = new StringBuffer();		
 
+		//update-begin--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 智能引用样式 样式文件Boostrap.css 改名为Boostrap-btn.css------------------- 
 		if(btnCls!=null && btnCls.indexOf("bootstrap")==0){
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap/css/bootstrap-btn.css\" type=\"text/css\"></link>");    
 		}
+		//update-end--Author:xuelin  Date:20170525 for：TASK #2021 【UI改进】列表上面的按钮 智能引用样式 样式文件Boostrap.css 改名为Boostrap-btn.css-------------------- 
 
 		width = (width == null) ? "auto" : width;
 		height = (height == null) ? "auto" : height;
@@ -2979,9 +3058,11 @@ public class DataGridTag extends JeecgTag {
 		} else {
 			grid = "datagrid";
 			sb.append("$(\'#" + name + "\').datagrid({");
+			//update-begin--Author:xuelin  Date:20171128 for：[#2421]【bug】字段过滤功能 --加载多次问题 --------------------
 			if (this.isFilter()) {
 				sb.append("onHeaderContextMenu: function(e, field){headerMenu(e, field);},");
 			}
+			//update-end--Author:xuelin  Date:20171128 for：[#2421]【bug】字段过滤功能 --加载多次问题 --------------------
 			sb.append("idField: '" + idField + "',");
 		}
 		if (title != null) {
@@ -3031,9 +3112,11 @@ public class DataGridTag extends JeecgTag {
 		this.getField(sb);
 		sb.append("]],");
 		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
-
+		//update-begin--Author:xuelin  Date:20171228 for：TASK #2462 【bug】Easyui Datagrid rownumbers行号四位、五位显示不完全的解决办法(引)
+		//update-begin--Author:xuelin  Date:20170613 for：TASK #2109 【分页样式】页数多，遮挡问题--------------------
 		//sb.append(" $(this).datagrid(\"fixRownumber\");");
-
+		//update-end--Author:xuelin  Date:20170613 for：TASK #2109 【分页样式】页数多，遮挡问题----------------------
+		//update-end--Author:xuelin  Date:20171228 for：TASK #2462 【bug】Easyui Datagrid rownumbers行号四位、五位显示不完全的解决办法(引)
 		if(openFirstNode&&treegrid){
 			sb.append(" if(data==null){");
 			sb.append(" var firstNode = $(\'#" + name + "\').treegrid('getRoots')[0];");
@@ -3079,7 +3162,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append("function get" + name + "Selections(field){" + "var ids = [];" + "var rows = $(\'#" + name + "\')." + grid + "(\'getSelections\');" + "for(var i=0;i<rows.length;i++){" + "ids.push(rows[i][field]);" + "}" + "ids.join(\',\');" + "return ids" + "};");
 		sb.append("function getSelectRows(){");
 		sb.append("	return $(\'#"+name+"\').datagrid('getChecked');}");
-
+		//update-begin longjb 20150515 for:新增表头定义存储和恢复函数
 		sb.append(" function saveHeader(){");
 		sb.append(" var columnsFields =null;var easyextends=false;try{columnsFields = $('#"+name+"').datagrid('getColumns');easyextends=true;");
 		sb.append("}catch(e){columnsFields =$('#"+name+"').datagrid('getColumnFields');}");
@@ -3114,7 +3197,7 @@ public class DataGridTag extends JeecgTag {
 		sb.append( "}");
 		sb.append( "}");
 		sb.append( "}");
-
+		//update-end longjb 201515 for:新增表头定义存储和恢复函数
 		if (columnList.size() > 0) {
 			sb.append("function " + name + "search(){");
 			sb.append("var queryParams=$(\'#" + name + "\').datagrid('options').queryParams;");
@@ -3133,7 +3216,7 @@ public class DataGridTag extends JeecgTag {
 			sb.append("if(e.keyCode == 13){ ");
 			sb.append(name+"search();");
 			sb.append("}}");
-
+			//update-begin Robin 20140426 for:回车事件
 				
 			sb.append("function searchReset(name){");
 			sb.append(" $(\"#"+name+"tb\").find(\":input\").val(\"\");");
@@ -3215,20 +3298,20 @@ public class DataGridTag extends JeecgTag {
 			}
 			sb.append("</div>");
 		}
-
+		//update-start--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
 		if(toolBarList==null || toolBarList.size()==0){
-
+		//update-end--Author:scott---date:20171121-----for:没有按钮的时候，查询区域不生成底部线条----------------
 			sb.append("<div style=\"height:0px;\" >"); 
 		}else{//TODO 
-
+			//update-begin--Author:xuelin  Date:20170524 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题-------------------
 			sb.append("<div style=\"border-bottom-width:0;height:auto;\" class=\"datagrid-toolbar\">");
-
+			//update-end--Author:xuelin  Date:20170524 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题-------------------
 		}
 		sb.append("<span style=\"float:left;\" >");
 		if(toolBarList.size()>0)
 		{
 			for (DataGridUrl toolBar : toolBarList) {				
-
+				//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 
 				if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
 					if(btnCls.indexOf("bootstrap")==0){
 						if (btnCls.replace("bootstrap", "").trim().length() > 0) {
@@ -3291,12 +3374,13 @@ public class DataGridTag extends JeecgTag {
 					}
 					sb.append(">"+toolBar.getTitle()+"</a>");
 				}				
-
+				//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 			}
 		}
 		sb.append("</span>");
 		if("group".equals(getQueryMode()) && hasQueryColum(columnList)){//如果表单是组合查询	
 
+			//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 			sb.append("<span style=\"float:right\">");
 			
 			if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
@@ -3323,36 +3407,38 @@ public class DataGridTag extends JeecgTag {
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 					if(superQuery) {
 						sb.append("<button class=\""+defalutCls+"\" onclick=\"queryBuilder()\">");
 						sb.append("<i class=\"fa fa-search\"></i>");
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.superquery")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+					// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 					if(oConvertUtils.isNotEmpty(complexSuperQuery)) {
 						sb.append("<button class=\""+defalutCls+"\" onclick=\"superQuery('"+complexSuperQuery+"')\">");
 						sb.append("<i class=\"fa fa-search\"></i>");
 						sb.append("<span class=\"bigger-110 no-text-shadow\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</span>");
 						sb.append("</button>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 				}else{//自定以样式
 					sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\""+  name+ StringUtil.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.query")));
 					sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"searchReset('"+name+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.reset")) );
 					if(queryBuilder){
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")) );
 					}
-
+					// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 					if(superQuery){
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.superquery")) );
 					}
-
+					// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+					// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 					if(oConvertUtils.isNotEmpty(complexSuperQuery)){
 						sb.append("<a href=\"#\" class=\""+btnCls+"\" onclick=\"superQuery('"+complexSuperQuery+"')\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</a>");
 					}
-
+					// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 				}
 			}else{//默认使用easyUI按钮样式 
 				sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\""+  name+ StringUtil.replaceAll("search()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.query")));
@@ -3360,19 +3446,20 @@ public class DataGridTag extends JeecgTag {
 				if(queryBuilder){
 					sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.querybuilder")) );
 				}
-
+				// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 				if(superQuery){
 					sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"queryBuilder('"+ StringUtil.replaceAll("')\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.superQuery")) );
 				}
-
+				// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+				// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 				if(oConvertUtils.isNotEmpty(complexSuperQuery)){
 					sb.append("<a href=\"#\" class=\"button\" iconCls=\"icon-search\" onclick=\"superQuery('"+complexSuperQuery+"')\">"+MutiLangUtil.getMutiLangInstance().getLang("common.advancedQuery")+"</a>");
 				}
-
+				// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 			}
 			
 			sb.append("</span>");
-
+			//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案------------------- 	
 		}else if("single".equals(getQueryMode())&& hasQueryColum(columnList)){//如果表单是单查询
 			sb.append("<span style=\"float:right\">");
 			sb.append("<input id=\""+name+"searchbox\" class=\"easyui-searchbox\"  data-options=\"searcher:"+name+ StringUtil.replaceAll("searchbox,prompt:\'{0}\',menu:\'#", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.please.input.keyword")) +name+"mm\'\"></input>");
@@ -3385,12 +3472,12 @@ public class DataGridTag extends JeecgTag {
 			sb.append("</div>");
 			sb.append("</span>");
 		}
-
+		//update-begin--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题------------------- 
 		sb.append("<div style=\"clear:both\"></div>");
-
+		//update-end--Author:xuelin  Date:20170523 for：TASK #2002 【UI优化】列表上方button样式改造方案 解决表单DIV自适应高度问题------------------- 		
 		sb.append("</div>");
 		if(queryBuilder){
-
+			//update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 -------------------
 			if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
 				
 				addQueryBuilder(sb,btnCls);
@@ -3399,9 +3486,9 @@ public class DataGridTag extends JeecgTag {
 
 				addQueryBuilder(sb,"button");
 			}
-
+			//update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 -------------------
 		}
-
+		// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 		if(superQuery) {
 			if(btnCls != null && !btnCls.equals("easyui")) {
 				addSuperQuery(sb,btnCls,columnList);
@@ -3409,7 +3496,8 @@ public class DataGridTag extends JeecgTag {
 				addSuperQuery(sb,"button",columnList);
 			}
 		}
-
+		// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+		// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 		if(oConvertUtils.isNotEmpty(complexSuperQuery)) {
 			if(btnCls != null && !btnCls.equals("easyui")) {
 				addAdvancedQuery(sb,btnCls);
@@ -3417,10 +3505,13 @@ public class DataGridTag extends JeecgTag {
 				addAdvancedQuery(sb,"button");
 			}
 		}
-
+		// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 		return sb;
 	}
-
+	//-----author:jg_longjb----end-----date:20150408--------for:新增封装查询器组件-
+	
+	
+	//-----author:jg_longjb----start-----date:20150427--------for:新增高级查询器queryBuilder
 	private void appendLine(StringBuffer sb,String str) {
 		String format = "\r\n"; //调试  格式化
 		sb.append(str).append(format);
@@ -3430,7 +3521,7 @@ public class DataGridTag extends JeecgTag {
 	 * @param sb
 	 */
 	private void addQueryBuilder(StringBuffer sb,String buttonSytle) {
-
+		//update-begin--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 -------------------
 		appendLine(sb,"<div style=\"position:relative;overflow:auto;\">");
 		appendLine(sb,"<div id=\""+name+"_qbwin\" class=\"easyui-window\" data-options=\"closed:true,title:'&nbsp;&nbsp;高级查询构造器'\" style=\"width:600px;height:370px;padding:0px\">");
 		appendLine(sb,"	<div class=\"easyui-layout\" data-options=\"fit:true\">");
@@ -3590,6 +3681,7 @@ appendLine(sb,"					}}\">关系</th>");
 		appendLine(sb,"	</table>");
 		appendLine(sb,"</div>");
 		appendLine(sb,"<div data-options=\"region:'south',border:false\" style=\"text-align:right;padding:5px 0 3px;\">");
+		//update-begin--Author:xuelin  Date:20170606 for：TASK #2083 【样式】JEECG样式专项工作  问题1 高级查询还有问题--------------------
 		if (btnCls != null && !btnCls.equals("easyui")) {
 			String defalutCls = "btn btn-default btn-xs";
 			if (btnCls.replace("bootstrap", "").trim().length() > 0) {
@@ -3602,6 +3694,7 @@ appendLine(sb,"					}}\">关系</th>");
 			appendLine(sb,"<a class=\""+buttonSytle+"\" data-options=\"iconCls:'icon-ok'\" href=\"javascript:void(0)\" onclick=\"javascript:queryBuilderSearch()\">确定</a>");
 			appendLine(sb,"<a class=\""+buttonSytle+"\" data-options=\"iconCls:'icon-cancel'\" href=\"javascript:void(0)\" onclick=\"javascript:$('#"+name+"_qbwin').window('close')\">取消</a>");
 		}
+		//update-end--Author:xuelin  Date:20170606 for：TASK #2083 【样式】JEECG样式专项工作  问题1 高级查询还有问题----------------------
 		
 		appendLine(sb,"		</div>");
 		appendLine(sb,"	</div>	");
@@ -3630,12 +3723,15 @@ appendLine(sb,"					}}\">关系</th>");
 			if (btnCls.replace("bootstrap", "").trim().length() > 0) {
 				defalutCls = btnCls.replace("bootstrap", "").trim();
 			}
+			
+			//update-begin--Author:xuelin  Date:20170606 for：TASK #2083 【样式】JEECG样式专项工作  问题1 高级查询还有问题--------------------
 			sb.append("var toolbar = '<div>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"append()\">&nbsp;<i class=\"fa fa-plus\"></i>&nbsp;</button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"edit()\">&nbsp;<i class=\"fa fa-pencil-square-o\"></i></button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"removeIt()\">&nbsp;<i class=\"fa fa-trash\"></i></button>");
 			sb.append("<button class=\""+defalutCls+"\" onclick=\"save()\">&nbsp;<i class=\"fa fa-save\"></i></button>");
 			sb.append("</div>';");
+			//update-end--Author:xuelin  Date:20170606 for：TASK #2083 【样式】JEECG样式专项工作  问题1 高级查询还有问题----------------------
 			
 		}else{		
 			appendLine(sb,"var toolbar = [{");
@@ -3790,7 +3886,7 @@ appendLine(sb,"					}}\">关系</th>");
 		
 
 		appendLine(sb, "</script>");
-
+		//update-end--Author:xuelin  Date:20170527 for：TASK #2022 【UI美化】高级查询弹出查询页面，界面美化 ------------------- 
 	}
 	/**
 	 * hibernate字段名转换为数据库名称，只支持标准命名
@@ -3810,8 +3906,9 @@ appendLine(sb,"					}}\">关系</th>");
 		}
 		return sb.toString();
 	}
-
-
+//----author:jg_longjb----start-----date:20150427--------for:新增封装查询器组件----
+	
+	// update-begin-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
 	/**
 	 * 高级查询
 	 * @param sb
@@ -3821,13 +3918,14 @@ appendLine(sb,"					}}\">关系</th>");
 		Map<String, Object> mainConfig = new HashMap<String, Object>();
 		mainConfig.put("fields", columnList);
 		mainConfig.put("tableName", name);
-
+		//update-begin-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件-----
 		mainConfig.put("valueList", columnValueList);
-
+		//update-end-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件-----
 		String superQuery = free.parseTemplate("/org/jeecgframework/tag/ftl/superquery.ftl", mainConfig);
 		appendLine(sb,superQuery);
 	}
-
+	// update-end-Author:LiShaoQing Date:20171019 for:TASK #2356 【功能】添加新的高级查询功能-----
+	//update-begin author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果-----	
 	//是否启用过滤
 	protected boolean filter = false;	
 	
@@ -3848,7 +3946,8 @@ appendLine(sb,"					}}\">关系</th>");
 			appendLine(sb,superQuery);
 		}
 	}
-
+	//update-end author:xuelin date:20171116 for:TASK #2404 【平台UI改造】UI样式改造点  5.参考fineui，做下字段过滤功能效果-----
+	// update-begin-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
 	/**
 	 * 高级查询构造器
 	 * @param sb
@@ -3861,5 +3960,29 @@ appendLine(sb,"					}}\">关系</th>");
 		String complexSuperQuery = free.parseTemplate("/org/jeecgframework/tag/ftl/complexSuperQuery.ftl", mainConfig);
 		appendLine(sb,complexSuperQuery);
 	}
-
+	// update-end-Author:LiShaoQing Date:20171227 for:添加新的高级查询构造器功能-----
+	
+	/**
+	 * 判断当前浏览器不是IE,采用有bootstrap样式按钮
+	 */
+	private boolean checkBrowerIsNotIE(){
+		String browserType = "";
+		Object brower_type = ContextHolderUtils.getSession().getAttribute("brower_type");
+		if(brower_type==null){
+			 	HttpServletRequest req = ContextHolderUtils.getRequest();
+		        Cookie[] cookies = req.getCookies();
+		        for (int i = 0; i < cookies.length; i++) {
+					Cookie cookie = cookies[i];
+					if("BROWSER_TYPE".equals(cookie.getName())){
+						browserType = cookie.getValue();
+					}
+				}
+		}else{
+			browserType = brower_type.toString();
+		}
+		if(!"Microsoft%20Internet%20Explorer".equals(browserType)){
+			return true;
+		}
+		return false;
+	}
 }

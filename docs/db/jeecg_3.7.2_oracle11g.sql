@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2018-01-29 18:01:19
+Date: 2018-02-02 18:02:48
 */
 
 
@@ -33,6 +33,50 @@ NOCACHE
 
 -- ----------------------------
 -- Records of BONUS
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for CCCC
+-- ----------------------------
+DROP TABLE "SCOTT"."CCCC";
+CREATE TABLE "SCOTT"."CCCC" (
+"ID" VARCHAR2(36 BYTE) NOT NULL ,
+"CREATE_NAME" VARCHAR2(50 BYTE) NULL ,
+"CREATE_BY" VARCHAR2(50 BYTE) NULL ,
+"CREATE_DATE" DATE NULL ,
+"UPDATE_NAME" VARCHAR2(50 BYTE) NULL ,
+"UPDATE_BY" VARCHAR2(50 BYTE) NULL ,
+"UPDATE_DATE" DATE NULL ,
+"SYS_ORG_CODE" VARCHAR2(50 BYTE) NULL ,
+"SYS_COMPANY_CODE" VARCHAR2(50 BYTE) NULL ,
+"BPM_STATUS" VARCHAR2(32 BYTE) DEFAULT 1  NULL ,
+"NAME" VARCHAR2(32 BYTE) NULL ,
+"AAAA" NUMBER(32) NULL ,
+"BBB1" BLOB NULL ,
+"CCC" VARCHAR2(32 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON COLUMN "SCOTT"."CCCC"."ID" IS '主键';
+COMMENT ON COLUMN "SCOTT"."CCCC"."CREATE_NAME" IS '创建人名称';
+COMMENT ON COLUMN "SCOTT"."CCCC"."CREATE_BY" IS '创建人登录名称';
+COMMENT ON COLUMN "SCOTT"."CCCC"."CREATE_DATE" IS '创建日期';
+COMMENT ON COLUMN "SCOTT"."CCCC"."UPDATE_NAME" IS '更新人名称';
+COMMENT ON COLUMN "SCOTT"."CCCC"."UPDATE_BY" IS '更新人登录名称';
+COMMENT ON COLUMN "SCOTT"."CCCC"."UPDATE_DATE" IS '更新日期';
+COMMENT ON COLUMN "SCOTT"."CCCC"."SYS_ORG_CODE" IS '所属部门';
+COMMENT ON COLUMN "SCOTT"."CCCC"."SYS_COMPANY_CODE" IS '所属公司';
+COMMENT ON COLUMN "SCOTT"."CCCC"."BPM_STATUS" IS '流程状态';
+COMMENT ON COLUMN "SCOTT"."CCCC"."NAME" IS '用户吗';
+COMMENT ON COLUMN "SCOTT"."CCCC"."AAAA" IS 'aaa';
+COMMENT ON COLUMN "SCOTT"."CCCC"."BBB1" IS 'bbb';
+COMMENT ON COLUMN "SCOTT"."CCCC"."CCC" IS 'ccc';
+
+-- ----------------------------
+-- Records of CCCC
 -- ----------------------------
 
 -- ----------------------------
@@ -90,10 +134,10 @@ DROP TABLE "SCOTT"."CGFORM_BUTTON_SQL";
 CREATE TABLE "SCOTT"."CGFORM_BUTTON_SQL" (
 "ID" NVARCHAR2(32) NOT NULL ,
 "BUTTON_CODE" NVARCHAR2(50) NULL ,
-"CGB_SQL" NVARCHAR2(1000) NULL ,
 "CGB_SQL_NAME" NVARCHAR2(50) NULL ,
 "CONTENT" NVARCHAR2(1000) NULL ,
-"FORM_ID" NVARCHAR2(32) NULL 
+"FORM_ID" NVARCHAR2(32) NULL ,
+"CGB_SQL" BLOB NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -102,7 +146,6 @@ NOCACHE
 ;
 COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."ID" IS '主键ID';
 COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."BUTTON_CODE" IS '按钮编码';
-COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."CGB_SQL" IS 'SQL内容';
 COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."CGB_SQL_NAME" IS 'Sql名称';
 COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."CONTENT" IS '备注';
 COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."FORM_ID" IS '表单ID';
@@ -110,10 +153,9 @@ COMMENT ON COLUMN "SCOTT"."CGFORM_BUTTON_SQL"."FORM_ID" IS '表单ID';
 -- ----------------------------
 -- Records of CGFORM_BUTTON_SQL
 -- ----------------------------
-INSERT INTO "SCOTT"."CGFORM_BUTTON_SQL" VALUES ('402880f25b234ec8015b235c85970003', 'add', '<#if sex == ''1''>
-update test_person set conets = :sys.sys_user_name  where id = :id
-</#if>
-', null, '修改简历描述', '4028ab775afa555c015afa5958660007');
+INSERT INTO "SCOTT"."CGFORM_BUTTON_SQL" VALUES ('402880f25b234ec8015b235c85970003', 'add', null, '修改简历描述', '4028ab775afa555c015afa5958660007', HexToRaw('3C23696620736578203D3D202731273E0D0A75706461746520746573745F706572736F6E2073657420636F6E657473203D203A7379732E7379735F757365725F6E616D6520207768657265206964203D203A69640D0A3C2F2369663E0D0A'));
+INSERT INTO "SCOTT"."CGFORM_BUTTON_SQL" VALUES ('402881f66155baf1016155d6b0330003', 'add', null, null, 'ff8080816021b031016021feb0c00016', empty_blob());
+INSERT INTO "SCOTT"."CGFORM_BUTTON_SQL" VALUES ('402881f661502c4d0161502fe82e0016', 'add', null, 'cc', '402881f661502c4d0161502eb7b30001', empty_blob());
 
 -- ----------------------------
 -- Table structure for CGFORM_ENHANCE_JAVA
@@ -150,10 +192,10 @@ INSERT INTO "SCOTT"."CGFORM_ENHANCE_JAVA" VALUES ('4028ef815602f891015602fb7cac0
 DROP TABLE "SCOTT"."CGFORM_ENHANCE_JS";
 CREATE TABLE "SCOTT"."CGFORM_ENHANCE_JS" (
 "ID" NVARCHAR2(32) NOT NULL ,
-"CG_JS" NCLOB NULL ,
 "CG_JS_TYPE" NVARCHAR2(20) NULL ,
 "CONTENT" NVARCHAR2(1000) NULL ,
-"FORM_ID" NVARCHAR2(32) NULL 
+"FORM_ID" NVARCHAR2(32) NULL ,
+"CG_JS" BLOB NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -161,7 +203,6 @@ NOCACHE
 
 ;
 COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."ID" IS '主键ID';
-COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."CG_JS" IS 'JS增强内容';
 COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."CG_JS_TYPE" IS '类型';
 COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."CONTENT" IS '备注';
 COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."FORM_ID" IS '表单ID';
@@ -169,109 +210,11 @@ COMMENT ON COLUMN "SCOTT"."CGFORM_ENHANCE_JS"."FORM_ID" IS '表单ID';
 -- ----------------------------
 -- Records of CGFORM_ENHANCE_JS
 -- ----------------------------
-INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('2c90ac564c9d1734014c9d322192001f', 'jform_graphreport_headFw = 1050;
-jform_graphreport_headFh = 600;
-
-//??
-	function jform_graphreport_headadd(){
-		add(''图表配置'',''cgFormBuildController.do?ftlForm&tableName=jform_graphreport_head'',''jform_graphreport_headList'',jform_graphreport_headFw,jform_graphreport_headFh);
-	}
-	//??
-	function jform_graphreport_headupdate(){
-		update(''图表配置'',''cgFormBuildController.do?ftlForm&tableName=jform_graphreport_head'',''jform_graphreport_headList'',jform_graphreport_headFw,jform_graphreport_headFh);
-	}
-	//??
-	function jform_graphreport_headcopy(){
-		copy(''??????'',''cgFormBuildController.do?ftlForm&tableName=jform_graphreport_head'',''jform_graphreport_headList'',jform_graphreport_headFw,jform_graphreport_headFh);
-	}
-	//??
-	function jform_graphreport_headview(){
-		detail(''??'',''cgFormBuildController.do?ftlForm&tableName=jform_graphreport_head'',''jform_graphreport_headList'',jform_graphreport_headFw,jform_graphreport_headFh);
-	}
-
-function graph_test() {
-	var e = event || x_export.caller.arguments[0];
-    var target = e.target || e.srcElement;
-    var configId = $(target).parents("tr:first").find("td[field=''code'']").text();
-    var configName = $(target).parents("tr:first").find("td[field=''name'']").text();
-	    
-	addOneTab("表单数据列表 ["+configName+"]", "graphReportController.do?list&isIframe&id="+configId);
-}
-
-function copy_url() {
-    var e = event || x_export.caller.arguments[0];
-    var target = e.target || e.srcElement;
-    var configId = $(target).parents("tr:first").find("td[field=''code'']").text();
-    popMenuLinkGraph(configId, configId);
-}
-//图表配置复制
-function popMenuLinkGraph(tableName,content){
-	var url = "<input type=''text'' style=''width:380px;'' disabled=\"disabled\" id=''menuLink'' title=''graphReportController.do?list&id='' value=''graphReportController.do?list&isIframe&id="+tableName+"'' />";
-	$.dialog({
-		content: url,
-		drag :false,
-		lock : true,
-		title:''菜单链接[''+content+'']'',
-		opacity : 0.3,
-		width:400,
-		height:50,
-		cache:false,
-	    cancelVal: ''关闭'',
-	    cancel: function(){clip.destroy();},
-	    button : [{
-	    	id : "coptyBtn",
-	    	name : "复制",
-	    	callback : function () {
-	    	}
-	    }],
-	    init : function () {
-			clip = new ZeroClipboard.Client();
-			clip.setHandCursor( true );
-			
-			clip.addEventListener(''mouseOver'', function(client){
-				clip.setText( document.getElementById("menuLink").value );
-			});
-			clip.addEventListener(''complete'', function(client, text){
-				alert("复制成功");
-			});
-			var menuLink = $("#menuLink").val();
-			$($("input[type=button]")[0]).attr("id","coptyBtn");
-			clip.setText(menuLink);
-			clip.glue("coptyBtn");
-	    }
-	});  
-}', 'list', null, '2c90ac564c9d1734014c9d22b16c0001');
-INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('2c90ac564c9d1734014c9d3241ac0021', '$("textarea").height(60);
-
-$(function(){
-$("body").append("<link href=\"plug-in/lhgDialog/skins/default.css\" rel=\"stylesheet\" id=\"lhgdialoglink\">");
-var $btn = $("<div class=\"ui_buttons\"  style=\"display:inline-block;padding:0px;\"><input style=\"position: relative;top: 0px;\" class=\"ui_state_highlight\" type=\"button\" value=\"sql解析\"  id=\"sqlAnalyze\" /></div>");
-$("#cgr_sql").after($btn);
-$btn.click(function(){
- $.ajax({
-    url:"cgReportController.do?getFields",
-    data:{sql:$("#cgr_sql").val()},
-	type:"Post",
-    dataType:"json",
-    success:function(data){
-    if(data.status=="success"){
-	      $("#add_jform_graphreport_item_table").empty();
-	      $.each(data.fields,function(index,e){
-			$("#addBtn_jform_graphreport_item").click();
-			$("#add_jform_graphreport_item_table tr:last").find(":text")
-				.eq(0).val(e)
-				.end().eq(1).val(e)
-				.end().eq(2).val(index);
-	      }); 
-	      //resetTrNum("add_jform_graphreport_item_table");
-    }else{
-		$.messager.alert(''??'',data.datas);
-	}
-  }
-  });
- });
-});', 'form', null, '2c90ac564c9d1734014c9d22b16c0001');
-INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('402880ec5c665afd015c6689aeaf0002', ' ', 'form', null, '8a8ab0b246dc81120146dc81847e013b');
+INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('402881f6615593530161559e93730003', 'form', null, 'ff8080816021b031016021feb0c00016', empty_blob());
+INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('2c90ac564c9d1734014c9d322192001f', 'list', null, '2c90ac564c9d1734014c9d22b16c0001', HexToRaw('6A666F726D5F67726170687265706F72745F686561644677203D20313035303B0D0A6A666F726D5F67726170687265706F72745F686561644668203D203630303B0D0A0D0A2F2F3F3F0D0A0966756E6374696F6E206A666F726D5F67726170687265706F72745F6865616461646428297B0D0A09096164642827E59BBEE8A1A8E9858DE7BDAE272C276367466F726D4275696C64436F6E74726F6C6C65722E646F3F66746C466F726D267461626C654E616D653D6A666F726D5F67726170687265706F72745F68656164272C276A666F726D5F67726170687265706F72745F686561644C697374272C6A666F726D5F67726170687265706F72745F6865616446772C6A666F726D5F67726170687265706F72745F686561644668293B0D0A097D0D0A092F2F3F3F0D0A0966756E6374696F6E206A666F726D5F67726170687265706F72745F6865616475706461746528297B0D0A09097570646174652827E59BBEE8A1A8E9858DE7BDAE272C276367466F726D4275696C64436F6E74726F6C6C65722E646F3F66746C466F726D267461626C654E616D653D6A666F726D5F67726170687265706F72745F68656164272C276A666F726D5F67726170687265706F72745F686561644C697374272C6A666F726D5F67726170687265706F72745F6865616446772C6A666F726D5F67726170687265706F72745F686561644668293B0D0A097D0D0A092F2F3F3F0D0A0966756E6374696F6E206A666F726D5F67726170687265706F72745F68656164636F707928297B0D0A0909636F707928273F3F3F3F3F3F272C276367466F726D4275696C64436F6E74726F6C6C65722E646F3F66746C466F726D267461626C654E616D653D6A666F726D5F67726170687265706F72745F68656164272C276A666F726D5F67726170687265706F72745F686561644C697374272C6A666F726D5F67726170687265706F72745F6865616446772C6A666F726D5F67726170687265706F72745F686561644668293B0D0A097D0D0A092F2F3F3F0D0A0966756E6374696F6E206A666F726D5F67726170687265706F72745F686561647669657728297B0D0A090964657461696C28273F3F272C276367466F726D4275696C64436F6E74726F6C6C65722E646F3F66746C466F726D267461626C654E616D653D6A666F726D5F67726170687265706F72745F68656164272C276A666F726D5F67726170687265706F72745F686561644C697374272C6A666F726D5F67726170687265706F72745F6865616446772C6A666F726D5F67726170687265706F72745F686561644668293B0D0A097D0D0A0D0A66756E6374696F6E2067726170685F746573742829207B0D0A097661722065203D206576656E74207C7C20785F6578706F72742E63616C6C65722E617267756D656E74735B305D3B0D0A2020202076617220746172676574203D20652E746172676574207C7C20652E737263456C656D656E743B0D0A2020202076617220636F6E6669674964203D202428746172676574292E706172656E7473282274723A666972737422292E66696E64282274645B6669656C643D27636F6465275D22292E7465787428293B0D0A2020202076617220636F6E6669674E616D65203D202428746172676574292E706172656E7473282274723A666972737422292E66696E64282274645B6669656C643D276E616D65275D22292E7465787428293B0D0A09202020200D0A096164644F6E655461622822E8A1A8E58D95E695B0E68DAEE58897E8A1A8205B222B636F6E6669674E616D652B225D222C202267726170685265706F7274436F6E74726F6C6C65722E646F3F6C697374266973496672616D652669643D222B636F6E6669674964293B0D0A7D0D0A0D0A66756E6374696F6E20636F70795F75726C2829207B0D0A202020207661722065203D206576656E74207C7C20785F6578706F72742E63616C6C65722E617267756D656E74735B305D3B0D0A2020202076617220746172676574203D20652E746172676574207C7C20652E737263456C656D656E743B0D0A2020202076617220636F6E6669674964203D202428746172676574292E706172656E7473282274723A666972737422292E66696E64282274645B6669656C643D27636F6465275D22292E7465787428293B0D0A20202020706F704D656E754C696E6B477261706828636F6E66696749642C20636F6E6669674964293B0D0A7D0D0A2F2FE59BBEE8A1A8E9858DE7BDAEE5A48DE588B60D0A66756E6374696F6E20706F704D656E754C696E6B4772617068287461626C654E616D652C636F6E74656E74297B0D0A097661722075726C203D20223C696E70757420747970653D277465787427207374796C653D2777696474683A33383070783B272064697361626C65643D5C2264697361626C65645C222069643D276D656E754C696E6B27207469746C653D2767726170685265706F7274436F6E74726F6C6C65722E646F3F6C6973742669643D272076616C75653D2767726170685265706F7274436F6E74726F6C6C65722E646F3F6C697374266973496672616D652669643D222B7461626C654E616D652B2227202F3E223B0D0A09242E6469616C6F67287B0D0A0909636F6E74656E743A2075726C2C0D0A090964726167203A66616C73652C0D0A09096C6F636B203A20747275652C0D0A09097469746C653A27E88F9CE58D95E993BEE68EA55B272B636F6E74656E742B275D272C0D0A09096F706163697479203A20302E332C0D0A090977696474683A3430302C0D0A09096865696768743A35302C0D0A090963616368653A66616C73652C0D0A092020202063616E63656C56616C3A2027E585B3E997AD272C0D0A092020202063616E63656C3A2066756E6374696F6E28297B636C69702E64657374726F7928293B7D2C0D0A0920202020627574746F6E203A205B7B0D0A0920202020096964203A2022636F70747942746E222C0D0A0920202020096E616D65203A2022E5A48DE588B6222C0D0A09202020200963616C6C6261636B203A2066756E6374696F6E202829207B0D0A0920202020097D0D0A09202020207D5D2C0D0A0920202020696E6974203A2066756E6374696F6E202829207B0D0A090909636C6970203D206E6577205A65726F436C6970626F6172642E436C69656E7428293B0D0A090909636C69702E73657448616E64437572736F7228207472756520293B0D0A0909090D0A090909636C69702E6164644576656E744C697374656E657228276D6F7573654F766572272C2066756E6374696F6E28636C69656E74297B0D0A09090909636C69702E736574546578742820646F63756D656E742E676574456C656D656E744279496428226D656E754C696E6B22292E76616C756520293B0D0A0909097D293B0D0A090909636C69702E6164644576656E744C697374656E65722827636F6D706C657465272C2066756E6374696F6E28636C69656E742C2074657874297B0D0A09090909616C6572742822E5A48DE588B6E68890E58A9F22293B0D0A0909097D293B0D0A090909766172206D656E754C696E6B203D20242822236D656E754C696E6B22292E76616C28293B0D0A0909092428242822696E7075745B747970653D627574746F6E5D22295B305D292E6174747228226964222C22636F70747942746E22293B0D0A090909636C69702E73657454657874286D656E754C696E6B293B0D0A090909636C69702E676C75652822636F70747942746E22293B0D0A09202020207D0D0A097D293B20200D0A7D'));
+INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('2c90ac564c9d1734014c9d3241ac0021', 'form', null, '2c90ac564c9d1734014c9d22b16c0001', HexToRaw('242822746578746172656122292E686569676874283630293B0D0A0D0A242866756E6374696F6E28297B0D0A242822626F647922292E617070656E6428223C6C696E6B20687265663D5C22706C75672D696E2F6C68674469616C6F672F736B696E732F64656661756C742E6373735C222072656C3D5C227374796C6573686565745C222069643D5C226C68676469616C6F676C696E6B5C223E22293B0D0A766172202462746E203D202428223C64697620636C6173733D5C2275695F627574746F6E735C2220207374796C653D5C22646973706C61793A696E6C696E652D626C6F636B3B70616464696E673A3070783B5C223E3C696E707574207374796C653D5C22706F736974696F6E3A2072656C61746976653B746F703A203070783B5C2220636C6173733D5C2275695F73746174655F686967686C696768745C2220747970653D5C22627574746F6E5C222076616C75653D5C2273716CE8A7A3E69E905C22202069643D5C2273716C416E616C797A655C22202F3E3C2F6469763E22293B0D0A242822236367725F73716C22292E6166746572282462746E293B0D0A2462746E2E636C69636B2866756E6374696F6E28297B0D0A20242E616A6178287B0D0A2020202075726C3A2263675265706F7274436F6E74726F6C6C65722E646F3F6765744669656C6473222C0D0A20202020646174613A7B73716C3A242822236367725F73716C22292E76616C28297D2C0D0A09747970653A22506F7374222C0D0A2020202064617461547970653A226A736F6E222C0D0A20202020737563636573733A66756E6374696F6E2864617461297B0D0A20202020696628646174612E7374617475733D3D227375636365737322297B0D0A09202020202020242822236164645F6A666F726D5F67726170687265706F72745F6974656D5F7461626C6522292E656D70747928293B0D0A09202020202020242E6561636828646174612E6669656C64732C66756E6374696F6E28696E6465782C65297B0D0A0909092428222361646442746E5F6A666F726D5F67726170687265706F72745F6974656D22292E636C69636B28293B0D0A090909242822236164645F6A666F726D5F67726170687265706F72745F6974656D5F7461626C652074723A6C61737422292E66696E6428223A7465787422290D0A090909092E65712830292E76616C2865290D0A090909092E656E6428292E65712831292E76616C2865290D0A090909092E656E6428292E65712832292E76616C28696E646578293B0D0A092020202020207D293B200D0A092020202020202F2F726573657454724E756D28226164645F6A666F726D5F67726170687265706F72745F6974656D5F7461626C6522293B0D0A202020207D656C73657B0D0A0909242E6D657373616765722E616C65727428273F3F272C646174612E6461746173293B0D0A097D0D0A20207D0D0A20207D293B0D0A207D293B0D0A7D293B'));
+INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('402880ec5c665afd015c6689aeaf0002', 'form', null, '8a8ab0b246dc81120146dc81847e013b', empty_blob());
+INSERT INTO "SCOTT"."CGFORM_ENHANCE_JS" VALUES ('402881f661502c4d016150349bb00018', 'form', null, '402881f661502c4d0161502eb7b30001', empty_blob());
 
 -- ----------------------------
 -- Table structure for CGFORM_FIELD
@@ -726,6 +669,20 @@ INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('ff8080816021b031016021feb0c50022', '
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('ff8080816021b031016021feb0c50023', '商品数量', 'admin', TO_DATE('2017-12-04 22:47:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'qty', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'qty', '13', '0', 'single', 'text', 'int', null, null, null, 'ff8080816021b031016021feb0c00016', null, null);
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('ff8080816021b031016021feb0c50024', '商品价格', 'admin', TO_DATE('2017-12-04 22:47:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'price', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'price', '14', '0', 'single', 'text', 'BigDecimal', null, null, null, 'ff8080816021b031016021feb0c00016', null, null);
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('ff8080816021b031016021feb0c60025', '金额', 'admin', TO_DATE('2017-12-04 22:47:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'amount', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'amount', '15', '0', 'single', 'text', 'BigDecimal', null, null, null, 'ff8080816021b031016021feb0c00016', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b50002', '主键', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'id', null, 'N', 'Y', 'N', 'N', 'N', 'N', '36', null, null, 'id', '1', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b60003', '创建人名称', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'create_name', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'create_name', '2', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b60004', '创建人登录名称', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'create_by', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'create_by', '3', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b70005', '创建日期', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'create_date', null, 'N', 'N', 'Y', 'N', 'N', 'N', '20', null, null, 'create_date', '4', '0', 'single', 'date', 'Date', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b70006', '更新人名称', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'update_name', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'update_name', '5', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7b70007', '更新人登录名称', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'update_by', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'update_by', '6', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7bd0008', '更新日期', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'update_date', null, 'N', 'N', 'Y', 'N', 'N', 'N', '20', null, null, 'update_date', '7', '0', 'single', 'date', 'Date', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7be0009', '所属部门', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'sys_org_code', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'sys_org_code', '8', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7bf000a', '所属公司', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'sys_company_code', null, 'N', 'N', 'Y', 'N', 'N', 'N', '50', null, null, 'sys_company_code', '9', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7c0000b', '流程状态', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'bpm_status', null, null, '1', null, '120', 'bpm_status', null, 'N', 'N', 'Y', 'N', 'N', 'Y', '32', null, null, 'bpm_status', '10', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f661502c4d0161502eb7c0000c', '用户吗', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'name2', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'name2', '11', '0', 'single', 'text', 'string', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f66150795a01615085cc9c000a', 'aaa', 'admin', TO_DATE('2018-02-01 16:40:01', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'aaaa', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'aaaa', '12', '0', 'single', 'text', 'double', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f66150795a01615085cc9d000b', 'bbb', 'admin', TO_DATE('2018-02-01 16:40:01', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'bbb1', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'bbb1', '13', '0', 'single', 'text', 'Blob', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
+INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('402881f66150795a01615085cc9d000c', 'ccc', 'admin', TO_DATE('2018-02-01 16:40:01', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'ccc', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '32', null, null, 'ccc', '14', '0', 'single', 'text', 'Text', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '402881f661502c4d0161502eb7b30001', null, null);
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('8a8ab0b246dc81120146dc8184ba014c', '请假原因', 'admin', TO_DATE('2014-06-27 16:46:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'hol_reson', null, 'N', 'N', 'N', 'N', 'Y', 'N', '255', null, null, 'hol_reson', '9', '0', 'single', 'text', 'string', 'admin', TO_DATE('2017-05-27 17:09:58', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '8a8ab0b246dc81120146dc818484013c', null, null);
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('8a8ab0b246dc81120146dc8184bc014d', '部门审批人', 'admin', TO_DATE('2014-06-27 16:46:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '0', 'dep_leader', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '20', null, null, 'dep_leader', '10', '0', 'single', 'text', 'string', 'admin', TO_DATE('2017-05-07 20:28:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '8a8ab0b246dc81120146dc818484013c', null, null);
 INSERT INTO "SCOTT"."CGFORM_FIELD" VALUES ('8a8ab0b246dc81120146dc8184bd014e', '部门审批意见', 'admin', TO_DATE('2014-06-27 16:46:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, null, null, '120', 'content', null, 'N', 'N', 'Y', 'N', 'Y', 'Y', '255', null, null, 'content', '11', '0', 'single', 'file', 'string', 'admin', TO_DATE('2017-05-27 17:08:30', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '8a8ab0b246dc81120146dc818484013c', null, null);
@@ -840,6 +797,28 @@ COMMENT ON COLUMN "SCOTT"."CGFORM_FTL"."EDITOR_TYPE" IS '类型';
 -- ----------------------------
 -- Records of CGFORM_FTL
 -- ----------------------------
+INSERT INTO "SCOTT"."CGFORM_FTL" VALUES ('402881f66155baf1016155da553c0007', 'ff8080816021b031016021fced100004', '111', 'admin', TO_DATE('2018-02-02 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '<!DOCTYPE html xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">
+<html>
+<head>
+	<title></title>
+	<base href="${basePath}/" /><script type="text/javascript" src="${basePath}/plug-in/jquery/jquery-1.8.3.js"></script><script type="text/javascript" src="${basePath}/plug-in/tools/dataformat.js"></script>
+	<link href="${basePath}/plug-in/accordion/css/accordion.css" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/plug-in/easyui/themes/default/easyui.css" id="easyuiTheme" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/plug-in/easyui/themes/icon.css" rel="stylesheet" type="text/css" /><script type="text/javascript" src="${basePath}/plug-in/easyui/jquery.easyui.min.1.3.2.js"></script><script type="text/javascript" src="${basePath}/plug-in/easyui/locale/zh-cn.js"></script><script type="text/javascript" src="${basePath}/plug-in/tools/syUtil.js"></script><script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
+	<link href="${basePath}/plug-in/tools/css/metrole/common.css" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/plug-in/ace/css/font-awesome.css" rel="stylesheet" type="text/css" /><script type="text/javascript" src="${basePath}/plug-in/lhgDialog/lhgdialog.min.js"></script><script type="text/javascript" src="${basePath}/plug-in/layer/layer.js"></script><script type="text/javascript" src="${basePath}/plug-in/tools/curdtools_zh-cn.js"></script><script type="text/javascript" src="${basePath}/plug-in/tools/easyuiextend.js"></script>
+	<link href="${basePath}/plug-in/easyui/themes/metrole/main.css" id="easyuiTheme" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/plug-in/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" /><script type="text/javascript" src="${basePath}/plug-in/uploadify/jquery.uploadify-3.1.js"></script><script type="text/javascript" src="${basePath}/plug-in/tools/Map.js"></script><script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script><script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script><script type="text/javascript" src="${basePath}/plug-in/Validform/js/datatype_zh-cn.js"></script><script type="text/javascript" src="${basePath}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+	<link href="${basePath}/plug-in/Validform/css/metrole/style.css" rel="stylesheet" type="text/css" />
+	<link href="${basePath}/plug-in/Validform/css/metrole/tablefrom.css" rel="stylesheet" type="text/css" /><script type="text/javascript" src="${basePath}/plug-in/ueditor/ueditor.config.js"></script><script type="text/javascript" src="${basePath}/plug-in/ueditor/ueditor.all.js"></script>
+	<style type="text/css">body{font-size:12px;}table{border: 1px solid #000000;padding:0; margin:0 auto;border-collapse: collapse;width:100%;align:right;}td {border: 1px solid #000000;background: #fff;font-size:12px;padding: 3px 3px 3px 8px;color: #000000;word-break: keep-all;}.ui_state_highlight{border:1px solid #39befb;position:relative;display:inline-block;cursor:pointer;text-align:center;overflow:hidden;border-radius:10px;padding:4px 30px;font-size:14px;background-color:#39befb;color:#fff}.ui_state_highlight:hover{background-color:#3aace5;color:#000;}
+	</style>
+</head>
+<body>1111您好
+<div align="center" id="sub_tr" style="display: none;"><input class="ui_state_highlight" onclick="neibuClick()" type="button" value="提交" /></div>
+</body>
+<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''''||data.responseText==undefined){$.messager.alert(''错误'', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf(''错误描述''),data.responseText.indexOf(''错误信息'')); $.messager.alert(''错误'',emsg);$.Hidemsg();}catch(ex){$.messager.alert(''错误'',data.responseText+'''');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script><script type="text/javascript">$(function(){if(location.href.indexOf("goDetail.do")!=-1){$(".jeecgDetail").hide();}if(location.href.indexOf("goDetail.do")!=-1){$("#formobj").find(":input").attr("disabled","disabled");}if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){$("#sub_tr").show();}}); var neibuClickFlag = false; function neibuClick() {neibuClickFlag = true;$(''#btn_sub'').trigger(''click'');} function uploadFile(data){if(!$("input[name=''id'']").val()){if(data.obj!=null && data.obj!=''undefined''){$("input[name=''id'']").val(data.obj.id);}} if($(".uploadify-queue-item").length>0){upload();}else{if (neibuClickFlag){alert(data.msg);neibuClickFlag = false;}else {var win = frameElement.api.opener;win.reloadTable();win.tip(data.msg);frameElement.api.close();}}} $.dialog.setting.zIndex =9999; function del(url,obj){$.dialog.confirm("确认删除该条记录?", function(){$.ajax({async : false,cache : false,type : ''POST'',url : url,error : function() {},success : function(data) {var d = $.parseJSON(data);if (d.success) {var msg = d.msg;tip(msg);$(obj).closest("tr").hide("slow");}}});}, function(){ });}</script><script type="text/javascript">${js_plug_in?if_exists}</script></html>
+', '0', '1', null, 'admin', TO_DATE('2018-02-02 17:30:35', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null);
 INSERT INTO "SCOTT"."CGFORM_FTL" VALUES ('402880e64e478dc8014e4797a1a90001', '402881e44df713f5014df71fc6be0004', '9999', 'admin', TO_DATE('2015-07-01 11:09:56', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '<p style="text-align: center;"><br/></p><p style="text-align: center;"><span style="font-size: 24px;">示例表</span></p><form action="cgFormBuildController.do?saveOrUpdate" id="formobj" name="formobj" method="post"><input type="hidden" name="tableName" value="${tableName?if_exists?html}" /><input type="hidden" name="id" value="${id?if_exists?html}" /><input type="hidden" id="btn_sub" class="btn_sub" />#{jform_hidden_field}<table class="table table-bordered"><tbody><tr class="firstRow"><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">文本框</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="227"><input style="text-align: left; width: 150px;" title="文本框" value="雷劈网" name="leipiNewField" orgheight="" orgwidth="150" orgalign="left" orgfontsize="" orghide="0" leipiplugins="text" orgtype="text"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">下拉菜单</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312">{|-<span leipiplugins="select"><select name="leipiNewField" title="下拉菜单" leipiplugins="select" size="1" orgwidth="150" style="width: 150px;"><option value="下拉">下拉</option><option value="菜单">菜单</option></select>&nbsp;&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">单选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="41">{|-<span leipiplugins="radios" title="单选" name="leipiNewField"><input value="单选1" type="radio" checked="checked" name=""/>单选1&nbsp;<input value="单选2" type="radio" name=""/>单选2&nbsp;</span>-|}</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">复选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="312">{|-<span leipiplugins="checkboxs" title="复选"><input name="leipiNewField" value="复选1" type="checkbox" checked="checked"/>复选1&nbsp;<input name="leipiNewField" value="复选2" type="checkbox" checked="checked"/>复选2&nbsp;<input name="leipiNewField" value="复选3" type="checkbox"/>复选3&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">宏控件</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="41"><input name="leipiNewField" type="text" value="{macros}" title="宏控件" leipiplugins="macros" orgtype="sys_date_cn" orghide="0" orgfontsize="12" orgwidth="150" style="font-size: 12px; width: 150px;"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">二维码</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312"><img name="leipiNewField" title="雷劈网" value="http://www.leipi.org" orgtype="url" leipiplugins="qrcode" src="/Public/js/ueditor/formdesign/images/qrcode.gif" orgwidth="40" orgheight="40" style="width: 40px; height: 40px;"/></td></tr></tbody></table></form><p><input name="leipiNewField" leipiplugins="listctrl" type="text" value="{列表控件}" readonly="readonly" title="采购商品列表" orgtitle="商品名称`数量`单价`小计`描述`" orgcoltype="text`int`int`int`text`" orgunit="```元``" orgsum="0`0`0`1`0`" orgcolvalue="`````" orgwidth="100%" style="width: 100%;"/></p><p><textarea title="多行文本" name="leipiNewField" leipiplugins="textarea" value="" orgrich="0" orgfontsize="12" orgwidth="600" orgheight="80" style="font-size:12px;width:600px;height:80px;"></textarea></p><p><img name="leipiNewField" title="进度条" leipiplugins="progressbar" orgvalue="20" orgsigntype="progress-info" src="/Public/js/ueditor/formdesign/images/progressbar.gif"/></p><p><br/></p>', '0', '1', null, null, null, null, '02');
 INSERT INTO "SCOTT"."CGFORM_FTL" VALUES ('402880e64eab9a84014eab9cff390002', '402880e74dc1e65e014dc1effa270001', 'UE', 'admin', TO_DATE('2015-07-20 21:17:49', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '<p style="text-align: center;"><br/></p><p style="text-align: center;"><span style="font-size: 24px;">示例表</span></p><form action="cgFormBuildController.do?saveOrUpdate" id="formobj" name="formobj" method="post"><input type="hidden" name="tableName" value="${tableName?if_exists?html}" /><input type="hidden" name="id" value="${id?if_exists?html}" /><input type="hidden" id="btn_sub" class="btn_sub" />#{jform_hidden_field}<table class="table table-bordered"><tbody><tr class="firstRow"><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">文本框</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="227"><input style="text-align: left; width: 150px;" title="文本框" value="雷劈网" name="leipiNewField" orgheight="" orgwidth="150" orgalign="left" orgfontsize="" orghide="0" leipiplugins="text" orgtype="text"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">下拉菜单</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312">{|-<span leipiplugins="select"><select name="leipiNewField" title="下拉菜单" leipiplugins="select" size="1" orgwidth="150" style="width: 150px;"><option value="下拉">下拉</option><option value="菜单">菜单</option></select>&nbsp;&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">单选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="41">{|-<span leipiplugins="radios" title="单选" name="leipiNewField"><input value="单选1" type="radio" checked="checked" name=""/>单选1&nbsp;<input value="单选2" type="radio" name=""/>单选2&nbsp;</span>-|}</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">复选</td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="312">{|-<span leipiplugins="checkboxs" title="复选"><input name="leipiNewField" value="复选1" type="checkbox" checked="checked"/>复选1&nbsp;<input name="leipiNewField" value="复选2" type="checkbox" checked="checked"/>复选2&nbsp;<input name="leipiNewField" value="复选3" type="checkbox"/>复选3&nbsp;</span>-|}</td></tr><tr><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);">宏控件</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="41"><input name="leipiNewField" type="text" value="{macros}" title="宏控件" leipiplugins="macros" orgtype="sys_date_cn" orghide="0" orgfontsize="12" orgwidth="150" style="font-size: 12px; width: 150px;"/></td><td valign="top" style="word-break: break-all; border-color: rgb(221, 221, 221);" width="85">二维码</td><td valign="top" style="border-color: rgb(221, 221, 221);" width="312"><img name="leipiNewField" title="雷劈网" value="http://www.leipi.org" orgtype="url" leipiplugins="qrcode" src="/Public/js/ueditor/formdesign/images/qrcode.gif" orgwidth="40" orgheight="40" style="width: 40px; height: 40px;"/></td></tr></tbody></table></form><p><input name="leipiNewField" leipiplugins="listctrl" type="text" value="{列表控件}" readonly="readonly" title="采购商品列表" orgtitle="用户`年龄`生日`2`3`4`5`6`" orgcoltype="text`text`text`text`text`text`text`text`" orgunit="````````" orgsum="0`0`0`0`0`0`0`0`" orgcolvalue="````````" orgwidth="100%" style="width: 100%;" autofield=".`.`.`.`.`.`.`.`"/></p><p><textarea title="多行文本" name="leipiNewField" leipiplugins="textarea" value="" orgrich="0" orgfontsize="12" orgwidth="600" orgheight="80" style="font-size:12px;width:600px;height:80px;"></textarea></p><p><img name="leipiNewField" title="进度条" leipiplugins="progressbar" orgvalue="20" orgsigntype="progress-info" src="/Public/js/ueditor/formdesign/images/progressbar.gif"/></p><p><br/></p>', '0', '1', null, null, null, null, '02');
 INSERT INTO "SCOTT"."CGFORM_FTL" VALUES ('402880e74d90a2f4014d90a5cab30003', '8a8ab0b246dc81120146dc81847e013b', '1212', 'admin', TO_DATE('2015-05-26 22:34:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', '<html xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"><head><title></title><link href="plug-in/easyui/themes/default/easyui.css" id="easyuiTheme" rel="stylesheet" type="text/css" /><link href="plug-in/easyui/themes/icon.css" rel="stylesheet" type="text/css" /><link href="plug-in/accordion/css/accordion.css" rel="stylesheet" type="text/css" /><link href="plug-in/Validform/css/style.css" rel="stylesheet" type="text/css" /><link href="plug-in/Validform/css/tablefrom.css" rel="stylesheet" type="text/css" /><style type="text/css">body{font-size:12px;}table{border: 1px solid #000000;padding:0; margin:0 auto;border-collapse: collapse;width:100%;align:right;}td {border: 1px solid #000000;background: #fff;font-size:12px;padding: 3px 3px 3px 8px;color: #000000;word-break: keep-all;}</style></head><script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script><script type="text/javascript" src="plug-in/tools/dataformat.js"></script><script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script><script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script><script type="text/javascript" src="plug-in/tools/syUtil.js"></script><script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script><script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script><script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script><script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script><script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script><script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script><script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script><script type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script><script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:4,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){if(!neibuClickFlag){var win = frameElement.api.opener;frameElement.api.close();win.tip(data.msg);win.reloadTable();}else {alert(data.msg)}}else{if(data.responseText==''''||data.responseText==undefined)$("#formobj").html(data.msg);else $("#formobj").html(data.responseText); return false;}if(!neibuClickFlag){var win = frameElement.api.opener;win.reloadTable();}}});});</script><body><div align="center" id="sub_tr" style="display: none;"><input class="ui_state_highlight" onclick="neibuClick()" type="button" value="提交" /></div></body><script type="text/javascript">$(function(){if(location.href.indexOf("mode=read")!=-1){$(''#formobj'').find('':input'').attr(''disabled'',''disabled'');}if(location.href.indexOf("mode=onbutton")!=-1){$("#sub_tr").show();} });var neibuClickFlag = false; function neibuClick() {neibuClickFlag = true;$(''#btn_sub'').trigger(''click'');}</script><script type="text/javascript">${js_plug_in?if_exists}</script></html>', '0', '1', null, null, null, null, null);
@@ -962,7 +941,8 @@ INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('8a8ab0b246dc81120146dc818486013d', '�
 INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('8a8ab0b246dc81120146dc818488013e', '订单机票信息', 'admin', TO_DATE('2014-06-27 16:46:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'N', 'Y', 'Y', 'N', null, 'UUID', '3', '29', 'single', '0', null, '2', 'jform_order_ticket', 'admin', TO_DATE('2017-11-01 15:40:57', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, 'id', null, 'bdfl_ptbd', null, null, null, null, null);
 INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('8a8ab0b246dc81120146dc81848b013f', '价格认证机构统计表', 'admin', TO_DATE('2014-06-27 16:46:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'N', 'Y', 'Y', 'N', null, 'UUID', '1', '3', 'group', '0', null, null, 'jform_price1', 'admin', TO_DATE('2015-10-15 11:24:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, null, null, 'bdfl_ptbd', null, null, null, null, null);
 INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('ff8080816021b031016021fced100004', '订单列表', 'admin', TO_DATE('2017-12-04 22:45:12', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'Y', 'Y', 'Y', 'N', null, 'UUID', '2', '7', 'group', '0', 'jfrom_order_line', null, 'jfrom_order', 'admin', TO_DATE('2017-12-09 15:06:06', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, 'id', null, 'bdfl_ptbd', 'subgrid', null, null, null, null);
-INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('ff8080816021b031016021feb0c00016', '订单明细', 'admin', TO_DATE('2017-12-04 22:47:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'N', 'Y', 'Y', 'N', null, 'UUID', '3', '3', 'single', '0', null, '11', 'jfrom_order_line', 'admin', TO_DATE('2017-12-04 23:25:31', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, 'id', null, 'bdfl_ptbd', null, null, null, null, null);
+INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('ff8080816021b031016021feb0c00016', '订单明细', 'admin', TO_DATE('2017-12-04 22:47:08', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'N', 'Y', 'Y', 'N', null, 'UUID', '3', '9', 'single', '0', null, '11', 'jfrom_order_line', 'admin', TO_DATE('2017-12-04 23:25:31', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, 'id', null, 'bdfl_ptbd', null, null, null, null, null);
+INSERT INTO "SCOTT"."CGFORM_HEAD" VALUES ('402881f661502c4d0161502eb7b30001', 'cccc', 'admin', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '管理员', 'N', 'N', 'Y', 'N', null, 'UUID', '1', '29', 'single', '0', null, null, 'cccc', 'admin', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '管理员', null, 'id', null, 'bdfl_include', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for CGFORM_INDEX
@@ -4449,10 +4429,10 @@ INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881ea5bcd7fd0015bcd8b5eae0001', n
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881ef5e087320015e087a17570001', null, '1', 'popup控件', '23', 'jeecgFormDemoController.do?popupMultiValue', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-external-link', 'admin', '管理员', 'admin', TO_DATE('2017-11-14 11:30:45', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-08-22 13:46:13', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881ef5f5c650e015f5c67ddd20001', null, '1', '上下布局表单三(fineui)', '21', 'jformOrderMainController.do?orderList', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'icon-list-alt', 'admin', '管理员', 'admin', TO_DATE('2017-11-14 11:29:25', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-10-27 13:57:12', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881f4606cc3d501606cd07a520005', null, '1', '添加页面', '0', 'jeecgListDemoController.do?goAdd', '402889fb486e848101486e8de3d60005', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '1', null, 'admin', '管理员', 'admin', TO_DATE('2017-12-19 11:29:35', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-19 11:28:10', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881f4609299ad0160929ab2e00001', null, '1', '二级管理员', '6', null, '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-group', 'admin', '管理员', 'admin', TO_DATE('2018-01-16 17:20:57', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-26 19:35:00', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881fc60a07a350160a07cf68e0001', null, '1', '接口权限', '6', null, '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-share-alt', 'admin', '管理员', 'admin', TO_DATE('2018-01-16 17:20:36', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-29 12:17:12', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881f4609299ad0160929ab2e00001', null, '1', '二级管理员', '6', null, '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-group', 'admin', '管理员', 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-26 19:35:00', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881fc60a07a350160a07cf68e0001', null, '1', '接口权限', '6', null, '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-share-alt', 'admin', '管理员', 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-29 12:17:12', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378ddc2380001', null, '1', '3D饼图', '7', 'cgDynamGraphController.do?design&id=t_s_log&gtype=Pie3D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2016-03-15 14:04:46', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e019750003', null, '0', '移动报表', '2', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-pie-chart', null, null, 'admin', TO_DATE('2017-03-03 17:34:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e019750003', null, '0', '移动报表', '2', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-pie-chart', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e0d39d0006', null, '1', '折线图', '1', 'cgDynamGraphController.do?design&id=t_s_log&gtype=LineBasic2D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2017-01-12 21:40:11', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e1395d0008', null, '1', '面积图 ', '2', 'cgDynamGraphController.do?design&id=t_s_log&gtype=Area2D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2016-03-15 14:05:39', 'YYYY-MM-DD HH24:MI:SS'), null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e19969000a', null, '1', '条状图', '3', 'cgDynamGraphController.do?design&id=t_s_log&gtype=Bar2D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2016-03-15 14:06:04', 'YYYY-MM-DD HH24:MI:SS'), null);
@@ -4460,13 +4440,13 @@ INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e207cf000c', n
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e27ae5000e', null, '1', '2D柱状图', '5', 'cgDynamGraphController.do?design&id=t_s_log&gtype=Column2D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2016-03-15 14:07:01', 'YYYY-MM-DD HH24:MI:SS'), null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e30f760010', null, '1', '2D饼图', '6', 'cgDynamGraphController.do?design&id=t_s_log&gtype=Pie2D', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2017-09-08 16:58:19', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef815378be7c015378e3e6530013', null, '1', '综合报表', '8', 'cgDynamGraphController.do?design&id=t_s_log', '4028ef815378be7c015378e019750003', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2016-03-15 14:08:34', 'YYYY-MM-DD HH24:MI:SS'), null);
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd33c6670001', null, '0', '插件模块', '102', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-download', null, null, 'admin', TO_DATE('2018-01-23 12:33:07', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd33c6670001', null, '0', '插件模块', '102', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-download', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd344cdd0003', null, '1', '普通列表', '1', 'p3/wxActInvite.do?list', '4028ef8155fd32e40155fd33c6670001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2016-07-22 13:45:46', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd344cddd3', null, '1', '订单管理', '1', 'demo/jpDemoOrderMain.do?list', '4028ef8155fd32e40155fd33c6670001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2017-06-20 22:35:05', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd348df80005', null, '1', '树形列表', '2', 'p3/auth.do?list', '4028ef8155fd32e40155fd33c6670001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2016-07-18 16:52:19', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef8155fd32e40155fd3564520008', null, '1', '我的邮箱', '3', 'mail/p3MailJformInnerMail.do?toSendMail', '4028ef8155fd32e40155fd33c6670001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2016-07-18 16:53:02', 'YYYY-MM-DD HH24:MI:SS'), null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028ef81574ae99701574aeb97bd0003', null, '1', '用户列表数据权限', '2', 'userController.do?datagrid', '402889fb486e848101486e8de3d60005', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '1', null, 'admin', '管理员', null, null, TO_DATE('2016-09-21 12:05:36', 'YYYY-MM-DD HH24:MI:SS'), null);
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815af3ce54015af3d1ad610001', null, '0', 'general.demo', '6', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-twitch', null, null, 'admin', TO_DATE('2017-10-31 20:03:41', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815af3ce54015af3d1ad610001', null, '0', 'general.demo', '6', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-twitch', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815af3ce54015af3d1f52c0003', null, '1', '表单标签', '1', 'jeecgFormDemoController.do?uitag', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-italic', null, null, 'admin', TO_DATE('2017-11-14 11:37:15', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815af5ca04015af5cbf9300001', null, '1', '表单校验', '2', 'jeecgFormDemoController.do?formValidDemo', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'icon-table', 'admin', '管理员', null, null, TO_DATE('2017-03-22 19:34:29', 'YYYY-MM-DD HH24:MI:SS'), null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('402881fc60a07a350160a07d4f860003', null, '2', '接口权限管理', '1', 'interfaceController.do?interface', '402881fc60a07a350160a07cf68e0001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, 'admin', '管理员', null, null, TO_DATE('2017-12-29 12:17:35', 'YYYY-MM-DD HH24:MI:SS'), null);
@@ -4504,7 +4484,7 @@ INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('40284a815c1bac76015c1bc02abe0003', n
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('40287d81522a428401522a44aafb0002', null, '1', 'Online移动图表', '5', 'cgDynamGraphConfigHeadController.do?cgDynamGraphConfigHead', '8a8ab0b246dc81120146dc8180ce0019', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2016-03-15 12:34:36', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('40288018605416db0160542132600001', null, '1', '主子表组合查询', '26', 'jfromOrderController.do?list', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'icon-list-alt', 'admin', '管理员', 'admin', TO_DATE('2018-01-11 10:55:47', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2017-12-14 16:25:50', 'YYYY-MM-DD HH24:MI:SS'), '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('40288088481d019401481d2fcebf000d', null, '1', 'minidao数据权限列表', '1', 'jeecgListDemoController.do?minidaoDatagrid', '402889fb486e848101486e8de3d60005', '8a8ab0b246dc81120146dc8180820003', '8a8ab0b246dc81120146dc8180dd001e', '1', null, null, null, 'admin', TO_DATE('2017-08-14 15:03:03', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028808848845c0f01488461226e0001', null, '0', '消息中间件', '8', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-commenting', null, null, 'admin', TO_DATE('2016-01-14 11:20:51', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028808848845c0f01488461226e0001', null, '0', '消息中间件', '8', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-commenting', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028808848845c0f01488461b3ac0004', null, '1', 'menu.business.management', '1', 'tSSmsSqlController.do?tSSmsSql', '4028808848845c0f01488461226e0001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, 'admin', TO_DATE('2017-03-14 16:47:13', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028808848845c0f01488462658f0006', null, '1', 'menu.message.template', '2', 'tSSmsTemplateController.do?tSSmsTemplate', '4028808848845c0f01488461226e0001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, null, null, null, null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028808848845c0f01488463aa210009', null, '1', 'menu.Business.configuration', '3', 'tSSmsTemplateSqlController.do?tSSmsTemplateSql', '4028808848845c0f01488461226e0001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, null, null, null, null);
@@ -4531,10 +4511,10 @@ INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815afa8964015afa8a63e20001', n
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028f6815b0b1017015b0b1265cf0002', null, '1', '日志报表', '9', 'jeecgListDemoController.do?log', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'icon-table', null, null, 'admin', TO_DATE('2017-03-26 22:43:57', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028fbc65c3ab6e3015c3ab7ba690003', null, '1', '文档管理', '14', 'commonController.do?listTurn&turn=system/document/filesList', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-files-o', null, null, 'admin', TO_DATE('2017-05-26 17:23:12', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('4028fbc65c56ece6015c56f508300002', null, '1', '树形列表', '4', 'jeecgFormDemoController.do?function', '4028f6815af3ce54015af3d1ad610001', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-tree', null, null, 'admin', TO_DATE('2017-11-14 11:35:33', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180ce0019', null, '0', 'online.develop', '5', null, null, '8a8ab0b246dc81120146dc8180890008', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-cloud', null, null, 'admin', TO_DATE('2016-04-08 22:28:17', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d2001a', null, '0', 'system.manage', '9', null, null, '8a8ab0b246dc81120146dc8180860006', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-home', null, null, 'admin', TO_DATE('2016-01-14 11:30:31', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d4001b', null, '0', 'common.query.statistics', '3', null, null, '8a8ab0b246dc81120146dc8180890008', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-bar-chart-o', null, null, 'admin', TO_DATE('2017-02-25 16:57:28', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
-INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d9001d', null, '0', 'system.monitor', '6', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-headphones', null, null, 'admin', TO_DATE('2016-01-14 11:21:59', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180ce0019', null, '0', 'online.develop', '5', null, null, '8a8ab0b246dc81120146dc8180890008', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-cloud', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d2001a', null, '0', 'system.manage', '9', null, null, '8a8ab0b246dc81120146dc8180860006', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-home', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d4001b', null, '0', 'common.query.statistics', '3', null, null, '8a8ab0b246dc81120146dc8180890008', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-bar-chart-o', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
+INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180d9001d', null, '0', 'system.monitor', '6', null, null, '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', 'fa-headphones', null, null, 'admin', TO_DATE('2018-02-02 16:56:37', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180df001f', null, '1', 'user.manage', '1', 'userController.do?user', '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180dd001e', '0', null, null, null, null, null, null, null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180e30021', null, '1', 'role.manage', '2', 'roleController.do?role', '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180e10020', '0', null, null, null, null, null, null, null);
 INSERT INTO "SCOTT"."T_S_FUNCTION" VALUES ('8a8ab0b246dc81120146dc8180e70023', null, '1', 'menu.manage', '0', 'functionController.do?function', '8a8ab0b246dc81120146dc8180d2001a', '8a8ab0b246dc81120146dc8180460000', '8a8ab0b246dc81120146dc8180e50022', '0', null, null, null, 'admin', TO_DATE('2017-03-10 11:54:35', 'YYYY-MM-DD HH24:MI:SS'), null, '管理员');
@@ -13048,6 +13028,41 @@ INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028ef8154bd4de40154bd4e6cae0000', 'Chrom
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028ef8154bd6a4b0154bd6ac4260000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', TO_DATE('2016-05-17 14:32:51', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', null, null);
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028ef8154bd77b00154bd786ec20000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', TO_DATE('2016-05-17 14:47:47', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', null, null);
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028ef8154bd8ad10154bd8bc0900000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '192.168.111.1', TO_DATE('2016-05-17 15:08:53', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', null, null);
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661558f330161558fdd680001', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 16:09:07', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661558f3301615591a4970002', 'Chrome', '错误异常: RuntimeException,错误描述：null', '6', '本地', TO_DATE('2018-02-02 16:11:03', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161502eb85f0012', 'Chrome', '创建成功', '3', '本地', TO_DATE('2018-02-01 15:04:54', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161502f38270013', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 15:05:27', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161502fb37e0015', 'Chrome', '错误异常: SQLException,错误描述：ORA-12704: 字符集不匹配
+', '6', '本地', TO_DATE('2018-02-01 15:05:58', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161502fe8460017', 'Chrome', '添加成功', '3', '本地', TO_DATE('2018-02-01 15:06:12', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d016150349bbc0019', 'Chrome', '添加成功', '3', '本地', TO_DATE('2018-02-01 15:11:20', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661558f330161558fd3fc0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-02 16:09:04', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155bb56f60000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-02 16:56:36', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155d66cab0002', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 17:26:11', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161506078660000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-01 15:59:15', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150750c0161507596890000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-01 16:22:19', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150750c01615077a0210001', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:24:32', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150750c01615077fcba0003', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:24:56', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a01615085cce6000d', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:40:01', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a01615085fcde000f', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:40:13', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161508684130010', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:40:48', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661552880016155292fd20000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-02 14:16:58', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150601201615065268b0001', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:04:21', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161506cfd290002', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:12:55', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161506d58d00003', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:13:18', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150750c01615077ce160002', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:24:44', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155288001615529711e0001', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 14:17:14', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155b5d8016155b6c9660000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-02 16:51:37', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155d9a3f80006', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 17:29:42', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155b5d8016155b6d0680001', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 16:51:39', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d01615056f995001b', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 15:48:52', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161505766f2001c', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 15:49:20', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161507449b00009', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:20:53', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75fe13aa9015fe14002580000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-11-22 09:03:09', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75fe13aa9015fe14076950001', 'Chrome', 'admin', '2', '本地', TO_DATE('2017-11-22 09:03:39', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75fe13aa9015fe14082d10002', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-11-22 09:03:42', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
@@ -13323,6 +13338,10 @@ INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66121494b0161214e96080010', 'Chrom
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66121494b0161214ea0ec0011', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-01-23 12:37:37', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66121565e01612156d71f0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-01-23 12:46:35', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66121565e016121bb741a0001', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-01-23 14:36:29', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161502d9aa80000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-01 15:03:41', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661502c4d0161503811ef001a', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 15:15:07', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161506de43c0004', 'Chrome', 'dddd1删除成功', '4', '本地', TO_DATE('2018-02-01 16:13:54', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161506de51a0005', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:13:54', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75f1592e6015f1593be240000', '其它', '错误异常: HttpMediaTypeNotSupportedException,错误描述：Content type ''application/x-www-form-urlencoded'' not supported', '6', '127.0.0.1', TO_DATE('2017-10-13 19:52:04', 'YYYY-MM-DD HH24:MI:SS'), '3', null, null, null);
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75f1592e6015f159481aa0001', '其它', '错误异常: JsonMappingException,错误描述：Can not deserialize instance of java.lang.String out of START_ARRAY token
  at [Source: org.apache.catalina.connector.CoyoteInputStream@120014b3; line: 1, column: 2] (through reference chain: org.jeecgframework.web.system.pojo.base.TSUser["devFlag"])', '6', '127.0.0.1', TO_DATE('2017-10-13 19:52:54', 'YYYY-MM-DD HH24:MI:SS'), '3', null, null, null);
@@ -13385,6 +13404,10 @@ INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838e6026d7ae016026dc3bdd001f', 'Chrom
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838e6026d7ae016026dc54d70020', 'Chrome', '更新成功', '5', '本地', TO_DATE('2017-12-05 21:27:42', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838e6026d7ae016026dd0fba0029', 'Chrome', '订单主信息删除成功', '4', '本地', TO_DATE('2017-12-05 21:28:29', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838e6026d7ae016026dd0fc9002a', 'Chrome', '订单主信息删除成功', '4', '本地', TO_DATE('2017-12-05 21:28:29', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661506012016150710a360006', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:17:20', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a01615085e5f3000e', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:40:07', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155bb5fec0001', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 16:56:38', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75f2a2923015f2a34659c0014', 'Chrome', '组织机构删除成功', '4', '本地', TO_DATE('2017-10-17 19:59:57', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75f2a2923015f2a3470a60015', 'Chrome', '组织机构删除成功', '4', '本地', TO_DATE('2017-10-17 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881e75f2a2923015f2a3479680016', 'Chrome', '组织机构删除成功', '4', '本地', TO_DATE('2017-10-17 20:00:02', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
@@ -13450,6 +13473,28 @@ INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602ef1f8d70007', 'Chrom
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602ef206380008', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-12-07 11:08:21', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602ef6536a0009', 'Chrome', 'admin', '2', '本地', TO_DATE('2017-12-07 11:13:03', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602ef69c4c000a', 'Chrome', '用户: demo[销售人员]common.login.success', '1', '本地', TO_DATE('2017-12-07 11:13:21', 'YYYY-MM-DD HH24:MI:SS'), '1', '402880e74d75c4dd014d75d44af30005', 'demo', 'real demo');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a25d70000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-01 16:27:17', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a75700001', 'Chrome', 'salary删除成功', '4', '本地', TO_DATE('2018-02-01 16:27:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a75a30002', 'Chrome', 'rate删除成功', '4', '本地', TO_DATE('2018-02-01 16:27:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a75d80003', 'Chrome', 'zhengming删除成功', '4', '本地', TO_DATE('2018-02-01 16:27:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a76160004', 'Chrome', 'cccc12删除成功', '4', '本地', TO_DATE('2018-02-01 16:27:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507a77360005', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:27:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161507d014c0006', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:30:25', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150f72c01615100e0220000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-01 18:54:27', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150f72c0161510111240001', 'Chrome', '更新成功', '5', '本地', TO_DATE('2018-02-01 18:54:39', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661559353016155940db10000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2018-02-02 16:13:41', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615593530161559415540001', 'Chrome', '错误异常: SQLException,错误描述：ORA-00904: "RIGHT": 标识符无效
+', '6', '本地', TO_DATE('2018-02-02 16:13:43', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155935301615594d2590002', 'Chrome', '错误异常: RuntimeException,错误描述：null', '6', '本地', TO_DATE('2018-02-02 16:14:32', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615593530161559e937e0004', 'Chrome', '添加成功', '3', '本地', TO_DATE('2018-02-02 16:25:11', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615593530161559eec6b0005', 'Chrome', '错误异常: SQLException,错误描述：不支持的特性', '6', '本地', TO_DATE('2018-02-02 16:25:34', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615593530161559efe600006', 'Chrome', '错误异常: SQLException,错误描述：不支持的特性', '6', '本地', TO_DATE('2018-02-02 16:25:38', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661559353016155a040010007', 'Chrome', '更新成功', '5', '本地', TO_DATE('2018-02-02 16:27:00', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661559353016155a054bc0008', 'Chrome', '更新成功', '5', '本地', TO_DATE('2018-02-02 16:27:06', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661559353016155a355220009', 'Chrome', '更新成功', '5', '本地', TO_DATE('2018-02-02 16:30:23', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f661559353016155adf8c0000a', 'Chrome', '错误异常: RuntimeException,错误描述：null', '6', '本地', TO_DATE('2018-02-02 16:42:00', 'YYYY-MM-DD HH24:MI:SS'), '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155d6b03e0004', 'Chrome', '添加成功', '3', '本地', TO_DATE('2018-02-02 17:26:28', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66155baf1016155d6d5930005', 'Chrome', '更新成功', '5', '本地', TO_DATE('2018-02-02 17:26:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f351a87015f351fc34d0003', 'Chrome', '菜单 录入成功', '3', '本地', TO_DATE('2017-10-19 22:53:14', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f351a87015f3520089f0005', 'Chrome', 'admin', '2', '本地', TO_DATE('2017-10-19 22:53:32', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f351a87015f3520204b0006', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-10-19 22:53:38', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
@@ -13510,6 +13555,11 @@ INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602f35f5e7001e', 'Chrom
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602f360588001f', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-12-07 12:22:37', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602f36152c0020', 'Chrome', 'admin', '2', '本地', TO_DATE('2017-12-07 12:22:41', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f5602ee58e01602f362cf70021', 'Chrome', '用户: demo[销售人员]common.login.success', '1', '本地', TO_DATE('2017-12-07 12:22:47', 'YYYY-MM-DD HH24:MI:SS'), '1', '402880e74d75c4dd014d75d44af30005', 'demo', 'real demo');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f6615060120161507146080007', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:17:36', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150601201615072d80e0008', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:19:19', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161508139400007', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:35:01', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a0161508249b70008', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:36:11', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO "SCOTT"."T_S_LOG" VALUES ('402881f66150795a016150856a970009', 'Chrome', '修改成功', '5', '本地', TO_DATE('2018-02-01 16:39:36', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f3f9474015f3f9f4c2a0007', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', TO_DATE('2017-10-21 23:48:45', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f3fa35d015f3fa55f990000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '127.0.0.1', TO_DATE('2017-10-21 23:55:23', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO "SCOTT"."T_S_LOG" VALUES ('4028838d5f3fa35d015f3fa5ceaf0001', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '127.0.0.1', TO_DATE('2017-10-21 23:55:51', 'YYYY-MM-DD HH24:MI:SS'), '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
@@ -20271,6 +20321,20 @@ INSERT INTO "SCOTT"."TMP_TABLES" VALUES ('86', 'jp_inner_mail', '插件邮箱主
 INSERT INTO "SCOTT"."TMP_TABLES" VALUES ('87', 'jp_inner_mail_attach', '插件邮箱附件');
 INSERT INTO "SCOTT"."TMP_TABLES" VALUES ('88', 'jp_inner_mail_receiver', '插件邮件接收');
 INSERT INTO "SCOTT"."TMP_TABLES" VALUES ('89', 'jp_chat_message_his', '在线聊天消息记录表');
+
+-- ----------------------------
+-- Indexes structure for table CCCC
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table CCCC
+-- ----------------------------
+ALTER TABLE "SCOTT"."CCCC" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table CCCC
+-- ----------------------------
+ALTER TABLE "SCOTT"."CCCC" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
 -- Indexes structure for table CGFORM_BUTTON
