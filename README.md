@@ -97,7 +97,7 @@ JEECG 功能特点
     
 技术交流
 -----------------------------------
-* 	QQ交流群： ⑤293658367、③289782002、②106838471(满)、①106259349(满)、④176031980(满)</br>
+* 	QQ交流群： ⑥190866569、⑤293658367(满)、③289782002(满)、②106838471(满)、①106259349(满)、④176031980(满)</br>
 * 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
 * 	官方网站： [http://www.guojusoft.com](http://www.guojusoft.com)
 * 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
