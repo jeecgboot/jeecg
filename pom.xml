@@ -1011,7 +1011,7 @@
 	</organization>
 	<build>
 		<plugins>
-			<!-- 多war开发Maven支持-->
+			<!-- 多war开发Maven支持
 		     <plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
 		        <artifactId>maven-war-plugin</artifactId>  
@@ -1025,7 +1025,7 @@
 					 ,%regex[^plug-in/Validform.+(?:(?&lt;!(?:-|\.)min)\.css)]
 					 </warSourceExcludes>  
 		        </configuration>
-		     </plugin>
+		     </plugin>-->
 
 		   <!-- tomcat插件 -->
 	       <plugin>
@@ -1136,8 +1136,8 @@
 					</excludes>
 
 				</configuration>
-			</plugin>
-		--></plugins>
+			</plugin>-->
+		</plugins>
 		<finalName>jeecg</finalName>
 		<resources>
 			<resource>
