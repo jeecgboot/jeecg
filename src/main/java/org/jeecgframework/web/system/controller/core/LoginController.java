@@ -24,8 +24,10 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.IpUtil;
+import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.ListtoMenu;
 import org.jeecgframework.core.util.LogUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.NumberComparator;
 import org.jeecgframework.core.util.PasswordUtil;
 import org.jeecgframework.core.util.PropertiesUtil;
@@ -49,6 +51,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -56,6 +59,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.SSOToken;
 import com.baomidou.kisso.common.util.HttpUtil;
+
+
 
 /**
  * 登陆初始化控制器
@@ -561,6 +566,84 @@ public class LoginController extends BaseController{
 		}
 	}
 
+	/**
+	 * 首页菜单搜索框自动补全
+	 */
+	@RequestMapping(params = "getAutocomplete",method ={RequestMethod.GET, RequestMethod.POST})
+	public void getAutocomplete(HttpServletRequest request, HttpServletResponse response) {
+		String searchVal = request.getParameter("q");
+		//获取到session中的菜单列表
+		HttpSession session = ContextHolderUtils.getSession();
+		Client client = ClientManager.getInstance().getClient(session.getId());
+		//获取到的是一个map集合
+		Map<Integer, List<TSFunction>> map=client.getFunctionMap();
+		//声明list用来存储菜单
+		List<TSFunction>autoList = new ArrayList<TSFunction>();
+		//循环map集合取到菜单
+		for(int t=0;t<map.size();t++){
+			//根据map键取到菜单的TSFuction 用List接收
+			List<TSFunction> list = map.get(t);
+			//循环List取到TSFuction中的functionname
+			for(int i =0;i<list.size();i++){
+				//由于functionname中的一些参数没有被国际化，所以还是字母，需要MutiLangUtil中的getLang()方法来
+				String name=MutiLangUtil.getLang(list.get(i).getFunctionName());
+				if(name.indexOf(searchVal)!= -1 ){
+					TSFunction  ts =new TSFunction();
+					ts.setFunctionName(MutiLangUtil.getLang(list.get(i).getFunctionName()));
+					autoList.add(ts);
+				}
+			}
+		}		
+		try {
+			response.setContentType("application/json;charset=UTF-8");
+			response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.getWriter().write(JSONHelper.listtojson(new String[]{"functionName"},1,autoList));
+            response.getWriter().flush();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}finally{
+			try {
+				response.getWriter().close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	/**
+	 * 获取请求路径
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "getUrlpage")
+	@ResponseBody
+	public String getUrlpage(HttpServletRequest request,HttpServletResponse response) {
+		String urlname = request.getParameter("urlname");
+		HttpSession session = ContextHolderUtils.getSession();
+		Client client = ClientManager.getInstance().getClient(session.getId());
+		Map<Integer, List<TSFunction>> map=client.getFunctionMap();
+		List<TSFunction>autoList = new ArrayList<TSFunction>();
+		for(int t=0;t<map.size();t++){
+			List<TSFunction> list = map.get(t);
+			for(int i =0;i<list.size();i++){
+				String funname=MutiLangUtil.getLang(list.get(i).getFunctionName());
+				if(urlname.equals(funname)){
+					TSFunction ts =new TSFunction();
+					ts.setFunctionUrl(list.get(i).getFunctionUrl());
+					autoList.add(ts);
+				}
+			}
+		}
+		if(autoList.size()==0){
+			return null;
+		}else{
+			String name =autoList.get(0).getFunctionUrl();
+			return name;
+		}
+		
+	}
+
+	
 	/**
 	 * 获取用户菜单列表
 	 * 

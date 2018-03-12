@@ -171,7 +171,7 @@ public class DepartController extends BaseController {
                 systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             }else{
 
-            	message = MutiLangUtil.getMutiLangInstance().getLang("common.department.hasuser");
+            	message = MutiLangUtil.getLang("common.department.hasuser");
 
             }
         } else {

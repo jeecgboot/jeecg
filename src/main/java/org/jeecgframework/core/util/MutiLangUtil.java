@@ -3,11 +3,11 @@ package org.jeecgframework.core.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.web.system.pojo.base.MutiLangEntity;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -15,8 +15,7 @@ import java.util.List;
  * @author  张代浩
  */
 public class MutiLangUtil {
-	private static Log logger = LogFactory.getLog(StringUtil.class);
-
+	private static Log logger = LogFactory.getLog(MutiLangUtil.class);
 	/**
 	 * 通用删除消息方法
 	 * 
@@ -24,7 +23,7 @@ public class MutiLangUtil {
 	 * @return XXX删除成功，如多语言删除成功
 	 */
 	public static String paramDelSuccess(String param_lang_key) {
-		String message = getMutiLangInstance().getLang("common.delete.success.param", param_lang_key);
+		String message = getLang("common.delete.success.param", param_lang_key);
 		return message;
 	}
 
@@ -35,7 +34,7 @@ public class MutiLangUtil {
 	 * @return XXX删除失败，如系统图标失败，正在使用的图标，不允许删除。
 	 */
 	public static String paramDelFail(String param_lang_key) {
-		String message = getMutiLangInstance().getLang("common.delete.fail.param", param_lang_key);
+		String message = getLang("common.delete.fail.param", param_lang_key);
 		return message;
 	}
 
@@ -47,7 +46,7 @@ public class MutiLangUtil {
 	 * @return XXX更新成功，如多语言删除成功
 	 */
 	public static String paramUpdSuccess(String param_lang_key) {
-		String message = getMutiLangInstance().getLang("common.edit.success.param", param_lang_key);
+		String message = getLang("common.edit.success.param", param_lang_key);
 		return message;
 	}
 	
@@ -58,7 +57,7 @@ public class MutiLangUtil {
 	 * @return XXX更新失败，如多语言更新失败
 	 */
 	public static String paramUpdFail(String param_lang_key) {
-		String message = getMutiLangInstance().getLang("common.edit.fail.param", param_lang_key);
+		String message = getLang("common.edit.fail.param", param_lang_key);
 		return message;
 	}
 	
@@ -69,7 +68,7 @@ public class MutiLangUtil {
 	 * @return XXX录入成功，如多语言录入成功
 	 */
 	public static String paramAddSuccess(String param_lang_key) {
-		String message = getMutiLangInstance().getLang("common.add.success.param", param_lang_key);
+		String message = getLang("common.add.success.param", param_lang_key);
 		return message;
 	}
 	
@@ -86,7 +85,7 @@ public class MutiLangUtil {
 		{
 			ReflectHelper reflectHelper = new ReflectHelper(treeItem);
 			String lang_key =  (String)reflectHelper.getMethodValue("text"); //treeItem.getText(); 
-			String lang_context = getMutiLangInstance().getLang(lang_key);
+			String lang_context = getLang(lang_key);
 			reflectHelper.setMethodValue("text", lang_context);
 		}
 	}
@@ -97,7 +96,7 @@ public class MutiLangUtil {
 	 * */
 	public static void setMutiComboTree(List<ComboTree> treeList){
 		for (ComboTree index : treeList) {  
-			index.setText(getMutiLangInstance().getLang(index.getText()));  
+			index.setText(getLang(index.getText()));  
             if (index.getChildren()!= null && index.getChildren().size() > 0 )   
             {     
             	setMutiComboTree(index.getChildren());  
@@ -111,10 +110,9 @@ public class MutiLangUtil {
 	 * @param lang_key
 	 * @return 如果存在则返回true，否则false
 	 */
-	public static boolean existLangKey(String lang_key)
-	{
-		List<MutiLangEntity> langKeyList = getMutiLangInstance().findByProperty(MutiLangEntity.class, "langKey", lang_key);
-		if(!langKeyList.isEmpty())
+	public static boolean existLangKey(String lang_key){
+		String langContext = ResourceUtil.mutiLangMap.get(lang_key + "_" + "zh-cn");
+		if(oConvertUtils.isNotEmpty(langContext))
 		{
 			return true;
 		}
@@ -128,51 +126,73 @@ public class MutiLangUtil {
 	 * @param lang_key
 	 * @return 如果存在则返回true，否则false
 	 */
-	public static boolean existLangKey(String lang_key,String langCode)
-	{
-		String hql = "from MutiLangEntity where langKey = '"+lang_key+"' and langCode = '"+langCode+"'";
-		List<MutiLangEntity> langKeyList = getMutiLangInstance().findByQueryString(hql);
-		if(!langKeyList.isEmpty())
+	public static boolean existLangKey(String lang_key,String langCode){	
+		String langContext = ResourceUtil.mutiLangMap.get(lang_key + "_" + langCode);
+		if(oConvertUtils.isNotEmpty(langContext))
 		{
 			return true;
 		}
-		
 		return false;
-	}
-	
-	/**
-	 * 检查国际化内容或context是否已经存在
-	 * 
-	 * @param lang_context
-	 * @return 如果存在则返回true，否则false
-	 */
-	public static boolean existLangContext(String lang_context)
-	{
-		List<MutiLangEntity> langContextList = getMutiLangInstance().findByProperty(MutiLangEntity.class, "langContext", lang_context);
-		if(!langContextList.isEmpty())
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * 通用得到MutiLangService方法
-	 * 
-	 * @return mutiLangService实例
-	 */
-	public static MutiLangServiceI getMutiLangInstance()
-	{
-
-		MutiLangServiceI mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
-
-		return mutiLangService;
 	}
 	
 	public static String doMutiLang(String title, String langArg){
-		String context = getMutiLangInstance().getLang(title, langArg);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long start = System.currentTimeMillis();
+		logger.info("================================ doMutiLang 开始时间:"+sdf.format(new Date())+"==============================");
+		String context = getLang(title, langArg);
+		long end = System.currentTimeMillis();
+		logger.info("=============================== doMutiLang 结束时间:"+sdf.format(new Date())+"==============================");
+		logger.info("================================ doMutiLang 耗时:"+(end-start)+"ms==============================");
 		return context;
+	}
+	/**
+	 * 国际化翻译方法(带参)
+	 * @param lanKey
+	 * @param langArg
+	 * @return
+	 */
+	public static String getLang(String lanKey, String langArg) {
+		String langContext = "";
+		if(StringUtil.isEmpty(langArg)){
+			langContext = getLang(lanKey);
+		} else{
+			String[] argArray = langArg.split(",");
+			langContext = getLang(lanKey);
+			
+			for(int i=0; i< argArray.length; i++){
+				String langKeyArg = argArray[i].trim();
+				String langKeyContext = getLang(langKeyArg);
+				langContext = StringUtil.replace(langContext, "{" + i + "}", langKeyContext);
+			}
+		}
+		return langContext;
+	}
+	
+	/**
+	 * 国际化翻译方法
+	 * @param langKey
+	 * @return
+	 */
+	public static String getLang(String langKey){
+		//如果为空，返回空串，防止返回null
+		if(langKey==null){
+			return "";
+		}
+		HttpServletRequest request = ContextHolderUtils.getRequest();
+		String language = BrowserUtils.getBrowserLanguage(request);
+		if(request.getSession().getAttribute("lang") != null){
+			language = (String)request.getSession().getAttribute("lang");
+		}
+		
+		String langContext = ResourceUtil.mutiLangMap.get(langKey + "_" + language);
+		if(StringUtil.isEmpty(langContext)){
+			langContext = ResourceUtil.mutiLangMap.get("common.notfind.langkey" + "_" + language);
+			if("null".equals(langContext)||langContext==null ||langKey.startsWith("?")){
+				langContext = "";
+			}
+			langContext = langContext  + langKey;
+		}
+		return langContext;
 	}
 
     /**
@@ -201,7 +221,7 @@ public class MutiLangUtil {
             ReflectHelper reflectHelper = new ReflectHelper(cloneObj);
             for (String attribute : attributes) {
                 String lang_key = (String) reflectHelper.getMethodValue(attribute);
-                String lang_context = getMutiLangInstance().getLang(lang_key);
+                String lang_context = getLang(lang_key);
                 reflectHelper.setMethodValue(attribute, lang_context);
             }
             newList.add(cloneObj);

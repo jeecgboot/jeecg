@@ -45,9 +45,12 @@
 				<td align="left"><input style="width: 30px;" type="checkbox"
 					name="ck" /></td>
 				<td align="left">
-					<input style="width: 120px;" type="text" name="columns[#index#].fieldName" nullmsg="pleaseinputfilename"
+					<!--update-start--Author:caoez Date:20180202 for：TASK #2520 【online开发】online维护字段，字段没有判断重复-->
+					<!--<input style="width: 120px;" type="text" name="columns[#index#].fieldName" nullmsg="pleaseinputfilename"-->
+					<input onchange="isFieldNameDup()" style="width: 120px;" type="text" name="columns[#index#].fieldName" nullmsg="pleaseinputfilename"
 					datatype="s1-30,/^[a-z\d_]+$/" errormsg="filenamecannotuppercase" class="fieldNameInput" />
-					
+					<!--update-start--Author:caoez Date:20180202 for：TASK #2520 【online开发】online维护字段，字段没有判断重复-->
+
 					<input style="width: 120px;" type="hidden" name="columns[#index#].oldFieldName"  />
 				</td>
 				<td align="left">

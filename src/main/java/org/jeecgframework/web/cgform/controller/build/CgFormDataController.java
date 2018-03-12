@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.util.JSONHelper;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
@@ -19,12 +18,22 @@ import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.util.TableJson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
-@RequestMapping("/api/cgFormDataController")
+@RequestMapping("/cgFormDataController")
+@Api(value = "online表单服务", description = "online表单接口", tags = "onlineFormAPI")
 public class CgFormDataController {
 	@Autowired
 	private DataBaseService dataBaseService;
@@ -32,32 +41,32 @@ public class CgFormDataController {
 	private CgTableServiceI cgTableService;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
-	/**
-	 * 签名密钥key
-	 */
-	private static final String SIGN_KEY = "26F72780372E84B6CFAED6F7B19139CC47B1912B6CAED753";
+	///**签名密钥key*/
+	//private static final String SIGN_KEY = "26F72780372E84B6CFAED6F7B19139CC47B1912B6CAED753";
 
 	/**
 	 * online表单对外接口：getFormInfo 获取表单数据 
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "getFormInfo")
+	//@RequestMapping(params = "getFormInfo")
+	@ApiOperation(value = "根据tableName和记录ID获取online表单详细信息", produces = "application/json", httpMethod = "GET")
+	@RequestMapping(value="/get/{tableName}/{id}",method = RequestMethod.GET)
 	@ResponseBody
-	public TableJson getFormInfo(String body, HttpServletRequest request, HttpServletResponse response) {
-		Map map = JSONHelper.json2Map(body);
+	public TableJson getFormInfo(@PathVariable("tableName") String tableName,@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) {
+		//Map map = JSONHelper.json2Map(body);
 		TableJson j = new TableJson();
 		try {
 			// 参数校验
-			if (oConvertUtils.isEmpty(map.get("tableName"))) {
+			if (oConvertUtils.isEmpty(tableName)) {
 				throw new BusinessException("tableName不能为空");
 			}
-			if (oConvertUtils.isEmpty(map.get("id"))) {
+			if (oConvertUtils.isEmpty(id)) {
 				throw new BusinessException("id不能为空");
 			}
 			// 校验该表是否是online表单
-			String tableName = oConvertUtils.getString(map.get("tableName"));
-			String id = oConvertUtils.getString(map.get("id"));
+			//String tableName = oConvertUtils.getString(map.get("tableName"));
+			//String id = oConvertUtils.getString(map.get("id"));
 			CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(tableName);
 			if (head == null) {
 				throw new BusinessException("该表单不是online表单");
@@ -102,21 +111,23 @@ public class CgFormDataController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "deleteFormInfo")
+	//@RequestMapping(params = "deleteFormInfo")
+	@ApiOperation(value = "根据tableName和记录ID删除一条记录")
+	@RequestMapping(value="/delete/{tableName}/{id}",method = RequestMethod.DELETE)
 	@ResponseBody
-	public TableJson deleteFormInfo(String body, HttpServletRequest request, HttpServletResponse response) {
-		Map map = JSONHelper.json2Map(body);
+	public TableJson deleteFormInfo(@PathVariable("tableName") String tableName,@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+		//Map map = JSONHelper.json2Map(body);
 		TableJson j = new TableJson();
 		try {
 			// 参数校验
-			if (oConvertUtils.isEmpty(map.get("tableName"))) {
+			if (oConvertUtils.isEmpty(tableName)) {
 				throw new BusinessException("tableName不能为空");
 			}
-			if (oConvertUtils.isEmpty(map.get("id"))) {
+			if (oConvertUtils.isEmpty(id)) {
 				throw new BusinessException("id不能为空");
 			}
-			String tableName = oConvertUtils.getString(map.get("tableName"));
-			String id = oConvertUtils.getString(map.get("id"));
+		//	String tableName = oConvertUtils.getString(map.get("tableName"));
+			//String id = oConvertUtils.getString(map.get("id"));
 			// 校验该表是否是online表单
 			CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(tableName);
 			if (head == null) {
@@ -142,10 +153,12 @@ public class CgFormDataController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "addFormInfo")
-	@ResponseBody
-	public TableJson addFormInfo(String body, HttpServletRequest request, HttpServletResponse response) {
-		Map map = JSONHelper.json2Map(body);
+	@RequestMapping(value = "add",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value="增加一条记录")
+	@ResponseBody 
+	public TableJson addFormInfo(@RequestBody JSONObject body,HttpServletRequest request, HttpServletResponse response) {
+		//Map map = JSONHelper.json2Map(body);
+		Map map = JSONObject.toJavaObject(body, Map.class);
 		TableJson j = new TableJson();
 		try {
 			// 参数校验
@@ -222,10 +235,12 @@ public class CgFormDataController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(params = "updateFormInfo")
+	@RequestMapping(value = "update",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value="修改一条记录")
 	@ResponseBody
-	public TableJson updateFormInfo(String body, HttpServletRequest request, HttpServletResponse response) {
-		Map map = JSONHelper.json2Map(body);
+	public TableJson updateFormInfo(@RequestBody JSONObject body, HttpServletRequest request, HttpServletResponse response) {
+		//Map map = JSONHelper.json2Map(body);
+		Map map = JSONObject.toJavaObject(body, Map.class);
 		TableJson j = new TableJson();
 		try {
 			// 参数校验
@@ -295,3 +310,4 @@ public class CgFormDataController {
 		return j;
 	}
 }
+

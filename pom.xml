@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.7.2</version>
+	<version>3.7.3</version>
 	<packaging>war</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <codegenerate.version>3.6.2</codegenerate.version>
-        <minidao.version>1.6.1</minidao.version>
+        <minidao.version>1.6.2</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
 		<spring.version>4.0.9.RELEASE</spring.version>
@@ -929,7 +929,7 @@
 		<dependency>
 			<groupId>org.p3framework</groupId>
 			<artifactId>jeecg-p3-biz-chat</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 		</dependency>
 		
 		<!-- begin 腾讯云-->
@@ -1002,7 +1002,7 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.0</version>
 		</dependency>
-		<!-- JWT  end -->	
+		<!-- JWT  end -->
 	</dependencies>
 
 	<organization>
@@ -1011,7 +1011,7 @@
 	</organization>
 	<build>
 		<plugins>
-			<!-- 多war开发Maven支持
+			<!-- 多war开发Maven支持-->
 		     <plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
 		        <artifactId>maven-war-plugin</artifactId>  
@@ -1025,7 +1025,7 @@
 					 ,%regex[^plug-in/Validform.+(?:(?&lt;!(?:-|\.)min)\.css)]
 					 </warSourceExcludes>  
 		        </configuration>
-		     </plugin>-->
+		     </plugin>
 
 		   <!-- tomcat插件 -->
 	       <plugin>
@@ -1091,8 +1091,8 @@
 		          <skipTests>true</skipTests>  
 		        </configuration>  
 		    </plugin>
-			<!--<plugin>
-				 YUI Compressor Maven压缩插件 
+			<plugin>
+				<!-- YUI Compressor Maven压缩插件 -->
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
 				<version>1.3.0</version>
@@ -1105,21 +1105,21 @@
 					</execution>
 				</executions>
 				<configuration>
-					 读取js,css文件采用UTF-8编码 
+					<!-- 读取js,css文件采用UTF-8编码 -->
 					<encoding>UTF-8</encoding>
-					 不显示js可能的错误 
+					<!-- 不显示js可能的错误 -->
 					<jswarn>false</jswarn>
-					 若存在已压缩的文件，会先对比源文件是否有改动  有改动便压缩，无改动就不压缩 
+					<!-- 若存在已压缩的文件，会先对比源文件是否有改动  有改动便压缩，无改动就不压缩 -->
 					<force>false</force>
-					 在指定的列号后插入新行 
+					<!-- 在指定的列号后插入新行 -->
 					<linebreakpos>-1</linebreakpos>
-					 压缩之前先执行聚合文件操作 
+					<!-- 压缩之前先执行聚合文件操作 -->
 					<preProcessAggregates>true</preProcessAggregates>
-					 压缩后保存文件后缀 无后缀 
+					<!-- 压缩后保存文件后缀 无后缀 -->
 					<nosuffix>true</nosuffix>
-					 源目录，即需压缩的根目录 
+					<!-- 源目录，即需压缩的根目录 -->
 					<sourceDirectory>src/main/webapp/plug-in</sourceDirectory>
-					 压缩js和css文件 
+					<!-- 压缩js和css文件 -->
 					<includes>
 						<include>plug-in/**/*.js</include>
 						<include>plug-in/accordion/css/*.css</include>
@@ -1128,7 +1128,7 @@
 						<include>plug-in/easyui/themes/default/*.css</include>
 						<include>plug-in/Validform/**/*.css</include>
 					</includes>
-					 以下目录和文件不会被压缩 
+					<!-- 以下目录和文件不会被压缩 -->
 					<excludes>
 						<exclude>plug-in/**/*.min.js</exclude>
 						<exclude>plug-in/**/*.dev.js</exclude>
@@ -1136,7 +1136,7 @@
 					</excludes>
 
 				</configuration>
-			</plugin>-->
+			</plugin>
 		</plugins>
 		<finalName>jeecg</finalName>
 		<resources>

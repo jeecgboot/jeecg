@@ -13,25 +13,25 @@
     <#if po.isShowList == 'N'>
     <t:dgCol title="${po.content}"  field="${po.fieldName}"  hidden="true" ></t:dgCol>
     <#elseif po.showType == 'date'>
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> formatter="yyyy-MM-dd" extendParams="editor:'datebox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> formatter="yyyy-MM-dd" extendParams="editor:'datebox'" width="100"></t:dgCol>
     <#elseif po.showType == 'textarea'>
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'textarea'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'textarea'" width="100"></t:dgCol>
     <#elseif po.showType == 'checkbox' >
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
     <#elseif po.showType == 'radio'> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}"<#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}"<#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
     <#elseif po.showType == 'datetime'>
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> formatter="yyyy-MM-dd hh:mm:ss" extendParams="editor:'datebox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> formatter="yyyy-MM-dd hh:mm:ss" extendParams="editor:'datebox'" width="100"></t:dgCol>
     <#elseif po.showType == 'list'> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
     <#elseif po.type == 'int'> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
     <#elseif po.type == 'double'>
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
     <#elseif po.type == 'BigDecimal'>
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
     <#else> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if  po.dictField != "">dictionary="${po.dictField}"</#if> extendParams="editor:'text'" width="100"></t:dgCol>
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'text'" width="100"></t:dgCol>
     </#if> 
    </#list>
    <#--//update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->

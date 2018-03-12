@@ -68,7 +68,7 @@ import com.jeecg.superquery.util.SuperQueryUtil;
  * @version V1.0   
  *
  */
-@Api(value="JfromOrder",description="订单列表",tags="jfromOrderController")
+//@Api(value="JfromOrder",description="订单列表",tags="jfromOrderController")
 @Controller
 @RequestMapping("/jfromOrderController")
 public class JfromOrderController extends BaseController {
@@ -382,7 +382,7 @@ public class JfromOrderController extends BaseController {
  	
  	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	@ApiOperation(value="订单列表列表信息",produces="application/json",httpMethod="GET")
+	//@ApiOperation(value="订单列表列表信息",produces="application/json",httpMethod="GET")
 	public ResponseMessage<List<JfromOrderPage>> list() {
 		List<JfromOrderEntity> list= jfromOrderService.getList(JfromOrderEntity.class);
     	List<JfromOrderPage> pageList=new ArrayList<JfromOrderPage>();
@@ -406,7 +406,7 @@ public class JfromOrderController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	@ApiOperation(value="根据ID获取订单列表信息",notes="根据ID获取订单列表信息",httpMethod="GET",produces="application/json")
+	//@ApiOperation(value="根据ID获取订单列表信息",notes="根据ID获取订单列表信息",httpMethod="GET",produces="application/json")
 	public ResponseMessage<?> get(@ApiParam(required=true,name="id",value="ID")@PathVariable("id") String id) {
 		JfromOrderEntity task = jfromOrderService.get(JfromOrderEntity.class, id);
 		if (task == null) {
@@ -427,7 +427,7 @@ public class JfromOrderController extends BaseController {
  	
  	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	@ApiOperation(value="创建订单列表")
+	//@ApiOperation(value="创建订单列表")
 	public ResponseMessage<?> create(@ApiParam(name="订单列表对象")@RequestBody JfromOrderPage jfromOrderPage, UriComponentsBuilder uriBuilder) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<JfromOrderPage>> failures = validator.validate(jfromOrderPage);
@@ -452,7 +452,7 @@ public class JfromOrderController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	@ApiOperation(value="更新订单列表",notes="更新订单列表")
+	//@ApiOperation(value="更新订单列表",notes="更新订单列表")
 	public ResponseMessage<?> update(@RequestBody JfromOrderPage jfromOrderPage) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<JfromOrderPage>> failures = validator.validate(jfromOrderPage);
@@ -478,7 +478,7 @@ public class JfromOrderController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@ApiOperation(value="删除订单列表")
+	//@ApiOperation(value="删除订单列表")
 	public ResponseMessage<?> delete(@ApiParam(name="id",value="ID",required=true)@PathVariable("id") String id) {
 		logger.info("delete[{}]" + id);
 		// 验证

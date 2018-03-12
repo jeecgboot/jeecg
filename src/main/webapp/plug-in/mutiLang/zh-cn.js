@@ -78,6 +78,10 @@ var extendJson = "扩展参数";
 var extendJsonTip = "请输入json格式，调整表单字段的属性";
 /*add-end--Author:luobaoli  Date:20150611 for：增加扩展字段及相应提示的国际化描述*/
 
+/*add-start--Author:Yandong  Date:20180205 for：增加填值规则 */
+var fillRuleCode = "填值规则";
+/*add-end--Author:luobaoli  Date:20150611 for：增加填值规则*/
+
 var indexname = "索引名称";
 var indexfield = "索引栏位";
 var indextype = "索引类型";

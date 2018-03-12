@@ -1,13 +1,16 @@
 package org.jeecgframework.core.timer;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.HttpRequest;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.p3.core.common.utils.StringUtil;
@@ -21,6 +24,8 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
 
 
 
@@ -111,11 +116,80 @@ public class DynamicTask {
 		boolean isSuccess = start ? startTask(task) : endTask(task);
 		if(isSuccess){
 			task.setIsStart(start?"1":"0");
+
+			task.setIsEffect("1");
+
 			timeTaskService.updateEntitie(task);
 			systemService.addLog((start?"开启任务":"停止任务")+task.getTaskId(), Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			logger.info((start?"开启任务":"停止任务")+"-------TaskId:"+task.getTaskId()+"-------Describe:"+task.getTaskDescribe()+"-----ClassName:"+task.getClassName() );
 		}
 		return isSuccess;
+	}
+
+	/**
+	 * 更新触发规则
+	 * @param task
+	 * @return
+	 */
+	public boolean updateCronExpression(TSTimeTaskEntity task) {
+		try {
+			String newExpression = task.getCronExpression();
+			task = timeTaskService.get(TSTimeTaskEntity.class, task.getId());
+			
+			//任务运行中
+			if("1".equals(task.getIsStart())){
+				CronTriggerBean trigger = (CronTriggerBean)schedulerFactory.getTrigger("cron_" + task.getId(), Scheduler.DEFAULT_GROUP);
+				String originExpression = trigger.getCronExpression();
+				//检查运行中的任务触发规则是否与新规则一致
+			    if (!originExpression.equalsIgnoreCase(newExpression)) {
+			        trigger.setCronExpression(newExpression);
+			        schedulerFactory.rescheduleJob("cron_" + task.getId(), Scheduler.DEFAULT_GROUP, trigger);
+			    }
+			}else{
+				//立即生效
+				List<String> ipList = IpUtil.getLocalIPList();
+				String runServerIp = task.getRunServerIp();
+				boolean isStart = task.getIsStart().equals("0");
+				boolean isSuccess = false;
+				if(ipList.contains(runServerIp) || StringUtil.isEmpty(runServerIp) || "本地".equals(runServerIp)){//当前服务器IP匹配成功
+					isSuccess = this.startOrStop(task ,isStart);
+				}else{
+					try {
+						String url = "http://" + task.getRunServer() + "/timeTaskController.do?remoteTask";//spring-mvc.xml
+						String param = "id=" + task.getId() + "&isStart=" + (isStart ? "1" : "0");
+						String jsonstr = HttpRequest.httpPost(url, param, false);
+						if (null != jsonstr && jsonstr.length() > 0) {
+							JSONObject json = (JSONObject) JSONObject.parse(jsonstr);
+							isSuccess = json.getBooleanValue("success");
+						}
+					} catch (ClientProtocolException e) {
+						logger.info("远程主机‘" + task.getRunServer() + "’响应超时");
+						return false;
+					} catch (IOException e) {
+						logger.info("远程主机‘"+task.getRunServer() + "’响应超时");
+						return false;
+					}
+				}
+				if(isSuccess){
+					/*task.setIsEffect("1");
+					task.setIsStart("1");
+					timeTaskService.updateEntitie(task);*/
+					systemService.addLog(("立即生效开启任务成功，任务ID:") + task.getTaskId(), Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+					logger.info(("立即生效开启任务成功，任务ID:") + "-------TaskId:" + task.getTaskId() + "-------Describe:" + task.getTaskDescribe() + "-----ClassName:" + task.getClassName() );
+					return true;
+				}else{
+					systemService.addLog(("立即生效开启任务失败，任务ID:") + task.getTaskId(), Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+					logger.info(("立即生效开启任务失败，任务ID:") + "-------TaskId:" + task.getTaskId() + "-------Describe:" + task.getTaskDescribe() + "-----ClassName:" + task.getClassName() );
+					return false;
+				}
+			}
+		} catch (SchedulerException e) {
+			logger.error("updateCronExpression SchedulerException" + " cron_" + task.getId() + e.getMessage());
+		} catch (ParseException e) {
+			logger.error("updateCronExpression ParseException" + " cron_" + task.getId() + e.getMessage());
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -123,7 +197,7 @@ public class DynamicTask {
 	 * @param task
 	 * @return
 	 */
-	public boolean updateCronExpression(TSTimeTaskEntity task) {		
+	/*public boolean updateCronExpression(TSTimeTaskEntity task) {		
 		
 		try {
 			String newExpression = task.getCronExpression();		
@@ -157,8 +231,8 @@ public class DynamicTask {
 		}
 		
 		return false;
-	}
-	
+	}*/
+
 	
 	/**
 	 * 系统初始加载任务

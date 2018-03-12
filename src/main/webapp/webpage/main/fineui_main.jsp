@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css" href="plug-in/themes/fineui/common/skin/qingxin/skin.css" id="layout-skin"/>
 	<link rel="stylesheet" href="plug-in/themes/fineui/common/iconfont/iconfont.css">
 	<link rel="stylesheet" href="plug-in/themes/fineui/smart-menu/smartMenu.css">
+	<t:base type="tools,jquery"></t:base>
 	<style>
 	.titlerow{
 		display:table; 
@@ -135,8 +136,8 @@
 			
 			<div class="titlerow" >
 				<div class="titlecell">
-					<input id="searchbox" placeholder="请输入搜索关键字" class="searchbox" style="padding-right: 23px;border:0">
-					<div class="iconssdiv">
+					<input id="searchbox" name="functionName" placeholder="请输入搜索关键字" class="searchbox" style="padding-right: 23px;border:0">
+					<div class="iconssdiv" onclick="checkput()">
 						<i class="iconfont icon-close ui-iconss" style="font-weight:700;font-size:14px;display:none"></i>
 						<i class="iconfont icon-sousuo ui-iconss"></i>
 					</div>
@@ -156,6 +157,7 @@
 	                         <a href="javascript:window.open('http://yun.jeecg.org')" title="云应用中心">云应用中心</a>
 					</li>
 					<li><a href="javascript:clearLocalstorage()"><t:mutiLang langKey="common.clear.localstorage"/></a></li>
+					<li><a href="javascript:toSwagger()">SwaggerUI</a></li>
 				</ul>
 			</li> 
 			
@@ -236,16 +238,90 @@
 		
 	</div>
 </div>
-	<script type="text/javascript" src="plug-in/themes/fineui/common/lib/jquery-1.9.0.min.js"></script>
+	
 	<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl.js"></script>
 	<script type="text/javascript" src="plug-in/themes/fineui/common/js/sccl-util.js"></script>
-	<t:base type="tools"></t:base>
+	
 	<script type="text/javascript" src="plug-in/themes/fineui/smart-menu/jquery-smartMenu.js"></script>
 	<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
+	<!-- 自动补全 -->
+	<link rel="stylesheet" href="plug-in/jquery/jquery-autocomplete/jquery.autocomplete.css" type="text/css"></link>
+	<script type="text/javascript" src="plug-in/jquery/jquery-autocomplete/jquery.autocomplete.min.js"></script>
+
+	<%@include file="/context/layui.jsp"%>
+
 	<script type="text/javascript">
+	function checkput(){
+		var name = $("#searchbox").val();
+    	$.ajax({
+         	type: "POST",
+            url: "loginController.do?getUrlpage",
+            dataType:"text",          
+            data: "urlname=" + name ,
+            success: function(urlname){
+            		var h=urlname;
+    				var options = {url:h,id:99,title:name};
+                	addFineuiTab(options); 			 
+            	 }
+             }); 
+	}
+	function getTremValueuserName() {
+		return $("#searchbox").val();
+	}
+	$("#searchbox").autocomplete("loginController.do?getAutocomplete", {
+        max: 8,
+        minChars: 1,
+        scroll:true,
+        width: 150,
+        scrollHeight: 180,
+        matchContains: true,
+        matchSubset:true,
+        autoFill: false,
+        extraParams: {
+            featureClass: "P",
+            style: "full",
+            maxRows: 10,
+            labelField: "functionName",//提示显示的字段
+            valueField: "functionName",//传递后台的字段
+            searchField: "functionName",//查询关键字字段
+            entityName: "TSFunction",//实体名称
+            trem: getTremValueuserName
+        },
+        parse: function(data) {
+            return jeecgAutoParse.call(this, data);
+        },
+        formatItem: function(row, i, max) {
+            return row['functionName'];
+        }
+    }).result(function(event, row, formatted) {
+        $("#searchbox").val(row['functionName']);
+    });
+	
+	//给输入框绑定按键事件
+	$("#searchbox").keydown(function() {
+        if(event.keyCode == "13") {
+        var name = $("#searchbox").val();
+        	$.ajax({
+             	type: "POST",
+                url: "loginController.do?getUrlpage",
+                dataType:"text",          
+                data: "urlname=" + name ,
+                success: function(urlname){
+                		var h=urlname;
+        				var options = {url:h,id:99,title:name};
+                    	addFineuiTab(options); 			 
+                	 }
+                 }); 
+        }
+	 })
+	
+	
 	function logout(){
 		location.href="loginController.do?logout";
 	}
+	function toSwagger(){
+    	window.open("swagger/index.html","_blank");
+    }
 	$(function(){
 		//刷新本页面
 		$("#activeTabToolRefresh").click(function(){

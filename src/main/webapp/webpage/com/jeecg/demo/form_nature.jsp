@@ -26,6 +26,13 @@
 <!-- select2 -->
 <link rel="stylesheet" href="plug-in/select2/css/select2.min.css">
 <script type="text/javascript" src="plug-in/select2/js/select2.full.min.js"></script>
+<!-- 省市区provinces三级联动 -->
+<script src="plug-in/provinces/js/city-picker.data.js"></script>
+<script src="plug-in/provinces/js/city-picker.js"></script>
+<script src="plug-in/provinces/js/main.js"></script>
+<link href="plug-in/provinces/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="plug-in/provinces/css/city-picker.css" rel="stylesheet" type="text/css" />
+ 
 </head>
 <body>
 <t:formvalid layout="div" formid="dd" dialog="" >
@@ -97,6 +104,28 @@
 	</tr>
  	</table>
  </fieldset>
+<fieldset>
+	<legend>省市区三级联动</legend>
+	<div class="container">
+		<h2 class="page-header"></h2>
+		<div class="docs-methods">
+			<form class="form-inline">
+				<div id="distpicker">
+					<div class="form-group">
+						<div style="position: relative;">
+							<input id="city-picker3" class="form-control" readonly type="text" value="江苏省/常州市/溧阳市" data-toggle="city-picker">
+						</div>
+					</div>
+					<div>
+						<button id="reset" type="button" style="hight: 50px; wight: 30px; font-size: 15px; ">重置</button>
+						<button id="destroy" type="button" style="hight: 50px; wight: 30px; font-size: 15px; position:relative;right:100px;bottom:33px;">确定</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</fieldset>
+ 
 </t:formvalid>
 <script type="text/javascript">
 function printobj(obj){

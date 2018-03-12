@@ -7,6 +7,11 @@
 .conc-wrapper input:not([type='radio']){
 width:95%;
 }
+<#-- update--begin--author:Yandong-- date:20180309--for:TASK #2549 【代码生成器】多tab生成的样式有问题 --->
+.conc-wrapper input[type='checkbox'],input[type='radio']{
+width:auto;
+}
+<#-- update--end--author:Yandong-- date:20180309--for:TASK #2549 【代码生成器】多tab生成的样式有问题 --->
 .conc-wrapper select{
 width:95% !important;
 }
@@ -44,12 +49,16 @@ width:95% !important;
 		<div class="col-xs-2">
 			<#if po.showType=='text'>
 				<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-				<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' />
+				<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' />
 				<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 		   <#elseif po.showType=='popup'>
 				<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 				<#-- update--begin--author:baiyu Date:20171031 for:popup方法支持返回多个字段-->
-				<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictField}','${po.dictTable}')"</#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/> 
+				<#-- update--begin--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
+				<#-- update--begin--author:Yandong-- date:20180309--for:TASK #2550 【代码生成器】多tab风格生成的代码，popup有问题 --->
+				<input id="${po.fieldName}" name="${po.fieldName}" type="text"  class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> <#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/> 
+				<#-- update--end--author:Yandong-- date:20180309--for:TASK #2550 【代码生成器】多tab风格生成的代码，popup有问题 --->
+				<#-- update--end--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
 				<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 				<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 			<#elseif po.showType=='textarea'>

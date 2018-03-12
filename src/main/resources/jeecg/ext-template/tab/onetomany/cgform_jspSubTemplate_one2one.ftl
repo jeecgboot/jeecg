@@ -43,7 +43,7 @@ $(document).ready(function(){
 				  <td>
 					<#if po.showType == "text">
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id" />/>
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -80,7 +80,9 @@ $(document).ready(function(){
 					       	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					        <#elseif po.showType=='popup'>
 							<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
-							 <input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext"   value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+							<#-- update--begin--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
+							 <input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 120px" class="form-control"   value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+							<#-- update--end--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
 							<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 					       
 					       <#else>
@@ -127,7 +129,7 @@ $(document).ready(function(){
 				  <td>
 					<#if po.showType == "text">
 					<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id" /> value="${'$'}{poVal.${po.fieldName} }"/>
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -147,7 +149,9 @@ $(document).ready(function(){
 					       <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					<#elseif po.showType=='popup'>
 					        <#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
-					 		<input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext"  value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+					        <#-- update--begin--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
+					 		<input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 120px" class="form-control"  value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!="">  onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+						    <#-- update--end--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
 						    <#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 					
 					       <#elseif po.showType=='file'  || po.showType=='image'>

@@ -483,9 +483,9 @@ public class TSSmsController extends BaseController {
 				
 				Map<String,Object> attrs = new HashMap<String, Object>();
 				attrs.put("messageList", result);
-				String tip = MutiLangUtil.getMutiLangInstance().getLang("message.tip");
+				String tip = MutiLangUtil.getLang("message.tip");
 				attrs.put("tip", tip);
-				String seeAll = MutiLangUtil.getMutiLangInstance().getLang("message.seeAll");
+				String seeAll = MutiLangUtil.getLang("message.seeAll");
 				attrs.put("seeAll", seeAll);
 				j.setAttributes(attrs);
 		    }

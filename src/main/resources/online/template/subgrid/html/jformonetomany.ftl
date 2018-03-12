@@ -14,7 +14,7 @@
 								 	 return false;
 							    });  
 								$('#delBtn_${sub}').bind('click', function(){   
-							       $("#add_${sub}_table").find("input:checked").parent().parent().remove();   
+							       $("#add_${sub}_table").find("input[name$='ck']:checked").parent().parent().remove();   
 							        resetTrNum('add_${sub}_table');
 							        return false;
 							    });

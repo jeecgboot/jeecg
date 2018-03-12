@@ -32,7 +32,7 @@ public class DataGridConfOptTag extends TagSupport {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
 
-		parent.setConfUrl(url,MutiLangUtil.getMutiLangInstance().getLang(title),MutiLangUtil.getMutiLangInstance().getLang(message),exp,operationCode,urlStyle,urlclass,urlfont);
+		parent.setConfUrl(url,MutiLangUtil.getLang(title),MutiLangUtil.getLang(message),exp,operationCode,urlStyle,urlclass,urlfont);
 
 		return EVAL_PAGE;
 	}

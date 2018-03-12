@@ -171,7 +171,7 @@ public class FunctionController extends BaseController {
 			}
 
 			e.printStackTrace();
-			message=MutiLangUtil.getMutiLangInstance().getLang("common.menu.del.fail");
+			message=MutiLangUtil.getLang("common.menu.del.fail");
 		}
 
 		systemService.addLog(message, Globals.Log_Type_DEL,

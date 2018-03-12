@@ -61,7 +61,13 @@
 								type="java.lang.String"
 							<#break>
 							<#case "Text">
-								type="text"
+							<#-- update--begin--author:scott Date:20180227 for:针对oracle情况下text类型采用clob转换 -->
+								<#if dataType=='ORACLE'>
+									type="clob"
+								<#else>
+									type="text"
+								</#if>
+							<#-- update--end--author:scott Date:20180227 for:针对oracle情况下text类型采用clob转换 -->
 							<#break>
 							<#case "int">
 								type="java.lang.Integer"

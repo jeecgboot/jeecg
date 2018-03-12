@@ -2,11 +2,9 @@ package org.jeecgframework.core.util;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.enums.SysACEIconEnum;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 
 
 /**
@@ -732,7 +730,7 @@ public class ListtoMenu {
 		
 		return dataString.toString();
 	}
-    
+
     /**
 	*  @Title: getMutiLang
 	*  @Description: 转换菜单多语言
@@ -741,10 +739,7 @@ public class ListtoMenu {
 	* @throws
 	 */
 	private static String getMutiLang(String functionName){
-
-		MutiLangServiceI mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
-
-		String lang_context = mutiLangService.getLang(functionName);
+		String lang_context = MutiLangUtil.getLang(functionName);
 		return lang_context;
 	}
 

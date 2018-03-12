@@ -626,7 +626,7 @@ public class CgFormHeadController extends BaseController {
 			req.setAttribute("cgFormHeadPage", cgFormHead);
 		}
 
-		List<TSType> typeList = ResourceUtil.allTypes.get(MutiLangUtil.getMutiLangInstance().getLang("bdfl"));
+		List<TSType> typeList = ResourceUtil.allTypes.get(MutiLangUtil.getLang("bdfl"));
 		req.setAttribute("typeList", typeList);
 
 		return new ModelAndView("jeecg/cgform/config/cgFormHead");

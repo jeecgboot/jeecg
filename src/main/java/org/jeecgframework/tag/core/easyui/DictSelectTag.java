@@ -155,7 +155,7 @@ public class DictSelectTag extends TagSupport {
 			if (typeGroup != null) {
 				if (hasLabel) {
 					if (StringUtils.isBlank(this.title)) {
-						this.title = MutiLangUtil.getMutiLangInstance().getLang(typeGroup.getTypegroupname());
+						this.title = MutiLangUtil.getLang(typeGroup.getTypegroupname());
 					}
 					sb.append(this.title + ":");
 					sb.append("</label>");
@@ -213,7 +213,7 @@ public class DictSelectTag extends TagSupport {
 	 */
 	private void text(String name, String code, StringBuffer sb) {
 		if (code.equals(this.defaultVal)) {
-			sb.append("<input name='"+field+"'"+" id='"+id+"' value='" + MutiLangUtil.getMutiLangInstance().getLang(name) + "' readOnly = 'readOnly' />");
+			sb.append("<input name='"+field+"'"+" id='"+id+"' value='" + MutiLangUtil.getLang(name) + "' readOnly = 'readOnly' />");
 		} else {
 		}
 	}
@@ -253,7 +253,7 @@ public class DictSelectTag extends TagSupport {
 			this.datatype(sb);
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(MutiLangUtil.getLang(name));
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class DictSelectTag extends TagSupport {
 			this.datatype(sb);
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(MutiLangUtil.getLang(name));
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class DictSelectTag extends TagSupport {
 		} else {
 			sb.append(" <option value=\"" + code + "\">");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(MutiLangUtil.getLang(name));
 		sb.append(" </option>");
 	}
 

@@ -97,6 +97,8 @@
                           <input type="checkbox" class="ace" id="on_off"  name="remember" value="yes"/>
                           <span class="lbl">记住用户名</span>
                         </label>
+                        <span> | <a href="http://demo.jeecg.org/mLoginController.do?login&from=singlemessage&isappinstalled=0"><i class="ace-icon fa fa-location-arrow"></i><font color='#428bca'>移动OA</font></a></span>
+                         <span> | <a href="http://yun.jeecg.org" target="_blank"><i class="ace-icon fa fa-cube"></i><font color='#428bca'>插件中心</font></a></span>
                         <button type="button" id="but_login"  onclick="checkUser()" class="width-35 pull-right btn btn-sm btn-primary">
                           <i class="ace-icon fa fa-key"></i>
                           <span class="bigger-110" >登录</span>
@@ -120,7 +122,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7.2</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7.3</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;

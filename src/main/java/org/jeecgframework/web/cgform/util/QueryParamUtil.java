@@ -44,7 +44,9 @@ public class QueryParamUtil {
 			//单条件组装方式
 
 			String value = request.getParameter(b.getFieldName());
-				if(StringUtil.isEmpty(value)){
+
+				if(StringUtil.isEmpty(value)||"请输入关键字".equals(value)){
+
 					return;
 				}
 

@@ -413,6 +413,8 @@ public class UserController extends BaseController {
         cq.in("status", userstate);
         cq.eq("deleteFlag", Globals.Delete_Normal);
 
+        cq.eq("userType", Globals.USER_TYPE_SYSTEM);
+
         String orgIds = request.getParameter("orgIds");
         List<String> orgIdList = extractIdListByComma(orgIds);
         // 获取 当前组织机构的用户信息
@@ -1353,7 +1355,10 @@ public class UserController extends BaseController {
 					tsUser.setDeleteFlag(new Short("0"));
 					String roleCodes = tsUser.getUserKey();
 					String deptCodes = tsUser.getDepartid();
+
 					tsUser.setPassword(PasswordUtil.encrypt(username, "123456", PasswordUtil.getStaticSalt()));
+					tsUser.setUserType(Globals.USER_TYPE_SYSTEM);//导入用户 在用户管理列表不显示
+
 					if((roleCodes==null||roleCodes.equals(""))||(deptCodes==null||deptCodes.equals(""))){
 						List<TSUser> users = systemService.findByProperty(TSUser.class,"userName",username);
 						if(users.size()!=0){

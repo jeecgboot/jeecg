@@ -614,7 +614,7 @@
 				msgobj.show();
 				setCenter(msgobj, 100);
 			}
-			if (msg == "Pass information verify!") {
+			if (msg == "Pass information verify!"&&msgobj!=null) {
 				setTimeout(function() {
 					msgobj.hide();
 				}, 1000);

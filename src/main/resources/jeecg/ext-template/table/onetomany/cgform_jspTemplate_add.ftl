@@ -80,7 +80,7 @@
 			<td class="value">
 			<#if po.showType=='text'>
 					<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-		     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
+		     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" />/>
 					<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 			<#elseif po.showType=='popup'>
 			<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
@@ -406,7 +406,7 @@
 				  <td align="left">
 					  <#if po.showType == "text">
 					  	<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-					  	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
+					  	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${sub.entityName?uncap_first}List[#index#].id" />/>
 						<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->

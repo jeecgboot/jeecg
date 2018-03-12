@@ -117,6 +117,7 @@ public class ExcelTempletController extends BaseController {
 				}
 			}
 			handlePageDic(beans, result);
+			//处理字典项
 			dealDic(result, beans);
 			//表的中文名称
 			sheetName = (String) configs.get(CgAutoListConstant.CONFIG_NAME);
@@ -319,6 +320,10 @@ public class ExcelTempletController extends BaseController {
 							}
 							map.put("$mainTable$id", mainId);//为子表准备
 							if (isMainData) {
+
+								//处理字典项
+								dealDicForImport(mainData, lists);
+
 								mainData.put("id", mainId);//主表数据
 								dataBaseService.insertTable(configId, mainData);									
 							}
@@ -351,6 +356,10 @@ public class ExcelTempletController extends BaseController {
 								}
 								//设置子表记录ID
 								if (isSubData) {
+
+									//处理字典项
+									dealDicForImport(subData, subLists);
+
 									subData.put("id", UUIDGenerator.generate());
 									dataBaseService.insertTable(subConfigId, subData);
 								}
@@ -435,7 +444,7 @@ public class ExcelTempletController extends BaseController {
 						String value = String.valueOf(r.get(bean.getFieldName()));
 						for (DictEntity dictEntity : dicDataList) {
 							if (value.equalsIgnoreCase(dictEntity.getTypecode())) {
-								r.put(bean.getFieldName(), MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
+								r.put(bean.getFieldName(), MutiLangUtil.getLang(dictEntity.getTypename()));
 							}
 						}
 					}
@@ -444,7 +453,36 @@ public class ExcelTempletController extends BaseController {
 		}
 	}
 
+	/**
+	 * 处理数据字典
+	 * @param result 查询的结果集
+	 * @param beans  字段配置
+	 */
+	@SuppressWarnings("unchecked")
+	private void dealDicForImport(Map result,List<CgFormFieldEntity> beans) {
+		for (CgFormFieldEntity bean : beans) {
+			String dicTable = bean.getDictTable();//字典Table
+			String dicCode = bean.getDictField();//字典Code
+			String dicText = bean.getDictText();//字典text
+			if (StringUtil.isEmpty(dicTable) && StringUtil.isEmpty(dicCode)) {
+				//不需要处理字典
+				continue;
+			} else {
+				if (!bean.getShowType().equals("popup")) {
+					List<DictEntity> dicDataList = queryDic(dicTable, dicCode, dicText);
+						String value = String.valueOf(result.get(bean.getFieldName()));
+						for (DictEntity dictEntity : dicDataList) {
+							if (value.equals(dictEntity.getTypename())) {
+								result.put(bean.getFieldName(), dictEntity.getTypecode());
+							}
+						}
+				}
+			}
+		}
+	}
 
+	
+	
 	private class CgFormExcelHandler extends ExcelDataHandlerDefaultImpl {
 
 		Map<String, CgFormFieldEntity> fieldMap;

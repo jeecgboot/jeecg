@@ -32,6 +32,8 @@ public class DbTableOracleHandleImpl implements DbTableHandleI {
 		String result ="";
 		if (dataType.equalsIgnoreCase("varchar2")) {
 			result="string";
+		}if (dataType.equalsIgnoreCase("nvarchar2")) {
+			result="string";
 		} else if(dataType.equalsIgnoreCase("double")){
 			result="double";
 		}else if (dataType.equalsIgnoreCase("number") && digits==0) {
@@ -44,6 +46,10 @@ public class DbTableOracleHandleImpl implements DbTableHandleI {
 			result="date";
 		}else if (dataType.equalsIgnoreCase("Datetime")) {
 			result="date";
+		}else if (dataType.equalsIgnoreCase("blob")) {
+			result="blob";
+		}else if (dataType.equalsIgnoreCase("clob")) {
+			result="text";
 		}
 		return result;
 	}
@@ -86,8 +92,7 @@ public class DbTableOracleHandleImpl implements DbTableHandleI {
 		if (!datacolumnMeta.getIsNullable().equals(cgformcolumnMeta.getIsNullable())) {
 			isnull=(cgformcolumnMeta.getIsNullable().equals("Y")?"NULL":"NOT NULL");
 		}
-		
-		if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("string")||cgformcolumnMeta.getColunmType().equalsIgnoreCase("text")){
+		if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("string")){
 				result = cgformcolumnMeta.getColumnName()+" varchar2("+cgformcolumnMeta.getColumnSize()+")"+isnull;
 			
 		}else if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("date")){
@@ -100,6 +105,10 @@ public class DbTableOracleHandleImpl implements DbTableHandleI {
 				result = cgformcolumnMeta.getColumnName()+" NUMBER("+cgformcolumnMeta.getColumnSize()+","+cgformcolumnMeta.getDecimalDigits()+") "+isnull;
 		}else if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("bigdecimal")){
 			result = cgformcolumnMeta.getColumnName()+" NUMBER("+cgformcolumnMeta.getColumnSize()+","+cgformcolumnMeta.getDecimalDigits()+") "+isnull;
+		}else if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("blob")){
+			result = cgformcolumnMeta.getColumnName()+" BLOB "+isnull;
+		}else if(cgformcolumnMeta.getColunmType().equalsIgnoreCase("text")){ 
+			result = cgformcolumnMeta.getColumnName()+" CLOB "+isnull;
 		}
 		result += (StringUtils.isNotEmpty(cgformcolumnMeta.getFieldDefault())?" DEFAULT "+cgformcolumnMeta.getFieldDefault():" ");
 		result += isnull;

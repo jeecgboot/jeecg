@@ -127,8 +127,8 @@ public class CgformFtlEntity implements java.io.Serializable {
 		this.ftlVersion = ftlVersion;
 	}
 	/**
-	 *方法: 取得byte[]
-	 *@return: byte[]  表单模板内容
+	 *方法: 取得
+	 *@return:   表单模板内容
 	 */
 	@Lob
 	@Column(name ="FTL_CONTENT",nullable=true)
@@ -137,8 +137,8 @@ public class CgformFtlEntity implements java.io.Serializable {
 	}
 
 	/**
-	 *方法: 设置byte[]
-	 *@param: byte[]  表单模板内容
+	 *方法: 设置
+	 *@param:   表单模板内容
 	 */
 	public void setFtlContent(String ftlContent){
 		this.ftlContent = ftlContent;

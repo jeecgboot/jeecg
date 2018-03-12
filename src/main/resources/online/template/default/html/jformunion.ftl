@@ -43,7 +43,7 @@
 		$tbody.find('>tr').each(function(i){
 			<#-- update--begin--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
 			$(':input, select, button, a', this).each(function(){
-				var $this = $(this), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
+				var $this = $(this),validtype_str = $this.attr('validType'), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
 				if(name!=null){
 					if (name.indexOf("#index#") >= 0){
 						$this.attr("name",name.replace('#index#',i));
@@ -71,6 +71,11 @@
 					}
 				}
 				<#-- update--end--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
+				if(validtype_str!=null){
+					if(validtype_str.indexOf("#index#") >= 0){
+						$this.attr("validType",validtype_str.replace('#index#',i));
+					}
+				}
 			});
 			$(this).find('div[name=\'xh\']').html(i+1);
 		});

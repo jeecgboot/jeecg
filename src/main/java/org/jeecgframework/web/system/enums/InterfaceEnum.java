@@ -7,8 +7,15 @@ public enum InterfaceEnum {
 	blacklist_get("blacklist_get", "黑名单单条数据查询", "/rest/tsBlackListController/{id}", "GET", 2),
 	blacklist_add("blacklist_add", "黑名单添加", "/rest/tsBlackListController", "POST", 3),
 	blacklist_edit("blacklist_edit", "黑名单编辑", "/rest/tsBlackListController", "PUT", 4),
-	blacklist_delete("blacklist_delete", "黑名单删除", "/rest/tsBlackListController/{id}", "DELETE", 5);	
-    /**
+	blacklist_delete("blacklist_delete", "黑名单删除", "/rest/tsBlackListController/{id}", "DELETE", 5)	,
+
+	onlineform_get("onlineform_get", "根据tableName和记录ID获取online表单详细信息", "/rest/cgFormDataController/get/{tableName}/{id}", "GET", 1),
+	onlineform_add("onlineform_add", "online表单增加一条记录", "/rest/cgFormDataController/add", "POST", 2),
+	onlineform_update("onlineform_update", "online表单修改一条记录", "/rest/cgFormDataController/update", "POST", 3),
+	onlineform_delete("onlineform_delete", "online表单删除一条记录", "/rest/cgFormDataController/delete/{tableName}/{id}", "DELETE", 4)
+
+	;
+	/**
      * 接口编码
      */
     private String code;

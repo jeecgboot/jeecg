@@ -43,7 +43,9 @@ $(document).ready(function(){
 				  <td>
 					<#if po.showType == "text">
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
+						<#-- update--begin--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id" />/>
+						<#-- update--end--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 					<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -125,10 +127,12 @@ $(document).ready(function(){
 						<b>${po.content}:</b>
 					</td>
 				  <td>
-					<#if po.showType == "text">
-					<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>
-						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+						<#if po.showType == "text">
+							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+							<#-- update--begin--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
+					  		<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id" /> value="${'$'}{poVal.${po.fieldName} }"/>
+							<#-- update--end--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
+							<#-- update--end--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="password" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>

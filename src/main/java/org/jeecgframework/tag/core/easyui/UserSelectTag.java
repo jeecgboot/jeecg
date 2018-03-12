@@ -176,8 +176,8 @@ public class UserSelectTag extends TagSupport {
 			sb.append("/>");
 		}
 		
-		String commonConfirm = MutiLangUtil.getMutiLangInstance().getLang("common.confirm");
-		String commonCancel = MutiLangUtil.getMutiLangInstance().getLang("common.cancel");
+		String commonConfirm = MutiLangUtil.getLang("common.confirm");
+		String commonCancel = MutiLangUtil.getLang("common.cancel");
 		
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("function openUserSelect() {");

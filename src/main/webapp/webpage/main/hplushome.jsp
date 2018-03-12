@@ -47,7 +47,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.2
+            <b>当前版本：</b>v_3.7.3
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -115,7 +115,7 @@
                 <div class="ibox-content">
                     <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.org" target="_blank">http://www.jeecg.org</a>
                     </p>
-                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">293658367</a>
+                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">190866569</a>
                     </p>
                     <p><i class="fa fa-weixin"></i>微信公众号：<a href="javascript:;">jeecg</a>
                     </p>
@@ -135,10 +135,46 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v52">v3.7.3</a><code class="pull-right">2018.03.13</code>
+                                    </h5>
+                                </div>
+                                <div id="v52" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本增加很多比较实用的功能，且UI样式进行进一步优化，极大提升UI美感，及加载速度！</div>
+                                        <ol>
+											<li>【新增功能】“常用示例-原生态组件”增加省市区复杂的三级联动效果，控件美观，可以很友好的进行省市区的选择;</li>
+											<li>【新增功能】新增ECharts集成demo(仪表图、日程图、柱状图、漏斗图折、线图、饼状图、点状图、矩阵图等);</li>
+											<li>【新增功能】新增二维码生成demo功能，可自定义生成url，二维码大小;</li>
+                                        	<li>【功能升级】Online对外接口改造，使用JWT安全机制对外开放接口;</li>
+											<li>【功能升级】Fineui风格优化，增加首页菜单检索;</li>
+											<li>【功能升级】Online代码生成器优化,多tab风格优化;</li>
+											<li>【功能升级】Online表单开发优化,增加添加的online唯一校验，表单填值功能，校验提示优化;</li>
+											<li>【功能升级】升级聊天版本支持历史消息提醒;</li>
+											<li>【BUG】定时任务BUG修正;</li>
+											<li>【BUG】校验提示问题;</li>
+											<li>【BUG】浏览器兼容问题;</li>
+											<li>【BUG】多tab生成的样式有问题;</li>
+											<li>【BUG】修正已经激活的用户不允许重复激活;</li>
+											<li>【BUG】代码生成器，新添加的online唯一校验生成代码问题;</li>
+											<li>【BUG】Online 表单，编辑的时候报错;</li>
+											<li>【BUG】excel导入字典文本翻译问题;</li>
+											<li>【BUG】online维护字段，字段没有判断重复;</li>
+                                        	<li>【BUG】用户列表不显示接口类型的用户;</li>
+											<li>【BUG】自定义表单js增强编辑报错处理;</li>
+											<li>【BUG】online同步针对oracle11g兼容处理;</li>
+											<li>【BUG】一对多模板，子表设置radio情况下，点击删除，会全部删除问题;</li>
+											<li>【BUG】连接外部数据库导致系统很慢问题修正;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v51">v3.7.2</a><code class="pull-right">2018.01.25</code>
                                     </h5>
                                 </div>
-                                <div id="v51" class="panel-collapse collapse in">
+                                <div id="v51" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本为接口开发版，采用jwt token统一验证机制，集成swagger-ui，代码生成器自动生成所需接口；另外此版本UI样式进行刮骨疗法深度优化，极大提升UI美感！</div>
                                         <ol>
@@ -159,6 +195,7 @@
 											<li>【新功能】组织机构导入新功能，模板新规则下载;</li>
 											<li>【新功能】组织机构管理新菜单，支持岗位设置、职务设置、组织机构人员管理 ;</li>
 											<li>【新功能】minidao升级版本号，支持主键自增策略;</li>
+											<li>【新功能】二级管理员功能，支持二级权限分配;</li>
                                         	<li>【UI美化】h+风格，列表样式优化，字体灰色改成黑色、列表上下宽度缩小，列表标题靠左</li>
 											<li>【UI美化】列表排序图标、列表分行样式</li>
 											<li>【UI美化】查询条件样式优化;</li>

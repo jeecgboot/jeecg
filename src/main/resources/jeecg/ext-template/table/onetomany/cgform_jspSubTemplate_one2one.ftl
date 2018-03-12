@@ -42,7 +42,7 @@ $(document).ready(function(){
 				  <td class="value">
 					<#if po.showType == "text">
 					<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id"/>/>
 					<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->	
 					<#elseif po.showType=='password'>
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -125,7 +125,7 @@ $(document).ready(function(){
 				  <td class="value">
 					<#if po.showType == "text">
 					<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id"/> value="${'$'}{poVal.${po.fieldName} }"/>
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->

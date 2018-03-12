@@ -82,7 +82,7 @@
 				  <#if check==0>
 				  <td align="left">
 					<#if po.showType == "text">
-					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>
+					  	<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[0].id" />>
 						<#elseif po.showType=='password'>
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}"  type="password" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
@@ -133,7 +133,7 @@
 				   <td align="left">
 				   <#if po.showType == "text">
 				   <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					  	<input name="${entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>
+					  	<input name="${entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" maxlength="${po.length?c}" type="text" class="inputxt"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${entityName?uncap_first}List[${'$'}{stuts.index }].id" /> value="${'$'}{poVal.${po.fieldName} }"/>
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='password'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->

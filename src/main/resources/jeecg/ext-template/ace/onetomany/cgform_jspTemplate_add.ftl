@@ -148,12 +148,16 @@
 			          <div class="col-xs-3">
 							<#if po.showType=='text'>
 								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> />
+								<#-- update--begin--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
+								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" /> />
+						    	<#-- update--end--author:Yandong Date:20180226 for:TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
 						    	<#-- update--end--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						    <#elseif po.showType=='popup'>
 								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						    	<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
-								<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 
+						    	<#-- update--begin--author:gj_shaojc Date:20180302 for:TASK #2548 【代码生成器】样式问题-->
+								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 
+								<#-- update--end--author:gj_shaojc Date:20180302 for:TASK #2548 【代码生成器】样式问题-->
 								<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 						    	<#-- update--end--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						    <#elseif po.showType=='textarea'>
@@ -592,7 +596,7 @@
 						  <td align="left">
 							  <#if po.showType == "text">
 							  <#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-							  	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> type="text" class="form-control"  style="width:120px;" />
+							  	<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}" idFieldName="${sub.entityName?uncap_first}List[#index#].id"/> type="text" class="form-control"  style="width:120px;" />
 								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 								<#elseif po.showType=='password'>
 									<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->

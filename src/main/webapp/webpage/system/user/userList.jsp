@@ -73,6 +73,12 @@ function unlockObj(title,url, id) {
 		tip('<t:mutiLang langKey="common.please.select.edit.item"/>');
 		return;
 	}
+
+    if(rowsData[0].status == 1){
+        tip('<t:mutiLang langKey="common.please.select.user.status.inactive"/>');
+        return;
+    }
+
 		url += '&id='+rowsData[0].id;
 
 	$.dialog.confirm('<t:mutiLang langKey="common.unlock.user.tips"/>', function(){

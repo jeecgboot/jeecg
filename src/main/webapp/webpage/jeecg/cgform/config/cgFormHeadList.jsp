@@ -348,7 +348,7 @@
 			lock : true,
 			title: '<t:mutiLang langKey="code.generate"/>' + " ["+rowsData[0].content+"]",
 			opacity : 0.3,
-			width:1100,
+			width:1200,
 			zIndex: getzIndex(),
 			height:500,
 			cache:false,

@@ -76,7 +76,7 @@ import com.jeecg.superquery.util.SuperQueryUtil;
  * @version V1.0   
  *
  */
-@Api(value="SuperQueryMain",description="高级查询",tags="superQueryMainController")
+//@Api(value="SuperQueryMain",description="高级查询",tags="superQueryMainController")
 @Controller
 @RequestMapping("/superQueryMainController")
 public class SuperQueryMainController extends BaseController {
@@ -431,7 +431,7 @@ public class SuperQueryMainController extends BaseController {
  	
  	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	@ApiOperation(value="高级查询列表信息",produces="application/json",httpMethod="GET")
+	//@ApiOperation(value="高级查询列表信息",produces="application/json",httpMethod="GET")
 	public ResponseMessage<List<SuperQueryMainPage>> list() {
 		List<SuperQueryMainEntity> list= superQueryMainService.getList(SuperQueryMainEntity.class);
     	List<SuperQueryMainPage> pageList=new ArrayList<SuperQueryMainPage>();
@@ -459,7 +459,7 @@ public class SuperQueryMainController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	@ApiOperation(value="根据ID获取高级查询信息",notes="根据ID获取高级查询信息",httpMethod="GET",produces="application/json")
+	//@ApiOperation(value="根据ID获取高级查询信息",notes="根据ID获取高级查询信息",httpMethod="GET",produces="application/json")
 	public ResponseMessage<?> get(@ApiParam(required=true,name="id",value="ID")@PathVariable("id") String id) {
 		SuperQueryMainEntity task = superQueryMainService.get(SuperQueryMainEntity.class, id);
 		if (task == null) {
@@ -484,7 +484,7 @@ public class SuperQueryMainController extends BaseController {
  	
  	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	@ApiOperation(value="创建高级查询")
+	//@ApiOperation(value="创建高级查询")
 	public ResponseMessage<?> create(@ApiParam(name="高级查询对象")@RequestBody SuperQueryMainPage superQueryMainPage, UriComponentsBuilder uriBuilder) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<SuperQueryMainPage>> failures = validator.validate(superQueryMainPage);
@@ -510,7 +510,7 @@ public class SuperQueryMainController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	@ApiOperation(value="更新高级查询",notes="更新高级查询")
+	//@ApiOperation(value="更新高级查询",notes="更新高级查询")
 	public ResponseMessage<?> update(@RequestBody SuperQueryMainPage superQueryMainPage) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
 		Set<ConstraintViolation<SuperQueryMainPage>> failures = validator.validate(superQueryMainPage);
@@ -537,7 +537,7 @@ public class SuperQueryMainController extends BaseController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@ApiOperation(value="删除高级查询")
+	//@ApiOperation(value="删除高级查询")
 	public ResponseMessage<?> delete(@ApiParam(name="id",value="ID",required=true)@PathVariable("id") String id) {
 		logger.info("delete[{}]" + id);
 		// 验证

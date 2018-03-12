@@ -6,20 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.BrowserUtils;
+import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.pojo.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("mutiLangService")
-@Transactional
 public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangServiceI {
-
-	@Autowired  
-	private  HttpServletRequest request; 
 	
 	/**初始化语言信息，TOMCAT启动时直接加入到内存中**/
 	public void initAllMutiLang() {
@@ -48,18 +44,20 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 	/**取 o_muti_lang.lang_key 的值返回当前语言的值**/
 	public String getLang(String langKey)
 	{
-		String language = BrowserUtils.getBrowserLanguage(request);
-		
-		if(request.getSession().getAttribute("lang") != null)
-		{
-			language = (String)request.getSession().getAttribute("lang");
+		//如果为空，返回空串，防止返回null
+		if(langKey==null){
+			return "";
+		}
+		HttpServletRequest request = ContextHolderUtils.getRequest();
+		String language = oConvertUtils.getString(request.getSession().getAttribute("lang"));
+		if(oConvertUtils.isEmpty(language)){
+			language = BrowserUtils.getBrowserLanguage(request);
 		}
 		
 		String langContext = ResourceUtil.mutiLangMap.get(langKey + "_" + language); 
-		
 		if(StringUtil.isEmpty(langContext))
 		{
-			langContext = ResourceUtil.mutiLangMap.get("common.notfind.langkey" + "_" + request.getSession().getAttribute("lang"));
+			langContext = ResourceUtil.mutiLangMap.get("common.notfind.langkey" + "_" + language);
 			if("null".equals(langContext)||langContext==null ||langKey.startsWith("?")){
 				langContext = "";
 			}
@@ -69,7 +67,7 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 	}
 
 	public String getLang(String lanKey, String langArg) {
-		String langContext = StringUtil.getEmptyString();
+		String langContext = "";
 		if(StringUtil.isEmpty(langArg))
 		{
 			langContext = getLang(lanKey);

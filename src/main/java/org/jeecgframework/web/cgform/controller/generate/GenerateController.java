@@ -387,7 +387,7 @@ public class GenerateController extends BaseController {
 			if(listJsCopy!=null){
 				listJsCopy.setCgJsStr(listJsCopy.getCgJsStr().replace(fieldName, JeecgReadTable.formatField(fieldName)));
 			}
-			if(formJsCopy!=null){
+			if(formJsCopy!=null&&formJsCopy.getCgJsStr()!=null){
 				formJsCopy.setCgJsStr(formJsCopy.getCgJsStr().replace(fieldName, JeecgReadTable.formatField(fieldName)));
 			}
 			//online代码生成，popup对应的字典字段进行java命名转换

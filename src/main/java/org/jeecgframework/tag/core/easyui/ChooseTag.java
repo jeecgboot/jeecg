@@ -55,13 +55,13 @@ public class ChooseTag extends TagSupport {
 	}
 
 	public StringBuffer end() {
-		String confirm = MutiLangUtil.getMutiLangInstance().getLang("common.confirm");
-		String cancel = MutiLangUtil.getMutiLangInstance().getLang("common.cancel");
+		String confirm = MutiLangUtil.getLang("common.confirm");
+		String cancel = MutiLangUtil.getLang("common.cancel");
 		String methodname = UUIDGenerator.generate().replaceAll("-", "");
 		StringBuffer sb = new StringBuffer();
-		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodname+ StringUtil.replace("()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.select", langArg)));
+		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodname+ StringUtil.replace("()\">{0}</a>", "{0}", MutiLangUtil.getLang("common.select", langArg)));
 		if (isclear&&StringUtil.isNotEmpty(textname)) {
-			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodname+ StringUtil.replace("();\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.clear", langArg)));
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodname+ StringUtil.replace("();\">{0}</a>", "{0}", MutiLangUtil.getLang("common.clear", langArg)));
 		}
 		sb.append("<script type=\"text/javascript\">");
 		 //--author：scott-----start----date:20170407--------for: 异常捕获避免js报错-------------

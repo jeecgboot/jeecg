@@ -168,7 +168,7 @@ public class TSInterfaceController extends BaseController {
 		
 		try {
 			 if (findByQueryString!=null&&findByQueryString.size()>0||ts!=null&&ts.size()>0) {
-				 message = MutiLangUtil.getMutiLangInstance().getLang("common.menu.del.fail");
+				 message = MutiLangUtil.getLang("common.menu.del.fail");
 			}
 			  else{
 				systemService.updateBySqlString("delete from t_s_interface where id='"+ tsInterface.getId() + "'");
@@ -179,7 +179,7 @@ public class TSInterfaceController extends BaseController {
 				parent.getTSInterfaces().add(tsInterface);
 			}
 			e.printStackTrace();
-			message = MutiLangUtil.getMutiLangInstance().getLang("common.menu.del.fail");
+			message = MutiLangUtil.getLang("common.menu.del.fail");
 		}
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		j.setMsg(message);

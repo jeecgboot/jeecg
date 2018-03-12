@@ -67,21 +67,20 @@ layui.use('layim', function(layim){
 
     //监听发送消息
     layim.on('sendMessage', function(data){
-        console.log(data);
+       // console.log(data);
         //更多情况下，一般是传递一个对象
         socket.send(JSON.stringify(data));
     });
 
     //连接成功时触发
     socket.onopen = function(){
-        //socket.send('XXX连接成功');
     };
 
     //监听收到的消息
     socket.onmessage = function(res){
         var message = JSON.parse(res.data);
         var timestamp = new Date().getTime();
-        console.log(message);
+        //console.log(message)
         if(message.to.type=="group"){
             layim.getMessage({
                 username: message.mine.username //消息来源用户名
@@ -101,26 +100,48 @@ layui.use('layim', function(layim){
                 ,timestamp: timestamp //服务端动态时间戳
             });
         }
-
+        if(message.to.msgHisId != null && message.to.msgHisId != undefined && message.to.msgHisId != ''){
+            var mine = {
+                avatar: message.to.avatar //我的头像
+                ,content: message.mine.content
+                ,id: message.to.id
+                ,mine: true //是否我发送的消息
+                ,username: message.to.username
+            };
+            var to = {
+                avatar: message.mine.avatar
+                ,id: message.mine.id
+                ,name: message.mine.username
+                ,sign: message.mine.sign
+                ,type: "friend" //聊天类型，一般分friend和group两种，group即群聊
+                ,username: message.mine.username
+                ,msgHisId: message.to.msgHisId
+            }
+            var data = JSON.stringify({
+                mine: mine
+                ,to: to
+            });
+            socket.send(data);
+        }
     };
     //监听在线状态的切换事件
     layim.on('online', function(data){
-        console.log(data);
+       // console.log(data);
     });
 
 
     //监听查看群员
     layim.on('members', function(data){
-        console.log(data);
+       // console.log(data);
     });
 
     //监听聊天窗口的切换
     layim.on('chatChange', function(data){
-        console.log(data);
+       // console.log(data);
     });
     layim.on('sign', function(value){
         $.get("chat/imController.do?changeSign&sign="+value);
-        console.log(value); //获得新的签名
+       // console.log(value); //获得新的签名
 
     });
     //初始最小化聊天界面
@@ -130,3 +151,10 @@ layui.use('layim', function(layim){
 }
 
 //layim聊天组件end
+
+window.oncontextmenu=function(e){
+//取消默认的浏览器自带右键 很重要！！
+    e.preventDefault();
+
+    $('.layui-layim-min').css("display","none");
+}

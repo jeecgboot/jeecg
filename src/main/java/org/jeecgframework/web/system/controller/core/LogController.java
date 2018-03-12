@@ -193,7 +193,7 @@ public class LogController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-		hc.setName(MutiLangUtil.getMutiLangInstance().getLang(USER_BROWSER_ANALYSIS));
+		hc.setName(MutiLangUtil.getLang(USER_BROWSER_ANALYSIS));
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

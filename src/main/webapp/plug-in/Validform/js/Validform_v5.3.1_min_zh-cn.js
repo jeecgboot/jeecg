@@ -614,7 +614,7 @@
 				msgobj.show();
 				setCenter(msgobj, 100);
 			}
-			if (msg == "通过信息验证！") {
+			if (msg == "通过信息验证！"&&msgobj!=null) {
 				setTimeout(function() {
 					msgobj.hide();
 				}, 1000);

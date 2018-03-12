@@ -156,7 +156,7 @@ public class UploadTag extends JeecgTag {
 				+"var m = new Map();"
 				+ "$(function(){"
 				+"$(\'#"+id+"\').uploadify({"
-				+"buttonText:\'"+MutiLangUtil.getMutiLangInstance().getLang(buttonText)+"\',"
+				+"buttonText:\'"+MutiLangUtil.getLang(buttonText)+"\',"
 				+"auto:"+auto+","
 				+"progressData:\'speed\'," 
 				+"multi:"+multi+","

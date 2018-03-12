@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--360浏览器优先以webkit内核解析-->
-    <title>船舶运行管控中心</title>
+    <title>Jeecg 微云快速开发平台</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="plug-in-ui/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
@@ -177,7 +177,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.2
+            <b>当前版本：</b>v_3.7.3
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -419,7 +419,7 @@
                 <div class="ibox-content">
                     <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.org" target="_blank">http://www.jeecg.org</a>
                     </p>
-                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">293658367</a>
+                    <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">190866569</a>
                     </p>
                     <p><i class="fa fa-weixin"></i>微信公众号：<a href="javascript:;">jeecg</a>
                     </p>
@@ -439,10 +439,46 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v52">v3.7.3</a><code class="pull-right">2018.03.13</code>
+                                    </h5>
+                                </div>
+                                <div id="v52" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本增加很多比较实用的功能，且UI样式进行进一步优化，极大提升UI美感，及加载速度！</div>
+                                        <ol>
+											<li>【新增功能】“常用示例-原生态组件”增加省市区复杂的三级联动效果，控件美观，可以很友好的进行省市区的选择;</li>
+											<li>【新增功能】新增ECharts集成demo(仪表图、日程图、柱状图、漏斗图折、线图、饼状图、点状图、矩阵图等);</li>
+											<li>【新增功能】新增二维码生成demo功能，可自定义生成url，二维码大小;</li>
+                                        	<li>【功能升级】Online对外接口改造，使用JWT安全机制对外开放接口;</li>
+											<li>【功能升级】Fineui风格优化，增加首页菜单检索;</li>
+											<li>【功能升级】Online代码生成器优化,多tab风格优化;</li>
+											<li>【功能升级】Online表单开发优化,增加添加的online唯一校验，表单填值功能，校验提示优化;</li>
+											<li>【功能升级】升级聊天版本支持历史消息提醒;</li>
+											<li>【BUG】定时任务BUG修正;</li>
+											<li>【BUG】校验提示问题;</li>
+											<li>【BUG】浏览器兼容问题;</li>
+											<li>【BUG】多tab生成的样式有问题;</li>
+											<li>【BUG】修正已经激活的用户不允许重复激活;</li>
+											<li>【BUG】代码生成器，新添加的online唯一校验生成代码问题;</li>
+											<li>【BUG】Online 表单，编辑的时候报错;</li>
+											<li>【BUG】excel导入字典文本翻译问题;</li>
+											<li>【BUG】online维护字段，字段没有判断重复;</li>
+                                        	<li>【BUG】用户列表不显示接口类型的用户;</li>
+											<li>【BUG】自定义表单js增强编辑报错处理;</li>
+											<li>【BUG】online同步针对oracle11g兼容处理;</li>
+											<li>【BUG】一对多模板，子表设置radio情况下，点击删除，会全部删除问题;</li>
+											<li>【BUG】连接外部数据库导致系统很慢问题修正;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v51">v3.7.2</a><code class="pull-right">2018.01.25</code>
                                     </h5>
                                 </div>
-                                <div id="v51" class="panel-collapse collapse in">
+                                <div id="v51" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本为接口开发版，采用jwt token统一验证机制，集成swagger-ui，代码生成器自动生成所需接口；另外此版本UI样式进行刮骨疗法深度优化，极大提升UI美感！</div>
                                         <ol>
@@ -885,46 +921,48 @@ $(document).ready(function() {
 	var chart2 = echarts.init(document.getElementById('chart2'));
 	var chart3 = echarts.init(document.getElementById('chart3'));
 	var chart4 = echarts.init(document.getElementById('chart4'));
-	chart1.setOption({
-		tooltip: {},
-	    legend: {
-	        data: ['Chrome', 'Firefox','IE','其他']
-	    },
-	    radar: {
-	        name: {
-	            textStyle: {
-	            	 color: '#1f7a22'
-	           }
-	        },
-	        indicator: [
-	        	{ name: '人数', max: 5000},
-		        { name: '活跃度', max: 100},
-	            { name: '增长速度', max: 100},
-	            { name: '好评', max: 100},
-	            { name: '美观', max: 5}
-	        ]
-	    },
-	    series: [{
-	        name: 'ceshi',
-	        type: 'radar',
-	        // areaStyle: {normal: {}},
-	        data : [
-	            {
-	                value : [4980,80, 80, 80, 4],
-	                name : 'Chrome'
-	            },{
-	                value : [2050,60, 30, 50, 2],
-	                name : 'Firefox'
-	            },{
-	                value : [3500,50, 50, 50, 3],
-	                name : 'IE'
-	            },{
-	                value : [1000,70, 60, 60, 4],
-	                name : '其他'
-	            }
-	        ]
-	    }]
+	$.ajax({
+		type : "POST",
+		url : "jeecgListDemoController.do?broswerCount&reportType=pie",
+		success : function(jsondata) {
+			jsondata=JSON.parse(jsondata);
+			var data=jsondata[0].data;
+			var xAxisData=[];
+			var seriesData=[];
+			var picData = [];
+			for(var i in data){
+				xAxisData.push(data[i].name);
+				seriesData.push(data[i].percentage);
+				picData.push({"value":data[i].percentage,"name":data[i].name});
+			}
+			chart1.setOption({
+				tooltip: {
+					trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+			    legend: {
+			        data: xAxisData
+			    },
+			    series : [
+					        {
+					            name: "用户人数",
+					            type: 'pie',
+					            radius : '55%',
+					            center: ['50%', '60%'],
+					            data:picData,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+			});
+		}
 	});
+	
 	
 	var option3 = {
 		    tooltip : {
@@ -946,139 +984,174 @@ $(document).ready(function() {
 		    ]
 		};
 
-		setInterval(function () {
-		    option3.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
-		    chart3.setOption(option3, true);
-		},2000);
+	$.ajax({
+		type : "POST",
+		url : "jeecgListDemoController.do?broswerCount&reportType=column",
+		success : function(jsondata) {
+			jsondata=JSON.parse(jsondata);
+			var data=jsondata[0].data;
+			var xAxisData=[];
+			var seriesData=[];
+			for(var i in data){
+				xAxisData.push(data[i].name);
+				seriesData.push(data[i].percentage);
+			}
+			var option3 = {
+		            tooltip: {},
+		            legend: {
+		                data:[jsondata[0].name],
+		                left:'center'
+		            },
+		            xAxis: {
+		            	type: 'category',
+		                data: xAxisData,
+		                axisLabel:{
+		                	interval:0,//横轴信息全部显示
+		                	rotate:-30,//-10角度倾斜展示
+		                }
+		            },
+		            yAxis: {},
+		            series: [{
+		                name: jsondata[0].name,
+		                type: 'bar',
+		                data: seriesData
+		            }]
+		        };
+			chart3.setOption(option3);
+		}
+	});
 		
-		
-		var option4 = {
-			    color: ['#3398DB'],
-			    tooltip : {
-			        trigger: 'axis',
-			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-			        }
-			    },
-			    grid: {
-			        left: '3%',
-			        right: '4%',
-			        bottom: '3%',
-			        containLabel: true
-			    },
-			    xAxis : [
-			        {
-			            type : 'category',
-			            data : ['Chrome', 'Firefox', 'IE', '其他'],
-			            axisTick: {
-			                alignWithLabel: true
-			            }
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value'
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'用户人数',
-			            type:'bar',
-			            barWidth: '60%',
-			            data:[4925, 509, 421, 100]
-			        }
-			    ]
-			};
-		chart4.setOption(option4, true);
+		$.ajax({
+			type : "POST",
+			url : "jeecgListDemoController.do?broswerCount&reportType=line",
+			success : function(jsondata) {
+				jsondata=JSON.parse(jsondata);
+				var data=jsondata[0].data;
+				var xAxisData=[];
+				var seriesData=[];
+				for(var i in data){
+					xAxisData.push(data[i].name);
+					seriesData.push(data[i].percentage);
+				}
+				var option4 = {
+					    color: ['#3398DB'],
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+					        }
+					    },
+					    grid: {
+					        left: '3%',
+					        right: '4%',
+					        bottom: '10%',
+					        containLabel: true
+					    },
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data : xAxisData,
+					            axisTick: {
+					                alignWithLabel: true
+					            },
+					            axisLabel:{
+				                	interval:0,//横轴信息全部显示
+				                	rotate:-30,//-10角度倾斜展示
+				                }
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'用户人数',
+					            type:'line',
+					            barWidth: '60%',
+					            data:seriesData
+					        }
+					    ]
+					};
+				chart4.setOption(option4, true);
+			}
+		});
 		
 		var colors = ['#5793f3', '#d14a61', '#675bba'];
-		var option2 = {
-            tooltip : {
-                trigger: 'axis',
-                axisPointer : {
-                    type : 'shadow'
-                }
-            },
-            legend: {
-                data: ['人数','活跃度','增长速度','好评','美观指数']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis:  {
-                type: 'value'
-            },
-            yAxis: {
-                type: 'category',
-                data: ['Chrome', 'Firefox','IE','其他']
-            },
-            series: [
-                {
-                    name: '人数',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [60, 20, 15,5]
-                },
-                {
-                    name: '活跃度',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [90, 80, 70,50]
-                },
-                {
-                    name: '增长速度',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data:[90, 80, 70,50]
-                },
-                {
-                    name: '好评',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data:[90, 80, 70,50]
-                },
-				{
-                    name: '美观',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data:[80, 60, 40,40]
-                }
-            ]
-        };
-		chart2.setOption(option2, true);
+		$.ajax({
+			type : "POST",
+			url : "graphReportController.do?datagridGraph",
+			data:{
+				configId:'yhcztj'
+			},
+			success : function(jsondata) {
+				var data = jsondata.rows;
+				var xAxisData=[];
+				var seriesData=[];
+				var loginData=[];
+				if(data!=null){
+					for(var i = data.length-1; i >= 0; i--){
+						xAxisData.push(data[i].userid);	//用户名
+						seriesData.push(data[i].ct);	//操作次数
+						loginData.push(data[i].login_count);//登陆次数
+					}
+				}
+				var option2 = {
+			            tooltip : {
+			                trigger: 'axis',
+			                axisPointer : {
+			                    type : 'shadow'
+			                }
+			            },
+			            legend: {
+			                data: ["操作次数",'登陆次数']
+			            },
+			            grid: {
+			                left: '1%',
+			                right: '6%',
+			                bottom: '3%',
+			                containLabel: true
+			            },
+			            xAxis:  {
+			                type: 'value'
+			            },
+			            yAxis: {
+			                type: 'category',
+			                data: xAxisData
+			            },
+			            series: [
+			                {
+			                    name: '操作次数',
+			                    type: 'bar',
+			                    stack: '总量',
+			                    label: {
+			                        normal: {
+			                            show: true,
+			                            position: 'insideRight'
+			                        }
+			                    },
+			                    data : seriesData
+			                },
+			                {
+			                    name: '登陆次数',
+			                    type: 'bar',
+			                    stack: '总量',
+			                    label: {
+			                        normal: {
+			                            show: true,
+			                            position: 'insideRight'
+			                        }
+			                    },
+			                    data : loginData
+			                }
+			            ]
+			        };
+				chart2.setOption(option2, true);
+			}
+		});
+		
+		
 		
 		$(window).resize(chart1.resize);
 		$(window).resize(chart2.resize);

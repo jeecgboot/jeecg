@@ -22,6 +22,17 @@ public final class Globals {
 	public static final Short User_Normal=1;//正常
 	public static final Short User_Forbidden=0;//禁用
 	public static final Short User_ADMIN=-1;//超级管理员
+
+	/**
+	 * 用户类型：1、系统类型用户
+	 */
+	public static final String USER_TYPE_SYSTEM = "1";
+	/**
+	 * 用户类型：2、接口类型用户
+	 *
+	 */
+	public static final String USER_TYPE_INTERFACE = "2";
+
 	
 	/**
 	 * 逻辑删除标记

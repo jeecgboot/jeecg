@@ -144,7 +144,7 @@
 							>
 						 <#elseif po.showType=='text'>
 						 <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						    <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						    <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
 						   <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						 <#elseif po.showType=='popup'>
 							<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->

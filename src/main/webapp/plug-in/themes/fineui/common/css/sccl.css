@@ -83,7 +83,10 @@ a cite{font-style: normal; *cursor:pointer;}
  background: #f2f2f2; 
 /* background: red; */
 border-bottom: solid 1px #0e9aef;}
-.layout-main-body{position: absolute;top: 28px;bottom: 0;left: 0;right: 0;overflow:auto;margin:0 0 0 10px;}
+
+/* update-begin-author:taoYan for:上下动 去掉 overflow:auto; */
+.layout-main-body{position: absolute;top: 28px;bottom: 0;left: 0;right: 0;margin:0 0 0 10px;}
+/* update-end-author:taoYan for:上下动 去掉 overflow:auto; */
 .layout-footer{position: fixed; left: 200px; right: 0; bottom: 0; height: 30px;line-height:30px;background-color: #eee;border-top:1px solid #ccc;text-align:center;z-index:998;}
 
 /* 头部 margin-left: 10px;color:#fff;line-height:62.4px;font-size:16px;*/

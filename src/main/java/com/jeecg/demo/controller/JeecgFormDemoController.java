@@ -71,7 +71,13 @@ public class JeecgFormDemoController extends BaseController {
 	public ModelAndView uitag(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/form_uitag");
 	}
-	
+
+	@RequestMapping(params = "qrcode")
+	public ModelAndView qrcode(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/form_QRCode");
+	}
+
+
 	@RequestMapping(params = "formValidDemo")
 	public ModelAndView formValidDemo(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/form_valid");

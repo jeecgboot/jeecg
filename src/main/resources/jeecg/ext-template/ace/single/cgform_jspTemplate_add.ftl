@@ -84,7 +84,7 @@
 			          <div class="col-xs-3">
 							<#if po.showType=='text'>
 								<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>/>
+								<input id="${po.fieldName}" name="${po.fieldName}" type="text" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/>/>
 						   		<#-- update--end--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						     <#elseif po.showType=='popup'>
 						     	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->

@@ -57,7 +57,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		if(StringUtil.isEmpty(dicTable)){
 			dictList = jeecgDictDao.querySystemDict(dicCode);
 			for(DictEntity t:dictList){
-				t.setTypename(MutiLangUtil.getMutiLangInstance().getLang(t.getTypename()));
+				t.setTypename(MutiLangUtil.getLang(t.getTypename()));
 			}
 		}else {
 			dicText = StringUtil.isEmpty(dicText, dicCode);

@@ -86,7 +86,9 @@ import io.swagger.annotations.ApiParam;
 <#-- 列为文件类型的文件代码生成 -->
 <#assign fileFlag = false />
 <#list columns as filePo>
-	<#if filePo.showType=='file'>
+<#-- update--begin--author:gj_shaojc date:20180302 for：TASK #2551 【bug】网友问题验证确认 -->
+	<#if filePo.showType=='file'  || filePo.showType == 'image'>
+<#-- update--end--author:gj_shaojc date:20180302 for：TASK #2551 【bug】网友问题验证确认 -->
 		<#assign fileFlag = true />
 	</#if>
 </#list>

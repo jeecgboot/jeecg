@@ -123,7 +123,7 @@
 				                    }"/>
 						 <#elseif po.showType=='text'>
 						 	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>/>
+					     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/>/>
 						 	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 			   <#elseif po.showType=='popup'>
 			   	<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->

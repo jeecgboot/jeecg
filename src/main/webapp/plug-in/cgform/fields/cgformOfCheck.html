@@ -46,9 +46,11 @@
 					readonly="readonly" /></td>
 				<td align="left"><input name="columns[#index#].fieldHref"
 					type="text" style="width: 120px;"></td>
+				<!--begin Yandong 20180202 TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
 				<td align="left">
-					<select  name="columns[#index#].fieldValidType"  style="width: 120px;"></select>	
+					<select  name="columns[#index#].fieldValidType" onchange="chooseOnly(this)"  style="width: 120px;"></select>	
 				</td>
+				<!--end Yandong 20180202 TASK #2513 【bug】代码生成器，新添加的online唯一校验生成代码问题-->
 				<td align="left" style="width:120px;">
 					<input name="columns[#index#].fieldMustInput" type="checkbox" />
 				</td>

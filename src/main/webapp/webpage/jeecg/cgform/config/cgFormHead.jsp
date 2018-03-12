@@ -231,7 +231,43 @@ $(function() {
 	<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	getFormTemplateName2();
 	<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
-}); 
+});
+//--add-start--Author:caoez Date:20180202 for：TASK #2520 【online开发】online维护字段，字段没有判断重复--
+//判断fieldname是否重复
+function isFieldNameDup() {
+    var fieldArray = new Array();
+    var fieldname;
+    $("#tab_div_database tr").each(function(){
+        fieldname = $(this).find("td:eq(3)>input").val();
+        if (fieldname !== null || fieldname !== undefined || fieldname !== '') {
+            fieldArray.push(fieldname);
+        }
+    })
+    var dupFieldArray = new Array();
+    fieldArray.sort();
+    for(var i = 0;i<fieldArray.length;i++)
+    {
+        var count = 0;
+        for(var j=i;j<fieldArray.length;j++)
+        {
+            if(fieldArray[i] == fieldArray[j])
+            {
+                count++;
+            }
+        }
+        if(count>1){
+            dupFieldArray.push([fieldArray[i],count]);
+        }
+    }
+    //dupFieldArray 二维数维中保存了 值和值的重复数
+    for(var  i = 0 ;i<dupFieldArray.length;i++)
+    {
+        tip(dupFieldArray[i][0]+'<t:mutiLang langKey="common.please.online.fieldname.duplicate"/>');
+
+//        alert("字段:"+dupFieldArray[i][0]+"重复"+dupFieldArray[i][1]+"次");
+    }
+}
+//--add-end--Author:caoez Date:20180202 for：TASK #2520 【online开发】online维护字段，字段没有判断重复--
 //根据是否为树形菜单隐藏或显示tree输入框
 function isTreeHandle() {
 	if($("#isTree").val() == "Y") {
@@ -244,7 +280,7 @@ function isTreeHandle() {
 		$("tr.tree").find(":input").attr("disabled", true).removeAttr("datatype").end().hide();
 	}
 }
-<!--add-start--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
+//--add-start--Author:张忠亮  Date:20150714 for：根据表单类型获取风格--
 //获取表单风格模板名称
 function getFormTemplateName(){
  var type=$("#jformType").val();
@@ -269,7 +305,7 @@ function getFormTemplateName(){
 	});
 }
 
-<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+//--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置--
 //获取表单风格模板名称
 function getFormTemplateName2(){
  var type=$("#jformType").val();
@@ -293,17 +329,15 @@ function getFormTemplateName2(){
 		}
 	});
 }
-<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
+//--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置--
 
 //表单类型改变 调用
 	function formTypeChange(){
 		jformTypeChange();
 		getFormTemplateName();
-		<!--add-start--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 		getFormTemplateName2();
-		<!--add-end--Author:scott Date:20160301 for：online表单移动样式单独配置-->
 	}
-<!--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格-->
+//--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格--
 
 //add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 function getShowType(obj){
@@ -315,6 +349,18 @@ function getShowType(obj){
 	}
 }
 //add-end--Author:jg_renjie Date:20160301 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
+
+function chooseOnly(obj){
+	if($(obj).val() == 'only'){
+		var name=$(obj).attr("name");
+		var showType=name.substring(0,name.lastIndexOf(".")+1)+"showType";
+		if($("[name='"+showType+"']").val()!='text'){
+			$(obj).val("");
+			tip("控件类型为文本框才能使用唯一校验!")
+		}
+	}
+}
+
 
 function selectField(select){
 	var selected = select.val().split(",");

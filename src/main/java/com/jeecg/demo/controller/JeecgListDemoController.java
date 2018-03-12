@@ -172,6 +172,234 @@ public class JeecgListDemoController extends BaseController {
 		return new ModelAndView("com/jeecg/demo/form_querysBuilder");
 	}
 
+	/**
+	 * 仪表图
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "InstrumentDiagram")
+	public ModelAndView InstrumenDtiagram(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/InstrumentDiagram");
+	}
+	/**
+	 * 日程图
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "Schedule")
+	public ModelAndView Schedule(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/Schedule");
+	}
+	 /**
+	  * 柱状图1
+	  * @param request
+   	  * @return
+	  */
+	@RequestMapping(params = "BarGraph1")
+	public ModelAndView BarGraph1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/BarGraph1");
+	}	
+	/**
+	  * 柱状图2
+	  * @param request
+  	  * @return
+	  */
+	@RequestMapping(params = "BarGraph2")
+	public ModelAndView BarGraph2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/BarGraph2");
+	}	
+	/**
+	  * 柱状图3
+	  * @param request
+  	  * @return
+	  */
+	@RequestMapping(params = "BarGraph3")
+	public ModelAndView BarGraph3(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/BarGraph3");
+	}
+	/**
+	  * 柱状图4
+	  * @param request
+ 	  * @return
+	  */
+	@RequestMapping(params = "BarGraph4")
+	public ModelAndView BarGraph4(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/BarGraph4");
+	}
+	/**
+	  * 漏斗图1
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "funnelPlot1")
+	public ModelAndView funnelPlot1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/funnelPlot1");
+	}
+	/**
+	  * 漏斗图2
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "funnelPlot2")
+	public ModelAndView funnelPlot2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/funnelPlot2");
+	}
+	/**
+	  * 折线图1
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "lineChart1")
+	public ModelAndView lineChart1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/lineChart1");
+	}
+	/**
+	  * 折线图2
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "lineChart2")
+	public ModelAndView lineChart2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/lineChart2");
+	}
+	/**
+	  * 折线图3
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "lineChart3")
+	public ModelAndView lineChart3(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/lineChart3");
+	}/**
+	  * 折线图4
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "lineChart4")
+	public ModelAndView lineChart4(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/lineChart4");
+	}/**
+	  * 折线图5
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "lineChart5")
+	public ModelAndView lineChart5(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/lineChart5");
+	}
+	/**
+	  * 饼图1
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "PieChart1")
+	public ModelAndView PieChart1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/PieChart1");
+	}
+	/**
+	  * 饼图2
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "PieChart2")
+	public ModelAndView PieChart2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/PieChart2");
+	}
+	/**
+	  * 点状图1
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "PointChart1")
+	public ModelAndView PointChart1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/PointChart1");
+	}
+	/**
+	  * 点状图2
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "PointChart2")
+	public ModelAndView PointChart2(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/PointChart2");
+	}
+	/**
+	  * 点状图3
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "PointChart3")
+	public ModelAndView PointChart3(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/PointChart3");
+	}
+	/**
+	  * 矩形图
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "RectangularGraph")
+	public ModelAndView RectangularGraph(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/RectangularGraph");
+	}
+	/**
+	  * 其他1
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "other1")
+	public ModelAndView other1(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/other1");
+	}
+	
+	/**
+	  * 综合报表
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "TotalReport")
+	public ModelAndView TotalReport(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo/TotalReport");
+	}
+	/**
+	  * 综合报表
+	  * @param request
+	  * @return
+	  */
+	@RequestMapping(params = "getTotalReport")
+	@ResponseBody
+	public String getTotalReport(HttpServletRequest request) {
+		List<Map<String,Object>> maplist=systemService.findForJdbc("select l.broswer broswer ,count(broswer) broswercount from t_s_log l group by l.broswer", null);
+		Long countSutent = systemService.getCountForJdbc("select count(*) from t_s_log where 1=1");
+		for(Map map:maplist){
+			Long personcount = Long.parseLong(map.get("broswercount").toString());
+			Double  percentage = 0.0;
+			if (personcount != null && personcount.intValue() != 0) {
+				percentage = new Double(personcount)/countSutent;
+			}
+			
+			map.put("rate", String.format("%.2f", percentage*100)+"%");
+		}
+		Long count = 0L;
+		if(JdbcDao.DATABSE_TYPE_SQLSERVER.equals(DBTypeUtil.getDBType())){
+			count = systemService.getCountForJdbcParam("select count(0) from (select l." +
+					"  broswer ,count(broswer) broswercount from t_s_log  l group by l.broswer) as t( broswer, broswercount)",null);
+		}else{
+			count = systemService.getCountForJdbcParam("select count(0) from (select l.broswer broswer ,count(broswer) broswercount from t_s_log l group by l.broswer)t",null);
+		}
+		
+		StringBuffer strb =new StringBuffer();
+		strb.append("{\"title\": {\"text\": \"浏览器登录次数统计\",\"subtext\": \"测试数据\"},\"toolbox\": {\"show\": true,\"feature\": {\"restore\": {\"show\": true,\"title\": \"还原\"},\"saveAsImage\": {\"show\": true,\"title\": \"保存为图片\",\"type\": \"png\",\"lang\": [\"点击保存\"]},}},\"series\": [{\"data\": [");
+		for (Map map:maplist) {
+			strb.append("{\"value\": \" " +map.get("broswercount")+
+					"\",\"name\": \"" +map.get("broswer")+
+					"\"},");
+			}
+		strb.append("],\"type\": \"pie\"}]}");
+		String option =strb.toString();
+		
+		return option;
+	}
+
 	
 	/**
 	 * 综合报表 datagrid
@@ -193,7 +421,8 @@ public class JeecgListDemoController extends BaseController {
 		}
 		Long count = 0L;
 		if(JdbcDao.DATABSE_TYPE_SQLSERVER.equals(DBTypeUtil.getDBType())){
-			count = systemService.getCountForJdbcParam("select count(0) from (select l.broswer  broswer ,count(broswer) broswercount from t_s_log  l group by l.broswer) as t( broswer, broswercount)",null);
+			count = systemService.getCountForJdbcParam("select count(0) from (select l." +
+					"  broswer ,count(broswer) broswercount from t_s_log  l group by l.broswer) as t( broswer, broswercount)",null);
 		}else{
 			count = systemService.getCountForJdbcParam("select count(0) from (select l.broswer broswer ,count(broswer) broswercount from t_s_log l group by l.broswer)t",null);
 		}
@@ -828,4 +1057,10 @@ public class JeecgListDemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
+
+	@RequestMapping(params = "echartDemo")
+	public ModelAndView echartDemo(HttpServletRequest req) {
+		return new ModelAndView("com/jeecg/demo/echartsDemo");
+	}
+
 }

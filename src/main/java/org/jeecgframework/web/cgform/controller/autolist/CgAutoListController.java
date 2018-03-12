@@ -346,7 +346,7 @@ public class CgAutoListController extends BaseController{
 //						}
 						for(DictEntity dictEntity:dicDataList){
 							if(value.equalsIgnoreCase(dictEntity.getTypecode())){
-								r.put(bean.getFieldName(),MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
+								r.put(bean.getFieldName(),MutiLangUtil.getLang(dictEntity.getTypename()));
 								break;
 							}
 						}

@@ -107,9 +107,9 @@ public class NoticeController extends BaseController{
 			Map<String,Object> attrs = new HashMap<String, Object>();
 			attrs.put("noticeList", result);
 			
-			String tip = MutiLangUtil.getMutiLangInstance().getLang("notice.tip");
+			String tip = MutiLangUtil.getLang("notice.tip");
 			attrs.put("tip", tip);
-			String seeAll = MutiLangUtil.getMutiLangInstance().getLang("notice.seeAll");
+			String seeAll = MutiLangUtil.getLang("notice.seeAll");
 			attrs.put("seeAll", seeAll);
 			j.setAttributes(attrs);
 			

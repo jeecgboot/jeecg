@@ -26,7 +26,7 @@ public class MutiLangSqlCriteriaUtil {
     public static void assembleCondition(List<String> fieldLangKeyList, CriteriaQuery cq, String fieldName, String fieldValue) {
         Map<String,String> fieldLangMap = new HashMap<String, String>();
         for (String nameKey : fieldLangKeyList) {
-            String name = MutiLangUtil.getMutiLangInstance().getLang(nameKey);
+            String name = MutiLangUtil.getLang(nameKey);
             fieldLangMap.put(nameKey, name);
         }
 

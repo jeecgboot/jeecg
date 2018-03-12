@@ -79,7 +79,7 @@ public enum SysThemesEnum {
 	public static SysThemesEnum toEnum(String style) {
 		if (StringUtil.isEmpty(style)) {
 			//默认风格
-			return FINEUI_STYLE;
+			return HPLUS;
         }
 		for(SysThemesEnum item : SysThemesEnum.values()) {
 			if(item.getStyle().equals(style)) {
@@ -87,7 +87,7 @@ public enum SysThemesEnum {
 			}
 		}
 		//默认风格
-		return FINEUI_STYLE;
+		return HPLUS;
 	}
 
     public String toString() {
