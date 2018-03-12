@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : mysql
 Source Server Version : 50037
 Source Host           : 127.0.0.1:3306
-Source Database       : jeecg_3_7_3
+Source Database       : jeecg
 
 Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2018-03-12 14:05:59
+Date: 2018-03-12 18:55:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -704,7 +704,7 @@ INSERT INTO `cgform_head` VALUES ('402881e4534c0aea01534c0cfe2b001b', '教育经
 INSERT INTO `cgform_head` VALUES ('40288388506b3aa601506b67e97b0002', '客户资料管理', 'admin', '2015-10-15 20:09:44', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '6', 'single', '0', null, null, 'jeecg_custom_info', 'admin', '2016-03-15 11:40:53', '管理员', null, 'id', null, 'bdfl_ptbd', 'olstyle00002', '', null, null, null);
 INSERT INTO `cgform_head` VALUES ('402885d8506e5d9201506e72f4920001', '客户跟踪记录表', 'admin', '2015-10-16 10:20:39', '管理员', 'N', 'Y', 'Y', 'N', '', 'UUID', '1', '43', 'single', '0', null, null, 'jeecg_custom_record', 'admin', '2016-02-25 11:32:02', '管理员', null, 'id', null, 'bdfl_ptbd', 'olstyle00001', null, null, null, null);
 INSERT INTO `cgform_head` VALUES ('4028ab775afa555c015afa5958660007', '入职员工', 'admin', '2017-03-23 16:47:23', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '193', 'group', '0', null, null, 'test_person', 'admin', '2018-02-23 15:51:44', '管理员', null, 'id', null, 'bdfl_ptbd', 'ledefault', '', '', null, null);
-INSERT INTO `cgform_head` VALUES ('4028b881535b12bd01535b1ae3680001', '个人通讯录', 'admin', '2016-03-09 19:20:02', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '69', 'group', '0', 't_s_contact', null, 'jform_contact', 'admin', '2018-02-22 17:18:13', '管理员', null, 'id', null, 'bdfl_ptbd', 'ledefault', '', '', null, null);
+INSERT INTO `cgform_head` VALUES ('4028b881535b12bd01535b1ae3680001', '个人通讯录', 'admin', '2016-03-09 19:20:02', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '71', 'group', '0', '', null, 'jform_contact', 'admin', '2018-03-12 18:43:20', '管理员', null, 'id', null, 'bdfl_ptbd', '', '', '', null, null);
 INSERT INTO `cgform_head` VALUES ('4028b88153659dd4015365ab21d0000c', '通迅录分组', 'admin', '2016-03-11 20:33:47', '管理员', 'Y', 'Y', 'Y', 'N', '', 'UUID', '1', '61', 'single', '0', null, null, 'jform_contact_group', 'admin', '2017-07-31 17:20:42', '管理员', null, 'id', null, 'bdfl_vipbd', '', '', '', null, null);
 INSERT INTO `cgform_head` VALUES ('4028ef815673c48f015673c557af0003', '地铁站点', 'admin', '2016-08-10 17:25:28', '管理员', 'N', 'N', 'Y', 'N', '', 'UUID', '1', '1', 'single', '0', null, null, 'test_ditie__0', 'admin', '2016-08-10 17:28:08', '管理员', null, 'id', null, 'bdfl_ptbd', 'RowsEdit', '', '1', '0', '4028ef8156176adb015617801ebd0001');
 INSERT INTO `cgform_head` VALUES ('4028ef815673c48f015673c775d70012', '地铁站点', 'admin', '2016-08-10 17:27:46', '管理员', 'N', 'N', 'Y', 'N', '', 'UUID', '1', '1', 'single', '0', null, null, 'test_ditie__1', null, null, null, null, 'id', null, 'bdfl_ptbd', 'RowsEdit', '', '1', '1', '4028ef8156176adb015617801ebd0001');
@@ -14157,6 +14157,23 @@ INSERT INTO `t_s_log` VALUES ('40286081621858e50162185adec40000', 'Chrome', '用
 INSERT INTO `t_s_log` VALUES ('40286081621858e50162186e88380001', 'Chrome', 'admin', '2', '本地', '2018-03-12 12:18:39', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('40286081621858e50162186e9dd90002', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-03-12 12:18:45', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('4028608162186f90016218a8cbaa0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-03-12 13:22:18', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bc3ccc0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-03-12 18:23:09', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bdcb510001', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:24:51', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219be1b900002', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:25:12', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bf08f50003', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:26:12', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bf12b70004', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:26:15', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bf4bfd0005', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:26:30', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219bf80310006', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:26:43', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219c8c1290007', 'Chrome', '修改成功', '5', '本地', '2018-03-12 18:36:49', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219c8fb520008', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:37:04', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219bbc3016219ca460c0009', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:38:29', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219cbd8f70000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-03-12 18:40:12', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219cc45da0003', 'Chrome', '用户: demo更新成功', '5', '本地', '2018-03-12 18:40:40', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219cca2520004', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:41:04', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219ceb8a70005', 'Chrome', '修改成功', '5', '本地', '2018-03-12 18:43:20', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219ceef660006', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:43:34', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219cfe0d50007', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:44:36', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816219cafd016219d07ac70008', 'Chrome', '错误异常: NullPointerException,错误描述：null', '6', '本地', '2018-03-12 18:45:16', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 
 -- ----------------------------
 -- Table structure for t_s_muti_lang
@@ -19334,7 +19351,7 @@ CREATE TABLE `t_s_role_user` (
 -- ----------------------------
 -- Records of t_s_role_user
 -- ----------------------------
-INSERT INTO `t_s_role_user` VALUES ('40283181614231d40161423645cd000e', '402880e74d75c4dd014d75d3c5f40001', '402880e74d75c4dd014d75d44af30005');
+INSERT INTO `t_s_role_user` VALUES ('402860816219cafd016219cc455f0002', '402880e74d75c4dd014d75d3c5f40001', '402880e74d75c4dd014d75d44af30005');
 INSERT INTO `t_s_role_user` VALUES ('402881855c1c4ab8015c1c4d36ca0002', '8a8ab0b246dc81120146dc8181870050', '8a8ab0b246dc81120146dc8181950052');
 INSERT INTO `t_s_role_user` VALUES ('402881875988e889015988ec36940003', '402880e74d75c4dd014d75d3c5f40001', '402881875988e889015988ec36770001');
 INSERT INTO `t_s_role_user` VALUES ('402881f66102bfdd016102c1a2a60002', '8a8ab0b246dc81120146dc81818b0051', '8a8ab0b246dc81120146dc81819d0053');
@@ -19762,7 +19779,7 @@ CREATE TABLE `t_s_user_org` (
 -- ----------------------------
 -- Records of t_s_user_org
 -- ----------------------------
-INSERT INTO `t_s_user_org` VALUES ('40283181614231d40161423645bd000d', '402880e74d75c4dd014d75d44af30005', '402880f15986303c0159864816180002');
+INSERT INTO `t_s_user_org` VALUES ('402860816219cafd016219cc45570001', '402880e74d75c4dd014d75d44af30005', '402880f15986303c0159864816180002');
 INSERT INTO `t_s_user_org` VALUES ('4028810260c59ea50160c5a0910a0002', '8a8ab0b246dc81120146dc8181a60055', '8a8ab0b246dc81120146dc8180a20016');
 INSERT INTO `t_s_user_org` VALUES ('402881855c1c4ab8015c1c4d36a30001', '8a8ab0b246dc81120146dc8181950052', '8a8ab0b246dc81120146dc8180ba0017');
 INSERT INTO `t_s_user_org` VALUES ('402881875988e889015988ec36880002', '402881875988e889015988ec36770001', '8a8ab0b246dc81120146dc8180ba0017');
