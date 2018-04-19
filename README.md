@@ -87,19 +87,17 @@ JEECG 功能特点
 技术文档
 -----------------------------------
 * [在线演示](http://demo.jeecg.org)
-* [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
-* [JEECG 开发环境入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
+* [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=278859)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
+* [JEECG 开发手册Wiki](http://jeecg3.mydoc.io)
 * [JEECG 视频教程](https://edu.csdn.net/lecturer/929)
-* [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
-* [JEECG Maven本地仓库下载](http://git.oschina.net/jeecg/jeecg-local-maven)
-* [JEECG 开发手册](http://jeecg3.mydoc.io)
+* [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
+
     
 技术交流
 -----------------------------------
-* 	QQ交流群： ⑥190866569、⑤293658367(满)、③289782002(满)、②106838471(满)、①106259349(满)、④176031980(满)</br>
+* 	QQ交流群： ⑥190866569、其他群(全满)</br>
 * 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
-* 	官方网站： [http://www.guojusoft.com](http://www.guojusoft.com)
 * 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
 * 	关注官方微信公众号，获取更多资讯
      
