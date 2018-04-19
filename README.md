@@ -87,7 +87,7 @@ JEECG 功能特点
 技术文档
 -----------------------------------
 * [在线演示](http://demo.jeecg.org)
-* [JEECG_开发工具](http://blog.csdn.net/zhangdaiscott/article/details/78072438)
+* [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
 * [JEECG 开发环境入门](http://blog.csdn.net/zhangdaiscott/article/details/50915206)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
 * [JEECG 视频教程](https://edu.csdn.net/lecturer/929)
@@ -104,13 +104,6 @@ JEECG 功能特点
 * 	关注官方微信公众号，获取更多资讯
      
 ![github](http://img.blog.csdn.net/20180309123201691 "jeecg")
-
-JEECG云插件中心
------------------------------------
-* JEECG从V_3.6.3版本开始，采用插件开发模式，JEECG走简化轻量级路线，后续升级和功能模块，采用插件开发模式，进行集成。
-* 更多插件下载地址：[http://yun.jeecg.org/](http://yun.jeecg.org)
-![github](http://img.blog.csdn.net/20160623162220022?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "jeecg")
-
 
 
 社区荣誉
