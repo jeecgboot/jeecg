@@ -31,10 +31,10 @@ CREATE TABLE `cgform_button` (
   `OPT_TYPE` varchar(20) DEFAULT NULL COMMENT '按钮类型',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`ID`),
-  KEY `index_formid` (`FORM_ID`) USING BTREE,
-  KEY `index_button_code` (`BUTTON_CODE`) USING BTREE,
-  KEY `index_button_status` (`BUTTON_STATUS`) USING BTREE,
-  KEY `index_button_order` (`order_num`) USING BTREE
+  KEY `index_formid` (`FORM_ID`) ,
+  KEY `index_button_code` (`BUTTON_CODE`) ,
+  KEY `index_button_status` (`BUTTON_STATUS`) ,
+  KEY `index_button_order` (`order_num`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -65,7 +65,7 @@ CREATE TABLE `cgform_button_sql` (
   `CONTENT` varchar(1000) DEFAULT NULL COMMENT '备注',
   `FORM_ID` varchar(32) DEFAULT NULL COMMENT '表单ID',
   PRIMARY KEY (`ID`),
-  KEY `index_formid` (`FORM_ID`) USING BTREE
+  KEY `index_formid` (`FORM_ID`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -85,9 +85,9 @@ CREATE TABLE `cgform_enhance_java` (
   `form_id` varchar(32) NOT NULL COMMENT '表单ID',
   `active_status` varchar(2) DEFAULT '1' COMMENT '生效状态',
   PRIMARY KEY (`id`),
-  KEY `index_fmid` (`form_id`) USING BTREE,
-  KEY `index_buttoncode` (`button_code`) USING BTREE,
-  KEY `index_status` (`active_status`) USING BTREE
+  KEY `index_fmid` (`form_id`) ,
+  KEY `index_buttoncode` (`button_code`) ,
+  KEY `index_status` (`active_status`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -107,8 +107,8 @@ CREATE TABLE `cgform_enhance_js` (
   `CONTENT` varchar(1000) DEFAULT NULL COMMENT '备注',
   `FORM_ID` varchar(32) DEFAULT NULL COMMENT '表单ID',
   PRIMARY KEY (`ID`),
-  KEY `index_fmid` (`FORM_ID`) USING BTREE,
-  KEY `index_jstype` (`CG_JS_TYPE`) USING BTREE
+  KEY `index_fmid` (`FORM_ID`) ,
+  KEY `index_jstype` (`CG_JS_TYPE`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -160,7 +160,7 @@ CREATE TABLE `cgform_field` (
   `extend_json` varchar(500) DEFAULT NULL COMMENT '扩展参数JSON',
   `fill_rule_code` varchar(500) DEFAULT NULL COMMENT '填值规则code',
   PRIMARY KEY (`id`),
-  KEY `inex_table_id` (`table_id`) USING BTREE
+  KEY `inex_table_id` (`table_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -627,8 +627,8 @@ CREATE TABLE `cgform_ftl` (
   `UPDATE_NAME` varchar(32) DEFAULT NULL COMMENT '修改人名字',
   `editor_type` varchar(10) DEFAULT '01' COMMENT '类型',
   PRIMARY KEY (`ID`),
-  KEY `inex_table_id` (`CGFORM_ID`) USING BTREE,
-  KEY `index_ftl_status` (`FTL_STATUS`) USING BTREE
+  KEY `inex_table_id` (`CGFORM_ID`) ,
+  KEY `index_ftl_status` (`FTL_STATUS`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -683,10 +683,10 @@ CREATE TABLE `cgform_head` (
   `table_version` int(11) DEFAULT NULL COMMENT '表版本',
   `physice_id` varchar(32) DEFAULT NULL COMMENT '物理表id(配置表用)',
   PRIMARY KEY (`id`),
-  KEY `index_table_type` (`table_type`) USING BTREE,
-  KEY `index_physice_id` (`physice_id`) USING BTREE,
-  KEY `index_form_templdate` (`form_template`) USING BTREE,
-  KEY `index_templdate_mobile` (`form_template_mobile`) USING BTREE
+  KEY `index_table_type` (`table_type`) ,
+  KEY `index_physice_id` (`physice_id`) ,
+  KEY `index_form_templdate` (`form_template`) ,
+  KEY `index_templdate_mobile` (`form_template_mobile`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -739,7 +739,7 @@ CREATE TABLE `cgform_index` (
   `index_type` varchar(32) DEFAULT NULL COMMENT '索引类型',
   `table_id` varchar(32) DEFAULT NULL COMMENT '主表id',
   PRIMARY KEY (`id`),
-  KEY `index_table_id` (`table_id`) USING BTREE
+  KEY `index_table_id` (`table_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -808,8 +808,8 @@ CREATE TABLE `cgform_uploadfiles` (
   `CGFORM_NAME` varchar(100) NOT NULL COMMENT '表单名称',
   PRIMARY KEY (`id`),
   KEY `FK_qwig8sn3okhvh4wye8nn8gdeg` (`id`),
-  KEY `index_fieldid` (`CGFORM_FIELD`) USING BTREE,
-  KEY `index_formid` (`CGFORM_ID`) USING BTREE
+  KEY `index_fieldid` (`CGFORM_FIELD`) ,
+  KEY `index_formid` (`CGFORM_ID`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2202,7 +2202,7 @@ CREATE TABLE `jform_cgdynamgraph_head` (
   `data_structure` varchar(36) DEFAULT NULL COMMENT '数据结构类型',
   `is_pagination` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `index_code` (`CODE`) USING BTREE
+  KEY `index_code` (`CODE`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2228,9 +2228,9 @@ CREATE TABLE `jform_cgdynamgraph_item` (
   `ORDER_NUM` int(11) DEFAULT NULL COMMENT '排序',
   `REPLACE_VA` varchar(36) DEFAULT NULL COMMENT '取值表达式',
   PRIMARY KEY (`ID`),
-  KEY `index1` (`CGRHEAD_ID`) USING BTREE,
-  KEY `index2` (`IS_SHOW`) USING BTREE,
-  KEY `index3` (`ORDER_NUM`) USING BTREE
+  KEY `index1` (`CGRHEAD_ID`) ,
+  KEY `index2` (`IS_SHOW`) ,
+  KEY `index3` (`ORDER_NUM`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2260,7 +2260,7 @@ CREATE TABLE `jform_cgdynamgraph_param` (
   `seq` int(11) DEFAULT NULL COMMENT '排序',
   `cgrhead_id` varchar(36) DEFAULT NULL COMMENT '动态报表ID',
   PRIMARY KEY (`id`),
-  KEY `index_headid` (`cgrhead_id`) USING BTREE
+  KEY `index_headid` (`cgrhead_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2288,7 +2288,7 @@ CREATE TABLE `jform_cgreport_head` (
   `return_txt_field` varchar(100) DEFAULT NULL COMMENT '返回文本字段',
   `pop_retype` varchar(2) DEFAULT '1' COMMENT '返回类型，单选或多选',
   PRIMARY KEY (`ID`),
-  KEY `index_code` (`CODE`) USING BTREE
+  KEY `index_code` (`CODE`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2317,9 +2317,9 @@ CREATE TABLE `jform_cgreport_item` (
   `ORDER_NUM` int(11) DEFAULT NULL COMMENT '排序',
   `REPLACE_VA` varchar(36) DEFAULT NULL COMMENT '取值表达式',
   PRIMARY KEY (`ID`),
-  KEY `index_CGRHEAD_ID` (`CGRHEAD_ID`) USING BTREE,
-  KEY `index_isshow` (`IS_SHOW`) USING BTREE,
-  KEY `index_order_num` (`ORDER_NUM`) USING BTREE
+  KEY `index_CGRHEAD_ID` (`CGRHEAD_ID`) ,
+  KEY `index_isshow` (`IS_SHOW`) ,
+  KEY `index_order_num` (`ORDER_NUM`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2670,7 +2670,7 @@ CREATE TABLE `jform_graphreport_head` (
   `update_by` varchar(50) DEFAULT NULL,
   `update_name` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `index_code` (`code`) USING BTREE
+  KEY `index_code` (`code`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2700,8 +2700,8 @@ CREATE TABLE `jform_graphreport_item` (
   `graph_name` varchar(100) DEFAULT NULL COMMENT '图表名称',
   `tab_name` varchar(50) DEFAULT NULL COMMENT '标签名称',
   PRIMARY KEY (`id`),
-  KEY `index_headid` (`cgreport_head_id`) USING BTREE,
-  KEY `index_isshow` (`is_show`) USING BTREE
+  KEY `index_headid` (`cgreport_head_id`) ,
+  KEY `index_isshow` (`is_show`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jform_graphreport_item';
 
 -- ----------------------------
@@ -3408,9 +3408,9 @@ CREATE TABLE `jp_inner_mail_receiver` (
   `status` varchar(50) DEFAULT NULL COMMENT '收件状态',
   `isdelete` char(2) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `index_userid` (`user_id`) USING BTREE,
-  KEY `index_mailid` (`mail_id`) USING BTREE,
-  KEY `index_status` (`status`) USING BTREE
+  KEY `index_userid` (`user_id`) ,
+  KEY `index_mailid` (`mail_id`) ,
+  KEY `index_status` (`status`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3946,7 +3946,7 @@ CREATE TABLE `t_s_category` (
   `PARENT_CODE` varchar(32) DEFAULT NULL COMMENT '父邮编',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_code` (`code`),
-  KEY `index_parent_id` (`parent_id`) USING BTREE
+  KEY `index_parent_id` (`parent_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分类管理';
 
 -- ----------------------------
@@ -4055,7 +4055,7 @@ CREATE TABLE `t_s_data_rule` (
   `update_by` varchar(96) DEFAULT NULL COMMENT '修改人',
   `update_name` varchar(96) DEFAULT NULL COMMENT '修改人名字',
   `functionId` varchar(96) DEFAULT NULL COMMENT '菜单ID',
-  KEY `index_fucntionid` (`functionId`) USING BTREE
+  KEY `index_fucntionid` (`functionId`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -4131,9 +4131,9 @@ CREATE TABLE `t_s_depart` (
   `sys_org_code` varchar(50) DEFAULT NULL COMMENT '数据所属部门',
   PRIMARY KEY (`ID`),
   KEY `FK_knnm3wb0bembwvm0il7tf6686` (`parentdepartid`),
-  KEY `index_org_code` (`org_code`) USING BTREE,
-  KEY `index_org_type` (`org_type`) USING BTREE,
-  KEY `index_depart_order` (`depart_order`) USING BTREE
+  KEY `index_org_code` (`org_code`) ,
+  KEY `index_org_type` (`org_type`) ,
+  KEY `index_depart_order` (`depart_order`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -4250,8 +4250,8 @@ CREATE TABLE `t_s_document` (
   `pictureindex` blob,
   `showhome` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_qr3qlmgkflj35m5ci1xv0vvg3` (`typeid`) USING BTREE,
-  KEY `FK_f2mc12eu0umghp2i70apmtxjl` (`id`) USING BTREE
+  KEY `FK_qr3qlmgkflj35m5ci1xv0vvg3` (`typeid`) ,
+  KEY `FK_f2mc12eu0umghp2i70apmtxjl` (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -4316,8 +4316,8 @@ CREATE TABLE `t_s_function` (
   KEY `FK_q5tqo3v4ltsp1pehdxd59rccx` (`iconid`),
   KEY `FK_gbdacaoju6d5u53rp4jo4rbs9` (`desk_iconid`),
   KEY `index_url` (`functionurl`(255)),
-  KEY `index_functiontype` (`functiontype`) USING BTREE,
-  KEY `index_functionorder` (`functionorder`) USING BTREE,
+  KEY `index_functiontype` (`functiontype`) ,
+  KEY `index_functionorder` (`functionorder`) ,
   CONSTRAINT `FK_brd7b3keorj8pmxcv8bpahnxp` FOREIGN KEY (`parentfunctionid`) REFERENCES `t_s_function` (`ID`),
   CONSTRAINT `FK_gbdacaoju6d5u53rp4jo4rbs9` FOREIGN KEY (`desk_iconid`) REFERENCES `t_s_icon` (`ID`),
   CONSTRAINT `FK_q5tqo3v4ltsp1pehdxd59rccx` FOREIGN KEY (`iconid`) REFERENCES `t_s_icon` (`ID`)
@@ -5911,8 +5911,8 @@ CREATE TABLE `t_s_notice_authority_role` (
   `notice_id` varchar(36) DEFAULT NULL COMMENT '通告ID',
   `role_id` varchar(32) DEFAULT NULL COMMENT '授权角色ID',
   PRIMARY KEY (`id`),
-  KEY `index_noteid` (`notice_id`) USING BTREE,
-  KEY `index_roleid` (`role_id`) USING BTREE
+  KEY `index_noteid` (`notice_id`) ,
+  KEY `index_roleid` (`role_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权角色表';
 
 -- ----------------------------
@@ -5929,8 +5929,8 @@ CREATE TABLE `t_s_notice_authority_user` (
   `notice_id` varchar(36) DEFAULT NULL COMMENT '通告ID',
   `user_id` varchar(32) DEFAULT NULL COMMENT '授权用户ID',
   PRIMARY KEY (`id`),
-  KEY `index_noticeid` (`notice_id`) USING BTREE,
-  KEY `index_userid` (`user_id`) USING BTREE
+  KEY `index_noticeid` (`notice_id`) ,
+  KEY `index_userid` (`user_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权用户表';
 
 -- ----------------------------
@@ -10148,7 +10148,7 @@ CREATE TABLE `t_s_typegroup` (
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
   `create_name` varchar(36) DEFAULT NULL COMMENT '创建用户',
   PRIMARY KEY (`ID`),
-  KEY `index_typegroupcode` (`typegroupcode`) USING BTREE
+  KEY `index_typegroupcode` (`typegroupcode`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10225,7 +10225,7 @@ CREATE TABLE `t_s_user` (
   `memo` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `FK_2cuji5h6yorrxgsr8ojndlmal` (`id`),
-  KEY `index_dev_flag` (`dev_flag`) USING BTREE,
+  KEY `index_dev_flag` (`dev_flag`) ,
   CONSTRAINT `FK_2cuji5h6yorrxgsr8ojndlmal` FOREIGN KEY (`id`) REFERENCES `t_s_base_user` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -10284,7 +10284,7 @@ CREATE TABLE `t_s_user_position_rel` (
   `company_id` varchar(32) DEFAULT NULL COMMENT '公司ID',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `uniq_userid_positionid_companyid` (`user_id`,`position_id`,`company_id`),
-  KEY `idx_userid_companyid` (`user_id`,`company_id`) USING BTREE
+  KEY `idx_userid_companyid` (`user_id`,`company_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户-岗位-公司关联表';
 
 -- ----------------------------
