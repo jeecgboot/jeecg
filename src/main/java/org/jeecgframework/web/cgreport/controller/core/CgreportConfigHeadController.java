@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.velocity.VelocityContext;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -14,7 +13,6 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.p3.core.util.plugin.ViewVelocity;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgreport.entity.core.CgreportConfigHeadEntity;
 import org.jeecgframework.web.cgreport.entity.core.CgreportConfigItemEntity;
@@ -26,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,33 +49,6 @@ public class CgreportConfigHeadController extends BaseController {
 	@Autowired
 	private SystemService systemService;
 
-	/**
-	 * Velicity页面方式: 跳转列表页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "list", method = { RequestMethod.GET, RequestMethod.POST })
-	public void list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		try {
-			VelocityContext velocityContext = new VelocityContext();
-			String viewName = "cgreport/cgreport-list.vm";
-			ViewVelocity.view(request, response, viewName, velocityContext);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Velicity页面方式: 跳转表单页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "form", method = RequestMethod.GET)
-	public void qywxAccountDetail(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreport-form.vm";
-		ViewVelocity.view(request, response, viewName, velocityContext);
-	}
 
 	/**
 	 * 动态报表配置抬头列表 页面跳转
@@ -88,13 +58,6 @@ public class CgreportConfigHeadController extends BaseController {
 	@RequestMapping(params = "cgreportConfigHead")
 	public ModelAndView cgreportConfigHead(HttpServletRequest request) {
 		return new ModelAndView("jeecg/cgreport/core/cgreportConfigHeadList");
-	}
-	
-	@RequestMapping(params = "cgreportConfigHeadVM", method = RequestMethod.GET)
-	public void cgreportConfigHeadVM(HttpServletResponse response, HttpServletRequest request) throws Exception{
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreportConfigHeadList.vm";
-		ViewVelocity.view(request, response, viewName, velocityContext);
 	}
 
 	/**
@@ -240,14 +203,6 @@ public class CgreportConfigHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgreport/core/cgreportConfigHead-add");
 	}
 
-	@RequestMapping(params = "goAdd_vm")
-	public void goAddVM(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreportConfigHead-add.vm";
-		
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
 	
 	/**
 	 * 动态报表配置抬头编辑页面跳转
@@ -262,20 +217,7 @@ public class CgreportConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgreport/core/cgreportConfigHead-update");
 	}
-	
-	@RequestMapping(params = "goUpdate_vm")
-	public void goUpdateVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreportConfigHead-update.vm";
 		
-		CgreportConfigHeadEntity cgreportConfigHead = cgreportConfigHeadService.getEntity(CgreportConfigHeadEntity.class, id);
-			
-		velocityContext.put("cgreportConfigHead",cgreportConfigHead);
-		
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
-	
 	/**
 	 * 加载明细列表[动态报表配置明细]
 	 * 
@@ -299,26 +241,6 @@ public class CgreportConfigHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgreport/core/cgreportConfigItemList");
 	}
 	
-	@RequestMapping(params = "cgreportConfigItemList_vm")
-	public void cgreportConfigItemListVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreportConfigItemList.vm";
-		
-		//===================================================================================
-		//获取参数
-		Object id0 = id;
-		//===================================================================================
-		//查询-动态报表配置明细
-	    String hql0 = "from CgreportConfigItemEntity where 1 = 1 AND cgrheadId = ? ";
-	    try{
-	    	List<CgreportConfigItemEntity> cgreportConfigItemEntityList = systemService.findHql(hql0,id0);
-			velocityContext.put("cgreportConfigItemList",cgreportConfigItemEntityList);
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
 	/**
 	 * 加载参数列表[动态报表参数]
 	 * 
@@ -340,26 +262,6 @@ public class CgreportConfigHeadController extends BaseController {
 			logger.info(e.getMessage());
 		}
 		return new ModelAndView("jeecg/cgreport/core/cgreportConfigParamList");
-	}
-	
-	@RequestMapping(params = "cgreportConfigParamList_vm")
-	public void cgreportConfigParamListVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/cgreportConfigParamList.vm";
-		
-		//===================================================================================
-		//获取参数
-		Object id0 = id;
-		//===================================================================================
-		//查询-动态报表配置明细
-	    String hql0 = "from CgreportConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
-	    try{
-	    	List<CgreportConfigParamEntity> cgreportConfigParamEntityList = systemService.findHql(hql0,id0);
-	    	velocityContext.put("cgreportConfigParamList",cgreportConfigParamEntityList);
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		ViewVelocity.view(request,response,viewName,velocityContext);
 	}
 	
 	@RequestMapping(params = "popmenulink")
@@ -390,32 +292,4 @@ public class CgreportConfigHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgreport/core/popmenulink");
 	}
 	
-	@RequestMapping(params = "popmenulink_vm")
-	public void popmenulinkVM(@RequestParam String url, @RequestParam String title, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgreport/popmenulink.vm";
-        StringBuilder sb = new StringBuilder("");
-	    try{
-	    	CgreportConfigHeadEntity cgreportConfigHead = systemService.findUniqueByProperty(CgreportConfigHeadEntity.class, "code", title);
-	    	String hql0 = "from CgreportConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
-	    	List<CgreportConfigParamEntity> cgreportConfigParamList = systemService.findHql(hql0,cgreportConfigHead.getId());
-	    	if(cgreportConfigParamList!=null&cgreportConfigParamList.size()>0){
-	    		for(CgreportConfigParamEntity cgreportConfigParam :cgreportConfigParamList){
-	    			sb.append("&").append(cgreportConfigParam.getParamName()).append("=");
-	    			if(StringUtil.isNotEmpty(cgreportConfigParam.getParamValue())){
-	    				sb.append(cgreportConfigParam.getParamValue());
-	    			}else{
-	    				sb.append("${"+cgreportConfigParam.getParamName()+"}");
-	    			}
-	    		}
-	    	}
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		velocityContext.put("title",title);
-		velocityContext.put("url",url);
-		velocityContext.put("params",sb.toString());
-
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
 }

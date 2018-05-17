@@ -56,6 +56,7 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
 	@Excel(name = "传真",width = 20)
 	private String fax;//传真
 	@Excel(name = "地址",width = 20)
+
 	private String address;//地址
 	
 	private String departOrder;//排序

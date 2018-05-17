@@ -38,8 +38,10 @@
 	<t:dgToolBar title="java.enhance" icon="icon-edit" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
 	<t:dgToolBar title="form.export" icon="icon-putout" url="cgformSqlController.do?doMigrateOut" funname="doMigrateOut"></t:dgToolBar>
 	<t:dgToolBar title="form.import" icon="icon-put" url="cgformSqlController.do?inSqlFile" funname="toCgformMigrate"></t:dgToolBar>
-	<t:dgToolBar title="code.generate" icon="icon-add" url="generateController.do?gogenerate" funname="generate"></t:dgToolBar>
-	<t:dgToolBar title="form.generate" icon="icon-add" url="cgformTransController.do?trans" funname="addToData"></t:dgToolBar>
+	<!--update-begin--Author:gj_shaojc  Date:20180410 for：TASK #2618 【体验问题】复制表单代码生成器功能禁用提醒-->
+	<%-- <t:dgToolBar title="code.generate" icon="icon-add" url="generateController.do?gogenerate" funname="generate"></t:dgToolBar> --%>
+	<%-- <t:dgToolBar title="form.generate" icon="icon-add" url="cgformTransController.do?trans" funname="addToData"></t:dgToolBar> --%>
+	<!--update-end--Author:gj_shaojc  Date:20180410 for：TASK #2618 【体验问题】复制表单代码生成器功能禁用提醒-->
 </t:datagrid></div>
 </div>
 

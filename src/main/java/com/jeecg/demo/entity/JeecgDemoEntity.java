@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.GenericGenerator;
+import org.jeecgframework.core.common.controller.CustomJsonDateDeserializer;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -139,6 +141,7 @@ public class JeecgDemoEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  生日
 	 */
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setBirthday(java.util.Date birthday){
 		this.birthday = birthday;
 	}
@@ -267,6 +270,7 @@ public class JeecgDemoEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  createDate
 	 */
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setCreateDate(java.util.Date createDate){
 		this.createDate = createDate;
 	}

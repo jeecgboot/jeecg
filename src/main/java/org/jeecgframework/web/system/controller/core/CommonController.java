@@ -330,4 +330,21 @@ public class CommonController extends BaseController {
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
+
+	@RequestMapping(params = "superQueryExist")
+	@ResponseBody
+	public String superQueryExist(HttpServletRequest request,String superQueryCode) {
+		if(oConvertUtils.isEmpty(superQueryCode)){
+			return "no";
+		}
+		String sql = "select count(1) from super_query_main where query_code = '"+superQueryCode+"'";
+		long count = this.systemService.getCountForJdbc(sql);
+		if(count>0){
+			return "yes";
+		}else{
+			return "no";
+		}
+	}
+
+
 }

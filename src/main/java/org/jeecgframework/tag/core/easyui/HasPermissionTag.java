@@ -52,6 +52,11 @@ public class HasPermissionTag extends TagSupport{
 						return true;
 					}
 				}
+			}else{
+
+				//包含权限规则修改，查询不到配置则不显示;
+				return true;
+
 			}
 		}
         return false;

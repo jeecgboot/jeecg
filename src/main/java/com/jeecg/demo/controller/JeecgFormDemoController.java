@@ -23,6 +23,7 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.HttpRequest;
 import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyClassLoader;
@@ -109,6 +110,7 @@ public class JeecgFormDemoController extends BaseController {
 		logger.info("popupMultiValue");
 		return new ModelAndView("com/jeecg/demo/form_popupMultiValue");
 	}
+
 
 	/**
 	 *下拉联动数据---省市区
@@ -254,6 +256,7 @@ public class JeecgFormDemoController extends BaseController {
 		logger.info("----左右布局 demo转入页面-----");
 		return new ModelAndView("com/jeecg/demo/siteSelect");
 	}	
+
 	/**
 	 * 上下特殊布局
 	 */
@@ -262,6 +265,7 @@ public class JeecgFormDemoController extends BaseController {
 		logger.info("----上下特殊布局 demo转入页面-----");
 		return new ModelAndView("com/jeecg/demo/specialLayout");
 	}
+
 
 	@RequestMapping(params = "commonUpload")
 	public ModelAndView commonUploadDemo(){
@@ -603,4 +607,57 @@ public class JeecgFormDemoController extends BaseController {
 		logger.info("----选项卡demo转入页面-----");
 		return new ModelAndView("com/jeecg/demo/tabDemo");
 	}
+
+	/**
+	 * 常用示例Demo:接口测试页面跳转
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(params = "interfaceTestDemo")
+	public ModelAndView interfaceTestDemo(HttpServletRequest request) {
+		logger.info("----接口测试demo转入页面-----");
+		return new ModelAndView("com/jeecg/demo/form_interfaceTestDemo");
+	}
+	/**
+	 * 常用示例Demo:接口测试
+	 * @param request
+	 * @param response
+	 * @return AjaxJson
+	 */
+	@RequestMapping(params = "interfaceTest")
+	@ResponseBody
+	public AjaxJson testInterface(HttpServletRequest request,HttpServletResponse response) {
+			 AjaxJson j=new AjaxJson();
+		 try {
+			 String serverUrl = request.getParameter("serverUrl");//请求的地址
+			 String requestBody = request.getParameter("requestBody");//请求的参数
+			 String requestMethod = request.getParameter("requestMethod");//请求的方式
+				 if(requestMethod.equals("POST")){
+					 if(requestBody !=""){
+						 logger.info("----请求接口开始-----");
+						 String sendPost = HttpRequest.sendPost(serverUrl, requestBody);
+						 logger.info("----请求接口结束-----"+sendPost);
+						 j.setSuccess(true);
+						 j.setObj(sendPost);
+					 }else{
+						 j.setSuccess(false);
+						 j.setObj("请填写请求参数");
+					 }
+					 
+				 }
+				 if(requestMethod.equals("GET")){
+					  logger.info("----请求接口开始-----");
+					  String sendGet = HttpRequest.sendGet(serverUrl, requestBody);
+					  logger.info("----请求接口结束-----"+sendGet);
+					  j.setSuccess(true);
+					  j.setObj(sendGet);
+				 }
+		} catch (Exception e) {
+			j.setSuccess(false);
+			j.setObj("服务器请求失败");
+			e.printStackTrace();
+		}
+		return j;
+	}
+
 }

@@ -1,4 +1,7 @@
 <#setting number_format="0.#####################">
+<#-- update--begin--author:taoyan date:20180427 for:TASK #2671 【Online表单】Online表单ACE 风格上传空间、树控件 宏封装 -->
+<#include "online/template/ui/tag.ftl"/>
+<#-- update--end--author:taoyan date:20180427 for:TASK #2671 【Online表单】Online表单ACE 风格上传空间、树控件 宏封装 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -93,7 +96,13 @@
 			          <div class="col-xs-3 text-center">
 			          	<b><@mutiLang langKey="${po.content}"/>：</b>
 			          </div>
-			          <div class="col-xs-3">
+			          <#-- update-begin-author:taoYan date:20180427 for:文件上传文件列表样式错乱 -->
+			          <#if po.show_type=='file' || po.show_type == 'image'>
+			          		<div class="col-xs-6">
+			          <#else>
+			          		<div class="col-xs-3">
+			          </#if>
+					  <#-- update-end-author:taoYan date:20180427 for:文件上传文件列表样式错乱 -->
 			          	<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
 							<!--如果为树形菜单，父id输入框设置为select-->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
@@ -227,7 +236,9 @@
 					               
 						<#elseif po.show_type=='list'>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
-								<select id="${po.field_name}" ${po.extend_json?if_exists} class="form-control" name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if>
+								<#--update--begin--author:gj_shaojc date:20180402 for:TASK #2606 【代码生成器】树形列表生成，多选处理 (改变select框的宽度)-->
+								<select id="${po.field_name}" ${po.extend_json?if_exists} class="form-control"  style="width:144px;" name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if>
+								<#--update--end--author:gj_shaojc date:20180402 for:TASK #2606 【代码生成器】树形列表生成，多选处理 (改变select框的宽度)-->
 								<#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
 									<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
@@ -291,291 +302,13 @@
 					               </#if>>
 						<#--update-end--Author:gengjiajia  Date:20160802 for：TASK #1175 批量添加数据的时popup多值的传递-->
 						
-						<#elseif po.show_type=='file'>
-								<table>
-									<#-- update--begin--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
-									<#list filesList as fileB>
-										<#if fileB['field'] == po.field_name>
-										<tr style="height:34px;">
-										<td>${fileB['title']}</td>
-										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
-										</tr>
-										</#if>
-									</#list>
-									<#-- update--end--author:zhangjiaqiang date:20170519 for:修订资源预览关联错误 -->
-								</table>
-								<#if !(po.operationCodesReadOnly ??)>
-							    <div class="form jeecgDetail">
-									<script type="text/javascript">
-									var serverMsg="";
-									var m = new Map();
-									$(function(){$('#${po.field_name}').uploadify(
-										{buttonText:'添加文件',
-										auto:false,
-										progressData:'speed',
-										multi:true,
-										height:25,
-										overrideEvents:['onDialogClose'],
-										fileTypeDesc:'文件格式:',
-										queueID:'filediv_${po.field_name}',
-										<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
-										fileSizeLimit:'15MB',swf:'${basePath}/plug-in/uploadify/uploadify.swf',	
-										uploader:'${basePath}/cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
-										onUploadStart : function(file) { 
-											var cgFormId=$("input[name='id']").val();
-											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
-										onQueueComplete : function(queueData) {
-											 var win = frameElement.api.opener;
-											 win.reloadTable();
-											 win.tip(serverMsg);
-											 frameElement.api.close();},
-										onUploadSuccess : function(file, data, response) {var d=$.parseJSON(data);if(d.success){var win = frameElement.api.opener;serverMsg = d.msg;}},onFallback : function(){tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")},onSelectError : function(file, errorCode, errorMsg){switch(errorCode) {case -100:tip("上传的文件数量已经超出系统限制的"+$('#${po.field_name}').uploadify('settings','queueSizeLimit')+"个文件！");break;case -110:tip("文件 ["+file.name+"] 大小超出系统限制的"+$('#${po.field_name}').uploadify('settings','fileSizeLimit')+"大小！");break;case -120:tip("文件 ["+file.name+"] 大小异常！");break;case -130:tip("文件 ["+file.name+"] 类型不正确！");break;}},
-										onUploadProgress : function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) { }});});
-									
-										</script><span id="file_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
-								</div>
-								<div class="form" id="filediv_${po.field_name}"> </div>
-							</#if>
-						<#--update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
-						<#elseif po.show_type=='image'>
-								<table>
-									<#list imageList as imageB>
-										<#if imageB['field'] == po.field_name>
-										<tr style="height:34px;">
-										<td>${imageB['title']}</td>
-										<td><a href="${basePath}/commonController.do?viewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${imageB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${imageB['fileKey']}',this)">删除</a></td>
-										</tr>
-										</#if>
-									</#list>
-								</table>
-								<#if !(po.operationCodesReadOnly ??)>
-							    <div class="form jeecgDetail">
-									<script type="text/javascript">
-									var serverMsg="";
-									var m = new Map();
-									$(function(){$('#${po.field_name}').uploadify(
-										{buttonText:'添加图片',
-										auto:false,
-										progressData:'speed',
-										multi:true,
-										height:25,
-										overrideEvents:['onDialogClose'],
-										fileTypeDesc:'图片格式:',
-										queueID:'imagediv_${po.field_name}',
-										fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;*.bmp',
-										fileSizeLimit:'15MB',swf:'${basePath}/plug-in/uploadify/uploadify.swf',	
-										uploader:'${basePath}/cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
-										onUploadStart : function(file) { 
-											var cgFormId=$("input[name='id']").val();
-											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
-										onQueueComplete : function(queueData) {
-											 var win = frameElement.api.opener;
-											 win.reloadTable();
-											 win.tip(serverMsg);
-											 frameElement.api.close();},
-										onUploadSuccess : function(file, data, response) {var d=$.parseJSON(data);if(d.success){var win = frameElement.api.opener;serverMsg = d.msg;}},onFallback : function(){tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")},onSelectError : function(file, errorCode, errorMsg){switch(errorCode) {case -100:tip("上传的文件数量已经超出系统限制的"+$('#${po.field_name}').uploadify('settings','queueSizeLimit')+"个文件！");break;case -110:tip("文件 ["+file.name+"] 大小超出系统限制的"+$('#${po.field_name}').uploadify('settings','fileSizeLimit')+"大小！");break;case -120:tip("文件 ["+file.name+"] 大小异常！");break;case -130:tip("文件 ["+file.name+"] 类型不正确！");break;}},
-										onUploadProgress : function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) { }});});
-									
-										</script><span id="image_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
-								</div>
-								<div class="form" id="imagediv_${po.field_name}"> </div>
-							</#if>
-							<#--update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->							
-						<#-- update--begin--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
-							<#elseif po.show_type=='tree'>
-								<input id="${po.field_name}" ${po.extend_json?if_exists}${po.show_type}  type="text"
-							       style="width: 150px" class="inputxt" 
-									<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
-					                 <#if po.field_valid_type?if_exists?html != ''>
-						               datatype="${po.field_valid_type?if_exists?html}"
-						               <#else>
-						               <#if po.type == 'int'>
-						               datatype="n" 
-						               <#elseif po.type=='double'>
-						               datatype="/^(-?\d+)(\.\d+)?$/" 
-						               <#else>
-						               <#if po.is_null != 'Y'>datatype="*"</#if>
-						               </#if>
-					               </#if>
-					                onclick="show${po.field_name?cap_first }Tree();" readonly="readonly">
-					               <input type="hidden" id="${po.field_name}Id" name="${po.field_name}" value="${data['${tableName}']['${po.field_name}']?if_exists?html}" class="show${po.field_name?cap_first}">  
-									<div id="show${po.field_name?cap_first }TreeContent" class="menuContent" style="display: none; position: absolute; border: 1px #CCC solid; background-color: #F0F6E4;z-index:9999;">  
-									    <ul id="show${po.field_name?cap_first }Tree" class="ztree" style="margin-top:0;"></ul>  
-									</div>
-								<script>
-									$(function(){
-										if(!$.fn.zTree){
-											$("head").append('<link rel="stylesheet" href="${basePath}/plug-in/ztree/css/zTreeStyle.css"/>');
-											$("head").append('<script type=\"text/javascript\" src=\"${basePath}/plug-in/ztree/js/jquery.ztree.core-3.5.min.js\"><\/script>');
-											$("head").append('<script type=\"text/javascript\" src=\"${basePath}/plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js\"><\/script>');
-										}
-										var defaultVal = $("#${po.field_name}Id").val();
-										if(defaultVal != null && defaultVal != ''){
-											if(defaultVal.indexOf(",") > -1){
-												var defaultValArray = defaultVal.split(",");
-												var resultValue = "";
-												for(var i = 0; i < defaultValArray.length; i++){
-													var result = $.ajax({
-														url:'${basePath}/categoryController.do?tree',
-														type:'POST',
-														dataType:'JSON',
-														data:{
-															selfCode:defaultValArray[i]
-														},
-														async:false
-													});
-													var responseText = result.responseText;
-													if(typeof responseText == 'string'){
-														responseText = JSON.parse(responseText);
-													}
-													if(resultValue != ''){
-														  resultValue = resultValue + "," + responseText[0].text;
-													}else{
-														resultValue = responseText[0].text;
-													}
-												}
-												$("#${po.field_name}").val(resultValue);
-											}else{
-												$.ajax({
-													url:'${basePath}/categoryController.do?tree',
-													type:'POST',
-													dataType:'JSON',
-													data:{
-														selfCode:defaultVal
-													},
-													success:function(res){
-														if(typeof res == 'object'){
-															var value = res[0].text;
-															$("#${po.field_name}").val(value);
-														}
-													}
-												});
-											}
-											
-										}
-										$("body").bind("mousedown", onBodyDownBy${po.field_name?cap_first });
-									});
-									
-									var ${po.field_name}Setting = {  
-											check: {  
-								                enable: true
-									        }, 
-										    view: {  
-										        dblClickExpand: false  
-										    },  
-										    data: {  
-										        simpleData: {  
-										            enable: true  
-										        },
-										        key:{
-										        	name:'text'
-										        }
-										    },  
-										    callback: {  
-										        onClick: ${po.field_name}OnClick,
-										        onCheck: ${po.field_name}OnCheck
-										    }  
-										}; 
-										function ${po.field_name}OnCheck(e, treeId, treeNode) { 
-										    var idVal = $("#${po.field_name}Id").val();
-										    var textVal = $("#${po.field_name}").val();
-										    if(treeNode.checked){
-										    	//选中
-										    	if(idVal != null && idVal != ''){
-										    		$("#${po.field_name}Id").val(idVal + ',' +treeNode.id);  
-											    }else{
-												    $("#${po.field_name}Id").val(treeNode.id);  
-											    }
-											    if(textVal != null && textVal != ''){
-											    	 $("#${po.field_name}").val(textVal + ',' + treeNode.text);  
-											    }else{
-												    $("#${po.field_name}").val(treeNode.text);  
-											    }
-										    }else{
-										    	idVal = idVal.replace(treeNode.id,"");
-										    	if(idVal.indexOf(",") == 0){
-										    		idVal = idVal.substring(1);
-										    	}else if(idVal.indexOf(",,") > -1){
-										    		idVal = idVal.replace(",,",",");
-										    	}else if(idVal.indexOf(",") == idVal.length -1){
-										    		idVal = idVal.substring(0,idVal.length - 1);
-										    	}
-										    	textVal = textVal.replace(treeNode.text,"");
-										    	if(textVal.indexOf(",") == 0){
-										    		textVal = textVal.substring(1);
-										    	}else if(textVal.indexOf(",,") > -1){
-										    		textVal = textVal.replace(",,",",");
-										    	}else if(textVal.indexOf(",") == textVal.length -1){
-										    		textVal = textVal.substring(0,textVal.length - 1);
-										    	}
-										    	$("#${po.field_name}").val(textVal);
-										    	 $("#${po.field_name}Id").val(idVal);
-										    }
-										    e.stopPropagation();
-										}  
-									function ${po.field_name}OnClick(e, treeId, treeNode) {  
-										    var zTree = $.fn.zTree.getZTreeObj("show${po.field_name?cap_first }Tree");  
-										  	zTree.checkNode(treeNode, !treeNode.checked, true,true);
-										  	e.stopPropagation();
-										}  
-									function show${po.field_name?cap_first }Tree(){
-										 if($("#show${po.field_name?cap_first }TreeContent").is(":hidden")){
-										 	 $.ajax({  
-										        url:'${basePath}/categoryController.do?tree',  
-										        type:'POST',  
-										        dataType:'JSON',
-										        async:false,  
-										        data:{
-									        		selfCode:'${po.dict_field}'
-									        	},
-										        success:function(res){
-										            var obj = res; 
-										            $.fn.zTree.init($("#show${po.field_name?cap_first }Tree"), ${po.field_name}Setting, obj);  
-										            var deptObj = $("#${po.field_name}");  
-										            var deptOffset = $("#${po.field_name}").offset();
-										            $("#show${po.field_name?cap_first }TreeContent").css({left:(deptOffset.left  - deptObj.outerWidth())/2 -6 + "px", top:(deptOffset.top - deptObj.outerHeight())/2 + 2 + "px"}).slideDown("fast");  
-										            $('#show${po.field_name?cap_first }Tree').css({width:deptObj.outerWidth() + "px"});  
-										            var zTree = $.fn.zTree.getZTreeObj("show${po.field_name?cap_first }Tree"); 
-										            var idVal =  $("#${po.field_name}Id").val();
-										            if(idVal != null && idVal != ''){
-											             if(idVal.indexOf(",") > -1){
-											            	var idArray = idVal.split(",");
-											            	for(var i = 0; i < idArray.length; i++){
-											            		var node = zTree.getNodeByParam("id", idArray[i], null);
-											            		zTree.checkNode(node, true, true);
-											            	}
-											            }else{
-											            	var node = zTree.getNodeByParam("id", idVal, null);
-											            		zTree.checkNode(node, true, true);
-											            } 
-										            }
-										            //$("#show${po.field_name?cap_first }TreeContent").bind("mousedown",${po.field_name?cap_first }TreeContentClick);  
-										        } 
-										      }); 
-										 }
-										 }
-									   
-									    function onBodyDownBy${po.field_name?cap_first }(event){
-									    	if(event.target.id == '' || (event.target.id.indexOf('switch') == -1 
-										    	&& event.target.id.indexOf('check') == -1 
-										    	&& event.target.id.indexOf('span') == -1 
-										    	&& event.target.id.indexOf('ico') == -1)){  
-										    	$("#show${po.field_name?cap_first }TreeContent").fadeOut("fast");  
-	   											//$("body").unbind("mousedown", onBodyDownBy${po.field_name?cap_first });
-   											 }
-									    }
-									    function ${po.field_name?cap_first }TreeContentClick(event){
-									    	 event=event||window.event;
-       										 event.stopPropagation();
-									    }
-									
-								</script>
-								<#-- update--begin--author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
+						<#-- update--begin--author:taoyan date:20180427 for:TASK #2671 【Online表单】Online表单ACE 风格上传空间、树控件 宏封装 -->
+						<#elseif po.show_type=='file' || po.show_type=='image'>
+							<@uploadtag po = po />
+						<#elseif po.show_type=='tree'>
+							 <@treetag po = po formStyle="ace"/>
 						<#else>
+						<#-- update--end--author:taoyan date:20180427 for:TASK #2671 【Online表单】Online表单ACE 风格上传空间、树控件 宏封装 -->
 							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
 							        class="form-control" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 							         <#-- update--begin--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->

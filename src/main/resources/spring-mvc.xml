@@ -18,8 +18,8 @@
 	</context:component-scan>
 
 	<!-- ApplicationContext -->
-	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
 	<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
+	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
 	<context:component-scan base-package="springfox"/>
 	<bean class="org.jeecgframework.core.swagger.SwaggerConfig" />  
 	<mvc:resources mapping="/swagger/**" location="/swagger/" cache-period="31556926" />
@@ -201,8 +201,8 @@
 	<!--集成cxf webservice接口
 	<import resource="classpath:cxf-servlet.xml" />
 	-->
+	<import resource="classpath:redis.xml" />
 	<!-- jeecg plugin dev -->
 	<import resource="classpath:config/spring-config-p3.xml" />
-	<import resource="classpath:redis.xml" />
 	
 </beans>

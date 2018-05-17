@@ -79,8 +79,8 @@ public class FormHtmlUtilWord {
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\@{onlineCodeGenereateEntityKey@.").append(cgFormFieldEntity.getFieldName()).append("}\" ");
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
+     html.append("value=\"\\@{onlineCodeGenereateEntityKey@.").append(cgFormFieldEntity.getFieldName()).append("}\" ");
+     if("Y".equals(cgFormFieldEntity.getIsNull())){
     	  html.append("ignore=\"ignore\" ");
       }
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
@@ -312,7 +312,9 @@ public class FormHtmlUtilWord {
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
       html.append("value=\"\\@{onlineCodeGenereateEntityKey@.").append(JeecgReadTable.formatField(cgFormFieldEntity.getFieldName())).append("}\" ");
-      html.append("onclick=\"inputClick(this,'"+cgFormFieldEntity.getDictText()+"','"+cgFormFieldEntity.getDictTable()+"');\" ");
+
+      html.append("onclick=\"popupClick(this,'"+cgFormFieldEntity.getDictText()+"','"+cgFormFieldEntity.getDictField()+"','"+cgFormFieldEntity.getDictTable()+"');\" ");
+
       if("Y".equals(cgFormFieldEntity.getIsNull())){
     	  html.append("ignore=\"ignore\" ");
       }

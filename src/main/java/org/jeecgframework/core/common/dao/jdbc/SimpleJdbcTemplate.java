@@ -19,7 +19,9 @@ import org.springframework.util.Assert;
  *
  */
 @SuppressWarnings("unchecked")
+
 public class SimpleJdbcTemplate extends JdbcTemplate{
+
 
 	protected final Log logger = LogFactory.getLog(getClass());
 

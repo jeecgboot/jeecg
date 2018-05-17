@@ -28,10 +28,24 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.io.Serializable;
 
+<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+import java.util.Map;
+import java.util.HashMap;
+import org.jeecgframework.minidao.util.FreemarkerParseFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.jeecgframework.core.util.ResourceUtil;
+<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 
 @Service("${entityName?uncap_first}Service")
 @Transactional
 public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${entityName}ServiceI {
+
+	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	
 	
  	public <T> void delete(T entity) {
  		super.delete(entity);
@@ -49,12 +63,14 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 			for(${sub.entityName}Entity ${sub.entityName?uncap_first}:${sub.entityName?uncap_first}List){
 				<#list sub.foreignKeys as key>
 				//外键设置
+				<#-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题-->
 				<#if key?lower_case?index_of("${jeecg_table_id}")!=-1>
-				${sub.entityName?uncap_first}.set${subFieldMeta1[key]?cap_first}(${entityName?uncap_first}.get${jeecg_table_id?cap_first}());
+				${sub.entityName?uncap_first}.set${key?cap_first}(${entityName?uncap_first}.get${jeecg_table_id?cap_first}());
 				<#else>
-				${sub.entityName?uncap_first}.set${subFieldMeta1[key]?cap_first}(${entityName?uncap_first}.get${key}());
+				${sub.entityName?uncap_first}.set${key?cap_first}(${entityName?uncap_first}.get${key}());
 				</#if>
 				</#list>
+				<#-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题-->
 				this.save(${sub.entityName?uncap_first});
 			}
 			</#list>
@@ -123,13 +139,15 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 			for(${sub.entityName}Entity ${sub.entityName?uncap_first}:${sub.entityName?uncap_first}List){
 				if(oConvertUtils.isEmpty(${sub.entityName?uncap_first}.getId())){
 					//外键设置
+					<#-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题-->
 					 <#list sub.foreignKeys as key>
 					    <#if key?lower_case?index_of("${jeecg_table_id}")!=-1>
-					${sub.entityName?uncap_first}.set${subFieldMeta1[key]?cap_first}(${entityName?uncap_first}.get${jeecg_table_id?cap_first}());
+					${sub.entityName?uncap_first}.set${key?cap_first}(${entityName?uncap_first}.get${jeecg_table_id?cap_first}());
 					    <#else>
-					${sub.entityName?uncap_first}.set${subFieldMeta1[key]?cap_first}(${entityName?uncap_first}.get${key}());
+					${sub.entityName?uncap_first}.set${key?cap_first}(${entityName?uncap_first}.get${key}());
 					    </#if>
 					 </#list>
+					 <#-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题-->
 					this.save(${sub.entityName?uncap_first});
 				}
 			}
@@ -174,7 +192,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 	<#list buttonSqlMap[btn.buttonCode] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	return true;
 	 }
@@ -190,7 +210,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['add'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	return true;
  	}
@@ -203,7 +225,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['update'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	return true;
  	}
@@ -216,7 +240,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['delete'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	return true;
  	}
@@ -233,4 +259,41 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		sql  = sql.replace("${'#'}{UUID}",UUID.randomUUID().toString());
  		return sql;
  	}
+ 	
+ 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+ 	
+ 	private Map<String,Object> populationMap(${entityName}Entity t){
+		Map<String,Object> map = new HashMap<String,Object>();
+		<#list columns as po>
+		map.put("${fieldMeta[po.fieldName]?lower_case}", t.get${po.fieldName?cap_first}());
+ 		</#list>
+		return map;
+	}
+	
+ 	private void executeSqlEnhance(String sqlEnhance,${entityName}Entity t){
+	 	Map<String,Object> data = populationMap(t);
+	 	sqlEnhance = ResourceUtil.formateSQl(sqlEnhance, data);
+	 	boolean isMiniDao = false;
+	 	try {
+	 		data = ResourceUtil.minidaoReplaceExtendSqlSysVar(data);
+	 		sqlEnhance = FreemarkerParseFactory.parseTemplateContent(sqlEnhance, data);
+			isMiniDao = true;
+		} catch (Exception e) {
+		}
+	 	String [] sqls = sqlEnhance.split(";");
+		for(String sql:sqls){
+			if(sql == null || sql.toLowerCase().trim().equals("")){
+				continue;
+			}
+			int num = 0;
+			if(isMiniDao){
+				<#-- update--begin--author:zhoujf date:20180416 for:TASK #2623 【bug】生成代码sql 不支持表达式(事物处理)-->
+				num = namedParameterJdbcTemplate.update(sql, data);
+				<#-- update--end--author:zhoujf date:20180416 for:TASK #2623 【bug】生成代码sql 不支持表达式(事物处理)-->
+			}else{
+				num = this.executeSql(sql);
+			}
+		}
+ 	}
+ 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 }

@@ -8,10 +8,12 @@
     <!--360浏览器优先以webkit内核解析-->
     <title>Jeecg 微云快速开发平台</title>
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/animate.css" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <!-- update-begin--Author:zhoujf  Date:20180428 for：TASK #2677 【H+风格优化】hplus 引入样式从jar中移到 开源项目中 -->
+    <link href="plug-in/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="plug-in/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="plug-in/hplus/css/animate.css" rel="stylesheet">
+    <link href="plug-in/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <!-- update-end--Author:zhoujf  Date:20180428 for：TASK #2677 【H+风格优化】hplus 引入样式从jar中移到 开源项目中 -->
     <link rel="stylesheet" href="plug-in/themes/fineui/main/iconfont.css">
 	<script src="plug-in/laydate/laydate.js"></script> 
     <!--  <link href="plug-in/themes/fineui/css/animate.css" rel="stylesheet">
@@ -177,7 +179,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.3
+            <b>当前版本：</b>v_3.7.5
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -439,10 +441,72 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v53">v3.7.5</a><code class="pull-right">2018.05.17</code>
+                                    </h5>
+                                </div>
+                                <div id="v53" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本提供新一代风格代码生成器模板，采用Vue技术，提供两套精美模板 ElementUI风格、Bootstrap风格，追逐潮流技术支持移动端；</div>
+                                        <ol>
+											<li>【新增功能】新一代更灵活的代码生成器工厂，可灵活自定义生成的代码文件名称、路径等；根据模板结构生成代码文件;</li>
+											<li>【新增功能】新一代 (单表/一对多) 代码生成器模板，Vue+ElementUI风格;</li>
+											<li>【新增功能】新一代 (单表) 代码生成器模板，Bootstrap表单+EasyUI原生态列表风格;</li>
+											<li>【新增功能】新一代 (一对多) 代码生成器模板，ElementUI表单+EasyUI原生态列表风格;</li>
+											<li>【新增功能】新一代 (一对多) 代码生成器模板，EasyUI标签列表上下布局(列表数据编辑)+Table风格表单;</li>
+											<li>【功能升级】牛牛叉功能  -> Datagrid标签升级,通过参数component可以快速实现BootstrapTable与easyUI列表风格切换;</li>
+											<li>【新增功能】接口测试功能页面;</li>
+											<li>【新增功能】二维码生成功能;</li>
+											<li>【功能升级】多Tab风格（一对多）模板升级;</li>
+											<li>【功能升级】column列表字典属性扩展dictCondition加sql条件;</li>
+											<li>【功能升级】online表单、代码生成器树控件、上传控件升级优化;</li>
+											<li>【功能升级】树形代码生成器模板升级，列表支持多选;</li>
+											<li>【功能升级】ComboTree标签升级，增加是否只选择子节点属性控制，解决combotree树初始化子节点不能默认选择问题;</li>
+											<li>【功能升级】SelectZTree标签升级，增加父子联动选择机制;</li>
+											<li>【功能升级】代码生成器模板上传控件、树控件 宏封装;</li>
+											<li>【功能升级】mave依赖非jeecg官方的统一采用本地依赖方式，降低maven构建难度;</li>
+											<li>【功能改造】jeecg 用户账号字段改长一些;</li>
+											<li>【功能改造】高级查询弹出框样式;</li>
+											<li>【功能改造】跨域方案改造优化;</li>
+											<li>【功能改造】H+风格首页的依赖hplus插件，从jar中移到项目中，方便维护;</li>
+											<li>【功能改造】减重 Fineui demo 和plug-in删掉;</li>
+											<li>【功能改造】【UI标签扩展】上传新功能 （当限制上传数量为1的时候，上传新图片替换老的）;</li>
+											<li>【Demo】Vue bootstrap 示例;</li>
+											<li>【Demo】Vue elementUI 示例;</li>
+											<li>【Demo】bootstrapTable+ bootstrap表单 示例;</li>
+											<li>【BUG】在线Online开发，配置验证规则下拉不显示（360浏览器兼容模式问题）;</li>
+											<li>【BUG】一对多，列表带明细的模板，多个明细情况下展示有问题处理;</li>
+											<li>【BUG】ehcache.xml 总报端口冲突问题解决;</li>
+											<li>【BUG】popup,当字典Text为多个值时,查询条件的input框值为undefined;</li>
+											<li>【BUG】行编辑扩展参数字典值为空，模板报错问题处理;</li>
+											<li>【BUG】popup弹框出现在录入弹框后面的问题;</li>
+											<li>【BUG】范围查询double类型字段错误问题;</li>
+											<li>【BUG】Jeecg 新版3.7.3菜单加载慢问题解决;</li>
+											<li>【BUG】shortcut及经典下同名菜单冲突，只能点开一个问题;</li>
+											<li>【BUG】主子表关联问题;</li>
+											<li>【BUG】菜单修改bug，三级菜单编辑，不能改成一级菜单问题;</li>
+											<li>【BUG】角色授权，权限加载不出来问题;</li>
+											<li>【BUG】自定义表单js增强编辑报错处理;</li>
+											<li>【BUG】主键策略为NATIVE 再次编辑附表数据会被删除问题;</li>
+											<li>【BUG】online报表问题确认 其它数据源的时候，传进来的查询条件参数不会进行拼接问题;</li>
+											<li>【BUG】树状的数据列表添加checkbox后全选选不中;</li>
+											<li>【BUG】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作;</li>
+											<li>【BUG】自定义word模板，编辑页面不赋值问题修正;</li>
+											<li>【BUG】Excel导入导出功能bug;</li>
+											<li>【BUG】上传组件效果优化;</li>
+											<li>【BUG】一对多主子表关联外键的问题优化;</li>
+											<li>【BUG】fineUI 首页加载聊天插件时 菜单样式问题优化;</li>
+											<li>【BUG】一系列论坛网友问题解决;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v52">v3.7.3</a><code class="pull-right">2018.03.13</code>
                                     </h5>
                                 </div>
-                                <div id="v52" class="panel-collapse collapse in">
+                                <div id="v52" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本增加很多比较实用的功能，且UI样式进行进一步优化，极大提升UI美感，及加载速度！</div>
                                         <ol>
@@ -903,10 +967,12 @@
     </div>
 </div>
 <!-- 全局js -->
-<script src="plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
-<script src="plug-in-ui/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- update-begin--Author:zhoujf  Date:20180428 for：TASK #2677 【H+风格优化】hplus 引入样式从jar中移到 开源项目中 -->
+<script src="plug-in/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="plug-in/hplus/js/bootstrap.min.js?v=3.3.6"></script>
 <!-- 自定义js -->
-<script src="plug-in-ui/hplus/js/content.js"></script>
+<script src="plug-in/hplus/js/content.js"></script>
+<!-- update-end--Author:zhoujf  Date:20180428 for：TASK #2677 【H+风格优化】hplus 引入样式从jar中移到 开源项目中 -->
 <script type="text/javascript" src="plug-in/echart/echarts.min.js"></script>
 <script>
 $(document).ready(function() {

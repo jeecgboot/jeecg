@@ -90,6 +90,7 @@ public class InterfaceUtil {
 			sb.append(" and ("+ dataRule.getRuleValue()+")");
 			return;
 		}
+		//-----------------------------------------------------------------------
 		//#{sys_user_code}%
 		String valueTemp = dataRule.getRuleValue();
 		String moshi = "";
@@ -100,6 +101,7 @@ public class InterfaceUtil {
 		if (valueTemp.contains("#{")) {
 			valueTemp = valueTemp.substring(2,valueTemp.indexOf("}"));
 		}
+		//-----------------------------------------------------------------------
 		String tempValue = null;
 		tempValue = ResourceUtil.converRuleValue(valueTemp);
 

@@ -120,6 +120,9 @@ public class SqlUtil {
      */
     @SuppressWarnings("rawtypes")
 	public static String jeecgCreatePageSql(String dbKey,String sql,Map params, int page, int rows){
+
+    	sql = getFullSql(sql,params);
+
         int beginNum = (page - 1) * rows;
         String[] sqlParam = new String[3];
         sqlParam[0] = sql;

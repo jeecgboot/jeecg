@@ -3,45 +3,18 @@
 
 	<diskStore path="java.io.tmpdir" />
 
-	<!-- Cluster localhost setting -->
-	<cacheManagerPeerProviderFactory
-		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
-	    properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1,
-	    hostName=localhost, 
-    	multicastGroupPort=4446, timeToLive=32"/>
-	<cacheManagerPeerListenerFactory
-		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
-		properties="hostName=localhost, port=40001,socketTimeoutMillis=2000" />
-
 	<!-- 字典缓存 -->
-	<cache name="dictCache" maxElementsInMemory="500" overflowToDisk="true"
-		eternal="true">
-		<cacheEventListenerFactory
-			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-			properties="replicatePuts=false,replicateUpdatesViaCopy=false" />
-	</cache>
+	<cache name="dictCache" maxElementsInMemory="10000" maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
+			overflowToDisk="true" eternal="true" timeToIdleSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
 	<!-- 类注解缓存 -->
-	<cache name="eternalCache" maxElementsInMemory="500"
-		overflowToDisk="true" eternal="false" timeToIdleSeconds="1200"
-		timeToLiveSeconds="1200">
-		<cacheEventListenerFactory
-			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-			properties="replicatePuts=false,replicateUpdatesViaCopy=false" />
-	</cache>
+	<cache name="eternalCache" maxElementsInMemory="10000"  maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
 	<!-- UI标签页面缓存 -->
-	<cache name="tagCache" maxElementsInMemory="500"
-		overflowToDisk="true" eternal="false" timeToIdleSeconds="1200"
-		timeToLiveSeconds="1200">
-		<cacheEventListenerFactory
-			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-			properties="replicatePuts=false,replicateUpdatesViaCopy=false" />
-	</cache>
+	<cache name="tagCache" maxElementsInMemory="10000" maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
 	
-	<!-- DefaultCache setting. Modify ehcache-safe.xml for timeToIdleSeconds,timeToLiveSecond,diskExpiryThreadIntervalSeconds 
-		Use ehcache-safe.xml default for maxElementsInMemory,maxElementsOnDisk,overflowToDisk,eternal 
-		Use ehcache default for memoryStoreEvictionPolicy,diskPersistent,. -->
 	<defaultCache maxElementsInMemory="10000" overflowToDisk="true"
 		eternal="false" memoryStoreEvictionPolicy="LRU" maxElementsOnDisk="10000000"
-		diskExpiryThreadIntervalSeconds="600" timeToIdleSeconds="3600"
-		timeToLiveSeconds="100000" diskPersistent="false" />
+		diskExpiryThreadIntervalSeconds="600" timeToIdleSeconds="120" 
+		timeToLiveSeconds="120" diskPersistent="false" />
 </ehcache>

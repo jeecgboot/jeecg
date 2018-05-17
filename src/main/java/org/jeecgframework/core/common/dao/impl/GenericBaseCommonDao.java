@@ -941,6 +941,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		Object keyValue = null;
 		KeyHolder keyHolder = null;
 		SqlParameterSource sqlp  = new MapSqlParameterSource(param);
+
 		if (StringUtil.isNotEmpty(param.get("id"))) {//表示已经生成过id(UUID),则表示是非序列或数据库自增的形式
 			this.namedParameterJdbcTemplate.update(sql,sqlp);
 		//--author：zhoujf---start------date:20170216--------for:自定义表单保存数据格sqlserver报错问题
@@ -954,6 +955,7 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 				keyValue = keyHolder.getKey().longValue();
 			}
 		}
+
 		return keyValue;
 	}
 

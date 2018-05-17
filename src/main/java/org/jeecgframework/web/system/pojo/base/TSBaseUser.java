@@ -36,7 +36,9 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private Short deleteFlag;// 状态: 0:不删除  1：删除
 	
 	private byte[] signature;// 签名文件
+
 	private String userNameEn;//英文名
+
 	
 	@Excel(name = "组织机构编码(多个组织机构编码用逗号分隔，非必填)",width = 50)
 	private String departid;
@@ -115,7 +117,7 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 //	public void setTSDepart(TSDepart TSDepart) {
 //		this.TSDepart = TSDepart;
 //	}
-	@Column(name = "username", nullable = false, length = 10)
+	@Column(name = "username", nullable = false)
 	public String getUserName() {
 		return this.userName;
 	}

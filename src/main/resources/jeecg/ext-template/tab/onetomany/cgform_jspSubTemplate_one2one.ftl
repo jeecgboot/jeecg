@@ -11,7 +11,9 @@ $(document).ready(function(){
 		}
     });
 </script>
-
+<#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+<#assign ue_widget_count = 0>
+<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 <div style="margin: 0; background-color: white;overflow: auto;">    
 	    <!-- Table -->
 <table id="${entityName?uncap_first}_table" class="table table-bordered table-hover" style="margin-bottom: 0;">
@@ -49,10 +51,10 @@ $(document).ready(function(){
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="password" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
-							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:150px'}"  <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
-							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+						<#elseif po.showType=='select' || po.showType=='list'>
+							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:150px'}"  <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect> 
+						<#elseif po.showType=='radio'|| po.showType=='checkbox'>
+							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{style:'width:15px;height:15px'}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>
 						<#elseif po.showType=='date'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;" class="form-control" onClick="WdatePicker()" <@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />/>
@@ -101,6 +103,34 @@ $(document).ready(function(){
 				</#if>
 			  </#if>
             </#list>
+            <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+            <#list pageAreatextColumns as po>
+				<tr>
+					<td class="text-center">
+						<b>${po.content}:</b>
+					</td>
+					<td colspan="3">
+					    <#if po.showType=='textarea' || po.showType='umeditor'>
+					  	 	<textarea id="${entityName?uncap_first}List[0].${po.fieldName}" class="form-control" rows="6" cols="22" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}"  type="${po.type}" mustInput="${po.fieldMustInput!''}" /> name="${entityName?uncap_first}List[0].${po.fieldName}"></textarea>
+						<#--
+						<#elseif po.showType='umeditor'>
+							<#assign ue_widget_count = ue_widget_count + 1>
+							<#if ue_widget_count == 1>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+							</#if>
+					    	<textarea name="${entityName?uncap_first}List[0].${po.fieldName}" id="${entityName?uncap_first}List[0].${po.fieldName}" style="width: 650px;height:300px"></textarea>
+						    <script type="text/javascript">
+						        var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+						    </script>
+						    -->
+						</#if>
+					<span class="Validform_checktip" style="float:left;height:0px;"></span>
+					<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+		          </td>
+				</tr>
+		     </#list>
+		     <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 	</c:if>
 	<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  > 0 }">
 		<c:forEach items="${"$"}{${entityName?uncap_first}List}" var="poVal" varStatus="stuts" begin="0" end="0">
@@ -135,10 +165,12 @@ $(document).ready(function(){
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="password" style="width:120px;" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="${'$'}{poVal.${po.fieldName} }"/>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
+						<#elseif po.showType=='select' || po.showType=='list'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:150px'}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+						<#elseif po.showType=='radio' || po.showType=='checkbox'>
+							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{style:'width:15px;height:15px'}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>
 						<#elseif po.showType=='date'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 							<input name="${entityName?uncap_first}List[0].${po.fieldName}" maxlength="${po.length?c}" type="text" style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;" class="form-control" onClick="WdatePicker()" <@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value="<fmt:formatDate value='${'$'}{poVal.${po.fieldName}}' type="date" pattern="yyyy-MM-dd"/>"/>
@@ -186,6 +218,34 @@ $(document).ready(function(){
 				</#if>
 			  </#if>
             </#list>
+            <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+            <#list pageAreatextColumns as po>
+					<tr>
+					<td class="text-center">
+						<b>${po.content}:</b>
+					</td>
+					<td colspan="3">
+						    <#if po.showType=='textarea' || po.showType='umeditor'>
+						  	 	<textarea id="${entityName?uncap_first}List[0].${po.fieldName}" class="form-control" rows="6" name="${entityName?uncap_first}List[0].${po.fieldName}" cols="22" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>${'$'}{poVal.${po.fieldName}}</textarea>
+							<#--
+							<#elseif po.showType='umeditor'>
+								<#assign ue_widget_count = ue_widget_count + 1>
+								<#if ue_widget_count == 1>
+								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+								</#if>
+                                <textarea name="${entityName?uncap_first}List[0].${po.fieldName}" id="${entityName?uncap_first}List[0].${po.fieldName}" style="width: 650px;height:300px">${'$'}{poVal.${po.fieldName} }</textarea>
+							    <script type="text/javascript">
+							        var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+							    </script>
+							    -->
+							</#if>
+						<span class="Validform_checktip" style="float:left;height:0px;"></span>
+						<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+			           </td>
+				     </tr>
+			  </#list>
+			 <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 		</c:forEach>
 	</c:if>	
 	</tbody>

@@ -82,6 +82,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	public void setClassName(java.lang.String className) {
 		this.className = className;
 	}
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id

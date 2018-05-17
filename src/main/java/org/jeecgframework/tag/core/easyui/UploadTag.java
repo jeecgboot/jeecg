@@ -39,7 +39,9 @@ public class UploadTag extends JeecgTag {
 	protected String formId;//参数名称
 
 	private boolean outhtml = true;
-	
+
+	private String onUploadStart;//上传开始处理函数
+
 	public boolean isOuthtml() {
 		return outhtml;
 	}
@@ -94,6 +96,13 @@ public class UploadTag extends JeecgTag {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getOnUploadStart() {
+		return onUploadStart;
+	}
+	public void setOnUploadStart(String onUploadStart) {
+		this.onUploadStart = onUploadStart;
+	}
 	@SuppressWarnings("unchecked")
 	public int doStartTag() throws JspTagException {
 
@@ -144,9 +153,10 @@ public class UploadTag extends JeecgTag {
 		if(outhtml){
 			sb.append("<link rel=\"stylesheet\" href=\"plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
-		}
 
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/Map.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/Map.js\"></script>");
+
+		}
 
 		sb.append("<script type=\"text/javascript\">"
 				+"var flag = false;"
@@ -169,49 +179,53 @@ public class UploadTag extends JeecgTag {
 				+"swf:\'plug-in/uploadify/uploadify.swf\',	"
 				+"uploader:\'"+getUploader()			
 						+"onUploadStart : function(file) { ");	
-				if (formData!=null) {
-					String[] paramnames=formData.split(",");				
-					for (int i = 0; i < paramnames.length; i++) {
-						String paramname=paramnames[i];
+				if(onUploadStart==null || "".equals(onUploadStart)){
+					if (formData!=null) {
+						String[] paramnames=formData.split(",");				
+						for (int i = 0; i < paramnames.length; i++) {
+							String paramname=paramnames[i];
 
-						String fieldName = paramname;
-						if(paramname.indexOf("_")> -1 ){
-							fieldName = paramname.substring(0, paramname.indexOf("_"));
+							String fieldName = paramname;
+							if(paramname.indexOf("_")> -1 ){
+								fieldName = paramname.substring(0, paramname.indexOf("_"));
+							}
+							sb.append("var "+fieldName+"=$(\'#"+paramname+"\').val();");
+
+						}				 
+				        sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", {");
+				        for (int i = 0; i < paramnames.length; i++) {
+							String paramname=paramnames[i];
+
+							if(paramname.indexOf("_")> -1 ){
+								paramname = paramname.substring(0, paramname.indexOf("_"));
+							}
+
+							if (i==paramnames.length-1) {
+								sb.append("'"+paramname+"':"+paramname+"");	
+							}else{
+								sb.append("'"+paramname+"':"+paramname+",");
+							}
 						}
-						sb.append("var "+fieldName+"=$(\'#"+paramname+"\').val();");
+				        sb.append("});");
 
-					}				 
-			        sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", {");
-			        for (int i = 0; i < paramnames.length; i++) {
-						String paramname=paramnames[i];
-
-						if(paramname.indexOf("_")> -1 ){
-							paramname = paramname.substring(0, paramname.indexOf("_"));
-						}
-
-						if (i==paramnames.length-1) {
-							sb.append("'"+paramname+"':"+paramname+"");	
-						}else{
-							sb.append("'"+paramname+"':"+paramname+",");
-						}
+					}else if (formId!=null) {
+						sb.append(" var o = {};");
+	            		sb.append("    var _array = $('#"+formId+"').serializeArray();");
+	            		sb.append("    $.each(_array, function() {");
+	            		sb.append("        if (o[this.name]) {");
+	            		sb.append("            if (!o[this.name].push) {");
+	            		sb.append("                o[this.name] = [ o[this.name] ];");
+	            		sb.append("            }");
+	            		sb.append("            o[this.name].push(this.value || '');");
+	            		sb.append("        } else {");
+	            		sb.append("            o[this.name] = this.value || '';");
+	            		sb.append("        }");
+	            		sb.append("    });");
+	            		sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", o);");
 					}
-			        sb.append("});");
-
-				}else if (formId!=null) {
-					sb.append(" var o = {};");
-            		sb.append("    var _array = $('#"+formId+"').serializeArray();");
-            		sb.append("    $.each(_array, function() {");
-            		sb.append("        if (o[this.name]) {");
-            		sb.append("            if (!o[this.name].push) {");
-            		sb.append("                o[this.name] = [ o[this.name] ];");
-            		sb.append("            }");
-            		sb.append("            o[this.name].push(this.value || '');");
-            		sb.append("        } else {");
-            		sb.append("            o[this.name] = this.value || '';");
-            		sb.append("        }");
-            		sb.append("    });");
-            		sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", o);");
-				};
+				}else{
+					sb.append(this.onUploadStart+"(file);");
+				}
 
 		       sb.append("} ," 	          
 				+"onQueueComplete : function(queueData) { ");

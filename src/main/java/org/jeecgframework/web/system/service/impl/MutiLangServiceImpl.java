@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.common.dao.ICommonDao;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ResourceUtil;
@@ -12,12 +12,18 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.pojo.base.MutiLangEntity;
 import org.jeecgframework.web.system.service.MutiLangServiceI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("mutiLangService")
-public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangServiceI {
+
+public class MutiLangServiceImpl implements MutiLangServiceI {
+	@Autowired
+	public ICommonDao commonDao;
 	
 	/**初始化语言信息，TOMCAT启动时直接加入到内存中**/
+	@Transactional(readOnly = true)
 	public void initAllMutiLang() {
 		List<MutiLangEntity> mutiLang = this.commonDao.loadAll(MutiLangEntity.class);
 		

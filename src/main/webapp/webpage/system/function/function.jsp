@@ -58,7 +58,7 @@
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
-        <input name="functionName" class="inputxt" value="${function.functionName}" datatype="*2-50">
+        <input name="functionName" class="inputxt" value="${function.functionName}" datatype="*2-50" />
         <span class="Validform_checktip"> <t:mutiLang langKey="menuname.rang2to15"/> </span>
     </div>
    <div class="form">

@@ -196,10 +196,12 @@ public class CgformFtlController extends BaseController {
 				cgformFtl.setFtlStatus("1");
 				cgformFtlService.saveOrUpdate(cgformFtl);
 				message = "激活成功";
+
 				CgFormHeadEntity po = systemService.getEntity(CgFormHeadEntity.class, cgformFtl.getCgformId());
 				templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.ADD.getName());
 				templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.DETAIL.getName());
 				templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.UPDATE.getName());
+
 				systemService.addLog(message, Globals.Log_Type_UPDATE,Globals.Log_Leavel_INFO);
 				logger.info("["+IpUtil.getIpAddr(request)+"][online表单模板激活]"+message+"表名："+po.getTableName());
 				j.setSuccess(true);
@@ -231,10 +233,12 @@ public class CgformFtlController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
 			cgformFtl = systemService.getEntity(CgformFtlEntity.class,cgformFtl.getId());
+
 			CgFormHeadEntity po = systemService.getEntity(CgFormHeadEntity.class, cgformFtl.getCgformId());
 			templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.ADD.getName());
 			templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.DETAIL.getName());
 			templetContext.removeTemplateFromCache(po.getTableName()+"_"+TemplateUtil.TemplateType.UPDATE.getName());
+
 			cgformFtl.setFtlStatus("0");
 			cgformFtlService.saveOrUpdate(cgformFtl);
 			message = "取消激活成功";
@@ -422,14 +426,17 @@ public class CgformFtlController extends BaseController {
 			}
 			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 			// 文件数据库保存路径
+
 			String path = uploadbasepath + File.separator;// 文件保存在硬盘的相对路径
 			String realPath = uploadFile.getMultipartRequest().getSession()
 					.getServletContext().getRealPath(File.separator)
 					+ path;// 文件的硬盘真实路径
+
 			File file = new File(realPath);
 			if (!file.exists()) {
 				file.mkdir();// 创建根目录
 			}
+
 			if (uploadFile.getCusPath() != null) {
 				realPath += uploadFile.getCusPath() + File.separator;
 				path += uploadFile.getCusPath() +File.separator;
@@ -440,6 +447,7 @@ public class CgformFtlController extends BaseController {
 			} else {
 				realPath += DateUtils.getDataString(DateUtils.yyyyMMdd) +File.separator;
 				path += DateUtils.getDataString(DateUtils.yyyyMMdd) +File.separator;
+
 				file = new File(realPath);
 				if (!file.exists()) {
 					file.mkdir();// 创建文件时间子目录
@@ -529,8 +537,12 @@ public class CgformFtlController extends BaseController {
 	// for：放弃jacob和poi上传word，改用ckeditor
 	@RequestMapping(params = "cgformFtl2")
 	public ModelAndView cgformFtl2(HttpServletRequest request) {
+
 		String formid = request.getParameter("formid");
+		CgFormHeadEntity po = systemService.getEntity(CgFormHeadEntity.class, formid);
 		request.setAttribute("formid", formid);
+		request.setAttribute("tableName", po.getTableName());
+
 		return new ModelAndView("jeecg/cgform/cgformftl/cgformFtlList2");
 	}
 

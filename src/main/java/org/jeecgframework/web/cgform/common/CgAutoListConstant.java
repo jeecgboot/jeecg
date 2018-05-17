@@ -70,6 +70,10 @@ public class CgAutoListConstant {
 	public static final String FIELD_DICTTABLE = "field_dictTable";
 	/** 字典code */
 	public static final String FIELD_DICTFIELD = "field_dictField";
+
+	/** 字典Text */
+	public static final String FIELD_DICTTEXT = "field_dictText";
+
 	/** 字典数据 */
 	public static final String FIELD_DICTLIST = "field_dictlist";
 	
@@ -163,6 +167,8 @@ public class CgAutoListConstant {
 	/** online配置表单版本分隔符 */
 	public static final String ONLINE_TABLE_SPLIT_STR = "__";
 
+
 	public static final String BASEPATH = "basePath";
+
 	
 }

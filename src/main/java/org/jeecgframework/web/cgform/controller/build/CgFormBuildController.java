@@ -105,7 +105,9 @@ public class CgFormBuildController extends BaseController {
 				request.setAttribute("olstylecode", mp.get("form_template_mobile").toString().trim());
 			}
 		}
+
 		ftlForm(tableName,"",request,response);
+
 		
 	}
 
@@ -119,6 +121,7 @@ public class CgFormBuildController extends BaseController {
 			}
 		}
 	}
+
 
 	/**
 	 * form表单页面跳转
@@ -138,26 +141,27 @@ public class CgFormBuildController extends BaseController {
 			String templateName=tablename+"_";
 			//String templateName=tableName+"_";
 
-			Map<String, Object> dataForm = new HashMap<String, Object>();
-	        if(StringUtils.isNotEmpty(id)){
+//			Map<String, Object> dataForm = new HashMap<String, Object>();
+//	        if(StringUtils.isNotEmpty(id)){
 
-	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
-	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
+//	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
+//	        	//dataForm = dataBaseService.findOneForJdbc(tableName, id);
 
-		        if(dataForm!=null){
-		        	Iterator it=dataForm.entrySet().iterator();
-				    while(it.hasNext()){
-				    	Map.Entry entry=(Map.Entry)it.next();
-				        String ok=(String)entry.getKey();
-				        Object ov=entry.getValue();
-				        data.put(ok, ov);
-				    }
-		        }else{
-		        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
-		        	id = null;
-		        	dataForm = new HashMap<String, Object>();
-		        }
-	        }
+//		        if(dataForm!=null){
+//		        	Iterator it=dataForm.entrySet().iterator();
+//				    while(it.hasNext()){
+//				    	Map.Entry entry=(Map.Entry)it.next();
+//				        String ok=(String)entry.getKey();
+//				        Object ov=entry.getValue();
+//				        data.put(ok, ov);
+//				    }
+//		        }else{
+//		        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
+//		        	id = null;
+//		        	dataForm = new HashMap<String, Object>();
+//		        }
+
+//	        }
 
 			TemplateUtil.TemplateType templateType=TemplateUtil.TemplateType.LIST;
 			if(StringUtils.isBlank(id)){
@@ -175,6 +179,25 @@ public class CgFormBuildController extends BaseController {
 	        //装载表单配置
 	    	Map configData = cgFormFieldService.getFtlFormConfig(tableName,version);
 	    	data = new HashMap(configData);
+
+	    	Map<String, Object> dataForm = new HashMap<String, Object>();
+	    	if(StringUtils.isNotEmpty(id)){
+		        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
+			        if(dataForm!=null){
+			        	Iterator it=dataForm.entrySet().iterator();
+					    while(it.hasNext()){
+					    	Map.Entry entry=(Map.Entry)it.next();
+					        String ok=(String)entry.getKey();
+					        Object ov=entry.getValue(); 
+							data.put(ok, ov);
+					    }
+			        }else{
+			        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
+			        	id = null;
+			        	dataForm = new HashMap<String, Object>();
+			        }
+		        }
+
 	    	//如果该表是主表查出关联的附表
 	    	CgFormHeadEntity head = (CgFormHeadEntity)data.get("head");
 	      
@@ -232,7 +255,9 @@ public class CgFormBuildController extends BaseController {
 	    	//装载单表/(主表和附表)表单数据
 	    	data.put("data", tableData);
 	    	data.put("id", id);
+
 	    	data.put("head", head);
+
 	    	
 	    	//页面样式js引用
 	    	data.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));

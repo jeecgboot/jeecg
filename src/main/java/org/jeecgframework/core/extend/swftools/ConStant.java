@@ -21,7 +21,9 @@ public class ConStant {
 	public static final String SWFTOOLS_BASE_DIR = "swftools";
 	/**PDF-SWF*/
 	public static final String SWFTOOLS_PDF2SWF_PATH ="pdf2swf.exe";
+
 	public static final String SWFTOOLS_PDF2SWF="pdf2swf";
+
 	/**GIF-SWF*/
 	public static final String SWFTOOLS_GIF2SWF_PATH ="gif2swf.exe";
 	/**PNG-SWF*/
@@ -66,6 +68,7 @@ public class ConStant {
 		}
 		return SWFTOOLS_HOME;
 	}
+
 	public static String getSWFToolsForLinux(String extend)
 	{
 
@@ -92,4 +95,5 @@ public class ConStant {
 		}
 		return SWFTOOLS_HOME;
 	}
+
 }

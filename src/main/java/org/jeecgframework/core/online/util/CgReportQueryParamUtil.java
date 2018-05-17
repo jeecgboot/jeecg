@@ -38,7 +38,9 @@ public class CgReportQueryParamUtil
 		String filedType = (String) item.get(CgReportConstant.ITEM_FIELDTYPE);
 		if("single".equals(queryMode)){
 			//单条件组装方式
-			String value =request.getParameter(filedName);
+
+			String value =request.getParameter(filedName.toLowerCase());
+
 			try {
 				if(StringUtil.isEmpty(value)){
 					return;

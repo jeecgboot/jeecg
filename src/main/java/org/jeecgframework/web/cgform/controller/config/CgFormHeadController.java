@@ -159,6 +159,7 @@ public class CgFormHeadController extends BaseController {
 			 	extMap.put(temp.getId(), m); 
 			}       
 		}
+
 		
 		TagUtil.datagrid(response, dataGrid, extMap);
 
@@ -221,6 +222,11 @@ public class CgFormHeadController extends BaseController {
 		cgFormField = systemService.getEntity(CgFormFieldEntity.class,
 				cgFormField.getId());
 		String message = cgFormField.getFieldName()+"删除成功";
+
+		CgFormHeadEntity table = cgFormField.getTable();
+		table.setIsDbSynch("N");
+		this.cgFormFieldService.updateEntitie(table);
+
 		cgFormFieldService.delete(cgFormField);
 		systemService.addLog(message, Globals.Log_Type_DEL,
 				Globals.Log_Leavel_INFO);
@@ -254,17 +260,18 @@ public class CgFormHeadController extends BaseController {
 			return j;
 		}
 		TSUser currentUser = ResourceUtil.getSessionUser();
-        if("0".equals(currentUser.getDevFlag())){
+       if("0".equals(currentUser.getDevFlag())){
             message = "同步失败，您不是开发人员无授权访问！";
             logger.info(message+" ----- 请求IP ---+"+IpUtil.getIpAddr(request));
             j.setMsg(message);
             return j;
         }
-        //TODO 校验登录用户是否拥有开发权限
+       //TODO 校验登录用户是否拥有开发权限
 
 		
 		//同步数据库
 		try {
+
 			if("force".equals(synMethod)){
 				DbTableHandleI dbTableHandle = DbTableUtil.getTableHandle(systemService.getSession());
 				if(dbTableHandle instanceof TableSQLServerHandleImpl){
@@ -272,6 +279,7 @@ public class CgFormHeadController extends BaseController {
 					systemService.executeSql(dropsql); 
 				}
 			}
+
 			
 			boolean bl = cgFormFieldService.dbSynch(cgFormHead,synMethod);
 			if(bl){

@@ -20,16 +20,16 @@
     <meta name="description" content="JEECG 企业级快速开发平台，她采用强大代码生成，在线开发能力">
 
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="plug-in/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="plug-in/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
     <!--[if IE 7]>
     <link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
     <!-- Sweet Alert -->
-    <link href="plug-in-ui/hplus/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/animate.css" rel="stylesheet">
-    <link href="plug-in-ui/hplus/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="plug-in/hplus/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="plug-in/hplus/css/animate.css" rel="stylesheet">
+    <link href="plug-in/hplus/css/style.css?v=4.1.0" rel="stylesheet">
     <!--右键菜单-->
     <link href="plug-in/hplus/smartMenu.css" rel="stylesheet">
 </head>
@@ -446,24 +446,23 @@
     </div>--%>
     <!--mini聊天窗口结束-->
 </div>
-
 <!-- 全局js -->
-<script src="plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
-<script src="plug-in-ui/hplus/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="plug-in-ui/hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="plug-in-ui/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="plug-in-ui/hplus/js/plugins/layer/layer.min.js"></script>
+<script src="plug-in/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="plug-in/hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="plug-in/hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="plug-in/hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="plug-in/hplus/js/plugins/layer/layer.min.js"></script>
 
 <!-- 自定义js -->
-<script src="plug-in-ui/hplus/js/hplus.js?v=4.1.0"></script>
+<script src="plug-in/hplus/js/hplus.js?v=4.1.0"></script>
 <!--右键菜单-->
 <script type="text/javascript" src="plug-in/hplus/jquery-smartMenu.js"></script>
 <script type="text/javascript" src="plug-in/hplus/contabs.js"></script>
 <t:base type="tools"></t:base>
 <!-- 第三方插件 -->
-<script src="plug-in-ui/hplus/js/plugins/pace/pace.min.js"></script>
+<script src="plug-in/hplus/js/plugins/pace/pace.min.js"></script>
 <!-- Sweet alert -->
-<script src="plug-in-ui/hplus/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="plug-in/hplus/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 
 <!-- 弹出TAB -->

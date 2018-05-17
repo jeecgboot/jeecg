@@ -519,9 +519,10 @@ public class RoleController extends BaseController {
 			if (in.size() > 0) {
 				for (TSFunction inobj : in) {
 					String inId = oConvertUtils.getString(inobj.getId());
-                    if (inId.equals(id)) {
+                   if (inId.equals(id)) {
 						tree.setChecked(true);
 					}
+
 				}
 			}
 		}
@@ -544,7 +545,9 @@ public class RoleController extends BaseController {
 
 		if (curChildList != null && curChildList.size() > 0) {
 			tree.setState("closed");
+
 			//tree.setChecked(false);
+
 
             if (recursive) { // 递归查询子节点
                 List<ComboTree> children = new ArrayList<ComboTree>();
@@ -795,7 +798,9 @@ public class RoleController extends BaseController {
 			String functionId, String roleId) {
 		CriteriaQuery cq = new CriteriaQuery(TSOperation.class);
 		cq.eq("TSFunction.id", functionId);
+
 		cq.eq("status", Short.valueOf("0"));
+
 		cq.add();
 		List<TSOperation> operationList = this.systemService
 				.getListByCriteriaQuery(cq, false);

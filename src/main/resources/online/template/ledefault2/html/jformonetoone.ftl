@@ -158,9 +158,7 @@
 												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 										               <#if subTableField.operationCodesReadOnly?if_exists> readonly = "readonly"
 										               <#else>
-										               <#-- update--begin--author:baiyu Date:20171031 for:改成popupClick支持返回多个字段 -->
 												       onClick="popupClick(this,'${subTableField.dict_text?if_exists?html}','${subTableField.dict_field?if_exists?html}','${subTableField.dict_table?if_exists?html}');" 
-												       <#-- update--end--author:baiyu Date:20170417 for:改成popupClick支持返回多个字段 -->
 										               </#if>
 										               <#if subTableField.field_valid_type?if_exists?html != ''>
 										               datatype="${subTableField.field_valid_type?if_exists?html}"
@@ -383,9 +381,7 @@
 												<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 									               <#if subTableField.operationCodesReadOnly?if_exists> readonly = "readonly"
 									               <#else>
-									               <#-- update--begin--author:baiyu Date:20171031 for:改成popupClick支持返回多个字段 -->
 											       onClick="popupClick(this,'${subTableField.dict_text?if_exists?html}','${subTableField.dict_field?if_exists?html}','${subTableField.dict_table?if_exists?html}');" 
-											       <#-- update--end--author:baiyu Date:20171031 for:改成popupClick支持返回多个字段 -->
 									               </#if>
 									               <#if subTableField.field_valid_type?if_exists?html != ''>
 									               datatype="${subTableField.field_valid_type?if_exists?html}"

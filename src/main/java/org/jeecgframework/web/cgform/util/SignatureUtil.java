@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.p3.core.util.MD5Util;
+import org.jeecgframework.core.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

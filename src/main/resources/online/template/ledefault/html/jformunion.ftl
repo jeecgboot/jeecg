@@ -68,7 +68,9 @@
 		$tbody.find('>tr').each(function(i){
 			<#-- update--begin--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
 			$(':input, select, button, a', this).each(function(){
-				var $this = $(this), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
+				<#-- update--begin--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
+				var $this = $(this), name = $this.attr('name'),validtype_str = $this.attr('validType'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
+				<#-- update--end--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
 				if(name!=null){
 					if (name.indexOf("#index#") >= 0){
 						$this.attr("name",name.replace('#index#',i));
@@ -95,6 +97,13 @@
 					}else{
 					}
 				}
+				<#-- update--begin--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
+				if(validtype_str!=null){
+					if(validtype_str.indexOf("#index#") >= 0){
+						$this.attr("validType",validtype_str.replace('#index#',i));
+					}
+				}
+				<#-- update--end--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
 				<#-- update--end--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
 			});
 			$(this).find('div[name=\'xh\']').html(i+1);

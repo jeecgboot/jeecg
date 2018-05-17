@@ -35,7 +35,7 @@
 						</label>
 					</td>
 					<td class="value">
-						  	 <textarea style="width:600px;height:100px" class="inputxt" rows="6" id="sqlContent" name="sqlContent"></textarea>
+						  	 <textarea style="width:570px;height:100px" class="inputxt" rows="6" id="sqlContent" name="sqlContent"></textarea>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">SQL内容</label>
 						</td>

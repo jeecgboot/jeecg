@@ -26,11 +26,14 @@ import org.jeecgframework.core.online.util.CgReportQueryParamUtil;
 import org.jeecgframework.core.online.util.FreemarkerHelper;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.DynamicDBUtil;
+import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.SqlUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
+import org.jeecgframework.web.system.pojo.base.TSType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -215,21 +218,25 @@ public class CgReportController extends BaseController {
 			List<Map<String,Object>> beans) {
 		for(Map<String,Object> bean:beans){
 			String dict_code = (String) bean.get(CgReportConstant.ITEM_DICCODE);
+			String field_name=bean.get(CgReportConstant.ITEM_FIELDNAME).toString();
 			if(StringUtil.isEmpty(dict_code)){
 				//不需要处理字典
 				continue;
 			}else{
-				List<Map<String, Object>> dicDatas = queryDic(dict_code);
+
+//				List<Map<String, Object>> dicDatas = queryDic(dict_code);
+				List<TSType> dicDatas = ResourceUtil.allTypes.get(dict_code.toLowerCase());
 				for(Map r:result){
-					String value = String.valueOf(r.get(bean.get(CgReportConstant.ITEM_FIELDNAME)));
-					for(Map m:dicDatas){
-						String typecode = String.valueOf(m.get("typecode"));
-						String typename = String.valueOf(m.get("typename"));
+					String value = String.valueOf(r.get(field_name));
+					for(TSType m:dicDatas){
+						String typecode = String.valueOf(m.getTypecode());
 						if(value.equalsIgnoreCase(typecode)){
-							r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),typename);
+							String typename = String.valueOf(m.getTypename());
+							r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),MutiLangUtil.doMutiLang(typename, null));
 						}
 					}
 				}
+
 			}
 		}
 	}
@@ -319,7 +326,9 @@ public class CgReportController extends BaseController {
         Long size=0l;
         if(StringUtils.isNotBlank(dbKey)){
             result= DynamicDBUtil.findList(dbKey,SqlUtil.jeecgCreatePageSql(dbKey,querySql,queryparams,p,r));
-            Map map=(Map)DynamicDBUtil.findOne(dbKey,SqlUtil.getCountSql(querySql,null));
+
+            Map map=(Map)DynamicDBUtil.findOne(dbKey,SqlUtil.getCountSql(querySql,queryparams));
+
             if(map.get("COUNT(*)") instanceof BigDecimal){
             	BigDecimal count = (BigDecimal)map.get("COUNT(*)");
             	size = count.longValue();

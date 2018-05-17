@@ -136,13 +136,13 @@ public class MutiLangUtil {
 	}
 	
 	public static String doMutiLang(String title, String langArg){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		long start = System.currentTimeMillis();
-		logger.info("================================ doMutiLang 开始时间:"+sdf.format(new Date())+"==============================");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		long start = System.currentTimeMillis();
+//		logger.info("================================ doMutiLang 开始时间:"+sdf.format(new Date())+"==============================");
 		String context = getLang(title, langArg);
-		long end = System.currentTimeMillis();
-		logger.info("=============================== doMutiLang 结束时间:"+sdf.format(new Date())+"==============================");
-		logger.info("================================ doMutiLang 耗时:"+(end-start)+"ms==============================");
+//		long end = System.currentTimeMillis();
+//		logger.info("=============================== doMutiLang 结束时间:"+sdf.format(new Date())+"==============================");
+//		logger.info("================================ doMutiLang 耗时:"+(end-start)+"ms==============================");
 		return context;
 	}
 	/**

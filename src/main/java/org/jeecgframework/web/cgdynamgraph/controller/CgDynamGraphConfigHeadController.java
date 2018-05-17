@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.velocity.VelocityContext;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -14,15 +13,12 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.p3.core.util.plugin.ViewVelocity;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgdynamgraph.entity.core.CgDynamGraphConfigHeadEntity;
 import org.jeecgframework.web.cgdynamgraph.entity.core.CgDynamGraphConfigItemEntity;
 import org.jeecgframework.web.cgdynamgraph.entity.core.CgDynamGraphConfigParamEntity;
 import org.jeecgframework.web.cgdynamgraph.page.core.CgDynamGraphConfigHeadPage;
 import org.jeecgframework.web.cgdynamgraph.service.core.CgDynamGraphConfigHeadServiceI;
-import org.jeecgframework.web.cgreport.entity.core.CgreportConfigHeadEntity;
-import org.jeecgframework.web.cgreport.entity.core.CgreportConfigParamEntity;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,13 +61,6 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHeadList");
 	}
 	
-	@RequestMapping(params = "cgDynamGraphConfigHeadVM")
-	public void CgDynamGraphConfigHeadVM(HttpServletResponse response, HttpServletRequest request) throws Exception{
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/cgDynamGraphConfigHeadList.vm";
-		ViewVelocity.view(request, response, viewName, velocityContext);
-	}
-
 	/**
 	 * easyui AJAX请求数据
 	 * 
@@ -214,15 +203,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHead-add");
 	}
-	
-	@RequestMapping(params = "goAdd_vm")
-	public void goAddVM(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/cgDynamGraphConfigHead-add.vm";
 		
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
 	/**
 	 * 动态报表配置抬头编辑页面跳转
 	 * 
@@ -236,20 +217,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigHead-update");
 	}
-	
-	@RequestMapping(params = "goUpdate_vm")
-	public void goUpdateVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception  {
 		
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/cgDynamGraphConfigHead-update.vm";
-		
-		CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead = cgDynamGraphConfigHeadService.getEntity(CgDynamGraphConfigHeadEntity.class, id);
-			
-		velocityContext.put("cgDynamGraphConfigHeadPage",cgDynamGraphConfigHead);
-		
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
 	/**
 	 * 加载明细列表[动态报表配置明细]
 	 * 
@@ -272,27 +240,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigItemList");
 	}
-	
-	@RequestMapping(params = "cgDynamGraphConfigItemList_vm")
-	public void cgDynamGraphConfigItemListVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception  {
-	
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/cgDynamGraphConfigItemList.vm";
-		//===================================================================================
-		//获取参数
-		Object id0 = id;
-		//===================================================================================
-		//查询-动态报表配置明细
-	    String hql0 = "from CgDynamGraphConfigItemEntity where 1 = 1 AND cgrheadId = ? ";
-	    try{
-	    	List<CgDynamGraphConfigItemEntity> cgDynamGraphConfigItemEntityList = systemService.findHql(hql0,id0);
-	    	velocityContext.put("cgDynamGraphConfigItemList", cgDynamGraphConfigItemEntityList);
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
-	
+		
 	/**
 	 * 加载参数列表[动态报表参数]
 	 * 
@@ -314,25 +262,6 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 			logger.info(e.getMessage());
 		}
 		return new ModelAndView("jeecg/cgdynamgraph/core/cgDynamGraphConfigParamList");
-	}
-	
-	@RequestMapping(params = "cgDynamGraphConfigParamList_vm")
-	public void cgDynamGraphConfigParamListVM(@RequestParam(required = true, value = "id" ) String id, HttpServletResponse response, HttpServletRequest request) throws Exception  {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/cgDynamGraphConfigParamList.vm";
-		//===================================================================================
-		//获取参数
-		Object id0 = id;
-		//===================================================================================
-		//查询-动态报表配置明细
-	    String hql0 = "from CgDynamGraphConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
-	    try{
-	    	List<CgDynamGraphConfigParamEntity> cgDynamGraphConfigParamEntityList = systemService.findHql(hql0,id0);
-	    	velocityContext.put("cgDynamGraphConfigParamList",cgDynamGraphConfigParamEntityList);
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		ViewVelocity.view(request,response,viewName,velocityContext);
 	}
 	
 	@RequestMapping(params = "popmenulink")
@@ -362,32 +291,4 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		return new ModelAndView("jeecg/cgreport/core/popmenulink");
 	}
 	
-	@RequestMapping(params = "popmenulink_vm")
-	public void popmenulinkVM(@RequestParam String url, @RequestParam String title, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		VelocityContext velocityContext = new VelocityContext();
-		String viewName = "cgdynamgraph/popmenulink.vm";
-        StringBuilder sb = new StringBuilder("");
-	    try{
-	    	CgreportConfigHeadEntity cgreportConfigHead = systemService.findUniqueByProperty(CgreportConfigHeadEntity.class, "code", title);
-	    	String hql0 = "from CgreportConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
-	    	List<CgreportConfigParamEntity> cgreportConfigParamList = systemService.findHql(hql0,cgreportConfigHead.getId());
-	    	if(cgreportConfigParamList!=null&cgreportConfigParamList.size()>0){
-	    		for(CgreportConfigParamEntity cgreportConfigParam :cgreportConfigParamList){
-	    			sb.append("&").append(cgreportConfigParam.getParamName()).append("=");
-	    			if(StringUtil.isNotEmpty(cgreportConfigParam.getParamValue())){
-	    				sb.append(cgreportConfigParam.getParamValue());
-	    			}else{
-	    				sb.append("${"+cgreportConfigParam.getParamName()+"}");
-	    			}
-	    		}
-	    	}
-		}catch(Exception e){
-			logger.info(e.getMessage());
-		}
-		velocityContext.put("title",title);
-		velocityContext.put("url",url);
-		velocityContext.put("params",sb.toString());
-
-		ViewVelocity.view(request,response,viewName,velocityContext);
-	}
 }

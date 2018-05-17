@@ -20,8 +20,14 @@
 				  <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="update('编辑','jeecgListDemoController.do?goUpdate','jeecgMysearchList')">用户编辑</a>
 			  </div>
 	  		  <div align="right" class="searchColums">
-	  			  名称：<input class="inuptxt ac_input" type="text" name="name">
-	  			  年龄：<input class="easyui-validatebox"  type="text" name="age">
+	  			  <label for="name" class="col-sm-2 control-label">名字: </label><input class="form-control" type="text" name="name" placeholder="请输入名字"/>
+	  			  <label for="age" class="col-sm-2 control-label">年龄： </label><input class="form-control"  type="text" name="age" placeholder="请输入年龄"/>
+	  			  <label for="sex" class="col-sm-2 control-label">性别： </label>
+	  			  	  <select name="sex" class="form-control">
+	  			  	  	  <option value="">请选择</option>
+					      <option value="0">男</option>
+					      <option value="1">女</option>
+				      </select>
 	  			 <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="jeecgMysearchListsearch();">查询</a>
 				 <a href="#" class="easyui-linkbutton" iconCls="icon-reload" onclick="searchReset('jeecgMysearchList')">重置</a>
 	  		 </div>

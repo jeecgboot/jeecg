@@ -20,10 +20,21 @@ import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
 
+<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+import org.jeecgframework.minidao.util.FreemarkerParseFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.jeecgframework.core.util.ResourceUtil;
+<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+
 @Service("${entityName?uncap_first}Service")
 @Transactional
 public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${entityName}ServiceI {
 
+	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	
  	public void delete(${entityName}Entity entity) throws Exception{
  		super.delete(entity);
@@ -55,7 +66,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 	<#list buttonSqlMap[btn.buttonCode] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	//-----------------sql增强 end------------------------------
 	 	
@@ -79,7 +92,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['add'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	//-----------------sql增强 end------------------------------
 	 	
@@ -100,7 +115,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['update'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	//-----------------sql增强 end------------------------------
 	 	
@@ -121,7 +138,9 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
  		<#list buttonSqlMap['delete'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
-	 	this.executeSql(replaceVal(sqlEnhance_${sql_index+1},t));
+	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+	 	this.executeSqlEnhance(sqlEnhance_${sql_index+1},t);
+	 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 	 	</#list>
 	 	//-----------------sql增强 end------------------------------
 	 	
@@ -178,4 +197,32 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 			} 
 		}
  	}
+ 	
+ 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
+ 	private void executeSqlEnhance(String sqlEnhance,${entityName}Entity t){
+	 	Map<String,Object> data = populationMap(t);
+	 	sqlEnhance = ResourceUtil.formateSQl(sqlEnhance, data);
+	 	boolean isMiniDao = false;
+	 	try {
+	 		data = ResourceUtil.minidaoReplaceExtendSqlSysVar(data);
+	 		sqlEnhance = FreemarkerParseFactory.parseTemplateContent(sqlEnhance, data);
+			isMiniDao = true;
+		} catch (Exception e) {
+		}
+	 	String [] sqls = sqlEnhance.split(";");
+		for(String sql:sqls){
+			if(sql == null || sql.toLowerCase().trim().equals("")){
+				continue;
+			}
+			int num = 0;
+			if(isMiniDao){
+				<#-- update--begin--author:zhoujf date:20180416 for:TASK #2623 【bug】生成代码sql 不支持表达式(事物处理)-->
+				num = namedParameterJdbcTemplate.update(sql, data);
+				<#-- update--end--author:zhoujf date:20180416 for:TASK #2623 【bug】生成代码sql 不支持表达式(事物处理)-->
+			}else{
+				num = this.executeSql(sql);
+			}
+		}
+ 	}
+ 	<#-- update--end--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
 }

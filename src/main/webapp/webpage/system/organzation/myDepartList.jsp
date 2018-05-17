@@ -12,11 +12,13 @@
 <body>
 	<div class="easyui-layout" fit="true" scroll="no">
 		<div  data-options="region:'west',title:'我的机构管理',split:true" style="width:200px;overflow: auto;">
-		   <div style="width:85px;float: left;margin-left: 8px;margin-top: 2px;">
+		   <!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
+		   <div style="width:105px;margin-left: 8px;margin-top: 2px;">
 			<a  icon="icon-add" class="easyui-linkbutton l-btn l-btn-plain"  onclick="addOneNode()">
-				<span class="bigger-110 no-text-shadow">添加公司</span>
+				<span class="bigger-110 no-text-shadow" style="width: 50px;">添加公司</span>
 			</a>
 			</div>
+			<!-- update-begin--Author:Yandong  Date:20180402 for： TASK #2601 【严重样式问题】我的组织机构，在shortcut风格下样式有问题-->
 			 <div class="clear"></div> 
 	        <div id="orgTree" class="ztree"></div>
 	        <input type="hidden" id="userName" name="userName" value="${userName}"/>

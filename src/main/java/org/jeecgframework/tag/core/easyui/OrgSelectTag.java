@@ -139,9 +139,11 @@ public class OrgSelectTag extends TagSupport {
 		if(StringUtils.isBlank(inputWidth)){
 			inputWidth = "150px";
 		}
+
 		if(StringUtils.isBlank(windowWidth)){
 			windowWidth = "660px";
 		}
+
 		
 		if(StringUtils.isBlank(windowHeight)){
 			windowHeight = "350px";

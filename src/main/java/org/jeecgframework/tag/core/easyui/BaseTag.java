@@ -1,8 +1,6 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -26,7 +24,6 @@ public class BaseTag extends JeecgTag {
 	private Logger log = Logger.getLogger(BaseTag.class);
 	private static final long serialVersionUID = 1L;
 	protected String type = "default";// 加载类型
-
 	protected String cssTheme ;
 	
 	public String getCssTheme() {
@@ -37,7 +34,6 @@ public class BaseTag extends JeecgTag {
 	public void setCssTheme(String cssTheme) {
 		this.cssTheme = cssTheme;
 	}
-
 
 	public void setType(String type) {
 		this.type = type;
@@ -50,9 +46,6 @@ public class BaseTag extends JeecgTag {
 
 	
 	public int doEndTag() throws JspException {
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		long start = System.currentTimeMillis();
-//        log.info("================================ BaseTag 开始时间:"+sdf.format(new Date())+"==============================");
 		JspWriter out = null;
 		try {
 			out = this.pageContext.getOut();
@@ -63,46 +56,22 @@ public class BaseTag extends JeecgTag {
 		}finally{
 			if(out!=null){
 				try {
-
 					out.clearBuffer();
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-//		long end = System.currentTimeMillis();
-//        log.info("=============================== BaseTag 结束时间:"+sdf.format(new Date())+"==============================");
-//        log.info("================================ BaseTag 耗时:"+(end-start)+"ms==============================");
 		return EVAL_PAGE;
 	}
 
 	public StringBuffer end(){
-
 		StringBuffer sb = this.getTagCache();
 		if(sb != null){
 			return sb;
 		}
 		sb = new StringBuffer();
-
 		String types[] = type.split(",");
-		/*//			update-start--Author:longjb  Date:20150408 for：手动设置指定属性主题优先
-			//if (cssTheme == null) {// 
-				Cookie[] cookies = ((HttpServletRequest) super.pageContext
-						.getRequest()).getCookies();
-				for (Cookie cookie : cookies) {
-					if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
-						continue;
-					}
-					if (cookie.getName().equalsIgnoreCase("JEECGCSSTHEME")) {
-						cssTheme = cookie.getValue();
-					}
-				}
-			//}
-
-			if(cssTheme==null||"".equals(cssTheme)){
-				cssTheme="default";
-			}*/
 		SysThemesEnum sysThemesEnum = null;
 		if(StringUtil.isEmpty(cssTheme)||"null".equals(cssTheme)){
 			sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
@@ -115,38 +84,27 @@ public class BaseTag extends JeecgTag {
 		if(lang==null){lang="zh-cn";}
 		String langjs = StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/mutiLang/{0}.js\"></script>", "{0}", lang);
 		sb.append(langjs);
-
 		if (oConvertUtils.isIn("jquery-webos", types)) {
             sb.append("<script type=\"text/javascript\" src=\"plug-in/sliding/js/jquery-1.7.1.min.js\"></script>");
             
 		} else if (oConvertUtils.isIn("jquery", types)) {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
-
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery.cookie.js\" ></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery-plugs/storage/jquery.storageapi.min.js\" ></script>");
-
 		}
-
 		if (oConvertUtils.isIn("ckeditor", types)) {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/ckeditor/ckeditor.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/ckeditorTool.js\"></script>");
 		}
 		if (oConvertUtils.isIn("easyui", types)) {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
-
-//				sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
 			sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
 			sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
-
 			sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
-
-//				sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/{0}.js\"></script>", "{0}", lang)); 
-
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/extends/datagrid-scrollview.js\"></script>");
 		}
@@ -167,16 +125,11 @@ public class BaseTag extends JeecgTag {
 		if (oConvertUtils.isIn("prohibit", types)) {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/prohibitutil.js\"></script>");		}
 		if (oConvertUtils.isIn("tools", types)) {
-
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/"+("metro".equals(cssTheme)?"metro/":"")+"common.css\" type=\"text/css\"></link>");
 			sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
-
-//				sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js"+("metro".equals(cssTheme)?"?skin=metro":"")+"\"></script>");
 			sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
 			sb.append(SysThemesUtil.getBootstrapTabTheme(sysThemesEnum));
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
-			
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery-plugs/hftable/jquery-hftable.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/json2.js\" ></script>");
@@ -206,12 +159,32 @@ public class BaseTag extends JeecgTag {
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.core-3.5.min.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/ztree/js/jquery.ztree.excheck-3.5.min.js\"></script>");
 		}
+
+		if (oConvertUtils.isIn("bootstrap", types)) {
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.9.1.js\"></script>");
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap3.3.5/css/bootstrap.min.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/bootstrap3.3.5/js/bootstrap.min.js\"></script>");
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap3.3.5/css/default.css\" type=\"text/css\"></link>");
+		}
+		if (oConvertUtils.isIn("bootstrap-table", types)) {
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/bootstrap-table/bootstrap-table.min.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/bootstrap-table/bootstrap-table.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/bootstrap-table/locale/bootstrap-table-zh-CN.min.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/themes/bootstrap-ext/js/common.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js?skin=metrole\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/themes/bootstrap-ext/js/bootstrap-lhgdialog-curdtools_zh-cn.js\"></script>");
+		}
+		if (oConvertUtils.isIn("layer", types)) {
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/layer/layer.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/laydate/laydate.js\"></script>");
+		}
+
 		types = null;
-
 		this.putTagCache(sb);
-
 		return sb;
 	}
+
 
 	public String toString() {
 		return new StringBuffer().append("BaseTag [type=").append(type)
@@ -220,6 +193,5 @@ public class BaseTag extends JeecgTag {
 				.append(",cssTheme=").append(cssTheme)
 				.append("]").toString();
 	}
-
 	
 }

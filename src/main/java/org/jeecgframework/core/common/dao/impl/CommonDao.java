@@ -295,20 +295,21 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		String ctxPath = request.getSession().getServletContext().getRealPath("/");
 		String downLoadPath = "";
 		long fileLength = 0;
-		if (uploadFile.getRealPath() != null&&uploadFile.getContent() == null) {
-			downLoadPath = ctxPath + uploadFile.getRealPath();
-			fileLength = new File(downLoadPath).length();
-			try {
-				bis = new BufferedInputStream(new FileInputStream(downLoadPath));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		} else {
-			if (uploadFile.getContent() != null)
-				bis = new ByteArrayInputStream(uploadFile.getContent());
-			fileLength = uploadFile.getContent().length;
-		}
 		try {
+			if (uploadFile.getRealPath() != null&&uploadFile.getContent() == null) {
+				downLoadPath = ctxPath + uploadFile.getRealPath();
+				fileLength = new File(downLoadPath).length();
+				try {
+					bis = new BufferedInputStream(new FileInputStream(downLoadPath));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			} else {
+				if (uploadFile.getContent() != null)
+					bis = new ByteArrayInputStream(uploadFile.getContent());
+					fileLength = uploadFile.getContent().length;
+			}
+		
 			if (!uploadFile.isView() && uploadFile.getExtend() != null) {
 				if (uploadFile.getExtend().equals("text")) {
 					response.setContentType("text/plain;");
@@ -545,9 +546,10 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 				for (Object inobj : in) {
 					ReflectHelper reflectHelper2 = new ReflectHelper(inobj);
 					String inId = oConvertUtils.getString(reflectHelper2.getMethodValue(comboTreeModel.getIdField()));
-                    if (inId.equals(id)) {
+                   if (inId.equals(id)) {
 						tree.setChecked(true);
 					}
+
 				}
 			}
 		}
@@ -666,7 +668,7 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
                     tg.getFieldMap().put(entry.getKey(), fieldValue);
                 }
             }
-            if (treeGridModel.getFunctionType() != null) {
+           if (treeGridModel.getFunctionType() != null) {
             	String functionType = oConvertUtils.getString(reflectHelper.getMethodValue(treeGridModel.getFunctionType()));
             	tg.setFunctionType(functionType);
             }

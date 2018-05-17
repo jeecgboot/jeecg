@@ -205,6 +205,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 					//request.setAttribute(Globals.OPERATIONCODES, operationCodes);
 				//}
 				//if(!oConvertUtils.isEmpty(functionId)){
+
 					
 //					List<TSOperation> allOperation=this.systemService.findByProperty(TSOperation.class, "TSFunction.id", functionId);
 //					List<TSOperation> newall = new ArrayList<TSOperation>();

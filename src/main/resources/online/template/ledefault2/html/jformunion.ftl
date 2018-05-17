@@ -103,7 +103,9 @@
  </script>
  <body>
   <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>
-	<#include "online/template/ledefault/html/jformhead.ftl">
+	<#-- update-begin-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->
+	<#include "online/template/ledefault2/html/jformhead.ftl">
+	<#-- update-end-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->	
 			
 			
 <script type="text/javascript">
@@ -208,9 +210,11 @@
 	<#list subtablelist as sub >
 	    <#if field['${sub}']?exists >
 	    	<#if field['${sub}'].head.relationType==1 >
-		    <#include "online/template/ledefault/html/jformonetoone.ftl">
+	    	<#-- update-begin-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->
+		    <#include "online/template/ledefault2/html/jformonetoone.ftl">
 		    <#else>
-		    <#include "online/template/ledefault/html/jformonetomany.ftl">
+		    <#include "online/template/ledefault2/html/jformonetomany.ftl">
+		    <#-- update-end-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->
 		    </#if>
 		</#if>
 	</#list>
@@ -233,7 +237,9 @@
 		<#list subtablelist as sub >
 		    <#if field['${sub}']?exists >
 				<#if field['${sub}'].head.relationType!=1 >
-			    <#include "online/template/ledefault/html/jformonetomanytpl.ftl">
+				<#-- update-begin-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->
+			    <#include "online/template/ledefault2/html/jformonetomanytpl.ftl">
+			    <#-- update-end-author:taoyan date:20180326 for:ledefault2引入页面地址错误  -->
 			    </#if>
 			</#if>
 		</#list>

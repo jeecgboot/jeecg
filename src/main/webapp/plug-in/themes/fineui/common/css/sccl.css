@@ -118,8 +118,10 @@ border-bottom: solid 1px #0e9aef;}
 .side-menu{list-style: none; margin: 0; padding: 0; background-color: #393D49;position: relative;
 font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 font-size: 13px;}
-.side-menu .menu-item{position: relative; margin: 0; padding: 0;} 
-.side-menu .menu-item a{padding:5.5px 5px 5.5px 15px; display: block; border-left: 5px solid transparent; color: #c2c2c2;border-bottom: 1px solid #393D49;} 
+.side-menu .menu-item{position: relative; margin: 0; padding: 0;}
+/* update-begin--Author:zhoujf  Date:20180503 for：TASK #2670 【fineUI】fineUI 首页加载聊天插件时 菜单样式乱了 --*/
+.side-menu .menu-item a{line-height: 24px;padding:5.5px 5px 5.5px 15px; display: block; border-left: 5px solid transparent; color: #c2c2c2;border-bottom: 1px solid #393D49;}
+/* update-end--Author:zhoujf  Date:20180503 for：TASK #2670 【fineUI】fineUI 首页加载聊天插件时 菜单样式乱了 --*/
 .side-menu .menu-item a span{margin-left: 8px;} 
 .side-menu .menu-item:hover > a, .side-menu .menu-item.active > a{color: #fff; background:#1a9182;border-left-color: #33AECC;transition: all .3s; -webkit-transition: all .3s;} 
 /* background: #4E5465; */ 

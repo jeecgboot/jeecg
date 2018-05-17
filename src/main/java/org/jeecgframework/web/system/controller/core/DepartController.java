@@ -528,7 +528,7 @@ public class DepartController extends BaseController {
         TagUtil.datagrid(response, dataGrid);
     }
 
-    /**
+   /**
      * 用户选择机构列表跳转页面(树列表)
      *
      * @return
@@ -540,7 +540,7 @@ public class DepartController extends BaseController {
 
         return "system/depart/orgSelect";
     }
-    
+   
 	/**
 	 * 导入功能跳转
 	 *

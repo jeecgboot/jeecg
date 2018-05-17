@@ -66,6 +66,7 @@ public interface SystemService extends CommonService{
 	 * @return
 	 */
 	public  Set<String> getOperationCodesByUserIdAndFunctionId(String userId,String functionId);
+
 	/***
 	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮
 	 */
@@ -80,12 +81,14 @@ public interface SystemService extends CommonService{
 	 * @return
 	 */
 	public  Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId,String functionId);
+
 	/**
 	 * 获取页面控件权限控制的
 	 * JS片段
 	 * @param out
 	 */
 	public String getAuthFilterJS();
+
 	
 	/**
 	 * 根据编码获取字典组

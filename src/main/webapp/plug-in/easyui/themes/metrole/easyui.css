@@ -1072,7 +1072,9 @@ a:hover.l-btn-disabled {
 /*update-begin--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */
 .datagrid-header-row{
   font-weight: bold;
-  height: 25px;
+  /*update-begin author:zhoujf date:20180412 for:列表样式优化*/
+  height: 31px;
+  /*update-end author:zhoujf date:20180412 for:列表样式优化*/
   background-color:#F9F9F9;
 }
 /*update-end--Author:xuelin  Date:20170517 for：TASK#1969::【UI美化】h+风格下，列表整体风格有点灰------------------- */

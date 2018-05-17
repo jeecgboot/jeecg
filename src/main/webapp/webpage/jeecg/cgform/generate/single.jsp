@@ -103,9 +103,16 @@ function browseFolder(path) {
 				name="entityFlag" id="entityFlag" checked="checked">Entity</input> <span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>
+			<td align="right"><label class="Validform_label"> 模板类型: </label></td>
+			<td class="value" colspan="3">
+			<input type = "radio"   name="version" checked="checked" value="ext-common" onclick="getSingleTemplate('single','ext-common')">新一代模板(IE10+/移动支持/列表非标签)
+			<input type = "radio"   name="version" datatype="*" value="ext"  onclick="getSingleTemplate('single','ext')">老版本模板(IE8+/不支持移动/列表标签)
+			<span class="Validform_checktip"></span></td>
+		</tr>
+		<tr>
 			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
 			<td class="value" colspan="3">
-			<select id="jspMode" name="jspMode">
+			<select id="jspMode" name="jspMode" style="width: 220px">
 		     		<c:forEach items="${jspModeList }" var="style">
 			     	 <option value="${style.code }" >${style.desc }</option>
 			     	</c:forEach>
@@ -115,3 +122,29 @@ function browseFolder(path) {
 	</table>
 </t:formvalid>
 </body>
+<script type="text/javascript">
+//获取表单风格模板名称
+function getSingleTemplate(type,version){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/generateController.do?getOnlineTempletStyle",
+		type:"post",
+		data:{type:type,
+			version:version
+		},
+		dataType:"json",
+		success:function(data){
+			if(data.success){
+				$("#jspMode").empty();
+				//$("#jspMode").append("<option value='' ><t:mutiLang langKey="common.please.select"/></option>");
+				$.each(data.obj,function(i,tem){
+					$("#jspMode").append("<option value='"+tem.code+"' >"+tem.desc+"</option>");
+				});
+			}else{
+				$("#jspMode").empty();
+			}
+		}
+	});
+}
+
+</script>
+</html>

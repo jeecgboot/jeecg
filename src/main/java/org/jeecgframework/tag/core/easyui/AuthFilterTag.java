@@ -33,6 +33,7 @@ public class AuthFilterTag extends TagSupport{
 	
 	public int doEndTag() throws JspException {
 		JspWriter out = null;
+
 		try {
 			out = this.pageContext.getOut();
 			systemService = ApplicationContextUtil.getContext().getBean(SystemService.class);
@@ -50,6 +51,7 @@ public class AuthFilterTag extends TagSupport{
 			}
 		}
 		return EVAL_PAGE;
+
 	}
 	
 	public String getName() {

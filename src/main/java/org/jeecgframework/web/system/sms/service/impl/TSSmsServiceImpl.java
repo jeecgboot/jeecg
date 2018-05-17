@@ -161,12 +161,14 @@ public class TSSmsServiceImpl extends CommonServiceImpl implements TSSmsServiceI
 
 	public List<TSSmsEntity> getMsgsList(String curUser,String curDate) {
 		List<TSSmsEntity> list = new ArrayList<TSSmsEntity>();
+
 		String hql=null;
 		if("sqlserver".equals(DBTypeUtil.getDBType())){
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and CONVERT(varchar(20),t.esSendtime) like ?";
 		}else{
 			hql = "from TSSmsEntity t where t.esType='3' and t.esReceiver=? and str(t.esSendtime) like ?";
 		}
+
 		list = this.findHql(hql, new Object[] {curUser,curDate+'%'});
 		return list;
 	}

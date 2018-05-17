@@ -21,8 +21,9 @@ $(function(){
 
 function  detailFormatterFun(){
 			return '<div class="orderInfoHidden" style="padding:2px;">'+
-                            '<div class="easyui-tabs"   style="height:230px;width:1850px">'+
-                            
+							<#--update-begin--Author:Yandong  Date:20180413 for：TASK #2636 【样式问题】一对多，列表带明细的模板，多个明细情况下展示有问题-->
+                            '<div class="easyui-tabs"   style="height:230px;width:800px">'+
+                            <#--update-end--Author:Yandong  Date:20180413 for：TASK #2636 【样式问题】一对多，列表带明细的模板，多个明细情况下展示有问题-->
                           	<#assign subTableStr>${head.subTableStr?if_exists?html}</#assign>
 							<#assign subtablelist=subTableStr?split(",")>
 							<#list subtablelist as sub >
@@ -73,7 +74,9 @@ function onExpandRowFun(index,row){
 					}, 
 			        columns:[[
 			        		<#list field['${sub}'].fieldList as subTableField >
-								{title:'${subTableField.content?if_exists?html}',field:'${subTableField.field_name?if_exists?html}',align:'left'},
+			        			<#--update-begin--Author:Yandong  Date:20180413 for：TASK #2636 【样式问题】一对多，列表带明细的模板，多个明细情况下展示有问题-->
+								{title:'${subTableField.content?if_exists?html}',field:'${subTableField.field_name?if_exists?html}',align:'left',width:50},
+								<#--update-end--Author:Yandong  Date:20180413 for：TASK #2636 【样式问题】一对多，列表带明细的模板，多个明细情况下展示有问题-->
 							</#list>
 							<#list field['${sub}'].hiddenFieldList as subTableField >
 							      {field:'${subTableField.field_name?if_exists?html}',hidden:true},
@@ -603,7 +606,9 @@ function createDataGrid${config_id}(){
 					<#else>
 					<input type="text" name="${x['field_id']}"  style="width: 120px" 
 									class="searchbox-inputtext" value="${x['field_value']?if_exists?default('')}"
-							       onClick="inputClick(this,'${x['field_dictField']?if_exists?html}','${x['field_dictTable']?if_exists?html}');" />
+							       <#--update--begin--author:gj_shaojc date:20180316 for:TASK #2557 【问题确认】网友问题确认 -->
+							       onClick="popupClick(this,'${x['field_dictText']?if_exists?html}','${x['field_dictField']?if_exists?html}','${x['field_dictTable']?if_exists?html}');" />
+									<#--update--end--author:gj_shaojc date:20180316 for:TASK #2557 【问题确认】网友问题确认 -->
 					</#if>
 				</#if>
 			<#else>

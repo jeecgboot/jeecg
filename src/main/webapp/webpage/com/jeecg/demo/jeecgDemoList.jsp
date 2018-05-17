@@ -12,12 +12,12 @@
     <t:dgCol title="生日"  hidden="true"  field="birthday" formatter="yyyy-MM-dd"   queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="部门"  field="depId" query="true" queryMode="single" dictionary="t_s_depart,id,departname"  width="120"></t:dgCol>
     <t:dgCol title="部门code" field="extField"></t:dgCol>
-    <t:dgCol title="性别"  field="sex"  query="true" showMode="radio" dictionary="sex" width="120" extendParams="styler:fmtype"></t:dgCol>
+    <t:dgCol title="性别"  field="sex"  query="false" showMode="radio" dictionary="sex" width="120" extendParams="styler:fmtype"></t:dgCol>
     <t:dgCol title="电话"  field="phone" queryMode="group"  width="120"></t:dgCol>
-    <t:dgCol title="工资"  field="salary" query="true" queryMode="group" width="120"></t:dgCol>
+    <t:dgCol title="工资"  field="salary" query="false" queryMode="group" width="120"></t:dgCol>
     <t:dgCol title="创建日期"  field="createDate" formatter="yyyy-MM-dd" query="true" queryMode="group" editor="datebox" width="120"></t:dgCol>
     <t:dgCol title="邮箱"  field="email" query="true"  popup="true" dictionary="user_msg,realname,realname" width="120"></t:dgCol>
-    <t:dgCol title="入职状态"  field="status" query="true" extend="{style:{width:'300px';color:'red'};datatype:'*';}" defaultVal='N'  dictionary="sf_yn" width="80"></t:dgCol>
+    <t:dgCol title="入职状态"  field="status" query="false" extend="{style:{width:'300px';color:'red'};datatype:'*';}" defaultVal='N'  dictionary="sf_yn" width="80"></t:dgCol>
     <t:dgCol title="个人介绍"  field="content"  hidden="true"   queryMode="group"  width="500"></t:dgCol>
    <t:dgCol title="头像"  field="touxiang"   queryMode="group"  formatterjs="statusFmt" width="60"></t:dgCol>
     <t:dgCol title="创建人id"  field="createBy"  hidden="true"  queryMode="group"  width="120"></t:dgCol>

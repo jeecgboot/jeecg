@@ -20,7 +20,14 @@
 								<#-- update--end--author:zhangjiaqiang Date:20170417 for:增加校验必填项 -->
 							   <#if subTableField.operationCodesReadOnly?exists> readonly = "readonly"</#if>
 				               <#if subTableField.field_valid_type?if_exists?html != ''>
-				               datatype="${subTableField.field_valid_type?if_exists?html}"
+				               		<#-- update--begin--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
+				               		<#if subTableField.field_valid_type=='only'>
+						       		   		validType="${sub},${subTableField.field_name},${sub}[#index#].id"
+						       		   		datatype="*"
+						       		<#else>
+					                   		datatype="${subTableField.field_valid_type?if_exists?html}"
+					               	</#if>
+					               	<#-- update--end--author:Yandong Date:20180327 for:TASK #2547 【校验提示问题】校验提示问题 -->
 				               <#else>
 				               <#if subTableField.type == 'int'>
 				               datatype="n" 

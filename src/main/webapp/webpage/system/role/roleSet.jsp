@@ -36,7 +36,8 @@
 			onAsyncError: function(){},
 			onClick: function (event, treeId, treeNode){
 						//console.info(treeNode.id + ", " + treeNode.tId + ", " + treeNode.name + ", " + treeNode.children);
-						if (null == treeNode.children) {
+
+						//if (null == treeNode.children) {
 							var roleId = $("#rid").val();
 							$('#operationListpanel').panel(
 									"refresh",
@@ -44,8 +45,9 @@
 							$('#dataRuleListpanel').panel(
 									"refresh",
 									"roleController.do?dataRuleListForFunction&functionId="+ treeNode.id + "&roleId=" + roleId);
-						} else {
-						}
+						//} else {
+						//}
+
 			}
 		}
 	};

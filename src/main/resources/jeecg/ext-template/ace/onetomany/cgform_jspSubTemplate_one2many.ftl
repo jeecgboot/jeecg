@@ -38,7 +38,10 @@
 	      <tr>
 	        <th style="white-space:nowrap;width:50px;">序号</th>
 	        <th style="white-space:nowrap;width:50px;">操作</th>
-			<#list pageColumns as po>
+	        <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+			<#list columns as po>
+				<#if po.isShow=="Y">
+		    <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 					 <#assign check = 0 >
 					  <#list foreignKeys as key>
 					  <#if fieldMeta[po.fieldName]==key?uncap_first>
@@ -51,6 +54,9 @@
 							${po.content}
 					  </th>
 					  </#if>
+			     <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+				 </#if>
+				 <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 		      </#list>
 	      </tr>
 	    </thead>
@@ -65,7 +71,10 @@
 					<input name="${entityName?uncap_first}List[0].${po.fieldName}" type="hidden"/>
 				</#if>
 				</#list>
-				<#list pageColumns as po>
+				<#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+				<#list columns as po>
+				<#if po.isShow=="Y">
+				<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 				  <#assign check = 0 >
 				  <#list foreignKeys as key>
 				  <#if fieldMeta[po.fieldName]==key?uncap_first>
@@ -101,7 +110,9 @@
 					<#elseif po.showType=='popup'>
 						<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 						<#-- update--begin--author:gj_shaojc Date:20180302 for:TASK #2548 【代码生成器】样式问题-->
-						<input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text" style="width: 150px" class="form-control"  value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+						<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题-->
+						<input  id="${entityName?uncap_first}List[0].${po.fieldName}" name="${entityName?uncap_first}List[0].${po.fieldName}" type="text"  class="form-control"  value="${'$'}{poVal.${po.fieldName} }" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
+						<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题-->
 						<#-- update--end--author:gj_shaojc Date:20180302 for:TASK #2548 【代码生成器】样式问题-->
 						<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 					<#elseif po.showType=='file' || po.showType == 'image'>
@@ -122,6 +133,9 @@
 					  <label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
 					</td>
 				  </#if>
+				  <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+				  </#if>
+				  <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 	            </#list>
    			</tr>
 	</c:if>
@@ -135,7 +149,10 @@
 					<input name="${entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" type="hidden" value="${'$'}{poVal.${po.fieldName} }"/>
 				</#if>
 				</#list>
-				<#list pageColumns as po>
+				<#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+				<#list columns as po>
+				<#if po.isShow=="Y">
+				<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 				  <#assign check = 0 >
 				  <#list foreignKeys as key>
 				  <#if fieldMeta[po.fieldName]==key?uncap_first>
@@ -155,7 +172,9 @@
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-							<t:dictSelect field="${entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:150px'}"  <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName} }" hasLabel="false"  title="${po.content}"></t:dictSelect>     
+							<#-- update--begin--author:zhoujf Date:20180329 for:TASK #2548 【代码生成器】样式问题 -->
+							<t:dictSelect field="${entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:164px'}"  <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName} }" hasLabel="false"  title="${po.content}"></t:dictSelect>     
+							<#-- update--begin--author:zhoujf Date:20180329 for:TASK #2548 【代码生成器】样式问题 -->
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='date'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -193,6 +212,9 @@
 					  <label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
 				   </td>
 				  </#if>
+				  <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+				  </#if>
+				  <#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
    			 	</#list>
    			</tr>
 		</c:forEach>

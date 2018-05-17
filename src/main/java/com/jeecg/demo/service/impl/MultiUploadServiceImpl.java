@@ -44,21 +44,33 @@ public class MultiUploadServiceImpl extends CommonServiceImpl implements MultiUp
 	 * @return
 	 */
 	private void doAddBus(MultiUploadEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
 	private void doUpdateBus(MultiUploadEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 删除操作增强业务
 	 * @param id
 	 * @return
 	 */
 	private void doDelBus(MultiUploadEntity t) throws Exception{
- 	}
+	    //-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	
  	private Map<String,Object> populationMap(MultiUploadEntity t){
 		Map<String,Object> map = new HashMap<String,Object>();

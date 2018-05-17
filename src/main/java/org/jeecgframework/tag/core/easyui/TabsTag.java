@@ -167,6 +167,7 @@ public class TabsTag extends JeecgTag {
 			sb.append("</script>");
 		}
 		if (tabs) {
+
 				//增加width属性，fit属性之前写死，改为由页面设定，不填默认true
 			sb.append("<div id=\"" + id + "\" tabPosition=\"" + tabPosition + "\" border=flase style=\"margin:0px;padding:0px;overflow-x:hidden;width:"+oConvertUtils.getString(width, "auto")+";\" class=\"easyui-tabs\" fit=\""+fit+"\">");
 			if (!iframe) {
@@ -184,6 +185,7 @@ public class TabsTag extends JeecgTag {
 				}
 			}
 			sb.append("</div>");
+
 		}
 
 		this.putTagCache(sb);

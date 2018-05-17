@@ -35,7 +35,7 @@
 							</label>
 						</td>
 						<td class="value">
-						  	 	<textarea id="sqlContent" style="width:600px;height:100px" class="inputxt" rows="6" name="sqlContent">${tSSmsSqlPage.sqlContent}</textarea>
+						  	 	<textarea id="sqlContent" style="width:570px;height:100px" class="inputxt" rows="6" name="sqlContent">${tSSmsSqlPage.sqlContent}</textarea>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">SQL内容</label>
 						</td>

@@ -1599,7 +1599,9 @@ a:hover.l-btn-disabled {
 }
 .searchbox-inputtext{
 	border:#999 1px solid;
-	height:20px;
+	//update-begin--Author:scott--- Date:20180327---for：popup输入框样式高度在shortcut风格下太高问题处理----
+	//height:20px;
+	//update-end--Author:scott--- Date:20180327---for：popup输入框样式高度在shortcut风格下太高问题处理----
 	background:#fff url(images/searchbox_button.png) no-repeat right;
 }
 .searchbox-inputtext15{

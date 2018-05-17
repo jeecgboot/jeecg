@@ -66,11 +66,13 @@ public class MenuTag extends JeecgTag {
 		}finally{
 			try {
 				out.clearBuffer();
+
 				//添加缓存后，不需要清空，并且清空后会对缓存造成影响
 //				if(endString != null){
 //					endString.setLength(0);
 //				}
 				//end().setLength(0);
+
 			} catch (Exception e2) {
 			}
 		}

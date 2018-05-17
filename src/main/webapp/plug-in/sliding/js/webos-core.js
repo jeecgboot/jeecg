@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿/**
 * webos 1.2 
 * JS采用面向对象编写
 * 仿webQQ基本功能
@@ -821,7 +821,9 @@ Navbar =function(me){
 				var _this = $(this);
 				var cmd = _this.attr("cmd[switch]");
 				var classname = $.trim(me.innerbox.attr("class"));
-				var currentindex = parseInt(classname.substring(classname.length-1));	
+
+				var currentindex = parseInt(classname.substring(classname.lastIndexOf("_")+1));	
+
 				var index = parseInt(_this.attr("index"));
 				me.bindSwitchDesktopAnimate(index,currentindex);
 				me.innerbox.removeClass().addClass("indicator_container nav_current_"+parseInt(index+1));

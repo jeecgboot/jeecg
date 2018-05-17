@@ -5,8 +5,6 @@
 <head>
 <title>用户信息</title>
 <t:base type="jquery,easyui,tools"></t:base>
- <%--update-start--Author:jg_renjie  Date:20160320 for：#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式--%>
-    <%--update-start--Author:zhangguoming  Date:20140825 for：添加组织机构combobox多选的处理方法--%>
     <script>
 <%-- //        update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
         function setOrgIds() {
@@ -27,17 +25,17 @@
             $("#orgSelect").combobox("setValues", ${orgIdList});
             $("#orgSelect").combotree("setValues", ${orgIdList});
         }); --%>
-//       update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
+
 
 		function openDepartmentSelect() {
 			$.dialog.setting.zIndex = getzIndex(); 
 			var orgIds = $("#orgIds").val();
-			// update-begin--Author:LiShaoQing  Date:20170802 for：z-index被覆盖的问题--------- 
+
 			$.dialog({content: 'url:departController.do?departSelect&orgIds='+orgIds, zIndex: getzIndex(), title: '组织机构列表', lock: true, width: '400px', height: '350px', opacity: 0.4, button: [
 			   {name: '<t:mutiLang langKey="common.confirm"/>', callback: callbackDepartmentSelect, focus: true},
 			   {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){}}
 		   ]}).zindex();
-			// update-end--Author:LiShaoQing  Date:20170802 for：z-index被覆盖的问题---------
+
 		}
 			
 		function callbackDepartmentSelect() {
@@ -68,12 +66,9 @@
 		$(function(){
 			$("#departname").prev().hide();
 		});
- <%--update-end--Author:zhangguoming  Date:20140825 for：添加组织机构combobox多选的处理方法--%>
     </script>
-    <%--update-end--Author:jg_renjie  Date:20160320 for：#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式--%>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<%--update-start--Author:zhangguoming  Date:20140825 for：格式化页面代码 并 添加组织机构combobox多选框--%>
 <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="userController.do?saveUser" beforeSubmit="setOrgIds">
 	<input id="id" name="id" type="hidden" value="${user.id }"/>
 	<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
@@ -84,15 +79,15 @@
 			<td class="value" width="85%">
                 <c:if test="${user.id!=null }"> ${user.userName } </c:if>
                 <c:if test="${user.id==null }">
-                    <input id="userName" class="inputxt" name="userName" validType="t_s_base_user,userName,id" value="${user.userName }" datatype="s2-10" />
-                    <span class="Validform_checktip"> <t:mutiLang langKey="username.rang2to10"/></span>
+                    <input id="userName" class="inputxt" name="userName" validType="t_s_base_user,userName,id" value="${user.userName }" maxlength="50" datatype="s2-50" />
+                    <span class="Validform_checktip"> <t:mutiLang langKey="username.rang2to50"/></span>
                 </c:if>
             </td>
 		</tr>
 		<tr>
 			<td align="right" width="10%" nowrap><label class="Validform_label"> <t:mutiLang langKey="common.real.name"/>: </label></td>
 			<td class="value" width="10%">
-                <input id="realName" class="inputxt" name="realName" value="${user.realName }" datatype="s2-10"/>
+                <input id="realName" class="inputxt" name="realName" value="${user.realName }" maxlength="25" datatype="s2-25"/>
                 <span class="Validform_checktip"><t:mutiLang langKey="fill.realname"/></span>
             </td>
 		</tr>
@@ -120,8 +115,6 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.department"/>: </label></td>
 			<td class="value">
-				 <%--update-start--Author:jg_renjie  Date:20160320 for：#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式--%>
-                <%--update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree--%>
                 <%--<select class="easyui-combobox" data-options="multiple:true, editable: false" id="orgSelect" datatype="*">--%>
                 <%--<select class="easyui-combotree" data-options="url:'departController.do?getOrgTree', multiple:true, cascadeCheck:false"
                         id="orgSelect" name="orgSelect" datatype="select1">
@@ -136,7 +129,6 @@
                 <input id="orgIds" name="orgIds" type="hidden" value="${orgIds}"/>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" id="departSearch" onclick="openDepartmentSelect()">选择</a>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-redo" id="departRedo" onclick="callbackClean()">清空</a>
-                 <%--update-end--Author:jg_renjie  Date:20160320 for：#942 【组件封装】组织机构弹出模式，目前是列表，得改造成树方式--%>
                 <span class="Validform_checktip"><t:mutiLang langKey="please.muti.department"/></span>
             </td>
 		</tr>
@@ -166,9 +158,7 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.common.mail"/>: </label></td>
 			<td class="value">
-				<!-- update--begin--author:zhangjiaqiang date:20171019 for:修订用户邮箱为必填 -->
                 <input class="inputxt" name="email" value="${user.email}"  validType="t_s_user,email,id" datatype="e" errormsg="邮箱格式不正确!" />
-                <!-- update--end--author:zhangjiaqiang date:20171019 for:修订用户邮箱为必填 -->
                 <span class="Validform_checktip"></span>
             </td>
 		</tr>
@@ -182,5 +172,4 @@
         </tr>
 	</table>
 </t:formvalid>
-<%--update-end--Author:zhangguoming  Date:20140825 for：格式化页面代码 并 添加组织机构combobox多选框--%>
 </body>

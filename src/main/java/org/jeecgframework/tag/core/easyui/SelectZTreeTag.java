@@ -24,6 +24,12 @@ public class SelectZTreeTag extends TagSupport {
 	private String url;
 	private String windowWidth; //窗口宽度
 	private String windowHeight; //窗口高度
+
+	private boolean selectCascadeParent = false;	//勾选时选择父节点
+	private boolean selectCascadeChildren = false;	//勾选时选择子节点
+	private boolean cancelCascadeParent = false;	//取消勾选时选择父节点
+	private boolean cancelCascadeChildren = false;	//取消勾选时选择子节点
+
 	public String getUrl() {
 		return url;
 	}
@@ -55,7 +61,39 @@ public class SelectZTreeTag extends TagSupport {
 	public void setWindowHeight(String windowHeight) {
 		this.windowHeight = windowHeight;
 	}
-	
+
+	public boolean getSelectCascadeParent() {
+		return selectCascadeParent;
+	}
+
+	public void setSelectCascadeParent(boolean selectCascadeParent) {
+		this.selectCascadeParent = selectCascadeParent;
+	}
+
+	public boolean getSelectCascadeChildren() {
+		return selectCascadeChildren;
+	}
+
+	public void setSelectCascadeChildren(boolean selectCascadeChildren) {
+		this.selectCascadeChildren = selectCascadeChildren;
+	}
+
+	public boolean getCancelCascadeParent() {
+		return cancelCascadeParent;
+	}
+
+	public void setCancelCascadeParent(boolean cancelCascadeParent) {
+		this.cancelCascadeParent = cancelCascadeParent;
+	}
+
+	public boolean getCancelCascadeChildren() {
+		return cancelCascadeChildren;
+	}
+
+	public void setCancelCascadeChildren(boolean cancelCascadeChildren) {
+		this.cancelCascadeChildren = cancelCascadeChildren;
+	}
+
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
@@ -136,9 +174,25 @@ public class SelectZTreeTag extends TagSupport {
 		+ "		enable: true,"
 		+ "}, "
 		+ "		check: {"
-		+ "			enable: true,"
-		+ "			chkboxType: {'Y':'', 'N':''}"
-		+ "		},"
+		+ "			enable: true,");
+
+		sb.append("chkboxType: {'Y':'");
+		if(selectCascadeParent) {
+			sb.append("p");
+		}
+		if(selectCascadeChildren) {
+			sb.append("s");
+		}
+		sb.append("','N':'");
+		if(cancelCascadeParent) {
+			sb.append("p");
+		} 
+		if(cancelCascadeChildren) {
+			sb.append("s");
+		}
+		sb.append("'}");
+
+		sb.append("},"
 		+ "		view: {"
 		+ "			dblClickExpand: false"
 		+ "		},"

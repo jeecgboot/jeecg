@@ -65,15 +65,9 @@ function openThisNoed(node) {
 	}
 	if (children == null || children.length == 0) {
 		var fun = $(node.target).find('a').attr("onclick");
-		var params = fun.substring(7, fun.length - 1).replaceAll("'", "")
-				.split(",");
 
-		if(params.length > 3){
-			params = fun.substring(14, fun.length - 1).replaceAll("'", "").split(",");
-			addTab4MenuId(params[0], params[1], params[2], params[3]);
-		}else{
-			addTab(params[0], params[1], params[2]);
-		}
+//		var params = fun.substring(7, fun.length - 1).replaceAll("'", "").split(",");
+		eval(fun);
 
 	}
 }
@@ -99,11 +93,18 @@ function addTab(subtitle, url, icon) {
 	var progress = $("div.messager-progress");
 	if(progress.length){return;}
 	rowid="";
-	$.messager.progress({
-		text : loading,
-		interval : 200
-	});
+
+	//showloading();
+
+//	$.messager.progress({
+//		text : loading,
+//		interval : 200
+//	});
+
 	if (!$('#maintabs').tabs('exists', subtitle)) {
+
+		showloading();
+
 		//判断是否进行href方式打开tab，默认为iframe方式
 		if(url.indexOf('isHref') != -1){
 			$('#maintabs').tabs('add', {
@@ -116,84 +117,26 @@ function addTab(subtitle, url, icon) {
 			
 			$('#maintabs').tabs('add', {
 				title : subtitle,
-				content : '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
+
+				content : '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
+
 				closable : true,
 				icon : icon
 			});		
 			
 		}
-
 	} else {
 		$('#maintabs').tabs('select', subtitle);
 		$.messager.progress('close');
+
+		//hiddenloading();
+
 	}
 
 	// $('#maintabs').tabs('select',subtitle);
 	tabClose();
 
 }
-//add-begin--Author:yugwu  Date:20170629 for:[TASK #2185] 【bug】shortcut及经典下同名菜单冲突，只能点开一个----
-function addTab4MenuId(subtitle, url, icon, funmenuid) {
-	var progress = $("div.messager-progress");
-	if(progress.length){return;}
-	rowid="";
-
-//	$.messager.progress({
-//		text : loading,
-//		interval : 200
-//	});
-	showloading();
-
-	var oldTabIndex;
-	var hastab = false;
-	var allTabs = $('#maintabs').tabs('tabs');
-	for(var tempi=0; tempi < allTabs.length; tempi++){
-		var singleTab = allTabs[tempi];
-		var isequal = false;
-		if(funmenuid){
-			isequal = (funmenuid == singleTab.panel('options').menuid && subtitle == singleTab.panel('options').title);
-		}else{
-			isequal = (subtitle == singleTab.panel('options').title);
-		}
-		if(isequal){
-			oldTabIndex = tempi;
-			hastab = true;
-			break;
-		}
-	}
-	if (!hastab) {
-		//判断是否进行href方式打开tab，默认为iframe方式
-		if(url.indexOf('isHref') != -1){
-			$('#maintabs').tabs('add', {
-				menuid : funmenuid,
-				title : subtitle,
-				href : url,
-				closable : true,
-				icon : icon
-			});	
-		}else{
-
-			$('#maintabs').tabs('add', {
-				menuid : funmenuid,
-				title : subtitle,
-				content : '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
-				closable : true,
-				icon : icon
-			});	
-
-			
-		}
-
-	} else {
-		$('#maintabs').tabs('select', oldTabIndex);
-		$.messager.progress('close');
-	}
-
-	window.setTimeout(hiddenloading,3000);
-
-	tabClose();
-}
-//add-end--Author:yugwu  Date:20170629 for:[TASK #2185] 【bug】shortcut及经典下同名菜单冲突，只能点开一个----
 var title_now;
 function addLeftOneTab(subtitle, url, icon) {
 	rowid="";

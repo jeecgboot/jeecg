@@ -33,6 +33,9 @@ public class DataGridColumn {
 	protected String funname="openwindow";//自定义函数名称
 	protected String arg;
 	protected String dictionary;
+
+	protected String dictCondition;
+
 	protected boolean popup=false;	//是否启用popup模式选择 默认不启用
 	protected String replace;
 	protected String extend;
@@ -64,6 +67,7 @@ public class DataGridColumn {
 	public void setShowMode(String showMode) {
 		this.showMode = showMode;
 	}
+
 
 	public String getEditor() {
 		return editor;
@@ -229,6 +233,15 @@ public class DataGridColumn {
 	public void setDictionary(String dictionary) {
 		this.dictionary = dictionary;
 	}
+
+	public String getDictCondition() {
+		return dictCondition;
+	}
+
+	public void setDictCondition(String dictCondition) {
+		this.dictCondition = dictCondition;
+	}
+
 	public boolean isPopup() {
 		return popup;
 	}

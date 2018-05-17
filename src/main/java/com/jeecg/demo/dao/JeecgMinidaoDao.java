@@ -3,9 +3,7 @@ package com.jeecg.demo.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.jeecg.chat.entity.ChatMessageHistory;
 import org.jeecgframework.minidao.annotation.*;
-
 import com.jeecg.demo.entity.JeecgDemoEntity;
 import com.jeecg.demo.entity.JeecgLogReport;
 import org.jeecgframework.minidao.pojo.MiniDaoPage;

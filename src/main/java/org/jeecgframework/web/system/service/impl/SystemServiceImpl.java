@@ -42,15 +42,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service("systemService")
-@Transactional
 public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
 	@Autowired
 	private JeecgDictDao jeecgDictDao;
 
+	@Transactional(readOnly = true)
 	public TSUser checkUserExits(TSUser user) throws Exception {
 		return this.commonDao.getUserByUserIdAndUserNameExits(user);
 	}
 
+	@Transactional(readOnly = true)
 	public List<DictEntity> queryDict(String dicTable, String dicCode,String dicText){
 		List<DictEntity> dictList = null;
 		//step.1 如果没有字典表则使用系统字典表
@@ -102,6 +103,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param typename
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public TSType getType(String typecode, String typename, TSTypegroup tsTypegroup) {
 		//TSType actType = commonDao.findUniqueByProperty(TSType.class, "typecode", typecode,tsTypegroup.getId());
 		List<TSType> ls = commonDao.findHql("from TSType where typecode = ? and typegroupid = ?",typecode,tsTypegroup.getId());
@@ -126,6 +128,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param typename
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public TSTypegroup getTypeGroup(String typegroupcode, String typgroupename) {
 		TSTypegroup tsTypegroup = commonDao.findUniqueByProperty(TSTypegroup.class, "typegroupcode", typegroupcode);
 		if (tsTypegroup == null) {
@@ -137,13 +140,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return tsTypegroup;
 	}
 
-
+	@Transactional(readOnly = true)
 	public TSTypegroup getTypeGroupByCode(String typegroupCode) {
 		TSTypegroup tsTypegroup = commonDao.findUniqueByProperty(TSTypegroup.class, "typegroupcode", typegroupCode);
 		return tsTypegroup;
 	}
 
 
+	@Transactional(readOnly = true)
 	public void initAllTypeGroups() {
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
 		for (TSTypegroup tsTypegroup : typeGroups) {
@@ -153,7 +157,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		}
 	}
 
-
+	@Transactional(readOnly = true)
 	public void refleshTypesCach(TSType type) {
 		TSTypegroup tsTypegroup = type.getTSTypegroup();
 		TSTypegroup typeGroupEntity = this.commonDao.get(TSTypegroup.class, tsTypegroup.getId());
@@ -161,7 +165,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		ResourceUtil.allTypes.put(typeGroupEntity.getTypegroupcode().toLowerCase(), types);
 	}
 
-
+	@Transactional(readOnly = true)
 	public void refleshTypeGroupCach() {
 		ResourceUtil.allTypeGroups.clear();
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
@@ -173,6 +177,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	/**
 	 * 刷新字典分组缓存&字典缓存
 	 */
+	@Transactional(readOnly = true)
 	public void refreshTypeGroupAndTypes() {
 		ResourceUtil.allTypeGroups.clear();
 		List<TSTypegroup> typeGroups = this.commonDao.loadAll(TSTypegroup.class);
@@ -191,6 +196,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param functionId
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Set<String> getOperationCodesByRoleIdAndFunctionId(String roleId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
 		TSRole role = commonDao.get(TSRole.class, roleId);
@@ -218,6 +224,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @param functionId 菜单ID
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public Set<String> getOperationCodesByUserIdAndFunctionId(String userId, String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
 		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", userId);
@@ -247,6 +254,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 *  @param functionId 菜单ID
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<TSOperation> getOperationsByUserIdAndFunctionId(TSUser currLoginUser, String functionId) {
 		String hql="FROM TSOperation where functionid = '"+functionId+"'";
 		List<TSOperation> operations = findHql(hql);
@@ -285,10 +293,12 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * JS片段
 	 * @param out
 	 */
+	@Transactional(readOnly = true)
 	public String getAuthFilterJS() {
 		StringBuilder out = new StringBuilder();
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
+
 		if(ResourceUtil.getSessionUser().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 			return "";
 		}else{
@@ -315,11 +325,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 			
 		}
+
 		out.append("});");
 		out.append("</script>");
 		return out.toString();
 	}
+
 	
+	@Transactional(readOnly = true)
 	public void flushRoleFunciton(String id, TSFunction newFunction) {
 		TSFunction functionEntity = this.getEntity(TSFunction.class, id);
 		if (functionEntity.getTSIcon() == null || !StringUtil.isNotEmpty(functionEntity.getTSIcon().getId())) {
@@ -337,7 +350,8 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 		}
 	}
-
+	
+	@Transactional(readOnly = true)
     public String generateOrgCode(String id, String pid) {
 
         int orgCodeLength = 2; // 默认编码长度
@@ -375,6 +389,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
         return newOrgCode;
     }
 
+	@Transactional(readOnly = true)
 	public Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,
 			String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
@@ -396,6 +411,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return operationCodes;
 	}
 
+	@Transactional(readOnly = true)
 	public Set<String> getOperationCodesByUserIdAndDataId(TSUser currLoginUser,
 			String functionId) {
 		// TODO Auto-generated method stub
@@ -424,6 +440,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * 加载所有图标
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public  void initAllTSIcons() {
 		List<TSIcon> list = this.loadAll(TSIcon.class);
 		for (TSIcon tsIcon : list) {
@@ -434,14 +451,14 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * 更新图标
 	 * @param icon
 	 */
-	public  void upTSIcons(TSIcon icon) {
+	public void upTSIcons(TSIcon icon) {
 		ResourceUtil.allTSIcons.put(icon.getId(), icon);
 	}
 	/**
 	 * 更新图标
 	 * @param icon
 	 */
-	public  void delTSIcons(TSIcon icon) {
+	public void delTSIcons(TSIcon icon) {
 		ResourceUtil.allTSIcons.remove(icon.getId());
 	}
 
@@ -471,6 +488,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @return
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Set<String> getDepartAuthGroupOperationSet(String groupId,String functionId,String type) {
 		Set<String> operationCodes = new HashSet<String>();
 		TSDepartAuthGroupEntity functionGroup = null;
@@ -518,6 +536,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 	 * @return
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Set<String> getDepartAuthGroupDataRuleSet(String groupId, String functionId,String type) {
 		Set<String> dataRuleCodes = new HashSet<String>();
 		TSDepartAuthGroupEntity functionGroup = null;

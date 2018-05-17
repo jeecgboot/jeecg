@@ -1,4 +1,7 @@
 <#setting number_format="0.#####################">
+<#-- update--begin--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
+<#include "online/template/ui/tag.ftl"/>
+<#-- update--end--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
 <!DOCTYPE html>
 <html>
  <head>
@@ -199,100 +202,12 @@
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if>
 					               </#if>>
-						
-						<#elseif po.show_type=='file'>
-								<table>
-									<#list imageList as imageB>
-										<#if imageB['field'] == po.field_name>
-										<tr style="height:34px;">
-										<td>${imageB['title']}</td>
-										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
-										</tr>
-										</#if>
-									</#list>
-								</table>
-								<#if !(po.operationCodesReadOnly ??)>
-							    <div class="form jeecgDetail">
-									<script type="text/javascript">
-									var serverMsg="";
-									var m = new Map();
-									$(function(){$('#${po.field_name}').uploadify(
-										{buttonText:'添加文件',
-										auto:false,
-										progressData:'speed',
-										multi:true,
-										height:25,
-										overrideEvents:['onDialogClose'],
-										fileTypeDesc:'文件格式:',
-										queueID:'filediv_${po.field_name}',
-										<#-- fileTypeExts:'*.rar;*.zip;*.doc;*.docx;*.txt;*.ppt;*.xls;*.xlsx;*.html;*.htm;*.pdf;*.jpg;*.gif;*.png',   页面弹出很慢解决 20170317 scott -->
-										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
-										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
-										onUploadStart : function(file) { 
-											var cgFormId=$("input[name='id']").val();
-											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
-										onQueueComplete : function(queueData) {
-											 var win = frameElement.api.opener;
-											 win.reloadTable();
-											 win.tip(serverMsg);
-											 frameElement.api.close();},
-										onUploadSuccess : function(file, data, response) {var d=$.parseJSON(data);if(d.success){var win = frameElement.api.opener;serverMsg = d.msg;}},onFallback : function(){tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")},onSelectError : function(file, errorCode, errorMsg){switch(errorCode) {case -100:tip("上传的文件数量已经超出系统限制的"+$('#${po.field_name}').uploadify('settings','queueSizeLimit')+"个文件！");break;case -110:tip("文件 ["+file.name+"] 大小超出系统限制的"+$('#${po.field_name}').uploadify('settings','fileSizeLimit')+"大小！");break;case -120:tip("文件 ["+file.name+"] 大小异常！");break;case -130:tip("文件 ["+file.name+"] 类型不正确！");break;}},
-										onUploadProgress : function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) { }});});
-									
-										</script><span id="file_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
-								</div>
-								<div class="form" id="filediv_${po.field_name}"> </div>
-							</#if>
-						<#--update-start--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->
-						<#elseif po.show_type=='image'>
-								<table>
-									<#list filesList as fileB>
-										<#if fileB['field'] == po.field_name>
-										<tr style="height:34px;">
-										<td>${fileB['title']}</td>
-										<td><a href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" title="下载">下载</a></td>
-										<td><a href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)">预览</a></td>
-										<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('${basePath}/cgUploadController.do?delFile&id=${fileB['fileKey']}',this)">删除</a></td>
-										</tr>
-										</#if>
-									</#list>
-								</table>
-								<#if !(po.operationCodesReadOnly ??)>
-							    <div class="form jeecgDetail">
-									<script type="text/javascript">
-									var serverMsg="";
-									var m = new Map();
-									$(function(){$('#${po.field_name}').uploadify(
-										{buttonText:'添加图片',
-										auto:false,
-										progressData:'speed',
-										multi:true,
-										height:25,
-										overrideEvents:['onDialogClose'],
-										fileTypeDesc:'图片格式:',
-										queueID:'imagediv_${po.field_name}',
-										fileTypeExts:'*.jpg;*.jpeg;*.gif;*.png;*.bmp',
-										fileSizeLimit:'15MB',swf:'plug-in/uploadify/uploadify.swf',	
-										uploader:'cgUploadController.do?saveFiles&jsessionid='+$("#sessionUID").val()+'',
-										onUploadStart : function(file) { 
-											var cgFormId=$("input[name='id']").val();
-											$('#${po.field_name}').uploadify("settings", "formData", {'cgFormId':cgFormId,'cgFormName':'${tableName?if_exists?html}','cgFormField':'${po.field_name}'});} ,
-										onQueueComplete : function(queueData) {
-											 var win = frameElement.api.opener;
-											 win.reloadTable();
-											 win.tip(serverMsg);
-											 frameElement.api.close();},
-										onUploadSuccess : function(file, data, response) {var d=$.parseJSON(data);if(d.success){var win = frameElement.api.opener;serverMsg = d.msg;}},onFallback : function(){tip("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试")},onSelectError : function(file, errorCode, errorMsg){switch(errorCode) {case -100:tip("上传的文件数量已经超出系统限制的"+$('#${po.field_name}').uploadify('settings','queueSizeLimit')+"个文件！");break;case -110:tip("文件 ["+file.name+"] 大小超出系统限制的"+$('#${po.field_name}').uploadify('settings','fileSizeLimit')+"大小！");break;case -120:tip("文件 ["+file.name+"] 大小异常！");break;case -130:tip("文件 ["+file.name+"] 类型不正确！");break;}},
-										onUploadProgress : function(file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) { }});});
-									
-										</script><span id="image_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
-								</div>
-								<div class="form" id="imagediv_${po.field_name}"> </div>
-							</#if>
-							<#--update-end--Author: jg_huangxg  Date:20160113 for：TASK #824 【online开发】控件类型扩展增加一个图片类型 image -->	
-							
+					               
+						    <#-- update--begin--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
+							<#elseif po.show_type=='file' || po.show_type=='image'>
+								<@uploadtag po = po />
+							<#-- update--end--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
+								
 							<#--update-start--Author: jg_huangxg  Date:20160505 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 							<#elseif po.show_type=='umeditor'>
 								<script id="content" type="text/plain" style="width:99%;"></script>
@@ -689,7 +604,9 @@
 			  </#list>
 			  <tr>
 						<td height="50px" align="center" colspan="2">
-								<a  style="margin-left:80px" href="#" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-le-back" onclick="history.go(-1)"> 返 回&nbsp; </a>
+								<#--update-begin--Author:gj_shaojc  Date:20180410 for：TASK #2626 【online】单表，非弹框表单样式，新增页面，点击返回按钮，连接跳转出错-->
+								<a  style="margin-left:80px" href="javascript:history.go(-1)" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-le-back"> 返 回&nbsp; </a>
+								<#--update-end--Author:gj_shaojc  Date:20180410 for：TASK #2626 【online】单表，非弹框表单样式，新增页面，点击返回按钮，连接跳转出错-->
 								<a  id="btn_ok" href="javascript:void(0)" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-le-ok" onclick="btn_ok()"> 提 交 &nbsp;</a>
 						</td>
 				</tr>

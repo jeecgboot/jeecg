@@ -305,11 +305,19 @@
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 										<#elseif po.showType=='date'>
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="form-control" onClick="WdatePicker()"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
+											<#-- update--begin--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="form-control" onClick="WdatePicker()"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--end--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 										<#elseif po.showType=='datetime'>
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
+											<#-- update--begin--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--end--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 											<#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
 										<#elseif po.showType=='popup'>
@@ -350,24 +358,34 @@
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="password" class="form-control"  style="width:120px;" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> />
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-										<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
-											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+										<#elseif po.showType=='select' || po.showType=='list'>
 											<t:dictSelect field="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{class:'form-control',style:'width:150px'}" <#if po.isNull != 'Y'>datatype="*"</#if> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="" hasLabel="false"  title="${po.content}"></t:dictSelect>     
-											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
+										<#elseif po.showType=='radio' || po.showType=='checkbox'>
+											<t:dictSelect field="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="${po.showType?if_exists?html}" extendJson="{style:'width:15px;height:15px'}" <#if po.isNull != 'Y'>datatype="*"</#if> <@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="" hasLabel="false"  title="${po.content}"></t:dictSelect>     
 										<#elseif po.showType=='date'>
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="form-control" onClick="WdatePicker()"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
+											<#-- update--begin--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text" class="form-control" onClick="WdatePicker()"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--end--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 										<#elseif po.showType=='datetime'>
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;width:160px;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
+											<#-- update--begin--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" maxlength="${po.length?c}" type="text"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;"<@datatype showType="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/>/>
+											<#-- update--end--author:gj_shaojc Date:20180409 for:TASK #2622 【代码生成体验问题】代码生成 [多tab风格]、[table风格] 列表时间控件长度短了 -->
+											<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 											<#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
 										<#elseif po.showType=='popup'>
 											<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 											<#-- update--begin--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 											<#-- update--begin--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
-											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="text" style="width: 150px" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 
+											<#-- update--begin--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
+											<input name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" name="${sub.entityName?uncap_first}List[#index#].${po.fieldName}" type="text" style="width:120px" class="form-control" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 
+											<#-- update--end--author:gj_shaojc Date:20180315 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--end--author:gj_shaojc Date:20180308 for:TASK #2548 【代码生成器】样式问题 -->
 											<#-- update--end--author:baiyu Date:20171031 for:popupClick支持返回多个字段 -->
 										
@@ -397,6 +415,37 @@
 	<script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}.js"></script>	
 	<#if callbackFlag == true>
   	<script type="text/javascript">
+  		var subDlgIndex = "";
+	  	$(function(){
+			var cgFormId=$("input[name='id']").val();
+			$.ajax({
+				type: "post",
+				url: "${entityName?uncap_first}Controller.do?getFiles&id=" +  cgFormId,
+				success: function(data){
+					var arrayFileObj = jQuery.parseJSON(data).obj;
+					$.each(arrayFileObj,function(n,file){
+						var fieldName = file.field.toLowerCase();
+		  				var table = $("#"+fieldName+"_fileTable");
+		  				var tr = $("<tr style=\"height:34px;\"></tr>");
+		  				var title = file.title;
+		  				if(title.length > 15){
+		  					title = title.substring(0,12) + "...";
+		  				}
+		  				var td_title = $("<td>" + title + "</td>");
+		  		  		var td_download = $("<td><a  style=\"margin-left:10px;\" href=\"commonController.do?viewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity\" title=\"下载\">下载</a></td>")
+		  		  		var td_view = $("<td><a  style=\"margin-left:10px;\" href=\"javascript:void(0);\" onclick=\"openwindow('预览','commonController.do?openViewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)\">预览</a></td>");
+		  		  		var td_del = $("<td><a  style=\"margin-left:10px;\" href=\"javascript:void(0)\" class=\"jeecgDetail\" onclick=\"del('cgUploadController.do?delFile&id=" + file.fileKey + "',this)\">删除</a></td>");
+		  		  		tr.appendTo(table);
+		  		  		td_title.appendTo(tr);
+		  		  		td_download.appendTo(tr);
+		  		  		td_view.appendTo(tr);
+		  		  		td_del.appendTo(tr);
+					});
+				}
+			});
+			
+		});
+  	
   		function jeecgFormFileCallBack(data){
   			if (data.success == true) {
 				uploadFile(data);
@@ -421,12 +470,13 @@
 			}
   		}
   		function upload() {
-			<#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
-			<#assign subFileName = fileName?substring(0,fileName?length - 1) />
-  			<#list subFileName?split(",") as name>
-				$('#${name}').uploadify('upload', '*');
-			</#list>
-			<#-- update--end--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->		
+  		<#-- update--begin--author:taoYan date:20180515 for:多tab模式 主页面get不到子页面的filename,故而需要再次循环 -->
+  			<#list pageColumns as po>
+  			<#if po.showType=='file' || po.showType == 'image'>
+  				$('#${po.fieldName}').uploadify('upload', '*');
+  			</#if>
+  			</#list>
+  		<#-- update--end--author:taoYan date:20180515 for:多tab模式 主页面get不到子页面的filename,故而需要再次循环 -->
 		}
 		
 		var neibuClickFlag = false;
@@ -435,12 +485,13 @@
 			$('#btn_sub').trigger('click');
 		}
 		function cancel() {
-			<#-- update--begin--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
-			<#assign subFileName = fileName?substring(0,fileName?length - 1) />
-  			<#list subFileName?split(",") as name>
-				$('#${name}').uploadify('cancel', '*');
-			</#list>
-			<#-- update--end--author:zhangjiaqiang date:20170531 for:增加图片和文件的支持 -->
+			<#-- update--begin--author:taoYan date:20180515 for:多tab模式 主页面get不到子页面的filename,故而需要再次循环 -->
+			<#list pageColumns as po>
+  			<#if po.showType=='file' || po.showType == 'image'>
+  				$('#${po.fieldName}').uploadify('cancel', '*');
+  			</#if>
+  			</#list>
+			<#-- update--end--author:taoYan date:20180515 for:多tab模式 主页面get不到子页面的filename,故而需要再次循环 -->
 		}
 		function uploadFile(data){
 			if(!$("input[name='id']").val()){
@@ -462,6 +513,30 @@
 				}
 			}
 		}
+		
+	//删除单个文件
+	function del(url,obj){
+		$.dialog.setting.zIndex =9999;
+		$.dialog.confirm("确认删除该条记录?", function(){
+		  	$.ajax({
+				async : false,
+				cache : false,
+				type : 'POST',
+				url : url,// 请求的action路径
+				error : function() {// 请求失败处理函数
+				},
+				success : function(data) {
+					var d = $.parseJSON(data);
+					if (d.success) {
+						var msg = d.msg;
+						tip(msg);
+						$(obj).closest("tr").hide("slow");
+					}
+				}
+			});  
+		}, function(){
+		});
+	}
   	</script>
 </#if>	
  </body>

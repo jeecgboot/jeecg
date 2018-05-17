@@ -865,68 +865,6 @@
 			}
 			var flag = true, inflag;
 			
-			
-			//-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---
-			//解决唯一校验 点击确定后，input红框不见问题 
-			//tipType==1弹出层提示信息。
-			var tipType=settings.tiptype;
-					//字段重复校验
-			if(tipType==null||tipType!=1){
-				 curform.find("[validType]").each(function(obj){
-				   var validType=$(this).attr("validType");
-				   if(validType!=null&&$(this).val()!=""){
-					   var params=validType.split(",");
-					   var   ajaxResultValue=Validform.util.ajax_check(params[0],params[1],$(this).val(),$("input[name='"+params[2]+"']").val());
-					   var resultParams= new Array(); //定义一数组
-					   resultParams=ajaxResultValue.split("+"); //字符分割     
-					   if(resultParams[1]=="false"){
-						   if(typeof tipType == "function"){
-							   Validform.util.showmsg.call(curform, resultParams[0],
-									   tipType, {
-								   obj : $(this),
-								   type : 3,
-								   sweep : settings.tipSweep
-							   }, "bycheck");
-							   !settings.tipSweep && $(this).addClass("Validform_error");
-						   }else{
-							   $(this).next().html(resultParams[0]);
-							   $(this).next().addClass("Validform_wrong");
-							   $(this).addClass("Validform_error");
-						   }
-						   flag=false;
-						   return false;
-					   }
-				   }	
-				 });
-			}
-	
-			if(tipType!=null&&tipType==1){
-				curform.find("[validType]").each(function(obj){
-				   var validType=$(this).attr("validType");
-					if(validType!=null&&$(this).val()!=""){
-				       var params=validType.split(",");
-				       var  ajaxResultValue=Validform.util.ajax_check(params[0],params[1],$(this).val(),$("input[name='"+params[2]+"']").val());
-					   var resultParams= new Array(); //定义一数组
-		                resultParams=ajaxResultValue.split("+"); //字符分割     
-					  if(resultParams[1]=="false"){
-					   //$(th).next().html(resultParams[0]);
-					    $(this).addClass("Validform_error");
-					   msgobj.find(".Validform_info").html(resultParams[0]);
-					   msghidden=false;
-						msgobj.find(".iframe").css("height",msgobj.outerHeight());
-						msgobj.show();
-						setCenter(msgobj,100);
-					     _this.addClass("Validform_error");
-							flag=false;
-					     return false;
-					   }
-					   else{
-					   }
-				    }	
-					});
-			}
-			//-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---
-			
 			curform
 					.find("[datatype]")
 					.each(
@@ -998,6 +936,68 @@
 								_this.removeClass("Validform_error");
 								errorobj = null;
 							});
+			
+			//-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---
+			//解决唯一校验 点击确定后，input红框不见问题 
+			//tipType==1弹出层提示信息。
+			var tipType=settings.tiptype;
+					//字段重复校验
+			if(tipType==null||tipType!=1){
+				 curform.find("[validType]").each(function(obj){
+				   var validType=$(this).attr("validType");
+				   if(validType!=null&&$(this).val()!=""){
+					   var params=validType.split(",");
+					   var   ajaxResultValue=Validform.util.ajax_check(params[0],params[1],$(this).val(),$("input[name='"+params[2]+"']").val());
+					   var resultParams= new Array(); //定义一数组
+					   resultParams=ajaxResultValue.split("+"); //字符分割     
+					   if(resultParams[1]=="false"){
+						   if(typeof tipType == "function"){
+							   Validform.util.showmsg.call(curform, resultParams[0],
+									   tipType, {
+								   obj : $(this),
+								   type : 3,
+								   sweep : settings.tipSweep
+							   }, "bycheck");
+							   !settings.tipSweep && $(this).addClass("Validform_error");
+						   }else{
+							   $(this).next().html(resultParams[0]);
+							   $(this).next().addClass("Validform_wrong");
+							   $(this).addClass("Validform_error");
+						   }
+						   flag=false;
+						   return false;
+					   }
+				   }	
+				 });
+			}
+	
+			if(tipType!=null&&tipType==1){
+				curform.find("[validType]").each(function(obj){
+				   var validType=$(this).attr("validType");
+					if(validType!=null&&$(this).val()!=""){
+				       var params=validType.split(",");
+				       var  ajaxResultValue=Validform.util.ajax_check(params[0],params[1],$(this).val(),$("input[name='"+params[2]+"']").val());
+					   var resultParams= new Array(); //定义一数组
+		                resultParams=ajaxResultValue.split("+"); //字符分割     
+					  if(resultParams[1]=="false"){
+					   //$(th).next().html(resultParams[0]);
+					    $(this).addClass("Validform_error");
+					   msgobj.find(".Validform_info").html(resultParams[0]);
+					   msghidden=false;
+						msgobj.find(".iframe").css("height",msgobj.outerHeight());
+						msgobj.show();
+						setCenter(msgobj,100);
+					     _this.addClass("Validform_error");
+							flag=false;
+					     return false;
+					   }
+					   else{
+					   }
+				    }	
+					});
+			}
+			//-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---
+			
 			
 			if (settings.showAllError) {
 				curform.find(".Validform_error:first").focus();

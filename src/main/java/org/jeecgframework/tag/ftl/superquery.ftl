@@ -1,4 +1,21 @@
 <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+<style>
+.conditionValue {
+	width:130px;
+}
+.easyui-linkbutton {
+	position: relative;
+    bottom: 2px;
+}
+.window{
+	padding :0px;
+	border: 1px solid #7b7b7b4d;
+}
+.layout-body {
+	border-left: 0px;
+	border-right: 0px;
+}
+</style>
 <div style="position: relative; overflow: auto;">
 	<div id="w" class="easyui-window" data-options="closed:true,title:'高级查询构造器'" style="width: 780px; height: 370px; padding: 0px">
 		<div class="easyui-layout" data-options="fit:true">
@@ -78,7 +95,7 @@
 					</span> 
 					<#-- update-begin-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件 -->
 					<span style="position: relative; z-index: 2000;" class="conVal">
-							<input id="conValue" name="cons[0].val" type="text" class="text conditionValue" title="" style="width:130px;height:27px;"> 						
+							<input id="conValue" name="cons[0].val" type="text" class="text conditionValue" title="" style="width:130px;"> 						
 					</span> 
 					<#-- update-end-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件 -->
 					<span> 
@@ -132,7 +149,7 @@
 					</span> 
 					<#-- update-begin-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件 -->
 					<span style="position: relative; z-index: 2000;" class="conVal">
-						<input id="conValue1" name="cons[#index#].val" type="text" class="text conditionValue" title="" style="width:130px;height:27px;"> 
+						<input id="conValue1" name="cons[#index#].val" type="text" class="text conditionValue" title="" style="width:130px;"> 
 					</span>
 					<#-- update-end-Author:xuelin  Date:20171211 for：TASK #2441 【改造】高级查询目前只支持输入框，不支持下拉和时间控件 --> 
 					<span> 
@@ -152,7 +169,7 @@
 		<#list fields as column>		
 			<#if column.formatter??>
 				<span id="field_${column.field}">
-					<input id="conValue1" name="cons[#index#].val" type="text" style="width:130px;height:27px;" onclick="WdatePicker({dateFmt:'${column.formatter}'})" class="Wdate text conditionValue" title="">
+					<input id="conValue1" name="cons[#index#].val" type="text" style="width:130px;" onclick="WdatePicker({dateFmt:'${column.formatter}'})" class="Wdate text conditionValue" title="">
 				</span>
 			<#elseif column.dictionary??>				
 				<#list valueList as val>
@@ -169,7 +186,7 @@
 					</#if>
 				</#list>
 			<#else>
-				<span id="field_${column.field}"><input id="conValue1" name="cons[#index#].val" type="text" class="text conditionValue" title="" style="width:130px;height:27px;"></span>
+				<span id="field_${column.field}"><input id="conValue1" name="cons[#index#].val" type="text" class="text conditionValue" title="" style="width:130px;"></span>
 			</#if>
 		</#list>
 </span>

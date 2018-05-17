@@ -346,7 +346,9 @@ public class CgAutoListController extends BaseController{
 //						}
 						for(DictEntity dictEntity:dicDataList){
 							if(value.equalsIgnoreCase(dictEntity.getTypecode())){
+
 								r.put(bean.getFieldName(),MutiLangUtil.getLang(dictEntity.getTypename()));
+
 								break;
 							}
 						}
@@ -473,6 +475,9 @@ public class CgAutoListController extends BaseController{
 				fmq.put(CgAutoListConstant.FIELD_SHOWTYPE, bean.getShowType());
 				fmq.put(CgAutoListConstant.FIELD_DICTFIELD, bean.getDictField());
 				fmq.put(CgAutoListConstant.FIELD_DICTTABLE, bean.getDictTable());
+
+				fmq.put(CgAutoListConstant.FIELD_DICTTEXT, bean.getDictText());
+
 				fmq.put(CgAutoListConstant.FIELD_ISQUERY,"Y");
 				loadDefaultValue(fmq,bean,request);
 				loadDic(fmq,bean);

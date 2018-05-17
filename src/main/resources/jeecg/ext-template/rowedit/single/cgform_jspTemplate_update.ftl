@@ -144,11 +144,15 @@
 							>
 						 <#elseif po.showType=='text'>
 						 <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						 <#-- update--begin--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
+						     	 <input id="${po.fieldName}" name="${po.fieldName}" type="text" maxlength="${po.length?c}" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						     	 <#-- update--end--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
 						   <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						     <#elseif po.showType=='popup'>
 						<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/><#if po.dictTable?if_exists?html!=""> onclick="inputClick(this,'${po.dictField}','${po.dictTable}')"</#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						<#-- update--begin--author:zhoujf date:20180319 for:TASK #2557 popup,当字典Text为多个值时 -->
+						<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="searchbox-inputtext" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						    <#-- update--end--author:zhoujf date:20180319 for:TASK #2557 popup,当字典Text为多个值时 -->
 						    <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						    <#elseif po.showType=='textarea'>
 						    <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
@@ -156,8 +160,10 @@
 						     <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						     <#elseif po.showType=='password'>
 						      	<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
-								<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
+						      	<#-- update--begin--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
+						      	<input id="${po.fieldName}" name="${po.fieldName}" type="password" maxlength="${po.length?c}" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/> value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						      	<#-- update--end--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
+								<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 								<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>	 
 									<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 									<t:dictSelect field="${po.fieldName}" type="${po.showType?if_exists?html}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/><@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" />  defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}" ></t:dictSelect>     
@@ -269,8 +275,10 @@
 								<#--update-end--Author: jg_huangxg  Date:20160421 for：TASK #1027 【online】代码生成器模板不支持UE编辑器 -->
 						      	<#else>
 						      		<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
-									<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
+						      		<#-- update--begin--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
+						      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" maxlength="${po.length?c}" style="width: 150px" class="inputxt" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />  value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}'/>
+						      		<#-- update--end--author:Yandong Date:20180326 for:TASK #2571 【代码生成器bug】[Online开发] 主从表主表生成的代码字段没有长度限制-->
+									<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 								</#if>
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>

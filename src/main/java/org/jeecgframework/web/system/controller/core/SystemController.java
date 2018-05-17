@@ -139,7 +139,13 @@ public class SystemController extends BaseController {
 				for (TSType type : typeList) {
 					JSONObject typeJson = new JSONObject();
 					typeJson.put("typecode", type.getTypecode());
-					typeJson.put("typename", type.getTypename());
+
+					String typename = type.getTypename();
+					if(MutiLangUtil.existLangKey(typename)){
+						typename = MutiLangUtil.doMutiLang(typename,"");
+					}
+					typeJson.put("typename",typename );
+
 					typeArray.add(typeJson);
 				}
 			}
@@ -781,9 +787,13 @@ public class SystemController extends BaseController {
 		if (StringUtil.isNotEmpty(comboTree.getId())) {
 			cq.eq("TSPDepart.id", comboTree.getId());
 		}
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		if (StringUtil.isEmpty(comboTree.getId())) {
 			cq.isNull("TSPDepart.id");
 		}
+		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
 		cq.add();
 		List<TSDepart> departsList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();

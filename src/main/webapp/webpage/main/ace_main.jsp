@@ -12,7 +12,7 @@
 		<link rel="shortcut icon" href="images/favicon.ico">
 		<!-- basic styles -->
 		<link href="plug-in/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="plug-in-ui/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="plug-in/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
 		<!-- update-end--Author: dangzhenghui Date:20160812 for: TASK #2088 【图标问题】首页风格图标统一-->
 		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
 

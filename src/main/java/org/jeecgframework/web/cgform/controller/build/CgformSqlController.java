@@ -105,7 +105,9 @@ public class CgformSqlController extends BaseController {
 			//update by duanqilu 2013-12-05 增加多表单导出功能
 			//MigrateForm.createFile(request,cgFormHeadEntity.getTableName())
 			String ls_filename = cgFormHeadEntity.getTableName();// 创建文件
+
 			String destFileDir = ResourceUtil.getSystempPath()+File.separator+ls_filename;
+
 			MigrateForm.generateXmlDataOutFlieContent(dbTables, destFileDir);
 			ls_filename = MigrateForm.zip(null, "", destFileDir); // 压缩文件
 			// 文件下载
@@ -171,9 +173,11 @@ public class CgformSqlController extends BaseController {
 		if (uploadbasepath == null) {
 			uploadbasepath = ResourceUtil.getConfigByName("uploadpath");
 		}
+
 		String path = uploadbasepath + File.separator;// 文件保存在硬盘的相对路径
 		String realPath = uploadFile.getMultipartRequest().getSession()
 				.getServletContext().getRealPath(File.separator)
+
 				+ path;// 文件的硬盘真实路径
 		message = null;
 		try {
@@ -199,7 +203,9 @@ public class CgformSqlController extends BaseController {
 				MigrateForm.unzip(savePath, "");
 				String sqlFileDir = realPath + ls_tmp.substring(0, ls_tmp.lastIndexOf("."));
 				File sqlDirFile = new File(sqlFileDir);
+
 				String sqlfilename = sqlDirFile.getPath() + File.separator;
+
 				if(sqlDirFile.isDirectory()){
 					sqlfilename += sqlDirFile.list()[0];
 				}

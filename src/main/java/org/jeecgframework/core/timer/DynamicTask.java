@@ -13,7 +13,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.HttpRequest;
 import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.MyClassLoader;
-import org.jeecgframework.p3.core.common.utils.StringUtil;
+import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.TimeTaskServiceI;
@@ -273,5 +273,6 @@ public class DynamicTask {
 			}
 		}
 	}
+
 
 }

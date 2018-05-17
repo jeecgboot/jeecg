@@ -32,7 +32,7 @@ import org.jeecgframework.core.util.FileUtils;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.p3.core.util.oConvertUtils;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
@@ -349,7 +349,9 @@ public class CgformTemplateController extends BaseController {
 		if(StringUtils.isNotBlank(id)) {
 			CgformTemplateEntity entity = cgformTemplateService.getEntity(CgformTemplateEntity.class, id);
 			if (entity != null && entity.getTemplateCode() != null) {
+
 				File dirFile=new File(getUploadBasePath(request)+File.separator+entity.getTemplateCode());
+
 				if(dirFile.exists()&&dirFile.isDirectory()){
 					flag=true;
 				}
@@ -445,7 +447,9 @@ public class CgformTemplateController extends BaseController {
 			tempDir.mkdirs();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			MultipartFile file = entity.getValue();
+
 			picTempFile=new File(tempDir.getAbsolutePath(),File.separator+"index_"+request.getSession().getId()+"."+FileUtils.getExtend(file.getOriginalFilename()));
+
 			try{
 				if(picTempFile.exists())
 					org.apache.commons.io.FileUtils.forceDelete(picTempFile);
@@ -480,7 +484,9 @@ public class CgformTemplateController extends BaseController {
 			tempDir.mkdirs();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			MultipartFile file = entity.getValue();
+
 			picTempFile=new File(tempDir.getAbsolutePath(),File.separator+"zip_"+request.getSession().getId()+"."+ FileUtils.getExtend(file.getOriginalFilename()));
+
 			try{
 				if(picTempFile.exists())
 					org.apache.commons.io.FileUtils.forceDelete(picTempFile);
@@ -563,7 +569,8 @@ public class CgformTemplateController extends BaseController {
         path = path.substring(0,path.indexOf("sysConfig.properties"))+"online/template";
 //		String path= this.getClass().getResource("/").getPath()+"online/template";
 
-        path = path.replaceAll("%20", " ");//解决tomcat安装路径包含空格的问题
+       path = path.replaceAll("%20", " ");//解决tomcat安装路径包含空格的问题
+
 		return path;
 	}
 

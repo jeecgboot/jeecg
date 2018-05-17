@@ -161,6 +161,29 @@ public class FunctionController extends BaseController {
 		TSFunction parent = function.getTSFunction();
 		try{
 
+			List<TSFunction> listFunction = function.getTSFunctions();
+			if(listFunction!=null&&listFunction.size()>0){
+				message="菜单【"+function.getFunctionName()+"】存在下级菜单，不能删除";
+				j.setMsg(message);
+				j.setSuccess(false);
+				return j;
+			}
+			List<TSOperation> op = systemService.findHql("from TSOperation where TSFunction.id = ?", function.getId());
+			if(op!=null&&op.size()>0){
+				message="菜单【"+function.getFunctionName()+"】有设置页面权限，不能删除";
+				j.setMsg(message);
+				j.setSuccess(false);
+				return j;
+			}
+
+			List<TSDataRule> tsdr=systemService.findByProperty(TSDataRule.class,"TSFunction",function);
+			if(tsdr!=null&&tsdr.size()>0){
+				message="菜单【"+function.getFunctionName()+"】存在数据规则，不能删除";
+				j.setMsg(message);
+				j.setSuccess(false);
+				return j;
+			}
+
 			if(parent != null){
 				parent.getTSFunctions().remove(function);
 			}
@@ -263,6 +286,7 @@ public class FunctionController extends BaseController {
 	public AjaxJson saveFunction(TSFunction function, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
+		// ----------------------------------------------------------------
 		function.setFunctionUrl(function.getFunctionUrl().trim());
 		String functionOrder = function.getFunctionOrder();
 		if (StringUtils.isEmpty(functionOrder)) {
@@ -276,20 +300,30 @@ public class FunctionController extends BaseController {
 		}
 		if (StringUtil.isNotEmpty(function.getId())) {
 			message = MutiLangUtil.paramUpdSuccess("common.menu");
+
 			TSFunction t = systemService.getEntity(TSFunction.class,function.getId());
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(function, t);
+
+				if(t.getFunctionLevel()==0){
+					t.setTSFunction(null);
+				}
+
 				userService.saveOrUpdate(t);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 			systemService.addLog(message, Globals.Log_Type_UPDATE,Globals.Log_Leavel_INFO);
 
 			List<TSFunction> subFunction = systemService.findByProperty(TSFunction.class, "TSFunction.id", function.getId());
 			updateSubFunction(subFunction,function);
 
+			// ----------------------------------------------------------------
 
 			systemService.flushRoleFunciton(function.getId(), function);
+
+			// ----------------------------------------------------------------
 
 		} else {
 			if (function.getFunctionLevel().equals(Globals.Function_Leave_ONE)) {
@@ -451,9 +485,11 @@ public class FunctionController extends BaseController {
 		treeGridModel.setFunctionType("functionType");
 
 		treeGrids = systemService.treegrid(functionList, treeGridModel);
-		for (TreeGrid tg : treeGrids) {
-			if("closed".equals(tg.getState()))tg.setSrc("");
-		}
+
+//		for (TreeGrid tg : treeGrids) {
+//			if("closed".equals(tg.getState()))tg.setSrc("");
+//		}
+
 		
 		
 		MutiLangUtil.setMutiTree(treeGrids);
@@ -570,6 +606,7 @@ public class FunctionController extends BaseController {
 			menuListMap = menuListMap + "很遗憾，在系统中没有检索到与“" + name + "”相关的信息！";
 		}
 		// menuListMap = menuListMap + "</div>";
+		//System.out.println("-------------------------------" + menuListMap);
 		req.setAttribute("menuListMap", menuListMap);
 		return new ModelAndView("system/function/menuAppList");
 	}

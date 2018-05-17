@@ -159,6 +159,11 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 
 						}else if (dateStr.indexOf(":") > 0 && dateStr.indexOf(".0") > 0 && dateStr.length()== 21) {
 							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr.substring(0, dateStr.indexOf(".0")));
+
+						}else if(dateStr.indexOf(":") != -1){
+							newV =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
+						}else{
+							newV =  new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
 						}
 						
 						/*String dateType = fieldConfig.getShowType();
@@ -495,7 +500,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		Map<Object,Map<String, Object>> dataMap = new HashMap<Object, Map<String,Object>>();
 		if(subTableDataList!=null){
 			for(Map<String,Object> map:subTableDataList){
-				dataMap.put(map.get("id"), map);
+
+				dataMap.put(map.get("id").toString(), map);
+
 			}
 		}
 		return dataMap;

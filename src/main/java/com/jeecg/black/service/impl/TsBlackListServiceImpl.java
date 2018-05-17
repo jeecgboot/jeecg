@@ -43,21 +43,33 @@ public class TsBlackListServiceImpl extends CommonServiceImpl implements TsBlack
 	 * @return
 	 */
 	private void doAddBus(TsBlackListEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
 	private void doUpdateBus(TsBlackListEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 删除操作增强业务
 	 * @param id
 	 * @return
 	 */
 	private void doDelBus(TsBlackListEntity t) throws Exception{
- 	}
+	    //-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	
  	private Map<String,Object> populationMap(TsBlackListEntity t){
 		Map<String,Object> map = new HashMap<String,Object>();

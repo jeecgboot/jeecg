@@ -97,10 +97,12 @@
 		});
 	}
 	function delCgForm(id,name){
-		$.dialog.confirm('<t:mutiLang langKey="confirm.delete.record"/>', function(){
+
+		$.dialog.confirm('<t:mutiLang langKey="confirm.online.delete.record"/>', function(){
 			checkIsExit(id,name);
 		}, function(){
 		}).zindex();
+
 	}
 	//检查这个表是否已经存在了
 	function checkIsExit(id,name){

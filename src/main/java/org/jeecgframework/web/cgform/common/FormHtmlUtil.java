@@ -50,11 +50,11 @@ public class FormHtmlUtil {
     private static String getTextAreaFormHtml(
 			CgFormFieldEntity cgFormFieldEntity) {
     	StringBuilder html = new StringBuilder("");
-    	 html.append("<textarea rows=\"6\" ");
+   	 html.append("<textarea rows=\"6\" ");
     	 if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
        	  	html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
          }
-    	 html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+   	 html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
          html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
          if("Y".equals(cgFormFieldEntity.getIsNull())){
        	  html.append("ignore=\"ignore\" ");
@@ -343,7 +343,9 @@ public class FormHtmlUtil {
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
       html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-      html.append("onclick=\"inputClick(this,'"+cgFormFieldEntity.getDictText()+"','"+cgFormFieldEntity.getDictTable()+"');\" ");
+
+      html.append("onclick=\"popupClick(this,'"+cgFormFieldEntity.getDictText()+"','"+cgFormFieldEntity.getDictField()+"','"+cgFormFieldEntity.getDictTable()+"');\" ");
+
       if("Y".equals(cgFormFieldEntity.getIsNull())){
     	  html.append("ignore=\"ignore\" ");
       }

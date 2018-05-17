@@ -61,6 +61,9 @@ public class DataGridColumnTag extends TagSupport {
 	protected String showMode;//表单元素,查询表单中显示样式,默认样式select
 
 	protected boolean newColumn = false;//是否新起一行
+
+	protected String dictCondition; //自定义字典表的显示文本-字典查询条件
+
 	
 	public boolean isNewColumn() {
 		return newColumn;
@@ -78,6 +81,7 @@ public class DataGridColumnTag extends TagSupport {
 		this.showMode = showMode;
 	}
 
+
 	public String getEditor() {
 		return editor;
 	}
@@ -91,7 +95,7 @@ public class DataGridColumnTag extends TagSupport {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
 
-		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal,showMode,newColumn);
+		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal,showMode,newColumn,dictCondition);
 
 		return EVAL_PAGE;
 	}
@@ -184,6 +188,11 @@ public class DataGridColumnTag extends TagSupport {
 	public void setDictionary(String dictionary) {
 		this.dictionary = dictionary;
 	}
+
+	public void setdictCondition(String dictCondition) {
+		this.dictCondition = dictCondition;
+	}
+
 	public String getQueryMode() {
 		return queryMode;
 	}

@@ -29,7 +29,9 @@ update---Author:chenj  Date:20160729 for：增加图标样式预览页面
  		 //返回读取指定资源的输入流  
 		 if(param!=null&&param.equals("hplus")){
 	 			//filePath = application.getRealPath("/") + "/plug-in/hplus/font-awesome.css";
-	 			InputStream is=this.getClass().getResourceAsStream("/plug-in-ui/hplus/css/font-awesome.css");
+
+	 			InputStream is=this.getClass().getResourceAsStream("/plug-in/hplus/css/font-awesome.css");
+
 	 			reader=new BufferedReader(new InputStreamReader(is));  
 	 		}  
 		
@@ -82,7 +84,7 @@ update---Author:chenj  Date:20160729 for：增加图标样式预览页面
 %>
 	<link rel="stylesheet" href="<%=basePath %>/plug-in/ace/assets/css/font-awesome.min.css" />
 <%}else if(param!=null&&param.equals("hplus")){ %>
-	<link rel="stylesheet" href="<%=basePath %>/plug-in-ui/hplus/css/font-awesome.min.css?v=4.4.0" />
+	<link rel="stylesheet" href="<%=basePath %>/plug-in/hplus/css/font-awesome.min.css?v=4.4.0" />
 <%}else if(param!=null&&param.equals("urlfont")){ %>
 	<link rel="stylesheet" href="<%=basePath %>/plug-in/ace/css/font-awesome.css" />
 <%} %>

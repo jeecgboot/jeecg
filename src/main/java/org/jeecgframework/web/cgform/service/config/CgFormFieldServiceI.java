@@ -194,4 +194,5 @@ public interface CgFormFieldServiceI extends CommonService {
 	 * @return 键值对集合列表
 	 */
 	public List<Map<String,Object>> getPeizhiCountByIds(List<CgFormHeadEntity> list);
+
 }

@@ -105,6 +105,80 @@ function update(title,url, id,width,height,isRestful) {
 	createwindow(title,url,width,height);
 }
 
+function updatetree(title,url, id,width,height,isRestful) {
+	gridname=id;
+	var rowsData = $('#'+id).treegrid('getSelections');
+	if (!rowsData || rowsData.length==0) {
+		tip('请选择编辑项目');
+		return;
+	}
+	if (rowsData.length>1) {
+		tip('请选择一条记录再编辑');
+		return;
+	}
+	if(isRestful!='undefined'&&isRestful){
+		url += '/'+rowsData[0].id;
+	}else{
+		url += '&id='+rowsData[0].id;
+	}
+	createwindow(title,url,width,height);
+}
+
+function detailtree(title,url, id,width,height) {
+	var rowsData = $('#'+id).treegrid('getSelections');
+	if (!rowsData || rowsData.length == 0) {
+		tip('请选择查看项目');
+		return;
+	}
+	if (rowsData.length > 1) {
+		tip('请选择一条记录再查看');
+		return;
+	}
+    url += '&load=detail&id='+rowsData[0].id;
+	createdetailwindow(title,url,width,height);
+}
+/**
+ * 多记录刪除請求
+ * @param title
+ * @param url
+ * @param gname
+ * @return
+ */
+function deleteALLSelecttree(title,url,gname) {
+	gridname=gname;
+    var ids = [];
+    var rows = $("#"+gname).treegrid('getSelections');
+    if (rows.length > 0) {
+    	$.dialog.setting.zIndex = getzIndex(true);
+    	$.dialog.confirm('你确定永久删除该数据吗?', function(r) {
+		   if (r) {
+				for ( var i = 0; i < rows.length; i++) {
+					ids.push(rows[i].id);
+				}
+				$.ajax({
+					url : url,
+					type : 'post',
+					data : {
+						ids : ids.join(',')
+					},
+					cache : false,
+					success : function(data) {
+						var d = $.parseJSON(data);
+						if (d.success) {
+							var msg = d.msg;
+							tip(msg);
+							reloadTable();
+							$("#"+gname).datagrid('unselectAll');
+							ids='';
+						}
+					}
+				});
+			}
+		});
+	} else {
+		tip("请选择需要删除的数据");
+	}
+}
 
 /**
  * 如果页面是详细查看页面，无效化所有表单元素，只能进行查看
@@ -1268,7 +1342,9 @@ function viewNotCreateWin(title,url, id,isRestful)
  *   pcode:动态报表的code
  */
 function popupClick(pobj,tablefield,inputnames,pcode) {
-	 $.dialog.setting.zIndex = getzIndex(true);
+
+	 $.dialog.setting.zIndex = getzIndex(false);
+
 	 if(inputnames==""||pcode==""){
 		 alert("popup参数配置不全");
 		 return;
@@ -1276,7 +1352,9 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 	 if(typeof(windowapi) == 'undefined'){
 		 $.dialog({
 				content: "url:cgReportController.do?popup&id="+pcode,
-				zIndex: getzIndex(),
+
+				//zIndex: getzIndex(),
+
 				lock : true,
 				title:"选择",
 				width:800,
@@ -1400,7 +1478,9 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
 		}else{
 			$.dialog({
 				content: "url:cgReportController.do?popup&id="+pcode,
-				zIndex: getzIndex(),
+
+				//zIndex: getzIndex(),
+
 				lock : true,
 				title:"选择",
 				width:800,
@@ -1558,6 +1638,8 @@ function moveTipImg(){
 		
 	}
 }
+
+//<!-- update-begin-author:zhangjiaqiang date:20170815 for:TASK #2274 【online】Online 表单支持树控件 -->
 function treeFormater(value,row,index){
 	return getTreeResult(value);
 }

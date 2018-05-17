@@ -20,7 +20,7 @@
 </script>
 
 </head>
-<body style="overflow-y: hidden" scroll="no">
+<body>
 <t:formvalid formid="formobj" layout="div" dialog="true" beforeSubmit="upload">
 	<input name="id" id="id" type="hidden" value="${icon.id}">
 	<fieldset class="step">
@@ -37,8 +37,15 @@
             <option value="3" <c:if test="${icon.iconType=='3'}">selected="selected"</c:if>><t:mutiLang langKey="desktop.icon"/></option>
         </select>
     </div>
-	<div class="form" id="filediv" style="background:url(${icon.iconPath }) no-repeat; height: 50px;"></div>
-	<div class="form"><t:upload name="file_upload" uploader="iconController.do?saveOrUpdateIcon" extend="*.png;" id="file_upload" formId="formobj"></t:upload></div>
+    <c:if test="${not empty icon.id}">
+    <div class="form" >
+        <label class="Validform_label">图标预览:</label>
+        <a target="_blank" href="${icon.iconPath }"><img src="${icon.iconPath }" style="width:25px"></a>
+    </div>
+    </c:if>
+	<div class="form">
+	<div id="filediv"></div>
+	<t:upload name="file_upload" uploader="iconController.do?saveOrUpdateIcon" extend="*.png;" id="file_upload" formId="formobj"></t:upload></div>
 	</fieldset>
 </t:formvalid>
 </body>

@@ -158,15 +158,56 @@ public class WebUploaderTag extends TagSupport {
 			sb.append("\r\nvar imgDelReq=function(delpath,spanobj){$.post('"+url+"',{path:delpath,isdel:\"1\"},function(aj){var data=JSON.parse(aj);if(data.success){reset_"+name+"_dataTypeInpVal(0);exsitPathArr_"+name+".removeItem(delpath);$list.children('.fordel').children('input').val(exsitPathArr_"+name+".join(','));var myimgli=$(spanobj).closest('li');myimgli.off().find('.hidetitle').off().end().remove();}});}\r\n");
 			sb.append("var "+name+"addFile=function(file,filepath){\r\nuploader.makeThumb(file, function(error,src) {\r\nif(error){return false;}\r\nif(isSupportBase64()){if(filepath==''){"+name+"addImgli(src,file.id,0,0);}\r\n}else if(filepath!=''){\r\nvar actSrc=\""+showAndDownUrl+"\"+filepath;\r\n"+name+"addImgli(actSrc,file.id,0,0);}}, thumbnailWidth, thumbnailHeight );}");
 			sb.append("\r\nvar updatetdState=function(id,content){$list.children('table').find('#"+name+"'+id).find('.state').text('--'+content+'--');}\r\n");
+
+			if(fileNumLimit==1){
+				if(auto){
+					sb.append("var "+name+"_oneLimit = 0;");
+				}
+				if("image".equals(type)){
+					sb.append("uploader.on('beforeFileQueued',function(file){");
+					if(auto){
+						//限制一次性多选图片
+						sb.append("if("+name+"_oneLimit>=1){return false;}else{"+name+"_oneLimit++;};");
+					}
+					//图片类型，先隐藏预览区之前的图片
+					sb.append("var currLi=$('#"+showImgDiv+">ul').find('li:last');if(currLi.length>0){currLi.addClass('wait-remove');var abcfile=currLi.find('img').attr('name');if(abcfile.indexOf('name')==0){}else{abcfile=abcfile.substring(0,abcfile.length-3);uploader.removeFile(abcfile)}}});");
+				}else{
+					sb.append("uploader.on('beforeFileQueued',function(file){");
+					if(auto){
+						//限制一次性多选图片
+						sb.append("if("+name+"_oneLimit>=1){return false;}else{"+name+"_oneLimit++;};");
+					}
+					//文件类型，先隐藏列表区之前的图片
+					sb.append("var currLi=$('#"+name+"thelist>table').find('tr.item:last');if(currLi.length>0){currLi.addClass('wait-remove');var abcfile=currLi[0].id;if(abcfile.indexOf('id')==0){}else{abcfile=abcfile.substring("+name.length()+");uploader.removeFile(abcfile)}}});");
+				}
+			}
+
+			
 			//当文件被加入队列以后触发。
 			sb.append("uploader.on( 'fileQueued', function( file ) {"//'+file.name+'---等待上传---</span>
 					+"var id='"+name+"'+file.id;var name=file.name;var text='--等待上传--';addtrFile(id,name,text,0,0);"+name+"addFile(file,'');\r\n"
 					+"});");
 			//上传过程中触发，携带上传进度。
 			sb.append("	uploader.on( 'uploadProgress', function( file, percentage ) {var $li = $('#"+name+"'+file.id+' td:last'),$percent = $li.find('.progress .progress-bar');if ( !$percent.length ) {$percent = $('<div class=\"progress progress-striped active\"><div class=\"progress-bar\" role=\"progressbar\" style=\"width: 0%\"></div></div>').appendTo($li).find('.progress-bar');}updatetdState(file.id,'上传中');$percent.css( 'width', percentage * 100 + '%' );});");
+
 			//当文件上传成功时触发，会给表单增加一个input赋值 filePath
 			sb.append("uploader.on( 'uploadSuccess', function(file,response) {if(response.success){updatetdState(file.id,'上传成功');reset_"+name+"_dataTypeInpVal(1);"
-					+"var filepath=response['"+name+"']||response.obj;$('#"+name+"'+file.id+' td:first').append('<input type=\"hidden\" name=\""+name+"\" value=\"'+filepath+'\" />');"+name+"addFile(file, filepath);}else{updatetdState(file.id,'上传出错'+response.msg);}});\r\n");
+					+"var filepath=response['"+name+"']||response.obj;$('#"+name+"'+file.id+' td:first').append('<input type=\"hidden\" name=\""+name+"\" value=\"'+filepath+'\" />');"+name+"addFile(file, filepath);");
+			if(fileNumLimit==1){
+				if(auto){
+					//上传完成 限制放开
+					sb.append(name+"_oneLimit = 0;");
+				}
+				//上传完成，删除旧的文件
+				if("image".equals(type)){
+					sb.append("$('#"+showImgDiv+">ul').find('li.wait-remove').find('.titledel').click()");
+				}else{
+					sb.append("$('#"+name+"thelist>table').find('tr.wait-remove').find('.del').click()");
+				}
+			}
+			sb.append("}else{updatetdState(file.id,'上传出错'+response.msg);}});\r\n");
+
+			
 			//上传失败
 			sb.append("uploader.on( 'uploadError', function( file,reason ) {updatetdState(file.id,'上传出错-code:'+reason);});");
 			//当validate不通过时，会以派送错误事件的形式通知调用者。

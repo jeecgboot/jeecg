@@ -268,10 +268,12 @@ public class LoginController extends BaseController{
 		} else if (!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode")))) {
 			j.setMsg(mutiLangService.getLang("common.verifycode.error"));
 			j.setSuccess(false);
+
 		} else if (isInBlackList(IpUtil.getIpAddr(req))){
 			j.setMsg(mutiLangService.getLang("common.blacklist.error"));
 			j.setSuccess(false);
 		}
+
 		else {
 			//用户登录验证逻辑
 			TSUser u = userService.checkUserExits(user);
@@ -312,10 +314,12 @@ public class LoginController extends BaseController{
 		}
 		return j;
 	}
+
 	private boolean isInBlackList(String ip){
 		Long orgNum =systemService.getCountForJdbc("select count(*) from t_s_black_list where ip =  '" + ip + "'");
 		return orgNum!=0?true:false;
 	}
+
 	/**
 	 * 变更在线用户组织
 	 * 
@@ -356,7 +360,7 @@ public class LoginController extends BaseController{
 		user.setDepartid(orgId);
 
 		session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
-        message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
+       message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
 
         String browserType = "";
         Cookie[] cookies = req.getCookies();
@@ -533,10 +537,12 @@ public class LoginController extends BaseController{
 			if (loginActionlist.size() > 0) {
 				Collection<TSFunction> allFunctions = loginActionlist.values();
 				for (TSFunction function : allFunctions) {
+
 		            if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
 						//如果为表单或者弹出 不显示在系统菜单里面
 						continue;
 					}
+
 					if (!functionMap.containsKey(function.getFunctionLevel() + 0)) {
 						functionMap.put(function.getFunctionLevel() + 0,
 								new ArrayList<TSFunction>());
@@ -713,11 +719,11 @@ public class LoginController extends BaseController{
         List<TSRoleFunction> roleFunctionList = systemService.findByProperty(TSRoleFunction.class, "TSRole.id", role.getId());
         for (TSRoleFunction roleFunction : roleFunctionList) {
             TSFunction function = roleFunction.getTSFunction();
-            if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
+           if(function.getFunctionType().intValue()==Globals.Function_TYPE_FROM.intValue()){
 				//如果为表单或者弹出 不显示在系统菜单里面
 				continue;
 			}
-            loginActionlist.put(function.getId(), function);
+           loginActionlist.put(function.getId(), function);
         }
     }
 

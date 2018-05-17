@@ -247,6 +247,7 @@ public class TSInterfaceController extends BaseController {
 	public AjaxJson saveInterface(TSInterfaceEntity tsInterface, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
+		// ----------------------------------------------------------------
 		tsInterface.setInterfaceUrl(tsInterface.getInterfaceUrl().trim());
 		String functionOrder = tsInterface.getInterfaceOrder();
 		if (StringUtils.isEmpty(functionOrder)) {

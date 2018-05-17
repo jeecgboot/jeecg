@@ -31,7 +31,7 @@ import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.p3.core.util.oConvertUtils;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.pojo.base.TSDataRule;
 import org.springframework.util.NumberUtils;
 
@@ -69,6 +69,7 @@ public class HqlGenerateUtil {
 	 * @throws Exception
 	 */
 	public static void installHql(CriteriaQuery cq, Object searchObj) {
+//		--author：龙金波 ------start---date：20150519--------for：统一函数处理sqlbuilder---------------------------------- 
 		installHql(cq,searchObj,null);
 
 	}
@@ -83,6 +84,7 @@ public class HqlGenerateUtil {
 	 */
 	public static void installHql(CriteriaQuery cq, Object searchObj,Map<String, String[]> parameterMap) {
 		installHqlJoinAlias(cq, searchObj, getRuleMap(), parameterMap, "");
+//		--author：龙金波 ------start---date：20150422--------for：增加一个特殊sql参数处理---------------------------------- 
 		try{
 			String json= null;
 			if(StringUtil.isNotEmpty(cq.getDataGrid().getSqlbuilder())){
@@ -100,6 +102,7 @@ public class HqlGenerateUtil {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+//		--author：龙金波 ------start---date：201504022--------for：增加一个特殊sql参数处理---------------------------------- 
 
 		cq.add();
 	}
@@ -216,6 +219,13 @@ public class HqlGenerateUtil {
 								beginValue_ = Float.parseFloat(beginValue);
 							if(!"".equals(endValue)&&null!=endValue)
 								endValue_ =Float.parseFloat(endValue);
+
+						}else if ("class java.lang.Double".equals(type)) {
+							if(!"".equals(beginValue)&&null!=beginValue)
+								beginValue_ = Double.parseDouble(beginValue);
+							if(!"".equals(endValue)&&null!=endValue)
+								endValue_ =Double.parseDouble(endValue);
+
 						}else{
 							 beginValue_ = beginValue;
 							 endValue_ = endValue;

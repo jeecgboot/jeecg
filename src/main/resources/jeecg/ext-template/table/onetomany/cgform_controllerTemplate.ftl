@@ -162,9 +162,12 @@ public class ${entityName}Controller extends BaseController {
 		<#if po.isQuery =='Y' && po.queryMode =='group'>
 		String query_${po.fieldName}_begin = request.getParameter("${po.fieldName}_begin");
 		String query_${po.fieldName}_end = request.getParameter("${po.fieldName}_end");
+		<#-- update--begin--author:zhoujf date:20180316 for:TASK #2557 范围查询double字段错误 -->
 		if(StringUtil.isNotEmpty(query_${po.fieldName}_begin)){
 			<#if po.type == "java.util.Date">
 			cq.ge("${po.fieldName}", new SimpleDateFormat("yyyy-MM-dd").parse(query_${po.fieldName}_begin));
+			<#elseif po.type == "java.lang.Double">
+			cq.ge("${po.fieldName}", Double.parseDouble(query_${po.fieldName}_begin));
 			<#else>
 			cq.ge("${po.fieldName}", Integer.parseInt(query_${po.fieldName}_begin));
 			</#if>
@@ -172,10 +175,13 @@ public class ${entityName}Controller extends BaseController {
 		if(StringUtil.isNotEmpty(query_${po.fieldName}_end)){
 			<#if po.type == "java.util.Date">
 			cq.le("${po.fieldName}", new SimpleDateFormat("yyyy-MM-dd").parse(query_${po.fieldName}_end));
+			<#elseif po.type == "java.lang.Double">
+			cq.le("${po.fieldName}", Double.parseDouble(query_${po.fieldName}_end));
 			<#else>
 			cq.le("${po.fieldName}", Integer.parseInt(query_${po.fieldName}_end));
 			</#if>
 		}
+		<#-- update--end--author:zhoujf date:20180316 for:TASK #2557 范围查询double字段错误 -->
 		</#if>
 		</#list> 
 		}catch (Exception e) {
@@ -484,7 +490,9 @@ public class ${entityName}Controller extends BaseController {
 	@ResponseBody
 	public AjaxJson do${btn.buttonCode?cap_first}(${entityName}Entity ${entityName?uncap_first}, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		message = "${btn.buttonName}成功";
+		<#-- update--begin--author:zhoujf date:20180413 for:生成报错修正-->
+		String message = "${btn.buttonName}成功";
+		<#-- update--end--author:zhoujf date:20180413 for:生成报错修正-->
 		${entityName}Entity t = ${entityName?uncap_first}Service.get(${entityName}Entity.class, ${entityName?uncap_first}.getId());
 		try{
 			${entityName?uncap_first}Service.do${btn.buttonCode?cap_first}Sql(t);

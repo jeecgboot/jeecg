@@ -28,8 +28,10 @@ public interface CgFormFieldDao {
 	@Arguments("id")
 	@Sql("select count(1) from cgform_head where physice_id=:id ")
 	public int getByphysiceId(String id);
+
 	@Arguments("ids")
 	@Sql("select count(1) as hasPeizhi,physice_id id from cgform_head where 1=1 and physice_id in (${ids}) group by physice_id")
 	public List<Map<String, Object>> getPeizhiCountByIds(String ids);
+
 	
 }

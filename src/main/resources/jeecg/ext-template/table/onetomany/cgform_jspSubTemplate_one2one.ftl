@@ -12,6 +12,9 @@ $(document).ready(function(){
     });
 </script>
 <div style="width: auto;height: 300px;overflow-y:auto;overflow-x:auto;">
+<#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+<#assign ue_widget_count = 0>
+<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 <table cellpadding="0" cellspacing="1" class="formtable" id="${entityName?uncap_first}_table" >
 	<tbody id="add_${entityName?uncap_first}_table" >	
 	<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  <= 0 }">
@@ -95,6 +98,34 @@ $(document).ready(function(){
 				</#if>
 			  </#if>
             </#list>
+            <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+            <#list pageAreatextColumns as po>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">${po.content}:</label>
+					</td>
+					<td class="value" colspan="3">
+					  <#if po.showType=='textarea' || po.showType='umeditor'>
+						  <textarea id="${entityName?uncap_first}List[0].${po.fieldName}" style="width:600px;height:60px;" class="inputxt" rows="6" name="${entityName?uncap_first}List[0].${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />></textarea>
+						<#--
+						<#elseif po.showType='umeditor'>
+							<#assign ue_widget_count = ue_widget_count + 1>
+							<#if ue_widget_count == 1>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+							</#if>
+					    	<textarea name="${entityName?uncap_first}List[0].${po.fieldName}" id="${entityName?uncap_first}List[0].${po.fieldName}" style="width: 650px;height:300px"></textarea>
+						    <script type="text/javascript">
+						        var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+						    </script>
+						    -->
+						</#if>
+						<span class="Validform_checktip"></span>
+						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+					</td>
+				</tr>
+			</#list>
+			<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 	</c:if>
 	<c:if test="${"$"}{fn:length(${entityName?uncap_first}List)  > 0 }">
 		<c:forEach items="${"$"}{${entityName?uncap_first}List}" var="poVal" varStatus="stuts" begin="0" end="0">
@@ -133,7 +164,9 @@ $(document).ready(function(){
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='radio' || po.showType=='select' || po.showType=='checkbox' || po.showType=='list'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
-							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/><@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
+							<#-- update--begin--author:zhoujf Date:20180329 for:TASK #2598 【代码生成器】一对多生成 t:dictSelect控件 表单编辑页面数据不能初始化 -->
+							<t:dictSelect field="${entityName?uncap_first}List[0].${po.fieldName}" type="${po.showType?if_exists?html}" <@datatype inputCheck="2" validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/><@dictInfo dictTable="${po.dictTable}" dictField="${po.dictField}" dictText="${po.dictText}" /> defaultVal="${'$'}{poVal.${po.fieldName}}" hasLabel="false"  title="${po.content}"></t:dictSelect>     
+							<#-- update--end--author:zhoujf Date:20180329 for:TASK #2598 【代码生成器】一对多生成 t:dictSelect控件 表单编辑页面数据不能初始化 -->
 						<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
 						<#elseif po.showType=='date'>
 							<#-- update--begin--author:zhangjiaqiang Date:20170509 for:修订生成页面乱 -->
@@ -179,6 +212,34 @@ $(document).ready(function(){
 				</#if>
 			  </#if>
             </#list>
+            <#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
+            <#list pageAreatextColumns as po>
+				<tr>
+					<td align="right">
+						<label class="Validform_label">${po.content}:</label>
+					</td>
+					<td class="value" colspan="3">
+				     <#if po.showType=='textarea' || po.showType='umeditor'>
+						 <textarea id="${entityName?uncap_first}List[0].${po.fieldName}" style="width:600px;height:60px;" class="inputxt" rows="6" name="${entityName?uncap_first}List[0].${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>${'$'}{poVal.${po.fieldName}}</textarea>
+						<#--
+						<#elseif po.showType='umeditor'>
+							<#assign ue_widget_count = ue_widget_count + 1>
+							<#if ue_widget_count == 1>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
+							<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
+							</#if>
+		                <textarea name="${entityName?uncap_first}List[0].${po.fieldName}" id="${entityName?uncap_first}List[0].${po.fieldName}" style="width: 650px;height:300px">${'$'}{poVal.${po.fieldName} }</textarea>
+						    <script type="text/javascript">
+						        var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+						    </script>
+						    -->
+						</#if>
+						<span class="Validform_checktip"></span>
+						<label class="Validform_label" style="display: none;">${po.content?if_exists?html}</label>
+					</td>
+				</tr>
+			</#list>
+			<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 		</c:forEach>
 	</c:if>	
 	</tbody>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.constant.DataBaseConstant;
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
@@ -257,6 +258,8 @@ public class ResourceUtil {
 		} else {
 			key = key;
 		}
+		
+		 //----------------------------------------------------------------
 
 	
 		//替换为系统的登录用户账号
@@ -280,6 +283,7 @@ public class ResourceUtil {
 			returnValue =  getSessionUser().getRealName();
 		}
 
+		//---------------------------------------------------------------- 
 		//替换为系统登录用户的公司编码
 		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
 
@@ -358,5 +362,57 @@ public class ResourceUtil {
 //	public static boolean isFuzzySearch(){
 //		return "1".equals(bundle.getString("fuzzySearch"));
 //	}
+
+	/**
+	 * 【Minidao写法】
+	 * 将Sql增强中的系统变量替换掉
+	 * @param sql
+	 * @return
+	 */
+	public static Map<String, Object> minidaoReplaceExtendSqlSysVar(Map<String, Object> data){
+		data.put("sys."+DataBaseConstant.SYS_USER_CODE_TABLE, getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		data.put("sys."+DataBaseConstant.SYS_USER_NAME_TABLE, getUserSystemData(DataBaseConstant.SYS_USER_NAME));
+		data.put("sys."+DataBaseConstant.SYS_ORG_CODE_TABLE, getUserSystemData(DataBaseConstant.SYS_ORG_CODE));
+		data.put("sys."+DataBaseConstant.SYS_COMPANY_CODE_TABLE, getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE));
+		data.put("sys."+DataBaseConstant.SYS_DATE_TABLE, DateUtils.formatDate());
+		data.put("sys."+DataBaseConstant.SYS_TIME_TABLE, DateUtils.formatTime());
+		return data;
+	}
+	
+	/**
+	 * sql值替换
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	public static String formateSQl(String sql, Map<String, Object> params) {
+		sql = replaceExtendSqlSysVar(sql);
+		if (params == null) {
+			return sql;
+		}
+		if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1){
+			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
+		}
+		for (String key : params.keySet()) {
+			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
+		}
+		return sql;
+	}
+	
+	/**
+	 * 【老写法】
+	 * 将Sql增强中的系统变量替换掉
+	 * @param sql
+	 * @return
+	 */
+	private static String replaceExtendSqlSysVar(String sql){
+		sql = sql.replace("#{sys."+DataBaseConstant.SYS_USER_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_USER_NAME_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME))
+				.replace("#{sys."+DataBaseConstant.SYS_ORG_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_COMPANY_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE))
+				.replace("#{sys."+DataBaseConstant.SYS_DATE_TABLE+"}",  DateUtils.formatDate())
+				.replace("#{sys."+DataBaseConstant.SYS_TIME_TABLE+"}",  DateUtils.formatTime());
+		return sql;
+	}
 
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.p3.core.util.oConvertUtils;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.system.service.SystemService;
 
 import com.alibaba.fastjson.JSON;

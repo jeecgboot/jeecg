@@ -29,8 +29,10 @@ import com.jeecg.demo.service.JeecgDemoServiceI;
 @Transactional
 public class JeecgDemoServiceImpl extends CommonServiceImpl implements JeecgDemoServiceI {
 	private static final Logger logger = Logger.getLogger(JeecgDemoServiceImpl.class);
+
 	@Autowired
 	private JdbcDao jdbcDao;
+
 
 
  	public void delete(JeecgDemoEntity entity) throws Exception{
@@ -58,21 +60,33 @@ public class JeecgDemoServiceImpl extends CommonServiceImpl implements JeecgDemo
 	 * @return
 	 */
 	private void doAddBus(JeecgDemoEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
 	private void doUpdateBus(JeecgDemoEntity t) throws Exception{
- 	}
+		//-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	/**
 	 * 删除操作增强业务
 	 * @param id
 	 * @return
 	 */
 	private void doDelBus(JeecgDemoEntity t) throws Exception{
- 	}
+	    //-----------------sql增强 start----------------------------
+	 	//-----------------sql增强 end------------------------------
+	 	
+	 	//-----------------java增强 start---------------------------
+	}
  	
  	private Map<String,Object> populationMap(JeecgDemoEntity t){
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -147,7 +161,7 @@ public class JeecgDemoServiceImpl extends CommonServiceImpl implements JeecgDemo
 			} 
 		}
  	}
- 	/**
+	/**
  	 * JDBC批量添加
  	 */
 	@Override
@@ -190,6 +204,7 @@ public class JeecgDemoServiceImpl extends CommonServiceImpl implements JeecgDemo
 		logger.info("-------执行存储过程--sql ----"+ sql);
 	    jdbcDao.execute(sql);
 	}
+
 
 
 }

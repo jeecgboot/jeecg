@@ -12,8 +12,14 @@ public enum InterfaceEnum {
 	onlineform_get("onlineform_get", "根据tableName和记录ID获取online表单详细信息", "/rest/cgFormDataController/get/{tableName}/{id}", "GET", 1),
 	onlineform_add("onlineform_add", "online表单增加一条记录", "/rest/cgFormDataController/add", "POST", 2),
 	onlineform_update("onlineform_update", "online表单修改一条记录", "/rest/cgFormDataController/update", "POST", 3),
-	onlineform_delete("onlineform_delete", "online表单删除一条记录", "/rest/cgFormDataController/delete/{tableName}/{id}", "DELETE", 4)
+	onlineform_delete("onlineform_delete", "online表单删除一条记录", "/rest/cgFormDataController/delete/{tableName}/{id}", "DELETE", 4),
 
+	
+	jeecgdemo_list("jeecgdemo_list", "jeecgDemo列表查询", "/rest/jeecgListDemoController/list", "GET", 1),
+	jeecgdemo_get("jeecgdemo_get", "jeecgDemo单条数据查询", "/rest/jeecgListDemoController/{id}", "GET", 2),
+	jeecgdemo_add("jeecgdemo_add", "jeecgDemo添加", "/rest/jeecgListDemoController", "POST", 3),
+	jeecgdemo_edit("jeecgdemo_edit", "jeecgDemo编辑", "/rest/jeecgListDemoController", "PUT", 4),
+	jeecgdemo_delete("jeecgdemo_delete", "jeecgDemo删除", "/rest/jeecgListDemoController/{id}", "DELETE", 5)
 	;
 	/**
      * 接口编码

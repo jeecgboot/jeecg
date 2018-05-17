@@ -4,7 +4,7 @@
 <html>
 <head>
 <title>uitags</title>
-<t:base type="jquery,easyui,tools,autocomplete"></t:base>
+<t:base type="jquery,easyui,tools,autocomplete,DatePicker"></t:base>
 <SCRIPT type="text/javascript">
         function parse(data){
             	var parsed = [];
@@ -92,6 +92,12 @@
 		<div class="form">
 			<label class="Validform_label"> 时间： </label> 
 			<input type="text" name="time" id="time" class="easyui-datetimebox"> 
+			<span class="Validform_checktip"></span>
+		</div> 
+		<div class="form">
+			<label class="Validform_label"> 时间： </label> 
+			<input id="d12" type="text" datatype="*" errormsg="该字段不为空"/>
+			<img onclick="WdatePicker({el:'d12'})" src="plug-in/easyui/themes/black/images/datebox_arrow.png" style="opacity: 0.6;height:17px;width:17px;" align="absmiddle">
 			<span class="Validform_checktip"></span>
 		</div> 
 		<div style="text-align:center"><input class="btn" type="submit" value="提交" style="height:30px;width:100px !important;border-radius:5px"></div>

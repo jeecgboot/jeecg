@@ -27,6 +27,7 @@ public class DataGridUrl {
 	private String id;
 
 	private String operationCode;//按钮的操作Code
+
 	public String getOnclick() {
 		return onclick;
 	}

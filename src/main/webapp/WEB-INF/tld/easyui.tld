@@ -194,7 +194,7 @@
 		<attribute>
 			<name>queryMode</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>查询模式：single(单条件查询：默认),group(组合查询)</description>
+			<description>查询模式：single(单条件查询：默认),group(组合查询),advanced(高级查询)</description>
 		</attribute>
 		<attribute>
 			<name>autoLoadData</name>
@@ -264,6 +264,18 @@
 			<description>主表表名</description>
 		</attribute>
 		<!-- update-end-Author:guoxianhui  Date:20171214 for：TASK #2450 【改造】支持主子表效果 -->
+		<!-- update-begin-Author:zhoujf  Date:20180504 for：TASK #2687 【datagrid标签】使用freemaker重写datagrid标签 -->
+		<attribute>
+			<name>component</name>
+			<rtexprvalue></rtexprvalue>
+			<description>列表组件名称（默认easyui,bootstrap-table）</description>
+		</attribute>
+		<attribute>
+			<name>query</name>
+			<rtexprvalue></rtexprvalue>
+			<description>是否显示查询条件（默认true,显示为true,不显示为false）</description>
+		</attribute>
+		<!-- update-end-Author:zhoujf  Date:20180504 for：TASK #2687 【datagrid标签】使用freemaker重写datagrid标签 -->
 	</tag>
 	<tag>
 		<name>dgCol</name>
@@ -401,6 +413,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>数据字典组编码 或 自定义字典(格式：表名,编码,显示文本)</description>
 		</attribute>
+		<!-- update-begin-Author:gj_shaojc  Date:20180314 for：TASK #2560 【UI标签扩展】column列表字典属性扩展dictCondition加sql条件  -->
+		<attribute>
+			<name>dictCondition</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义字典表的显示文本-字典查询条件</description>
+		</attribute>
+		<!-- update-end-Author:gj_shaojc  Date:20180314 for：TASK #2560 【UI标签扩展】column列表字典属性扩展dictCondition加sql条件  -->
 		<attribute>
 			<name>extend</name>
 			<required>false</required>
@@ -873,6 +892,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>是否多选</description>
 		</attribute>
+		<!-- update-begin-Author:gj_shaojc  Date:20180408 for：TASK #2613 【UI标签】combotree 控制选子选项，父级不被选中  -->
+		<attribute>
+			<name>onlyLeafCheck</name>
+			<rtexprvalue>false</rtexprvalue>
+			<description>是否只选择子节点(默认为false)</description>
+		</attribute>
+		<!-- update-end-Author:gj_shaojc  Date:20180408 for：TASK #2613 【UI标签】combotree 控制选子选项，父级不被选中  -->
 	</tag>
 	<tag>
 		<name>tabs</name>
@@ -1084,6 +1110,13 @@
 			<description>是否生成HTML（true/false）</description>
 		</attribute>
 		<!-- update-end-author:zhangjiaqiang date:20170714 for:去除必填项 -->
+		<!-- update-begin-author:taoyan date:20180427 for:增加自定义onUploadStart处理方法 -->
+		<attribute>
+			<name>onUploadStart</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>自定义onUploadStart调用函数</description>
+		</attribute>
+		<!-- update-end-author:taoyan date:20180427 for:增加自定义onUploadStart处理方法 -->
 	</tag>
 	<tag>
 		<name>ckeditor</name>
@@ -1773,6 +1806,28 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>窗口高度</description>
 		</attribute>
+		<!-- add-begin-Author:LiShaoQing Date:20180411 for:TASK #2628[功能升级]是否选择父自动选择子 -->
+		<attribute>
+			<name>selectCascadeParent</name>
+			<required>false</required>
+			<description>勾选时选择父节点true|false</description>
+		</attribute>
+		<attribute>
+			<name>selectCascadeChildren</name>
+			<required>false</required>
+			<description>勾选时选择子节点true|false</description>
+		</attribute>
+		<attribute>
+			<name>cancelCascadeParent</name>
+			<required>false</required>
+			<description>取消勾选时选择父节点true|false</description>
+		</attribute>
+		<attribute>
+			<name>cancelCascadeChildren</name>
+			<required>false</required>
+			<description>取消勾选时选择子节点true|false</description>
+		</attribute>
+		<!-- add-end-Author:LiShaoQing Date:20180411 for:TASK #2628[功能升级]是否选择父自动选择子 -->
 	</tag>
 	<!-- add-begin- Author:taoyan  Date:20170327 for：文件上传标签  -->
 	<tag>
@@ -1935,6 +1990,52 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>输入框样式</description>
 		</attribute>
+		<!-- update-begin-Author:taoYan Date:20180427 for:增加表单风格,不同风格有不同样式 -->
+		<attribute>
+			<name>formStyle</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>表单风格</description>
+		</attribute>
+		<!-- update-end-Author:taoYan Date:20180427 for:增加表单风格,不同风格有不同样式 -->
 	</tag>
 	<!-- add-end-author:zhangjiaqiang Date:20170913 for:treeSelectTag -->
+	<!-- update-begin-Author:taoYan Date:20180327 for:主从页按钮菜单标签 可配权限 -->
+	<tag>
+		<name>menuButtons</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.MenuButtonsTag</tag-class>
+		<body-content>JSP</body-content>
+		<display-name>JSP权限标签</display-name>
+		<description>通过标签name-code配置权限   加载菜单</description>
+		<attribute>
+			<name>codes</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>菜单按钮的code,以逗号隔开,参考枚举AuthMenusEnum,ALL则选择全部</description>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件name-唯一标识</description>
+		</attribute>
+		<attribute>
+			<name>notIn</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否取反</description>
+		</attribute>
+		<attribute>
+			<name>mm</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否是主表菜单</description>
+		</attribute>
+		<attribute>
+			<name>superQuery</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否加载高级查询</description>
+		</attribute>
+	</tag>
+	<!-- update-end-Author:taoYan Date:20180327 for:主从页按钮菜单标签 可配权限 -->
 </taglib>

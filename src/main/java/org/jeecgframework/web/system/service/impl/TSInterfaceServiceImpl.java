@@ -51,6 +51,11 @@ public class TSInterfaceServiceImpl extends CommonServiceImpl implements TSInter
 	 * @return
 	 */
 	private void doAddBus(TSInterfaceEntity t) throws Exception{
+		//-----------------sql增强 start----------------------------
+		//-----------------sql增强 end------------------------------
+
+		//-----------------java增强 start---------------------------
+		//-----------------java增强 end-----------------------------
 	}
 	/**
 	 * 更新操作增强业务
@@ -58,6 +63,11 @@ public class TSInterfaceServiceImpl extends CommonServiceImpl implements TSInter
 	 * @return
 	 */
 	private void doUpdateBus(TSInterfaceEntity t) throws Exception{
+		//-----------------sql增强 start----------------------------
+		//-----------------sql增强 end------------------------------
+
+		//-----------------java增强 start---------------------------
+		//-----------------java增强 end-----------------------------
 	}
 	/**
 	 * 删除操作增强业务
@@ -65,6 +75,11 @@ public class TSInterfaceServiceImpl extends CommonServiceImpl implements TSInter
 	 * @return
 	 */
 	private void doDelBus(TSInterfaceEntity t) throws Exception{
+		//-----------------sql增强 start----------------------------
+		//-----------------sql增强 end------------------------------
+
+		//-----------------java增强 start---------------------------
+		//-----------------java增强 end-----------------------------
 	}
 
 	private Map<String,Object> populationMap(TSInterfaceEntity t){

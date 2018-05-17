@@ -17,21 +17,33 @@
     <#elseif po.showType == 'textarea'>
     <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'textarea'" width="100"></t:dgCol>
     <#elseif po.showType == 'checkbox' >
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--begin--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictTable?if_exists?html!="">dictionary="${po.dictTable},${po.dictField},${po.dictText}" <#else><#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--end--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
     <#elseif po.showType == 'radio'> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}"<#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--begin--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}"<#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictTable?if_exists?html!="">dictionary="${po.dictTable},${po.dictField},${po.dictText}" <#else><#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--end--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
     <#elseif po.showType == 'datetime'>
     <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> formatter="yyyy-MM-dd hh:mm:ss" extendParams="editor:'datebox'" width="100"></t:dgCol>
     <#elseif po.showType == 'list'> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--begin--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictTable?if_exists?html!="">dictionary="${po.dictTable},${po.dictField},${po.dictText}" <#else><#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if></#if> extendParams="editor:'combobox'" width="100"></t:dgCol>
+    <#-- update--end--author:zhoujf date:20180330 for:TASK #2592 【代码生成器】单表档案行编辑风格表单，代码生成，点击页面编辑所有的数据不可操作 -->
     <#elseif po.type == 'int'> 
     <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
     <#elseif po.type == 'double'>
     <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
     <#elseif po.type == 'BigDecimal'>
     <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'numberbox'" width="100"></t:dgCol>
+    <#-- update--begin--author:zhoujf date:20180413 for:TASK #2641 【popup重构问题】popup查询条件多字段回填问题-->
+    <#elseif po.showType == 'popup'> 
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if><#if po.dictTable?if_exists?html!=""> dictionary="${po.dictTable},${po.dictField?replace(',', '@')},${po.dictText?replace(',', '@')}"<#if po.showType=='popup'> popup="true"</#if><#else><#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!=""> dictionary="${po.dictField}"</#if></#if> extendParams="editor:'text'" width="100"></t:dgCol>
+    <#-- update--end--author:zhoujf date:20180413 for:TASK #2641 【popup重构问题】popup查询条件多字段回填问题-->
     <#else> 
-    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if> <#if po.dictField??><#if  po.dictField != "">dictionary="${po.dictField}"</#if></#if> extendParams="editor:'text'" width="100"></t:dgCol>
+    <#-- update--begin--author:zhoujf date:20180319 for:TASK #2557 popup,当字典Text为多个值时 -->
+    <t:dgCol title="${po.content}"  field="${po.fieldName}" queryMode="${po.queryMode}" <#if  po.isQuery == 'Y'>query="true"</#if><#if po.dictTable?if_exists?html!=""> dictionary="${po.dictTable},${po.dictText},${po.dictField}"<#if po.showType=='popup'> popup="true"</#if><#else><#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!=""> dictionary="${po.dictField}"</#if></#if> extendParams="editor:'text'" width="100"></t:dgCol>
+    <#-- update--end--author:zhoujf date:20180319 for:TASK #2557 popup,当字典Text为多个值时 -->
     </#if> 
    </#list>
    <#--//update-end--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->

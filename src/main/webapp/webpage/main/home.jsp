@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css">
-<!-- add-begin--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】 -->	
 <script type="text/javascript" src="plug-in/login/js/getMsgs.js"></script>
-<!-- add-begin--Author:jg_renjie  Date:20150610 for：今天需要提醒的【系统信息】	 -->
 <div style="margin-top: 14px;">
 <h3>简介</h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JEECG（J2EE Code Generation）是一款基于代码生成器的微云快速开发平台，引领新开发模式(智能开发\在线开发\插件开发\移动开发\流程开发)， 可以帮助解决Java项目80%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。 JEECG快速开发宗旨是：简单功能由代码生成器生成使用; 复杂业务采用表单自定义，业务流程使用工作流实现、扩展出业务接口，供开发编写业务逻辑。 实现了流程任务节点和任务接口的灵活配置，既保证了公司流程的保密性，又减少了开发人员的工作量</p>
@@ -12,7 +10,7 @@
 <h3>架构说明</h3>
 <ul>
 	<li>JEECG开发平台，采用SpringMVC + Hibernate + Minidao(类Mybatis) + Easyui(UI库)+ Jquery + Boostrap + Ehcache + Redis + Ztree等基础架构,采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、表单处理等功能，再配合代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少60%以上。</li>
-	<li>JEECG_<font color="red">v_3.7.3 </font>功能点: <b>1.代码生成器</b> <b>2.数据权限</b> <b>3.Online表单</b> <b>4.工作流组件</b> <b>5.移动OA</b> <b>6.EasyPOI工具类</b> <b>7.查询过滤器</b> <b>8.UI库</b> <b>9.国际化</b> <b>10.多数据源</b> <b>11.自定义表单</b> <b>12.在线报表</b> <b>13.移动报表</b> <b>14.日志监控</b> <b>15.首页切换</b> <b>16.插件开发</b></li>
+	<li>JEECG_<font color="red">v_3.7.5 </font>功能点: <b>1.代码生成器</b> <b>2.数据权限</b> <b>3.Online表单</b> <b>4.工作流组件</b> <b>5.移动OA</b> <b>6.EasyPOI工具类</b> <b>7.查询过滤器</b> <b>8.UI库</b> <b>9.国际化</b> <b>10.多数据源</b> <b>11.自定义表单</b> <b>12.在线报表</b> <b>13.移动报表</b> <b>14.日志监控</b> <b>15.首页切换</b> <b>16.插件开发</b></li>
 	<li>[1].代码生成器，支持多种数据模型,根据表生成对应的Entity,Service,Dao,Action,JSP等,增删改查功能生成直接使用</li>
 	<li>[2].用户权限，强大数据权限<font color="red">new</font>，支持精细化数据权限控制，控制到行级，列表级，表单字段级，实现不同人看不同数据，不同人对同一个页面操作不同字段</li>
 	<li>[3].Online表单，通过在线配置实现表模型的增删改查功能，零代码，支持用户自定义表单风格，<font color="red">new</font>表单配置PC样式和移动样式，针对移动端采用移动样式展示</li>

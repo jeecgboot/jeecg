@@ -54,7 +54,9 @@ public class SWFToolsSWFConverter implements SWFConverter {
 	        } else {
 	            //如果是linux系统,路径不能有空格，而且一定不能用双引号，否则无法创建进程
 				  String[] command = new String[3];
+
 				command[0] = ConStant.getSWFToolsForLinux(extend);
+
 				command[1] = inputFile;
 	              command[2] = swfFile;
 	            //Runtime执行后返回创建的进程对象

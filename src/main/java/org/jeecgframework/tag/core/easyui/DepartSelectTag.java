@@ -156,6 +156,7 @@ public class DepartSelectTag extends TagSupport {
 			sb.append(" value=\""+departNamesDefalutVal+"\"");
 		}
 		sb.append(" />");
+
 		String orgIds = "";		
 		sb.append("<input class=\"inuptxt\" id=\"" + selectedIdsInputId + "\" name=\"" + selectedIdsInputId + "\" type=\"hidden\" ");
 		if(StringUtils.isNotBlank(departIdsDefalutVal)){
@@ -176,6 +177,7 @@ public class DepartSelectTag extends TagSupport {
 		sb.append("       {name: '" + commonCancel + "', callback: function (){}}");
 		sb.append("   ]}).zindex();");
 		sb.append("}");
+
 		sb.append("function callbackDepartmentSelect() {");
 		sb.append("    var iframe = this.iframe.contentWindow;");
 		sb.append(" var treeObj = iframe.$.fn.zTree.getZTreeObj(\"departSelect\");");
