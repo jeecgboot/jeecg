@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2018-05-16 17:40:31
+Date: 2018-05-17 10:43:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,10 +31,10 @@ CREATE TABLE `cgform_button` (
   `OPT_TYPE` varchar(20) default NULL COMMENT '按钮类型',
   `order_num` int(11) default NULL COMMENT '排序',
   PRIMARY KEY  (`ID`),
-  KEY `index_formid`  (`FORM_ID`),
-  KEY `index_button_code`  (`BUTTON_CODE`),
-  KEY `index_button_status`  (`BUTTON_STATUS`),
-  KEY `index_button_order`  (`order_num`)
+  KEY `index_formid` (`FORM_ID`),
+  KEY `index_button_code` (`BUTTON_CODE`),
+  KEY `index_button_status` (`BUTTON_STATUS`),
+  KEY `index_button_order` (`order_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -65,7 +65,7 @@ CREATE TABLE `cgform_button_sql` (
   `CONTENT` varchar(1000) default NULL COMMENT '备注',
   `FORM_ID` varchar(32) default NULL COMMENT '表单ID',
   PRIMARY KEY  (`ID`),
-  KEY `index_formid`  (`FORM_ID`)
+  KEY `index_formid` (`FORM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -85,9 +85,9 @@ CREATE TABLE `cgform_enhance_java` (
   `form_id` varchar(32) NOT NULL COMMENT '表单ID',
   `active_status` varchar(2) default '1' COMMENT '生效状态',
   PRIMARY KEY  (`id`),
-  KEY `index_fmid`  (`form_id`),
-  KEY `index_buttoncode`  (`button_code`),
-  KEY `index_status`  (`active_status`)
+  KEY `index_fmid` (`form_id`),
+  KEY `index_buttoncode` (`button_code`),
+  KEY `index_status` (`active_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -107,8 +107,8 @@ CREATE TABLE `cgform_enhance_js` (
   `CONTENT` varchar(1000) default NULL COMMENT '备注',
   `FORM_ID` varchar(32) default NULL COMMENT '表单ID',
   PRIMARY KEY  (`ID`),
-  KEY `index_fmid`  (`FORM_ID`),
-  KEY `index_jstype`  (`CG_JS_TYPE`)
+  KEY `index_fmid` (`FORM_ID`),
+  KEY `index_jstype` (`CG_JS_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -160,7 +160,7 @@ CREATE TABLE `cgform_field` (
   `extend_json` varchar(500) default NULL COMMENT '扩展参数JSON',
   `fill_rule_code` varchar(500) default NULL COMMENT '填值规则code',
   PRIMARY KEY  (`id`),
-  KEY `inex_table_id`  (`table_id`)
+  KEY `inex_table_id` (`table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -642,8 +642,8 @@ CREATE TABLE `cgform_ftl` (
   `UPDATE_NAME` varchar(32) default NULL COMMENT '修改人名字',
   `editor_type` varchar(10) default '01' COMMENT '类型',
   PRIMARY KEY  (`ID`),
-  KEY `inex_table_id`  (`CGFORM_ID`),
-  KEY `index_ftl_status`  (`FTL_STATUS`)
+  KEY `inex_table_id` (`CGFORM_ID`),
+  KEY `index_ftl_status` (`FTL_STATUS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -699,10 +699,10 @@ CREATE TABLE `cgform_head` (
   `table_version` int(11) default NULL COMMENT '表版本',
   `physice_id` varchar(32) default NULL COMMENT '物理表id(配置表用)',
   PRIMARY KEY  (`id`),
-  KEY `index_table_type`  (`table_type`),
-  KEY `index_physice_id`  (`physice_id`),
-  KEY `index_form_templdate`  (`form_template`),
-  KEY `index_templdate_mobile`  (`form_template_mobile`)
+  KEY `index_table_type` (`table_type`),
+  KEY `index_physice_id` (`physice_id`),
+  KEY `index_form_templdate` (`form_template`),
+  KEY `index_templdate_mobile` (`form_template_mobile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -756,7 +756,7 @@ CREATE TABLE `cgform_index` (
   `index_type` varchar(32) default NULL COMMENT '索引类型',
   `table_id` varchar(32) default NULL COMMENT '主表id',
   PRIMARY KEY  (`id`),
-  KEY `index_table_id`  (`table_id`)
+  KEY `index_table_id` (`table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -825,8 +825,8 @@ CREATE TABLE `cgform_uploadfiles` (
   `CGFORM_NAME` varchar(100) NOT NULL COMMENT '表单名称',
   PRIMARY KEY  (`id`),
   KEY `FK_qwig8sn3okhvh4wye8nn8gdeg` (`id`),
-  KEY `index_fieldid`  (`CGFORM_FIELD`),
-  KEY `index_formid`  (`CGFORM_ID`)
+  KEY `index_fieldid` (`CGFORM_FIELD`),
+  KEY `index_formid` (`CGFORM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1229,7 +1229,7 @@ CREATE TABLE `jform_cgdynamgraph_head` (
   `data_structure` varchar(36) default NULL COMMENT '数据结构类型',
   `is_pagination` varchar(2) default NULL,
   PRIMARY KEY  (`ID`),
-  KEY `index_code`  (`CODE`)
+  KEY `index_code` (`CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1255,9 +1255,9 @@ CREATE TABLE `jform_cgdynamgraph_item` (
   `ORDER_NUM` int(11) default NULL COMMENT '排序',
   `REPLACE_VA` varchar(36) default NULL COMMENT '取值表达式',
   PRIMARY KEY  (`ID`),
-  KEY `index1`  (`CGRHEAD_ID`),
-  KEY `index2`  (`IS_SHOW`),
-  KEY `index3`  (`ORDER_NUM`)
+  KEY `index1` (`CGRHEAD_ID`),
+  KEY `index2` (`IS_SHOW`),
+  KEY `index3` (`ORDER_NUM`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1287,7 +1287,7 @@ CREATE TABLE `jform_cgdynamgraph_param` (
   `seq` int(11) default NULL COMMENT '排序',
   `cgrhead_id` varchar(36) default NULL COMMENT '动态报表ID',
   PRIMARY KEY  (`id`),
-  KEY `index_headid`  (`cgrhead_id`)
+  KEY `index_headid` (`cgrhead_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1315,7 +1315,7 @@ CREATE TABLE `jform_cgreport_head` (
   `return_txt_field` varchar(100) default NULL COMMENT '返回文本字段',
   `pop_retype` varchar(2) default '1' COMMENT '返回类型，单选或多选',
   PRIMARY KEY  (`ID`),
-  KEY `index_code`  (`CODE`)
+  KEY `index_code` (`CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1344,9 +1344,9 @@ CREATE TABLE `jform_cgreport_item` (
   `ORDER_NUM` int(11) default NULL COMMENT '排序',
   `REPLACE_VA` varchar(36) default NULL COMMENT '取值表达式',
   PRIMARY KEY  (`ID`),
-  KEY `index_CGRHEAD_ID`  (`CGRHEAD_ID`),
-  KEY `index_isshow`  (`IS_SHOW`),
-  KEY `index_order_num`  (`ORDER_NUM`)
+  KEY `index_CGRHEAD_ID` (`CGRHEAD_ID`),
+  KEY `index_isshow` (`IS_SHOW`),
+  KEY `index_order_num` (`ORDER_NUM`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1696,7 +1696,7 @@ CREATE TABLE `jform_graphreport_head` (
   `update_by` varchar(50) default NULL,
   `update_name` datetime default NULL,
   PRIMARY KEY  (`id`),
-  KEY `index_code`  (`code`)
+  KEY `index_code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1726,8 +1726,8 @@ CREATE TABLE `jform_graphreport_item` (
   `graph_name` varchar(100) default NULL COMMENT '图表名称',
   `tab_name` varchar(50) default NULL COMMENT '标签名称',
   PRIMARY KEY  (`id`),
-  KEY `index_headid`  (`cgreport_head_id`),
-  KEY `index_isshow`  (`is_show`)
+  KEY `index_headid` (`cgreport_head_id`),
+  KEY `index_isshow` (`is_show`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jform_graphreport_item';
 
 -- ----------------------------
@@ -2463,9 +2463,9 @@ CREATE TABLE `jp_inner_mail_receiver` (
   `status` varchar(50) default NULL COMMENT '收件状态',
   `isdelete` char(2) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `index_userid`  (`user_id`),
-  KEY `index_mailid`  (`mail_id`),
-  KEY `index_status`  (`status`)
+  KEY `index_userid` (`user_id`),
+  KEY `index_mailid` (`mail_id`),
+  KEY `index_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2741,6 +2741,102 @@ INSERT INTO `test_rules` VALUES ('402881e56266f4310162672405b80061', '李四', '
 INSERT INTO `test_rules` VALUES ('402881e56266f4310162672b08880077', '张代浩', 'scott', '2018-03-27 19:14:56', null, null, null, 'A01A02A01A01', 'A01', '1', 'scott999', '999', '', '2018-03-08 00:00:00', null);
 
 -- ----------------------------
+-- Table structure for tmp_tables
+-- ----------------------------
+DROP TABLE IF EXISTS `tmp_tables`;
+CREATE TABLE `tmp_tables` (
+  `id` int(100) NOT NULL auto_increment,
+  `wl_table_name` varchar(100) default NULL,
+  `xt_table_name` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tmp_tables
+-- ----------------------------
+INSERT INTO `tmp_tables` VALUES ('1', 't_s_attachment', '系统上传附件表');
+INSERT INTO `tmp_tables` VALUES ('2', 't_s_base_user', '系统用户基础表');
+INSERT INTO `tmp_tables` VALUES ('3', 't_s_category', '系统分类表');
+INSERT INTO `tmp_tables` VALUES ('4', 't_s_data_log', '业务数据日志表');
+INSERT INTO `tmp_tables` VALUES ('5', 't_s_data_rule', '数据权限规则表');
+INSERT INTO `tmp_tables` VALUES ('6', 't_s_data_source', '系统多数据源表');
+INSERT INTO `tmp_tables` VALUES ('7', 't_s_depart', '系统组织机构');
+INSERT INTO `tmp_tables` VALUES ('8', 't_s_function', '系统菜单权限');
+INSERT INTO `tmp_tables` VALUES ('9', 't_s_icon', '系统图标');
+INSERT INTO `tmp_tables` VALUES ('10', 't_s_log', '系统日志表');
+INSERT INTO `tmp_tables` VALUES ('11', 't_s_muti_lang', '国际化语法表');
+INSERT INTO `tmp_tables` VALUES ('12', 't_s_notice', '系统公告');
+INSERT INTO `tmp_tables` VALUES ('13', 't_s_notice_authority_role', '系统公告角色关系表');
+INSERT INTO `tmp_tables` VALUES ('14', 't_s_notice_authority_user', '系统公告人员关系表');
+INSERT INTO `tmp_tables` VALUES ('15', 't_s_notice_read_user', '系统功能已读日志表');
+INSERT INTO `tmp_tables` VALUES ('16', 't_s_operation', '系统操作权限');
+INSERT INTO `tmp_tables` VALUES ('17', 't_s_role', '系统角色表');
+INSERT INTO `tmp_tables` VALUES ('18', 't_s_role_function', '系统角色菜单关系表');
+INSERT INTO `tmp_tables` VALUES ('19', 't_s_role_org', '系统角色组织机构关系表');
+INSERT INTO `tmp_tables` VALUES ('20', 't_s_role_user', '系统角色用户关系表');
+INSERT INTO `tmp_tables` VALUES ('21', 't_s_sms', '消息中心');
+INSERT INTO `tmp_tables` VALUES ('22', 't_s_sms_sql', '消息中心SQL');
+INSERT INTO `tmp_tables` VALUES ('23', 't_s_sms_template', '消息中心模板');
+INSERT INTO `tmp_tables` VALUES ('24', 't_s_sms_template_sql', '消息中心模板SQL');
+INSERT INTO `tmp_tables` VALUES ('25', 't_s_timetask', '定时任务表');
+INSERT INTO `tmp_tables` VALUES ('26', 't_s_type', '字段表');
+INSERT INTO `tmp_tables` VALUES ('27', 't_s_typegroup', '字典类别');
+INSERT INTO `tmp_tables` VALUES ('28', 't_s_user', '用户表');
+INSERT INTO `tmp_tables` VALUES ('29', 't_s_user_org', '用户组织机构关系表');
+INSERT INTO `tmp_tables` VALUES ('38', 'cgform_button', 'Online表单自定义按钮');
+INSERT INTO `tmp_tables` VALUES ('39', 'cgform_button_sql', 'Online表单SQL增强');
+INSERT INTO `tmp_tables` VALUES ('40', 'cgform_enhance_java', 'Online表单Java增强');
+INSERT INTO `tmp_tables` VALUES ('41', 'cgform_enhance_js', 'Online表单JS增强');
+INSERT INTO `tmp_tables` VALUES ('42', 'cgform_field', 'Online表单字段');
+INSERT INTO `tmp_tables` VALUES ('43', 'cgform_ftl', 'Online表单样式');
+INSERT INTO `tmp_tables` VALUES ('44', 'cgform_head', 'Online表单主表');
+INSERT INTO `tmp_tables` VALUES ('45', 'cgform_index', 'Online表单索引');
+INSERT INTO `tmp_tables` VALUES ('46', 'cgform_template', 'Online表单模板');
+INSERT INTO `tmp_tables` VALUES ('47', 'cgform_uploadfiles', 'Online表单上传文件');
+INSERT INTO `tmp_tables` VALUES ('48', 'jform_cgdynamgraph_head', '移动报表配置主表');
+INSERT INTO `tmp_tables` VALUES ('49', 'jform_cgdynamgraph_item', '移动报表配置明细');
+INSERT INTO `tmp_tables` VALUES ('50', 'jform_cgdynamgraph_param', '移动报表配置参数');
+INSERT INTO `tmp_tables` VALUES ('51', 'jform_cgreport_head', '动态报表主表');
+INSERT INTO `tmp_tables` VALUES ('52', 'jform_cgreport_item', '动态报表字段');
+INSERT INTO `tmp_tables` VALUES ('53', 'jform_cgreport_param', '动态报表参数');
+INSERT INTO `tmp_tables` VALUES ('54', 'jform_graphreport_head', '移动图表配置主表');
+INSERT INTO `tmp_tables` VALUES ('55', 'jform_graphreport_item', '移动图表配置字段');
+INSERT INTO `tmp_tables` VALUES ('56', 't_s_region', '地域表');
+INSERT INTO `tmp_tables` VALUES ('57', 'test_person', '测试用户表');
+INSERT INTO `tmp_tables` VALUES ('58', 'jform_contact', '合同表');
+INSERT INTO `tmp_tables` VALUES ('59', 'jform_contact_group', '通迅录分组');
+INSERT INTO `tmp_tables` VALUES ('60', 'jform_employee_cost_claim', '员工费用报销申请信息表');
+INSERT INTO `tmp_tables` VALUES ('61', 'jform_employee_entry', '员工入职单');
+INSERT INTO `tmp_tables` VALUES ('62', 'jform_employee_leave', '员工请假单');
+INSERT INTO `tmp_tables` VALUES ('63', 'jform_employee_meals_cost', '员工餐费明细表');
+INSERT INTO `tmp_tables` VALUES ('64', 'jform_employee_other_cost', '员工其他费用明细表');
+INSERT INTO `tmp_tables` VALUES ('65', 'jform_employee_resignation', '员工离职单');
+INSERT INTO `tmp_tables` VALUES ('66', 'jform_leave', '请假单');
+INSERT INTO `tmp_tables` VALUES ('67', 'jform_order_customer', '订单客户');
+INSERT INTO `tmp_tables` VALUES ('68', 'jform_order_main', '订单主表');
+INSERT INTO `tmp_tables` VALUES ('69', 'jform_order_ticket', '订单机票');
+INSERT INTO `tmp_tables` VALUES ('70', 'jform_price1', '价格表');
+INSERT INTO `tmp_tables` VALUES ('71', 'jform_resume_degree_info', '教育经历');
+INSERT INTO `tmp_tables` VALUES ('72', 'jform_resume_exp_info', '工作信息表');
+INSERT INTO `tmp_tables` VALUES ('73', 'jform_resume_info', '简历信息表');
+INSERT INTO `tmp_tables` VALUES ('74', 'jform_tree', '树DEMO');
+INSERT INTO `tmp_tables` VALUES ('75', 'jeecg_custom_info', '客户信息');
+INSERT INTO `tmp_tables` VALUES ('76', 'jeecg_custom_record', '客户记录');
+INSERT INTO `tmp_tables` VALUES ('77', 'jeecg_demo', '演示DEMO');
+INSERT INTO `tmp_tables` VALUES ('78', 'jeecg_order_custom', '订单客户表');
+INSERT INTO `tmp_tables` VALUES ('79', 'jeecg_order_main', '订单主表');
+INSERT INTO `tmp_tables` VALUES ('80', 'jeecg_order_product', '订单产品表');
+INSERT INTO `tmp_tables` VALUES ('81', 'jp_demo_activity', '插件活动表');
+INSERT INTO `tmp_tables` VALUES ('82', 'jp_demo_auth', '插件树DEMO');
+INSERT INTO `tmp_tables` VALUES ('83', 'jp_demo_order_custom', '插件订单客户表');
+INSERT INTO `tmp_tables` VALUES ('84', 'jp_demo_order_main', '插件订单主表');
+INSERT INTO `tmp_tables` VALUES ('85', 'jp_demo_order_product', '插件订单产品表');
+INSERT INTO `tmp_tables` VALUES ('86', 'jp_inner_mail', '插件邮箱主表');
+INSERT INTO `tmp_tables` VALUES ('87', 'jp_inner_mail_attach', '插件邮箱附件');
+INSERT INTO `tmp_tables` VALUES ('88', 'jp_inner_mail_receiver', '插件邮件接收');
+INSERT INTO `tmp_tables` VALUES ('89', 'jp_chat_message_his', '在线聊天消息记录表');
+
+-- ----------------------------
 -- Table structure for t_s_attachment
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_attachment`;
@@ -2986,7 +3082,7 @@ CREATE TABLE `t_s_category` (
   `PARENT_CODE` varchar(32) default NULL COMMENT '父邮编',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_code` (`code`),
-  KEY `index_parent_id`  (`parent_id`)
+  KEY `index_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分类管理';
 
 -- ----------------------------
@@ -3095,7 +3191,7 @@ CREATE TABLE `t_s_data_rule` (
   `update_by` varchar(96) default NULL COMMENT '修改人',
   `update_name` varchar(96) default NULL COMMENT '修改人名字',
   `functionId` varchar(96) default NULL COMMENT '菜单ID',
-  KEY `index_fucntionid`  (`functionId`)
+  KEY `index_fucntionid` (`functionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3174,9 +3270,9 @@ CREATE TABLE `t_s_depart` (
   `sys_org_code` varchar(50) default NULL COMMENT '数据所属部门',
   PRIMARY KEY  (`ID`),
   KEY `FK_knnm3wb0bembwvm0il7tf6686` (`parentdepartid`),
-  KEY `index_org_code`  (`org_code`),
-  KEY `index_org_type`  (`org_type`),
-  KEY `index_depart_order`  (`depart_order`)
+  KEY `index_org_code` (`org_code`),
+  KEY `index_org_type` (`org_type`),
+  KEY `index_depart_order` (`depart_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3293,8 +3389,8 @@ CREATE TABLE `t_s_document` (
   `pictureindex` blob,
   `showhome` smallint(6) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `FK_qr3qlmgkflj35m5ci1xv0vvg3`  (`typeid`),
-  KEY `FK_f2mc12eu0umghp2i70apmtxjl`  (`id`)
+  KEY `FK_qr3qlmgkflj35m5ci1xv0vvg3` (`typeid`),
+  KEY `FK_f2mc12eu0umghp2i70apmtxjl` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3361,8 +3457,8 @@ CREATE TABLE `t_s_function` (
   KEY `FK_q5tqo3v4ltsp1pehdxd59rccx` (`iconid`),
   KEY `FK_gbdacaoju6d5u53rp4jo4rbs9` (`desk_iconid`),
   KEY `index_url` (`functionurl`(255)),
-  KEY `index_functiontype`  (`functiontype`),
-  KEY `index_functionorder`  (`functionorder`),
+  KEY `index_functiontype` (`functiontype`),
+  KEY `index_functionorder` (`functionorder`),
   CONSTRAINT `FK_brd7b3keorj8pmxcv8bpahnxp` FOREIGN KEY (`parentfunctionid`) REFERENCES `t_s_function` (`ID`),
   CONSTRAINT `FK_gbdacaoju6d5u53rp4jo4rbs9` FOREIGN KEY (`desk_iconid`) REFERENCES `t_s_icon` (`ID`),
   CONSTRAINT `FK_q5tqo3v4ltsp1pehdxd59rccx` FOREIGN KEY (`iconid`) REFERENCES `t_s_icon` (`ID`)
@@ -14309,6 +14405,10 @@ INSERT INTO `t_s_log` VALUES ('402860816367f6c2016367f814990000', 'Chrome', '用
 INSERT INTO `t_s_log` VALUES ('402860816367fade016367fb7a3d0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-05-16 16:05:24', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('402860816367fade016367fd372c0001', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-05-16 16:07:18', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('40286081636801ad0163680246310000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-05-16 16:12:49', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('40286081636beffb01636bf09b690000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2018-05-17 10:32:00', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('40286081636beffb01636bf4e32d0001', 'Chrome', '错误异常: MySQLSyntaxErrorException,错误描述：Table \'jeecg_3_7_5.tmp_tables\' doesn\'t exist', '6', '本地', '2018-05-17 10:36:41', '3', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('40286081636beffb01636bfa03cc000e', 'Chrome', '创建成功', '3', '本地', '2018-05-17 10:42:17', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('40286081636beffb01636bfa1df5000f', 'Chrome', '删除成功', '4', '本地', '2018-05-17 10:42:23', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 
 -- ----------------------------
 -- Table structure for t_s_muti_lang
@@ -15560,8 +15660,8 @@ CREATE TABLE `t_s_notice_authority_role` (
   `notice_id` varchar(36) default NULL COMMENT '通告ID',
   `role_id` varchar(32) default NULL COMMENT '授权角色ID',
   PRIMARY KEY  (`id`),
-  KEY `index_noteid`  (`notice_id`),
-  KEY `index_roleid`  (`role_id`)
+  KEY `index_noteid` (`notice_id`),
+  KEY `index_roleid` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权角色表';
 
 -- ----------------------------
@@ -15578,8 +15678,8 @@ CREATE TABLE `t_s_notice_authority_user` (
   `notice_id` varchar(36) default NULL COMMENT '通告ID',
   `user_id` varchar(32) default NULL COMMENT '授权用户ID',
   PRIMARY KEY  (`id`),
-  KEY `index_noticeid`  (`notice_id`),
-  KEY `index_userid`  (`user_id`)
+  KEY `index_noticeid` (`notice_id`),
+  KEY `index_userid` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权用户表';
 
 -- ----------------------------
@@ -19787,7 +19887,7 @@ CREATE TABLE `t_s_typegroup` (
   `create_date` datetime default NULL COMMENT '创建时间',
   `create_name` varchar(36) default NULL COMMENT '创建用户',
   PRIMARY KEY  (`ID`),
-  KEY `index_typegroupcode`  (`typegroupcode`)
+  KEY `index_typegroupcode` (`typegroupcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -19864,7 +19964,7 @@ CREATE TABLE `t_s_user` (
   `memo` varchar(255) default NULL COMMENT '备注',
   PRIMARY KEY  (`id`),
   KEY `FK_2cuji5h6yorrxgsr8ojndlmal` (`id`),
-  KEY `index_dev_flag`  (`dev_flag`),
+  KEY `index_dev_flag` (`dev_flag`),
   CONSTRAINT `FK_2cuji5h6yorrxgsr8ojndlmal` FOREIGN KEY (`id`) REFERENCES `t_s_base_user` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -19926,7 +20026,7 @@ CREATE TABLE `t_s_user_position_rel` (
   `company_id` varchar(32) default NULL COMMENT '公司ID',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `uniq_userid_positionid_companyid` (`user_id`,`position_id`,`company_id`),
-  KEY `idx_userid_companyid`  (`user_id`,`company_id`)
+  KEY `idx_userid_companyid` (`user_id`,`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户-岗位-公司关联表';
 
 -- ----------------------------
