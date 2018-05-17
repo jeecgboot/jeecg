@@ -13,3 +13,9 @@
 2. oracle、SqlServer脚步索引会有部分丢失，为了系统性能，请自行补加索引。
 3. jeecg系统数据库切换配置方法，参考常见问题贴29
    http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1
+
+4.老版本数据库增量升级
+    执行老版本升级SQL脚本
+	3.7.3升级到3.7.5
+    docs/老版本增量升级/jeecg_mysql-3.7.3-update-3.7.5.sql
+	
