@@ -96,6 +96,7 @@ JEECG 功能特点
 * [JEECG 开发手册Wiki](http://jeecg3.mydoc.io)
 * [JEECG 在线视频教程](https://edu.csdn.net/lecturer/929)
 * [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
+* [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
 
     
 技术交流
