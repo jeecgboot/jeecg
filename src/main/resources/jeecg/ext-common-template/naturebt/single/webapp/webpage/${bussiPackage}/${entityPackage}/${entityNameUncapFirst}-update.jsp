@@ -45,13 +45,11 @@
 <#if uploadFlag==1>
 <#assign fileName = "" />
 <!-- 上传组件 -->
-<link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css" />
-<script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
-<script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script>
-<script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/webuploader/custom.css"></link>
+<script type="text/javascript" src="plug-in/webuploader/webuploader.min.js"></script>
 </#if>
 </head>
- <body style="overflow:hidden;margin-top: 20px">
+ <body style="overflow:hidden;overflow-y:auto;margin-top: 20px">
  <form id="formobj" action="${entityName?uncap_first}Controller.do?doUpdate" class="form-horizontal validform" role="form"  method="post">
 	<input type="hidden" id="btn_sub" class="btn_sub"/>
 	<input type="hidden" id="id" name="id" value="${'$'}{${entityName?uncap_first}Page.id}"/>
@@ -81,7 +79,7 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             <#elseif po.showType=='file' || po.showType == 'image'>
-				<@uploadtag po = po opt = "update"/>
+				<@webuploadtag po = po defval="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}"/>
 	      	<#else>
 	      		<input id="${po.fieldName}" name="${po.fieldName}" value='${'$'}{${entityName?uncap_first}Page.${po.fieldName}}' type="text" maxlength="${po.length?c}" class="form-control input-sm" placeholder="请输入${po.content}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/>/>
 			</#if>
@@ -160,11 +158,7 @@
 			callback : function(data) {
 				var win = frameElement.api.opener;
 				if (data.success == true) {
-					<#if uploadFlag==1>
-					callbackUpload(data);
-					<#else>
 					frameElement.api.close();
-					</#if>
 				    win.reloadTable();
 				    win.tip(data.msg);
 				} else {
@@ -187,84 +181,5 @@
 		});
 	});
 </script>
-<#if uploadFlag==1>
-<script>
-$(function(){
-	var cgFormId=$("input[name='id']").val();
-	$.ajax({
-		type: "post",
-		url: "${entityName?uncap_first}Controller.do?getFiles&id=" +  cgFormId,
-		success: function(data){
-			var arrayFileObj = jQuery.parseJSON(data).obj;
-			$.each(arrayFileObj,function(n,file){
-				var fieldName = file.field.toLowerCase();
-  				var table = $("#"+fieldName+"_fileTable");
-  				var tr = $("<tr style=\"height:34px;\"></tr>");
-  				var title = file.title;
-  				if(title.length > 15){
-  					title = title.substring(0,12) + "...";
-  				}
-  				var td_title = $("<td title='"+file.title+"'>" + title + "</td>");
-  		  		var td_download = $("<td><a  style=\"margin-left:10px;\" href=\"commonController.do?viewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity\" title=\"下载\">下载</a></td>")
-  		  		var td_view = $("<td><a  style=\"margin-left:10px;\" href=\"javascript:void(0);\" onclick=\"openwindow('预览','commonController.do?openViewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)\">预览</a></td>");
-  		  		var td_del = $("<td><a  style=\"margin-left:10px;\" href=\"javascript:void(0)\" class=\"jeecgDetail\" onclick=\"del('cgUploadController.do?delFile&id=" + file.fileKey + "',this)\">删除</a></td>");
-  		  		tr.appendTo(table);
-  		  		td_title.appendTo(tr);
-  		  		td_download.appendTo(tr);
-  		  		td_view.appendTo(tr);
-  		  		td_del.appendTo(tr);
-			});
-		}
-	});
-	
-});
-		
-	//表单提交成功后上传文件
-	function callbackUpload(data) {
-		if(!$("input[name='id']").val()){
-			if(data.obj!=null && data.obj!='undefined'){
-				$("input[name='id']").val(data.obj.id);
-			}
-		}
-		if($(".uploadify-queue-item").length>0){
-			<#assign subFileName = fileName?substring(0,fileName?length - 1) />
- 			<#list subFileName?split(",") as name>
-			$('#${name}').uploadify('upload', '*');
-			</#list>
-		}else{
-			frameElement.api.close();
-		}
-	}
-	function cancel() {
-		<#assign subFileName2 = fileName?substring(0,fileName?length - 1) />
-		<#list subFileName2?split(",") as name>
-			$('#${name}').uploadify('cancel', '*');
-		</#list>
-	}
-	//删除单个文件
-	function del(url,obj){
-		$.dialog.setting.zIndex =9999;
-		$.dialog.confirm("确认删除该条记录?", function(){
-		  	$.ajax({
-				async : false,
-				cache : false,
-				type : 'POST',
-				url : url,// 请求的action路径
-				error : function() {// 请求失败处理函数
-				},
-				success : function(data) {
-					var d = $.parseJSON(data);
-					if (d.success) {
-						var msg = d.msg;
-						tip(msg);
-						$(obj).closest("tr").hide("slow");
-					}
-				}
-			});  
-		}, function(){
-		});
-	}
-</script>
-</#if>
 </body>
 </html>

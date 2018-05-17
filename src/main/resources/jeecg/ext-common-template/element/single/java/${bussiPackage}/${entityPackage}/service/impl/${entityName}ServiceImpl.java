@@ -81,7 +81,8 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 * @return
 	 */
 	private void doAddBus(${entityName}Entity t) throws Exception{
-		<#list buttonSqlMap['add'] as sql>
+		//-----------------sql增强 start----------------------------
+ 		<#list buttonSqlMap['add'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
 	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
@@ -95,14 +96,16 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 		Map<String,Object> data = populationMap(t);
 	 		executeJavaExtend("${buttonJavaMap['add'].cgJavaType}","${buttonJavaMap['add'].cgJavaValue}",data);
 	 	</#if>
-	}
+	 	//-----------------java增强 end-----------------------------
+ 	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
 	private void doUpdateBus(${entityName}Entity t) throws Exception{
-		<#list buttonSqlMap['update'] as sql>
+		//-----------------sql增强 start----------------------------
+ 		<#list buttonSqlMap['update'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
 	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
@@ -116,14 +119,16 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 		Map<String,Object> data = populationMap(t);
 	 		executeJavaExtend("${buttonJavaMap['update'].cgJavaType}","${buttonJavaMap['update'].cgJavaValue}",data);
 	 	</#if>
-	}
+	 	//-----------------java增强 end-----------------------------
+ 	}
  	/**
 	 * 删除操作增强业务
 	 * @param id
 	 * @return
 	 */
 	private void doDelBus(${entityName}Entity t) throws Exception{
-		<#list buttonSqlMap['delete'] as sql>
+	    //-----------------sql增强 start----------------------------
+ 		<#list buttonSqlMap['delete'] as sql>
 	 	//sql增强第${sql_index+1}条
 	 	String sqlEnhance_${sql_index+1} ="${sql}";
 	 	<#-- update--begin--author:zhoujf date:20180413 for:TASK #2623 【bug】生成代码sql 不支持表达式-->
@@ -137,7 +142,8 @@ public class ${entityName}ServiceImpl extends CommonServiceImpl implements ${ent
 	 		Map<String,Object> data = populationMap(t);
 	 		executeJavaExtend("${buttonJavaMap['delete'].cgJavaType}","${buttonJavaMap['delete'].cgJavaValue}",data);
 	 	</#if>
-	}
+	 	//-----------------java增强 end-----------------------------
+ 	}
  	
  	private Map<String,Object> populationMap(${entityName}Entity t){
 		Map<String,Object> map = new HashMap<String,Object>();

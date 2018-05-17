@@ -45,11 +45,11 @@
 <#if uploadFlag==1>
 <#assign fileName = "" />
 <!-- 上传组件 -->
-<link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css" />
-<script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+<link rel="stylesheet" type="text/css" href="plug-in/webuploader/custom.css"></link>
+<script type="text/javascript" src="plug-in/webuploader/webuploader.min.js"></script>
 </#if>
 </head>
- <body style="overflow:hidden;margin-top: 20px">
+ <body style="overflow:hidden;overflow-y:auto;margin-top: 20px">
  <form id="formobj" action="${entityName?uncap_first}Controller.do?doAdd" class="form-horizontal validform" role="form"  method="post">
 	<input type="hidden" id="btn_sub" class="btn_sub"/>
 	<input type="hidden" id="id" name="id"/>
@@ -72,7 +72,7 @@
                        <span class="glyphicon glyphicon-calendar"></span>
                    </span>
             <#elseif po.showType=='file' || po.showType == 'image'>
-				<@uploadtag po = po/>
+				<@webuploadtag po = po defval=""/>
 	      	<#else>
 	      		<input id="${po.fieldName}" name="${po.fieldName}" type="text" maxlength="${po.length?c}" class="form-control input-sm" placeholder="请输入${po.content}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"  tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/>/>
 			</#if>
@@ -149,11 +149,7 @@
 			callback : function(data) {
 				var win = frameElement.api.opener;
 				if (data.success == true) {
-					<#if uploadFlag==1>
-					callbackUpload(data);
-					<#else>
 					frameElement.api.close();
-					</#if>
 				    win.reloadTable();
 				    win.tip(data.msg);
 				} else {
@@ -176,29 +172,6 @@
 		});
 	});
 	
-	<#if uploadFlag==1>
-	function callbackUpload(data) {
-		if(!$("input[name='id']").val()){
-			if(data.obj!=null && data.obj!='undefined'){
-				$("input[name='id']").val(data.obj.id);
-			}
-		}
-		if($(".uploadify-queue-item").length>0){
-			<#assign subFileName = fileName?substring(0,fileName?length - 1) />
- 			<#list subFileName?split(",") as name>
-			$('#${name}').uploadify('upload', '*');
-			</#list>
-		}else{
-			frameElement.api.close();
-		}
-	}
-	function cancel() {
-		<#assign subFileName2 = fileName?substring(0,fileName?length - 1) />
-		<#list subFileName2?split(",") as name>
-			$('#${name}').uploadify('cancel', '*');
-		</#list>
-	}
-	</#if>
 </script>
 </body>
 </html>

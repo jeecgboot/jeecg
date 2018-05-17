@@ -35,6 +35,29 @@
 	</#if>
 </#macro>
 
+<#-- 文件上传使用新标签
+	po: 对象
+	opt：操作类型 add/update
+  -->
+<#macro webuploadtag po defval="">
+<#local validType="${po.fieldValidType!''}"/>
+<#local isNull="${po.isNull}"/>
+				<t:webUploader name="${po.fieldName}" outJs="true" auto="true" showImgDiv="filediv_${po.fieldName}"<#rt/>
+<#if po.showType == 'image'><#rt/>
+ type="image" buttonText='添加图片' displayTxt="false"<#rt/>
+</#if><#rt/>
+<#if defval != ''><#rt/>
+ pathValues="${defval}"<#rt/>
+</#if><#rt/>
+<#if validType?if_exists?html != ''><#rt/>
+ datatype="${validType?if_exists?html}"<#rt/>
+<#elseif isNull != 'Y'><#rt/>
+ datatype="*"<#rt/>
+</#if><#rt/>
+></t:webUploader>
+				<div class="form" id="filediv_${po.fieldName}"></div>
+</#macro>
+
 <#-- 树控件使用标签 -->
 <#macro treetag po formStyle="" opt="">
 					<t:treeSelectTag id="${po.fieldName}" field="${po.fieldName}" code = "${po.dictField}"<#rt/>

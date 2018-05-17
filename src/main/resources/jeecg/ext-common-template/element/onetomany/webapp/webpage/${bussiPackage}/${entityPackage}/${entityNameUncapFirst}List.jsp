@@ -108,7 +108,11 @@
 			<#if po.showType=='file' || po.showType == 'image'>
 			<el-table-column prop="${po.fieldName}" label="${po.content}" min-width="${po.fieldLength}" sortable="custom" show-overflow-tooltip>
 				<template slot-scope="scope" v-if="scope.row.${po.fieldName}">
+					<#if po.showType=='file'>
 					<el-button size="mini" type="primary" @click="handleDownFile('1',scope.row.${po.fieldName})">文件下载</el-button>
+					<#else>
+					<img width="100%" :src="'systemController/showOrDownByurl.do?dbPath='+scope.row.${po.fieldName}" alt="${po.content}">
+					</#if>
 				</template>
 			</el-table-column>
 			<#else>
@@ -293,7 +297,7 @@
 						var data = datas[i];
 						<#list columns as po>
 						<#if po.showType=='checkbox'>
-						data.${po.fieldName}=data.${po.fieldName}.split(',');
+						data.${po.fieldName}=!!data.${po.fieldName}?data.${po.fieldName}.split(','):[];
 						</#if>
 						</#list>
 					}

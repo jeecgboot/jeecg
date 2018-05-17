@@ -85,6 +85,21 @@
 				<i class="fa fa-trash"></i>
 				<span>批量删除</span>
 			</button>
+			
+			<button type="button" class="tool-btn tool-btn-default tool-btn-xs" onclick="openuploadwin('Excel导入', '${entityName?uncap_first}Controller.do?upload', '${entityName?uncap_first}List')">
+				<i class="fa fa-download"></i>
+				<span>导入</span>
+			</button>
+			
+			<button type="button" class="tool-btn tool-btn-default tool-btn-xs" onclick="JeecgExcelExport('${entityName?uncap_first}Controller.do?exportXls','${entityName?uncap_first}List')">
+				<i class="fa fa-upload"></i>
+				<span>导出</span>
+			</button>
+			
+			<button type="button" class="tool-btn tool-btn-default tool-btn-xs" onclick="JeecgExcelExport('${entityName?uncap_first}Controller.do?exportXlsByT','${entityName?uncap_first}List')">
+				<i class="fa fa-upload"></i>
+				<span>模版下载</span>
+			</button>
 		
 			<button type="button" class="tool-btn tool-btn-default tool-btn-xs" onclick="$('.toolbar-search').slideToggle();">
 				<i class="fa fa-arrow-circle-left"></i>
@@ -354,13 +369,15 @@ function listFileImgFormat(value,type){
 	if(value==null || value.length==0){
 		return href;
 	}
+	var value1 = "systemController/showOrDownByurl.do?dbPath="+value;
 	if("image"==type){
- 		href+="<img src='"+value+"' width=30 height=30  onmouseover='tipImg(this)' onmouseout='moveTipImg()' style='vertical-align:middle'/>";
+ 		href+="<img src='"+value1+"' width=30 height=30  onmouseover='tipImg(this)' onmouseout='moveTipImg()' style='vertical-align:middle'/>";
 	}else{
  		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
- 			href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=30 height=30 />";
+ 			href+="<img src='"+value1+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=30 height=30 style='vertical-align:middle'/>";
  		}else{
- 			href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+ 			var value2 = "systemController/showOrDownByurl.do?down=1&dbPath="+value;
+ 			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
  		}
 	}
 	return href;

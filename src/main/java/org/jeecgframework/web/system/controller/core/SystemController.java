@@ -123,7 +123,7 @@ public class SystemController extends BaseController {
 	public ModelAndView druid() {
 		return new ModelAndView(new RedirectView("druid/index.html"));
 	}
-
+	
 	@RequestMapping(params = "typeListJson")
 	@ResponseBody
 	public AjaxJson typeListJson(@RequestParam(required=true)String typeGroupName) {
@@ -139,13 +139,13 @@ public class SystemController extends BaseController {
 				for (TSType type : typeList) {
 					JSONObject typeJson = new JSONObject();
 					typeJson.put("typecode", type.getTypecode());
-
+					//update-begin-author:taoyan 数据字典加载国际化---
 					String typename = type.getTypename();
 					if(MutiLangUtil.existLangKey(typename)){
 						typename = MutiLangUtil.doMutiLang(typename,"");
 					}
 					typeJson.put("typename",typename );
-
+					//update-end-author:taoyan 数据字典加载国际化---
 					typeArray.add(typeJson);
 				}
 			}
@@ -157,7 +157,6 @@ public class SystemController extends BaseController {
 		}
 		return ajaxJson;
 	}
-
 	
 	/**
 	 * 类型字典列表页面跳转
@@ -201,7 +200,6 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "typeGroupGrid")
 	public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid, TSTypegroup typegroup) {
 		CriteriaQuery cq = new CriteriaQuery(TSTypegroup.class, dataGrid);
-
         String typegroupname = request.getParameter("typegroupname");
         if(oConvertUtils.isNotEmpty(typegroupname)) {
             typegroupname = typegroupname.trim();
@@ -220,9 +218,9 @@ public class SystemController extends BaseController {
 		this.systemService.getDataGridReturn(cq, true);
         MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
 
-
 		TagUtil.datagrid(response, dataGrid);
 	}
+
 
 	/**
 	 *
@@ -252,7 +250,6 @@ public class SystemController extends BaseController {
 		return new ArrayList<ComboTree>(){{add(rootCombotree);}};
 	}
 
-
 	/**
 	 * easyuiAJAX请求数据
 	 *
@@ -268,14 +265,10 @@ public class SystemController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(TSType.class, dataGrid);
 		cq.eq("TSTypegroup.id", typegroupid);
 		cq.like("typename", typename);
-
 		cq.addOrder("createDate", SortDirection.desc);
-
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
-
         MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typename");
-
 
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -291,7 +284,6 @@ public class SystemController extends BaseController {
         request.setAttribute("typegroupid", typegroupid);
 		return new ModelAndView("system/type/typeListForTypegroup");
 	}
-
 //	@RequestMapping(params = "typeGroupTree")
 //	@ResponseBody
 //	public List<ComboTree> typeGroupTree(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -342,16 +334,13 @@ public class SystemController extends BaseController {
 			}
 		} else {
 			cq = new CriteriaQuery(TSTypegroup.class);
-
             String typegroupcode = request.getParameter("typegroupcode");
             if(typegroupcode != null ) {
-
                 HqlRuleEnum rule = PageValueConvertRuleEnum
 						.convert(typegroupcode);
                 Object value = PageValueConvertRuleEnum.replaceValue(rule,
                 		typegroupcode);
 				ObjectParseUtil.addCriteria(cq, "typegroupcode", rule, value);
-
                 cq.add();
             }
             String typegroupname = request.getParameter("typegroupname");
@@ -360,7 +349,6 @@ public class SystemController extends BaseController {
                 List<String> typegroupnameKeyList = systemService.findByQueryString("select typegroupname from TSTypegroup");
                 MutiLangSqlCriteriaUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
             }
-
             List<TSTypegroup> typeGroupList = systemService.getListByCriteriaQuery(cq, false);
 			for (TSTypegroup obj : typeGroupList) {
 				TreeGrid treeNode = new TreeGrid();
@@ -447,7 +435,6 @@ public class SystemController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.getEntity(TSTypegroup.class, typegroup.getId());
-
 		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
         if (ListUtils.isNullOrEmpty(typegroup.getTSTypes())) {
             systemService.delete(typegroup);
@@ -457,7 +444,6 @@ public class SystemController extends BaseController {
         } else {
             message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
         }
-
 		j.setMsg(message);
 		return j;
 	}
@@ -502,7 +488,8 @@ public class SystemController extends BaseController {
 		}
 		return v;
 	}
-
+	
+	
 	/**
 	 * 刷新字典分组缓存&字典缓存
 	 *
@@ -523,7 +510,6 @@ public class SystemController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-
 	
 	/**
 	 * 添加类型分组
@@ -705,7 +691,6 @@ public class SystemController extends BaseController {
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 
 		} else {
-
 //			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
 //			depart.setOrgCode(orgCode);
 			if(oConvertUtils.isNotEmpty(pid)){
@@ -716,7 +701,6 @@ public class SystemController extends BaseController {
 				String localMaxCode  = getMaxLocalCode(null);
 				depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
 			}
-
 			userService.save(depart);
             message = MutiLangUtil.paramAddSuccess("common.department");
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -733,28 +717,22 @@ public class SystemController extends BaseController {
 		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT org_code FROM t_s_depart");
-
 		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
 			sb.append(" where LEN(org_code) = ").append(localCodeLength);
 		}else{
 			sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
 		}
-
 		if(oConvertUtils.isNotEmpty(parentCode)){
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
 		} else {
-
 			sb.append(" and LEFT(org_code,1)='A'");
-
 		}
-
 		sb.append(" ORDER BY org_code DESC");
 		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
 		String returnCode = null;
 		if(objMapList!=null && objMapList.size()>0){
 			returnCode = (String)objMapList.get(0).get("org_code");
 		}
-
 		return returnCode;
 	}
 
@@ -1130,7 +1108,7 @@ public class SystemController extends BaseController {
     public ModelAndView commonUpload(HttpServletRequest req) {
             return new ModelAndView("common/upload/uploadView");
     }
-
+    
     @RequestMapping(params = "commonWebUpload")
     public ModelAndView commonWebUpload(HttpServletRequest req) {
             return new ModelAndView("common/upload/uploadView2");
@@ -1223,7 +1201,7 @@ public class SystemController extends BaseController {
 			for (String string : set) {
 				DataLogDiff dataLogDiff = new DataLogDiff();
 				dataLogDiff.setName(string);
-
+				
 				if (map1.containsKey(string)) {
 					if ("createDate".equals(string)&&StringUtil.isNotEmpty(map1.get(string))){
 						java.util.Date date=new Date((String) map1.get(string));
@@ -1232,7 +1210,6 @@ public class SystemController extends BaseController {
 					}else {
 						value1 = map1.get(string).toString();
 					}
-
 					if (value1 == null) {
 						dataLogDiff.setValue1("");
 					}else {
@@ -1241,7 +1218,6 @@ public class SystemController extends BaseController {
 				}else{
 					dataLogDiff.setValue1("");
 				}
-
 				if (map2.containsKey(string)) {
 					if ("createDate".equals(string)&&StringUtil.isNotEmpty(map2.get(string))){
 						java.util.Date date=new Date((String) map2.get(string));
@@ -1250,7 +1226,6 @@ public class SystemController extends BaseController {
 					}else {
 						value2 = map2.get(string).toString();
 					}
-
 					if (value2 == null) {
 						dataLogDiff.setValue2("");
 					}else {
@@ -1259,7 +1234,6 @@ public class SystemController extends BaseController {
 				}else {
 					dataLogDiff.setValue2("");
 				}
-
 				
 				if (value1 == null && value2 == null) {
 					dataLogDiff.setDiff("N");
@@ -1288,7 +1262,6 @@ public class SystemController extends BaseController {
 		}
 		return new ModelAndView("system/dataLog/diffDataVersion");
 	}
-
 
 	/**
 	 * ftpUploader
@@ -1528,7 +1501,7 @@ public class SystemController extends BaseController {
 		}
 		return success;
 	}
-
+	
 	
 	/**
 	 * WebUploader
@@ -1606,10 +1579,12 @@ public class SystemController extends BaseController {
 	public void getImgByurl(HttpServletResponse response,HttpServletRequest request) throws Exception{
 		String flag=request.getParameter("down");//是否下载否则展示图片
 		String dbpath = request.getParameter("dbPath");
+		if(oConvertUtils.isNotEmpty(dbpath)&&dbpath.endsWith(",")){
+			dbpath = dbpath.substring(0, dbpath.length()-1);
+		}
 		if("1".equals(flag)){
 			response.setContentType("application/x-msdownload;charset=utf-8");
 			String fileName=dbpath.substring(dbpath.lastIndexOf(File.separator)+1);
-
 			String userAgent = request.getHeader("user-agent").toLowerCase();
 			if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
 				fileName = URLEncoder.encode(fileName, "UTF-8");
@@ -1617,7 +1592,6 @@ public class SystemController extends BaseController {
 				fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");  
 			} 
 			response.setHeader("Content-disposition", "attachment; filename="+ fileName);
-
 		}else{
 			response.setContentType("image/jpeg;charset=utf-8");
 		}

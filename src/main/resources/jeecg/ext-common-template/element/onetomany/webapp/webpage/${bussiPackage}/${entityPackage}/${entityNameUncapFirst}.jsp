@@ -187,7 +187,23 @@
 		valid=$("#form").Validform({
 			tiptype:function(msg,o,cssctl){
 				if(o.type==3){
-					validationMessage(o.obj,msg);
+					var oopanel = $(o.obj).closest(".el-tab-pane");
+					var a = 0;
+					if(oopanel.length>0){
+						var panelID = oopanel.attr("id");
+						if(!!panelID){
+							var waitActive = $("#tab-"+panelID.substring(panelID.indexOf("-")+1));
+							if(!waitActive.attr(".aria-selected")){
+								waitActive.click();
+								a = 1;
+							}
+						}
+					}
+					if(a==1){
+						setTimeout(function(){validationMessage(o.obj,msg);},500);
+					}else{
+						validationMessage(o.obj,msg);
+					}
 				}else{
 					removeMessage(o.obj);
 				}
@@ -225,8 +241,6 @@
 					</#list>
 				},
 
-				addFormVisible: false,//新增界面是否显示
-				addLoading: false,
 				//新增界面数据
 				addForm: {
 					<#list pageColumns as po>
@@ -367,15 +381,23 @@
 			initForm: function (row) {
 				if(!!row){
 					this.addForm = Object.assign({}, row);
-					this.formFile={
 					<#list pageColumns as po>
 					<#if po.showType=='file' || po.showType == 'image'>
-						main_${po.fieldName}:[{
+					var ${po.fieldName}=[];
+					if(!!this.addForm.${po.fieldName}){
+						${po.fieldName}=[{
 							name:this.addForm.${po.fieldName}.substring(this.addForm.${po.fieldName}.lastIndexOf('\\')+1),
 							url:this.addForm.${po.fieldName}
-						}],
+						}]
+					}
 					</#if>
 					</#list>
+					this.formFile={
+						<#list pageColumns as po>
+						<#if po.showType=='file' || po.showType == 'image'>
+						${po.fieldName}:${po.fieldName},
+						</#if>
+						</#list>
 					};
 					//加载子表列表
 					<#list subtables as key>

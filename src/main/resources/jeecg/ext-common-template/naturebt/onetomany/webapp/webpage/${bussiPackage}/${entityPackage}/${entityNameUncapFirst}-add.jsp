@@ -138,49 +138,54 @@
     	 	</#list>
 	    },
 	    methods: {
-	    	init: function(){
-	        	var _this = this;
-	        	jQuery.ajax({
-	                url: "${entityName?uncap_first}Controller.do?initFormData",
-	        		type:"GET",
-	           		dataType:"JSON",
-	                success: function (back) {
-	                   if(back.success){
-	                	   var backtemp = back.obj;
-	                	   <#list pageColumns as po>
-	       				   <#if po.isShow == 'Y' && po.showType=='checkbox'>
-	       				   <#-- 主表checkbox值替换 -->
-	       				   backtemp.${po.fieldName} = (!!backtemp.${po.fieldName})?backtemp.${po.fieldName}.split(","):[];
-	       				   </#if>
-	           	       	   </#list>
-	                	   <#list subtables as key>
-	                	   var temp${subsG['${key}'].entityName}List = backtemp.${subsG['${key}'].entityName?uncap_first}List;
-	           	       	   <#if subsG['${key}'].cgFormHead.relationType==1>
-	           	       	   <#-- 1对1子表值替换为单个实体 -->
-	           	       	   _this.${subsG['${key}'].entityName?uncap_first}Data = temp${subsG['${key}'].entityName}List[0];
-	           	           <#list subColumnsMap['${key}'] as po>
-	           	           <#if po.isShow == 'Y' && po.showType=='checkbox'>
-	           	       	    <#-- 1对1子表checkbox值替换 -->
-	           	           _this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName}=(!!_this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName})?_this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName}.split(","):[];
-	           	           </#if>
-	           	           </#list>
-	           	       	   <#else>
-	           	           <#list subColumnsMap['${key}'] as po>
-	           	           <#if po.isShow == 'Y' && po.showType=='checkbox'>
-	           	           <#-- 1对n子表checkbox值替换 需要循环 -->
-	           	           if(!!temp${subsG['${key}'].entityName}List && temp${subsG['${key}'].entityName}List.length>0){
-	           	        	   for(var a = 0;a<temp${subsG['${key}'].entityName}List.length;a++){
-	           	        	   	  temp${subsG['${key}'].entityName}List[a].${po.fieldName} = (!!temp${subsG['${key}'].entityName}List[a].${po.fieldName})?temp${subsG['${key}'].entityName}List[a].${po.fieldName}.split(","):[];
-	           	        	   }
-	           	           }
-	           	           </#if>
-	           	           </#list>
-	           	       	   </#if>
-	           	       	   </#list>
-	           	           _this.formdata = backtemp;
-	                   }
-	                 }
-	             });
+	    	loadData:function(){
+	    		return new Promise(function(resolve, reject){
+	        		jQuery.ajax({
+		                url: "${entityName?uncap_first}Controller.do?initFormData",
+		        		type:"GET",
+		           		dataType:"JSON",
+		                success: function (back) {
+		                	if(back.success){
+		                		resolve(back.obj);
+		                	}
+		                }
+		             });
+	        	});
+	    	},
+	    	init: function(backtemp){
+	           var _this = this;
+	           <#list pageColumns as po>
+			   <#if po.isShow == 'Y' && po.showType=='checkbox'>
+			   <#-- 主表checkbox值替换 -->
+			   backtemp.${po.fieldName} = (!!backtemp.${po.fieldName})?backtemp.${po.fieldName}.split(","):[];
+			   </#if>
+   	       	   </#list>
+         	   <#list subtables as key>
+         	   var temp${subsG['${key}'].entityName}List = backtemp.${subsG['${key}'].entityName?uncap_first}List;
+   	       	   <#if subsG['${key}'].cgFormHead.relationType==1>
+   	       	   <#-- 1对1子表值替换为单个实体 -->
+   	       	   _this.${subsG['${key}'].entityName?uncap_first}Data = temp${subsG['${key}'].entityName}List[0];
+   	           <#list subColumnsMap['${key}'] as po>
+   	           <#if po.isShow == 'Y' && po.showType=='checkbox'>
+   	       	    <#-- 1对1子表checkbox值替换 -->
+   	           _this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName}=(!!_this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName})?_this.${subsG['${key}'].entityName?uncap_first}Data.${po.fieldName}.split(","):[];
+   	           </#if>
+   	           </#list>
+   	       	   <#else>
+   	           <#list subColumnsMap['${key}'] as po>
+   	           <#if po.isShow == 'Y' && po.showType=='checkbox'>
+   	           <#-- 1对n子表checkbox值替换 需要循环 -->
+   	           if(!!temp${subsG['${key}'].entityName}List && temp${subsG['${key}'].entityName}List.length>0){
+   	        	   for(var a = 0;a<temp${subsG['${key}'].entityName}List.length;a++){
+   	        	   	  temp${subsG['${key}'].entityName}List[a].${po.fieldName} = (!!temp${subsG['${key}'].entityName}List[a].${po.fieldName})?temp${subsG['${key}'].entityName}List[a].${po.fieldName}.split(","):[];
+   	        	   }
+   	           }
+   	           </#if>
+   	           </#list>
+   	       	   </#if>
+   	       	   </#list>
+   	           _this.formdata = backtemp;
+   	           _this.addValidType();
 	        },
 	        initDictsData:function(){
 	        	var _this = this;
@@ -209,20 +214,20 @@
 	    	 	</#list>
 	        },
 	        addValidType:function(){
-	        	<#list pageColumns as po>
-				<#if po.isShow == 'Y' && po.showType !='input' && po.showType !='checkbox'>
-				<@datatypeJs descriptb="${ftl_description}" po = po/>
-				</#if>
-	    	 	</#list>
-	    	 	setTimeout(function(){
-	    	 	<#list subtables as key>
-	    	 	<#list subColumnsMap['${key}'] as spo>
-    	 		<#if spo.isShow == 'Y' && spo.showType !='input' && spo.showType !='checkbox'>
-    	 		<@datatypeJs descriptb="${subsG['${key}'].ftlDescription}" po = spo/>
-    	 		</#if>
-	    	 	</#list>
-	    	 	</#list>
-	    	 	},1000);
+	        	this.$nextTick(() => {
+	        		<#list pageColumns as po>
+					<#if po.isShow == 'Y' && po.showType !='input' && po.showType !='checkbox'>
+					<@datatypeJs descriptb="${ftl_description}" po = po/>
+					</#if>
+		    	 	</#list>
+		    	 	<#list subtables as key>
+		    	 	<#list subColumnsMap['${key}'] as spo>
+	    	 		<#if spo.isShow == 'Y' && spo.showType !='input' && spo.showType !='checkbox'>
+	    	 		<@datatypeJs descriptb="${subsG['${key}'].ftlDescription}" po = spo/>
+	    	 		</#if>
+		    	 	</#list>
+		    	 	</#list>
+	        	});
 	        },
 	        <#list subTab as sub>
         	delete${sub.entityName}:function(index, row) {
@@ -287,10 +292,12 @@
 				});
 			}
 	    },
-		mounted() {
-			this.init();
-			this.initDictsData();
-			this.addValidType();
+	    mounted:function() {
+			var _this = this;
+			_this.loadData().then(function(data){
+				_this.init(data);
+			});
+			_this.initDictsData();			
 		}
 	});
  $(document).ready(function() {

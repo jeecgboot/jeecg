@@ -105,7 +105,11 @@
 			<#if po.showType=='file' || po.showType == 'image'>
 			<el-table-column prop="${po.fieldName}" label="${po.content}" min-width="${po.fieldLength}" sortable="custom" show-overflow-tooltip>
 				<template slot-scope="scope" v-if="scope.row.${po.fieldName}">
+					<#if po.showType=='file'>
 					<el-button size="mini" type="primary" @click="handleDownFile('1',scope.row.${po.fieldName})">文件下载</el-button>
+					<#else>
+					<img width="100%" :src="'systemController/showOrDownByurl.do?dbPath='+scope.row.${po.fieldName}" alt="${po.content}">
+					</#if>
 				</template>
 			</el-table-column>
 			<#else>
@@ -171,7 +175,7 @@
 						  :action="url.upload"
 						  :data="{isup:'1'}"
 						  :on-success="handle${po.fieldName?cap_first}UploadFile"
-						  :on-remove="handleRemoveFile"
+						  :on-remove="handle${po.fieldName?cap_first}RemoveFile"
 						  :file-list="formFile.${po.fieldName}">
 						  <el-button size="small" type="primary">点击上传</el-button>
 						</el-upload>
@@ -336,14 +340,15 @@
 			<#if po.showType=='file' || po.showType == 'image'>
 			handle${po.fieldName?cap_first}UploadFile: function(response, file, fileList){
 				file.url=response.obj;
+				this.addForm.${po.fieldName}=response.obj;
 				if(fileList.length>1){
 					this.handleRemoveFile(fileList.splice(0,1)[0],fileList);
 				}
-				this.addForm.${po.fieldName}=response.obj;
 			},
-			</#if>
-			</#list>
-			handleRemoveFile: function(file, fileList){
+			handle${po.fieldName?cap_first}RemoveFile: function(file, fileList){
+				if(fileList.length==0){
+					this.addForm.${po.fieldName}="";
+				}
 				this.$http.get(this.url.upload,{
 					params:{
 						isdel:'1',
@@ -352,6 +357,8 @@
 				}).then((res) => {
 				});
 			},
+			</#if>
+			</#list>
 			handleSortChange(sort){
 				this.sort={
 					sort:sort.prop,
@@ -456,7 +463,7 @@
 						var data = datas[i];
 						<#list columns as po>
 						<#if po.showType=='checkbox'>
-						data.${po.fieldName}=data.${po.fieldName}.split(',');
+						data.${po.fieldName}=!!data.${po.fieldName}?data.${po.fieldName}.split(','):[];
 						</#if>
 						</#list>
 					}
@@ -488,15 +495,23 @@
 			handleEdit: function (index, row) {
 				this.editFormVisible = true;
 				this.addForm = Object.assign({}, row);
-				this.formFile={
 				<#list pageColumns as po>
 				<#if po.showType=='file' || po.showType == 'image'>
-					${po.fieldName}:[{
+				var ${po.fieldName}=[];
+				if(!!this.addForm.${po.fieldName}){
+					${po.fieldName}=[{
 						name:this.addForm.${po.fieldName}.substring(this.addForm.${po.fieldName}.lastIndexOf('\\')+1),
 						url:this.addForm.${po.fieldName}
-					}],
+					}]
+				}
 				</#if>
 				</#list>
+				this.formFile={
+					<#list pageColumns as po>
+					<#if po.showType=='file' || po.showType == 'image'>
+					${po.fieldName}:${po.fieldName},
+					</#if>
+					</#list>
 				};
 			},
 			//显示新增界面
