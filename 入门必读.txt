@@ -26,4 +26,4 @@
    官方博客： http://blog.csdn.net/zhangdaiscott
 
 8.非maven版本下载（针对不熟悉maven的同学）
-   http://jeecg3.mydoc.io/?t=278859
+   https://github.com/zhangdaiscott/jeecg-nomaven
