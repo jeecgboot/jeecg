@@ -1,0 +1,15 @@
+body{margin:0;padding:0;font-size:12px;font-family:Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif;overflow-y:auto;overflow-x:hidden;}
+.mno>label,.mno>div{margin-bottom:10px;}
+.el-table__body a{cursor:pointer}
+.el-form-item label,.el-table__header .cell{font-size:12px}
+.el-col>.el-form-item{margin-bottom:0;}
+.el-form-item>.el-form-item__content>div{width:200px;}
+.el-date-editor.el-input, .el-date-editor.el-input__inner {width: 180px;}
+.Validform_title{display:none}
+
+.vue-form{border:1px solid #ddd;border-radius:10px}
+.el-container .el-header{padding:0}
+.el-header-content{font-size: 21px;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;margin:10px 15px}
+.el-main .main-form{zoom:1;margin-bottom:10px;}
+.el-main .main-form:after{display:block;clear:both;content:"";visibility:hidden;height:0} 
+.el-header:before{content:"";border-radius:10px;background-color:#f5f5f5;width:100%;height:20px;display:block;}

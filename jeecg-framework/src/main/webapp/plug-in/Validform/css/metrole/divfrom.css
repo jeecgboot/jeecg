@@ -1,0 +1,234 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+body{
+    font-size:12px;
+    font-family:"Century Gothic", Helvetica, sans-serif;
+}
+#content{
+    margin:5px auto;
+    text-align:left;
+    width:100%;
+    position:relative;
+    height:100%;
+}
+#content .inputxt{
+/*
+	border:1px solid #a5aeb6;
+	width:150px;
+	padding:3px 2px;*/
+			border: 1px solid #D7D7D7;
+	border-radius: 3PX;
+	height: 14px;
+	padding: 7px 0 7px 5px!important;
+	line-height: 14PX;
+	font-size: 12px;
+	display: inline-block;
+	width:150px;
+}
+#wrapper{
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    border:2px solid #fff;
+    background-color:#f9f9f9;
+    width:650px;
+    overflow:hidden;
+}
+#steps{
+    width:650px;
+	/*height:320px;*/
+    overflow:hidden;
+}
+.step{
+    float:left;
+    width:650px;
+	/*height:320px;*/
+}
+#navigation{
+    height:45px;
+    background-color:#E0ECFF;
+    border-top:1px solid #fff;
+    -moz-border-radius:0px 0px 10px 10px;
+    -webkit-border-bottom-left-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+}
+#navigation ul{
+    list-style:none;
+	float:left;
+	margin-left:22px;
+}
+#navigation ul li{
+	float:left;
+    border-right:1px solid #ccc;
+    border-left:1px solid #ccc;
+    position:relative;
+	margin:0px 2px;
+}
+#navigation ul li a{
+    display:block;
+    height:45px;
+    background-color:#444;
+    color:#777;
+    outline:none;
+    font-weight:bold;
+    text-decoration:none;
+    line-height:45px;
+    padding:0px 20px;
+    border-right:1px solid #fff;
+    border-left:1px solid #fff;
+    background:#f0f0f0;
+    background:
+        -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.09, rgb(240,240,240)),
+        color-stop(0.55, rgb(227,227,227)),
+        color-stop(0.78, rgb(240,240,240))
+        );
+    background:
+        -moz-linear-gradient(
+        center bottom,
+        rgb(240,240,240) 9%,
+        rgb(227,227,227) 55%,
+        rgb(240,240,240) 78%
+        )
+}
+#navigation ul li a:hover,
+#navigation ul li.selected a{
+    background:#E0ECFF;
+    color:#666;
+    text-shadow:1px 1px 1px #fff;
+}
+span.checked{
+    background:transparent url(../images/checked.png) no-repeat top left;
+    position:absolute;
+    top:0px;
+    left:1px;
+    width:20px;
+    height:20px;
+}
+span.error{
+    background:transparent url(../images/error.png) no-repeat top left;
+    position:absolute;
+    top:0px;
+    left:1px;
+    width:20px;
+    height:20px;
+}
+#steps form fieldset{
+    border:none;
+    padding-bottom:100px;
+}
+#steps form legend{
+    text-align:left;
+    background-color:#C4E1FF;
+    color:#666;
+    font-size:14px;
+    text-shadow:1px 1px 1px #fff;
+    font-weight:bold;
+    float:left;
+    width:650px;
+    padding:5px 0px 5px 5px;
+    margin:0px 0px;
+    border-bottom:1px solid #fff;
+    border-top:1px solid #d9d9d9;
+}
+#steps form div.form{
+    float:left;
+    clear:both;
+    margin:5px 0px;
+    background-color:#f4f4f4;
+    border:1px solid #fff;
+    width:95%;
+    padding:5px;
+    margin-left:5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+    
+}
+/*update-begin--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些-------------------- */
+#steps form div label.Validform_label{
+    width: 130px;
+    margin-left: 10px;
+    float:left;
+    text-align:left;
+    margin-right:15px;
+    line-height:20px;
+    color:#666;
+    /*update-begin--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+    padding: 0px;
+    /*update-end--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+    /* text-shadow:1px 1px 1px #fff; */ /* scott 20160229 Div有白块*/
+}
+/*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */
+
+/*==========@周俊峰    定义form textarea的样式去掉 width: 157px; 解决textarea不能通过cols来设置宽度的问题===========*/
+#steps form textarea{
+    background: #ffffff;
+    border: 1px solid #ddd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    outline: none;
+    padding:3px 2px;
+    float:left;
+}
+
+#steps form select{
+      background: #ffffff;
+    border: 1px solid #ddd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    outline: none;
+    /*
+    padding:3px 2px;
+    */
+    width: 157px;
+    float:left;
+}
+#steps form input:focus{
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+    background-color:#FFFEEF;
+}
+
+#steps form button {
+	border:none;
+	outline:none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    display: block;
+    cursor:pointer;
+    margin: 0px auto;
+    clear:both;
+    padding: 7px 25px;
+    text-shadow: 0 1px 1px #777;
+    font-weight:bold;
+    font-family:"Century Gothic", Helvetica, sans-serif;
+    font-size:22px;
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+    background:#4797ED;
+}
+#steps form button:hover {
+    background:#d8d8d8;
+    color:#666;
+    text-shadow:1px 1px 1px #fff;
+}

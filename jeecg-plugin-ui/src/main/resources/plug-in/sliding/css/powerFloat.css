@@ -1,0 +1,261 @@
+@charset "utf-8";
+
+/* powerFloat */
+.float_ajax_box {
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.float_loading {
+	width: 100px;
+	height: 100px;
+	background: url(../image/loading.gif) no-repeat center;
+}
+
+.float_ajax_image {
+	padding: 5px;
+}
+
+.float_ajax_error {
+	width: 200px;
+	padding: 40px 0;
+	text-align: center;
+}
+
+.float_list_ul {
+	margin: 0;
+	padding: 1px;
+	border: 1px solid #beceeb;
+	background-color: #fff;
+	font-size: 12px;
+	list-style-type: none;
+}
+
+.float_list_a {
+	display: block;
+	text-decoration: none;
+}
+
+.float_list_a:hover {
+	background-color: #f0f3f9;
+	color: #333;
+	text-decoration: none;
+}
+
+.float_list_ul li {
+	line-height: 20px;
+	border-top: 1px solid #f0f3f9;
+	text-indent: 5px;
+}
+
+.float_list_ul li:first-child {
+	border-top: 0;
+}
+
+.float_list_null {
+	padding: 40px 20px;
+	text-align: center;
+}
+
+.float_remind_box {
+	border: 1px solid #F7CE39;
+	background: #ffffe0;
+	padding: 5px 10px;
+}
+
+.float_tip_box {
+	line-height: 18px;
+	padding: 0 3px;
+	background-color: #ffffe0;
+	-moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, .4);
+	-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .4);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, .4);
+	border: 1px solid #333;
+	position: absolute;
+}
+
+.float_doing_box {
+	border: 1px solid #F7CE39;
+	background: #ffffe0 url(../image/loading.gif) no-repeat 5px center;
+	padding: 5px 10px 5px 25px;
+	font-size: 12px;
+	position: absolute;
+}
+
+.float_corner {
+	font-size: 18px;
+	font-family: '宋体';
+	position: absolute;
+	left: -6000px;
+	overflow: hidden;
+}
+
+.float_corner .corner {
+	position: absolute;
+}
+
+.float_corner .corner_1 { /*可去除*/
+	color: #ccc;
+}
+
+.float_corner .corner_2 { /*可去除*/
+	color: #fff;
+}
+
+.float_corner_top,.float_corner_bottom {
+	width: 16px;
+	height: 8px;
+}
+
+.float_corner_top {
+	line-height: 14px;
+}
+
+.float_corner_bottom {
+	line-height: 17px;
+}
+
+.float_corner_left,.float_corner_right {
+	width: 8px;
+	height: 16px;
+}
+
+.float_corner_top .corner,.float_corner_bottom .corner {
+	left: 0;
+}
+
+.float_corner_right .corner,.float_corner_left .corner {
+	top: -2px;
+}
+
+.float_corner_bottom .corner_1 {
+	
+}
+
+.float_corner_bottom .corner_2 {
+	top: 1px;
+}
+
+.float_corner_left .corner_1 {
+	right: 0;
+}
+
+.float_corner_left .corner_2 {
+	right: 1px;
+}
+
+.float_corner_top .corner_1 {
+	bottom: 0;
+}
+
+.float_corner_top .corner_2 {
+	bottom: 1px;
+}
+
+.float_corner_right .corner_2 {
+	left: 1px;
+}
+
+.owl_shadow {
+	background: none repeat scroll 0 0 #000000;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35);
+}
+
+.menu_base {
+	background: none repeat scroll 0 0 #DADADA;
+	padding: 0;
+}
+
+.menu_base_if {
+	background: none repeat scroll 0 0 transparent;
+	position: absolute;
+	z-index: 1000;
+}
+
+.menu_bd {
+	background: none repeat scroll 0 0 #F3F3F3;
+	border-radius: 5px 5px 5px 5px;
+	padding: 4px 0;
+}
+
+.menu_item,.menu_item_high,.menu_item_nofun {
+	cursor: pointer;
+	padding: 0 5px 0 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.menu_item_nofun {
+	color: #7B7B7B;
+	cursor: default;
+	margin: 2px;
+}
+
+.menu_item_high {
+	background: none repeat scroll 0 0 #3470CC;
+	color: #FFFFFF;
+}
+
+/**Ext 下拉框样式 */
+.menu_box {
+	margin: 0pt;
+	width: 120px;
+	height: 28px;
+	left: 0px;
+	top: 0px;
+}
+
+.menu_item_sort_asc .menu_item_icon {
+	background-image: url("../images/hmenu-asc.gif");
+}
+
+.menu_item_sort_desc .menu_item_icon {
+	background-image: url("../images/hmenu-desc.gif");
+}
+
+.menu_item_unchecked .menu_item_icon {
+	background-image: url("../images/unchecked.gif");
+}
+
+.menu_item_checked .menu_item_icon {
+	background-image: url("../images/checked.gif");
+}
+
+.menu_item_link {
+	cursor: pointer;	
+	display: block;
+	line-height: 16px;
+	margin: 0px;
+	padding:  5px 2px 3px 35px;
+	text-decoration: none !important;
+}
+
+.menu_item_link:hover {
+	background-color: #D9E8FB;
+	background-image: -moz-linear-gradient(center top, #E7F0FC, #C7DDF9);
+	border: 1px solid #A9CBF5;
+	border-radius: 3px 3px 3px 3px;
+	
+}
+
+.menu_item_icon {
+	background: none no-repeat scroll center center transparent;
+	height: 16px;
+	left: 20px;
+	position: absolute;
+	width: 16px;
+}
+
+.menu_item_inputcheck {
+	background: none no-repeat scroll center center transparent;
+	height: 16px;
+	left: 16px;
+	margin: 0 5px 2px 3px;
+	position: absolute;
+	width: 16px;
+}
+
+.menu_item_text {
+	color: #222222;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	<!-- FreeMarker -->
+	<bean id="freemarker" class="freemarker.template.Configuration">
+		<property name="templateLoader" ref="templetLoader" />
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="numberFormat" value="0"></property>
+	</bean>
+	<!-- Template Context -->
+	<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">
+		<property name="tags">
+			<map>
+				<entry key="DictData" value-ref="dictDataTag" />
+				<entry key="mutiLang" value-ref="mutiLangTag" />
+			</map>
+		</property>
+	</bean>
+	<!-- FreeMarker 自定义word代码生成器 -->
+	<bean id="freemarkerWord" class="freemarker.template.Configuration">
+		<property name="templateLoader" ref="templetLoaderWord" />
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="numberFormat" value="0"></property>
+	</bean>
+	<!-- Template Context 自定义word代码生成器 -->
+	<bean id="templetContextWord" class="org.jeecgframework.web.cgform.service.impl.generate.TempletContextWord">
+		<property name="tags">
+			<map>
+				<entry key="DictData" value-ref="dictDataTag" />
+				<entry key="mutiLang" value-ref="mutiLangTag" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- 表单配置更新后增加版本号 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="org.jeecgframework.web.cgform.interceptors.CgFormVersionInterceptor">
+				<property name="includeUrls">
+					<list>
+						<value>cgformButtonController.do?save</value>
+						<value>cgformButtonController.do?del</value>
+						<value>cgformButtonSqlController.do?save</value>
+						<value>cgformButtonSqlController.do?del</value>
+						<value>cgformFtlController.do?save</value>
+						<value>cgformFtlController.do?del</value>
+						<value>cgformFtlController.do?active</value>
+						<value>cgformFtlController.do?cancleActive</value>
+						<value>cgformEnhanceJsController.do?save</value>
+						<value>cgformEnhanceJsController.do?del</value>
+						<value>cgFormHeadController.do?save</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

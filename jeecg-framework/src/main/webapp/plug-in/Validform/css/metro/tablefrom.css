@@ -1,0 +1,85 @@
+body {
+	margin-left: 0px;
+/* 	margin-top: 0px; */
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size:12px;
+	/* background-image: url(resources/fc/images/bj.jpg); */
+}
+.formtable .inputxt{
+	border: 1px solid #D7D7D7;
+	border-radius: 3PX;
+	/*height: 14PX;*/
+	padding: 7px 0 7px 5px;
+	line-height: 14PX;
+	font-size: 12px;
+	display: inline-block;
+	width:200px;
+	
+}
+.formtable  .input_text:focus{
+	border: 1px solid #06F;
+	box-shadow: inset 0 1px 2px rgba(0, 102, 255, 0.3);
+}
+.formtable select{
+	padding:6px 2px;
+	width:155px;
+}
+.Validform_label {
+	font-size: 12px;
+/* 	font-weight: bold;
+	color: #5E7595; */
+	padding: 5px;
+	white-space:nowrap;
+}
+.formtable
+{
+	width:100%;
+	background-color:#ddd;
+	align:right;
+}
+.main_table{margin:6px auto;  border-left:0px solid #d3d3d3; border-top:0px solid #d3d3d3}
+.main_table td{line-height:26px; padding:2px; border-bottom:1px solid #d3d3d3; border-right:1px solid #d3d3d3}
+.table_title{background:#f7f7f7; padding:6px; text-align:center; font-weight:bold}
+.formtable tr 
+{ 
+	background-color:#FAFAFA;
+	align:right;
+}
+.value
+{
+	background-color:#FFFFFF;
+	padding:5px;
+	align:left; 
+	align:left; 
+}
+
+.swfupload{
+	vertical-align:top;
+}
+.passwordStrength{
+
+}
+.passwordStrength b{
+	font-weight:normal;
+}
+.passwordStrength b,.passwordStrength span{
+	display:inline-block; 
+	vertical-align:middle;
+	line-height:16px;
+	line-height:18px\9;
+	height:16px;
+}
+.passwordStrength span{
+	width:45px; 
+	text-align:center; 
+	background-color:#d0d0d0; 
+	border-right:1px solid #fff;
+}
+.passwordStrength .last{
+	border-right:none;
+}
+.passwordStrength .bgStrength{
+	color:#fff;
+	background-color:#71b83d;
+}

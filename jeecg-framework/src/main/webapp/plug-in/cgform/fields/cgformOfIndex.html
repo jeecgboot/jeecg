@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="../../jquery/jquery-1.8.3.js"></script>
+
+<script>
+	var parentObj =window.parent;
+	//var langurl = parentObj.langurl.value;
+	var langurl = parentObj.document.getElementById("langurl").value;
+	var mutiLangScript = "<script type='text/javascript' src='" + langurl + "'><\/script>";
+	document.write(mutiLangScript);
+	window.onload = function() {
+		window.parent.iframeLoaded();
+	}
+</script>
+
+</head>
+<body>
+	<div>
+	<table>
+		<tbody id="template_header_index">
+			<tr bgcolor="#E6E6E6">
+				<!-- update-begin--author:zhangjiaqiang Date:20170220 for:修订添加索引的时候，列表没有对齐 -->
+				<th style="width: 30px;" align="center" bgcolor="#EEEEEE" mutiLang_id="sequence">序号</th>
+				<th style="width: 30px;" align="center" bgcolor="#EEEEEE" mutiLang_id="operation">操作</th>
+				<th style="width: 255px;" align="center" bgcolor="#EEEEEE" mutiLang_id="indexname">索引名称</th>
+				<th style="width: 305px;" align="center" bgcolor="#EEEEEE" mutiLang_id="indexfield">索引栏位</th>
+				<th style="width: 155px;" align="center" bgcolor="#EEEEEE" mutiLang_id="indextype">索引类型</th>
+				<!-- update-end--author:zhangjiaqiang Date:20170220 for:修订添加索引的时候，列表没有对齐 -->
+			</tr>
+		</tbody>
+		<tbody id="add_column_table_template_index">
+			<tr>
+				<td style="width: 30px;" ><a name="rownumber[#rindex#]"></a></td>
+				<td align="left">
+					<input style="width: 30px;" type="checkbox"name="ck" />
+				</td>
+				<td align="left">
+					<input style="width: 250px;" type="text" name="indexes[#index#].indexName" datatype="*"/>
+				</td>
+				<td align="left">
+					<input name="indexes[#index#].indexField" maxlength="300" type="text" style="width: 300px;" datatype="*"
+					onclick="selectField($(this))" readonly="readonly">
+				</td>
+				<td align="left">
+					<select name="indexes[#index#].indexType">
+						<option value="normal">normal</option>
+						<option value="unique">unique</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+	$("[mutiLang_id]").each(function() {
+		this.innerText = eval(this.attributes["mutiLang_id"].value);
+	});
+})
+</script>

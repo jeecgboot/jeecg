@@ -1,0 +1,413 @@
+@CHARSET "UTF-8";
+
+.themeSetting_container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 0;
+	right: 0;
+	bottom: 0;
+	background: white
+}
+
+.themeSetting_head {
+	height: 22px;
+	line-height: 22px;
+	padding: 5px 0 0;
+	width: 100%;
+	font-size:12px;
+	border: solid #a1b4b0;
+	border-width: 0 0 1px
+}
+
+.themeSetting_tab {
+	cursor: pointer;
+	display: inline;
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	margin: 1px 1px 0 6px;
+	text-align: center;
+	width: 80px;
+	position: relative
+}
+
+.themeSetting_head .current {
+	background: url("../images/tab_background.gif") repeat-x scroll left top	white;
+	border-color: #a1b4b0;
+	border-style: solid;
+	border-width: 1px 1px 0;
+	margin: 0 0 0 5px
+	
+}
+
+.themeSetting_body {
+	height: 422px;
+	overflow-y: auto;
+	overflow-x: hidden
+}
+
+html.ie6_0 .themeSetting_body,html.ie7_0 .themeSetting_body {
+	position: relative
+}
+
+.themeSetting_footer {
+	height: 35px; background; # f0f0ef;
+	border: 1px solid #ebebea;
+	border-width: 1px 0 0;
+	padding: 4px 5px 0
+}
+
+.themeSetting_area {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 100%
+}
+
+.dynamicThemeSetting {
+	margin: 6px 40px 0 0;
+	text-align: right
+}
+
+.mobileSafari .dynamicThemeSetting {
+	display: none
+}
+
+.dynamicThemeSetting_inner {
+	display: block;
+	cursor: pointer;
+	text-decoration: underline
+}
+
+.themeSetting_wallpaper_body {
+	height: 290px;
+	margin: 8px 10px;
+	border: 1px solid #d6dad9
+}
+
+.themeSetting_wallpaper_body2 {
+	height: 34px;
+	margin: 8px 10px;
+	border: 1px solid #d6dad9
+}
+
+.themeSetting_wallpaper_body2 .body2_input {
+	border: 1px solid #d6dad9;
+	width: 380px;
+	font-size: 12px;
+	vertical-align: middle
+}
+
+.themeSetting_selected2 .body2_label,.themeSetting_selected2 .body2_input
+	{
+	font-weight: bold
+}
+
+.themeSetting_wallpaper_body2 .gray {
+	color: #999
+}
+
+.themeSetting_wallpaper_body2 .body2_button {
+	border: 1px solid #aad8fc;
+	vertical-align: middle;
+	margin: 0 0 0 10px;
+	height: 24px;
+	background: #8bb7db;
+	width: 65px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px
+}
+
+.ie6_0 .body2_button {
+	height: 20px
+}
+
+.themeSetting_wallpaper_body2 .body_wrapper {
+	float: left;
+	margin: 5px 0 0 14px
+}
+
+.ie6_0 .body_wrapper {
+	margin-left: 8px
+}
+
+.themeSetting_wallpaper_container {
+	clear: both;
+	zoom: 1
+}
+
+.themeSetting_wallpaper_tips {
+	display: block;
+	float: left;
+	line-height: 20px;
+	margin: 6px 0 5px 14px
+}
+
+html.ie6_0 .themeSetting_wallpaper_tips {
+	margin-left: 8px
+}
+
+.themeSetting_displayMode {
+	display: block;
+	float: right;
+	margin: 6px 10px 0 0
+}
+
+html.ie6_0 #wallpaperDisplayMode,html.ie7_0 #wallpaperDisplayMode {
+	vertical-align: middle
+}
+
+div.wallpaper_settingButton,a.themeSetting_settingButton {
+	display: inline;
+	float: left;
+	margin: 5px 10px 0;
+	width: 160px;
+	height: 140px;
+	cursor: pointer;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px
+}
+
+a.themeSetting_settingButton:hover {
+	background: #cbe7fc
+}
+
+div.themeSetting_hover {
+	background: #cbe7fc
+}
+
+div.themeSetting_selected,a.themeSetting_selected {
+	background: #aad8fc
+}
+
+.themeSetting_selected2 {
+	background: #aad8fc
+}
+
+div.wallpaper_settingButton {
+	height: 120px
+}
+
+.themeSetting_wallpaper_del {
+	display: none;
+	width: 22px;
+	height: 23px;
+	right: -10px;
+	position: absolute;
+	top: -10px;
+	background: transparent url(images/del.png) no-repeat scroll 0 0
+}
+
+html.ie6_0 .themeSetting_wallpaper_del {
+	background: 0;
+	filter: progid : DXImageTransform.Microsoft.AlphaImageLoader ( src =
+		'http://0.web.qstatic.com/webqqpic/module/themesetting/images/del.png',
+		sizingMethod = 'scale' )
+}
+
+.wallpaper_loading {
+	background: url("../images/loading.gif") no-repeat scroll 1px 2px
+		transparent;
+	color: #ccc;
+	cursor: default;
+	height: 16px;
+	line-height: 16px;
+	margin: auto;
+	overflow: hidden;
+	padding: 2px 0 2px 20px;
+	width: 1px;
+	margin-top: 35px
+}
+
+.themeSetting_settingButton_icon {
+	margin: 5px auto;
+	width: 150px;
+	height: 110px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px
+}
+
+.themeSetting_settingButton_text {
+	margin: 5px 0 0 0;
+	text-align: center
+}
+
+.sendWallpaperForm {
+	display: inline;
+	float: left;
+	height: 110px;
+	margin: 5px 10px 0;
+	width: 160px
+}
+
+.uploadWallpaperButton {
+	height: 110px;
+	width: 150px;
+	cursor: pointer;
+	margin: 5px auto;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	position: relative
+}
+
+.themeSetting_wallpaper .upload,.themeSetting_wallpaper .upload_hover,.themeSetting_wallpaper .unable
+	{
+	background: url('../images/wallpaper_upload.gif') no-repeat
+}
+
+.themeSetting_wallpaper .upload {
+	overflow: hidden;
+	border: 1px solid #c1bfbf;
+	background-position: 0 0
+}
+
+.themeSetting_wallpaper .upload_hover {
+	overflow: hidden;
+	background-position: 0 -110px
+}
+
+.themeSetting_wallpaper .unable {
+	overflow: hidden;
+	background-position: 0 -220px;
+	cursor: default
+}
+
+.themeSetting_wallpaper .uploading {
+	text-align: center;
+	color: #827f7f;
+	border: 1px solid #c1bfbf;
+	overflow: hidden;
+	cursor: default
+}
+
+.uploadWallpaperButton .tips {
+	margin-top: 5px;
+	padding: 2px 0
+}
+
+.sendWallpaperForm .f {
+	cursor: pointer;
+	margin: -2px 0 0 -1110px;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	overflow: hidden;
+	font-size: 90px
+}
+
+.themeSetting_wallpaper_footer {
+	height: 60px;
+	margin: 8px 10px;
+	border: 1px solid #d6dad9;
+	background: #fcfdfe
+}
+
+.ie6_0 .themeSetting_wallpaper_footer {
+	margin-bottom: 0
+}
+
+.themeSetting_custom_tip {
+	display: none;
+	position: absolute;
+	width: 26px;
+	height: 10px;
+	top: 0;
+	right: -4px;
+	background: url('../images/feature_new.gif') no-repeat
+}
+
+.themeSetting_apr_tips {
+	display: block;
+	margin: 6px 0 5px 14px
+}
+
+.themeSetting_appearance {
+	margin: 0 10px
+}
+
+.themeSetting_apr_item {
+	cursor: pointer;
+	float: left;
+	display: block;
+	height: 25px;
+	padding: 2px 0 0 5px;
+	width: 60px
+}
+
+.themeSetting_apr_txt {
+	float: left;
+	padding: 0 0 0 20px;
+	width: 1px;
+	height: 20px;
+	text-indent: -999em;
+	display: block
+}
+
+.themeSetting_appearance .apr_selected .themeSetting_apr_txt {
+	background: url('../images/appearance_selected.gif') no-repeat 6px 4px
+}
+
+.themeSetting_apr_icon {
+	display: block;
+	height: 20px;
+	width: 35px;
+	float: left;
+	background: url('../images/appearance.png') no-repeat;
+	border: 1px solid #888
+}
+
+.themeSetting_apr_black {
+	background-position: 0 0
+}
+
+.themeSetting_apr_cyan {
+	background-position: 0 0
+}
+
+.themeSetting_apr_light_green {
+	background-position: 0 -20px
+}
+
+.themeSetting_apr_pink {
+	background-position: 0 -60px
+}
+
+.themeSetting_apr_light_violet {
+	background-position: 0 -40px
+}
+
+.themeSetting_apr_red {
+	background-position: 0 -40px
+}
+
+.themeSetting_apr_grey {
+	background-position: 0 -80px
+}
+
+.themeSetting_apr_dark_brown {
+	background-position: 0 -100px
+}
+
+.themeSetting_apr_dark_voilet {
+	background-position: 0 -120px
+}
+
+.themeSetting_apr_purple {
+	background-position: 0 -120px
+}
+
+.themeSetting_apr_dark_blue {
+	background-position: 0 -140px
+}
+
+.themeSetting_apr_blue {
+	background-position: 0 -140px
+}

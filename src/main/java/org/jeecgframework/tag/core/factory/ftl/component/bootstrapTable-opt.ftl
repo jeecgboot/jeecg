@@ -1,2 +1,0 @@
-${ComponentTools.getOptUrl(dataGrid)}
-								

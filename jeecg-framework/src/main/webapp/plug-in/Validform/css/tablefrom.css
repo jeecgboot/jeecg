@@ -1,0 +1,85 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size:12px;
+	/* background-image: url(resources/fc/images/bj.jpg); */
+}
+.formtable .inputxt{
+    /*update-begin author:zhoujf date:20180412 for:注释格式不对导致样式不生效*/
+	/* update-begin--Author:scott--- Date:20180327---for：shortcut风格下输入框蓝色边框---- */
+	border:1px solid #54A5D5;
+	/* update-end--Author:scott--- Date:20180327---for：shortcut风格下输入框蓝色边框---- */
+	/*update-end author:zhoujf date:20180412 for:注释格式不对导致样式不生效*/
+	width:150px;
+	padding:3px 2px;
+}
+.formtable select{
+	/* author:scott date:2017-08-09 for: ie8下 select无边框 */
+	/*update-begin author:zhoujf date:20180412 for:注释格式不对导致样式不生效*/
+	/* update-begin--Author:scott--- Date:20180327---for：shortcut风格下输入框蓝色边框---- */
+	border:1px solid #54A5D5;
+	/* update-end--Author:scott--- Date:20180327---for：shortcut风格下输入框蓝色边框---- */
+	/*update-end author:zhoujf date:20180412 for:注释格式不对导致样式不生效*/
+	padding:3px 2px;
+	width:155px;
+}
+.Validform_label {
+	font-size: 12px;
+	font-weight: bold;
+	color: #5E7595;
+	padding: 5px;
+	white-space:nowrap;
+}
+.formtable
+{
+	width:100%;
+	background-color:#B8CCE2;
+	align:right;
+}
+.main_table{margin:6px auto;  border-left:1px solid #d3d3d3; border-top:1px solid #d3d3d3}
+.main_table td{line-height:26px; padding:2px; border-bottom:1px solid #d3d3d3; border-right:1px solid #d3d3d3}
+.table_title{background:#f7f7f7; padding:6px; text-align:center; font-weight:bold}
+.formtable tr 
+{ 
+	background-color:#F2F7FE;
+	align:right;
+}
+.value
+{
+	background-color:#FFFFFF;
+	padding:5px;
+	align:left; 
+	align:left; 
+}
+
+.swfupload{
+	vertical-align:top;
+}
+.passwordStrength{
+
+}
+.passwordStrength b{
+	font-weight:normal;
+}
+.passwordStrength b,.passwordStrength span{
+	display:inline-block; 
+	vertical-align:middle;
+	line-height:16px;
+	line-height:18px\9;
+	height:16px;
+}
+.passwordStrength span{
+	width:45px; 
+	text-align:center; 
+	background-color:#d0d0d0; 
+	border-right:1px solid #fff;
+}
+.passwordStrength .last{
+	border-right:none;
+}
+.passwordStrength .bgStrength{
+	color:#fff;
+	background-color:#71b83d;
+}

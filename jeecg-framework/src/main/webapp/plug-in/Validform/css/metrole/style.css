@@ -1,0 +1,114 @@
+/*==========以下部分是Validform必须的===========*/
+.Validform_checktip{
+	margin-left:8px;
+	line-height:20px;
+	height:20px;
+	overflow:hidden;
+	color:#999;
+	font-size:12px;
+}
+.Validform_right{
+	color:#71b83d;
+	padding-left:20px;
+	background:url(../images/right.png) no-repeat left center;
+}
+/*update-begin--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
+.Validform_wrong{
+	color:red;
+	padding-left:20px;	
+	white-space:nowrap;
+	background:url(../../images/exclamation.png) no-repeat left center;
+}
+.Validform_loading{
+	padding-left:20px;
+	background:url(../images/onLoad.gif) no-repeat left center;
+}
+.Validform_error{
+	border-color: #ffa8a8 !important;
+    background-color: #fff8f8 !important;
+    color: #000 !important;
+}
+/*update-end--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
+/*update-begin--Author:xuelin  Date:20170810 for：TASK #2271 【提示框样式】切换方案有问题------------------- 平面 H+*/
+#Validform_msg{
+    color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #ccc; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;
+    }
+#Validform_msg .iframe{position:absolute; left:0px; top:-1px; z-index:-1;}
+#Validform_msg .Validform_title{
+	color: #fff !important;
+	background: #18a689;
+    line-height:25px; height:25px; text-align:left; font-weight:bold; padding:0 8px; color:#000; position:relative; }
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px; position:absolute; right:8px; top:0px; color:#fff; text-decoration:none;}
+#Validform_msg a.Validform_close:hover{color:#000;}
+#Validform_msg .Validform_info{
+	height: 50px;
+	padding:8px;border:1px solid #ccc; border-top:none; text-align:left;
+}	
+/*update-end--Author:xuelin  Date:20170810 for：TASK #2271 【提示框样式】切换方案有问题---------------------- 平面 H+*/
+
+/* update-begin--Author:xuelin  Date:20170512 for：TASK #1947 【样式优化】默认采用validform的提示框信息，美化下------------------- */
+/*
+#Validform_msg .Validform_head{
+	padding: 0 80px 0 20px;
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    background-color: #F8F8F8;
+    border-radius: 2px 2px 0 0;
+	}
+#Validform_msg a.Validform_x:link,#Validform_msg a.Validform_x:visited{
+	font-size:14px;
+	font-weight:lighter;
+	-webkit-transform: scale(2, 1);  
+	-moz-transform: scale(2, 1); 
+	line-height:22px; position:absolute; right:20px; top:8px; color:#7d8289; text-decoration:none;
+	}
+#Validform_msg a.Validform_x:hover{
+	color:#cc0;
+	}
+#Validform_msg .Validform_info.Validform_detail{
+	border:none;
+	height: auto;
+	position: relative;
+    padding: 20px;
+    line-height: 24px;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+	}	
+#Validform_msg .Validform_btn{
+
+	}
+#Validform_msg .Validform_btn .Validform_btn_a{
+    width: 28;
+	height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    margin: 0 20px 12px 0;
+    border: 1px solid #21B9BB;
+    border-radius: 2px;
+    position: initial;
+    float: right;
+    cursor: pointer;
+    color:#fff;
+    background-color: #21B9BB;
+    font-size:14px;
+    font-weight: 400;
+    text-decoration: none;
+	}
+#Validform_msg .Validform_btn .Validform_btn_a:hover{
+	background-color: #26C3C5;
+    text-decoration: none;
+	}
+#Validform_msg .Validform_btn .Validform_btn_a:link,
+#Validform_msg .Validform_btn .Validform_btn_a:visited{
+	background-color: #21B9BB;
+    text-decoration: none;
+}
+*/
+/* update-end--Author:xuelin  Date:20170512 for：TASK #1947 【样式优化】默认采用validform的提示框信息，美化下-------------------- */

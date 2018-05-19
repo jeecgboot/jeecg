@@ -1,1 +1,0 @@
-update cgform_head set jform_version = '${newVersion}' where id = '${formId}' 

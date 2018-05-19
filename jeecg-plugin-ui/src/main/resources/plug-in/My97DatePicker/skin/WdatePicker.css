@@ -1,0 +1,11 @@
+.Wdate{
+	border:#999 1px solid;
+	/*height:20px;*/
+	min-height:20px;/*date:20170712 - author:scott- for:shortcut风格下表单时间控件高度兼容性*/
+	background:#fff url(datePicker.gif) no-repeat right;
+}
+
+.WdateFmtErr{
+	font-weight:bold;
+	color:red;
+}

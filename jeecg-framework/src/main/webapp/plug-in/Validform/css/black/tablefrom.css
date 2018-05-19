@@ -1,0 +1,78 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size:12px;
+	/* background-image: url(resources/fc/images/bj.jpg); */
+	background:rgb(85, 85, 85);
+	color:#ffffff;
+}
+.formtable .inputxt{
+	border:1px solid #000000;
+	width:150px;
+	padding:3px 2px;
+}
+.formtable select{
+	padding:3px 2px;
+	width:155px;
+}
+.Validform_label {
+	font-size: 12px;
+	font-weight: bold;
+	color:#ffffff;
+	padding: 5px;
+	white-space:nowrap;
+}
+.formtable
+{
+	width:100%;
+	background-color:rgb(34, 34, 34);
+	align:right;
+}
+.main_table{margin:6px auto;  border-left:1px solid #d3d3d3; border-top:1px solid #d3d3d3}
+.main_table td{line-height:26px; padding:2px; border-bottom:1px solid #d3d3d3; border-right:1px solid #000000;background:rgb(34, 34, 34); }
+.table_title{background:rgb(34, 34, 34); padding:6px; text-align:center; font-weight:bold}
+.formtable tr 
+{ 
+	background-color:rgb(34, 34, 34);
+	align:right;
+}
+.value
+{
+	background-color:rgb(85, 85, 85);
+	padding:5px;
+	align:left; 
+	align:left; 
+	color:#ffffff;
+}
+
+.swfupload{
+	vertical-align:top;
+}
+.passwordStrength{
+
+}
+.passwordStrength b{
+	font-weight:normal;
+}
+.passwordStrength b,.passwordStrength span{
+	display:inline-block; 
+	vertical-align:middle;
+	line-height:16px;
+	line-height:18px\9;
+	height:16px;
+}
+.passwordStrength span{
+	width:45px; 
+	text-align:center; 
+	background-color:#d0d0d0; 
+	border-right:1px solid #fff;
+}
+.passwordStrength .last{
+	border-right:none;
+}
+.passwordStrength .bgStrength{
+	color:#fff;
+	background-color:#71b83d;
+}

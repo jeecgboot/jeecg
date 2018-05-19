@@ -1,0 +1,137 @@
+@charset "utf-8";
+/*
+ * lhgdialog idialog皮肤
+ * (C) 2009-2011 【一丝冰凉】, http://t.qq.com/yisibl, QQ:50167214
+ * This is licensed under the GNU LGPL, version 2.1 or later.
+ * For details, see: http://creativecommons.org/licenses/LGPL/2.1/
+ */
+/*==================制作新皮肤从这里开始复制==================*/
+/*基本重置*/
+body{ _margin:0; }/*IE6 BUG*/
+.ui_lock_scroll{ *overflow:hidden; }
+.ui_lock_scroll body{ overflow:hidden; }
+
+/*结构层*/
+.ui_content,.ui_title,.ui_buttons input{ font:12px/1.333 tahoma,arial,\5b8b\4f53,sans-serif; }
+table.ui_border,table.ui_dialog{ width:auto;border-spacing:0;*border-collapse:collapse; }
+.ui_border td,.ui_dialog td{ padding:0; }
+.ui_dialog{ background:#FFF; }
+
+/*标题部分开始*/
+.ui_title{ overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;cursor:move;background:#DDD;-moz-user-select:none;-webkit-user-select:none;padding:0 100px 0 0; }
+.ui_title_buttons{ position:absolute;cursor:pointer;font-size:0;letter-spacing:-.5em; }
+
+/*对齐自适应*/
+.ui_main{ min-width:6em;min-width:0\9;text-align:center; }
+.ui_content{ display:inline-block;*display:inline;zoom:1;text-align:left; }
+.ui_content.ui_state_full{ display:block;width:100%;height:100%;margin:0;padding:0!important; }
+.ui_content.ui_state_full iframe{ border-radius:0 0 5px 5px; }
+.ui_loading{ width:96px;height:32px;text-align:left;text-indent:-9999em;overflow:hidden;background:url(icons/loading.gif) no-repeat center center; }
+.ui_icon_bg{ margin:20px 0 20px 15px; }
+
+/*标题纯CSS按钮开始 min 最小化，max最大化，res还原，rese恢复，close关闭*/
+.ui_min,.ui_max,.ui_close,.ui_res{ position:relative;text-decoration:none;letter-spacing:normal;text-align:center;display:inline-block;*display:inline;zoom:1;vertical-align:top;font-family:tahoma,arial,\5b8b\4f53,sans-serif; }
+.ui_min b,.ui_max b,.ui_res_t,.ui_res_b{ display:block;position:absolute;overflow:hidden;cursor:pointer; }
+.ui_close{ font-weight:500;text-decoration:none;outline:0 none; }
+.ui_close:hover{ text-decoration:none; }
+
+/*Tips部分*/
+.ui_state_tips .ui_main{ min-width:3em; }
+.ui_state_tips .ui_content{ margin-top:-2px;padding:8px 10px!important; }
+.ui_state_tips .ui_icon_bg{ margin:5px 0 6px 9px; }
+.ui_state_tips .ui_title,.ui_state_tips .ui_title_buttons,.ui_res{ display:none; } /* 还原按钮也在这里隐藏，这样可节省代码，注间这段一定要写在上面那段代码的下面*/
+
+#ldg_lockmask{ background:#DCE2F1;filter:alpha(opacity=60);opacity:.6; }
+/*==================制作新皮肤到这里结束复制==================*/
+
+/*样式层开始*/
+.ui_inner{ background:#FFF; }
+.ui_title_bar{ width:100%;position:relative; }
+.ui_title{ display:block;height:26px;line-height:26px;border-bottom:1px solid #DDD\9;font-size:14px;font-weight:bold;color:#888;background:#FFF;background:none;padding-left:3px; }
+.ui_state_focus .ui_title{ color:#505050; }
+.ui_lt,.ui_rt,.ui_lb,.ui_rb,.ui_t,.ui_b,.ui_close { background-image:url(idialog/idialog_s.png);background-repeat:no-repeat; }
+.ui_lt{ width:15px;height:15px;background-position:0 0;_png:idialog/ie6/ui_lt.png; }
+.ui_rt{ width:15px;height:15px;background-position:-15px 0;_png:idialog/ie6/ui_rt.png; }
+.ui_lb{ width:15px;height:15px;background-position:0 -15px; _png:idialog/ie6/ui_lb.png; }
+.ui_rb{ width:15px;height:15px;background-position:-15px -15px;_png:idialog/ie6/ui_rb.png; }
+.ui_t,.ui_b{ background-repeat:repeat-x; }
+.ui_t{ background-position:0 -30px;_png:idialog/ie6/ui_t.png; }
+.ui_b{ background-position:0 -45px;_png:idialog/ie6/ui_b.png; }
+.ui_l,.ui_r{ background-image:url(idialog/idialog_s2.png);background-repeat:repeat-y; }
+.ui_l{ background-position:left top;_png:idialog/ie6/ui_l.png; }
+.ui_r{ background-position:right bottom;_png:idialog/ie6/ui_r.png; }
+
+/*标题纯CSS按钮定位部分*/
+.ui_title_buttons{ top:0;right:5px; }
+.ui_max,.ui_res{ margin-right:10px; }
+.ui_min,.ui_max,.ui_close,.ui_res{ margin-left:3px;color:#888;font-size:20px;width:22px;height:22px;line-height:18px; }
+.ui_min{ margin-left:0;}
+.ui_min_b{ top:10px;left:5px;width:12px;height:2px;border-bottom:2px solid #888; }
+.ui_max_b{ top:5px;left:5px;width:10px;height:7px; }
+.ui_res_t,.ui_res_b{ top:8px;left:3px;width:10px;height:5px; }
+.ui_res_b{ top:4px;left:6px; }
+.ui_res_t,.ui_res_b,.ui_max_b{ border:1px solid #888;border-top-width:3px; }
+.ui_res_t{ background:#FFF; }/*还原按钮底部框背景与标题背景融合*/
+.ui_min:hover b,.ui_max:hover b,.ui_res:hover b,.ui_rese:hover b{ border-color:#2492FF; }
+.ui_close { position:absolute;right:-26px;top:-21px;_z-index:1;width:34px;height:34px;font-size:0;line-height:0;overflow:hidden;background-position:0 -60px;_png:idialog/ie6/ui_close.png; }
+.ui_close:hover,.ui_close:focus{ background-position:0 -94px;_png:idialog/ie6/ui_close.hover.png;cursor:pointer; }
+/*标题按钮结束*/
+
+@media screen and (min-width:0){/* css3 */
+	.ui_lt, .ui_rt, .ui_lb, .ui_rb{ width:5px; height:5px; }
+	.ui_lt, .ui_t, .ui_rt, .ui_l, .ui_r, .ui_lb, .ui_b, .ui_rb { background:none;}
+	.ui_lb, .ui_b, .ui_rb { background:url(idialog/idialog_s.png) repeat-x 0 -45px; }
+	.ui_lb { border-radius:0 0 0 5px; }
+	.ui_rb { border-radius:0 0 5px 0; }
+	.ui_border {border-radius:5px; background:#FFF;  border:1px solid #929292; border-radius:5px; box-shadow:0 1px 6px rgba(0, 0, 0, .3); -moz-transition:-moz-box-shadow linear .2s; -webkit-transition: -webkit-box-shadow linear .2s; transition: -webkit-box-shadow linear .2s; }
+	.ui_state_drag .ui_border,.ui_state_drag.ui_state_lock .ui_border  { box-shadow:none; }
+	.ui_state_lock .ui_border { box-shadow:0 3px 18px rgba(0, 0, 0, .6); }
+	.ui_state_tips:active {border-radius:5px;  box-shadow:0 1px 8px rgba(0, 0, 0, .5)}
+.ui_title:after{ content:"";display:block;height:8px;width:100%;position:absolute;top:26px;left:0;
+background:-moz-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* FF3.6+ */
+background:-webkit-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* Chrome10+,Safari5.1+ */
+background:-o-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* Opera 12+ */
+background:-ms-radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%); /* IE10+ */
+background:radial-gradient(center,ellipse cover,#c8c8c8 10%,#FFFFFF 75%);/* W3C */display:none\9; }
+.ui_title:before{ content:"";display:block;height:5px;width:100%;position:absolute;top:26px;left:0;background:#FFF;z-index:1;display:none\9; }
+}
+
+/*底部按钮样式*/
+.ui_buttons{ white-space:nowrap; padding:4px 8px; text-align:right; }
+.ui_buttons input::-moz-focus-inner{ border:0; padding:0; margin:0; }
+
+.ui_buttons input{ padding:2px 10px 2px 12px; padding:4px 10px 1px 12px\0; *padding:3px 10px 1px 10px; margin-left:6px; cursor:pointer; display:inline-block; 
+text-align:center; line-height:1; height:23px; letter-spacing:3px; overflow:visible; color:#333; border:solid 1px #999; border-radius:3px; border-radius:0\9; background:#DDD;
+background:linear-gradient(top, #FAFAFA, #E4E4E4);
+background:-moz-linear-gradient(top, #FAFAFA, #E4E4E4);
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#E4E4E4));
+background:-o-linear-gradient(top, #FAFAFA, #E4E4E4);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E4E4E4');
+text-shadow:0 1px 1px rgba(255, 255, 255, 1); box-shadow:0 1px 0 rgba(255, 255, 255, .7), 0 -1px 0 rgba(0, 0, 0, .09);
+-moz-transition:-moz-box-shadow linear .2s; -webkit-transition:-webkit-box-shadow linear .2s; transition:box-shadow linear .2s; }
+.ui_buttons input:focus{ outline:0 none; box-shadow:0 0 3px #0e78c9; }
+.ui_buttons input:hover{ color:#000; border-color:#666; box-shadow:none; }
+.ui_buttons input:active{ border-color:#666;
+background:linear-gradient(top, #FAFAFA, #E4E4E4);
+background:-moz-linear-gradient(top, #FAFAFA, #E4E4E4);
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#E4E4E4));
+background:-o-linear-gradient(top, #FAFAFA, #E4E4E4);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E4E4E4'); }
+.ui_buttons input[disabled]{ cursor:default; color:#666; background:#DDD; border:solid 1px #999; filter:alpha(opacity=50); opacity:.5; box-shadow:none; }
+
+input.ui_state_highlight{ color:#FFF; border:solid 1px #1c6a9e; text-shadow: 0 -1px 1px #1c6a9e; background:#2288cc;
+background:linear-gradient(top, #33bbee, #2288cc);
+background:-moz-linear-gradient(top, #33bbee, #2288cc);
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#33bbee), to(#2288cc));
+background:-o-linear-gradient(top, #33bbee, #2288cc);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bbee', endColorstr='#2288cc'); }
+input.ui_state_highlight:hover{ color:#FFF; border-color:#555; }
+input.ui_state_highlight:active{ border-color:#1c6a9e;
+background:linear-gradient(top, #33bbee, #2288cc);
+background:-moz-linear-gradient(top, #33bbee, #2288cc);
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#33bbee), to(#2288cc));
+background:-o-linear-gradient(top, #33bbee, #2288cc);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bbee', endColorstr='#2288cc'); }
+
+/*Tips 部分开始*/
+.ui_state_tips .ui_content{ text-align:center;font-weight:bold;color:#323232; }

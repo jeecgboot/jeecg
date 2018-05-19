@@ -1,0 +1,250 @@
+/* BUTTON */
+
+.uibutton {
+	position: relative;
+	z-index: 1;
+	overflow: visible;
+	display: inline-block;
+	padding: 5px 12px 6px 12px;
+	margin: 10px 3px 10px 0; 
+	text-decoration: none;
+	text-align: center;
+	cursor: hand;
+	outline: none;
+	border: 1px solid #69a44d;
+	text-shadow:0 1px 0 #000000;
+	color: #ffffff;
+	background-position:0 -1px;
+	background-color:#9bc652;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	-webkit-transition: all .2s ease-out;
+	-moz-transition:all.2s ease-out;
+	-o-transition: all .2s ease-out;
+	transition: all.2s ease-out;
+	font-weight: bold;
+	font-size: 11px;
+	text-transform: capitalize;
+	margin-top: -1px;
+}
+.uibutton:hover, .uibutton:focus, .uibutton:active {
+	background-image: url(../images/ui-lgreen.jpg);
+	background-position:0 59px;
+	color: #ffffff;
+	text-shadow:0 1px 0 #000000;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 1px;
+}
+.uibutton:active {
+/*	border-color: #5b7217;
+	background: #b4cf1f;*/
+	color: #ffffff;
+	filter: none;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 5px #9cb611;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 1px;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 5px #9cb611;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 5px #9cb611;
+	cursor:pointer;
+}
+
+/* overrides extra padding on button elements in Firefox */
+.uibutton::-moz-focus-inner {
+ padding: 0;
+ border: 0;
+}
+/*Icons */
+
+.uibutton.icon:before {
+	content: "";
+	position: relative;
+	top: 2px;
+	float:left;
+	width: 14px;
+	height: 12px;
+	margin: 0 5px 0 0;
+	background: url(../images/fb-icons.png) 99px 99px no-repeat;
+}
+.uibutton.edit:before {
+	background-position: 0 -1px;
+}
+.uibutton.normal {
+	color: #333;
+	background-color: #f4f4f4;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#f4f4f4));
+	background-image: -moz-linear-gradient(#f4f4f4, #f4f4f4);
+	background-image: -o-linear-gradient(#f4f4f4, #f4f4f4);
+ 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #f2f2f2;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #f2f2f2;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #f2f2f2;
+	text-shadow:none;
+	border: 1px solid #aaaaaa;
+	border-bottom-color: #aaaaaa;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#00CC00', EndColorStr='#00CC00'); /* for IE 6 - 9 */
+}
+.uibutton.normal:hover {
+	color: #666;
+	background-color: #999;
+	-webkit-box-shadow: 0 0px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eeeeee;
+	-moz-box-shadow: 0 0px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eeeeee;
+	box-shadow: 0 0px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eeeeee;
+	text-shadow:none;
+}
+.uibutton.normal:active {
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #cccccc;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #cccccc;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #cccccc;
+}
+.uibutton.add:before {
+	background-position: -14px -1px;
+}
+.uibutton.secure:before {
+	background-position: -28px 0px;
+	top: 0px;
+}
+.uibutton.prev:before {
+	background-position: -38px -1px;
+}
+.uibutton.next:before {
+	float:right;
+	margin: -1px -0.25em 0 0.5em;
+	background-position: -50px 0;
+}
+.uibutton.forward:before {
+	background-position: -61px 0;
+	margin-top: -1px;
+}
+.uibutton.answer:before {
+	background-position: -78px 0;
+	margin-top: -2px;
+}
+/* BUTTON EXTENSIONS */
+
+/* Large */
+
+.uibutton.large {
+	font-size: 13px;
+	text-transform: uppercase;
+	padding-left:25px;
+	padding-right:25px;
+}
+/* Submit, etc */
+
+.uibutton.confirm {
+	border-color: #73b4ce ;	
+	background-color: #c2e3f0;
+	text-shadow:0 1px 0 #ffffff;
+	color: #666666;
+
+	background-image:none;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+
+}
+.uibutton.confirm:hover ,.uibutton.confirm:focus, .uibutton.confirm:active{
+	border-color: #73b4ce;
+	color: #333333;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 1px;
+	background-color: #a9daed;
+
+}
+.uibutton.confirm:active {
+	border-color: #73b4ce;
+	color: #666666;
+	background-color: #a9daed;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #84c5de;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #84c5de;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #84c5de;
+}
+
+/*  Special */
+
+.uibutton.special {
+	border-color: #a93a25;
+	text-shadow:0 1px 0 #000000;
+	color: #fff;
+	background-color:#d74543;
+}
+.uibutton.special:hover, .uibutton.special:active {
+	background-image: url(../images/ui-red.jpg);
+	background-position:0 59px;
+	color: #fff;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.35) 1px 1px 1px;
+}
+.uibutton.special:active {
+	background-image: url(../images/ui-red.jpg);
+	background-position:0 59px;
+	filter: none;
+	color:#efefef;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #aa3a35;
+	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #aa3a35;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 1px 1px 8px #aa3a35;
+}
+/*Disable */
+
+.uibutton.disable {
+	z-index: 0;
+	border-color: #c8c8c8;
+	color: #b8b8b8;
+	background: #f2f2f2;
+	cursor: default;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	text-shadow:none;
+}
+.uibutton.disable:hover {
+	border-color: #c8c8c8;
+	background:none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	text-shadow:none;
+	color:#b8b8b8;
+}
+.uibutton.disable.icon:before, .uibutton.disable.icon:after {
+	opacity: 0.5;
+}
+/* BUTTON GROUPS */
+
+.uibutton-group {
+	display: inline-block;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	/* IE hacks */
+    zoom: 1;
+ *display: inline;
+}
+.uibutton + .uibutton, .uibutton + .uibutton-group, .uibutton-group + .uibutton, .uibutton-group + .uibutton-group {
+/*	margin-left: 3px;*/
+}
+.uibutton-group li {
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+.uibutton-group li.end {
+	margin-left:0px;
+}
+.uibutton-group .uibutton {
+	float: left;
+	margin-left: -4px;
+}
+.uibutton-group .uibutton:hover, .uibutton-group .uibutton:focus, .uibutton-group .uibutton:active {
+	/*z-index:2;*/
+}
+.uibutton-group > .uibutton:first-child, .uibutton-group li:first-child .uibutton {
+	margin-left: 0;
+}
+/*  BUTTON CONTAINER */
+/* For mixing buttons and button groups, e.g., in a navigation bar */
+
+.uibutton-toolbar {
+	padding: 6px;
+	border-top: 1px solid #ccc;
+	background: #f2f2f2;
+}
+.uibutton-toolbar .uibutton, .uibutton-toolbar .uibutton-group {
+	vertical-align: bottom;
+}
