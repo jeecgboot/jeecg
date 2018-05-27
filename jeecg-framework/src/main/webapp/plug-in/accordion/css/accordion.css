@@ -1,0 +1,42 @@
+/*font-family:Tahoma,Verdana,微软雅黑,新宋体*/
+*{font-size:12px; font-family:Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif}
+a{ color:Black; text-decoration:none;}
+a:hover{ color:blue; text-decoration:none;}
+.footer{text-align:center;color:#15428B; margin:0px; padding:0px;line-height:23px; font-weight:bold;}
+.head a{color:White;text-decoration:none;}
+/* .easyui-accordion ul{list-style-type:none;margin:0px; padding:0px;} */
+/* .easyui-accordion ul li{ padding:0px;} */
+/* .easyui-accordion ul li a{line-height:24px;} */
+/* .easyui-accordion ul li div{margin:2px 0px;padding-left:20px;padding-top:2px;} */
+/* .easyui-accordion ul li div:hover{border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;} */
+/* .easyui-accordion ul li div:hover a{color:#416AA3;text-decoration: none} */
+/* .easyui-accordion ul li div.selected{border:1px solid #99BBE8; background:#E0ECFF;cursor:default;} */
+/* .easyui-accordion ul li div.selected a{color:#416AA3;text-decoration: none; font-weight:bold;} */
+.easyui-tree {list-style-type:none;margin:0px; padding:0px;}
+.easyui-tree li{ padding:0px;}
+.easyui-tree li div{margin:2px 0px;height:24px;padding-left:10px;padding-top:2px;}
+.easyui-tree li div:hover{border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;}
+.easyui-tree li div:hover a{color:#416AA3;text-decoration: none}
+.easyui-tree li div.selected{border:1px solid #99BBE8; background:#E0ECFF;cursor:default;}
+.easyui-tree li div.selected a{color:#416AA3;text-decoration: none; font-weight:bold;}
+.icon{width:18px; line-height:18px; display:inline-block;}
+.deafult{background:url('../images/folder.png') no-repeat;}
+
+/*update-begin--Author:xuelin  Date:20171221 for：[#2458]【样式问题】online表单，shortcut风格下checkbox 样式问题-------------------- */
+input[type="checkbox"] {
+    margin: 3px 1px 3px 4px;
+    height: 14px;
+    vertical-align: text-top;
+    margin-top: 2px;
+}
+/*update-end--Author:xuelin  Date:20171221 for：[#2458]【样式问题】online表单，shortcut风格下checkbox 样式问题-------------------- */
+
+/*update-begin--Author:xuelin  Date:20171221 for：[#2456]【样式bug】shortcut下online功能测试的列表有问题-------------------- */
+form[name="searchColumsForm"]{
+	    margin-bottom: 0;
+}
+.datagrid-toolbar .datagrid-toolbar{
+	/*border-top: 1px solid #dddddd;*/
+	height:27px ;
+}
+/*update-end--Author:xuelin  Date:20171221 for：[#2456]【样式bug】shortcut下online功能测试的列表有问题-------------------- */

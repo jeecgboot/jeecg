@@ -1,0 +1,51 @@
+html,body { overflow-x:hidden; font-family:微软雅黑,Helvetica,Arial,sans-serif,'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;}
+.content-header {position: relative;padding: 0 0 3px 8px}
+.content-header>.breadcrumb {position: relative;top: 0;right: 0;float: none;margin-top: 0px;padding-left: 10px;background: #ecf0f5;}
+.main-footer {padding: 7px;margin-left: 230px;color: #444;border-top: 1px solid #eee;background: #fff;}
+[v-cloak] {display: none;}
+.pointer{cursor: pointer;}
+tbody > tr > th {font-weight: normal; }
+.panel .table { margin:0 0; }
+.panel .pagination { margin:0; }
+.panel-default>.panel-heading {background-color: #f5f5f5;}
+.row{margin:0;padding:10px 2px 0px 2px;}
+.dropdown-menu li a{font-size: 14px;}
+.dropdown-menu li:hover{cursor: pointer;}
+.form{width:100%;margin:0px;padding:0px;margin-top:20px;border-collapse:collapse;border-width:3px 1px 1px;table-layout:fixed}
+.form .input-button{border: none;right: 8px;top: 50%;width: 20px;height: 30px;margin-top: -15px;cursor: pointer;overflow: hidden;position: absolute;z-index: 100;}
+.form .formTitle{position:relative;left:0px;text-align:right;white-space:nowrap;font-weight:normal;width:90px;padding-right:10px;}
+.form .formTitle font{color:red;position:absolute;right:0px;}
+.form .formTitle-top {vertical-align:top; padding-top:4px;}
+.form .formValue{position:relative;padding:5px;width:auto;}
+.form .formValue select{padding: 4px;padding-left:4px;}
+.form .formValue .bootstrap-duallistbox-container{margin-top:-32px;margin-left: -12px;}
+.form .formValue .bootstrap-duallistbox-container .btn-box{margin: 78px 16px 0px 16px;}
+.form-control{color:#000;border-radius:0px;box-shadow:none;padding-top:0px;padding-bottom:1px;padding-right:0px;padding-left:5px;resize: none;}
+.form-control:focus{border-color:#337ab7;box-shadow:none;}
+.form textarea.form-control{padding-top: 5px;}
+.has-error .form-control:focus{border-color:#B94A48;}
+.panel{margin-bottom:0px;}
+.panel-body{padding:0px;}
+.no-padding{padding:0px}
+table .fa-toggle-on{color: #449d44;font-size: 14pt;vertical-align: middle;margin-top: -1px;}
+table .fa-toggle-off{color: #aaa;font-size: 14pt;vertical-align: middle;margin-top: -1px;}
+/* * css: 表单校验提示 * ----------*/
+.poptip{z-index:1000;position: absolute;top: 20px;left:20px;padding: 6px 10px 6px;*padding: 7px 10px 5px;line-height: 16px;color: #fff;font-size: 12px;background-color: #B94A48;border: solid 1px #B94A48;border-radius: 2px;box-shadow: 0 0 3px #ddd;}
+.poptip-arrow{position: absolute;overflow: hidden;font-style: normal;font-family: simsun;text-shadow:0 0 2px #ccc;}
+.poptip-arrow em,.poptip-arrow i{position: absolute;left:0;top:0;font-style: normal;}
+.poptip-arrow em{color: #B94A48;}
+.poptip-arrow i{color: #B94A48;text-shadow:none;}
+.poptip-arrow-top,.poptip-arrow-bottom{height: 6px;width: 12px;left:12px;margin-left:-6px;}
+.poptip-arrow-left,.poptip-arrow-right{height: 12px;width: 6px;top: 12px;margin-top:-6px;}
+.poptip-arrow-top{top: -6px;}
+.poptip-arrow-top em{top: -1px;}
+.poptip-arrow-top i{top: 0px;}
+.poptip-arrow-bottom{bottom: -6px;}
+.poptip-arrow-bottom em{top: -8px;}
+.poptip-arrow-bottom i{top: -9px;}
+.poptip-arrow-left{left:-6px;}
+.poptip-arrow-left em{left:1px;}
+.poptip-arrow-left i{left:2px;}
+.poptip-arrow-right{right:-6px;}
+.poptip-arrow-right em{left:-6px;}
+.poptip-arrow-right i{left:-7px;}

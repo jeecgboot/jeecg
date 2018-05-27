@@ -1,0 +1,107 @@
+body{
+	font-size:12px; 
+	font-family:Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif
+}
+.btn-rounded {
+  border-radius: 30px;
+}
+.btn-bordered {
+  border-radius: 30px;
+  background: #FFFFFF;
+  border-width: 2px;
+}
+.btn-bordered:hover {
+  color: #ffffff;
+}
+.btn-bordered.btn-primary {
+  border-color: #3ca2e0;
+  color: #3ca2e0;
+}
+.btn-bordered.btn-primary:hover {
+  background: #3ca2e0;
+  color: #ffffff;
+}
+.btn-bordered.btn-info {
+  border-color: #5bc0de;
+  color: #5bc0de;
+}
+.btn-bordered.btn-info:hover {
+  background: #5bc0de;
+  color: #ffffff;
+}
+.btn-bordered.btn-warning {
+  border-color: #f0ad4e;
+  color: #f0ad4e;
+}
+.btn-bordered.btn-warning:hover {
+  background: #f0ad4e;
+  color: #ffffff;
+}
+.btn-bordered.btn-success {
+  border-color: #5cb85c;
+  color: #5cb85c;
+}
+.btn-bordered.btn-success:hover {
+  background: #5cb85c;
+  color: #ffffff;
+}
+.btn-bordered.btn-danger {
+  border-color: #de6764;
+  color: #de6764;
+}
+.btn-bordered.btn-danger:hover {
+  background: #de6764;
+  color: #ffffff;
+}
+.btn-bordered.disabled {
+  color: #717171;
+}
+
+
+button.btn.btn-primary.btn-rounded.dropdown-toggle.haha {
+  border-left: 1px solid #2698dd;
+}
+button.btn.btn-success.btn-rounded.dropdown-toggle.haha {
+  border-left: 1px solid #449d44;
+}
+button.btn.btn-warning.btn-rounded.dropdown-toggle.haha {
+  border-left: 1px solid #ec971f;
+}
+button.btn.btn-danger.btn-rounded.dropdown-toggle.haha {
+  border-left: 1px solid #d53e3a;
+}
+button.btn.btn-primary.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #3ca2e0;
+}
+button.btn.btn-success.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #5cb85c;
+}
+button.btn.btn-info.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #5bc0de;
+}
+button.btn.btn-warning.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #f0ad4e;
+}
+button.btn.btn-danger.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #de6764;
+}
+button.btn.btn-default.btn-bordered.dropdown-toggle.haha {
+  border-left: 1px solid #ccc;
+}
+button.btn.btn-primary.dropdown-toggle.haha {
+  border-left: 1px solid #2698dd;
+}
+button.btn.btn-success.dropdown-toggle.haha {
+  border-left: 1px solid #449d44;
+}
+button.btn.btn-warning.dropdown-toggle.haha {
+  border-left: 1px solid #ec971f;
+}
+button.btn.btn-danger.dropdown-toggle.haha {
+  border-left: 1px solid #d53e3a;
+}
+.btn-outline:focus,
+.btn-bordered:focus {
+  color: inherit;
+  background: inherit;
+}

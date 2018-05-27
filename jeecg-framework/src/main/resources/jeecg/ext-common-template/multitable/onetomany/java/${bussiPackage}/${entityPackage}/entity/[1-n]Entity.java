@@ -1,0 +1,1 @@
+<#include "/multitable/onetomany/java/subEntity.ftl"/>

@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* 清晰 */
+
+/*头部*/
+.layout-header{border-bottom: 0px solid #007465;background-color:#007465;}
+/* 左侧菜单 */
+.layout-side{background-color: #018574;color: #fff;z-index:999;border-right:1px solid #ddd;}
+.side-menu{background-color: #018574;}
+/*.side-menu li a i{color: #b6b7b8;}*/
+.side-menu .menu-item a{color: #ddd;border-bottom: 1px solid #018574;}
+.side-menu .menu-item:hover > a,.side-menu .menu-item:hover > a > i,.menu-item.active > a,.side-menu .active > a > i{color: #fff;} 
+/* #1b9182; */
+/* .side-menu .menu-item:hover , .side-menu .menu-item.active {color: #fff;background: #1a9182;}  */
+.side-menu .menu-header{color: #fff; background: #018574;border-bottom: 1px solid #018574;height:28px;line-height:28px;} 
+.side-menu .menu-item .label{color: #fff;background: #007465;}
+.side-menu .menu-item-child li a{color: #ddd;}
+.side-menu .menu-item-child li.active > a, .side-menu .menu-item-child li > a:hover{color: #fff; background:#1a9182;}
+/*菜单收缩*/
+.layout-side-arrow{background-color:#018574;left:201px;border-left:none;}
+.layout-side-arrow:hover{background-color:#007465;border:none;}
+.layout-side-arrow:hover i{color:#fff;}
+.layout-side-arrow i{color:#b6b7b8;}
+/*菜单选项卡*/
+.layout-main-tab{border-bottom:1px solid  #ccc;background:#fafafa;height: 28px;line-height: 28px;}
+/* #efeef0 */
+/* .tab-btn.btn-left{border-right: solid 1px #ccc;} */
+.tab-btn.btn-right{border-left: solid 1px #ccc;}
+.tab-nav-content a{color: #282828;
+/* border-right: solid 1px #ccc; */
+}
+.tab-nav-content a.active{color: #007465;
+/* background: #fff; */
+}
+.tab-nav-content a i{color:#ccc;font-size:12px;vertical-align:top;}
+.tab-nav-content a.active i:hover{color: #FF5722;}
+.tab-nav-content a:hover{
+	color:#007465;
+	background: #fff;
+}
+

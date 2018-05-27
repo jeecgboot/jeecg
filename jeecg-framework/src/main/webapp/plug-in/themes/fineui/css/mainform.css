@@ -1,0 +1,94 @@
+/**
+*增改form页 主表页布局样式
+**/
+.main-tab .tab-info {
+    font-size: 14px;
+    font-weight: bold;
+   /*  background-color: rgba(66, 158, 186, 0.86); */
+    margin: 0;
+}
+.main-tab{
+ margin-top: 15px;
+}
+   
+.tab-info {
+    border-top: 1px solid #e5e5e5;
+    background-color:#fff;
+    /* background:-webkit-linear-gradient(left,#4eb5a0,#4eb5a0); */
+    /* background-color:#4eb5a0; */
+      /* background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(rgba(0, 0, 255, 0.5))); */
+} 
+.tab-info a{
+	height:25px;
+	line-height:25px;
+	/* color:#fff; */
+	color:#333;
+}
+.tab-info a:hover{
+	cursor:default;
+}
+.tab-info a:hover{
+	 text-decoration: none;
+}
+.tab-info > li{
+  width:100px;
+  padding-left:2px;
+}
+/* .tab-info li:hover{
+	  background-color: rgb(141, 207, 194);
+	  border-right:1px solid rgb(255, 255, 255);
+} */
+.tab-info {
+    border-bottom: 0px solid #dddddd;
+}
+.tab-info {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.gradienta{
+    width:300px;
+    height:150px;
+    background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(rgba(0, 0, 255, 0.5)));  
+}
+.conc-wrapper input:not([type='radio']){
+width:157px;
+}
+.conc-wrapper select{
+width:157px !important;
+}
+.col-xs-1{
+white-space: nowrap;
+text-align:center;
+padding:0;
+}
+.con-wrapper .row > div {
+	border-right:0;
+	border-left:0;
+}
+
+
+/*新增样式*/
+.tab-wrapper .nav-tabs > li.active > a, .tab-wrapper .nav-tabs > li.active > a:hover, .tab-wrapper .nav-tabs > li.active > a:focus {
+	    color: #8f0911;
+	}
+.columns_tbz td {padding:2px;}
+.table > tbody > tr{border-bottom:1px solid #ddd;}
+.table input,.table select{width:157px;}
+.conc-wrapper input[type='checkbox'],input[type='radio']{
+width:auto;
+}
+.table input[type='checkbox'],input[type='radio']{
+width:auto;
+}
+/* 数量table下的input宽度设置 */
+.num_tbz input{
+	width:80px;
+}
+/* 价格table下的input/select宽度设置 */
+.price_tbz input,.price_tbz select{
+	width:100px;
+}
+.table textarea{width:157px;height:95%;}
+.xh input,ck input{width:40px !important;}
