@@ -33,7 +33,7 @@ public class WebUploaderTag extends TagSupport {
 	private String buttonText;//控件按钮显示文本
 	private String extensions;//允许的文件后缀，不带点，多个用逗号分割
 	private String extendParams;//类似css写法 这是文件上传时候需要传递的参数
-	private String dataType;//只要该属性有值,均视之为不为空
+	private String datatype;//只要该属性有值,均视之为不为空
 	private String nullMsg;//空的时候的提示信息,默认会根据当前控件的类型提示,文件类则提示“请选择文件”;图片类则提示“请选择图片”.
 	private String readOnly="false";//保留字段
 	private String bizType;//业务类型,根据该类型确定上传路径
@@ -150,8 +150,8 @@ public class WebUploaderTag extends TagSupport {
 			//获取文件名
 			sb.append("\r\nvar mygetFileName=function(filepath){if(filepath.lastIndexOf('\\\\')>0){return filepath.substring(filepath.lastIndexOf('\\\\')+1);\r\n}else if(filepath.lastIndexOf('/')>0){return filepath.substring(filepath.lastIndexOf('/')+1);}else{return filepath;}}");
 			//如果dataType有值
-			if(oConvertUtils.isNotEmpty(dataType)){
-				sb.append("\r\n$('#"+name+"uploader').find('div.btns').append('<input nullMsg=\""+getNullMsg()+"\" dataType=\"*\" type=\"hidden\" id= \""+name+"dataTypeInp\" />');");
+			if(oConvertUtils.isNotEmpty(datatype)){
+				sb.append("\r\n$('#"+name+"uploader').find('div.btns').append('<input nullMsg=\""+getNullMsg()+"\" datatype=\"*\" type=\"hidden\" id= \""+name+"dataTypeInp\" />');");
 			}
 			sb.append("\r\nvar reset_"+name+"_dataTypeInpVal=function(addOrdel){var obj = $(\"#" + name + "dataTypeInp\");if(obj.length>0){var objval=obj.val()||'';\r\nif (addOrdel == 1) {if(objval==''){obj.val('1');}else{obj.val(objval.toString()+(parseInt(objval.length)+1));}}else{if(objval.length <=1){obj.val('');}else{obj.val(objval.substr(0,objval.length-1));\r\n}\r\n}obj.blur();}}");
 			//设置默认值
@@ -372,11 +372,11 @@ public class WebUploaderTag extends TagSupport {
 	public void setExtensions(String extensions) {
 		this.extensions = extensions;
 	}
-	public String getDataType() {
-		return dataType;
+	public String getDatatype() {
+		return datatype;
 	}
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
+	public void setDatatype(String datatype) {
+		this.datatype = datatype;
 	}
 	public String getNullMsg() {
 		if(oConvertUtils.isEmpty(nullMsg)){

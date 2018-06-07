@@ -211,8 +211,9 @@ public class PinyinUtil {
 
 		try {
 
-			pinyingStr = PinyinHelper.toHanyuPinyinString(hanzi, defaultFormat,
-					separator);
+			pinyingStr = PinyinHelper.toHanYuPinyinString(hanzi, defaultFormat,
+					separator,false);
+
 
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
 

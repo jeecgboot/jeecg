@@ -9,6 +9,9 @@
 	<!-- 类注解缓存 -->
 	<cache name="eternalCache" maxElementsInMemory="10000"  maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
 			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
+	<!-- 登录访问拦截权限缓存 -->
+	<cache name="sysAuthCache" maxElementsInMemory="10000"  maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
 	<!-- UI标签页面缓存 -->
 	<cache name="tagCache" maxElementsInMemory="10000" maxElementsOnDisk="1000" diskSpoolBufferSizeMB="20" 
 			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>

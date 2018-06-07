@@ -22,9 +22,7 @@
 		<input  id="${namepre}${po.fieldName}" name="${namepre}${po.fieldName}" type="text" class="form-control" <#if valuepre != "">value = "${'$'}{${valuepre}${po.fieldName}}"</#if> style="width:150px"   <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" /><#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/> 			 
 	<#rt/>
 	<#elseif po.showType=='file' || po.showType == 'image'>
-		<input type="hidden" id="${namepre}${po.fieldName}" name="${namepre}${po.fieldName}"  value="${'$'}{${valuepre}${po.fieldName} }"/>
-		<input class="btn btn-sm btn-success" style="margin-left:10px;" type="button" value="上传附件" onclick="commonUpload(commonUploadDefaultCallBack,'${subsG['${key}'].entityName?uncap_first}List\\[0\\]\\.${po.fieldName}')"/>
-		<a target="_blank" id="${namepre}${po.fieldName}_href"></a>
+		<@webuploadtag po = po namepre=namepre defval="${'$'}{${valuepre}${po.fieldName}}"/>
 	<#rt/>
 	<#else>
 		<input name="${namepre}${po.fieldName}" <#if valuepre != "">value = "${'$'}{${valuepre}${po.fieldName}}"</#if> maxlength="${po.length?c}" type="text" class="form-control" style="width:150px" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" isNull="${po.isNull}"/> />

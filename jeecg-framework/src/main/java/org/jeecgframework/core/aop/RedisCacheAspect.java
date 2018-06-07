@@ -3,17 +3,15 @@ package org.jeecgframework.core.aop;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.jeecgframework.core.annotation.Ehcache;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 
@@ -24,15 +22,10 @@ import com.alibaba.fastjson.JSON;
 //@Component
 //@Aspect
 public class RedisCacheAspect {
-
-	private RedisTemplate redisTemplate;
 	
-	@Autowired
-    public void setRedis(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-        //泛型设置成Long后必须更改对应的序列化方案
-        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
-    }
+	//TODO ?
+	@Resource
+	private RedisTemplate redisTemplate;
 
 	@Pointcut("@annotation(org.jeecgframework.core.annotation.Ehcache)")
 	public void simplePointcut() {}

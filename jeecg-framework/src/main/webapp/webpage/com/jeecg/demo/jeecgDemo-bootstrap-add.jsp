@@ -86,8 +86,8 @@
 					<span class="input-group-btn">
                         <button class="btn btn-default input-sm" type="button">Go!</button>
                     </span> 
-                    <select name="depId" class="form-control input-sm" datatype="*">
-						<option value="">-- 请选择 --</option>
+                    <select name="depId" class="form-control input-sm" datatype="*" placeholder="请输选择">
+						<option value=""></option>
 						<option value="402880e447e99cf10147e9a03b320003">北京国炬软件</option>
 						<option value="402880e447e9a9570147e9b677320003">软件信息部</option>
 						<option value="402880e447e9a9570147e9b6a3be0005">销售部门</option>

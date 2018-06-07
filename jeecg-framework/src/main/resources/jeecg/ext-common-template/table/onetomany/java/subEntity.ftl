@@ -30,8 +30,10 @@ import org.jeecgframework.poi.excel.annotation.Excel;
  */
 @Entity
 @Table(name = "${subsG['${key}'].tableName}", schema = "")
-<#if subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
-@SequenceGenerator(name="SEQ_GEN", sequenceName="${subsG['${key}'].cgformConfig.cgFormHead.jformPkSequence}")  
+<#--update-begin-Author:taoyan  Date:20180522 for:TASK #2732 【bug】3.7.5 代码生成器存在的问题 -->
+<#if subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
+@SequenceGenerator(name="SEQ_GEN", sequenceName="${subsG['${key}'].cgFormHead.jformPkSequence}")  
+<#--update-end-Author:taoyan  Date:20180522 for:TASK #2732 【bug】3.7.5 代码生成器存在的问题 -->
 </#if>
 @SuppressWarnings("serial")
 public class ${subsG['${key}'].entityName}Entity implements java.io.Serializable {
@@ -58,14 +60,16 @@ public class ${subsG['${key}'].entityName}Entity implements java.io.Serializable
 	 *@return: ${po.type}  ${po.content}
 	 */
 	<#if po.fieldName == jeecg_table_id>
-	<#if subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "UUID">
+	<#--update-begin-Author:taoyan  Date:20180522 for:TASK #2732 【bug】3.7.5 代码生成器存在的问题 -->
+	<#if subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "UUID">
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-	<#elseif subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "NATIVE">
+	<#elseif subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "NATIVE">
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	<#elseif subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
+	<#elseif subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
+	<#--update-end-Author:taoyan  Date:20180522 for:TASK #2732 【bug】3.7.5 代码生成器存在的问题 -->
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SEQ_GEN")  
 	<#else>

@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<link rel="fineui-icon" href="images/favicon.ico">
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<meta name="keywords" content="JEECG 企业级快速开发平台">
     <meta name="description" content="JEECG 企业级快速开发平台，她采用强大代码生成，在线开发能力">
@@ -353,6 +354,12 @@
 			$(this).next("div").removeClass("ui-iconss-focus");
 		});
 		$("body").css("height",document.documentElement.clientHeight);
+
+		$(window).resize(function(){
+			$("body").css("height",document.documentElement.clientHeight);
+		});
+
+		
 	});
 	
 	$(".personInfo").hover(function(){

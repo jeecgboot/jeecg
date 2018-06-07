@@ -19,13 +19,7 @@ function updatePms(title,url, id,width,height,isRestful) {
 }
 
 function detailPms(title,url, id,width,height) {
-	//var rowsData = $('#'+id).datagrid('getSelections');
 	var rowsData = $('#'+id).datagrid('getChecked');
-//	if (rowData.id == '') {
-//		topWinTip('请选择查看项目');
-//		return;
-//	}
-	
 	if (!rowsData || rowsData.length == 0) {
 		topWinTip('请选择查看项目');
 		return;
@@ -46,8 +40,6 @@ function detailByMenu(title,url,dgname,width,height) {
 }
 function delObjPms(id,url){
 	//不带遮罩
-	//var url = url+'&id='+id;
-	//createdialog('删除确认 ', '确定删除该记录吗 ?', url,dgname,1);
 	deleteRecord(id,url)
 }
 function deleteMainRecord(id,url,index){
@@ -101,8 +93,8 @@ function deleteRecord(id,url,tip,flag){
  */
 function deleteALLSelectPms(confirm,url,gname,flag) {
     var ids = [];
-   // var rows = $("#"+gname).datagrid('getSelections');
-    var rows = $("#"+gname).datagrid('getChecked');
+    var rows = $("#"+gname).datagrid('getSelections');
+   // var rows = $("#"+gname).datagrid('getChecked');
     if (rows.length > 0) {
     	$.dialog.setting.zIndex = getzIndex(true);
     	if(!confirm){
@@ -263,6 +255,36 @@ function endEdit(gname){
 	}
 	return true;
 }
+
+/*-------------------------------文件图片formatter---------------------------------------*/
+function formatterImg(value,rec,index){
+	return  listFileImgFormat(value,"image");
+  }
+  
+  function formatterFile(value,rec,index){
+	  return listFileImgFormat(value);
+  }
+//列表文件图片 列格式化方法
+  function listFileImgFormat(value,type){
+  	var href='';
+  	if(value==null || value.length==0){
+  		return href;
+  	}
+  	var value1 = "systemController/showOrDownByurl.do?dbPath="+value;
+  	if("image"==type){
+   		href+="<img src='"+value1+"' width=30 height=30  onmouseover='tipImg(this)' onmouseout='moveTipImg()' style='vertical-align:middle'/>";
+  	}else{
+   		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
+   			href+="<img src='"+value1+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=30 height=30 style='vertical-align:middle'/>";
+   		}else{
+   			var value2 = "systemController/showOrDownByurl.do?down=1&dbPath="+value;
+   			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+   		}
+  	}
+  	return href;
+  }
+ /*-----------------------------------------------------------------------------*/
+  
  /*---------------------------------自定义验证--------------------------------------------*/
  $.extend($.fn.validatebox.defaults.rules,{
 	 phoneRex: {
@@ -292,7 +314,7 @@ function endEdit(gname){
   },{
     decimalTwo:{
 	  validator: function(value){
-		  var rex= /^([1-9]\d{0,16})(\.\d{1,2})?$/;
+		  var rex= /^([0-9]\d{0,16})(\.\d{1,2})?$/;
 		  if(rex.test(value)){
 			 return true;
 		  }else{

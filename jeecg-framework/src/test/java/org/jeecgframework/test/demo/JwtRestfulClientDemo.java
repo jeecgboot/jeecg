@@ -59,8 +59,8 @@ public class JwtRestfulClientDemo {
 	
 	public static void main(String[] args) {
 		String token = getToken("interfaceuser","123456");
+		System.out.println(" token : "+ token);
 //		String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNTExODU5NjM2fQ.Emfe8VZKA_L33jaW8ZUtVFVDEin83Np_d3gKlPIZryE";
-//		System.out.println(token);
 		
 		//添加黑名单
 //		JSONObject jsonObject=new JSONObject();

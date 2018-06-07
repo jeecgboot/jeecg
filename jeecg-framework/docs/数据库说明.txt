@@ -5,9 +5,9 @@
 
 1.oracle 导入命令
    说明： jeecg脚本导出用户是scott
-   imp scott/tiger@orcl file=jeecg_3.7.5_beta_oracle11g.dmp
+   imp scott/tiger@orcl file=jeecg_3.7.6_oracle11g.dmp
    导入其他用户的表
-   imp jeecgos/jeecgos@orcl file=/opt/datatmp/jeecg_3.7.5_oracle11g.dmp fromuser=scott touser=jeecgos ignore=y commit=y buffer=300000000 feedback=10000
+   imp jeecgos/jeecgos@orcl file=/opt/datatmp/jeecg_3.7.6_oracle11g.dmp fromuser=scott touser=jeecgos ignore=y commit=y buffer=300000000 feedback=10000
 
 
 2. oracle、SqlServer脚步索引会有部分丢失，为了系统性能，请自行补加索引。
@@ -16,6 +16,6 @@
 
 4.老版本数据库增量升级
     执行老版本升级SQL脚本
-	3.7.3升级到3.7.5_beta
-    docs/老版本增量升级/jeecg_mysql-3.7.3_beta-update-3.7.5.sql
+	3.7.5_beta升级到3.7.6
+    docs/老版本增量升级/jeecg_mysql-3.7.5_beta-update-3.7.6.sql
 	

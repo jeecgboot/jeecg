@@ -17,6 +17,7 @@ import org.jeecgframework.core.util.DBTypeUtil;
 import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -131,6 +132,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data 数据
 	 */
 	private Map<String, Object> dataAdapter(String tableName,Map<String, Object> data) {
+
+		SqlInjectionUtil.filterContent(tableName);
+
 		//step.1 获取表单的字段配置
 		Map<String, CgFormFieldEntity> fieldConfigs =cgFormFieldService.getAllCgFormFieldByTableName(tableName);
 		//step.2 迭代将要持久化的数据
@@ -235,11 +239,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			}
 		}
 
-		if(id instanceof java.lang.String){
-			sqlBuffer.append(" where id='").append(id).append("'");
-		}else{
-			sqlBuffer.append(" where id=").append(id);
-		}
+//		if(id instanceof java.lang.String){
+//			sqlBuffer.append(" where id='").append(id).append("'");
+//		}else{
+//			sqlBuffer.append(" where id=").append(id);
+//		}
+		sqlBuffer.append(" where id=:id");
+		data.put("id", id);
+
 		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		int num = this.executeSql(sqlBuffer.toString(), data);
 
@@ -263,6 +270,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 */
 
 	public Map<String, Object> findOneForJdbc(String tableName, String id) {
+
+		SqlInjectionUtil.filterContent(tableName);
+
 		StringBuffer sqlBuffer = new StringBuffer();
 		sqlBuffer.append("select * from ").append(tableName);
 		sqlBuffer.append(" where id= ? ");
@@ -570,6 +580,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 */
 	private void deleteSubTableDataById(Object subId,String subTableName){
 		StringBuilder sql = new StringBuilder("");
+
+		SqlInjectionUtil.filterContent(subTableName);
+
 		sql.append(" delete from ").append(subTableName).append(" where id = ? ");
 
 		this.executeSql(sql.toString(), subId);
@@ -644,7 +657,6 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)){
 			data.put(DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
 		}
-		//--author：scott---begin------date:20170725--------for: 流程状态赋予默认值----------
 		if(data.containsKey(DataBaseConstant.BPM_STATUS_TABLE)
 				||getAllFieldByTableName(tableName).containsKey(DataBaseConstant.BPM_STATUS_TABLE)){
 			data.put(DataBaseConstant.BPM_STATUS_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.BPM_STATUS_TABLE));
@@ -738,12 +750,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	public CgformEnhanceJavaEntity getCgformEnhanceJavaEntityByCodeFormId(String buttonCode, String formId) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformEnhanceJavaEntity t");
-		hql.append(" where t.formId='").append(formId).append("'");
-		hql.append(" and  t.buttonCode ='").append(buttonCode).append("'");
+
+		hql.append(" where t.formId=?");
+		hql.append(" and  t.buttonCode =?");
 
 		hql.append(" and  t.activeStatus ='1'");
 
-		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
+		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString(),formId,buttonCode);
+
 		if(list!=null&&list.size()>0){
 			return list.get(0);
 		}
@@ -753,8 +767,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId( String formId) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformEnhanceJavaEntity t");
-		hql.append(" where t.formId='").append(formId).append("'");
-		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
+		hql.append(" where t.formId=?");
+		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString(),formId);
 		return list;
 	}
 

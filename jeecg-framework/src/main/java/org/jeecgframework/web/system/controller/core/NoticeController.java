@@ -151,8 +151,10 @@ public class NoticeController extends BaseController{
 			request.setAttribute("notice", notice);
 
 			TSUser user = ResourceUtil.getSessionUser();
-			String hql = "from TSNoticeReadUser where noticeId = '"+notice.getId()+"' and userId = '"+user.getId()+"'";
-			List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+
+			String hql = "from TSNoticeReadUser where noticeId = ? and userId = ?";
+			List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql,notice.getId(),user.getId());
+
 			if (noticeReadList != null && !noticeReadList.isEmpty()) {
 				TSNoticeReadUser readUser = noticeReadList.get(0);
 				if(readUser.getIsRead() == 0){
@@ -286,14 +288,14 @@ public class NoticeController extends BaseController{
 		try{
 
 			if("2".equals(tSNotice.getNoticeLevel())){
-				String sql = "delete from t_s_notice_authority_role where notice_id = '"+tSNotice.getId()+"'";
-				systemService.executeSql(sql);
+				String sql = "delete from t_s_notice_authority_role where notice_id = ?";
+				systemService.executeSql(sql,tSNotice.getId());
 			}else if("3".equals(tSNotice.getNoticeLevel())){
-				String sql = "delete from t_s_notice_authority_user where notice_id = '"+tSNotice.getId()+"'";
-				systemService.executeSql(sql);
+				String sql = "delete from t_s_notice_authority_user where notice_id = ?";
+				systemService.executeSql(sql,tSNotice.getId());
 			}
-			String sql = "delete from t_s_notice_read_user where notice_id = '"+tSNotice.getId()+"'";
-			systemService.executeSql(sql);
+			String sql = "delete from t_s_notice_read_user where notice_id = ?";
+			systemService.executeSql(sql,tSNotice.getId());
 
 			noticeService.delete(tSNotice);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -356,8 +358,10 @@ public class NoticeController extends BaseController{
 					public void run() {
 						List<TSUser> userList = systemService.findHql("from TSUser");
 						for (TSUser user : userList) {
-							String hql = "from TSNoticeReadUser where noticeId = '"+noticeId+"' " + " and userId = '"+user.getId()+"'";
-							List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+
+							String hql = "from TSNoticeReadUser where noticeId = ? and userId = ?";
+							List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql,noticeId,user.getId());
+
 							if(noticeReadList == null || noticeReadList.isEmpty()){
 								TSNoticeReadUser readUser = new TSNoticeReadUser();
 								readUser.setCreateTime(new Date());
@@ -439,8 +443,10 @@ public class NoticeController extends BaseController{
 					public void run() {
 						List<TSUser> userList = systemService.findHql("from TSUser");
 						for (TSUser user : userList) {
-							String hql = "from TSNoticeReadUser where noticeId = '"+noticeId+"' " + " and userId = '"+user.getId()+"'";
-							List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+
+							String hql = "from TSNoticeReadUser where noticeId = ? and userId = ?";
+							List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql,noticeId,user.getId());
+
 							if(noticeReadList == null || noticeReadList.isEmpty()){
 								TSNoticeReadUser readUser = new TSNoticeReadUser();
 								readUser.setCreateTime(new Date());
@@ -460,8 +466,10 @@ public class NoticeController extends BaseController{
 					}
 				});
 			}else if (!"1".equals(tSNotice.getNoticeLevel())&& "1".equals(t.getNoticeLevel()) ){
-					String sql = "delete from t_s_notice_read_user where notice_id = '"+t.getId()+"' ";
-					systemService.executeSql(sql);
+
+					String sql = "delete from t_s_notice_read_user where notice_id = ?";
+					systemService.executeSql(sql,t.getId());
+
 			}
 
 			MyBeanUtils.copyBeanNotNull2Bean(tSNotice, t);

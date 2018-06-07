@@ -5,8 +5,7 @@
 	tabClose();
 	tabCloseEven();
 	// 释放内存
-	$.fn.panel.defaults = $.extend({}, $.fn.panel.defaults, {
-		onBeforeDestroy : function() {
+	$.fn.panel.defaults = $.extend({}, $.fn.panel.defaults, {onBeforeDestroy : function() {
 			var frame = $('iframe', this);
 			if (frame.length > 0) {
 				frame[0].contentWindow.document.write('');
@@ -18,6 +17,14 @@
 			}
 		}
 	});
+	// 释放内存
+	$.fn.panel.defaults = $.extend({},$.fn.panel.defaults,{onBeforeDestroy:function(){  
+	        $(this).find(".combo-f").each(function () {  
+	            var panel = $(this).data().combo.panel;  
+	            panel.panel("destroy");  
+	        });  
+	    }  
+	}); 
 	
 	  $('#maintabs').tabs({ onSelect : function(title) {
 	  	rowid="";
@@ -65,10 +72,9 @@ function openThisNoed(node) {
 	}
 	if (children == null || children.length == 0) {
 		var fun = $(node.target).find('a').attr("onclick");
-
-//		var params = fun.substring(7, fun.length - 1).replaceAll("'", "").split(",");
-		eval(fun);
-
+		var params = fun.substring(7, fun.length - 1).replaceAll("'", "")
+				.split(",");
+		addTab(params[0], params[1], params[2]);
 	}
 }
 
@@ -93,18 +99,11 @@ function addTab(subtitle, url, icon) {
 	var progress = $("div.messager-progress");
 	if(progress.length){return;}
 	rowid="";
-
-	//showloading();
-
-//	$.messager.progress({
-//		text : loading,
-//		interval : 200
-//	});
-
+	$.messager.progress({
+		text : '页面加载中....',
+		interval : 200
+	});
 	if (!$('#maintabs').tabs('exists', subtitle)) {
-
-		showloading();
-
 		//判断是否进行href方式打开tab，默认为iframe方式
 		if(url.indexOf('isHref') != -1){
 			$('#maintabs').tabs('add', {
@@ -117,20 +116,16 @@ function addTab(subtitle, url, icon) {
 			
 			$('#maintabs').tabs('add', {
 				title : subtitle,
-
-				content : '<iframe onreadystatechange="hiddenloading();" onload="hiddenloading();" src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
-
+				content : '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.4%;"></iframe>',
 				closable : true,
 				icon : icon
 			});		
 			
 		}
+
 	} else {
 		$('#maintabs').tabs('select', subtitle);
 		$.messager.progress('close');
-
-		//hiddenloading();
-
 	}
 
 	// $('#maintabs').tabs('select',subtitle);
@@ -175,7 +170,7 @@ function addLeftOneTab(subtitle, url, icon) {
 }
 function addmask() {
 	$.messager.progress({
-		text : loading,
+		text : '页面加载中....',
 		interval : 100
 	});
 }
@@ -189,9 +184,6 @@ function tabClose() {
 	$(".tabs-inner").dblclick(function() {
 		var subtitle = $(this).children(".tabs-closable").text();
 		$('#tabs').tabs('close', subtitle);
-
-		hiddenloading();
-
 	})
 	/* 为选项卡绑定右键 */
 	$(".tabs-inner").bind('contextmenu', function(e) {
@@ -204,9 +196,6 @@ function tabClose() {
 
 		$('#mm').data("currtab", subtitle);
 		// $('#maintabs').tabs('select',subtitle);
-
-		hiddenloading();
-
 		return false;
 	});
 }
@@ -285,12 +274,4 @@ $.parser.onComplete = function() {/* 页面所有easyui组件渲染成功后，�
 		$.messager.progress('close');
 	}, 200);
 };
-
-function hiddenloading(){
-	$("#panelloadingDiv").hide();
-}
-
-function showloading(){
-	$("#panelloadingDiv").show();
-}
 

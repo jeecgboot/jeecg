@@ -9,7 +9,7 @@
 			                <form id="searchForm" class="form form-horizontal" action="" method="post">
 			                	<#list dataGrid.columnList as po>
 								<#if po.query==true>
-									<#include "bootstrapTable-search.ftl">
+									<#include "/org/jeecgframework/tag/core/factory/ftl/component/bootstrapTable-search.ftl">
 								</#if>
 								</#list>
 			                    <div class="col-xs-12 col-sm-6 col-md-4">
@@ -129,12 +129,12 @@
 	            }
 				<#list dataGrid.columnList as po>
 				<#if po.field!="opt">
-				 <#include "bootstrapTable-column.ftl">
+				 <#include "/org/jeecgframework/tag/core/factory/ftl/component/bootstrapTable-column.ftl">
 				<#else>
 				 ,{
 	              title: "操作",align: 'center',valign: 'middle',width: ${po.width},
 	              formatter: function (value, row, index) {
-	                 <#include "bootstrapTable-opt.ftl">
+	                 <#include "/org/jeecgframework/tag/core/factory/ftl/component/bootstrapTable-opt.ftl">
 	              }
 	              }
 				</#if>

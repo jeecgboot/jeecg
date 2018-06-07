@@ -9,7 +9,7 @@
  <body>
   <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jeecgListDemoController.do?doAdd" >
 		<input id="id" name="id" type="hidden" value="${jeecgDemoPage.id }"/>
-		<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
+		<table style="width: 90%;" cellpadding="0" cellspacing="1" class="formtable">
 				<tr>
 					<td align="right">
 						<label class="Validform_label">
@@ -97,7 +97,7 @@
 						</label>
 					</td>
 					<td class="value">
-					     	 <input id="salary" name="salary" type="text" style="width: 150px" class="inputxt" datatype="d"/>
+					     	 <input id="salary" name="salary" type="text" style="width: 150px" class="inputxt" datatype="d" />
 							<span class="Validform_checktip"></span>
 							<label class="Validform_label" style="display: none;">工资</label>
 						</td>
@@ -147,7 +147,7 @@
 						</label>
 					</td>
 					<td class="value">
-						<t:webUploader auto="true" name="fujian" fileNumLimit="3" dataType="*"></t:webUploader>
+						<t:webUploader auto="true" name="fujian" fileNumLimit="3" datatype="*"></t:webUploader>
 						<span class="Validform_checktip Validform_right" style="display: none;">文件已上传</span>
 					</td>
 				</tr>
@@ -161,7 +161,7 @@
 					<td class="value">
 								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
 								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
-						    	<textarea name="content" id="content" style="width: 450px;height:300px"></textarea>
+						    	<textarea name="content" id="content" style="width: 100%;height:300px"></textarea>
 							    <script type="text/javascript">
 							        var editor = UE.getEditor('content');
 							    </script>

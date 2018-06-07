@@ -59,7 +59,7 @@
 				<td align="left"><t:dictSelect field="cgreportConfigItemList[0].SMode" type="list"  extendJson="{style:'width:90px'}" typeGroupCode="searchmode" defaultVal="${cgreportConfigItemPage.sMode}" hasLabel="false" title="common.query.module"></t:dictSelect></td>
 				<td align="left"><input name="cgreportConfigItemList[0].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
 				<td align="left"><input name="cgreportConfigItemList[0].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
-				<td align="left"><t:dictSelect field="cgreportConfigItemList[0].SFlag"  extendJson="{style:'width:60px'}" divClass="STYLE_LEG" type="list" typeGroupCode="yesorno" defaultVal="${cgreportConfigItemPage.sFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
+				<td align="left"><t:dictSelect field="cgreportConfigItemList[0].SFlag"  extendJson="{style:'width:90px'}" divClass="STYLE_LEG" type="list" typeGroupCode="yesorno" defaultVal="${cgreportConfigItemPage.sFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
 			</tr>
 		</c:if>
 		<c:if test="${fn:length(cgreportConfigItemList)  > 0 }">
@@ -82,7 +82,7 @@
 					<td align="left"><t:dictSelect field="cgreportConfigItemList[${stuts.index }].SMode"  extendJson="{style:'width:90px'}" type="list" typeGroupCode="searchmode" defaultVal="${poVal.SMode}" hasLabel="false" title="common.query.module"></t:dictSelect></td>
 					<td align="left"><input name="cgreportConfigItemList[${stuts.index }].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="${poVal.replaceVa }"></td>
 					<td align="left"><input name="cgreportConfigItemList[${stuts.index }].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="${poVal.dictCode }"></td>
-					<td align="left"><t:dictSelect field="cgreportConfigItemList[${stuts.index }].SFlag" extendJson="{style:'width:60px'}" type="list" typeGroupCode="yesorno" defaultVal="${poVal.SFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
+					<td align="left"><t:dictSelect field="cgreportConfigItemList[${stuts.index }].SFlag" extendJson="{style:'width:90px'}" type="list" typeGroupCode="yesorno" defaultVal="${poVal.SFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
 				</tr>
 			</c:forEach>
 		</c:if>

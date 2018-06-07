@@ -11,14 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
 import org.jeecgframework.web.graphreport.service.core.GraphReportServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.common.controller.BaseController;
-import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.CommonExcelServiceI;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.online.def.CgReportConstant;
@@ -48,6 +50,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GraphReportController extends BaseController {
 	@Autowired
 	private GraphReportServiceI graphReportService;
+	@Autowired
+	private CgReportServiceI cgReportService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -191,7 +195,7 @@ public class GraphReportController extends BaseController {
 			fl.put(CgReportConstant.ITEM_FIELDNAME, ((String)fl.get(CgReportConstant.ITEM_FIELDNAME)).toLowerCase());
 			String isQuery = (String) fl.get(CgReportConstant.ITEM_ISQUERY);
 			if(CgReportConstant.BOOL_TRUE.equalsIgnoreCase(isQuery)){
-				loadDic(fl,fl);
+				cgReportService.loadDic(fl);
 				queryList.add(fl);
 			}
 			if("y".equals(fl.get("is_graph")) || "Y".equals(fl.get("is_graph"))) {
@@ -212,89 +216,7 @@ public class GraphReportController extends BaseController {
 	}
 
 
-	/**
-	 * 处理数据字典
-	 * @param result 查询的结果集
-	 * @param beans 字段配置
-	 */
-	@SuppressWarnings("unchecked")
-	private void dealDic(List<Map<String, Object>> result,
-			List<Map<String,Object>> beans) {
-		for(Map<String,Object> bean:beans){
-			String dict_code = (String) bean.get(CgReportConstant.ITEM_DICCODE);
-			if(StringUtil.isEmpty(dict_code)){
-				//不需要处理字典
-				continue;
-			}else{
-				List<Map<String, Object>> dicDatas = queryDicBySQL(dict_code);
-				
-				for(Map r:result){
-					String value = String.valueOf(r.get(bean.get(CgReportConstant.ITEM_FIELDNAME)));
-					for(Map m:dicDatas){
-						String typecode = String.valueOf(m.get("typecode"));
-						String typename = String.valueOf(m.get("typename"));
-						if(value.equalsIgnoreCase(typecode)){
-							r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),typename);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * 查询数据字典，扩展了对SQL的支持
-	 * @param dictCodeOrSQL 字典编码或SQL
-	 * @author bit 2014-4-19
-	 */
-	private List<Map<String, Object>> queryDicBySQL(String dictCodeOrSQL) {
-		List<Map<String, Object>> dicDatas = null;
-		dictCodeOrSQL = dictCodeOrSQL.trim();
-		if(dictCodeOrSQL.toLowerCase().startsWith("select ")) {
-
-			dictCodeOrSQL = dictCodeOrSQL.replaceAll("'[kK][eE][yY]'", "typecode").replaceAll("'[vV][aA][lL][uU][eE]'", "typename");
-
-			dicDatas = systemService.findForJdbc(dictCodeOrSQL, null);
-		}else {
-			dicDatas = queryDic(dictCodeOrSQL);
-		}
-		return dicDatas;
-	}
 	
-	/**
-	 * 处理取值表达式
-	 * @param result
-	 * @param beans
-	 */
-	@SuppressWarnings("unchecked")
-	private void dealReplace(List<Map<String, Object>> result,
-			List<Map<String,Object>> beans){
-		for(Map<String,Object> bean:beans){
-			try{
-				//获取取值表达式
-				String replace = (String) bean.get(CgReportConstant.ITEM_REPLACE);
-				if(StringUtil.isEmpty(replace)){
-					continue;
-				}
-				String[] groups = replace.split(",");
-				for(String g:groups){
-					String[] items = g.split("_");
-					String v = items[0];//逻辑判断值
-					String txt = items[1];//要转换的文本
-					for(Map r:result){
-						String value = String.valueOf(r.get(bean.get(CgReportConstant.ITEM_FIELDNAME)));
-						if(value.equalsIgnoreCase(v)){
-							r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),txt);
-						}
-					}
-				}
-			}catch (Exception e) {
-				//这里出现异常原因是因为取值表达式不正确
-				e.printStackTrace();
-				throw new BusinessException("取值表达式不正确");
-			}
-		}
-	}
 	/**
 	 * 动态报表数据查询(不分页)
 	 * @param configId 配置id-code
@@ -330,8 +252,8 @@ public class GraphReportController extends BaseController {
 			}
 			//step.4 进行查询返回结果
 			List<Map<String, Object>> result= graphReportService.queryByCgReportSql(querySql, queryparams, -1, -1);
-			dealDic(result,items);
-			dealReplace(result,items);
+			cgReportService.dealDic(result,items);
+			cgReportService.dealReplace(result,items);
 			
 			//导出execel
 			List<String> fields = new ArrayList<String>();
@@ -402,8 +324,8 @@ public class GraphReportController extends BaseController {
 		int r = rows==null?99999:Integer.parseInt(rows);
 		List<Map<String, Object>> result= graphReportService.queryByCgReportSql(querySql, queryparams, p, r);
 		long size = graphReportService.countQueryByCgReportSql(querySql, queryparams);
-		dealDic(result,items);
-		dealReplace(result,items);
+		cgReportService.dealDic(result,items);
+		cgReportService.dealReplace(result,items);
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
 		PrintWriter writer = null;
@@ -446,35 +368,7 @@ public class GraphReportController extends BaseController {
 		reJson.put("datas", result);
 		return reJson;
 	}
-	/**
-	 * 装载数据字典
-	 * @param m	要放入freemarker的数据
-	 * @param bean 读取出来的动态配置数据
-	 */
-	@SuppressWarnings("unchecked")
-	private void loadDic(Map m, Map<String, Object> cgReportMap) {
-		String dict_code = (String) cgReportMap.get("dict_code");
-		if(StringUtil.isEmpty(dict_code)){
-			m.put(CgReportConstant.FIELD_DICTLIST, new ArrayList(0));
-			return;
-		}
-		List<Map<String, Object>> dicDatas = queryDicBySQL(dict_code);
-		m.put(CgReportConstant.FIELD_DICTLIST, dicDatas);
-	}
-	/**
-	 * 查询数据字典
-	 * @param diccode 字典编码
-	 * @return
-	 */
-	private List<Map<String, Object>> queryDic(String diccode) {
-		StringBuilder dicSql = new StringBuilder();
-		dicSql.append(" SELECT TYPECODE,TYPENAME FROM");
-		dicSql.append(" "+CgReportConstant.SYS_DIC);
-		dicSql.append(" "+"WHERE TYPEGROUPID = ");
-		dicSql.append(" "+"(SELECT ID FROM "+CgReportConstant.SYS_DICGROUP+" WHERE TYPEGROUPCODE = '"+diccode+"' )");
-		List<Map<String, Object>> dicDatas = graphReportService.findForJdbc(dicSql.toString());
-		return dicDatas;
-	}
+	
 	
 	/**
 	 * 导出execel

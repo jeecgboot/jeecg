@@ -39,10 +39,10 @@
 	po: 对象
 	opt：操作类型 add/update
   -->
-<#macro webuploadtag po defval="">
+<#macro webuploadtag po defval="" namepre = "">
 <#local validType="${po.fieldValidType!''}"/>
 <#local isNull="${po.isNull}"/>
-				<t:webUploader name="${po.fieldName}" outJs="true" auto="true" showImgDiv="filediv_${po.fieldName}"<#rt/>
+				<t:webUploader name="${namepre}${po.fieldName}" outJs="true" auto="true" showImgDiv="filediv_${po.fieldName}"<#rt/>
 <#if po.showType == 'image'><#rt/>
  type="image" buttonText='添加图片' displayTxt="false"<#rt/>
 </#if><#rt/>

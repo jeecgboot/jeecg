@@ -4,7 +4,7 @@
     eclipse + maven + jdk7 + tomcat7 + mysql
 	
 2. 手工执行初始化SQL脚本
-    docs/db/jeecg_3.7.5_beta_mysql.sql
+    docs/db/jeecg_3.7.6_mysql.sql
 	注意： 必须手工执行doc\db下的数据库脚本
 	
 3. 入门开发环境搭建

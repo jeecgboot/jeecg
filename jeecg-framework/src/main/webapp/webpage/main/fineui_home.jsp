@@ -177,7 +177,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.5-beta
+            <b>当前版本：</b>v_3.7.6
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -439,10 +439,80 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#version" href="#v53">v3.7.5-beta</a><code class="pull-right">2018.05.17</code>
+                                        <a data-toggle="collapse" data-parent="#version" href="#v54">v3.7.6</a><code class="pull-right">2018.06.06</code>
                                     </h5>
                                 </div>
-                                <div id="v53" class="panel-collapse collapse in">
+                                <div id="v54" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本提供新一代风格代码生成器模板，采用Vue技术，提供两套精美模板 ElementUI风格、Bootstrap风格，追逐潮流技术支持移动端；</div>
+                                        <ol>
+											<li>【功能升级】新一代 (单表/一对多) 代码生成器模板，Vue+ElementUI风格功能优化升级;</li>
+											<li>【功能升级】新一代 (单表) 代码生成器模板，Bootstrap表单+EasyUI原生态列表风格功能优化升级;</li>
+											<li>【功能升级】新一代 (一对多) 代码生成器模板，ElementUI表单+EasyUI原生态列表风格功能优化升级;</li>
+											<li>【功能升级】新一代 (一对多) 代码生成器模板，EasyUI标签列表上下布局(列表数据编辑)+Table风格表单功能优化升级;</li>
+											<li>【功能升级】牛牛叉功能  -> Datagrid标签升级,通过参数component可以快速实现BootstrapTable与easyUI列表风格切换功能优化升级;</li>
+											<li>【功能升级】定时任务支持版本升级;</li>
+											<li>【功能升级】定时任务，多个tomcat部署一台服务器的解决方案升级;</li>
+											<li>【功能改造】新版代码生成器模板文件扩展名题处理,扩展名统一增加字母“i”;</li>
+											<li>【功能改造】清理hplus/js/plugins下的插件;</li>
+											<li>【功能改造】将不常改的js组件放进jar包 jeecg-plugin-in,减少eclipse check js;</li>
+											<li>【功能改造】删除无用的代码，减少项目jar依赖;</li>
+											<li>【功能改造】提示信息停留时间延长;</li>
+											<li>【功能改造】防止SQL注入处理;</li>
+											<li>【功能改造】druid扫描排除资源修改,durid数据源配置优化;</li>
+											<li>【功能改造】权限拦截器重构优化</li>
+											<li>【功能改造】重构登录逻辑;</li>
+											<li>【功能改造】列表返回json进行gzip压缩，提高加载速度;</li>
+											<li>【功能改造】在线清空用户登录权限缓存;</li>
+											<li>【功能改造】重构redis缓存功能;</li>
+											<li>【功能改造】在线文档预览效果优化;</li>
+											<li>【功能改造】简化log4j12配置、highchart 图片导出依赖修改采用官仓;</li>
+											<li>【功能改造】演示demo效果优化;</li>
+											<li>【功能改造】jacob升级版本，采用官仓maven;</li>
+											<li>【功能改造】重构online报表，通用方法抽取统一维护[解析字典支持缓存、解析SQL字段、解析SQL字段参数]，优化UI效果;</li>
+											<li>【功能改造】重构webupload上传功能;</li>
+											<li>【功能改造】下拉默认请选择去掉，默认为空，美化页面效果;</li>
+											<li>【功能改造】bootstrap-table表单，列表按钮图标样式和ace，hplus保持统一;</li>
+											<li>【Demo】boostrap报表布局，嵌套多个报表示例;</li>
+											<li>【BUG】ElemetUI版本问题修正;</li>
+											<li>【BUG】naturebt代码生成器单表文件上传、excel导入，一对多验证settimeout问题修正;</li>
+											<li>【BUG】分布式部署不支持redis共享 集群部署问题修正;</li>
+											<li>【BUG】online删除文件confirm弹框z-index不足导致被遮挡;</li>
+											<li>【BUG】代码生成器radio，checkbox宽度样式修正;</li>
+											<li>【BUG】代码生成器多列表级联风格form页面带文件提交弹框不关闭问题修正;</li>
+											<li>【BUG】范围查询double类型字段错误问题;</li>
+											<li>【BUG】消息模板 查询按钮 改为 查看;</li>
+											<li>【BUG】多表头列表 审核弹框大小调整;</li>
+											<li>【BUG】部门二级管理员，部门角色在系统角色列表中显示问题修正;</li>
+											<li>【BUG】online扩展参数用法问题修正;</li>
+											<li>【BUG】UE编辑器图片 回显问题修正;</li>
+											<li>【BUG】图片上传blob类型报错问题修正;</li>
+											<li>【BUG】修改登录逻辑，解决重复执行login问题，简化代码;</li>
+											<li>【BUG】定时任务日志包冲突问题修正;</li>
+											<li>【BUG】替换官方仓库版本freemarker,采用classic_compatible=true解决空指针报错问题;</li>
+											<li>【BUG】黑名单数据排重处理;</li>
+											<li>【BUG】uploadify上传控件被隐藏导致上传失败问题修正;</li>
+											<li>【BUG】单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮问题修正;</li>
+											<li>【BUG】合计金额展示千分位格式 如：61,100.00 显示问题修正;</li>
+											<li>【BUG】vue 采用validform校验，重复校验提交check不住问题修正;</li>
+											<li>【BUG】权限逻辑没有针对组织机构的角色进行控制问题修正;</li>
+											<li>【BUG】online开发,自定义按钮显示表达式不起作用问题修正;</li>
+											<li>【BUG】注释定时任务调度器启动解决抛出异常问题修正;</li>
+											<li>【BUG】element-ui 代码生成器遗留问题修正;</li>
+											<li>【BUG】数据字典项录入字典code重复校验问题修正;</li>
+											<li>【BUG】用户编辑页面，系统角色列表不需要显示接口角色信息;</li>
+											<li>【BUG】一系列论坛网友问题解决;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v53">v3.7.5</a><code class="pull-right">2018.05.17</code>
+                                    </h5>
+                                </div>
+                                <div id="v53" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本提供新一代风格代码生成器模板，采用Vue技术，提供两套精美模板 ElementUI风格、Bootstrap风格，追逐潮流技术支持移动端；</div>
                                         <ol>

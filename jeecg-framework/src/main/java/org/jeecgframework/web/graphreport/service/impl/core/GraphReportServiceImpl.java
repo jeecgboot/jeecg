@@ -69,7 +69,7 @@ public class GraphReportServiceImpl extends CommonServiceImpl implements
 			int page, int rows) {
 		sql = handleElInSQL(sql, params);
 		String querySql = getFullSql(sql,params);
-		log.info("-------------动态报表功能--------querySql--" + querySql);
+		log.debug("-------------动态报表功能--------querySql--" + querySql);
 		List<Map<String,Object>> result = null;
 		if(page==-1 && rows==-1){
 			result = jdbcDao.findForJdbc(querySql);

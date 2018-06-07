@@ -23,6 +23,16 @@
 			tip('<t:mutiLang langKey="common.please.select.two.item"/>');
 			return;
 		}
+
+		var dataId1=rowsData[0].dataId;
+		var dataId2=rowsData[1].dataId;
+		var table1=rowsData[0].tableName;
+		var table2=rowsData[1].tableName;
+		if(dataId1!=dataId2||table1!=table2){
+			tip('请选择相同的数据库表和数据ID进行比较');
+			return;
+		}
+
 		var tableName = rowsData[0].tableName;
 		var dataId = rowsData[0].dataId;
 		var versionNumber1 = rowsData[0].versionNumber;

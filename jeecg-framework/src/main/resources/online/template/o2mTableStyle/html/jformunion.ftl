@@ -60,15 +60,50 @@
 		$("#jform_tab li:first").addClass("active").show(); //Activate first tab  
 		$("#jform_tab .con-wrapper:first").show(); //Show first tab content
 	 
-	 
+	 	<#-- update-begin-author:taoyan date:20180530 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
+		<#if hasFileField == true>
+		var toggleDisplay=function(obj,flag){
+			 var isChrome = window.navigator.userAgent.indexOf("Chrome") >=0;
+			 if(flag){
+				 if(isChrome){
+					 obj.each(function(){
+						 if(this.id=="con-wrapper0"){
+							 this.style="width:1px;height:1px;display:block;opacity:0.01";
+						 }else{
+							 this.style="display:none";
+						 }
+					 });
+				 }else{
+					 obj.hide();
+				 }
+			 }else{
+				 if(isChrome){
+					 obj[0].style="display:block";
+				 }else{
+					 obj.fadeIn();
+				 }
+			 }
+		 }
+		 </#if>
+		 <#-- update-end-author:taoyan date:20180530 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
+	 	
+	 	
 		//On Click Event  
 		$("#jform_tab li").click(function() {  
 	        $("#jform_tab li").removeClass("active"); //Remove any "active" class  
 	        $(this).addClass("active"); //Add "active" class to selected tab  
+	        <#-- update-begin-author:taoyan date:20180530 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
+	        <#if hasFileField == true>
+	        toggleDisplay($("#jform_tab .con-wrapper"),true);
+	        var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content  
+	      	toggleDisplay($(activeTab),false);
+	        <#else>
 	        var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
 	        $("#jform_tab .con-wrapper").hide(); //Hide all tab content  
 	        $(activeTab).fadeIn(); //Fade in the active content
-	        //$(""+activeTab).show();   
+	        //$(""+activeTab).show();
+	        </#if>
+	      	<#-- update-end-author:taoyan date:20180530 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
 	        return false;  
 		});  
 	});

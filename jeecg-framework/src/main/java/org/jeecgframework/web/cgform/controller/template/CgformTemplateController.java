@@ -20,6 +20,7 @@ import jodd.io.ZipUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.jeecgframework.core.annotation.JAuth;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -510,6 +511,7 @@ public class CgformTemplateController extends BaseController {
 	 * @param path
 	 * @param response
 	 */
+	@JAuth
 	@RequestMapping(params = "showPic")
 	public void showPic(HttpServletRequest request,String code, String path,HttpServletResponse response){
 		String defaultPath="default.jpg";

@@ -23,7 +23,7 @@
         <div class="form">
             <label class="Validform_label"> <t:mutiLang langKey="dict.code"/>: </label>
             <input name="typecode" class="inputxt" value="${type.typecode }" datatype="*"
-                   ajaxurl="systemController.do?checkType&code=${type.typecode }&typeGroupCode=${type.TSTypegroup.typegroupcode}">
+                   ajaxurl="systemController.do?checkType&code=${type.typecode }&typeGroupCode=${typegroup.typegroupcode}">
             <span class="Validform_checktip">类型编码在1~10位字符</span>
         </div>
     </fieldset>

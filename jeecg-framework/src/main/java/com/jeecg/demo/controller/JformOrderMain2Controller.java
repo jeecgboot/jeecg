@@ -55,7 +55,7 @@ import com.jeecg.demo.entity.JformOrderMain2Entity;
 import com.jeecg.demo.entity.JformOrderTicket2Entity;
 import com.jeecg.demo.page.JformOrderMain2Page;
 import com.jeecg.demo.service.JformOrderMain2ServiceI;
-import com.jeecg.superquery.util.SuperQueryUtil;
+import org.jeecgframework.web.superquery.util.SuperQueryUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

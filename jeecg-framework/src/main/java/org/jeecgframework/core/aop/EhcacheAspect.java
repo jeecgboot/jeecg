@@ -7,12 +7,14 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.jeecgframework.core.annotation.Ehcache;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -20,23 +22,14 @@ import com.alibaba.fastjson.JSON;
 /**
  * 
  * @author  张代浩
+ * @
  *
  */
 @Component
 @Aspect
 public class EhcacheAspect {
-//	private static Cache dictCache;
-//	private static Cache eternalCache;
-//	
-//	static {
-//		if (eternalCache == null) {
-//			eternalCache = CacheManager.getInstance().getCache("eternalCache");
-//		}
-//		if (dictCache == null) {
-//			dictCache = CacheManager.getInstance().getCache("dictCache");
-//		}
-//	}
-
+	private static final Logger logger = Logger.getLogger(EhcacheAspect.class);
+	
 	@Pointcut("@annotation(org.jeecgframework.core.annotation.Ehcache)")
 	public void simplePointcut() {
 	}
@@ -46,40 +39,42 @@ public class EhcacheAspect {
 	}
 
 	@Around("simplePointcut()")
-	public Object aroundLogCalls(ProceedingJoinPoint joinPoint)
-			throws Throwable {
-
-		Cache eternalCache = CacheManager.getInstance().getCache("eternalCache");
-		Cache dictCache = CacheManager.getInstance().getCache("eternalCache");
-
+	public Object aroundLogCalls(ProceedingJoinPoint joinPoint)throws Throwable {
 		String targetName = joinPoint.getTarget().getClass().toString();
 		String methodName = joinPoint.getSignature().getName();
-		Object[] arguments = joinPoint.getArgs();  
+		Object[] arguments = joinPoint.getArgs();
+		
+		logger.debug("-------ehcache------aspect-----targetclass: "+ targetName);
 		
 		//试图得到标注的Ehcache类
 		@SuppressWarnings("unused")
 		Method[] methods = joinPoint.getTarget().getClass().getMethods();
 		Ehcache flag = null;
-		for(Method m:methods){
-			if(m.getName().equals(methodName)){
-				Class[] tmpCs = m.getParameterTypes();  
-                if(tmpCs.length==arguments.length){  
-                	flag = m.getAnnotation(Ehcache.class);
-    				break; 
-            }  
+		for (Method m : methods) {
+			if (m.getName().equals(methodName)) {
+				Class[] tmpCs = m.getParameterTypes();
+				if (tmpCs.length == arguments.length) {
+					flag = m.getAnnotation(Ehcache.class);
+					break;
+				}
 			}
 		}
 		if(flag==null){
 			return null;
 		}
-		//Ehcache flag =joinPoint.getTarget().getClass().getMethod(methodName).getAnnotation(Ehcache.class);
 		Object result;
 		String cacheKey = getCacheKey(targetName, methodName, arguments);
 		
 		Element element = null;
+		
+		Cache eternalCache = CacheManager.getInstance().getCache("eternalCache");
+		//自定义缓存名字
+		if(oConvertUtils.isNotEmpty(flag.cacheName())){
+			eternalCache = CacheManager.getInstance().getCache(flag.cacheName());
+		}
 		if(flag.eternal()){
 			//永久缓存
-			 element = dictCache.get(cacheKey);
+			 element = eternalCache.get(cacheKey);
 		}else{
 			//临时缓存
 			 element = eternalCache.get(cacheKey);
@@ -96,7 +91,7 @@ public class EhcacheAspect {
 			element = new Element(cacheKey, (Serializable) result);
 			if(flag.eternal()){
 				//永久缓存
-				dictCache.put(element);
+				eternalCache.put(element);
 			}else{
 				//临时缓存
 				eternalCache.put(element);

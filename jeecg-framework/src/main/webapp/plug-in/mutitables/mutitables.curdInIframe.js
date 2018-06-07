@@ -22,6 +22,7 @@
 		var defaults = {
 			isMain:false,
 			isSeq:false,
+			queryCode:"",
 			describe:"",
 			name:"",
 			form:{width:"",height:""},
@@ -31,7 +32,8 @@
 				detail:'',
 				batchDel:'',
 				saveRows:'',
-				excelImport:''
+				excelImport:'',
+				deleteOne:''
 			},
 			afterRowEdit:function(index){}
 		};
@@ -41,9 +43,9 @@
 		var dgthis = "#"+dgname;
 
 		var methods = {
-			test:function(a){console.log(123+a);},
 			//激活tab加载子表数据
 			initListByMain:function (id,isDel){
+				gridname = dgname;
 				if(!isDel){
 					var tempv = $("#"+options.name+"ListMainId").val();
 					if(tempv==id){
@@ -97,19 +99,23 @@
 						options.form.width,options.form.height);
 			},
 			//查FORM
-			detail:function(){
-				var req = options.urls.detail;
-				if(!req){
-					req = options.name+'Controller.do?goUpdate';
-				}
-				detailPms('查看详情',req,dgname,
-						options.form.width,options.form.height);
+			detail:function(id,url){
+				 if(!isNaN(url)){
+					 //因为该函数会默认拼接一个index到参数中,故而此处判断是否是数字,是数字则走doDel
+					 if(!options.urls.detail){
+						 url = options.name+'Controller.do?goUpdate';
+					 }else{
+						 url = options.urls.detail;
+					 }
+				 }
+				url +="&load=detail&id="+id;
+				createdetailwindow('查看详情',url,dgname,options.form.width,options.form.height);
 			},
 			//批量删除
 			batchDel:function(){
-				 var ids = [];
-				 var mainId = $("#"+options.name+"ListMainId").val();
-				 var rows = $(dgthis).datagrid('getSelections');
+				// var ids = [];
+				 //var mainId = $("#"+options.name+"ListMainId").val();
+				 //var rows = $(dgthis).datagrid('getSelections');
 				 var req = options.urls.batchDel;
 				 if(!req){
 					req = options.name+'Controller.do?doBatchDel';
@@ -166,6 +172,27 @@
 				 }
 				 saveData(req,dgname);
 			 },
+			 doFilterit:function(){
+				 if(typeof(eval(dgname+"Filter")) == "function"){        
+			          eval(dgname+"Filter();");
+			     }
+			 },
+			 deleteOne:function(id,url){
+				 if(!isNaN(url)){
+					 //因为该函数会默认拼接一个index到参数中,故而此处判断是否是数字,是数字则走doDel
+					 if(!options.urls.deleteOne){
+						 url = options.name+'Controller.do?doDel';
+					 }else{
+						 url = options.urls.deleteOne;
+					 }
+				 }
+				 if(!options.isMain){
+					 //如果不是主表
+					 delObjPms(id,url);
+				 }else{
+					 deleteMainRecord(id,url);
+				 }
+			 },
 			 //EXCEL导入
 			 excelImport:function(){
 				var mainId ='';
@@ -209,8 +236,13 @@
 				        }
 				    ]
 				});
-			 }
-				
+			 },
+			 superQuery:function(){
+				 if(!!options.queryCode){
+					 eval(dgname+"SuperQuery").call(this,options.queryCode);
+				 }
+			 },
+			 test:function(a){console.log(123+a);}
 		}
 		return methods;
 	}

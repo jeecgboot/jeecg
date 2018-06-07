@@ -1,12 +1,15 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.log4j.Logger;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.StringUtil;
@@ -18,7 +21,9 @@ import org.jeecgframework.core.util.SysThemesUtil;
  *
  */
 public class FormValidationTag extends TagSupport {
+	private static final Logger logger = Logger.getLogger(FormValidationTag.class);
 	private static final long serialVersionUID = 8360534826228271024L;
+	
 	protected String formid = "formobj";// 表单FORM ID
 	protected Boolean refresh = true;
 	protected String callback;// 回调函数
@@ -81,6 +86,9 @@ public class FormValidationTag extends TagSupport {
 	}
 	
 	public int doStartTag() throws JspException {
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//long start = System.currentTimeMillis();
+		//logger.debug("=================Form=====doStartTag==========开始时间:" + sdf.format(new Date()) + "==============================");
 		JspWriter out = null;
 		try {
 			out = this.pageContext.getOut();
@@ -124,11 +132,18 @@ public class FormValidationTag extends TagSupport {
 				e2.printStackTrace();
 			}
 		}
+		//long end = System.currentTimeMillis();
+		//logger.debug("==============Form=====doStartTag=================结束时间:" + sdf.format(new Date()) + "==============================");
+		//logger.debug("===============Form=====doStartTag=================耗时:" + (end - start) + "ms==============================");
+
 		return EVAL_PAGE;
 	}
 
 	
 	public int doEndTag() throws JspException {
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//long start = System.currentTimeMillis();
+		//logger.debug("=================Form=====doEndTag==========开始时间:" + sdf.format(new Date()) + "==============================");
 		StringBuffer sb = null;
 		String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
 
@@ -357,6 +372,10 @@ public class FormValidationTag extends TagSupport {
 			} catch (Exception e2) {
 			}
 		}
+		
+		//long end = System.currentTimeMillis();
+		//logger.debug("==============Form=====doEndTag=================结束时间:" + sdf.format(new Date()) + "==============================");
+		//logger.debug("===============Form=====doEndTag=================耗时:" + (end - start) + "ms==============================");
 		return EVAL_PAGE;
 	}
 

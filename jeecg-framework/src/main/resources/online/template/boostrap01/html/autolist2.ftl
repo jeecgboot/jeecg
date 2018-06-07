@@ -208,7 +208,7 @@
 										<#if x['field_isQuery']=="Y">
 											<#if  (x['field_dictlist']?size >0)>
                                                 <select name = "${x['field_id']}" class="col-sm-8 col-md-8">
-                                                    <option value = "">-- 请选择 --</option>
+                                                    <option value = ""></option>
 													<#list x['field_dictlist']  as xd>
                                                         <option value = "${xd['typecode']}">${xd['typename']}</option>
 													</#list>

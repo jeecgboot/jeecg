@@ -145,12 +145,16 @@ public class CriteriaQuery {
 		this.ordermap = new LinkedHashMap<String, Object>();
 
 	}
+	
+//	 【scott 20180526 删除无用代码|xwork-core】
 	public CriteriaQuery(Class entityClass,DataTables dataTables) {
 		this.curPage = dataTables.getDisplayStart();
 		String[] fieldstring=dataTables.getsColumns().split(",");
-		this.detachedCriteria = DetachedCriteriaUtil
-		.createDetachedCriteria(entityClass, "start", "_table",fieldstring);
-		//this.detachedCriteria = DetachedCriteria.forClass(c);
+
+		this.detachedCriteria = DetachedCriteria.forClass(entityClass);
+		//this.detachedCriteria = DetachedCriteriaUtil.createDetachedCriteria(entityClass, "start", "_table",fieldstring);
+
+		
 		this.field=dataTables.getsColumns();
 		this.entityClass=entityClass;
 		this.dataTables=dataTables;

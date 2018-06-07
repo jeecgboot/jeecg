@@ -139,6 +139,7 @@
 	display:inline-block;
 	vertical-align:middle;
 	text-indent: -999px;
+	overflow:hidden;
 	background:url('icons/down.png') no-repeat center center;
 }
 .tempimg{
@@ -148,6 +149,7 @@
 }
 .tempIMGdiv{
 	margin-top:5px;
+	line-height:18px;
 }
 .tempIMGdiv ul{list-style: none;padding-left:0;}
 .tempIMGdiv ul li{

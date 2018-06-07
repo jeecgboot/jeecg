@@ -27,6 +27,7 @@ import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.JeecgDataAutorUtils;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
@@ -183,11 +184,12 @@ public class CgAutoListController extends BaseController{
 	 * @param request 
 	 * @param response
 	 * @param dataGrid
+	 * @throws Exception 
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "datagrid")
 	public void datagrid(String configId,String page,String field,String rows,String sort,String order, HttpServletRequest request,
-			HttpServletResponse response, DataGrid dataGrid) {
+			HttpServletResponse response, DataGrid dataGrid) throws Exception {
 		Object dataRuleSql =JeecgDataAutorUtils.loadDataSearchConditonSQLString(); //request.getAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL);
 		long start = System.currentTimeMillis();
 		//step.1 获取动态配置
@@ -220,6 +222,9 @@ public class CgAutoListController extends BaseController{
 			if("null".equalsIgnoreCase(parentIdDefault)) {
 				parentIdDefault = null;
 			}
+
+			SqlInjectionUtil.filterContent(treeId);
+
 			if(treeId == null) {
 				treeId = parentIdDefault;
 			}else {
@@ -285,9 +290,19 @@ public class CgAutoListController extends BaseController{
 						}
 						resultMap.put(b.getFieldName(), sb.toString().substring(0, sb.toString().length()-1));
 					}
-					
+
 				}
 			}
+
+			if("Blob".equals(b.getType())) {
+				for(Map<String, Object> resultMap:result){
+					Object obj = resultMap.get(b.getFieldName());
+					if(obj instanceof byte[]) {
+						resultMap.put(b.getFieldName(), new String((byte[])obj,"utf-8"));
+					}
+				}
+			}
+
 		}
 		Long size = cgTableService.getQuerySingleSize(table, field, params);
 		dealDic(result,beans);

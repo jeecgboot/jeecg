@@ -136,5 +136,4 @@
 
 </script>
  </body>
-<script src = "webpage/org/jeecgframework/web/cgform/fillrule/tSFillRule.js"></script>		
 </html>

@@ -337,8 +337,10 @@ public class CommonController extends BaseController {
 		if(oConvertUtils.isEmpty(superQueryCode)){
 			return "no";
 		}
-		String sql = "select count(1) from super_query_main where query_code = '"+superQueryCode+"'";
-		long count = this.systemService.getCountForJdbc(sql);
+
+		String sql = "select count(1) from super_query_main where query_code = ?";
+		long count = this.systemService.getCountForJdbcParam(sql, superQueryCode);
+
 		if(count>0){
 			return "yes";
 		}else{

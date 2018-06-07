@@ -24,12 +24,16 @@
 	</div>
 	<div class="form">
 		<label class="Validform_label"><t:mutiLang langKey="cron.expression"/>:</label> 
-		<input class="inputxt" id="cronExpression" name="cronExpression" value="${timeTaskPage.cronExpression}" datatype="*" style="width:50%"/> 
+		<input class="inputxt" id="cronExpression" name="cronExpression" value="${timeTaskPage.cronExpression}" datatype="*" style="width:50%"/>
+			<a href="http://cron.qqe2.com" target="_blank">
+				[生成Cron表达式]
+			</a>
 		<span class="Validform_checktip"></span>
+		
 	</div>
 	<div class="form">
 		<label class="Validform_label"><t:mutiLang langKey="common.task.className"/>:</label> 
-		<input class="inputxt" id="className" name="className" value="${timeTaskPage.className}" datatype="*" style="width:50%"/> 
+		<input class="inputxt" id="className" name="className" value="${timeTaskPage.className}" datatype="*" style="width:50%" /> 
 		<span class="Validform_checktip"></span>
 	</div>
 	<div class="form">

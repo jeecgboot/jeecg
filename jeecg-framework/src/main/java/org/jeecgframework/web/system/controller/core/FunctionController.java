@@ -154,9 +154,11 @@ public class FunctionController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		function = systemService.getEntity(TSFunction.class, function.getId());
 		message = MutiLangUtil.paramDelSuccess("common.menu");
-		systemService
-				.updateBySqlString("delete from t_s_role_function where functionid='"
-						+ function.getId() + "'");
+
+//		systemService
+//				.updateBySqlString("delete from t_s_role_function where functionid='"
+//						+ function.getId() + "'");
+		systemService.executeSql("delete from t_s_role_function where functionid=?", function.getId());
 
 		TSFunction parent = function.getTSFunction();
 		try{
@@ -731,13 +733,14 @@ public class FunctionController extends BaseController {
 	}
 
 	public int justHaveDataRule(TSDataRule dataRule) {
-		String sql = "SELECT id FROM t_s_data_rule WHERE functionId='"+dataRule.getTSFunction()
-				.getId()+"' AND rule_column='"+dataRule.getRuleColumn()+"' AND rule_conditions='"+dataRule
-				.getRuleConditions()+"'";
 
-		sql+=" AND rule_column IS NOT NULL AND rule_column <> ''";
+		String column = dataRule.getRuleColumn();
+		if(oConvertUtils.isEmpty(column)){
+			return 0;
+		}
+		String sql = "SELECT count(*) FROM t_s_data_rule WHERE functionId = ? and rule_column = ? AND rule_conditions = ?";
+		Long count = this.systemService.getCountForJdbcParam(sql, dataRule.getTSFunction().getId(),column,dataRule.getRuleConditions());
+		return count.intValue();
 
-		List<String> hasOperList = this.systemService.findListbySql(sql); 
-		return hasOperList.size();
 	}
 }

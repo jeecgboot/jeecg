@@ -1,7 +1,5 @@
 <#list subtables as key>
-
 #segment#${subsG['${key}'].entityName}Entity.java
-
 package ${bussiPackage}.${subsG['${key}'].entityPackage}.entity;
 
 import java.math.BigDecimal;

@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 
 import org.jeecgframework.core.online.def.CgReportConstant;
 import org.jeecgframework.core.util.DBTypeUtil;
+import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 
 /**
@@ -54,7 +55,10 @@ public class CgReportQueryParamUtil
 				e.printStackTrace();
 				return;
 			} 
-			sql_inj_throw(value);
+
+//			sql_inj_throw(value);
+			SqlInjectionUtil.filterContent(value);
+
 			value = applyType(filedType,value);
 			if(!StringUtil.isEmpty(value)){
 				if(value.contains("*")){
@@ -68,10 +72,16 @@ public class CgReportQueryParamUtil
 		}else if("group".equals(queryMode)){
 			//范围查询组装
 			String begin = request.getParameter(filedName+"_begin");
-			sql_inj_throw(begin);
+
+//			sql_inj_throw(begin);
+			SqlInjectionUtil.filterContent(begin);
+
 			begin= applyType(filedType,begin);
 			String end = request.getParameter(filedName+"_end");
-			sql_inj_throw(end);
+
+//			sql_inj_throw(end);
+			SqlInjectionUtil.filterContent(end);
+
 			end= applyType(filedType,end);
 			if(!StringUtil.isEmpty(begin)){
 				String re = CgReportConstant.OP_RQ+begin;
@@ -155,35 +165,36 @@ public class CgReportQueryParamUtil
 			return datetime;
 		}
 	}
-	
-	/**
-	 * 防止sql注入
-	 * @param str 输入sql
-	 * @return 是否存在注入关键字
-	 */
-	public static boolean sql_inj(String str) {
-		if(StringUtil.isEmpty(str)){
-			return false;
-		}
-		String inj_str = "'|and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|;|or|+|,";
-//		String inj_str = "'|and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|;|or|-|+|,";
-		String inj_stra[] = inj_str.split("\\|");
-		for (int i = 0; i < inj_stra.length; i++) {
-			if (str.indexOf(" "+inj_stra[i]+" ") >= 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-	/**
-	 * 当存在sql注入时抛异常
-	 * @param str 输入sql
-	 */
-	public static void sql_inj_throw(String str){
-		if(sql_inj(str)){
-			throw new RuntimeException("请注意,填入的参数可能存在SQL注入!");
-		}
-	}
+
+//	/**
+//	 * 防止sql注入
+//	 * @param str 输入sql
+//	 * @return 是否存在注入关键字
+//	 */
+//	public static boolean sql_inj(String str) {
+//		if(StringUtil.isEmpty(str)){
+//			return false;
+//		}
+//		String inj_str = "'|and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|;|or|+|,";
+////		String inj_str = "'|and|exec|insert|select|delete|update|count|chr|mid|master|truncate|char|declare|;|or|-|+|,";
+//		String inj_stra[] = inj_str.split("\\|");
+//		for (int i = 0; i < inj_stra.length; i++) {
+//			if (str.indexOf(" "+inj_stra[i]+" ") >= 0) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	/**
+//	 * 当存在sql注入时抛异常
+//	 * @param str 输入sql
+//	 */
+//	public static void sql_inj_throw(String str){
+//		if(sql_inj(str)){
+//			throw new RuntimeException("请注意,填入的参数可能存在SQL注入!");
+//		}
+//	}
+
 	
 	/**
 	 * 根据字段类型 进行处理

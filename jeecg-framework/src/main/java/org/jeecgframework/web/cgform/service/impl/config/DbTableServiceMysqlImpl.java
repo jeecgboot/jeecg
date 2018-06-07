@@ -51,12 +51,12 @@ public class DbTableServiceMysqlImpl implements DbTableServiceI {
 		return " DROP TABLE IF EXISTS "+tableProperty.getTableName()+" ;";
 	}
 	
-	
+	@Deprecated
 	public String updateTableSQL(CgFormHeadEntity cgFormHead, JdbcTemplate jdbcTemplate) {
 		String sql = "select column_name,data_type,column_comment,numeric_precision,numeric_scale,character_maximum_length," +
-				"is_nullable nullable from information_schema.columns where table_name =  '"+cgFormHead.getTableName()+"'and table_schema = '"+CodeResourceUtil.DATABASE_NAME+"';";
+				"is_nullable nullable from information_schema.columns where table_name = ?  and table_schema = ?;";
 
-		Map<String, Object> fieldMap =  DbTableUtil.getColumnMap(jdbcTemplate.queryForList(sql));
+		Map<String, Object> fieldMap =  DbTableUtil.getColumnMap(jdbcTemplate.queryForList(sql,cgFormHead.getTableName(),CodeResourceUtil.DATABASE_NAME));
 		StringBuilder sb = new StringBuilder();
 		sb.append(createChangeTableSql(cgFormHead));
 		CgFormFieldEntity column,agoColumn = null;

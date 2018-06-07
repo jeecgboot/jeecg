@@ -16,5 +16,5 @@ import org.jeecgframework.core.enums.Permission;
 @Documented
 public @interface JAuth {
 	String value() default "";
-	Permission auth() default Permission.NORMAL;
+	Permission auth() default Permission.SKIP_AUTH;
 }

@@ -23,6 +23,7 @@ import org.jeecgframework.web.system.service.SystemService;
  * @Title:MenuButtonTag
  * @description:新权限JSP标签，通过标签的 “权限标示” 控制代码片段是否加载
  * @version V1.0
+ * 【船舶专用】
  * 权限判断 name-code
  * 1.没有配置权限规则 则直接加载
  * 2.配置了但是没有勾选 不加载
@@ -311,14 +312,14 @@ public class MenuButtonsTag extends TagSupport{
 	 */
 	private void addAdvancedQuery(StringBuffer sb,String queryCode,String tableName) {
 		MenuButtonsEnum menu = MenuButtonsEnum.getMenuByCode("superQuery");
-		sb.append("<a title=\""+menu.getTitle()+"\" onclick=\"superQuery('"+codes+"')\" href=\"####\" class=\"btn-menu "+menu.getIcon()+" menu-more\" ></a>");
-		
-		FreemarkerHelper free = new FreemarkerHelper();
+		sb.append("<a title=\""+menu.getTitle()+"\" onclick=\"superQuery()\" href=\"####\" class=\"btn-menu "+menu.getIcon()+" menu-more\" ></a>");
+		//onclick=\"superQuery('"+codes+"','"+tableName+"')\"
+		/*FreemarkerHelper free = new FreemarkerHelper();
 		Map<String, Object> mainConfig = new HashMap<String, Object>();
 		mainConfig.put("queryCode", queryCode);
 		mainConfig.put("tableName", tableName);
 		String complexSuperQuery = free.parseTemplate("/org/jeecgframework/tag/ftl/complexSuperQueryForPage.ftl", mainConfig);
-		appendLine(sb,complexSuperQuery);
+		appendLine(sb,complexSuperQuery);*/
 	}
 	private void appendLine(StringBuffer sb,String str) {
 		String format = "\r\n"; //调试  格式化

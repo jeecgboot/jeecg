@@ -84,8 +84,8 @@ public final class Globals {
 	 /**
 	  * 权限类型
 	  */
-	 public static final Short Function_TYPE_PAGE=0;//页面（菜单：菜单类型）
-	 public static final Short Function_TYPE_FROM=1;//表单/或者弹出（菜单：访问类型）
+	 public static final Short Function_TYPE_PAGE=0;//菜单：菜单类型
+	 public static final Short Function_TYPE_FROM=1;//菜单：权限类型(权限使用，不作为菜单首页加载)
 	 /**
 	  * 没有勾选的操作code
 	  */

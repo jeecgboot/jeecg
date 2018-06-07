@@ -175,3 +175,7 @@ tbody > tr > td[align='right']{
 	background: #BDBEC0;
 	background: -webkit-gradient(linear, left top, left bottom, from(#BDBEC0), to(#BDBEC0));
 }
+/*--update-begin-author:taoyan for：上传控件样式被app.css搞坏了---*/
+.webuploader-container{top:5px !important;}
+.webuploader-container>.webuploader-pick{line-height:18px;}
+/*--update-end-author:taoyan for：上传控件样式被app.css搞坏了--*/

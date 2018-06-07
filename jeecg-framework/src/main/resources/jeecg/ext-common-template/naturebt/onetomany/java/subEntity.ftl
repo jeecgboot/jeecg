@@ -30,8 +30,8 @@ import org.jeecgframework.poi.excel.annotation.Excel;
  */
 @Entity
 @Table(name = "${subsG['${key}'].tableName}", schema = "")
-<#if subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
-@SequenceGenerator(name="SEQ_GEN", sequenceName="${subsG['${key}'].cgformConfig.cgFormHead.jformPkSequence}")  
+<#if subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
+@SequenceGenerator(name="SEQ_GEN", sequenceName="${subsG['${key}'].cgFormHead.jformPkSequence}")  
 </#if>
 @SuppressWarnings("serial")
 public class ${subsG['${key}'].entityName}Entity implements java.io.Serializable {
@@ -58,14 +58,14 @@ public class ${subsG['${key}'].entityName}Entity implements java.io.Serializable
 	 *@return: ${po.type}  ${po.content}
 	 */
 	<#if po.fieldName == jeecg_table_id>
-	<#if subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "UUID">
+	<#if subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "UUID">
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-	<#elseif subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "NATIVE">
+	<#elseif subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "NATIVE">
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	<#elseif subsG['${key}'].cgformConfig.cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
+	<#elseif subsG['${key}'].cgFormHead.jformPkType?if_exists?html == "SEQUENCE">
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SEQ_GEN")  
 	<#else>

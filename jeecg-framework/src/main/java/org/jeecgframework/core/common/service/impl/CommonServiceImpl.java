@@ -437,7 +437,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Transactional(readOnly = true)
-	public Long getCountForJdbcParam(String sql, Object[] objs) {
+	public Long getCountForJdbcParam(String sql, Object... objs) {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
 

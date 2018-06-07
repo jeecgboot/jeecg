@@ -16,7 +16,8 @@ function printview(){
 </script>
 </head>
 <body style="overflow-y:hidden" scroll="no">
-<div class="printdiv"><t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jeecgDemoController.do?save">
+<div class="printdiv">
+ <t:formvalid formid="formobj" dialog="true" usePlugin="password" layout="table" action="jeecgDemoController.do?save">
 	<input id="id" name="id" type="hidden" value="${jgDemo.id }">
 	<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
 		<tr>
@@ -70,20 +71,6 @@ function printview(){
 				<fmt:formatDate value='${jgDemo.createDate}' type="date" pattern="yyyy-MM-dd HH:m:ss"/>
 			</td>
 		</tr>
-		
-		<%--  <tr>
-			<td align="right"><label class="Validform_label"> 个人介绍: </label></td>
-			<td class="value">
-						<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
-						<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
-				    	<textarea name="content" readonly="readonly" id="content" style="width: 650px;height:300px">${jgDemo.content}</textarea>
-					    <script type="text/javascript">
-					        var editor = UE.getEditor('content',{onready:function(){
-					        	//this.setDisabled();
-					        }});
-					    </script>
-			</td>
-		</tr> --%>
 		
 	</table>
 </t:formvalid></div>

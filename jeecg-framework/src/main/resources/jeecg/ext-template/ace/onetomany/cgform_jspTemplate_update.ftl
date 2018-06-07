@@ -528,7 +528,7 @@
 	  			 });
 	  		   }
 	  		});
-	  	})
+	  	});
 	  	
 	  		<#-- update--begin--author:zhangjiaqiang date:20170531 for:附件资源删除处理 -->
 		  	/**

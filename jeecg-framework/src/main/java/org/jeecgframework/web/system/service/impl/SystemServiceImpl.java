@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.annotation.Ehcache;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.Globals;
@@ -30,6 +32,7 @@ import org.jeecgframework.web.system.pojo.base.TSLog;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleOrg;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
@@ -43,6 +46,8 @@ import org.springframework.util.StringUtils;
 
 @Service("systemService")
 public class SystemServiceImpl extends CommonServiceImpl implements SystemService {
+	private static final Logger logger = Logger.getLogger(SystemServiceImpl.class);
+	
 	@Autowired
 	private JeecgDictDao jeecgDictDao;
 
@@ -215,79 +220,9 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 			}
 		}
 		return operationCodes;
-	}
+	}	
 
-	/**
-	 * 【规则： 反控制-查询授权的权限按钮Code；即授权的人进行按钮控制】
-	 * 根据用户ID 和 菜单Id 获取 具有操作权限的按钮Codes
-	 * @param roleId 角色ID
-	 * @param functionId 菜单ID
-	 * @return
-	 */
-	@Transactional(readOnly = true)
-	public Set<String> getOperationCodesByUserIdAndFunctionId(String userId, String functionId) {
-		Set<String> operationCodes = new HashSet<String>();
-		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", userId);
-		for (TSRoleUser ru : rUsers) {
-			TSRole role = ru.getTSRole();
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
-			cq1.add();
-			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
-			if (null != rFunctions && rFunctions.size() > 0) {
-				TSRoleFunction tsRoleFunction = rFunctions.get(0);
-				if (null != tsRoleFunction.getOperation()) {
-					String[] operationArry = tsRoleFunction.getOperation().split(",");
-					for (int i = 0; i < operationArry.length; i++) {
-						operationCodes.add(operationArry[i]);
-					}
-				}
-			}
-		}
-		return operationCodes;
-	}
-
-	/**
-	 * 【规则： 查询未授权的页面控件权限（button、表单控件）】
-	 *  @param userId 用户ID
-	 *  @param functionId 菜单ID
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<TSOperation> getOperationsByUserIdAndFunctionId(TSUser currLoginUser, String functionId) {
-		String hql="FROM TSOperation where functionid = '"+functionId+"'";
-		List<TSOperation> operations = findHql(hql);
-		if(operations == null || operations.size()<1){
-			return null;
-		}
-		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", currLoginUser.getId());
-		for(TSRoleUser ru : rUsers){
-			TSRole role = ru.getTSRole();
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
-			cq1.add();
-			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
-			if (null != rFunctions && rFunctions.size() > 0) {
-				TSRoleFunction tsRoleFunction = rFunctions.get(0);
-				if (oConvertUtils.isNotEmpty(tsRoleFunction.getOperation())) {
-					String[] operationArry = tsRoleFunction.getOperation().split(",");
-					for (int i = 0; i < operationArry.length; i++) {
-						for(int j=0;j<operations.size();j++){
-							if(operationArry[i].equals(operations.get(j).getId())){
-								operations.remove(j);
-								break;
-							}
-						}
-						
-					}
-				}
-			}
-		}
-		return operations;
-	}
-
+	
 	/**
 	 * 获取页面控件权限控制的
 	 * JS片段
@@ -390,8 +325,7 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
     }
 
 	@Transactional(readOnly = true)
-	public Set<String> getOperationCodesByRoleIdAndruleDataId(String roleId,
-			String functionId) {
+	public Set<String> getDataRuleIdsByRoleIdAndFunctionId(String roleId,String functionId) {
 		Set<String> operationCodes = new HashSet<String>();
 		TSRole role = commonDao.get(TSRole.class, roleId);
 		CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
@@ -411,31 +345,6 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return operationCodes;
 	}
 
-	@Transactional(readOnly = true)
-	public Set<String> getOperationCodesByUserIdAndDataId(TSUser currLoginUser,
-			String functionId) {
-		// TODO Auto-generated method stub
-		Set<String> dataRulecodes = new HashSet<String>();
-		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", currLoginUser.getId());
-		for (TSRoleUser ru : rUsers) {
-			TSRole role = ru.getTSRole();
-			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
-			cq1.eq("TSRole.id", role.getId());
-			cq1.eq("TSFunction.id", functionId);
-			cq1.add();
-			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
-			if (null != rFunctions && rFunctions.size() > 0) {
-				TSRoleFunction tsRoleFunction = rFunctions.get(0);
-				if (oConvertUtils.isNotEmpty(tsRoleFunction.getDataRule())) {
-					String[] operationArry = tsRoleFunction.getDataRule().split(",");
-					for (int i = 0; i < operationArry.length; i++) {
-						dataRulecodes.add(operationArry[i]);
-					}
-				}
-			}
-		}
-		return dataRulecodes;
-	}
 	/**
 	 * 加载所有图标
 	 * @return
@@ -467,7 +376,13 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 
 		int versionNumber = 0;
 
-		Integer integer = commonDao.singleResult("select max(versionNumber) from TSDatalogEntity where tableName = '" + tableName + "' and dataId = '" + dataId + "'");
+		Integer integer = null;
+		String sql = "select max(VERSION_NUMBER) as mvn from t_s_data_log where TABLE_NAME = ? and DATA_ID = ?";
+		Map<String,Object> maxVersion = commonDao.findOneForJdbc(sql, tableName ,dataId);
+		if(maxVersion.get("mvn")!=null){
+			integer = Integer.parseInt(maxVersion.get("mvn").toString());
+		}
+
 		if (integer != null) {
 			versionNumber = integer.intValue();
 		}
@@ -576,4 +491,186 @@ public class SystemServiceImpl extends CommonServiceImpl implements SystemServic
 		return dataRuleCodes;
 	}
 
+	/**
+	 * 【AuthInterceptor】根据用户请求URL，查询数据库中对应的菜单ID
+	 */
+	@Override
+	@Ehcache(cacheName="sysAuthCache")
+	public String getFunctionIdByUrl(String url,String menuPath) {
+		//查询请求对应的菜单ID
+		//解决rest风格下 权限失效问题
+		String functionId="";
+		String realRequestPath = null;
+		if(url.endsWith(".do")||url.endsWith(".action")){
+			realRequestPath=menuPath;
+		}else {
+			realRequestPath=url;
+		}
+		
+		//----自定义表单页面控件权限控制---------------
+		if(realRequestPath.indexOf("autoFormController/af/")>-1 && realRequestPath.indexOf("?")!=-1){
+			realRequestPath = realRequestPath.substring(0, realRequestPath.indexOf("?"));
+		}
+		List<TSFunction> functions = this.findByProperty(TSFunction.class, "functionUrl", realRequestPath);
+		if (functions.size()>0){
+			functionId = functions.get(0).getId();
+		}
+		logger.debug("-----[ 读取数据库获取访问请求的菜单ID ]-------functionId: "+functionId +"------ url: "+url+"-----menuPath: "+menuPath);
+		return functionId;
+	}
+	
+	/**
+	 * 【AuthInterceptor】判断用户是否有菜单访问权限
+	 * @param requestPath       用户请求URL
+	 * @param clickFunctionId   菜单ID(未使用)
+	 * @param userid  			用户id
+	 * @param orgId   			用户登录机构ID
+	 * @return
+	 */
+	@Ehcache(cacheName="sysAuthCache")
+	public boolean loginUserIsHasMenuAuth(String requestPath,String clickFunctionId,String userid,String orgId){
+        //step.1 先判断请求是否配置菜单，没有配置菜单默认不作权限控制[注意：这里不限制权限类型菜单]
+        String hasMenuSql = "select count(*) from t_s_function where functiontype = 0 and functionurl = ?";
+        Long hasMenuCount = this.getCountForJdbcParam(hasMenuSql,requestPath);
+    	logger.debug("-----[ 读取数据库判断访问权限 ]-------requestPath----------"+requestPath+"------------hasMenuCount--------"+ hasMenuCount);
+        if(hasMenuCount<=0){
+        	return true;
+        }
+        
+        //step.2 判断菜单是否有角色权限
+        Long authSize = Long.valueOf(0);
+		String sql = "SELECT count(*) FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
+					" WHERE f.id=rf.functionid AND rf.roleid=ru.roleid AND " +
+					"ru.userid=? AND f.functionurl = ?";
+		authSize = this.getCountForJdbcParam(sql,userid,requestPath);
+		if(authSize <=0){
+			//step.3 判断菜单是否有组织机构角色权限
+            Long orgAuthSize = Long.valueOf(0);
+            String functionOfOrgSql = "SELECT count(*) from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
+                    "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
+                    "AND ro.org_id=? AND f.functionurl = ?";
+            orgAuthSize = this.getCountForJdbcParam(functionOfOrgSql,orgId,requestPath);
+			return orgAuthSize > 0;
+        }else{
+			return true;
+		}
+	}
+	
+	/**
+	 * 【AuthInterceptor】获取登录用户数据权限IDS
+	 */
+	@Ehcache(cacheName="sysAuthCache")
+	@Transactional(readOnly = true)
+	public Set<String> getLoginDataRuleIdsByUserId(String userId,String functionId,String orgId) {
+		Set<String> dataRuleIds = new HashSet<String>();
+		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", userId);
+		for (TSRoleUser ru : rUsers) {
+			TSRole role = ru.getTSRole();
+			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+			cq1.eq("TSRole.id", role.getId());
+			cq1.eq("TSFunction.id", functionId);
+			cq1.add();
+			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
+			if (null != rFunctions && rFunctions.size() > 0) {
+				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				if (oConvertUtils.isNotEmpty(tsRoleFunction.getDataRule())) {
+					String[] dataRuleArry = tsRoleFunction.getDataRule().split(",");
+					for (int i = 0; i < dataRuleArry.length; i++) {
+						dataRuleIds.add(dataRuleArry[i]);
+					}
+				}
+			}
+		}
+
+		List<TSRoleOrg> tsRoleOrg = findByProperty(TSRoleOrg.class, "tsDepart.id", orgId);
+		for (TSRoleOrg roleOrg : tsRoleOrg) {
+			TSRole role = roleOrg.getTsRole();
+			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+			cq1.eq("TSRole.id", role.getId());
+			cq1.eq("TSFunction.id", functionId);
+			cq1.add();
+			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
+			if (null != rFunctions && rFunctions.size() > 0) {
+				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				if (oConvertUtils.isNotEmpty(tsRoleFunction.getDataRule())) {
+					String[] dataRuleArry = tsRoleFunction.getDataRule().split(",");
+					for (int i = 0; i < dataRuleArry.length; i++) {
+						dataRuleIds.add(dataRuleArry[i]);
+					}
+				}
+			}
+		}
+
+		logger.debug("-----[ 读取数据库获取数据权限集合IDS ]-------dataRuleIds: "+dataRuleIds+"--------userId: "+userId+"------functionId: "+ functionId);
+		return dataRuleIds;
+	}
+	
+	/**
+	 * 【AuthInterceptor】获取登录用户的页面控件权限（表单权限、按钮权限）
+	 * {逻辑说明： 查询菜单的页面控件权限，排除授权用户的页面控件权限，剩下未授权的页面控件权限}
+	 *  @param userId 		用户ID
+	 *  @param functionId 	菜单ID
+	 */
+	@Override
+	@Ehcache(cacheName="sysAuthCache")
+	@Transactional(readOnly = true)
+	public List<TSOperation> getLoginOperationsByUserId(String userId, String functionId, String orgId) {
+		String hql="FROM TSOperation where functionid = ?";
+		List<TSOperation> operations = findHql(hql,functionId);
+		if(operations == null || operations.size()<1){
+			return null;
+		}
+		List<TSRoleUser> rUsers = findByProperty(TSRoleUser.class, "TSUser.id", userId);
+		
+		for(TSRoleUser ru : rUsers){
+			TSRole role = ru.getTSRole();
+			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+			cq1.eq("TSRole.id", role.getId());
+			cq1.eq("TSFunction.id", functionId);
+			cq1.add();
+			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
+			if (null != rFunctions && rFunctions.size() > 0) {
+				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				if (oConvertUtils.isNotEmpty(tsRoleFunction.getOperation())) {
+					String[] operationArry = tsRoleFunction.getOperation().split(",");
+					for (int i = 0; i < operationArry.length; i++) {
+						for(int j=0;j<operations.size();j++){
+							if(operationArry[i].equals(operations.get(j).getId())){
+								operations.remove(j);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		List<TSRoleOrg> tsRoleOrgs = findByProperty(TSRoleOrg.class, "tsDepart.id", orgId);
+		for (TSRoleOrg tsRoleOrg : tsRoleOrgs) {
+			TSRole role = tsRoleOrg.getTsRole();
+			CriteriaQuery cq1 = new CriteriaQuery(TSRoleFunction.class);
+			cq1.eq("TSRole.id", role.getId());
+			cq1.eq("TSFunction.id", functionId);
+			cq1.add();
+			List<TSRoleFunction> rFunctions = getListByCriteriaQuery(cq1, false);
+			if (null != rFunctions && rFunctions.size() > 0) {
+				TSRoleFunction tsRoleFunction = rFunctions.get(0);
+				if (oConvertUtils.isNotEmpty(tsRoleFunction.getOperation())) {
+					String[] operationArry = tsRoleFunction.getOperation().split(",");
+					for (int i = 0; i < operationArry.length; i++) {
+						for (int j = 0; j < operations.size(); j++) {
+							if (operationArry[i].equals(operations.get(j).getId())) {
+								operations.remove(j);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		
+		logger.debug("-----[ 读取数据库获取操作权限集合operations ]-------operations: "+operations+"-------userId: "+userId+"------functionId: "+ functionId);
+		return operations;
+	}
 }

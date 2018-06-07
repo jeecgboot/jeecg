@@ -36,12 +36,17 @@ public class CgformButtonServiceImpl extends CommonServiceImpl implements Cgform
 	public List<CgformButtonEntity> checkCgformButton(CgformButtonEntity cgformButtonEntity) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformButtonEntity t");
-		hql.append(" where t.formId='").append(cgformButtonEntity.getFormId()).append("'");
-		hql.append(" and  t.buttonCode ='").append(cgformButtonEntity.getButtonCode()).append("'");
+
+		hql.append(" where t.formId=?");
+		hql.append(" and  t.buttonCode =?");
+		List<CgformButtonEntity> list = null;
 		if(cgformButtonEntity.getId()!=null){
-			hql.append(" and t.id !='").append(cgformButtonEntity.getId()).append("'");
+			hql.append(" and t.id !=?");
+			list = this.findHql(hql.toString(),cgformButtonEntity.getFormId(),cgformButtonEntity.getButtonCode(),cgformButtonEntity.getId());
+		}else{
+			list = this.findHql(hql.toString(),cgformButtonEntity.getFormId(),cgformButtonEntity.getButtonCode());
 		}
-		List<CgformButtonEntity> list = this.findHql(hql.toString());
+
 		return list;
 	}
 

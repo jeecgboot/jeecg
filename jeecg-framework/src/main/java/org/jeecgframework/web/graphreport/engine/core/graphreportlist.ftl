@@ -43,7 +43,7 @@ ${config_iframe}
 				        </script>
 					<#else>
 						<select name = "${x['field_name']}" WIDTH="100" style="width: 104px" <#if  (x['field_dictlist']?size >10)>class="easyui-combobox"</#if>>
-						<#if  (x['field_dictlist']?size <= 10)><option value = "">-- 请选择 --</option></#if>
+						<#if  (x['field_dictlist']?size <= 10)><option value = ""></option></#if>
 						<#if  (x['field_dictlist']?size > 10)><option value = ""></option></#if>
 						<#list x['field_dictlist']  as xd>
 							<option value = "${xd['typecode']}">${xd['typename']}</option>

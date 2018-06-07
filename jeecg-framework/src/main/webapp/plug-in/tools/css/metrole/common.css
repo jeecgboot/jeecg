@@ -9,6 +9,11 @@ div.formDetails label input { border : 1px solid #54A5D5; padding:2px; }
 div.formDetails label textarea,
 /*update-begin--Author:scott  Date:20171121 for：下拉框默认长度改成120px--------------------*/
 select {border : 1px solid #D7D7D7; padding:6px; width:120px; border-radius: 3px;padding: 4.5px;}
+
+/*update-begin--Author:scott  Date:20180605 for：下拉值颜色修改--------------------*/
+option{color: #000;}
+/*update-end--Author:scott  Date:20180605 for：下拉值颜色修改--------------------*/
+
 /*update-end--Author:scott  Date:20171121 for：下拉框默认长度改成120px--------------------*/
 /*update-begin--Author:xuelin  Date:20171116 for：TASK #2417 【样式】表单选中效果样式 1，下拉 2，文本框--------------------*/
 select:focus {border : 1px solid #76B4AC !important;outline:none !important;}
@@ -66,6 +71,10 @@ select:focus {
      background-color: #fafafa;
      color: #007465;
 }
+
+/*update-begin--Author:taoyan  Date:20180604 for：bootstrap-table操作列按钮需添加一个手势样式-- */
+a.ace_button{text-decoration:none;cursor: pointer;}
+/*update-end--Author:taoyan  Date:20180604 for：bootstrap-table操作列按钮需添加一个手势样式-- */
 /*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
 /*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
 a[class="ace_button"]:hover{ color:#DDDDDD !important; text-decoration:none;}

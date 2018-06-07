@@ -1,1 +1,1 @@
-update ${cgFormName} set ${cgFormField} = '${fileUrl}' where id='${cgFormId}'
+update ${cgFormName} set ${cgFormField} = :fileUrl where id= :cgFormId

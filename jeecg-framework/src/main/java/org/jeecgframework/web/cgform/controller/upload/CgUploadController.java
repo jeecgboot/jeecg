@@ -34,7 +34,6 @@ import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -136,10 +135,8 @@ public class CgUploadController extends BaseController {
 			boolean updateFlag = false;
 			if(path.equals(realPath)){
 				//获取这个关联的其他文件信息
-				String hql = "from CgUploadEntity where cgformId = '"+file.getCgformId()+"' "
-						+ " and cgformField = '"+file.getCgformField()+"' "
-						+ " and cgformName = '"+file.getCgformName()+"'";
-				List<CgUploadEntity> uploadList = systemService.findHql(hql);
+				String hql = "from CgUploadEntity where cgformId = ?  and cgformField = ?  and cgformName = ?";
+				List<CgUploadEntity> uploadList = systemService.findHql(hql,file.getCgformId(),file.getCgformField(),file.getCgformName());
 				if(uploadList != null && !uploadList.isEmpty() && uploadList.size() > 1){
 					for (CgUploadEntity cgUploadEntity : uploadList) {
 						if(!file.getId().equals(cgUploadEntity.getId())){

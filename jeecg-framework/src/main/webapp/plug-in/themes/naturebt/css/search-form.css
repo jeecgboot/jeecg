@@ -84,3 +84,8 @@ a.l-btn:hover span.l-btn-left{background-color: #f7f5f5 !important;}
     .datagrid .panel-body {overflow: auto !important;}
     .search-control {width: 98%;}
 }
+/* update-begin--Author: Yandong  Date:20180529 for：TASK #2744 【问题确认】论坛问题测试确认 */
+.datagrid .panel-body{
+    overflow-y: auto;
+}
+/* update-end--Author: Yandong  Date:20180529 for：TASK #2744 【问题确认】论坛问题测试确认 */

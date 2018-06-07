@@ -1,14 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.7.5-beta</version>
+	<version>3.7.6</version>
 	<packaging>war</packaging>
+	
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <codegenerate.version>3.6.3</codegenerate.version>
-        <minidao.version>1.6.2</minidao.version>
+        <minidao.version>1.6.4</minidao.version>
 
 		<guava.version>16.0.1</guava.version>
 		<spring.version>4.0.9.RELEASE</spring.version>
@@ -45,7 +45,7 @@
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
         <commons-email.version>1.2</commons-email.version>
-		<commons-logging.version>1.0.4</commons-logging.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
 		<commons-logging-api.version>1.1</commons-logging-api.version>
 		<commons-validator.version>1.3.1</commons-validator.version>
 		<ehcache.version>2.4.3</ehcache.version>
@@ -61,7 +61,7 @@
 		<proxool.version>0.9.1</proxool.version>
 		<commons-pool.version>1.6</commons-pool.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
-		<druid.version>0.2.9</druid.version>
+		<druid.version>1.1.9</druid.version>
         <mysql.version>5.1.27</mysql.version>
         <!-- sqlserver 2008 -->
         <sqlserver.version>4.0</sqlserver.version>
@@ -81,8 +81,8 @@
 
         <!-- java生成缩略图 -->
         <thumbnailator.version>0.4.6</thumbnailator.version>
-		<pinyin4j.version>2.5.0</pinyin4j.version>
-		<org.quartz.version>1.6.2</org.quartz.version>
+		<pinyin4j.version>2.5.1</pinyin4j.version>
+		<org.quartz.version>2.3.0</org.quartz.version>
 		<activation.version>1.1.1</activation.version>
 		<aopalliance.version>1.0</aopalliance.version>
 		<xstream.version>1.4.4</xstream.version>
@@ -96,6 +96,13 @@
 		<jedis.version>2.9.0</jedis.version>
 		<webserver.port>8080</webserver.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- jeecg-p3-core -->
+		<jeecg-p3-core.version>1.0.0</jeecg-p3-core.version>
+		<!-- jeecg-p3-biz 业务插件 -->
+		<jeecg-p3-biz-demo.version>1.0.2</jeecg-p3-biz-demo.version>
+		<jeecg-p3-biz-chat.version>1.0.4</jeecg-p3-biz-chat.version>
+		<jeecg-p3-biz-mail.version>1.0.0</jeecg-p3-biz-mail.version>
 	</properties>
 
 	<!-- 设定主仓库，按设定顺序进行查找  -->
@@ -146,22 +153,12 @@
 			<artifactId>codegenerate</artifactId>
 			<version>${codegenerate.version}</version>
 			<scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.3-20180503.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.3-20180606.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
 			<artifactId>minidao-pe</artifactId>
 			<version>${minidao.version}</version>
-			<exclusions>
-            	<exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.junit</groupId>
-                    <artifactId>com.springsource.org.junit</artifactId>
-                </exclusion>
-             </exclusions>
 		</dependency>
         <!-- java生成缩略图-->
 		<dependency>
@@ -169,26 +166,37 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>${thumbnailator.version}</version>
 		</dependency>
+		<!-- jboss vfs 应该没用到
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>jboss-vfs</artifactId>
 			<version>3.1.0.Final</version>
-		</dependency>
+		</dependency>   -->
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>pinyin4j</groupId>
 			<artifactId>pinyin4j</artifactId>
 			<version>${pinyin4j.version}</version>
 			<scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/pinyin4j-2.5.0-20170917.jar</systemPath>
-		</dependency>
-
+		</dependency> -->
 		<dependency>
+		    <groupId>com.belerweb</groupId>
+		    <artifactId>pinyin4j</artifactId>
+		    <version>${pinyin4j.version}</version>
+		</dependency>
+		
+		<!-- <dependency>
 			<groupId>com.springsource</groupId>
 			<artifactId>org.quartz</artifactId>
 			<version>${org.quartz.version}</version>
 			<scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/org.quartz-1.6.2-20170917.jar</systemPath>
+		</dependency> -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>${org.quartz.version}</version>
 		</dependency>
 		<!-- SPRING start -->
 		<dependency>
@@ -245,11 +253,13 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+		<!--   工程中用的是阿里巴巴的连接池， 应该没用到
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-proxool</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.hibernate.common</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
@@ -274,7 +284,7 @@
 
 
 		<!-- 数据库相关依赖包 _start -->
-        <!--proxool start -->
+        <!--proxool start  工程中用的是阿里巴巴的连接池，应该没用到
         <dependency>
             <groupId>com.cloudhopper.proxool</groupId>
             <artifactId>proxool</artifactId>
@@ -293,8 +303,10 @@
             		<groupId>com.cloudhopper.proxool</groupId>
             	</exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
         <!-- proxool end-->
+        
+         <!-- DBCP连接池  -->
 		<dependency>
 			<groupId>commons-pool</groupId>
 			<artifactId>commons-pool</artifactId>
@@ -307,6 +319,7 @@
 			<version>${commons-dbcp.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- druid连接池  -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
@@ -320,12 +333,13 @@
 			<version>${mysql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!--  sqlserver 2008-->
+		<!--  sqlserver 2008
 		<dependency>
 		    <groupId>com.microsoft.sqlserver</groupId>
 		    <artifactId>sqljdbc4</artifactId>
 		    <version>${sqlserver.version}</version>
-		</dependency>
+		    <scope>runtime</scope>
+		</dependency>-->
 		<!--sqlserver 2005 
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
@@ -338,6 +352,7 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>${ojdbc14.version}</version>
+            <scope>runtime</scope>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.5.0-20170917.jar</systemPath>
         </dependency>-->
@@ -480,22 +495,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
+		<!-- log4j12 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
-		</dependency>
-		<!-- log4j -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 		<!--Logger Support
 		<dependency>
@@ -509,12 +513,12 @@
             <version>1.6.1</version>
          </dependency>
         -->
-		<!-- classmate -->
+		<!-- classmate 干嘛用的？？应该没用到
 		<dependency>
 			<groupId>com.fasterxml</groupId>
 			<artifactId>classmate</artifactId>
 			<version>${classmate.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- commons-beanutils -->
 		<dependency>
@@ -534,24 +538,24 @@
 			<artifactId>commons-collections</artifactId>
 			<version>${commons-collections.version}</version>
 		</dependency>
-		<!-- commons-chain -->
+		<!-- commons-chain 应该没用到
 		<dependency>
 			<groupId>commons-chain</groupId>
 			<artifactId>commons-chain</artifactId>
 			<version>${commons-chain.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- commons-codec -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>${commons-codec.version}</version>
 		</dependency>
-		<!-- commons-digester -->
+		<!-- commons-digester 应该没用到
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
 			<version>${commons-digester.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -594,30 +598,35 @@
             	</exclusion>
             </exclusions>
 		</dependency>
-		<dependency>
+		<!-- <dependency>  应该没用到
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging-api</artifactId>
 			<version>${commons-logging-api.version}</version>
-		</dependency>
-		<!-- commons-validator -->
+		</dependency> -->
+		<!-- commons-validator  应该没用到TODO
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>${commons-validator.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- ehcache -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 			<version>${ehcache.version}</version>
 		</dependency>
-		<!-- freemarker -->
+		<!-- freemarker 
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
 			<artifactId>freemarker-null</artifactId>
 			<version>${freemarker.version}</version>
 			<scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/freemarker-null-2.3.19-20170917.jar</systemPath>
+		</dependency>-->
+		<dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		    <version>${freemarker.version}</version>
 		</dependency>
 		<!-- JSR303 Bean Validator -->
 		<dependency>
@@ -704,11 +713,13 @@
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jodconverter-3.0-beta-4-20170917.jar</systemPath>
         </dependency>
         <!-- openoffice end -->
+        
+         <!-- struts的jar包应该不要用到吧 （用在org.jeecgframework.core.common.hibernate.qbc类中)  删掉了
         <dependency>
             <groupId>com.opensymphony</groupId>
             <artifactId>xwork-core</artifactId>
             <version>${xwork-core.version}</version>
-        </dependency>
+        </dependency>-->
 
 		<!-- TEST begin -->
 		<!-- junit -->
@@ -723,41 +734,42 @@
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest.version}</version>
         </dependency>
-        <dependency>
+		<!-- 干嘛用的，应该没用到 TODO
+		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>0.8.1</version>
 			<scope>test</scope>
-		</dependency>
-
+		</dependency>-->
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- jacob -->
+		<!-- jacob 
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
 			<artifactId>jacob</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jacob-1.0.0-20170917.jar</systemPath>
-		</dependency>
-		<!-- highchart 图片导出 -->
+		</dependency>-->
 		<dependency>
-		  <groupId>org.jeecgframework</groupId>
-		  <artifactId>batik-all</artifactId>
-		  <version>1.6</version>
-		  <scope>system</scope>
-          <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/batik-all-1.6-20170917.jar</systemPath>
-		</dependency>
+			<groupId>com.hynnet</groupId>
+	        <artifactId>jacob</artifactId>
+	        <version>1.18</version>
+        </dependency>
+		<!-- <dependency>
+		    <groupId>net.sf.jacob-project</groupId>
+		    <artifactId>jacob</artifactId>
+		    <version>1.14.3</version>
+		</dependency> -->
+		<!-- highchart 图片导出-->
 		<dependency>
-		  <groupId>org.jeecgframework</groupId>
-		  <artifactId>fop</artifactId>
-		  <version>1.0</version>
-		  <scope>system</scope>
-          <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/fop-1.0-20170917.jar</systemPath>
+		    <groupId>org.apache.xmlgraphics</groupId>
+		    <artifactId>batik-codec</artifactId>
+		    <version>1.7</version>
 		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
@@ -765,44 +777,26 @@
 			<version>2.7.1</version>
 		</dependency>
 		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis-ext</artifactId>
-			<version>1.3.04</version>
-		</dependency>
-		<dependency>
-		<groupId>xml-apis</groupId>
-		  <artifactId>xml-apis</artifactId>
-		  <version>1.3.04</version>
-		</dependency>
-		<dependency>
-		  <groupId>org.apache.xmlgraphics</groupId>
-		  <artifactId>xmlgraphics-commons</artifactId>
-		  <version>1.4</version>
-		</dependency>
-		<dependency>
-		  <groupId>xalan</groupId>
-		  <artifactId>xalan</artifactId>
-		  <version>2.7.0</version>
-		</dependency>
-		<!-- Xml数据导出导入 -->
-		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
 		</dependency>
+		<!-- highchart export -->
 		
 		<dependency>
 		  <groupId>commons-httpclient</groupId>
 		  <artifactId>commons-httpclient</artifactId>
 		  <version>3.0.1</version>
 		</dependency>
+		<!-- 应该没用到
 	    <dependency>
 		    <groupId>org.apache.geronimo.specs</groupId>
 		    <artifactId>geronimo-javamail_1.4_spec</artifactId>
 		    <version>1.6</version>
-		</dependency>
+		</dependency> -->
+		
 		<!-- baidu ueditor-->
-		<dependency>
+		<!-- <dependency>
 		  <groupId>com.baidu.ueditor.jeecg</groupId>
 		  <artifactId>ueditor</artifactId>
 		  <version>1.1.1</version>
@@ -815,7 +809,7 @@
 		  <version>1.0</version>
 		  <scope>system</scope>
           <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json-1.0-20170917.jar</systemPath>
-		</dependency>
+		</dependency> --> 
 		<!-- baidu ueditor-->
 		
 		<!-- jeecg plugin-ui-->
@@ -833,7 +827,7 @@
 		  <artifactId>jsoup</artifactId>
 		  <version>1.8.3</version>
 		</dependency>
-		<!-- google 工具类 -->
+		<!-- guava -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -848,7 +842,7 @@
 		</dependency>
 		<!-- kisso end -->
 		
-		<!-- cxf webservice
+		<!-- cxf webservice （暂时注释掉提高平台性能，需要此功能，可以放开注释）
 		<dependency> 
 			<groupId>org.apache.cxf</groupId> 
 			<artifactId>cxf-rt-frontend-jaxws</artifactId> 
@@ -861,43 +855,71 @@
 		</dependency>
 		-->
 		<!-- jeecg plugin  -->
+		<!-- p3 core -->
 		<dependency>
-			<groupId>org.p3framework</groupId>
+			<groupId>org.jeecgframework.p3</groupId>
 			<artifactId>jeecg-p3-core</artifactId>
-			<version>1.1.1</version>
+			<version>${jeecg-p3-core.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-ui</artifactId>
-			<version>1.1.3</version>
-			<type>jar</type>
+			<groupId>org.jeecgframework.p3</groupId>
+			<artifactId>jeecg-p3-core-api</artifactId>
+			<version>${jeecg-p3-core.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jeecgframework.p3</groupId>
+					<artifactId>jeecg-p3-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-bizcore</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>jar</type>
+			<groupId>org.jeecgframework.p3</groupId>
+			<artifactId>jeecg-p3-core-ui</artifactId>
+			<version>${jeecg-p3-core.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jeecgframework.p3</groupId>
+					<artifactId>jeecg-p3-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		<!-- 插件demo -->
+		<!-- 插件：Demo -->
 		<dependency>
-			<groupId>org.p3framework</groupId>
+			<groupId>org.jeecgframework.p3</groupId>
 			<artifactId>jeecg-p3-biz-demo</artifactId>
-			<version>1.0.2</version>
+			<version>${jeecg-p3-biz-demo.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jeecgframework.p3</groupId>
+					<artifactId>jeecg-p3-start-quick</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
-		<!-- 插件: 我的邮箱 -->
+		 <!-- 插件：在线聊天 -->
 		<dependency>
-			<groupId>org.p3framework</groupId>
-			<artifactId>jeecg-p3-biz-mail</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
-		</dependency>
-		
-		 <!-- 在线聊天工具-->
-		<dependency>
-			<groupId>org.p3framework</groupId>
+			<groupId>org.jeecgframework.p3</groupId>
 			<artifactId>jeecg-p3-biz-chat</artifactId>
-			<version>1.0.3</version>
+			<version>${jeecg-p3-biz-chat.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jeecgframework.p3</groupId>
+					<artifactId>jeecg-p3-start-quick</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!-- 插件: 我的邮箱-->
+		<dependency>
+			<groupId>org.jeecgframework.p3</groupId>
+			<artifactId>jeecg-p3-biz-mail</artifactId>
+			<version>${jeecg-p3-biz-mail.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jeecgframework.p3</groupId>
+					<artifactId>jeecg-p3-start-quick</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- begin 腾讯云-->
@@ -986,9 +1008,9 @@
 	                <artifactId>tomcat-maven-plugin</artifactId>
 	                <version>1.1</version>
 	                <configuration>
-	                     <path>/jeecg</path>
-	                    <port>8080</port>
-	                    <uriEncoding>UTF-8</uriEncoding>
+	                    <path>/${project.artifactId}</path>
+	                    <port>${webserver.port}</port>
+	                    <uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 	                    <url>http://localhost:8080/manager/html</url>
 	                    <server>tomcat6</server>
 	                </configuration>

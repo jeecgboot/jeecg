@@ -32,7 +32,7 @@
 	</div>
 </div>
 <div region="center" style="padding:0px;border:0px">
-<t:datagrid superQuery="true" sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config" fitColumns="true" actionUrl="cgFormHeadController.do?datagrid" idField="id" fit="true" 
+<t:datagrid sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config" fitColumns="true" actionUrl="cgFormHeadController.do?datagrid" idField="id" fit="true" 
             queryMode="group" checkbox="true" btnCls="bootstrap">
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
 	<t:dgCol title="hasPeizhi" field="hasPeizhi" hidden="true"></t:dgCol>

@@ -10,7 +10,38 @@
 	$(function(){
 		$("#formobj").submit(function(){
 			var file_upload = $("#file_upload").val();
-			
+
+			var existIcon = $("#existIcon");
+			if(!!existIcon && existIcon.val()=="1"){
+				if(!$("#filediv").html()){
+					//此处直接只修改表单数据，不修改图片
+					var id = $("#id").val();
+					var iconName = $("#iconName").val();
+					var iconType = $("#iconType").val();
+					var formData = {
+						"id":id,
+						"iconName":iconName,
+						"iconType":iconType
+					};
+					$.ajax({
+						async : false,
+						cache : false,
+						type : 'POST',
+						data:formData,
+						url : "iconController.do?updateInfo",
+						dataType:"JSON",
+						success : function(d) {
+							if (d.success) {
+								var win = frameElement.api.opener;
+						        win.reloadTable();
+						        win.tip(d.msg);
+							}
+							frameElement.api.close();
+						}
+					});
+				}
+			}
+
 			if($.trim(file_upload) == ""){
 				tip("请选择上载文件.");
 				return false;
@@ -41,6 +72,7 @@
     <div class="form" >
         <label class="Validform_label">图标预览:</label>
         <a target="_blank" href="${icon.iconPath }"><img src="${icon.iconPath }" style="width:25px"></a>
+        <input type="hidden" id = "existIcon" value = "1"/>
     </div>
     </c:if>
 	<div class="form">

@@ -93,23 +93,24 @@ public class ComponentTools {
 				urlclass.append("\'");
 			}
 			StringBuffer urlfont = new StringBuffer();
+
 			if(!StringUtil.isEmpty(dataGridUrl.getUrlfont())){
-				urlfont.append(" <span class=\'");
+				urlfont.append(" <i class=\'fa ");
 				urlfont.append(dataGridUrl.getUrlfont());
-				urlfont.append("\' aria-hidden=\'true\'></span>");			
+				urlfont.append("\' aria-hidden=\'true\'></i>");			
 			}
 			if (OptTypeDirection.Confirm.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
-					sb.append("href+=\"<button  "+urlclass.toString()+"  onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' "+urlclass.toString()+"  onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
-					sb.append("href+=\"<button class='btn btn-primary btn-xs' onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-primary btn-xs' onclick=confirm(\'" + url + "\',\'" + dataGridUrl.getMessage() + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> \";");
 				}
 			}
 			if (OptTypeDirection.Del.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
-					sb.append("href+=\"<button  "+urlclass.toString()+"  onclick=delObj(\'" + url + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' "+urlclass.toString()+"  onclick=delObj(\'" + url + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
-					sb.append("href+=\"<button class='btn btn-danger btn-xs' onclick=delObj(\'" + url + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + ">\";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-danger btn-xs' onclick=delObj(\'" + url + "\',\'"+dataGridTag.getName()+"\')" + style.toString() + ">\";");
 				}
 				
 			}
@@ -117,31 +118,31 @@ public class ComponentTools {
 				String name = TagUtil.getFunction(dataGridUrl.getFunname());
 				String parmars = getFunParams(dataGridUrl.getFunname());
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
-					sb.append("href+=\"<button  "+urlclass.toString()+"  onclick=" + name + "(" + parmars + ")" + style.toString() + ">  "+urlfont.toString()+" \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' "+urlclass.toString()+"  onclick=" + name + "(" + parmars + ")" + style.toString() + ">  "+urlfont.toString()+" \";");
 				}else{
-					sb.append("href+=\"<button class='btn btn-info btn-xs'   onclick=" + name + "(" + parmars + ")" + style.toString() + ">\";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-info btn-xs'   onclick=" + name + "(" + parmars + ")" + style.toString() + ">\";");
 				}
 				
 			}
 			if (OptTypeDirection.OpenWin.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){//倘若urlclass不为空，则去掉链接前面的"[";
-					sb.append("href+=\"<button  "+urlclass.toString()+" onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+dataGridTag.getName()+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + "> "+urlfont.toString()+" \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' "+urlclass.toString()+" onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+dataGridTag.getName()+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
-					sb.append("href+=\"<button class='btn btn-success btn-xs' onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+dataGridTag.getName()+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">\";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-success btn-xs' onclick=openwindow('" + dataGridUrl.getTitle() + "','" + url + "','"+dataGridTag.getName()+"'," + dataGridUrl.getWidth() + "," + dataGridUrl.getHeight() + ")" + style.toString() + ">\";");
 				}
 			}															//update-end--Author:liuht  Date:20130228 for：弹出窗口设置参数不生效
 			if (OptTypeDirection.Deff.equals(dataGridUrl.getType())) {
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
-					sb.append("href+=\"<button onclick=\'location.href=" + url + "' "+urlclass.toString()+" title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + "> "+urlfont.toString()+" \";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' onclick=\'location.href=" + url + "' "+urlclass.toString()+" title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + "> "+urlfont.toString()+" \";");
 				}else{
-					sb.append("href+=\"<button class='btn btn-default btn-xs' onclick=\'location.href=" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
+					sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-default btn-xs' onclick=\'location.href=" + url + "' title=\'"+dataGridUrl.getTitle()+"\'" + style.toString() + ">\";");
 				}
 			}
 			if (OptTypeDirection.OpenTab.equals(dataGridUrl.getType())) {
-				sb.append("href+=\"<button class='btn btn-primary btn-xs' onclick=addOneTab('" + dataGridUrl.getTitle() + "','" + url  + "')>\";");
+				sb.append("href+=\"<a href=\'javascript:void(0);\' class='btn btn-primary btn-xs' onclick=addOneTab('" + dataGridUrl.getTitle() + "','" + url  + "')>\";");
 			}
-			sb.append("href+=\"" + dataGridUrl.getTitle() + "</button>&nbsp;\";");
-			
+			sb.append("href+=\"" + dataGridUrl.getTitle() + "</a>&nbsp;\";");
+
 
 			if (StringUtil.isNotEmpty(exp)) {
 				for (int i = 0; i < exp.split("&&").length; i++) {

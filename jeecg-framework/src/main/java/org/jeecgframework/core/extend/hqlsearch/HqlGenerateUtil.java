@@ -473,7 +473,6 @@ public class HqlGenerateUtil {
 		}
 		return sb.toString();
 	}
-//	--author：陈璞 ------begin---date：20150612--------for：sql组装
 	/**
 	 * 根据字段名称,获取字段的类型字符串
 	 * return: java.lang.Integer

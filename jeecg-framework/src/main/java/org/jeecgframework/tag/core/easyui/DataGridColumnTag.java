@@ -64,7 +64,9 @@ public class DataGridColumnTag extends TagSupport {
 
 	protected String dictCondition; //自定义字典表的显示文本-字典查询条件
 
-	
+	private String filterType = "text";//过滤操作的类型
+	private boolean optsMenu = false;//操作列风格转变 【船舶专用】
+
 	public boolean isNewColumn() {
 		return newColumn;
 	}
@@ -95,7 +97,7 @@ public class DataGridColumnTag extends TagSupport {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
 
-		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal,showMode,newColumn,dictCondition);
+		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal,showMode,newColumn,dictCondition,filterType,optsMenu);
 
 		return EVAL_PAGE;
 	}
@@ -266,6 +268,19 @@ public class DataGridColumnTag extends TagSupport {
 		this.defaultVal = defaultVal;
 	}
 	
-	
+	public String getFilterType() {
+		return filterType;
+	}
+	public void setFilterType(String filterType) {
+		this.filterType = filterType;
+	}
+
+	public boolean isOptsMenu() {
+		return optsMenu;
+	}
+
+	public void setOptsMenu(boolean optsMenu) {
+		this.optsMenu = optsMenu;
+	}
 	
 }

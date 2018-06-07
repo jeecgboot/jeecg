@@ -126,8 +126,10 @@ public class DepartController extends BaseController {
 					ajaxJson.setSuccess(false);
 					ajaxJson.setMsg("当前用户只包含有当前组织机构关系，不可删除，请切换用户的组织机构关系");
 				}else{
-					String sql = "delete from t_s_user_org where user_id = '"+userid+"' and org_id = '"+departid+"'";
-					this.systemService.executeSql(sql);
+
+					String sql = "delete from t_s_user_org where user_id = ? and org_id = ?";
+					this.systemService.executeSql(sql,userid,departid);
+
 					ajaxJson.setMsg("成功删除用户对应的组织机构关系");
 				}
 			} catch (Exception e) {
@@ -163,7 +165,9 @@ public class DepartController extends BaseController {
 		depart = systemService.getEntity(TSDepart.class, depart.getId());
         message = MutiLangUtil.paramDelSuccess("common.department");
         if (depart.getTSDeparts().size() == 0) {
-            Long userCount = systemService.getCountForJdbc("select count(1) from t_s_user_org where org_id='" + depart.getId() + "'");
+
+            Long userCount = systemService.getCountForJdbcParam("select count(1) from t_s_user_org where org_id= ?",depart.getId());
+
             if(userCount == 0) { // 组织机构下没有用户时，该组织机构才允许删除。
                 systemService.executeSql("delete from t_s_role_org where org_id=?", depart.getId());
                 systemService.delete(depart);

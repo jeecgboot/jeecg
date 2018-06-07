@@ -1,1 +1,1 @@
-update cgform_head set jform_version = '${newVersion}' where id = '${formId}' 
+update cgform_head set jform_version = :newVersion where id = :formId

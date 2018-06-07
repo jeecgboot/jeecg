@@ -71,6 +71,23 @@ function addFineuiTab(options){
 			});
 		}
 		if (!isHas) {
+
+			if($('.ccrame').length>9){
+        		layer.open({
+        			   title: ['提示信息', 'font-size:16px;']
+        			  ,type: 1
+        			  ,content: '<div style="padding: 20px 1px 20px 60px;border-bottom:1px solid #ddd"><i style="position: absolute;top: 16px;left: 15px; width: 30px;height: 30px;" class="layui-layer-ico layui-layer-ico0"></i>请先关闭一些选项卡(最多允许打开10个)！</div>'
+        			  ,btn: '确 定'
+        			  ,icon:1
+        			  ,btnAlign: 'c'
+        			  ,area: ['340px', '170px']
+        			  ,yes: function(index){
+        				  layer.close(index); 
+        			  }
+        			});
+        		return false;
+        	}
+
 			var tab = "<a href='javascript:;' class='content-tab active' data-id='"+h+"'>"+ label +" <i class='icon-font'>&#xe633;</i></a>";
 			//<div class='sepmm'></div>
 			$(".content-tab").removeClass("active");

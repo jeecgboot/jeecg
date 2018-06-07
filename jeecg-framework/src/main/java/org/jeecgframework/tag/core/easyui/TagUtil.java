@@ -8,17 +8,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jeecgframework.core.common.hibernate.qbc.PageList;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ReflectHelper;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.tag.core.util.GzipUtilities;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.easyui.Autocomplete;
 import org.jeecgframework.web.system.pojo.base.TSRole;
@@ -36,6 +40,8 @@ import com.alibaba.fastjson.JSONObject;
  * @author liuht 修改不能输入双引号问题解决
  */
 public class TagUtil {
+	private static Logger log = Logger.getLogger(TagUtil.class);
+	
 	/**
 	 * <b>Summary: </b> getFiled(获得实体Bean中所有属性)
 	 * 
@@ -235,6 +241,73 @@ public class TagUtil {
 		return jsonTemp.toString();
 	}
 
+	/**
+	 * 循环LIST对象拼接EASYUI格式的JSON数据Footers是json格式的数据
+	 * @param fields
+	 * @param total
+	 * @param list
+	 * @param dataStyle 
+	 * @param page 
+	 */
+	private static String listtojsonByFootersJson(String[] fields, int total, List<?> list,String footers, String dataStyle, int pageSize) throws Exception {
+		StringBuffer jsonTemp = new StringBuffer();
+		if("jqgrid".equals(dataStyle)){
+			int totalPage = total % pageSize > 0 ? total / pageSize + 1 : total / pageSize;
+			if(totalPage == 0) totalPage = 1;
+			jsonTemp.append("{\"total\":" + totalPage );
+		}else{
+			jsonTemp.append("{\"total\":" + total );
+		}
+		jsonTemp.append(",\"rows\":[");
+		int i;
+		String fieldName;
+		if(list==null){
+			list = new ArrayList();
+		}
+		for (int j = 0; j < list.size(); ++j) {
+			jsonTemp.append("{\"state\":\"closed\",");
+			Object fieldValue = null;
+			for (i = 0; i < fields.length; ++i) {
+				fieldName = fields[i].toString();
+				if (list.get(j) instanceof Map)
+					fieldValue = ((Map<?, ?>) list.get(j)).get(fieldName);
+				else {
+					fieldValue = fieldNametoValues(fieldName, list.get(j));
+				}
+				jsonTemp.append("\"" + fieldName + "\"" + ":\"" + getStringValue(fieldValue).replace("\"", "\\\"") + "\"");
+				if (i != fields.length - 1) {
+					jsonTemp.append(",");
+				}
+			}
+			if (j != list.size() - 1)
+				jsonTemp.append("},");
+			else {
+				jsonTemp.append("}");
+			}
+		}
+		jsonTemp.append("]");
+		if (footers != null) {
+			jsonTemp.append(",");
+			jsonTemp.append("\"footer\":[");
+			JSONArray js=JSONArray.parseArray(footers);
+			for(int f=0;f<js.size();f++){
+				jsonTemp.append("{");
+				Map <String,Object>map=(Map) js.get(f);
+				for(String key:map.keySet()){
+					if(StringUtil.isEmpty(map.get(key).toString())){
+						jsonTemp.append("\"" + key + "\":\"" + getTotalValue(key, list) + "\",");
+					}else{
+						jsonTemp.append("\"" + key + "\":\"" + map.get(key).toString() + "\",");
+					}
+				}
+				jsonTemp.append("},");
+			}
+			jsonTemp.append("]");
+		}
+		jsonTemp.append("}");
+		return jsonTemp.toString();
+	}
+
 	//为空时返回空串
 	private static String getStringValue(Object obj){
 		return (obj == null) ? "" : obj.toString();
@@ -343,7 +416,13 @@ public class TagUtil {
 		try {
 
 			if(!StringUtil.isEmpty(dg.getFooter())){
-				jObject = JSONObject.parseObject(listtojson(dg.getField().split(","), dg.getTotal(), dg.getResults(),dg.getFooter().split(","),dg.getDataStyle(),dg.getRows()));
+
+				if(dg.getFooter().startsWith("[")){
+					jObject = JSONObject.parseObject(listtojsonByFootersJson(dg.getField().split(","), dg.getTotal(), dg.getResults(),dg.getFooter(),dg.getDataStyle(),dg.getRows()));
+				}else{
+					jObject = JSONObject.parseObject(listtojson(dg.getField().split(","), dg.getTotal(), dg.getResults(),dg.getFooter().split(","),dg.getDataStyle(),dg.getRows()));
+				}
+
 			}else{
 				jObject = JSONObject.parseObject(listtojson(dg.getField().split(","), dg.getTotal(), dg.getResults(),null,dg.getDataStyle(),dg.getRows()));
 			}
@@ -479,15 +558,26 @@ public class TagUtil {
 		response.setHeader("Cache-Control", "no-store");
 		JSONObject object = TagUtil.getJson(dg);
 		PrintWriter pw = null;
+		
 		try {
-			pw=response.getWriter();
+
+			HttpServletRequest request = ContextHolderUtils.getRequest();
+			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
+				log.debug("-------datagrid----json-----开启Gzip压缩-------------");
+				pw = GzipUtilities.getGzipWriter(response);
+				response.setHeader("Content-Encoding", "gzip");
+			} else {
+				pw = response.getWriter();
+			}
+
+			
 			pw.write(object.toString());
 			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			try {
-				pw.close();
 
 				object.clear();
 				object = null;
@@ -514,14 +604,23 @@ public class TagUtil {
 		JSONArray rows = object.getJSONArray("rows");
 		PrintWriter pw = null;
 		try {
-			pw=response.getWriter();
+
+			HttpServletRequest request = ContextHolderUtils.getRequest();
+			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
+				log.info("-------datagrid----json-----开启Gzip压缩-------------");
+				pw = GzipUtilities.getGzipWriter(response);
+				response.setHeader("Content-Encoding", "gzip");
+			} else {
+				pw = response.getWriter();
+			}
+
 			pw.write(rows.toString());
 			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			try {
-				pw.close();
 
 				object.clear();
 
@@ -553,14 +652,23 @@ public class TagUtil {
 		}
 		PrintWriter pw = null;
 		try {
-			pw=response.getWriter();
+
+			HttpServletRequest request = ContextHolderUtils.getRequest();
+			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
+				log.debug("-------datagrid----json-----开启Gzip压缩-------------");
+				pw = GzipUtilities.getGzipWriter(response);
+				response.setHeader("Content-Encoding", "gzip");
+			} else {
+				pw = response.getWriter();
+			}
+
 			pw.write(object.toString());
 			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			try {
-				pw.close();
 
 				object.clear();
 

@@ -276,6 +276,13 @@
 			<description>是否显示查询条件（默认true,显示为true,不显示为false）</description>
 		</attribute>
 		<!-- update-end-Author:zhoujf  Date:20180504 for：TASK #2687 【datagrid标签】使用freemaker重写datagrid标签 -->
+		<!-- update-begin-Author:taoYan  Date:20180522 for:是否开启按钮过滤模式 -->
+		<attribute>
+			<name>filterBtn</name>
+			<rtexprvalue></rtexprvalue>
+			<description>是否开启按钮过滤模式，调用指定函数(函数名:name+"Filter")出现过滤行</description>
+		</attribute>
+		<!-- update-end-Author:taoYan  Date:20180522 for:是否开启按钮过滤模式 -->
 	</tag>
 	<tag>
 		<name>dgCol</name>
@@ -468,6 +475,18 @@
   			<rtexprvalue>true</rtexprvalue>
   			<description>是否另起一行</description>
   		</attribute>
+  		<!-- update-begin-Author:taoYan  Date:20180522 for:船舶风格列属性扩展 -->
+  		<attribute>
+  			<name>filterType</name>
+  			<rtexprvalue>true</rtexprvalue>
+  			<description>过滤操作的类型num/combobox/date/datetime/text 默认text</description>
+  		</attribute>
+  		<attribute>
+  			<name>optsMenu</name>
+  			<rtexprvalue>true</rtexprvalue>
+  			<description>opt列是否有隐藏菜单</description>
+  		</attribute>
+  		<!-- update-end-Author:taoYan  Date:20180522 for:船舶风格列属性扩展 -->
 	</tag>
 	<tag>
 		<name>dgDelOpt</name>
@@ -637,6 +656,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义按钮图标样式</description>
 		</attribute>
+		<!-- update-begin-author:taoYan date:20180524 for:操作菜单扩展 -->
+		<attribute>
+			<name>inGroup</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>操作菜单,一开始是否隐藏</description>
+		</attribute>
+		<!-- update-end-author:taoYan date:20180524 for:操作菜单扩展 -->
 	</tag>
 	<tag>
 		<name>dgFunOpt</name>
@@ -689,6 +715,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义按钮图标样式</description>
 		</attribute>
+		<!-- update-begin-author:taoYan date:2018524 for:操作菜单扩展 -->
+		<attribute>
+			<name>inGroup</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>操作菜单,一开始是否隐藏</description>
+		</attribute>
+		<!-- update-end-author:taoYan date:2018524 for:操作菜单扩展 -->
 	</tag>
 	<tag>
 		<name>dgToolBar</name>
@@ -1926,7 +1959,7 @@
 			<description>文件处理action</description>
 		</attribute>
 		<attribute>
-			<name>dataType</name>
+			<name>datatype</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>只要该属性有值,均视之为不为空</description>

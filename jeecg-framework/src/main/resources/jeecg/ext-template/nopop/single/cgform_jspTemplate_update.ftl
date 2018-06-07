@@ -201,8 +201,9 @@
 					</tr>
 				</#list>
 				<#-- update--end--author:zhoujf Date:20170523 for:TASK #1961 【代码生成器】一对多富文本编辑器，生成代码格式问题 -->
-				
-				<tr>
+				<#-- update--begin--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
+				<tr id = "sub_tr" >
+				<#-- update--end--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
 					<td height="50px" align="center" <#if (pageColumns?size>10)> colspan="4" <#else> colspan="2" </#if>>
 						<a style="margin-left:80px" href="#" class="easyui-linkbutton l-btn"  plain="true" iconcls="icon-le-back" onclick="history.go(-1)">返回</a>
 						<div style="display:none"><input type="submit" id ="btnsub" value=""/></div>
@@ -233,16 +234,26 @@
 		  				var td_title = $("<td>" + file.title + "</td>")
 		  		  		var td_download = $("<td><a href=\"commonController.do?viewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity\" title=\"下载\">下载</a></td>")
 		  		  		var td_view = $("<td><a href=\"javascript:void(0);\" onclick=\"openwindow('预览','commonController.do?openViewFile&fileid=" + file.fileKey + "&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)\">预览</a></td>");
-		  		  		var td_del = $("<td><a href=\"javascript:void(0)\" class=\"jeecgDetail\" onclick=\"del('cgUploadController.do?delFile&id=" + file.fileKey + "',this)\">删除</a></td>");
 		  		  		
 		  		  		tr.appendTo(table);
 		  		  		td_title.appendTo(tr);
 		  		  		td_download.appendTo(tr);
 		  		  		td_view.appendTo(tr);
-		  		  		td_del.appendTo(tr);
+		  		  		<#-- update--begin--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
+		  		  		if(location.href.indexOf("load=detail")==-1){
+			  		  		var td_del = $("<td><a href=\"javascript:void(0)\" class=\"jeecgDetail\" onclick=\"del('cgUploadController.do?delFile&id=" + file.fileKey + "',this)\">删除</a></td>");
+			  		  		td_del.appendTo(tr);
+		  		  		}
+		  		  		<#-- update--end--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
 		  			 });
 		  		   }
 		  		});
+		  		<#-- update--begin--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
+		  		if(location.href.indexOf("load=detail")!=-1){
+		  			$(".jeecgDetail").hide();
+		  			$("#sub_tr").hide();
+		  		}
+		  		<#-- update--end--author:Yandong date:20180601 for:TASK #2740 单表代码生成器，老版NOPOP风格 生成的代码查看功能存在提交按钮 -->
 		  	});
 		  	
 		  		<#-- update--begin--author:zhangjiaqiang date:20170531 for:附件资源删除处理 -->

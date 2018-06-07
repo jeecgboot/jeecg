@@ -1,6 +1,6 @@
 <#--update-start--Author:luobaoli  Date:20150614 for：表单（主表/单表）属性中增加了扩展参数 ${po.extend_json?if_exists}-->
 <#-- update--begin--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
-<#include "../../ui/tag.ftl"/>
+<#include "/online/template/ui/tag.ftl"/>
 <#-- update--end--author:taoyan date:20180514 for:【Online表单】上传空间、树控件 宏封装 -->
 <div class="con-wrapper" id="con-wrapper0" style="display: none;">
 	<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
