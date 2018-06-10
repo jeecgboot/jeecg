@@ -7,4 +7,4 @@ ch.content as content,
 ch.db_source,
 ch.graph_type
 from jform_cgdynamgraph_head ch
-where ch.code = '${id}'
+where ch.code = :id

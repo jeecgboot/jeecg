@@ -42,7 +42,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 </head>
 <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
 <!-- 增加beforeSubmit页面逻辑删除-->
-<t:formvalid formid="formobj" dialog="true" usePlugin="password" beforeSubmit="deleteUnUsedFiled();" layout="table" tiptype="1" action="cgFormHeadController.do?save">
+<t:formvalid formid="formobj" dialog="true" usePlugin="password" beforeSubmit="beforeSub();" layout="table" tiptype="1" action="cgFormHeadController.do?save">
 	<!-- tiptype="1" -->
 	<input id="id" name="id" type="hidden" value="${cgFormHeadPage.id}">
 	<input id="langurl" name="langurl" type="hidden" value="<%=langurl%>">
@@ -339,6 +339,24 @@ function getFormTemplateName2(){
 	}
 //--add-end--Author:张忠亮  Date:20150714 for：根据表单类型获取风格--
 
+function beforeSub(){
+	var isCheck = true;
+	$("select[name*='showType']").each(function(){
+		var value = $(this).val();
+		if(value == 'date' || value == 'datetime') {
+			var name=$(this).attr("name");
+			var type=name.substring(0,name.lastIndexOf(".")+1)+"type";
+			if($("[name='"+type+"']").val()!='Date'){
+				isCheck =  false;
+			}
+		}
+	});
+	
+	if(!isCheck)return isCheck;
+	
+	deleteUnUsedFiled();
+}
+
 //add-start--Author:jg_renjie Date:20160413 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 function getShowType(obj){
 	var $this = $(obj),value = obj.value;
@@ -347,6 +365,15 @@ function getShowType(obj){
 	} else {
 		$this.parent().next().eq(0).find("input[name$=fieldLength]").val('120');
 	}
+	//add-begin--Author:Yandong Date:20180528 for：TASK #2730 【online】-创建/编辑表单对时间类型字段的特殊处理
+	if(value == 'date' || value == 'datetime') {
+		var name=$(obj).attr("name");
+		var type=name.substring(0,name.lastIndexOf(".")+1)+"type";
+		if($("[name='"+type+"']").val()!='Date'){
+			tip("字段类型为Date才能使用日期控件！")
+		}
+	}
+	//add-end--Author:Yandong Date:20180528 for：TASK #2730 【online】-创建/编辑表单对时间类型字段的特殊处理
 }
 //add-end--Author:jg_renjie Date:20160301 for：TASK #1019 【平台bug】ONLINE百度编辑器控件样式不好。
 

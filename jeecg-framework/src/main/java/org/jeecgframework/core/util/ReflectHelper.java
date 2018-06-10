@@ -10,12 +10,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author  张代浩
  * @desc 通过反射来动态调用get 和 set 方法
  */
 public class ReflectHelper {
-
+	private static final Logger logger = Logger.getLogger(ReflectHelper.class);
+	
 	@SuppressWarnings("rawtypes")
 	private Class cls;
 	/**
@@ -70,7 +73,7 @@ public class ReflectHelper {
 				param = setM.matcher(methodName).replaceAll(rapl).toLowerCase();
 				setMethods.put(param, m);
 			} else {
-				// org.jeecgframework.core.util.LogUtil.info(methodName + " 不是getter,setter方法！");
+				// logger.info(methodName + " 不是getter,setter方法！");
 			}
 		}
 	}
@@ -87,7 +90,7 @@ public class ReflectHelper {
 				m.invoke(obj, object);
 				return true;
 			} catch (Exception ex) {
-				org.jeecgframework.core.util.LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
+				logger.info("invoke getter on " + property + " error: " + ex.toString());
 				return false;
 			}
 		}
@@ -109,7 +112,7 @@ public class ReflectHelper {
 				value=m.invoke(obj, new Object[] {});
 				
 			} catch (Exception ex) {
-				org.jeecgframework.core.util.LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
+				logger.info("invoke getter on " + property + " error: " + ex.toString());
 			}
 		}
 		return value;

@@ -702,6 +702,9 @@
                     setCenter(msgobj, 100);
                     _this.addClass("Validform_error");
                     flag = false;
+
+                    this.validform_lastval = null;
+
                     return false;
                 }
 			   //-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---
@@ -719,6 +722,9 @@
                 		$(_this).next().addClass("Validform_wrong");
                 		_this.addClass("Validform_error");
                 	}
+
+                	this.validform_lastval = null;
+
                     return false;
                 }
 			   //-- author:Yandong -- date:20180111-- for:TASK #2479 【online新功能】online扩展校验，支持 唯一性校验---

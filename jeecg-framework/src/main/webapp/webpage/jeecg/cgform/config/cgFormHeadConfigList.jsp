@@ -7,7 +7,7 @@
 </script>
 <div class="easyui-layout" fit="true">
 <div region="center" style="padding:0px;border:0px">
-<t:datagrid queryBuilder="true" sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config"
+<t:datagrid sortName="createDate" sortOrder="desc" name="tablePropertyList" title="smart.form.config"
             fitColumns="false" actionUrl="cgFormHeadController.do?configDatagrid&id=${physiceId}" idField="id" fit="true" 
             queryMode="group" checkbox="true" >
 	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
@@ -15,7 +15,7 @@
 	<t:dgCol title="table.name" field="tableName"  query="true" autocomplete="true" />
 	<t:dgCol title="form.category" field="jformCategory" dictionary="bdfl"></t:dgCol>
 	<t:dgCol title="table.description" field="content"></t:dgCol>
-	<t:dgCol title="版本" field="tableVersion" ></t:dgCol>
+	<t:dgCol title="版本1" field="tableVersion" ></t:dgCol>
 	<t:dgCol title="is.tree" field="isTree" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
 	<t:dgCol title="is.page" field="isPagination" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>
 	<t:dgCol title="show.checkbox" field="isCheckbox" hidden="true" replace="common.yes_Y,common.no_N"></t:dgCol>

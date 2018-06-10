@@ -17,7 +17,6 @@ import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
-import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
@@ -52,7 +51,12 @@ public class ResourceUtil {
 	public static Map<String, DynamicDataSourceEntity> dynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>(); 
 	
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
-	
+
+	/**
+	 * 域名路径  basePath
+	 */
+	private static String basePath = null;
+
 	/**
 	 * 属性文件[resources/sysConfig.properties]
 	 * #默认开启模糊查询方式 1为开启 条件无需带*就能模糊查询[暂时取消]
@@ -86,20 +90,6 @@ public class ResourceUtil {
 
 		return null;
 	}
-	@Deprecated
-	public static final List<TSRoleFunction> getSessionTSRoleFunction(String roleId) {
-		HttpSession session = ContextHolderUtils.getSession();
-		if (session.getAttributeNames().hasMoreElements()) {
-			List<TSRoleFunction> TSRoleFunctionList = (List<TSRoleFunction>)session.getAttribute(roleId);
-			if (TSRoleFunctionList != null) {
-				return TSRoleFunctionList;
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
 	
 	/**
 	 * 获得请求路径【注意： 不通用】
@@ -107,7 +97,7 @@ public class ResourceUtil {
 	 * @param request
 	 * @return
 	 */
-	public static String getRequestPath(HttpServletRequest request) {
+	public static String getJgAuthRequsetPath(HttpServletRequest request) {
 
 //		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
 		String queryString = request.getQueryString();
@@ -378,6 +368,20 @@ public class ResourceUtil {
 		data.put("sys."+DataBaseConstant.SYS_TIME_TABLE, DateUtils.formatTime());
 		return data;
 	}
+
+	/**
+	 * 获取当前域名路径
+	 * @param request
+	 * @return
+	 */
+	public static String getBasePath() {
+		if(StringUtils.isBlank(basePath)) {
+			HttpServletRequest request = ContextHolderUtils.getRequest();
+			basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+		}
+		return basePath;
+	}
+
 	
 	/**
 	 * sql值替换

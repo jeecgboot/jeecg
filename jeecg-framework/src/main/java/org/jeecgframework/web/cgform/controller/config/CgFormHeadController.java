@@ -251,8 +251,8 @@ public class CgFormHeadController extends BaseController {
 
 		logger.info("---同步数据库 ---doDbSynch-----> TableName:"+cgFormHead.getTableName()+" ---修改时间 :"+cgFormHead.getUpdateDate()+" ----创建时间:"+cgFormHead.getCreateDate() +"---请求IP ---+"+oConvertUtils.getIpAddrByRequest(request));
 		//安全控制，判断不在online管理中表单不允许操作
-		String sql = "select count(*) from cgform_head where table_name = '"+cgFormHead.getTableName()+"'";
-		Long i = systemService.getCountForJdbc(sql);
+		String sql = "select count(*) from cgform_head where table_name = ?";
+		Long i = systemService.getCountForJdbcParam(sql,cgFormHead.getTableName());
 		if(i==0){
 			message = "同步失败，非法无授权访问！";
 			logger.info(message+" ----- 请求IP ---+"+IpUtil.getIpAddr(request));
@@ -260,8 +260,8 @@ public class CgFormHeadController extends BaseController {
 			return j;
 		}
 		TSUser currentUser = ResourceUtil.getSessionUser();
-       if("0".equals(currentUser.getDevFlag())){
-            message = "同步失败，您不是开发人员无授权访问！";
+       if(CgAutoListConstant.SYS_DEV_FLAG_0.equals(currentUser.getDevFlag())){
+            message = "同步失败，当前用户未授权开发权限！";
             logger.info(message+" ----- 请求IP ---+"+IpUtil.getIpAddr(request));
             j.setMsg(message);
             return j;

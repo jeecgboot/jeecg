@@ -138,7 +138,7 @@
 							   value="${showDbPassword}">
 						<span class="Validform_checktip"></span>
 						<a href="#"  id="dbtest" >
-						[<label class="Validform_label">测试</label>]
+						<label class="Validform_label">[ 测试  ]</label>
 						</a>
 						<span class="Validform_checktip"  id="dbmsg"></span>
 					</td>

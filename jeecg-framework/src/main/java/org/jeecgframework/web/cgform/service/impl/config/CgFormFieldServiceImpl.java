@@ -19,6 +19,7 @@ import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
@@ -386,6 +387,8 @@ public class CgFormFieldServiceImpl extends CommonServiceImpl implements
 		sql1.append(" and f.main_table=? ");
 		List<Map<String, Object>> list = this.findForJdbc(sql1.toString(),
 				subTableName, mainTableName);
+
+		SqlInjectionUtil.filterContent(subTableName);
 
 		StringBuilder sql2 = new StringBuilder("");
 		sql2.append("select sub.* from ").append(subTableName).append(" sub ");

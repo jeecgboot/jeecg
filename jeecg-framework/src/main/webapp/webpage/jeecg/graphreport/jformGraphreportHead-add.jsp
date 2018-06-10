@@ -44,7 +44,7 @@
 				<label class="Validform_label">描述:</label>
 			</td>
 			<td class="value">
-				<input id="content" name="content" type="text" style="width: 150px" class="inputxt"datatype="*">
+				<input id="content" name="content" type="text" style="width: 150px" class="inputxt" />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">描述</label>
 			</td>
@@ -52,7 +52,7 @@
 				<label class="Validform_label">y轴文字:</label>
 			</td>
 			<td class="value">
-				<input id="ytext" name="ytext" type="text" style="width: 150px" class="inputxt"datatype="*">
+				<input id="ytext" name="ytext" type="text" style="width: 150px" class="inputxt" datatype="*">
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">y轴文字</label>
 			</td>
@@ -64,7 +64,7 @@
 				<label class="Validform_label">x轴数据:</label>
 			</td>
 			<td class="value">
-		     	 <input id="categories" name="categories" type="text" style="width: 150px" class="inputxt"datatype="*">
+		     	 <input id="categories" name="categories" type="text" style="width: 150px" class="inputxt" datatype="*">
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">x轴数据</label>
 			</td>

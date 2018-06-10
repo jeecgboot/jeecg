@@ -507,12 +507,20 @@ public class DepartAuthGroupController extends BaseController {
 			if(oConvertUtils.isEmpty(userName) || "admin".equals(userName)) {
 				hql.append(" and TSPDepart is null ");
 				//企业用户注册时不显示供应商节点
-				if(isRegister.equals("1"))hql.append(" and orgCode!='"+OrgConstants.SUPPLIER_ORG_CODE+"'");
-				tSDeparts = this.systemService.findHql(hql.toString());
+
+				if(isRegister.equals("1")){
+					hql.append(" and orgCode!=?");
+					tSDeparts = this.systemService.findHql(hql.toString(),OrgConstants.SUPPLIER_ORG_CODE);
+				}else{
+					tSDeparts = this.systemService.findHql(hql.toString());
+				}
+
 			} else {
 				//当其他用户登陆的时候查询用户关联的管理员组的组织机构
-				hql.append(" and id in (select deptId from TSDepartAuthGroupEntity where id in (select groupId from TSDepartAuthgManagerEntity where userId = '"+userName+"'))");
-				tSDeparts = this.systemService.findHql(hql.toString());
+
+				hql.append(" and id in (select deptId from TSDepartAuthGroupEntity where id in (select groupId from TSDepartAuthgManagerEntity where userId = ?))");
+				tSDeparts = this.systemService.findHql(hql.toString(),userName);
+
 			}
 		}
 		
@@ -583,14 +591,18 @@ public class DepartAuthGroupController extends BaseController {
 			String deptId = request.getParameter("deptId");
 			String curId = request.getParameter("curId");
 			if(StringUtils.isNotEmpty(curId)) {
-				String sql = "select dept_id from t_s_depart_auth_group where id='"+curId+"'";
-				List<Map<String,Object>> deptIdMaps = systemService.findForJdbc(sql);
+
+				String sql = "select dept_id from t_s_depart_auth_group where id= ?";
+				List<Map<String,Object>> deptIdMaps = systemService.findForJdbc(sql,curId);
+
 				if(deptIdMaps.get(0).get("dept_id").equals(deptId)) {
 					j.setSuccess(true);
 				}
 			}else {
-				String sql = "select count(0) as count,group_name,dept_name from t_s_depart_auth_group where dept_id='"+deptId+"' group by group_name";
-				List<Map<String,Object>> deptMaps = systemService.findForJdbc(sql);
+
+				String sql = "select count(0) as count,group_name,dept_name from t_s_depart_auth_group where dept_id = ? group by group_name";
+				List<Map<String,Object>> deptMaps = systemService.findForJdbc(sql,deptId);
+
 				if(deptMaps.size() > 0) {
 					j.setMsg(deptMaps.get(0).get("dept_name")+"已设置管理员组,请勿重复设置");
 					j.setSuccess(false);
@@ -1573,9 +1585,11 @@ public class DepartAuthGroupController extends BaseController {
 				List<String> userLists = new ArrayList<String>();
 				// 根据获取的部门id查询userid
 				for (TSDepart dept : deptList) {
-					// 查询用户信息不查子节点。查询子节点用 dept.getOrgCode()%
-					String orgCodeHql = " from TSDepart where orgCode like '" + dept.getOrgCode() + "'";
-					List<TSDepart> orgCode = this.systemService.findHql(orgCodeHql);
+					// 查询用户信息不查子节点。查询子节点用 dept.getOrgCode()% 用like concat(?,'%')
+
+					String orgCodeHql = " from TSDepart where orgCode = ?";
+					List<TSDepart> orgCode = this.systemService.findHql(orgCodeHql,dept.getOrgCode());
+
 					for (TSDepart code : orgCode) {
 						TSDepart tsDept = this.systemService.getEntity(TSDepart.class, code.getId());
 						String deptHql = new String(" from TSUserOrg where tsDepart = ?");
@@ -1721,7 +1735,7 @@ public class DepartAuthGroupController extends BaseController {
 	@RequestMapping(params = "selectSupplier",method = RequestMethod.POST)
 	@ResponseBody
 	public List<Map<String,Object>> selectSupplier(String supplier,HttpServletResponse response,HttpServletRequest request) {
-		String sql = "select * from t_s_depart_auth_group where group_name like CONCAT('%',?,'%') or dept_name like CONCAT('%',?,'%') and dept_code like 'Z%'";
+		String sql = "select * from t_s_depart_auth_group where group_name like CONCAT('%',?,'%') or dept_name like CONCAT('%',?,'%') ";
 		List<Map<String,Object>> departAuthGroup = systemService.findForJdbc(sql, supplier,supplier);
 		List<Map<String,Object>> resultMap=new ArrayList<Map<String,Object>>();
 		if(departAuthGroup!=null && !departAuthGroup.isEmpty()){
@@ -1730,8 +1744,10 @@ public class DepartAuthGroupController extends BaseController {
 				map.put("chkDisabled", false);
 				map.put("click", true);
 				map.put("id", m.get("id"));
+
 				String deptName = m.get("dept_name").toString();
-				map.put("name", m.get("group_name") + "  (" + deptName + ")");
+				map.put("name", deptName + "管理组");
+
 				map.put("nocheck", false);
 				map.put("struct", "TREE");
 				map.put("title", m.get("group_name"));

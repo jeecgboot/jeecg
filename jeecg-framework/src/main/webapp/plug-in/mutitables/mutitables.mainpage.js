@@ -95,10 +95,10 @@ function iframeExportXls(mm){
 
 function iframeFilter(mm){
 	if(mm==1){
-		$("#mainList")[0].contentWindow.doFilterit();
+		$("#mainList")[0].contentWindow.curd.doFilterit();
 	}else{
 		var listname = $("#mainPageFrameActived").val();
-		$("#"+listname+"Iframe")[0].contentWindow.doFilterit();
+		$("#"+listname+"Iframe")[0].contentWindow.curd.doFilterit();
 	}
 }
 //新增弹框
@@ -203,12 +203,26 @@ function scrollToEndit(){
 }
 
 //宽度适应当前窗口
-function initdivwidth(){console.log(1);
-	var abc = parseInt(document.body.clientWidth)-17;
+function initdivwidth(){
+	var allw = document.body.clientWidth;
+	var abc = parseInt(allw)-17;
 	$("#accDiv").css("width", abc);
 	$("#tabsok").css("width", abc);
 	$("#tab-menus-attached").css("width", abc);
 	$("#tab-menus-main").css("width", abc);
+	
+ 	var singleWidth = 225;
+ 	var rowLen = Math.floor((allw-15)/singleWidth);
+ 	var alllen = $("#associated_query").find("span.query-item").length;
+ 	var lenOffset = Math.floor(alllen/rowLen);
+ 	$("#accDiv").accordion('getPanel',0).panel('resize',{height:lenOffset*30+100});
+	var menu_top1 = (78+lenOffset*30)+"px",menu_top2 = '30px';
+	$('#accDiv').children(".panel:first-child").children('.panel-header').click(function(){
+		toggleMainMenusTop(menu_top1,menu_top2);
+	});
+	$('#accDiv').children(".panel:first-child").find('.panel-tool a').click(function(){
+		toggleMainMenusTop(menu_top1,menu_top2);
+	});
 }
 
 /**
@@ -341,8 +355,12 @@ function doAssociatedQuery(queryCode,dgname){
 	});
 	sqlbuildObj.children = childArr;
 	sqlbuildArr.push(sqlbuildObj);
-	console.log(JSON.stringify(sqlbuildArr)+"---"+dgname);
+	//console.log(JSON.stringify(sqlbuildArr)+"---"+dgname);
 	$("#mainList").contents().find("#_complexSqlbuilder").val(JSON.stringify(sqlbuildArr));
 	$("#mainList")[0].contentWindow[dgname+'search'].call(this);
+}
+
+function superQuery(){
+	$("#mainList")[0].contentWindow.curd.superQuery();
 }
 

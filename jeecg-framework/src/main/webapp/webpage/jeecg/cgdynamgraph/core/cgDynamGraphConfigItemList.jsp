@@ -59,7 +59,7 @@
 				<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[0].SMode" type="list"  extendJson="{style:'width:90px'}" typeGroupCode="searchmode" defaultVal="${cgDynamGraphConfigItemPage.sMode}" hasLabel="false" title="common.query.module"></t:dictSelect></td>
 				<td align="left"><input name="cgDynamGraphConfigItemList[0].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
 				<td align="left"><input name="cgDynamGraphConfigItemList[0].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
-				<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[0].SFlag"  extendJson="{style:'width:60px'}" divClass="STYLE_LEG" type="list" typeGroupCode="yesorno" defaultVal="${cgDynamGraphConfigItemPage.sFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
+				<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[0].SFlag"  extendJson="{style:'width:90px'}" divClass="STYLE_LEG" type="list" typeGroupCode="yesorno" defaultVal="${cgDynamGraphConfigItemPage.sFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
 			</tr>
 		</c:if>
 		<c:if test="${fn:length(cgDynamGraphConfigItemList)  > 0 }">
@@ -82,7 +82,7 @@
 					<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[${stuts.index }].SMode"  extendJson="{style:'width:90px'}" type="list" typeGroupCode="searchmode" defaultVal="${poVal.SMode}" hasLabel="false" title="common.query.module"></t:dictSelect></td>
 					<td align="left"><input name="cgDynamGraphConfigItemList[${stuts.index }].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="${poVal.replaceVa }"></td>
 					<td align="left"><input name="cgDynamGraphConfigItemList[${stuts.index }].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;" value="${poVal.dictCode }"></td>
-					<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[${stuts.index }].SFlag" extendJson="{style:'width:60px'}" type="list" typeGroupCode="yesorno" defaultVal="${poVal.SFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
+					<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[${stuts.index }].SFlag" extendJson="{style:'width:90px'}" type="list" typeGroupCode="yesorno" defaultVal="${poVal.SFlag}" hasLabel="false" title="common.isquery"></t:dictSelect></td>
 				</tr>
 			</c:forEach>
 		</c:if>

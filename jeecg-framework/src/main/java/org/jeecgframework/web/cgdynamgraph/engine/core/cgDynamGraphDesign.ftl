@@ -266,7 +266,7 @@
 		<#if x['search_mode']=="single">
 				<#if  (x['field_dictlist']?size >0)>
 				<select name = "${x['field_name']}" WIDTH="100" style="width: 104px">
-				<option value = "">-- 请选择 --</option>
+				<option value = ""></option>
 				<#list x['field_dictlist']  as xd>
 					<option value = "${xd['typecode']}">${xd['typename']}</option>
 				</#list>

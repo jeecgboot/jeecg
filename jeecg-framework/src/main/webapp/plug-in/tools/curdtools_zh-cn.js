@@ -403,7 +403,7 @@ function tip(msg) {
 				title:'提示信息',
 				offset:'rb',
 				content:msg,
-				time:3000,
+				time:6000,
 				btn:false,
 				shade:false,
 				icon:icon,

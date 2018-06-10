@@ -152,36 +152,24 @@ public class TSInterfaceController extends BaseController {
 	public AjaxJson del(TSInterfaceEntity tsInterface, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
+
 		tsInterface = systemService.getEntity(TSInterfaceEntity.class, tsInterface.getId());
 		List<TSInterfaceEntity> ts = tsInterface.getTSInterfaces();
-		message = MutiLangUtil.paramDelSuccess("common.menu");
-		TSInterfaceEntity parent = tsInterface.gettSInterface();
-		
-		String hql=	(" from TSInterfaceDdataRuleEntity  where  interface_id='"+ tsInterface.getId() + "'");
-		List<Object> findByQueryString = systemService.findByQueryString(hql);
-		
-		 
-		//String hql =  ("select count(1)  from TSInterfaceEntity where  id='"+ tsInterface.getId() + "'");
-		//List<Object> findByQueryString = systemService.findByQueryString(hql);
-		//String hql=("select count(1)  from TSInterfaceDdataRuleEntity  where  id='"+ tsInterface.getId() + "'");
-		
-		
-		try {
-			 if (findByQueryString!=null&&findByQueryString.size()>0||ts!=null&&ts.size()>0) {
+		if(ts!=null&&ts.size()>0){
+			 message = MutiLangUtil.getLang("common.menu.del.fail");
+		}else{
+			String hql =" from TSInterfaceDdataRuleEntity where TSInterface.id = ?";
+			List<Object> findByQueryString = systemService.findHql(hql,tsInterface.getId());
+			if(findByQueryString!=null&&findByQueryString.size()>0){
 				 message = MutiLangUtil.getLang("common.menu.del.fail");
+			}else{
+				String sql = "delete from t_s_interface where id = ?";
+				systemService.executeSql(sql, tsInterface.getId());
+				message = MutiLangUtil.paramDelSuccess("common.menu");
+				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			}
-			  else{
-				systemService.updateBySqlString("delete from t_s_interface where id='"+ tsInterface.getId() + "'");
-				//tsService.delete(tsInterface);
-			}
-		} catch (Exception e) {
-			if (parent != null) {
-				parent.getTSInterfaces().add(tsInterface);
-			}
-			e.printStackTrace();
-			message = MutiLangUtil.getLang("common.menu.del.fail");
 		}
-		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+
 		j.setMsg(message);
 		return j;
 	}
@@ -508,21 +496,15 @@ public class TSInterfaceController extends BaseController {
 	}
 
 	public int justHaveDataRule(TSInterfaceDdataRuleEntity dataRule) {
-		String sql = "SELECT id FROM t_s_interface_datarule WHERE interface_id='" + dataRule.getTSInterface().getId()
-				+ "' AND rule_column='" + dataRule.getRuleColumn() + "' AND rule_conditions='"
-				+ dataRule.getRuleConditions() + "'";
-		sql += " AND rule_column IS NOT NULL AND rule_column <> ''";
-		List<String> hasOperList = this.systemService.findListbySql(sql);
-		System.out.println(sql+"******");
-		return hasOperList.size();
+
+		String column = dataRule.getRuleColumn();
+		if(oConvertUtils.isEmpty(column)){
+			return 0;
+		}
+		String sql = "SELECT count(1) FROM t_s_interface_datarule WHERE interface_id = ? AND rule_column = ? AND rule_conditions = ?";
+		Long count = this.systemService.getCountForJdbcParam(sql, dataRule.getTSInterface().getId(),column,dataRule.getRuleConditions());
+		return count.intValue();
+
 	}
-	public int  HaveDataRule(TSInterfaceDdataRuleEntity dataRule) {
-		String sql = "SELECT count(*) FROM t_s_interface_datarule WHERE interface_id='"+dataRule.getTSInterface().getId()+"'";
-		List<String> hasOperList = this.systemService.findListbySql(sql);
-		System.out.println(sql+"******");
-		return hasOperList.size();
-	}
-	
-	
 
 }

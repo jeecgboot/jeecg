@@ -54,4 +54,26 @@ public interface CgReportServiceI extends CommonService{
 	 * @return
 	 */
 	public List<String> getSqlFields(String sql);
+	/**
+	 * 解析sql字段，支持多数据源
+	 * @param sql
+	 * @param dbKey
+	 * @return
+	 */
+	public List<String> getFields(String sql, String dbKey);
+	/**
+	 * 解析sql参数
+	 * @param sql
+	 * @return
+	 */
+	public List<String> getSqlParams(String sql);
+	
+	/**
+	 * 加载字典
+	 * @param fl
+	 * @param fl2
+	 */
+	public void loadDic(Map<String, Object> fl);
+	public void dealDic(List<Map<String, Object>> result, List<Map<String, Object>> items);
+	public void dealReplace(List<Map<String, Object>> result, List<Map<String, Object>> items);
 }

@@ -44,7 +44,7 @@
 				<label class="Validform_label">描述:</label>
 			</td>
 			<td class="value">
-				<input id="content" name="content" type="text" style="width: 150px" class="inputxt" datatype="*" value='${jformGraphreportHeadPage.content}'>
+				<input id="content" name="content" type="text" style="width: 150px" class="inputxt"  value='${jformGraphreportHeadPage.content}' />
 				<span class="Validform_checktip"></span>
 				<label class="Validform_label" style="display: none;">描述</label>
 			</td>

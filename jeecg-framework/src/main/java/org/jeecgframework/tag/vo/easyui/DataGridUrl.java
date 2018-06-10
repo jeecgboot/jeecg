@@ -28,6 +28,8 @@ public class DataGridUrl {
 
 	private String operationCode;//按钮的操作Code
 
+	private boolean inGroup = false;
+
 	public String getOnclick() {
 		return onclick;
 	}
@@ -161,6 +163,14 @@ public class DataGridUrl {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public boolean isInGroup() {
+		return inGroup;
+	}
+
+	public void setInGroup(boolean inGroup) {
+		this.inGroup = inGroup;
 	}
 
 	@Override

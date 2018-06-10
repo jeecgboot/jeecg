@@ -29,6 +29,7 @@ import org.jeecgframework.core.util.IpUtil;
 import org.jeecgframework.core.util.LogUtil;
 import org.jeecgframework.core.util.ReflectHelper;
 import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.BeanUtils;
@@ -264,6 +265,9 @@ public class CgformSqlController extends BaseController {
 				if(t instanceof CgFormHeadPojo){
 					reflectHelper.setMethodValue("isDbsynch", "N");
 				}
+
+				SqlInjectionUtil.filterContent(dbTable.getTableName());
+
 				id = (String) reflectHelper.getMethodValue("id");
 				countSql = "select id from "+ dbTable.getTableName() + " where id=?";
 				if(t instanceof CgFormHeadPojo){

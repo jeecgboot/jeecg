@@ -1,5 +1,8 @@
-/*font-family:Tahoma,Verdana,微软雅黑,新宋体*/
-*{font-size:12px; font-family:Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif}
+/*update-begin--Author:scott  Date:20180605 for：列表字体样式修改，美化页面-------------------- */
+/**{font-size:12px; font-family:Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif}*/
+*{font-size:12px;}
+/*update-end--Author:scott  Date:20180605 for：列表字体样式修改，美化页面-------------------- */
+
 a{ color:Black; text-decoration:none;}
 a:hover{ color:blue; text-decoration:none;}
 .footer{text-align:center;color:#15428B; margin:0px; padding:0px;line-height:23px; font-weight:bold;}

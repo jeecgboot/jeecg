@@ -20,6 +20,7 @@
 	<t:dgToolBar title="excelImport" icon="fa fa-arrow-circle-left" funname="ImportXls"></t:dgToolBar>
 	<t:dgToolBar title="excelOutput" icon="fa fa-arrow-circle-right" funname="ExportXls"></t:dgToolBar>
 	<t:dgToolBar title="templateDownload" icon="fa fa-arrow-circle-o-down" funname="ExportXlsByT"></t:dgToolBar>
+	<t:dgToolBar title="重置用户权限缓存" icon="fa  fa-refresh" funname="refresh"></t:dgToolBar>
 </t:datagrid></div>
 </div>
 <div region="east" style="width: 600px;" split="true">
@@ -74,5 +75,26 @@ function ExportXls() {
 //模板下载
 function ExportXlsByT() {
 	JeecgExcelExport("roleController.do?exportXlsByT", "roleList");
+}
+
+//模板下载
+function refresh() {
+	$.ajax({
+		async : false,
+		cache : false,
+		type : 'POST',
+		url : 'roleController.do?refresh',
+		error : function() {
+		},
+		success : function(data) {
+			var d = $.parseJSON(data);
+			if (d.success) {
+				var msg = d.msg;
+				tip(msg);
+			} else {
+				tip(d.msg);
+			}
+		}
+	});
 }
 </script>

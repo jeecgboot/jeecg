@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.lang.model.util.ElementScanner6;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -36,12 +34,10 @@ import org.jeecgframework.core.common.dao.IGenericBaseCommonDao;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.hibernate.qbc.DetachedCriteriaUtil;
 import org.jeecgframework.core.common.hibernate.qbc.HqlQuery;
 import org.jeecgframework.core.common.hibernate.qbc.PageList;
 import org.jeecgframework.core.common.hibernate.qbc.PagerUtil;
 import org.jeecgframework.core.common.model.common.DBTable;
-import org.jeecgframework.core.common.model.json.DataGridReturn;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.ToEntityUtil;
@@ -685,7 +681,10 @@ public abstract class GenericBaseCommonDao<T, PK extends Serializable>
 		} else {
 			pageSize = allCounts;
 		}
-		DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(), cq.getField().split(","), cq.getEntityClass(), false);
+
+		//DetachedCriteriaUtil.selectColumn(cq.getDetachedCriteria(), cq.getField().split(","), cq.getEntityClass(), false);
+
+		
 		return new DataTableReturn(allCounts, allCounts, cq.getDataTables().getEcho(), criteria.list());
 	}
 

@@ -1,4 +1,8 @@
 package com.jeecg.demo.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
@@ -61,7 +65,6 @@ import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.util.InterfaceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -71,7 +74,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,10 +85,6 @@ import com.jeecg.demo.entity.JeecgDemoEntity;
 import com.jeecg.demo.entity.JeecgDemoPage;
 import com.jeecg.demo.entity.JeecgLogReport;
 import com.jeecg.demo.service.JeecgDemoServiceI;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**   
  * @Title: Controller  
@@ -605,28 +603,26 @@ public class JeecgListDemoController extends BaseController {
 			}
 		}
 	}
-
-	
 	
 	
 	@RequestMapping(params = "minidaoDatagrid")
 	public void minidaoDatagrid(JeecgDemoEntity jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		/**
 		 * 注意：minidao会遵循springjdbc规则，会自动把数据库以下划线的字段，转化为驼峰写法
-		 * 例如数据库表字段：{USER_NAME}
+		 * 例如数据库表字段：{user_name}
 		 * 转化实体对应字段：{userName}
 		 */
-
+		
+		//step.1 获取数据权限SQL片段
 		String authSql = JeecgDataAutorUtils.loadDataSearchConditonSQLString();
+		
+		//step.2 将权限SQL片段注入到业务SQL中
 		MiniDaoPage<JeecgDemoEntity> list = jeecgMinidaoDao.getAllEntities(jeecgDemo, dataGrid.getPage(), dataGrid.getRows(),authSql);
-
 		dataGrid.setTotal(list.getTotal());
 		dataGrid.setResults(list.getResults());
-
+		
+		 //step.3 合计，格式为 字段名:值(可选，不写该值时为分页数据的合计) 多个合计 以 , 分割
 		String total_salary = String.valueOf(jeecgMinidaoDao.getSumSalary());
-		/*
-		 * 说明：格式为 字段名:值(可选，不写该值时为分页数据的合计) 多个合计 以 , 分割
-		 */
 		dataGrid.setFooter("salary:"+(total_salary.equalsIgnoreCase("null")?"0.0":total_salary)+",age,email:合计");
 		TagUtil.datagrid(response, dataGrid);
 	}
@@ -671,8 +667,8 @@ public class JeecgListDemoController extends BaseController {
 		        m.put("extField",this.jeecgMinidaoDao.getOrgCode(temp.getDepId()));
 		        extMap.put(temp.getId(), m);
 		}
-		//dataGrid.setFooter("extField,salary,age,name:合计");
-		dataGrid.setFooter("salary,age,name:合计");
+//		dataGrid.setFooter("salary,age,name:合计");
+		dataGrid.setFooter("[{'salary':'','age':'','name':'合计'}]");
 		TagUtil.datagrid(response, dataGrid, extMap);
 	}
 	
@@ -995,6 +991,7 @@ public class JeecgListDemoController extends BaseController {
 						jeecgDemoService.saveOrUpdate(t);
 						systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 					} catch (Exception e) {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "更新失败!!";
 						e.printStackTrace();
 					}
 				} else {
@@ -1004,6 +1001,7 @@ public class JeecgListDemoController extends BaseController {
 						jeecgDemoService.save(jeecgDemo);
 						systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 					} catch (Exception e) {
+						message = "JeecgDemo例子: " + jeecgDemo.getName() + "添加失败!!";
 						e.printStackTrace();
 					}
 					
@@ -1362,6 +1360,11 @@ public class JeecgListDemoController extends BaseController {
 				req.setAttribute("jeecgDemoPage", jeecgDemo);
 			}
 			return new ModelAndView("com/jeecg/demo/jeecgDemo-bootstrap-add2");
+		}
+
+		@RequestMapping(params = "bootStrapEchartsDemo")
+		public ModelAndView bootStrapEchartsDemo(HttpServletRequest request) {
+			return new ModelAndView("com/jeecg/demo/echartsDemo/bootstrap-echarts");
 		}
 
 		

@@ -171,4 +171,10 @@ public class CgAutoListConstant {
 	public static final String BASEPATH = "basePath";
 
 	
+	
+	//===============Online开发权限{针对sql敏感操作}=================
+	/** 1： 有在线开发权限 */
+	public static final String SYS_DEV_FLAG_1 = "1";
+	/** 0： 无在线开发权限 */
+	public static final String SYS_DEV_FLAG_0 = "0";
 }

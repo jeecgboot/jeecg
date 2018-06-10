@@ -83,7 +83,7 @@
 				    </div>
 				    <div class="col-xs-6">
 						<select name="sex" class="form-control"  style="width:164px" >
-							<option value="">-- 请选择 -- </option> 
+							<option value="">  </option> 
 							<option value="0">男 </option>
 							<option value="1">女 </option> 
 						</select>
@@ -111,17 +111,6 @@
 						<input id="birthday" name="birthday" type="text" ignore="ignore" style="background: url('plug-in/ace/images/datetime.png') no-repeat scroll right center transparent;"  class="form-control" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
 						<span class="Validform_checktip" style="float:left;height:0px;"></span>
 						<label class="Validform_label" style="display: none">生日</label>
-			        </div>
-				</div>
-				
-				<div class="row show-grid">
-			        <div class="col-xs-3 text-center">
-				        <b>个人介绍：</b>
-				    </div>
-				    <div class="col-xs-6">
-						<textarea id="content" name="content" class="form-control" style="width:90%" rows="4"></textarea>
-						<span class="Validform_checktip" style="float:left;height:0px;"></span>
-						<label class="Validform_label" style="display: none">个人介绍</label>
 			        </div>
 				</div>
 				

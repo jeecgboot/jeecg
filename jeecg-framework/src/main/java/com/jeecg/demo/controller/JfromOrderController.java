@@ -58,7 +58,7 @@ import com.jeecg.demo.entity.JfromOrderEntity;
 import com.jeecg.demo.entity.JfromOrderLineEntity;
 import com.jeecg.demo.page.JfromOrderPage;
 import com.jeecg.demo.service.JfromOrderServiceI;
-import com.jeecg.superquery.util.SuperQueryUtil;
+import org.jeecgframework.web.superquery.util.SuperQueryUtil;
 
 /**   
  * @Title: Controller
@@ -92,7 +92,18 @@ public class JfromOrderController extends BaseController {
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/jfromOrderList");
+	}
+
+	/**
+	 * 订单列表列表 页面跳转 (自定义子表显示demo)
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "gridViewlist")
+	public ModelAndView gridViewlist(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/jfromOrderGridViewList");
 	} 
+
 
 	/**
 	 * easyui AJAX请求数据
@@ -273,6 +284,17 @@ public class JfromOrderController extends BaseController {
 		}
 		return new ModelAndView("com/jeecg/demo/jfromOrderLineList");
 	}
+
+	@RequestMapping(params = "jfromOrderLineDatagrid")
+	public void jfromOrderLineDatagrid(JfromOrderLineEntity jfromOrderLineEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(JfromOrderLineEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jfromOrderLineEntity);
+		cq.add();
+		this.jfromOrderService.getDataGridReturn(cq, true);
+		TagUtil.datagrid(response, dataGrid);
+	}
+
 
     /**
     * 导出excel

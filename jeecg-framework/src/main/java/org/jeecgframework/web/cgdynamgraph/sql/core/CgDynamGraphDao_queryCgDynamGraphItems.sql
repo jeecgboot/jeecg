@@ -13,5 +13,5 @@ ci.cgrhead_id as cgreport_head_id
 from jform_cgdynamgraph_item ci,jform_cgdynamgraph_head ch 
 where 1=1
 and ci.cgrhead_id = ch.id
-and ch.code = '${configId}'
+and ch.code = :configId
 order by ci.order_num asc

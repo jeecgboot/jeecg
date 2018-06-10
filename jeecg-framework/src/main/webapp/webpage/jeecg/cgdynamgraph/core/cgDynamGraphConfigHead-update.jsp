@@ -83,7 +83,7 @@
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"><t:mutiLang langKey="common.description"/>:</label></td>
-			<td class="value" colspan="5"><textarea rows="3" cols="150" id="content" name="content" datatype="*">${cgDynamGraphConfigHeadPage.content}</textarea> <span class="Validform_checktip"></span></td>
+			<td class="value" colspan="5"><textarea rows="3" cols="150" id="content" name="content">${cgDynamGraphConfigHeadPage.content}</textarea> <span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label">图表类型:</label></td>
@@ -116,7 +116,7 @@
 			<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[#index#].SMode" type="list" extendJson="{style:'width:90px'}" typeGroupCode="searchmode" defaultVal="" hasLabel="false" title="common.query.module"></t:dictSelect></td>
 			<td align="left"><input name="cgDynamGraphConfigItemList[#index#].replaceVa" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
 			<td align="left"><input name="cgDynamGraphConfigItemList[#index#].dictCode" maxlength="36" type="text" class="inputxt" style="width: 120px;"></td>
-			<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[#index#].SFlag" type="list" extendJson="{style:'width:60px'}" typeGroupCode="yesorno" defaultVal="" hasLabel="false" title="common.isquery"></t:dictSelect></td>
+			<td align="left"><t:dictSelect field="cgDynamGraphConfigItemList[#index#].SFlag" type="list" extendJson="{style:'width:90px'}" typeGroupCode="yesorno" defaultVal="" hasLabel="false" title="common.isquery"></t:dictSelect></td>
 		</tr>
 	</tbody>
 </table>

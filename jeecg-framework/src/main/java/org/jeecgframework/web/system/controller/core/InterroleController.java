@@ -202,8 +202,9 @@ public class InterroleController extends BaseController {
 		// }
 		// int count = interroleService.getUsersOfThisRole(role.getId());
 
-		String hql = (" from InterroleInterfaceEntity  where  interrole_id='" + role.getId() + "'");
-		List<InterroleInterfaceEntity> findByQueryString = systemService.findByQueryString(hql);
+		String hql = " from InterroleInterfaceEntity  where  interrole_id= ?";
+		List<InterroleInterfaceEntity> findByQueryString = systemService.findHql(hql,role.getId());
+
 		role = systemService.getEntity(InterroleEntity.class, role.getId());
 		if (findByQueryString.size() > 0 && findByQueryString != null) {
 			// 删除角色之前先删除角色权限关系

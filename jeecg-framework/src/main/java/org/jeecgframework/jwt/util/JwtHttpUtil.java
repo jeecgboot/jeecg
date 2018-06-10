@@ -7,7 +7,10 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.LogUtil;
+
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -16,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
  *
  */
 public class JwtHttpUtil {
+	private static Logger log = Logger.getLogger(JwtHttpUtil.class);
 
 	/**
 	 * 发起https请求并获取结果
@@ -70,9 +74,8 @@ public class JwtHttpUtil {
 			inputStream.close();
 			inputStream = null;
 			httpUrlConn.disconnect();
-			System.out.println(buffer.toString());
+			log.debug(buffer.toString());
 			jsonObject = JSONObject.parseObject(buffer.toString());
-			// jsonObject = JSONObject.fromObject(buffer.toString());
 		} catch (ConnectException ce) {
 			LogUtil.info("Weixin server connection timed out.");
 		} catch (Exception e) {
@@ -143,9 +146,7 @@ public class JwtHttpUtil {
 			inputStream = null;
 			httpUrlConn.disconnect();
 			res = buffer.toString();
-			System.out.println(res);
-//			jsonObject = JSONObject.parseObject(buffer.toString());
-			// jsonObject = JSONObject.fromObject(buffer.toString());
+			log.debug(res);
 		} catch (ConnectException ce) {
 			LogUtil.info("Weixin server connection timed out.");
 		} catch (Exception e) {

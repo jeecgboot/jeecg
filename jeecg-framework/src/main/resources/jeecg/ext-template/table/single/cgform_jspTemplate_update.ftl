@@ -282,7 +282,7 @@
 	  	<script type="text/javascript">
 		  	//加载 已存在的 文件
 		  	$(function(){
-		  		var cgFormId=$("input[name='id']").val();
+	  			var cgFormId=$("input[name='id']").val();
 		  		$.ajax({
 		  		   type: "post",
 		  		   url: "${entityName?uncap_first}Controller.do?getFiles&id=" +  cgFormId,

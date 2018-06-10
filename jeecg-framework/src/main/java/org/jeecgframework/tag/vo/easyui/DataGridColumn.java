@@ -51,7 +51,10 @@ public class DataGridColumn {
 	protected String showMode;//表单元素,查询表单中显示样式,默认样式select	
 
 	protected boolean newColumn;
-	
+
+	private String filterType = "text";//过滤操作的类型
+	private boolean optsMenu = false;//操作列风格转变
+
 	public boolean isNewColumn() {
 		return newColumn;
 	}
@@ -328,6 +331,20 @@ public class DataGridColumn {
 
 	public void setDefaultVal(String defaultVal) {
 		this.defaultVal = defaultVal;
+	}
+
+	public String getFilterType() {
+		return filterType;
+	}
+	public void setFilterType(String filterType) {
+		this.filterType = filterType;
+	}
+	
+	public boolean isOptsMenu() {
+		return optsMenu;
+	}
+	public void setOptsMenu(boolean optsMenu) {
+		this.optsMenu = optsMenu;
 	}
 
 	@Override

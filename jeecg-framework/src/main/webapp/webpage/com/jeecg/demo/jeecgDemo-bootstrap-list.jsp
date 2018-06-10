@@ -67,7 +67,7 @@
 			                         <label for="age">性别：</label>
 			                         <div class="input-group col-md-12">
 				                         <select class="form-control input-sm" id="sex" name="sex">
-				                              <option value="">--请选择--</option>
+				                              <option value=""></option>
 											  <option value="0">男</option>
 											  <option value="0">女</option>
 										 </select>

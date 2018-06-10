@@ -4,6 +4,7 @@ import org.jeecgframework.core.util.oConvertUtils;
 
 /**
  * 主从页面 菜单配置  ,code字符串不要有包含的情况 (例如：有了add 就不能有addOne)
+ * 【船舶专用】
  * @author taoYan
  * @since 2017年12月25日
  */
@@ -11,6 +12,13 @@ public enum MenuButtonsEnum {
 	addgroup("addgroup","表单新增&word模式","iframeGoAdd&tempNoDo","fa fa-file-text-o&fa fa-file-word-o&fa fa-plus")
 	,editgroup("editgroup","表单编辑&word模式","iframeGoUpdate&tempNoDo","fa fa-file-text-o&fa fa-file-word-o&fa fa-pencil-square-o")
 	,batchDel("batchDel","批量删除","iframeDeleteAll","fa fa-trash-o")
+	,save("save","保存","iframeGoSaveRow","fa fa-floppy-o")
+	,reject("reject","取消编辑","iframeRejectUpdate","fa fa-reply")
+	,template("template","模板下载","iframeExportXlsByT","fa fa-upload")
+	,importe("import","数据导入","iframeImportExcel","fa fa-download")
+	,export("export","数据导出","iframeExportXls","fa fa-share-square-o")
+	,filter("filter","过滤","iframeFilter","fa fa-filter")
+	,superQuery("superQuery","高级查询","superQuery","fa fa-search-plus")
 	;
 	
 	String code;
@@ -91,16 +99,5 @@ public enum MenuButtonsEnum {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-	
-	/*,addone("addone","新增一行","iframeAddRow","iconfont icon-xinzengyihang")
-	/*,save("save","提交修改","iframeGoSaveRow","fa fa-share")
-	,save("save","保存","iframeGoSaveRow","fa fa-floppy-o")
-	,reject("reject","取消编辑","iframeRejectUpdate","fa fa-reply")
-	/*,addform("addform","表单新增","iframeGoAdd","fa fa-plus")
-	,template("template","模板下载","iframeExportXlsByT","fa fa-upload")
-	,importe("import","数据导入","iframeImportExcel","fa fa-download")
-	,export("export","数据导出","iframeExportXls","fa fa-share-square-o")
-	,filter("filter","过滤","iframeFilter","fa fa-filter")
-	,superQuery("superQuery","高级查询","superQuery","fa fa-search-plus")*/
 	
 }

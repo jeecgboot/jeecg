@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**   
  * @Title: Controller
- * @Description: Online移动报表配置功能
+ * @Description: Online移动图表配置
  * @author scott
  * @date 2016-01-10 16:00:21
  * @version V1.0   
@@ -52,7 +52,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 
 
 	/**
-	 * 动态报表配置抬头列表 页面跳转
+	 * 移动图表配置抬头列表 页面跳转
 	 * 
 	 * @return
 	 */
@@ -86,7 +86,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 
 	/**
-	 * 删除动态报表配置抬头
+	 * 删除移动图表配置抬头
 	 * 
 	 * @return
 	 */
@@ -96,14 +96,14 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		cgDynamGraphConfigHead = systemService.getEntity(CgDynamGraphConfigHeadEntity.class, cgDynamGraphConfigHead.getId());
-		message = "动态报表配置抬头删除成功";
+		message = "移动图表配置抬头删除成功";
 		try{
 			cgDynamGraphConfigHeadService.delMain(cgDynamGraphConfigHead);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表删除]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "动态报表配置抬头删除失败";
+			message = "移动图表配置抬头删除失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -111,7 +111,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 
 	/**
-	 * 批量删除动态报表配置抬头
+	 * 批量删除移动图表配置抬头
 	 * 
 	 * @return
 	 */
@@ -120,7 +120,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "动态报表配置抬头删除成功";
+		message = "移动图表配置抬头删除成功";
 		try{
 			for(String id:ids.split(",")){
 				CgDynamGraphConfigHeadEntity cgDynamGraphConfigHead = systemService.getEntity(CgDynamGraphConfigHeadEntity.class, id);
@@ -130,7 +130,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "动态报表配置抬头删除失败";
+			message = "移动图表配置抬头删除失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -138,7 +138,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 
 	/**
-	 * 添加动态报表配置抬头
+	 * 添加移动图表配置抬头
 	 * 
 	 * @param ids
 	 * @return
@@ -157,14 +157,14 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表录入]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "动态报表配置抬头添加失败";
+			message = "移动图表配置抬头添加失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		return j;
 	}
 	/**
-	 * 更新动态报表配置抬头
+	 * 更新移动图表配置抬头
 	 * 
 	 * @param ids
 	 * @return
@@ -183,7 +183,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 			logger.info("["+IpUtil.getIpAddr(request)+"][online移动图表更新]["+cgDynamGraphConfigHead.getCode()+"]"+message);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "更新动态报表配置抬头失败";
+			message = "更新移动图表配置抬头失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -191,7 +191,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 
 	/**
-	 * 动态报表配置抬头新增页面跳转
+	 * 移动图表配置抬头新增页面跳转
 	 * 
 	 * @return
 	 */
@@ -205,7 +205,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 		
 	/**
-	 * 动态报表配置抬头编辑页面跳转
+	 * 移动图表配置抬头编辑页面跳转
 	 * 
 	 * @return
 	 */
@@ -219,7 +219,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 		
 	/**
-	 * 加载明细列表[动态报表配置明细]
+	 * 加载明细列表[移动图表配置明细]
 	 * 
 	 * @return
 	 */
@@ -230,7 +230,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		//获取参数
 		Object id0 = cgDynamGraphConfigHead.getId();
 		//===================================================================================
-		//查询-动态报表配置明细
+		//查询-移动图表配置明细
 	    String hql0 = "from CgDynamGraphConfigItemEntity where 1 = 1 AND cgrheadId = ? ";
 	    try{
 	    	List<CgDynamGraphConfigItemEntity> cgDynamGraphConfigItemEntityList = systemService.findHql(hql0,id0);
@@ -242,7 +242,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 	}
 		
 	/**
-	 * 加载参数列表[动态报表参数]
+	 * 加载参数列表[移动图表参数]
 	 * 
 	 * @return
 	 */
@@ -253,7 +253,7 @@ public class CgDynamGraphConfigHeadController extends BaseController {
 		//获取参数
 		Object id0 = cgDynamGraphConfigHead.getId();
 		//===================================================================================
-		//查询-动态报表配置明细
+		//查询-移动图表配置明细
 	    String hql0 = "from CgDynamGraphConfigParamEntity where 1 = 1 AND cgrheadId = ? ";
 	    try{
 	    	List<CgDynamGraphConfigParamEntity> cgDynamGraphConfigParamEntityList = systemService.findHql(hql0,id0);

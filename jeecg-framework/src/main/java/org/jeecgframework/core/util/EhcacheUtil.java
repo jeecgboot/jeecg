@@ -62,6 +62,16 @@ public class EhcacheUtil {
 			tagCache.removeAll();
 		}
 	}
+	
+	/**
+	 * 清空系统Ehcache缓存
+	 */
+	public static void clean(String cacheName) {
+		Cache eCache = manager.getCache(cacheName);
+		if (eCache != null) {
+			eCache.removeAll();
+		}
+	}
 
 	public static void main(String[] args) {
 		String key = "key";

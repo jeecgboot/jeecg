@@ -3,7 +3,6 @@ package org.jeecgframework.core.util;
 import java.util.Set;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 /**
  * radis 缓存工具类
@@ -17,7 +16,6 @@ public class RedisCacheUtil {
 
 	static{
 		redisTemplate=(RedisTemplate) ApplicationContextUtil.getContext().getBean("redisTemplate");
-		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 	}
 
 	public static Object get(String cacheName, Object key) {

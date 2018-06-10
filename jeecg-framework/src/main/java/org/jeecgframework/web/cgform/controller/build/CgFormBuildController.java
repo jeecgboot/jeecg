@@ -10,13 +10,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.enums.SysThemesEnum;
@@ -42,6 +43,8 @@ import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.FillRuleUtil;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +63,8 @@ import freemarker.template.TemplateException;
 @Controller
 @RequestMapping("/cgFormBuildController")
 public class CgFormBuildController extends BaseController {
-	private static final Logger logger = Logger.getLogger(CgFormBuildController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CgFormBuildController.class);
+	
 	@Autowired
 	private TempletContext templetContext;
 	@Autowired
@@ -97,8 +101,8 @@ public class CgFormBuildController extends BaseController {
 	@RequestMapping(params = "mobileForm")
 	public void mobileForm(HttpServletRequest request,HttpServletResponse response) {
 		String tableName =request.getParameter("tableName");
-		String sql = "select form_template_mobile from cgform_head where table_name = '"+tableName+"'";
-		Map<String, Object> mp = cgFormFieldService.findOneForJdbc(sql);
+		String sql = "select form_template_mobile from cgform_head where table_name = ?";
+		Map<String, Object> mp = cgFormFieldService.findOneForJdbc(sql,tableName);
 		if(mp.containsKey("form_template_mobile") && oConvertUtils.isNotEmpty(mp.get("form_template_mobile"))){
 			String urlTemplateName=request.getParameter("olstylecode");
 			if(oConvertUtils.isEmpty(urlTemplateName)){
@@ -122,7 +126,51 @@ public class CgFormBuildController extends BaseController {
 		}
 	}
 
+	/**
+	 * 过滤online扩展参数中value属性
+	 * @param list 表单列集合
+	 */
+	private void replaceExtendJson(List<Map<String,Object>> list){
+		if(list!=null && !list.isEmpty()){
+			for (Map<String, Object> column : list) {
+				Object extendJson=column.get("extend_json");
+				if(extendJson!=null && !extendJson.equals("")){
+					String reg="value=\"[\\S]*\" ";
+					column.put("extend_json", extendJson.toString().replaceAll(reg,""));
+				}
+			}
+		}
+	}
 
+
+	/**
+	 * 设置页面字典类型的默认值
+	 * 类型： select、checkbox、radio
+	 * @param list
+	 * @param dataForm
+	 */
+	private void initAddDictTagDefaultVal(List<Map<String,Object>> list,Map<String, Object> dataForm){
+		if(list!=null && !list.isEmpty()){
+			for (Map<String, Object> column : list) {
+				Object extendJson = column.get("extend_json");
+				Object show_type = column.get("show_type");
+				if(oConvertUtils.isNotEmpty(extendJson) && oConvertUtils.isNotEmpty(show_type) && "radio|checkbox|list".contains(show_type.toString())){
+					 Pattern p = Pattern.compile("value=\"[\\S]*\" ");
+				     Matcher m = p.matcher(extendJson.toString());
+				     String dfVal = "";
+				     while(m.find()) {
+				    	 dfVal = m.group();
+				     }
+				     dfVal = dfVal.replace("value=","").replace("\"","").trim();
+					 dataForm.put(column.get("field_name").toString(),dfVal);
+					 logger.debug("--------------online添加页面字典类型默认值初始化----------field_name:{} ,dfVal:{} ,show_type :{}", column.get("field_name").toString(),dfVal,show_type.toString());
+				}
+			}
+		}
+	}
+
+	
+	
 	/**
 	 * form表单页面跳转
 	 */
@@ -182,21 +230,27 @@ public class CgFormBuildController extends BaseController {
 
 	    	Map<String, Object> dataForm = new HashMap<String, Object>();
 	    	if(StringUtils.isNotEmpty(id)){
-		        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
-			        if(dataForm!=null){
-			        	Iterator it=dataForm.entrySet().iterator();
-					    while(it.hasNext()){
-					    	Map.Entry entry=(Map.Entry)it.next();
-					        String ok=(String)entry.getKey();
-					        Object ov=entry.getValue(); 
-							data.put(ok, ov);
-					    }
-			        }else{
-			        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
-			        	id = null;
-			        	dataForm = new HashMap<String, Object>();
-			        }
+	        	dataForm = dataBaseService.findOneForJdbc(tablename, id);
+		        if(dataForm!=null){
+		        	Iterator it=dataForm.entrySet().iterator();
+				    while(it.hasNext()){
+				    	Map.Entry entry=(Map.Entry)it.next();
+				        String ok=(String)entry.getKey();
+				        Object ov=entry.getValue();
+
+				        if(ov instanceof byte[]) {
+				        	ov=new String((byte[])ov,"utf-8");
+				        	entry.setValue(ov);
+				        }
+
+						data.put(ok, ov);
+				    }
+		        }else{
+		        	logger.info("online表单【"+tablename+"】【"+id+"】不存在");
+		        	id = null;
+		        	dataForm = new HashMap<String, Object>();
 		        }
+		    }
 
 	    	//如果该表是主表查出关联的附表
 	    	CgFormHeadEntity head = (CgFormHeadEntity)data.get("head");
@@ -205,6 +259,11 @@ public class CgFormBuildController extends BaseController {
 	        //获取主表或单表表单数据
 
 			if(StringUtils.isBlank(id)){
+
+				//Online添加页面，select\radio\checkbox 支持默认值设置
+				initAddDictTagDefaultVal((List<Map<String,Object>>)data.get("columns"),dataForm);
+
+				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				logger.info("============================填值规则开始时间:"+sdf.format(new Date())+"==============================");
 				long startTime = System.currentTimeMillis();
@@ -222,6 +281,10 @@ public class CgFormBuildController extends BaseController {
 						CgSubTableVO subTableVO=(CgSubTableVO) field.get(subTable);
 						subTableData=new ArrayList<Map<String,Object>>();
 						subDataForm=new HashMap<String, Object>();
+
+						//Online添加页面，select\radio\checkbox控件， 支持默认值设置
+						initAddDictTagDefaultVal((List<Map<String,Object>>)subTableVO.getFieldList(),subDataForm);
+
 						putFormData(subTableVO.getFieldList(),subDataForm);
 						putFormData(subTableVO.getHiddenFieldList(),subDataForm);
 						subTableData.add(subDataForm);
@@ -240,14 +303,25 @@ public class CgFormBuildController extends BaseController {
 
 	        //获取附表表表单数据
 	    	if(StringUtils.isNotEmpty(id)){
+
+	    		//过滤扩展参数value属性
+	    		replaceExtendJson((List<Map<String,Object>>) data.get("columns"));
+	    		replaceExtendJson((List<Map<String,Object>>) data.get("columnhidden"));
+
 		    	if(head.getJformType()==CgAutoListConstant.JFORM_TYPE_MAIN_TALBE){
 			    	String subTableStr = head.getSubTableStr();
 			    	if(StringUtils.isNotEmpty(subTableStr)){
 			    		 String [] subTables = subTableStr.split(",");
 			    		 List<Map<String,Object>> subTableData = new ArrayList<Map<String,Object>>();
+			    		 Map<String, Object> field = (Map<String, Object>) data.get("field");
 			    		 for(String subTable:subTables){
-				    			subTableData = cgFormFieldService.getSubTableData(tableName,subTable,id);
-				    			tableData.put(subTable, subTableData);
+			    			subTableData = cgFormFieldService.getSubTableData(tableName,subTable,id);
+			    			tableData.put(subTable, subTableData);
+			    			CgSubTableVO subTableVO=(CgSubTableVO) field.get(subTable);
+
+			    			replaceExtendJson(subTableVO.getFieldList());
+			    			replaceExtendJson(subTableVO.getHiddenFieldList());
+
 			    		 }
 			    	}
 		    	}

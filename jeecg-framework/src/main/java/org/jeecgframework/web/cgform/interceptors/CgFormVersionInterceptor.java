@@ -30,7 +30,7 @@ public class CgFormVersionInterceptor  implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest arg0,
 			HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
-		String requestPath = ResourceUtil.getRequestPath(arg0);// 用户访问的资源地址
+		String requestPath = ResourceUtil.getJgAuthRequsetPath(arg0);// 用户访问的资源地址
 		if(!includeUrls.contains(requestPath)){
 			return;
 		}

@@ -4,6 +4,7 @@ package ${bussiPackage}.${subsG['${key}'].entityPackage}.controller;
 
 import ${bussiPackage}.${subsG['${key}'].entityPackage}.entity.${subsG['${key}'].entityName}Entity;
 import ${bussiPackage}.${entityPackage}.service.${entityName}ServiceI;
+import ${bussiPackage}.${entityPackage}.page.${entityName}Page;
 
 import java.util.ArrayList;
 import java.util.List; 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
@@ -40,9 +43,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 
 <#-- restful 通用方法生成 -->
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jeecgframework.jwt.util.GsonUtil;
 import org.jeecgframework.jwt.util.ResponseMessage;
@@ -123,41 +128,13 @@ public class ${subsG['${key}'].entityName}Controller extends BaseController {
 		String mainId = request.getParameter("mainId");
 		if(oConvertUtils.isNotEmpty(mainId)){
 			//查询条件组装器
-			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ${subsG['${key}'].entityName?uncap_first});
+			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ${subsG['${key}'].entityName?uncap_first},request.getParameterMap());
 			try{
-			//自定义追加查询条件
-			<#list subColumnsMap['${key}'] as po>
-			<#if po.isQuery =='Y' && po.queryMode =='group'>
-			String query_${po.fieldName}_begin = request.getParameter("${po.fieldName}_begin");
-			String query_${po.fieldName}_end = request.getParameter("${po.fieldName}_end");
-			<#-- update--begin--author:zhoujf date:20180316 for:TASK #2557 范围查询double字段错误 -->
-			if(StringUtil.isNotEmpty(query_${po.fieldName}_begin)){
-				<#if po.type == "java.util.Date">
-				cq.ge("${po.fieldName}", new SimpleDateFormat("yyyy-MM-dd").parse(query_${po.fieldName}_begin));
-				<#elseif po.type == "java.lang.Double">
-				cq.ge("${po.fieldName}", Double.parseDouble(query_${po.fieldName}_begin));
-				<#else>
-				cq.ge("${po.fieldName}", Integer.parseInt(query_${po.fieldName}_begin));
-				</#if>
-			}
-			if(StringUtil.isNotEmpty(query_${po.fieldName}_end)){
-				<#if po.type == "java.util.Date">
-				cq.le("${po.fieldName}", new SimpleDateFormat("yyyy-MM-dd").parse(query_${po.fieldName}_end));
-				<#elseif po.type == "java.lang.Double">
-				cq.le("${po.fieldName}", Double.parseDouble(query_${po.fieldName}_end));
-				<#else>
-				cq.le("${po.fieldName}", Integer.parseInt(query_${po.fieldName}_end));
-				</#if>
-			}
-			<#-- update--end--author:zhoujf date:20180316 for:TASK #2557 范围查询double字段错误 -->
-			</#if>
-			</#list> 
-			
+				//自定义追加查询条件
 		    <#list subsG['${key}'].foreignKeys as fk>
 			 	cq.eq("${fk?uncap_first}", mainId);
 		    <#break>
 		    </#list>
-				
 			}catch (Exception e) {
 				throw new BusinessException(e.getMessage());
 			}
@@ -300,5 +277,149 @@ public class ${subsG['${key}'].entityName}Controller extends BaseController {
 		}
 		return new ModelAndView("${bussiPackage?replace(".","/")}/${subsG['${key}'].entityPackage}/${subsG['${key}'].entityName?uncap_first}-update");
 	}
+	
+	/**
+	 * 行编辑保存操作
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(params = "saveRows")
+	@ResponseBody
+	public AjaxJson saveRows(${entityName}Page page,HttpServletRequest req){
+		String message = "操作成功！";
+		List<${subsG['${key}'].entityName}Entity> lists=page.get${subsG['${key}'].entityName}List();
+		AjaxJson j = new AjaxJson();
+		String mainId = req.getParameter("mainId");
+		if(CollectionUtils.isNotEmpty(lists)){
+			for(${subsG['${key}'].entityName}Entity temp:lists){
+				if (StringUtil.isNotEmpty(temp.getId())) {
+					${subsG['${key}'].entityName}Entity t =this.systemService.get(${subsG['${key}'].entityName}Entity.class, temp.getId());
+					try {
+						MyBeanUtils.copyBeanNotNull2Bean(temp, t);
+						systemService.saveOrUpdate(t);
+						systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					try {
+						//temp.setDelFlag(0);若有则需要加
+						<#list subsG['${key}'].foreignKeys as fk>
+						temp.set${fk?cap_first}(mainId);
+					    <#break>
+					    </#list>
+						systemService.save(temp);
+						systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
+			}
+		}
+		return j;
+	}
+	
+	/**
+	 * 导出excel
+	 * @param request
+	 * @param response
+	 */
+    @RequestMapping(params = "exportXls")
+    public void exportXls(${subsG['${key}'].entityName}Entity ${subsG['${key}'].entityName?uncap_first},HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid,ModelMap map) throws Exception {
+    	CriteriaQuery cq = new CriteriaQuery(${subsG['${key}'].entityName}Entity.class, dataGrid);
+    	//必须要有合同id
+		String mainId = request.getParameter("mainId");
+		List<${subsG['${key}'].entityName}Entity> list =new ArrayList<${subsG['${key}'].entityName}Entity>();
+		if(oConvertUtils.isNotEmpty(mainId)){
+			//查询条件组装器
+			<#list subsG['${key}'].foreignKeys as fk>
+			${subsG['${key}'].entityName?uncap_first}.set${fk?cap_first}(mainId);
+		    <#break>
+		    </#list>
+			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, ${subsG['${key}'].entityName?uncap_first}, request.getParameterMap());
+			try{
+				//自定义追加查询条件
+				//cq.eq("delFlag", 0);
+			}catch (Exception e) {
+				e.printStackTrace();
+				throw new BusinessException(e.getMessage());
+			}
+			cq.add();
+			list= this.systemService.getListByCriteriaQuery(cq, false);
+			Workbook excel=ExcelExportUtil.exportExcel(new ExportParams(), ${subsG['${key}'].entityName}Entity.class, list);
+			response.setContentType("application/x-msdownload;charset=utf-8");
+			response.setHeader("Content-disposition", "attachment; filename="+new String("${subsG['${key}'].ftlDescription}列表.xls".getBytes("UTF-8"), "iso-8859-1"));
+			OutputStream outputStream = null;
+			try {
+				outputStream = response.getOutputStream();
+				excel.write(outputStream);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					if(outputStream!=null)outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+   /**
+	* 导出excel 使模板
+	*/
+	@RequestMapping(params = "exportXlsByT")
+	public String exportXlsByT(ModelMap map) {
+		map.put(NormalExcelConstants.FILE_NAME,"${subsG['${key}'].ftlDescription}");
+		map.put(NormalExcelConstants.CLASS,${subsG['${key}'].entityName}Entity.class);
+		map.put(NormalExcelConstants.PARAMS,new ExportParams("${subsG['${key}'].ftlDescription}列表", "导出人:"+ ResourceUtil.getSessionUser().getRealName(),"导出信息"));
+		map.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+	}
+
+    /**
+	 * 通过excel导入数据
+	 * @param request
+	 * @param
+	 * @return
+	 */
+	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		String mainId = request.getParameter("mainId");
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			MultipartFile file = entity.getValue();// 获取上传文件对象
+			ImportParams params = new ImportParams();
+			params.setTitleRows(2);
+			params.setHeadRows(2);
+			params.setNeedSave(true);
+			try {
+				List<${subsG['${key}'].entityName}Entity> list =  ExcelImportUtil.importExcel(file.getInputStream(), ${subsG['${key}'].entityName}Entity.class, params);
+				for (${subsG['${key}'].entityName}Entity page : list) {
+					<#list subsG['${key}'].foreignKeys as fk>
+					page.set${fk?cap_first}(mainId);
+				    <#break>
+				    </#list>
+		       		${entityName?uncap_first}Service.save(page);
+				}
+				j.setMsg("文件导入成功！");
+			} catch (Exception e) {
+				j.setMsg("文件导入失败！");
+				logger.error(ExceptionUtil.getExceptionMessage(e));
+			}finally{
+				try {
+					file.getInputStream().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return j;
+	}
+	
 }
 </#list>

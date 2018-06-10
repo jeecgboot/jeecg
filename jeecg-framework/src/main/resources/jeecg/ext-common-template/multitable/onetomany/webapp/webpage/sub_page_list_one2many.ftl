@@ -3,6 +3,7 @@
 <#include "/ui/datatype.ftl"/>
 <#include "/ui/dictInfo.ftl"/>
 <#include "/ui/formControl.ftl"/>
+<#include "/ui/tag.ftl"/>
 <!-- <h4>分类标题</h4> -->
 	    <div class="row">
 	      <div class="col-md-12 layout-header">
@@ -43,7 +44,6 @@
 	        <#assign index = 0 >
 			<#list subColumnsMap['${key}'] as po>
 				<#if po.isShow=="Y">
-				
 				<#assign check = 0 >
 				<#list subsG['${key}'].foreignKeys as key>
 				<#if subFieldMeta[po.fieldName]==key?uncap_first>
@@ -51,11 +51,10 @@
 				<#break>
 				</#if>
 				</#list>
-				
 				<#if check==0>
-					<th>
-						${po.content}
-				    </th>
+			<th>
+			${po.content}
+			</th>
 				</#if>
 				</#if>
 		      </#list>
@@ -104,10 +103,8 @@
 				<th scope="row"><div name="xh">${'$'}{stuts.index+1 }</div></th>
 				
 				<#assign index = 0 >
-				<#-- update--begin--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 				<#list subColumnsMap['${key}'] as po>
 				<#if po.isShow=="Y">
-				<#-- update--end--author:zhoujf Date:20180404 for:TASK #2600 【代码生成器一对多问题】一对多 子表 多行文本 和 UE编辑器控件字段 没有生成 -->
 				  <#assign check = 0 >
 				  <#list subsG['${key}'].foreignKeys as key>
 				  <#if subFieldMeta[po.fieldName]==key?uncap_first>
@@ -117,18 +114,7 @@
 				  </#list>
 				  <#if check==0>
 				   <td>
-					<#if po.showType=='file' || po.showType == 'image'>
-					   <input type="hidden" id="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}" name="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}"  value="${'$'}{poVal.${po.fieldName} }"/>
-					   <input  class="btn btn-sm btn-success" style="margin-left:10px;" type="button" value="上传附件" onclick="commonUpload(commonUploadDefaultCallBack,'${subsG['${key}'].entityName?uncap_first}List\\[${'$'}{stuts.index }\\]\\.${po.fieldName}')"/> 
-				   		<c:if test="${'$'}{empty poVal.${po.fieldName}}">
-							<a  target="_blank" id="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}_href"></a>
-						</c:if>
-						<c:if test="${'$'}{!empty poVal.${po.fieldName}}">
-							<a  href="${'$'}{poVal.${po.fieldName}}"  target="_blank" id="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }].${po.fieldName}_href">下载</a>
-						</c:if>
-				     <#else>
-				    	 <@formControl po = po namepre="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index}]." valuepre = "poVal."/>
-				  	</#if>
+					<@formControl po = po namepre="${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index}]." valuepre = "poVal."/>
 				   </td>
 				  </#if>
 				  </#if>

@@ -3,6 +3,7 @@
 <#include "/ui/datatype.ftl"/>
 <#include "/ui/dictInfo.ftl"/>
 <#include "/ui/formControl.ftl"/>
+<#include "/ui/tag.ftl"/>
 <script type="text/javascript"> 
     $(document).ready(function(){
     	if(location.href.indexOf("load=detail")!=-1){

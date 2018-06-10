@@ -4,7 +4,9 @@
     <div class="con-wrapper" id="con-wrapper${sub_index + 1}" style="display: none;">
 	    <!-- <h4>分类标题</h4> -->
 	    <div class="row">
-	      <div class="col-md-12 layout-header">
+	    <#-- update--begin--author:taoyan Date:20170601 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
+	      <div style="margin-left:15px;">
+	    <#-- update--end--author:taoyan Date:20170601 for:TASK #2731 【bug】uploadify上传控件被隐藏导致上传失败 -->
 	        <button id="addBtn_${sub}" type="button" class="btn btn-default">添加</button>
 	        <button id="delBtn_${sub}" type="button" class="btn btn-default">删除</button>
 	        <script type="text/javascript"> 
@@ -32,7 +34,7 @@
 		    });
 		</script>
 	      </div>
-	    </div>
+	    
 	<div style="margin: 0 15px; background-color: white;">    
 	    <!-- Table -->
       <table id="${sub}_table" class="table table-bordered table-hover" style="margin-bottom: 0;">
@@ -452,7 +454,7 @@
       </table>
 	 </div>   
 	    
-	    
+	</div> 
     </div>
     
     

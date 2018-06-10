@@ -21,10 +21,15 @@ public class FreemarkerHelper {
 	static{
 		_tplConfig.setSharedVariable("DictData", (TemplateDirectiveModel)ApplicationContextUtil.getContext().getBean("dictDataTag"));
 		_tplConfig.setSharedVariable("mutiLang", (TemplateDirectiveModel)ApplicationContextUtil.getContext().getBean("mutiLangTag"));
+
+		_tplConfig.setSharedVariable("exp", (TemplateDirectiveModel)ApplicationContextUtil.getContext().getBean("expTag"));
+
 		_tplConfig.setClassForTemplateLoading(FreemarkerHelper.class, "/");
 		_tplConfig.setDateTimeFormat("yyyy-MM-dd HH:mm:ss");
 		_tplConfig.setDateFormat("yyyy-MM-dd");
 		_tplConfig.setTimeFormat("HH:mm:ss");
+		 //classic_compatible设置，解决报空指针错误
+		_tplConfig.setClassicCompatible(true);
 	}
 
 	/**

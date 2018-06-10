@@ -1,11 +1,20 @@
 package com.jeecg.demo.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +30,7 @@ import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.enums.StoreUploadFilePathEnum;
 import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.DateUtils;
 import org.jeecgframework.core.util.HttpRequest;
@@ -28,12 +38,14 @@ import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.NumberComparator;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
+import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.system.pojo.base.TSAttachment;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
@@ -44,9 +56,12 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -582,7 +597,9 @@ public class JeecgFormDemoController extends BaseController {
 	public AjaxJson del(TSDepart depart, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		depart = systemService.getEntity(TSDepart.class, depart.getId());
-        Long childCount = systemService.getCountForJdbc("select count(1) from t_s_depart where parentdepartid ='" + depart.getId() + "'");
+
+        Long childCount = systemService.getCountForJdbcParam("select count(1) from t_s_depart where parentdepartid = ?", depart.getId());
+
         if(childCount>0){
         	j.setSuccess(false);
         	j.setMsg("有下级,不能删除");
@@ -658,6 +675,130 @@ public class JeecgFormDemoController extends BaseController {
 			e.printStackTrace();
 		}
 		return j;
+	}
+
+
+	@RequestMapping(params = "webuploader")
+	public ModelAndView webuploader(HttpServletRequest request) {
+		logger.info("----webuploaderdemo-----");
+		return new ModelAndView("com/jeecg/demo/form_webuploader");
+	}
+	
+	/**
+	 * WebUploader
+	 * 文件上传处理
+	 */
+	@RequestMapping("/filedeal")
+    @ResponseBody
+    public AjaxJson filedeal(HttpServletRequest request, HttpServletResponse response) {
+        AjaxJson j = new AjaxJson();
+        String msg="";
+        String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
+        try {
+        	String fileName = null;
+        	String bizType=request.getParameter("bizType");//上传业务名称
+        	String bizPath=StoreUploadFilePathEnum.getPath(bizType);//根据业务名称判断上传路径
+        	String nowday=new SimpleDateFormat("yyyyMMdd").format(new Date());
+    		File file = new File(ctxPath+"/"+bizPath+"/"+nowday);
+    		if (!file.exists()) {
+    			file.mkdirs();// 创建文件根目录
+    		}
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile mf=multipartRequest.getFile("file");// 获取上传文件对象
+            String orgName = mf.getOriginalFilename();// 获取文件名
+    		fileName = String.valueOf(UUID.randomUUID().getMostSignificantBits()).replace("-", "")+ orgName.substring(orgName.lastIndexOf("."));
+    		String savePath = file.getPath() + "/" + fileName;
+    		File savefile = new File(savePath);
+    		FileCopyUtils.copy(mf.getBytes(), savefile);
+			msg="上传成功";
+			j.setMsg(msg);
+			String dbpath=bizPath+"/"+nowday+"/"+fileName;
+			Map<String,Object> info = new HashMap<String,Object>();
+			info.put("filename", orgName.substring(0,orgName.lastIndexOf(".")));
+			info.put("filesize", mf.getSize());
+			info.put("filetype", orgName.substring(orgName.lastIndexOf(".")));
+			info.put("filepath", dbpath);
+			j.setAttributes(info);
+        } catch (IOException e) {
+			j.setSuccess(false);
+			logger.info(e.getMessage());
+		}
+		j.setMsg(msg);
+        return j;
+    }
+	/**
+	 * 删除处理
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/filedelete")
+    @ResponseBody
+    public AjaxJson filedelete(HttpServletRequest request, HttpServletResponse response) {
+        AjaxJson j = new AjaxJson();
+        String msg="";
+        String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
+        String path=request.getParameter("filepath");
+    	String delpath=ctxPath+"/"+path;
+    	File fileDelete = new File(delpath);
+		if (!fileDelete.exists() || !fileDelete.isFile()) {
+			msg="警告: " + delpath + "不存在!";
+			logger.info(msg);
+			j.setSuccess(true);//不存在前台也给他删除
+		}else{
+			if(fileDelete.delete()){
+				msg="--------成功删除文件---------"+delpath;
+				logger.info(msg);
+			}else{
+				j.setSuccess(false);
+				msg="没删除成功--jdk的问题还是你文件的问题请重新试试";
+				logger.info(msg);
+			}
+		}
+		j.setMsg(msg);
+        return j;
+    }
+	
+	@RequestMapping("/filedown")
+	public void getImgByurl(HttpServletResponse response,HttpServletRequest request) throws Exception{
+		String dbpath = request.getParameter("filepath");
+		if(oConvertUtils.isNotEmpty(dbpath)&&dbpath.endsWith(",")){
+			dbpath = dbpath.substring(0, dbpath.length()-1);
+		}
+		response.setContentType("application/x-msdownload;charset=utf-8");
+		String fileType = dbpath.substring(dbpath.lastIndexOf("."));
+		String fileName=request.getParameter("filename")+fileType;
+		String userAgent = request.getHeader("user-agent").toLowerCase();
+		if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+		}else {  
+			fileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");  
+		} 
+		response.setHeader("Content-disposition", "attachment; filename="+ fileName);
+	
+		InputStream inputStream = null;
+		OutputStream outputStream=null;
+		try {
+			String localPath=ResourceUtil.getConfigByName("webUploadpath");
+			String imgurl = localPath+"/"+dbpath;
+			inputStream = new BufferedInputStream(new FileInputStream(imgurl));
+			outputStream = response.getOutputStream();
+			byte[] buf = new byte[1024];
+	        int len;
+	        while ((len = inputStream.read(buf)) > 0) {
+	            outputStream.write(buf, 0, len);
+	        }
+	        response.flushBuffer();
+		} catch (Exception e) {
+			logger.info("--通过流的方式获取文件异常--"+e.getMessage());
+		}finally{
+			if(inputStream!=null){
+				inputStream.close();
+			}
+			if(outputStream!=null){
+				outputStream.close();
+			}
+		}
 	}
 
 }

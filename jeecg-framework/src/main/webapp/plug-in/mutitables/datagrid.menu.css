@@ -1,0 +1,188 @@
+.opts_menu_container {
+    float: left;
+    font-size: 12px;
+   /*  left: 10px;
+    width:100px; */
+    left:35%;
+    position: relative;
+    top: 1px;
+}
+div[class$='-optsMenu'] {
+    height: 31px !important;
+    width: 100px;
+    z-index: 2;
+    overflow: visible !important;
+}
+.datagrid-view td[field='optsMenu'],.datagrid-btable td[field='optsMenu'] {
+    overflow: visible !important;
+}
+div[class$='-opt'] {
+    height: 31px !important;
+    width: 100px;
+    z-index: 2;
+    overflow: visible !important;
+}
+.datagrid-view td[field='opt'],.datagrid-btable td[field='opt'] {
+    overflow: visible !important;
+}
+.optb-g{border:1px solid green;}
+.optb-r{border:1px solid red;}
+.optb-b{border:1px solid black;}
+.opts_menu_btn {
+    display: inline-block;
+    height: 14px;
+  position: absolute;
+   /*  left: 30px; */
+    top: 7px; 
+    margin-left:2px;
+    width: 14px;
+    z-index: 10000;
+    padding-bottom: 2px !important;
+}
+/* .btn-menu {
+   
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+    background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+    background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+        margin-bottom: 0;
+    color: #07a695;
+    background-color: #fff;
+    border:1px solid #07a695;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.btn-menu:hover{
+	background-color: #07A695;
+    border-color: #068577;
+    color: #fff;
+    font-weight:100;
+} */
+.btn-menu {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+    vertical-align: middle;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+    margin-bottom: 0;
+   /*color: #07a695;
+     background-color: #fff;
+     border:1px solid #07a695; */
+    background-color:#fff;
+    color:#000;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 1px;
+    margin-right:1px;
+    margin-top:1px;
+}
+.datagrid-row-over .btn-menu{
+	background-color:#f5f5f5;
+}
+.datagrid-row-selected .btn-menu{
+	background-color:#eeeeee;
+}
+.btn-menu:hover{
+	background-color: #07A695;
+    border-color: #068577;
+    color: #fff;
+    font-weight:100;
+}
+a.btn-menu i.fa{
+	padding:2px;font-size: 12px;
+}
+.opts_menu_box {
+    position: absolute;
+    top: -1px;
+    z-index: 1000;
+    /* background-color: #FFFFFF; */
+    background-color: #f5f5f5;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px #969696;
+    padding-left:3px;
+   /*  padding: 2px 4px; */
+}
+.opts_menu_box ul {
+    list-style-type: none;
+    padding: 0;
+    white-space:nowrap;
+}
+.opts_menu_box ul li {
+    list-style-type: none;
+    padding: 0 4px;
+     display:inline;
+}
+/*li浮动使得ul*/
+ul{float:left;zoom:1;}
+ul{overflow:hidden;zoom:1;}
+ul, ol {
+    padding: 0;
+    margin: 0 0 0 0;
+}
+
+.opts-menus-auto{
+   display:inline-block;
+   *display:inline;
+   *zoom:1;
+   /*border:1px solid blue;*/
+}
+a.menu-more {
+    background-position: 8px 25px !important;
+    font-size: 13px;
+    padding: 4px 6px 4px 6px;
+   /*  padding: 4px 6px 4px 12px; */
+    font-family: Microsoft YaHei,Microsoft JhengHei,STHeiti,MingLiu;
+}
+.opts_menu_box .fa, .opts_menu_box.button {
+    display: inline-block;
+    font-family: FontAwesome,Microsoft YaHei,Microsoft JhengHei,STHeiti,MingLiu!important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-opts-menu {
+	background:url('icons/bbx_black.png') no-repeat center center;
+}
+.icon-opts-menu-h {
+	background:url('icons/bbx_gray.png') no-repeat center center;
+}
+.icon-opts-menu:hover {
+	background:url('icons/bbx_gray.png') no-repeat center center;
+}
+
+.datagrid-cell .opts-menus-parent{
+display: none;
+}
+.opt-menus{
+overflow:visible !important;
+}
+.datagrid-cell.opt-menus .opts-menus-parent{
+display:block;
+}
+
+/* 过滤行菜单样式 */
+.filter-menu .menu-line{height:auto;}
+/* 行新增操作列小图标 */
+a.cancel-row-btn{/* padding:0px 0px 3px 5px; */padding:1px 2px 1px 1px;}
+.cancel-row-div{text-align:center;height:30px;line-height:30px;vertical-align:middle}
+/* a.cancel-row-btn{font-size:1.2em;color:black;margin-lef:5px;}
+a.cancel-row-btn:hover{color:#c8615d;} */

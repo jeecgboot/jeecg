@@ -95,10 +95,19 @@ function beforeDbl(){
 }
 //加载树
 var orgTree ;
+
+function showIndex(){
+var treeObj = $.fn.zTree.getZTreeObj("orgTree");
+var node =treeObj.getNodes()[0];
+$("#"+node.tId+" a").click();
+}
+
 function loadTree() {
 	var zNodes;
 	var ztreeCreator = new ZtreeCreator('orgTree',"","")
- 			.setCallback({onClick:zTreeOnLeftClick,onRightClick:zTreeOnRightClick,onDblClick:zTreeOnDblClick,beforeDblClick:beforeDbl})
+
+ 			.setCallback({onClick:zTreeOnLeftClick,onRightClick:zTreeOnRightClick,onDblClick:zTreeOnDblClick,beforeDblClick:beforeDbl,onAsyncSuccess:showIndex})
+
  			.setAsync({
                 enable: true,
                 url:"organzationController.do?getMyTreeData",

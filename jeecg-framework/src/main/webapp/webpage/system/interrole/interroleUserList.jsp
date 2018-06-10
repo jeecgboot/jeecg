@@ -13,9 +13,9 @@
 	<t:dgCol title="common.real.name" field="realName" query="true"></t:dgCol>
 	<t:dgCol title="common.status" sortable="true" field="status" replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt"></t:dgCol>
-	<t:dgDelOpt title="common.delete" url="interroleController.do?delUserRole&userid={id}&roleid=${roleId }" urlclass="ace_button"  urlfont="fa-trash-o"/>
+	<t:dgDelOpt title="取消关联" url="interroleController.do?delUserRole&userid={id}&roleid=${roleId }" urlclass="ace_button"  urlfont="fa-trash-o"/>
 	<t:dgToolBar title="common.add.param" langArg="common.user" icon="icon-add" url="userController.do?addorupdateInterfaceUser&roleId=${roleId}" funname="add"></t:dgToolBar>
 	<t:dgToolBar title="common.edit.param" langArg="common.user" icon="icon-edit" url="userController.do?addorupdateInterfaceUser&roleId=${roleId}" funname="update"></t:dgToolBar>
-	<t:dgToolBar title="添加已有接口用户" icon="icon-add" url="interroleController.do?goAddUserToRole&roleId=${roleId}" funname="add" width="580"></t:dgToolBar>
+	<t:dgToolBar title="关联用户" icon="icon-add" url="interroleController.do?goAddUserToRole&roleId=${roleId}" funname="add" width="580"></t:dgToolBar>
 </t:datagrid>
 

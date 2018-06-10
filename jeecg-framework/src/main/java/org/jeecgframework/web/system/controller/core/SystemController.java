@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -133,7 +134,7 @@ public class SystemController extends BaseController {
 			JSONArray typeArray = new JSONArray();
 			JSONObject headJson = new JSONObject();
 			headJson.put("typecode", "");
-			headJson.put("typename", "--请选择--");
+			headJson.put("typename", "");
 			typeArray.add(headJson);
 			if(typeList != null && !typeList.isEmpty()){
 				for (TSType type : typeList) {
@@ -564,14 +565,18 @@ public class SystemController extends BaseController {
 		String code=oConvertUtils.getString(request.getParameter("code"));
 		String typeGroupCode=oConvertUtils.getString(request.getParameter("typeGroupCode"));
 		StringBuilder hql = new StringBuilder("FROM ").append(TSType.class.getName()).append(" AS entity WHERE 1=1 ");
-		hql.append(" AND entity.TSTypegroup.typegroupcode =  '").append(typeGroupCode).append("'");
-		hql.append(" AND entity.typecode =  '").append(typecode).append("'");
-		List<Object> types = this.systemService.findByQueryString(hql.toString());
-		if(types.size()>0&&!code.equals(typecode))
+
+		hql.append(" AND entity.TSTypegroup.typegroupcode =  ?");
+		hql.append(" AND entity.typecode =  ?");
+//		List<Object> types = this.systemService.findByQueryString(hql.toString());
+		List<Object> types = this.systemService.findHql(hql.toString(),typeGroupCode,typecode);
+
+		if(types.size()>0&&(code==null||!code.equals(typecode)))
 		{
 			v.setInfo("类型已存在");
 			v.setStatus("n");
 		}
+
 		return v;
 	}
 	/**
@@ -627,6 +632,9 @@ public class SystemController extends BaseController {
 		req.setAttribute("typegroupid", typegroupid);
         TSTypegroup typegroup = systemService.findUniqueByProperty(TSTypegroup.class, "id", typegroupid);
         String typegroupname = typegroup.getTypegroupname();
+
+        req.setAttribute("typegroup", typegroup);
+
         req.setAttribute("typegroupname", mutiLangService.getLang(typegroupname));
 		if (StringUtil.isNotEmpty(type.getId())) {
 			type = systemService.getEntity(TSType.class, type.getId());
@@ -1190,11 +1198,9 @@ public class SystemController extends BaseController {
 
 	@RequestMapping(params = "diffDataVersion")
 	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2) throws ParseException {
-		String hql1 = "from TSDatalogEntity where id = '" + id1 + "'";
-		TSDatalogEntity datalogEntity1 = this.systemService.singleResult(hql1);
 
-		String hql2 = "from TSDatalogEntity where id = '" + id2 + "'";
-		TSDatalogEntity datalogEntity2 = this.systemService.singleResult(hql2);
+		TSDatalogEntity datalogEntity1 = this.systemService.getEntity(TSDatalogEntity.class, id1);
+		TSDatalogEntity datalogEntity2 = this.systemService.getEntity(TSDatalogEntity.class, id2);
 
 		if (datalogEntity1 != null && datalogEntity2 != null) {
 			//正则用于去掉头尾的[]字符(如存在)
@@ -1543,26 +1549,33 @@ public class SystemController extends BaseController {
         String delFlag=request.getParameter("isdel");
         //String ctxPath = request.getSession().getServletContext().getRealPath("");
         String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
+        logger.debug("----ctxPath-----"+ctxPath);
         try {
 	        //如果是上传操作
 	        if("1".equals(upFlag)){
 	        	String fileName = null;
 	        	String bizType=request.getParameter("bizType");//上传业务名称
+	        	logger.debug("---bizType----"+bizType);
 	        	String bizPath=StoreUploadFilePathEnum.getPath(bizType);//根据业务名称判断上传路径
 	        	String nowday=new SimpleDateFormat("yyyyMMdd").format(new Date());
+	        	logger.debug("---nowday----"+nowday);
 	    		File file = new File(ctxPath+File.separator+bizPath+File.separator+nowday);
 	    		if (!file.exists()) {
 	    			file.mkdirs();// 创建文件根目录
 	    		}
 	            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 	            MultipartFile mf=multipartRequest.getFile("file");// 获取上传文件对象
-	    		fileName = mf.getOriginalFilename();// 获取文件名
+
+	            String orgName = mf.getOriginalFilename();// 获取文件名
+	    		fileName = orgName.substring(0,orgName.lastIndexOf("."))+"_"+System.currentTimeMillis()+orgName.substring(orgName.indexOf("."));
+
 	    		String savePath = file.getPath() + File.separator + fileName;
 	    		File savefile = new File(savePath);
 	    		FileCopyUtils.copy(mf.getBytes(), savefile);
 				msg="上传成功";
 				j.setMsg(msg);
 				String dbpath=bizPath+File.separator+nowday+File.separator+fileName;
+				logger.debug("---dbpath----"+dbpath);
 				j.setObj(dbpath);
 				//1、将文件路径赋值给obj,前台可获取之,随表单提交,然后数据库中存储该路径
 				//2、demo这里用的是AjaxJson对象,开发者可自定义返回对象,但是用t标签的时候路径属性名需为  obj或 filePath 或自己在标签内指定若在标签内指定则action返回路径的名称应保持一致
@@ -1573,13 +1586,16 @@ public class SystemController extends BaseController {
 	        	File fileDelete = new File(delpath);
 	    		if (!fileDelete.exists() || !fileDelete.isFile()) {
 	    			msg="警告: " + delpath + "不存在!";
+	    			logger.info(msg);
 	    			j.setSuccess(true);//不存在前台也给他删除
 	    		}else{
 	    			if(fileDelete.delete()){
 	    				msg="--------成功删除文件---------"+delpath;
+	    				logger.info(msg);
 	    			}else{
 	    				j.setSuccess(false);
 	    				msg="没删除成功--jdk的问题还是你文件的问题请重新试试";
+	    				logger.info(msg);
 	    			}
 	    		}
 	        }else{
@@ -1592,7 +1608,7 @@ public class SystemController extends BaseController {
 			j.setSuccess(false);
 			logger.info(b.getMessage());
 		}
-    	logger.info("-----systemController/filedeal.do------------"+msg);
+    	logger.debug("-----systemController/filedeal.do------------"+msg);
 		j.setMsg(msg);
         return j;
     }

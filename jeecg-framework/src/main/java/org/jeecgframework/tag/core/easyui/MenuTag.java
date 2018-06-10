@@ -71,9 +71,11 @@ public class MenuTag extends JeecgTag {
 //				if(endString != null){
 //					endString.setLength(0);
 //				}
+//				endString = null;
 				//end().setLength(0);
 
-			} catch (Exception e2) {
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return EVAL_PAGE;

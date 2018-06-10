@@ -4,6 +4,13 @@
 <#include "/ui/dictInfo.ftl"/>
 <#include "/ui/tag.ftl"/>
 <#include "/ui/formControl.ftl"/>
+<#assign callbackFlag = false />
+<#list subPageNoAreatextColumnsMap['${key}'] as po>
+	 <#if po.showType=='file' || po.showType == 'image'>
+		<#assign callbackFlag = true />
+		<#break>
+	</#if>
+</#list>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -11,32 +18,36 @@
   <title>${subsG['${key}'].ftlDescription}</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="online/template/ledefault/css/vendor.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/bootstrap.css">
-  <link rel="stylesheet" href="online/template/ledefault/css/app.css">
+  <link rel="stylesheet" href="${'$'}{webRoot}/online/template/ledefault/css/vendor.css">
+  <link rel="stylesheet" href="${'$'}{webRoot}/online/template/ledefault/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="${'$'}{webRoot}/online/template/ledefault/css/bootstrap.css">
+  <link rel="stylesheet" href="${'$'}{webRoot}/online/template/ledefault/css/app.css">
   
-  <link rel="stylesheet" href="plug-in/Validform/css/metrole/style.css" type="text/css"/>
-  <link rel="stylesheet" href="plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
+  <link rel="stylesheet" href="${'$'}{webRoot}/plug-in/Validform/css/metrole/style.css" type="text/css"/>
+  <link rel="stylesheet" href="${'$'}{webRoot}/plug-in/Validform/css/metrole/tablefrom.css" type="text/css"/>
   
-  <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script>
-  <script type="text/javascript" src="plug-in/tools/dataformat.js"></script>
-  <script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
-  <script type="text/javascript" src="plug-in/easyui/locale/zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/tools/syUtil.js"></script>
-  <script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script>
-  <script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script>
-  <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/js/datatype_zh-cn.js"></script>
-  <script type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
-  <script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
-  <script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
- 
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/jquery/jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/tools/dataformat.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/easyui/locale/zh-cn.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/tools/syUtil.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/My97DatePicker/WdatePicker.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/lhgDialog/lhgdialog.min.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/tools/curdtools_zh-cn.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/tools/easyuiextend.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/Validform/js/datatype_zh-cn.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+  <#if callbackFlag == true>
+  <!-- 上传组件 -->
+  <link rel="stylesheet" type="text/css" href="${'$'}{webRoot}/plug-in/webuploader/custom.css"></link>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/webuploader/webuploader.min.js"></script>
+  </#if>
+  <script type="text/javascript"  charset="utf-8" src="${'$'}{webRoot}/plug-in/ueditor/ueditor.config.js"></script>
+  <script type="text/javascript"  charset="utf-8" src="${'$'}{webRoot}/plug-in/ueditor/ueditor.all.min.js"></script>
   <#if subsG['${key}'].cgFormHead.isTree=='Y'>  
-  <link rel="stylesheet" href="plug-in/easyui/themes/metrole/easyui.css" type="text/css">
+  <link rel="stylesheet" href="${'$'}{webRoot}/plug-in/easyui/themes/metrole/easyui.css" type="text/css">
   <style type="text/css">
   	.combo_self{height: 26px !important;width:164px !important;padding-top:0px !important;}
   	.layout-header .btn {
@@ -182,8 +193,6 @@
 							<#elseif po.showType='umeditor'>
 								<#assign ue_widget_count = ue_widget_count + 1>
 								<#if ue_widget_count == 1>
-								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
-								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
 								</#if>
                                 <textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px">${'$'}{${subsG['${key}'].entityName?uncap_first}Page.${po.fieldName} }</textarea>
 							    <script type="text/javascript">

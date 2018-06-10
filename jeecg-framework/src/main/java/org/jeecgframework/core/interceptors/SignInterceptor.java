@@ -13,7 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by dangzhenghui on 2017-4-1.
+ * API接口签名校验机制 <br/>
+ * 描述：{ 拦截 /api/**的请求，匹配请求header中的参数X-JEECG-SIGN，是否与服务器签名一致 }
+ * date: 2017-4-1 <br/>
+ * @author dangzhenghui  
+ *
  */
 public class SignInterceptor implements HandlerInterceptor {
     private static final String SIGN_KEY = "26F72780372E84B6CFAED6F7B19139CC47B1912B6CAED753";

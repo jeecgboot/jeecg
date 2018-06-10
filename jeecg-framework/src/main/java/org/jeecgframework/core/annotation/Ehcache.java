@@ -21,6 +21,7 @@ public @interface Ehcache {
 	// 增加缓存还是删除缓存，默认为增加缓存
 	boolean addOrdel() default true;
 	
-	//临时缓存还是永久缓存，默认为永久缓存
+	//临时缓存还是永久缓存，默认为缓存缓存
+	//TODO 暂时只支持临时缓存，未实现永久缓存
 	boolean eternal() default true;
 }

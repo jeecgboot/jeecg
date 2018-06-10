@@ -100,9 +100,10 @@ public class NoticeAuthorityUserController extends BaseController {
 
 			if(noticeAuthorityUser != null){
 				//删除授权关系的时候，判断是否已被阅读，如果已被阅读过，通过标记逻辑删除，否则直接删除数据
-				String hql = "from TSNoticeReadUser where noticeId = '"+noticeAuthorityUser.getNoticeId()+"' "
-						+ " and userId = '"+noticeAuthorityUser.getUser().getId()+"'";
-				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+
+				String hql = "from TSNoticeReadUser where noticeId = ? and userId = ?";
+				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql,noticeAuthorityUser.getNoticeId(),noticeAuthorityUser.getUser().getId());
+
 				if(noticeReadList != null && !noticeReadList.isEmpty()){
 					for (TSNoticeReadUser noticeReadUser : noticeReadList) {
 						if(noticeReadUser.getIsRead() == 1){
@@ -199,8 +200,9 @@ public class NoticeAuthorityUserController extends BaseController {
 				message = "该用户已授权，请勿重复操作。";
 			}else{
 
-				String hql = "from TSNoticeReadUser where noticeId = '"+noticeId+"' and userId = '"+userId+"'";
-				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql);
+				String hql = "from TSNoticeReadUser where noticeId = ? and userId = ?";
+				List<TSNoticeReadUser> noticeReadList = systemService.findHql(hql,noticeId,userId);
+
 				if(noticeReadList == null || noticeReadList.isEmpty()){
 					//未授权过的消息，添加授权记录
 					TSNoticeReadUser noticeRead = new TSNoticeReadUser();
