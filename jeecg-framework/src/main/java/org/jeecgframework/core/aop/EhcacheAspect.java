@@ -25,8 +25,8 @@ import com.alibaba.fastjson.JSON;
  * @
  *
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class EhcacheAspect {
 	private static final Logger logger = Logger.getLogger(EhcacheAspect.class);
 	
