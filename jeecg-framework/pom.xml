@@ -153,7 +153,7 @@
 			<artifactId>codegenerate</artifactId>
 			<version>${codegenerate.version}</version>
 			<scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.3-20180606.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.3-20180611.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.jeecgframework</groupId>
