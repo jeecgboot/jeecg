@@ -20140,3 +20140,64 @@ CREATE TABLE `t_s_user_position_rel` (
 -- ----------------------------
 -- Records of t_s_user_position_rel
 -- ----------------------------
+
+-- ----------------------------
+-- Procedure structure for delete_jeecgDemo_createDate
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `delete_jeecgDemo_createDate`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_jeecgDemo_createDate`(IN `createDate` date)
+BEGIN 
+  delete from jeecg_demo where create_date >= createDate;
+END
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Procedure structure for formDataList
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `formDataList`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `formDataList`(tableName varchar(50),dbFields varchar(500),whereSql varchar(1000))
+BEGIN
+	declare exe_sql varchar(2000);
+	SET exe_sql = CONCAT("select ",dbFields," from ",tableName,whereSql);
+	set @v_sql=exe_sql;   
+	prepare stmt from @v_sql; 
+	EXECUTE stmt;     
+	deallocate prepare stmt; 
+END
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Procedure structure for replaceOrgCode
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `replaceOrgCode`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `replaceOrgCode`()
+BEGIN
+DECLARE code_length int DEFAULT 0 ;
+DECLARE new_code VARCHAR(500);
+DECLARE org_id VARCHAR(500);
+DECLARE old_code VARCHAR(500);
+DECLARE code_length_index int DEFAULT 1;
+DECLARE b int default 0;
+DECLARE pro CURSOR for select id,org_code,LENGTH(org_code) from t_s_depart;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET b = 1;
+OPEN pro;
+FETCH pro into org_id,old_code,code_length;
+ while b<>1 do
+   set code_length_index=1;
+	 set new_code='';
+	 while code_length_index<code_length do
+     set new_code=CONCAT(new_code,'A',SUBSTR(old_code,code_length_index,2));
+     set code_length_index=code_length_index+2;
+   end while;
+    update t_s_depart set org_code=new_code where id=org_id;
+  FETCH pro into org_id,old_code,code_length;
+end while;
+close pro;
+end
+;;
+DELIMITER ;
