@@ -1,0 +1,1 @@
+select * from t_s_depart_auth_group 

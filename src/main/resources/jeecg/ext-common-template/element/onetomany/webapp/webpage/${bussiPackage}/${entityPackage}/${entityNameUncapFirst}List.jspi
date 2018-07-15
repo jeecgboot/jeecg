@@ -1,0 +1,498 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${ftl_description}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name=viewportcontent="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+	<link rel="stylesheet" href="${'$'}{webRoot}/plug-in/element-ui/css/index.css">
+	<link rel="stylesheet" href="${'$'}{webRoot}/plug-in/element-ui/css/elementui-ext.css">
+	<script src="${'$'}{webRoot}/plug-in/vue/vue.js"></script>
+	<script src="${'$'}{webRoot}/plug-in/vue/vue-resource.js"></script>
+	<script src="${'$'}{webRoot}/plug-in/element-ui/index.js"></script>
+	<!-- Jquery组件引用 -->
+	<script src="${'$'}{webRoot}/plug-in/jquery/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="${'$'}{webRoot}/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
+	<script src="${'$'}{webRoot}/plug-in/layer/layer.js"></script>
+	<#-- update--begin-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+	<script type="text/javascript" src="${'$'}{webRoot}/plug-in/mutiLang/zh-cn.js"></script>
+	<script type="text/javascript" src="${'$'}{webRoot}/plug-in/lhgDialog/lhgdialog.min.js?skin=metrole"></script>
+	<script type="text/javascript" src="${'$'}{webRoot}/plug-in/tools/curdtools.js"></script>
+	<#-- update--end-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+	<style>
+	.toolbar {
+	    padding: 10px;
+	    margin: 10px 0;
+	}
+	.toolbar .el-form-item {
+	    margin-bottom: 10px;
+	}
+	[v-cloak] { display: none }
+	</style>
+</head>
+<body style="background-color: #FFFFFF;">
+	<div id="${entityName?uncap_first}List" v-cloak>
+		<!--工具条-->
+		<el-row>
+			<el-form :inline="true" :model="filters" size="mini" ref="filters">
+			<#list columns as po>
+		 	<#if po.isQuery =='Y' >
+			<#if po.showType=='text'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-input v-model="filters.${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+				</el-form-item>
+			<#elseif po.showType=='textarea'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-input type="textarea" v-model="filters.${po.fieldName}"></el-input>
+				</el-form-item>
+			<#elseif po.showType=='password'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-input type="password" v-model="filters.${po.fieldName}"></el-input>
+				</el-form-item>
+			<#elseif po.showType=='date'>
+				<#if po.queryMode=='group'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}_begin">
+					<el-date-picker type="date" placeholder="选择${po.content}开始" v-model="filters.${po.fieldName}_begin"></el-date-picker>
+				</el-form-item>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}_end">
+					<el-date-picker type="date" placeholder="选择${po.content}结束" v-model="filters.${po.fieldName}_end"></el-date-picker>
+				</el-form-item>
+				<#else>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-date-picker type="date" placeholder="选择${po.content}" v-model="filters.${po.fieldName}"></el-date-picker>
+				</el-form-item>
+				</#if>
+			<#elseif po.showType=='datetime'>
+				<#if po.queryMode=='group'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}_begin">
+					 <el-date-picker type="datetime" placeholder="选择${po.content}开始" v-model="filters.${po.fieldName}_begin"></el-date-picker>
+				</el-form-item>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}_end">
+					 <el-date-picker type="datetime" placeholder="选择${po.content}结束" v-model="filters.${po.fieldName}_end"></el-date-picker>
+				</el-form-item>
+				<#else>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					 <el-date-picker type="datetime" placeholder="选择${po.content}" v-model="filters.${po.fieldName}"></el-date-picker>
+				</el-form-item>
+				</#if>
+			<#elseif po.showType=='checkbox'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-select v-model="filters.${po.fieldName}" multiple placeholder="请选择${po.content}">
+				      <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+				    </el-select>
+				</el-form-item>
+			<#elseif po.showType=='select' || po.showType=='list' || po.showType=='radio'>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-select v-model="filters.${po.fieldName}" placeholder="请选择${po.content}">
+				      <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+				    </el-select>
+				</el-form-item>
+			<#else>
+				<el-form-item style="margin-bottom: 8px;" prop="${po.fieldName}">
+					<el-input v-model="filters.${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+				</el-form-item>
+			</#if>
+		 	</#if>
+			</#list>
+				<el-form-item>
+			    	<el-button type="primary" icon="el-icon-search" v-on:click="get${entityName?cap_first}s" >查询</el-button>
+			    </el-form-item>
+			    <el-form-item>
+			    	<el-button icon="el-icon-refresh" @click="resetForm('filters')">重置</el-button>
+			    </el-form-item>
+			    <el-form-item>
+			    	<el-button type="primary" icon="el-icon-edit" @click="handleAdd">新增</el-button>
+			    </el-form-item>
+			    <#-- update--begin-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+			    <el-form-item>
+			    	<el-button type="primary" icon="el-icon-edit" @click="ExportXls">导出</el-button>
+			    </el-form-item>
+			    <el-form-item>
+			    	<el-button type="primary" icon="el-icon-edit" @click="ImportXls">导入</el-button>
+			    </el-form-item>
+			    <#-- update--end-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+			</el-form>
+		</el-row>
+		
+		<!--列表-->
+		<el-table :data="${entityName?uncap_first}s" border stripe highlight-current-row size="mini" v-loading="listLoading" @sort-change="handleSortChange" @selection-change="selsChange" style="width: 100%;">
+			<el-table-column type="selection" width="55"></el-table-column>
+			<el-table-column type="index" width="60"></el-table-column>
+			<#list columns as po><#rt/>
+			<#if po.isShowList?if_exists?html !='N'><#rt/>
+			<#if po.showType=='file' || po.showType == 'image'>
+			<el-table-column prop="${po.fieldName}" label="${po.content}" min-width="${po.fieldLength}" sortable="custom" show-overflow-tooltip>
+				<template slot-scope="scope" v-if="scope.row.${po.fieldName}">
+					<#if po.showType=='file'>
+					<el-button size="mini" type="primary" @click="handleDownFile('1',scope.row.${po.fieldName})">文件下载</el-button>
+					<#else>
+					<img width="30" height="30" :src="'img/server/'+scope.row.${po.fieldName}" alt="${po.content}"/>
+					</#if>
+				</template>
+			</el-table-column>
+			<#else>
+			<el-table-column prop="${po.fieldName}" label="${po.content}" min-width="${po.fieldLength}" sortable="custom" show-overflow-tooltip<#if po.showType?index_of("datetime")!=-1> :formatter="formatDateTime"<#rt />
+			<#elseif po.showType?index_of("date")!=-1> :formatter="formatDate"<#elseif po.showType=='select' || po.showType=='list'  || po.showType=='checkbox' || po.showType=='radio'> :formatter="format${po.dictField?cap_first}Dict"</#if>></el-table-column>
+			</#if>
+			</#if>
+			</#list>
+			<el-table-column label="操作" width="150">
+				<template scope="scope">
+					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+					<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
+		
+		<!--工具条-->
+		<el-col :span="24" class="toolbar">
+			<el-button type="danger" size="mini" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+			 <el-pagination small background @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-sizes="[10, 20, 50, 100]"
+      			:page-size="pageSize" :total="total" layout="sizes, prev, pager, next"  style="float:right;"></el-pagination>
+		</el-col>
+		
+	</div>
+</body>
+<script>
+	var vue = new Vue({			
+		el:"#${entityName?uncap_first}List",
+		data() {
+			return {
+				filters: {
+					<#list columns as po>
+				 	<#if po.isQuery =='Y'>
+				 	<#if po.showType=='checkbox'>
+					${po.fieldName}:[],
+					<#elseif po.showType=='date' || po.showType=='datetime'>
+					<#if po.queryMode=='group'>
+					${po.fieldName}_begin:'',
+					${po.fieldName}_end:'',
+					<#else>
+					${po.fieldName}:'',
+					</#if>
+					<#else>
+					${po.fieldName}:'', 
+					</#if>
+				 	</#if>
+					</#list>
+				},
+				url:{
+					list:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?datagrid',
+					del:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?doDel',
+					batchDel:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?doBatchDel',
+					goEdit:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?goForm',
+					queryDict:'${'$'}{webRoot}/systemController.do?typeListJson',
+					downFile:'${'$'}{webRoot}/img/server/',
+					<#-- update--begin-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+					exportXls:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?exportXls&id=',
+					ImportXls:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?upload'
+					<#-- update--end-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+				},
+				${entityName?uncap_first}s: [],
+				total: 0,
+				page: 1,
+				pageSize:10,
+				sort:{
+					sort:'id',
+					order:'desc'
+				},
+				listLoading: false,
+				sels: [],//列表选中列
+				
+				//数据字典 
+				<#assign optionCodes="">
+				<#list columns as mpo>
+	    	 	<#if mpo.showType=='select' || mpo.showType=='list'  || mpo.showType=='checkbox' || mpo.showType=='radio'>
+	    	 	<#if optionCodes?index_of(mpo.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+mpo.dictField >
+		   		${mpo.dictField}Options:[],
+		   		</#if>
+	    	 	</#if>
+	    	 	</#list>
+			}
+		},
+		methods: {
+			handleSortChange(sort){
+				this.sort={
+					sort:sort.prop,
+					order:sort.order=='ascending'?'asc':'desc'
+				};
+				this.get${entityName?cap_first}s();
+			},
+			formatDate: function(row,column,cellValue, index){
+				return !!cellValue?utilFormatDate(new Date(cellValue), 'yyyy-MM-dd'):'';
+			},
+			formatDateTime: function(row,column,cellValue, index){
+				return !!cellValue?utilFormatDate(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss'):'';
+			},
+			<#assign optionCodes="">
+			<#list columns as mpo>
+			<#if mpo.isShowList?if_exists?html !='N'>
+    	 	<#if mpo.showType=='select' || mpo.showType=='list'  || mpo.showType=='checkbox' || mpo.showType=='radio'>
+    	 	<#if optionCodes?index_of(mpo.dictField) lt 0>
+	   		<#assign optionCodes=optionCodes+","+mpo.dictField >
+			format${mpo.dictField?cap_first}Dict: function(row,column,cellValue, index){
+				var names="";
+				var values=cellValue;
+				if(!Array.isArray(cellValue))values=cellValue.split(',');
+				for (var i = 0; i < values.length; i++) {
+					var value = values[i];
+					if(i>0)names+=",";
+					for(var j in this.${mpo.dictField}Options){
+						var option=this.${mpo.dictField}Options[j];
+						if(value==option.typecode){
+							names+=option.typename;
+						}
+					}
+				}
+				return names;
+			},
+    	 	</#if>
+    	 	</#if>
+    	 	</#if>
+    	 	</#list>
+			handleCurrentChange(val) {
+				this.page = val;
+				this.get${entityName?cap_first}s();
+			},
+			handleSizeChange(val) {
+				this.pageSize = val;
+				this.page = 1;
+				this.get${entityName?cap_first}s();
+			},
+			handleDownFile(type,filePath){
+				var downUrl=this.url.downFile+ filePath +"?down=true";
+				window.open(downUrl);
+			},
+			resetForm(formName) {
+		        this.$refs[formName].resetFields();
+		        this.get${entityName?cap_first}s();
+		    },
+			//获取列表
+			get${entityName?cap_first}s() {
+				var fields=[];
+				fields.push('id');
+				<#list columns as po>
+				fields.push('${po.fieldName}');
+				<#if po.type=='java.sql.Blob'>
+				fields.push('${po.fieldName}Str');
+				</#if>
+				</#list>
+				let para = {
+					params: {
+						page: this.page,
+						rows: this.pageSize,
+						//排序
+						sort:this.sort.sort,
+						order:this.sort.order,
+						<#list columns as po>
+					 	<#if po.isQuery =='Y'>
+					 	<#if po.showType=='date'>
+					 	<#if po.queryMode=='group'>
+					 	${po.fieldName}_begin: !this.filters.${po.fieldName}_begin ? '' : utilFormatDate(new Date(this.filters.${po.fieldName}_begin ), 'yyyy-MM-dd'),
+						${po.fieldName}_end: !this.filters.${po.fieldName}_end ? '' : utilFormatDate(new Date(this.filters.${po.fieldName}_end ), 'yyyy-MM-dd'),
+						<#else>
+						${po.fieldName}: !this.filters.${po.fieldName} ? '' : utilFormatDate(new Date(this.filters.${po.fieldName} ), 'yyyy-MM-dd'),
+						</#if>
+						<#elseif po.showType=='datetime'>
+						<#if po.queryMode=='group'>
+					 	${po.fieldName}_begin: !this.filters.${po.fieldName}_begin ? '' : utilFormatDate(new Date(this.filters.${po.fieldName}_begin ), 'yyyy-MM-dd hh:mm:ss'),
+					 	${po.fieldName}_end: !this.filters.${po.fieldName}_end ? '' : utilFormatDate(new Date(this.filters.${po.fieldName}_end ), 'yyyy-MM-dd hh:mm:ss'),
+						<#else>
+					 	${po.fieldName}: !this.filters.${po.fieldName} ? '' : utilFormatDate(new Date(this.filters.${po.fieldName} ), 'yyyy-MM-dd hh:mm:ss'),
+						</#if>
+						<#elseif po.showType=='checkbox'>
+					 	${po.fieldName}:this.filters.${po.fieldName}.join(','),
+						<#else>
+					 	${po.fieldName}:this.filters.${po.fieldName},
+						</#if>
+					 	</#if>
+						</#list>
+						field:fields.join(',')
+					}
+				};
+				this.listLoading = true;
+				this.${'$'}http.get(this.url.list,para).then((res) => {
+					this.total = res.data.total;
+					var datas=res.data.rows;
+					for (var i = 0; i < datas.length; i++) {
+						var data = datas[i];
+						<#list columns as po>
+						<#if po.type=='java.sql.Blob'>
+						data.${po.fieldName}=data.${po.fieldName}Str;
+						</#if>
+						<#if po.showType=='checkbox'>
+						data.${po.fieldName}=!!data.${po.fieldName}?data.${po.fieldName}.split(','):[];
+						</#if>
+						</#list>
+					}
+					this.${entityName?uncap_first}s = datas;
+					this.listLoading = false;
+				});
+			},
+			//删除
+			handleDel: function (index, row) {
+				this.${'$'}confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					let para = { id: row.id };
+					this.${'$'}http.post(this.url.del,para,{emulateJSON: true}).then((res) => {
+						this.listLoading = false;
+						this.${'$'}message({
+							message: '删除成功',
+							type: 'success',
+							duration:1500
+						});
+						this.get${entityName?cap_first}s();
+					});
+				}).catch(() => {
+
+				});
+			},
+			//显示编辑界面
+			handleEdit: function (index, row) {
+				var index = layer.open({
+					type : 2,
+					title : "编辑页面",
+					area : [ '80%', '80%' ],
+					shade : 0.3,
+					maxmin : true,
+					content : this.url.goEdit,
+					btn : [ '确定', '关闭' ],
+					yes : function(index, layero) {
+				        var iframeWin = window[layero.find('iframe')[0]['name']];
+				        //iframeWin.vue.addSubmit();
+				        $('#btn_sub', iframeWin.document).click();
+					},
+					btn2 : function(index, layero) {
+						layer.closeAll();
+					},
+					zIndex : layer.zIndex,
+					success : function(layero,index) {
+						var iframeWin = window[layero.find('iframe')[0]['name']];
+				        iframeWin.vue.initForm(Object.assign({}, row));
+						layer.setTop(layero);
+						layer.full(index);
+					}
+				});
+			},
+			//显示新增界面
+			handleAdd: function () {
+				var index = layer.open({
+					type : 2,
+					title : "新增页面",
+					area : [ '80%', '80%' ],
+					shade : 0.3,
+					maxmin : true,
+					content : this.url.goEdit,
+					btn : [ '确定', '关闭' ],
+					yes : function(index, layero) {
+				        var iframeWin = window[layero.find('iframe')[0]['name']];
+				        //iframeWin.vue.addSubmit();
+				        $('#btn_sub', iframeWin.document).click();
+					},
+					btn2 : function(index, layero) {
+						layer.closeAll();
+					},
+					zIndex : layer.zIndex,
+					success : function(layero,index) {
+						var iframeWin = window[layero.find('iframe')[0]['name']];
+				        iframeWin.vue.initForm();
+						layer.setTop(layero);
+						layer.full(index);
+					}
+				});
+			},
+			selsChange: function (sels) {
+				this.sels = sels;
+			},
+			//批量删除
+			batchRemove: function () {
+				var ids = this.sels.map(item => item.id).toString();
+				this.${'$'}confirm('确认删除选中记录吗？', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					let para = { ids: ids };
+					this.${'$'}http.post(this.url.batchDel,para,{emulateJSON: true}).then((res) => {
+						this.listLoading = false;
+						this.${'$'}message({
+							message: '删除成功',
+							type: 'success',
+							duration:1500
+						});
+						this.get${entityName?cap_first}s();
+					});
+				}).catch(() => {
+				});
+			},
+			<#-- update--begin-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+			//导出
+			ExportXls: function() {
+					var ids = this.sels.map(item => item.id).toString();
+					window.location.href = this.url.exportXls+ids;
+			},
+			//导入
+			ImportXls: function(){
+				openuploadwin('Excel导入',this.url.ImportXls, "${entityName?uncap_first}List");
+			},
+			<#-- update--end-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+			//初始化数据字典
+			initDictsData:function(){
+	        	var _this = this;
+	        	<#assign optionCodes="">
+	    		<#list columns as mpo>
+	    	 	<#if mpo.showType=='select' || mpo.showType=='list'  || mpo.showType=='checkbox' || mpo.showType=='radio'>
+	    	 	<#if optionCodes?index_of(mpo.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+mpo.dictField >
+		   		_this.initDictByCode('${mpo.dictField}',_this,'${mpo.dictField}Options');
+		   		</#if>
+	    	 	</#if>
+	    	 	</#list>
+	        },
+	        initDictByCode:function(code,_this,dictOptionsName){
+	        	if(!code || !_this[dictOptionsName] || _this[dictOptionsName].length>0)
+	        		return;
+	        	this.${'$'}http.get(this.url.queryDict,{params: {typeGroupName:code}}).then((res) => {
+	        		var data=res.data;
+					if(data.success){
+					  _this[dictOptionsName] = data.obj;
+					  _this[dictOptionsName].splice(0, 1);//去掉请选择
+					}
+				});
+	        }
+		},
+		mounted() {
+			this.initDictsData();
+			this.get${entityName?cap_first}s();
+		}
+	});
+	
+	function utilFormatDate(date, pattern) {
+        pattern = pattern || "yyyy-MM-dd";
+        return pattern.replace(/([yMdhsm])(\1*)/g, function (${'$'}0) {
+            switch (${'$'}0.charAt(0)) {
+                case 'y': return padding(date.getFullYear(), ${'$'}0.length);
+                case 'M': return padding(date.getMonth() + 1, ${'$'}0.length);
+                case 'd': return padding(date.getDate(), ${'$'}0.length);
+                case 'w': return date.getDay() + 1;
+                case 'h': return padding(date.getHours(), ${'$'}0.length);
+                case 'm': return padding(date.getMinutes(), ${'$'}0.length);
+                case 's': return padding(date.getSeconds(), ${'$'}0.length);
+            }
+        });
+    };
+	function padding(s, len) {
+	    var len = len - (s + '').length;
+	    for (var i = 0; i < len; i++) { s = '0' + s; }
+	    return s;
+	};
+	<#-- update--begin-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+	function reloadTable(){
+		
+	}
+	<#-- update--end-- Author:gj_shaojc  Date:20180606 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题9)-->
+</script>
+</html>

@@ -1,0 +1,27 @@
+@charset "utf-8";
+/*update-begin--Author:taoyan  Date:20180604 for：bootstrap-table操作列按钮需添加一个手势样式-- */
+a.ace_button{text-decoration:none;cursor: pointer;}
+/*update-end--Author:taoyan  Date:20180604 for：bootstrap-table操作列按钮需添加一个手势样式-- */
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
+/*	//update-start--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/
+a[class="ace_button"]:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-begin--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好------------------- */
+a.ace_button:hover{ color:#DDDDDD !important; text-decoration:none;}
+/*update-end--Author:xuelin  Date:20170730 for：TASK #2233 【样式问题】Shortcut 风格下，鼠标放上去的样式不好---------------------- */
+/*update-begin--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid-------------------- */
+ .ace_button
+ {
+  background-color: #21b9bb;
+  border-color: #21b9bb;
+  color: #FFFFFF;
+  border-radius: 3px;
+  /*update-begin--Author:xuelin  Date:20170603 for：TASK #2042 【UI美化】Jeecg button样式，参考p3插件风格优化改进-------------------- */
+  padding: 2px 6px;
+  /*update-end--Author:xuelin  Date:20170603 for：TASK #2042 【UI美化】Jeecg button样式，参考p3插件风格优化改进---------------------- */
+  font-size: 12px;
+  line-height: 1.5;
+  display: inline-block;
+  font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+ }
+/*update-end--Author:xuelin  Date:20170613 for：TASK #2100 【列表样式美化】【样式专题】Jeecg平台任务 ---4列表页面，按钮和列表的字体 参考jqgrid---------------------- */
+/*	//update-end--Author: chenj  Date:20160815 for：TASK #1040 【UI按钮标签ace样式】列表后面的操作按钮支持按钮标签样式设置，*/

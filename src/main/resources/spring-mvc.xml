@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://cxf.apache.org/jaxws 
+   		http://cxf.apache.org/schemas/jaxws.xsd">
+	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
+	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
+	<context:component-scan base-package="org.jeecgframework.web.*,com.jeecg.*,org.jeecgframework.jwt.*">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<!-- ApplicationContext-->
+	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
+	<!-- 配置缓存工具类（支持redis\ehcache切换）  
+	<bean class="org.jeecgframework.web.system.service.impl.RedisCacheService"/>
+	-->
+	<bean class="org.jeecgframework.web.system.service.impl.EhcacheService"/>
+	
+	
+	<!-- Swagger支持（暂时注释掉提高平台性能，需要此功能，可以放开注释）
+	<context:component-scan base-package="springfox"/>
+	<bean class="org.jeecgframework.core.swagger.SwaggerConfig" /> 
+	<mvc:resources mapping="/swagger/**" location="/swagger/" cache-period="31556926" />  -->
+	 	
+	 
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="objectMapper" ref="customObjectMapper"></property> 
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<!-- ResponseBody返回字符串带双引号解决 -->
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+	    <constructor-arg value="UTF-8" index="0"/>
+	    <property name="supportedMediaTypes">
+	        <list>
+	            <value>text/plain;charset=UTF-8</value>
+	        </list>
+	    </property>
+	</bean>
+	<bean id="customObjectMapper" class="org.jeecgframework.core.common.controller.CustomObjectMapper"></bean>
+	<!-- 注册handler method和request的mapping关系。  -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射， 配置一个基于注解的定制的WebBindingInitializer，解决日期转换问题，方法级别的处理器映射 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="cacheSeconds" value="0" />
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringHttpMessageConverter" /> <!--先进行string转换-->
+				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</list>
+		</property>
+		<property name="webBindingInitializer">
+			<bean class="org.jeecgframework.core.interceptors.MyWebBinding" />
+		</property>
+	</bean>
+	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+	<bean id="defaultViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:order="3">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="contentType" value="text/html" />
+		<property name="prefix" value="/webpage/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		p:defaultEncoding="UTF-8">
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+
+    <!-- Bean解析器,级别高于默认解析器,寻找bean对象进行二次处理 -->
+    <bean id="beanNameViewResolver"
+          class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
+    </bean>
+    <!-- Excel 处理 根据用户输入进行对象处理 -->
+    <bean id="jeecgExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
+    <bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView" />
+    <bean id="jeecgTemplateWordView" class="org.jeecgframework.poi.excel.view.JeecgTemplateWordView" />
+    <bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView" />
+	<!-- 方言 -->
+	<bean id="dialect"
+		class="org.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
+		<property name="dbType" value="${jdbc.dbType}" />
+	</bean>
+	<!-- 异常处理类 -->
+	<bean id="exceptionHandler"
+		class="org.jeecgframework.core.common.exception.GlobalExceptionResolver" />
+	
+	
+	<!--  单点登录 kisso 注入初始化，也支持使用 web.xml 初始化 （暂时注释掉提高平台性能，需要此功能，可以放开注释） -->
+	<!--  参数runMode说明： dev_mode/开发模式 ,test_mode/测试模式 ,online_mode/生产模式
+	<bean id="kissoInit" class="com.baomidou.kisso.web.WebKissoConfigurer" init-method="initKisso">
+		<property name="ssoPropPath" value="sso.properties" />
+		<property name="runMode" value="test_mode" />
+	</bean> -->
+
+	
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.jeecgframework.core.interceptors.EncodingInterceptor" />
+		</mvc:interceptor>
+		<!-- [接口方案一] API 接口验签拦截器 ，签名统一校验（暂时注释掉提高平台性能，需要此功能，可以放开注释） 
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**" />
+			<bean class="org.jeecgframework.core.interceptors.SignInterceptor" />
+		</mvc:interceptor>-->
+		<!-- [接口方案二] JWT Token校验方式拦截器，针对Restful请求接口 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.jeecgframework.jwt.aop.RestAuthTokenInterceptor">
+			    <property name="excludeUrls">
+					<list>
+						<value>/rest/v2/api-docs</value>
+					</list>
+				</property>
+				<property name="excludeContainUrls">
+					<list>
+						<value>/rest/tokens</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<!-- 登录权限拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.jeecgframework.core.interceptors.AuthInterceptor">
+				<property name="excludeUrls">
+					<list>
+						<value>loginController.do?goPwdInit</value>
+						<value>loginController.do?pwdInit</value>
+						<value>loginController.do?login</value>
+						<value>loginController.do?logout</value>
+						<value>loginController.do?changeDefaultOrg</value>
+                        <value>loginController.do?login2</value>
+						<value>loginController.do?login3</value>
+						<value>loginController.do?checkuser</value>
+						<value>loginController.do?checkuser=</value>
+						<value>systemController.do?saveFiles</value>
+						<!-- 邮件密码重置 -->
+						<value>loginController.do?goResetPwd</value>
+						<value>loginController.do?resetPwd</value>
+						<value>loginController.do?goResetPwdMail</value>
+						<value>loginController.do?sendResetPwdMail</value>
+						<value>userController.do?userOrgSelect</value>
+						<!--移动图表-->
+						<value>cgDynamGraphController.do?design</value>
+						<value>cgDynamGraphController.do?datagrid</value>
+
+						<!-- 菜单样式图标预览 -->
+						<value>webpage/common/functionIconStyleList.jsp</value>
+						<value>chat/imController/showOrDownByurl.do</value>
+						<!-- 接收远程定时任务开关指令 -->
+						<value>timeTaskController.do?remoteTask</value>
+						<!-- swagger支持  -->
+						<value>rest/v2/api-docs</value>
+					</list>
+				</property>
+				<!-- 模糊匹配 -->
+				<property name="excludeContainUrls">
+					<list>
+						<!--单点登录-->
+						<value>toLogin.do</value>
+						<!--restful请求统一不做拦截，采用jwt接口机制验证-->
+						<value>rest/</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<!-- SQL注入拦截器 （暂时注释掉提高平台性能，需要此功能，可以放开注释）
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="org.jeecgframework.core.interceptors.SqlInjectInterceptor">
+            	<property name="onlineOptUrls">
+					<list>
+						Online表单SQL增强
+						<value>cgformButtonSqlController.do?save</value>
+						Online数据报表
+						<value>cgreportConfigHeadController.do?doAdd</value>
+						<value>cgreportConfigHeadController.do?doUpdate</value>
+						<value>cgReportController.do?getFields</value>
+						Online图形报表
+						<value>jformGraphreportHeadController.do?doAdd</value>
+						<value>jformGraphreportHeadController.do?doUpdate</value>
+						<value>graphReportController.do?getFields</value>
+						Online移动报表
+						<value>cgDynamGraphConfigHeadController.do?doAdd</value>
+						<value>cgDynamGraphConfigHeadController.do?doUpdate</value>
+						<value>cgDynamGraphController.do?getFields</value>
+					</list>
+				</property>
+			</bean>
+        </mvc:interceptor> -->
+	</mvc:interceptors>
+	
+	<!--集成cxf webservice接口（暂时注释掉提高平台性能，需要此功能，可以放开注释）
+	<import resource="classpath:cxf-servlet.xml" />-->
+	
+	<!-- Online表单配置引入 -->
+	<import resource="classpath*:org/jeecgframework/web/cgform/common/spring-mvc-cgform.xml" />
+	<!-- 配置 redis -->
+    <import resource="classpath:redis.xml" />
+	<!-- Jeecg 插件开发 -->
+	<bean class="org.jeecgframework.p3.core.utils.common.ApplicationContextUtil"></bean>
+	<import resource="classpath:config/spring-config-p3.xml" />
+</beans>

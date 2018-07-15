@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false">
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- 字典&国际化&在线用户列表[永久缓存] -->
+	<cache name="foreverCache" maxElementsInMemory="500"  maxElementsOnDisk="500" diskSpoolBufferSizeMB="5" 
+			overflowToDisk="true" eternal="true" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
+	<!-- 类注解&系统缓存[临时缓存] -->
+	<cache name="systemBaseCache" maxElementsInMemory="500"  maxElementsOnDisk="500" diskSpoolBufferSizeMB="5" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
+	<!-- 登录用户访问权限缓存[临时缓存] -->
+	<cache name="sysAuthCache" maxElementsInMemory="500"  maxElementsOnDisk="500" diskSpoolBufferSizeMB="5" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
+	<!-- UI标签页面缓存[临时缓存] -->
+	<cache name="tagCache" maxElementsInMemory="500" maxElementsOnDisk="500" diskSpoolBufferSizeMB="10" 
+			overflowToDisk="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LFU"/>
+	
+	<defaultCache maxElementsInMemory="1000" overflowToDisk="true"
+		eternal="false" memoryStoreEvictionPolicy="LRU" maxElementsOnDisk="10000"
+		diskExpiryThreadIntervalSeconds="600" timeToIdleSeconds="120" 
+		timeToLiveSeconds="120" diskPersistent="false" />
+</ehcache>

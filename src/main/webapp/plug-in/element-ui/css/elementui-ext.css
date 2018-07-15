@@ -1,0 +1,17 @@
+.el-checkbox__inner{border-color:#999ea9;}
+.el-input__inner{border-color:#D7D7D7;}	
+.el-table thead {color:#676A6C;font-weight: normal;}
+.el-table--border{border-color:#e7e7e7;}
+.el-table td, .el-table th.is-leaf {border-bottom: 1px solid #e7e7e7;}
+.el-table td, .el-table th.is-leaf {border-bottom: 1px solid #e7e7e7;}
+.el-table__column-resize-proxy { border-left: 1px solid #e7e7e7;}
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+    border-right: 1px solid #e7e7e7;
+}
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+    border-right: 1px solid #e7e7e7;
+}
+* {
+    font-size: 12px;
+    font-family: Tahoma,Verdana,微软雅黑,新宋体, Helvetica, Arial, sans-serif;
+ }

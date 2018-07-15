@@ -1,0 +1,26 @@
+.bt-label{
+	display: inline-block;
+    max-width: 100%;
+    font-weight: 700;
+    text-align:right;
+    padding: 6px;
+    vertical-align:middle;
+}
+.bt-content .select{
+	 padding: 6px;
+}
+.bt-item{margin-bottom: 6px;}
+.subinfo-table input.form-control,.subinfo-table select.form-control{width:150px}
+.subinfo-table .laydate-datetime{
+	background: #fff url("../img/datetime.png") no-repeat right;
+}
+.subinfo-table .laydate-date{
+	background: #fff url("../img/datetime.png") no-repeat right;
+}
+.table td.form-ck{vertical-align:middle}
+/*.subinfo-table td,.subinfo-table th{text-align:center}*/
+.form-ck input[type='checkbox']{width:15px;height:15px;cursor:pointer}
+.form-tb-toolbar{padding:5px;}
+.webuploader-container{top:5px}
+.webuploader-container lebel,.webuploader-pick{margin-bottom:0}
+.Validform_title{display:none}

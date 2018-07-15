@@ -1,0 +1,491 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>${ftl_description}</title>
+<t:base type="bootstrap,bootstrap-table,layer"></t:base>
+<link rel="stylesheet" href="${'$'}{webRoot}/plug-in/themes/naturebt/css/search-form.css">
+<#assign orderByCreateDate = false />
+<#list columns as po>
+	<#if po.fieldName=='createDate'>
+		<#assign orderByCreateDate = true />
+		<#break>
+	</#if>
+</#list>
+</head>
+<body>
+
+	<#assign hasQuery=false>
+	<#list columns as po>
+	<#if po.isQuery =='Y'>
+		<#assign hasQuery=true>
+		<#break>
+	</#if>
+	</#list>
+	
+	<#if hasQuery==true>
+	<div class="panel-body" style="padding-bottom: 0px;">
+		<!-- 搜索 -->
+		<div class="accordion-group">
+			<div id="collapse_search" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<div class="panel panel-default" style="margin-bottom: 0px;">
+						<div class="panel-body">
+							<form id="${entityName?uncap_first}Form" onkeydown="if(event.keyCode==13){doSearch();return false;}">
+								<#list columns as po>
+									<#if po.isQuery =='Y'>
+										<#if po.showType?index_of("datetime")!=-1>
+											<#if po.queryMode =='group'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}_begin">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm laydate-datetime"id="${po.fieldName}_begin" name="${po.fieldName}_begin"/> 
+													<span class="input-group-addon" >
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+													<span class="input-group-addon input-sm">~</span> 
+													<input type="text" class="form-control input-sm laydate-datetime" id="${po.fieldName}_end"name="${po.fieldName}_end" />
+													<span class="input-group-addon" >
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+												</div>
+											</div>
+											<#else>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm laydate-datetime"id="${po.fieldName}" name="${po.fieldName}" />
+													<span class="input-group-addon" >
+							                        	<span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+												</div>
+											</div>
+											</#if>
+										<#elseif po.showType?index_of("date")!=-1>
+											<#if po.queryMode =='group'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}_begin">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm laydate-date" id="${po.fieldName}_begin" name="${po.fieldName}_begin"/> 
+													<span class="input-group-addon" >
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+													<span class="input-group-addon input-sm">~</span> 
+													<input type="text" class="form-control input-sm laydate-date" id="${po.fieldName}_end" name="${po.fieldName}_end"/>
+													<span class="input-group-addon" >
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+												</div>
+											</div>
+											<#else>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm laydate-date"id="${po.fieldName}" name="${po.fieldName}" />
+													<span class="input-group-addon" >
+							                        	<span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+												</div>
+											</div>
+											</#if>
+										<#elseif po.showType=='checkbox'|| po.showType=='radio'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}">${po.content}：</label>
+												<div class=" ${po.fieldName}-search input-group" style="width: 100%"></div>
+											</div>
+										<#elseif  po.showType=='select' || po.showType=='list'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+									    		<label for="${po.fieldName}">${po.content}：</label>
+									    		<div class="input-group" style="width:100%">
+										    		<select class="form-control input-sm" id="${po.fieldName}" name="${po.fieldName}"></select>
+									    		</div>
+								    		</div>
+										<#else>
+											<#if po.queryMode =='group'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}_begin">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm" id="${po.fieldName}_begin" name="${po.fieldName}_begin"/> 
+													<span class="input-group-addon input-sm">~</span> 
+													<input type="text" class="form-control input-sm" id="${po.fieldName}_end" name="${po.fieldName}_end"/>
+												</div>
+											</div>
+											<#else>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm" id="${po.fieldName}" name="${po.fieldName}"/>
+												</div>
+											</div>
+											</#if>
+										</#if>
+									</#if>
+								</#list>
+								
+								<div class="col-xs-12 col-sm-6 col-md-4">
+									<div class="input-group col-md-12" style="margin-top: 20px">
+										<a type="button" onclick="searchList();" class="btn btn-primary btn-rounded  btn-bordered btn-sm"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询</a> 
+										<a type="button" onclick="searchRest();" class="btn btn-primary btn-rounded  btn-bordered btn-sm"><spanclass="glyphicon glyphicon-repeat" aria-hidden="true"></span>重置</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</#if>
+	<div class="panel-body" style="padding-top: 0px; padding-bottom: 0px;">
+		<!-- toolbar -->
+		<div id="toolbar">
+			<button onclick="add('录入','${entityName?uncap_first}Controller.do?goAdd','${entityName?uncap_first}List',600,400)" id="btn_add" class="btn btn-primary btn-sm">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 录入
+			</button>
+			<button onclick="update('编辑','${entityName?uncap_first}Controller.do?goUpdate','${entityName?uncap_first}List',600,400)" id="btn_edit" class="btn btn-success btn-sm">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑
+			</button>
+			<button onclick="deleteALLSelect('批量删除','${entityName?uncap_first}Controller.do?doBatchDel','${entityName?uncap_first}List',600,400)" id="btn_delete" class="btn btn-danger btn-sm">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 批量删除
+			</button>
+			<button onclick="detail('查看','${entityName?uncap_first}Controller.do?goUpdate','${entityName?uncap_first}List',600,400)" class="btn btn-info btn-sm">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查看
+			</button>
+			<button onclick="ImportXls('导入','','${entityName?uncap_first}List',600,400)" id="btn_download" class="btn btn-info btn-sm">
+				<span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> 导入
+			</button>
+			<button onclick="ExportXls('导出','','${entityName?uncap_first}List',600,400)" id="btn_upload" class="btn btn-info btn-sm">
+				<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 导出
+			</button>
+			<button onclick="ExportXlsByT('模板下载','','${entityName?uncap_first}List',600,400)" id="btn_upload" class="btn btn-info btn-sm">
+				<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 模板下载
+			</button>
+			<a class="btn btn-default btn-sm" data-toggle="collapse" href="#collapse_search" id="btn_collapse_search"> 
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span> 检索 
+			</a>
+		</div>
+		<!-- data table -->
+		<div class="table-responsive">
+			<!-- class="text-nowrap" 强制不换行 -->
+			<table id="${entityName?uncap_first}List"></table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		<#-- update-begin-author:jiaqiankun date:20180704 for:TASK #2882 【bootstrapTable】代码生成器存在的问题 -->
+		$(".laydate-datetime").each(function(){
+			var _this = this;
+			laydate.render({
+			  elem: this,
+			  format: 'yyyy-MM-dd HH:mm:ss',
+			  type: 'datetime'
+			});
+		});
+		$(".laydate-date").each(function(){
+			var _this = this;
+			laydate.render({
+			  elem: this
+			});
+		});
+		<#-- update-end-author:jiaqiankun date:20180704 for:TASK #2882 【bootstrapTable】代码生成器存在的问题 -->
+		var ${entityName?uncap_first}ListdictsData = {};
+		$(function() {
+			var promiseArr = [];
+			<#assign optionCodes="">
+			<#list columns as po>
+			<#if po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
+			<#if optionCodes?index_of(po.dictField) lt 0>
+			<#assign optionCodes=optionCodes+","+po.dictField >
+			promiseArr.push(new Promise(function(resolve, reject) {
+				initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",resolve);
+			}));
+			</#if>
+			</#if>
+			</#list>
+			
+			Promise.all(promiseArr).then(function(results) {
+				<#list columns as po>
+				<#if po.isQuery =='Y'>
+				<#if po.showType=='checkbox'||po.showType=='radio'>
+				loadSearchFormDicts($("#${entityName?uncap_first}Form").find(".${po.fieldName}-search"),${entityName?uncap_first}ListdictsData.${po.dictField},"${po.showType}","${po.fieldName}");
+				<#elseif  po.showType=='select' || po.showType=='list'>
+				loadSearchFormDicts($("#${entityName?uncap_first}Form").find("select[name='${po.fieldName}']"),${entityName?uncap_first}ListdictsData.${po.dictField},"select");
+				</#if>
+				</#if>
+				</#list>
+			    
+			}).catch(function(err) {
+			 	console.log('Catch: ', err);
+			});
+			
+			//1.初始化Table
+			var oTable = new TableInit();
+			oTable.Init();
+
+			//判断是否选中表格中的数据，选中后可编辑或删除
+			$('#${entityName?uncap_first}List').on(
+					'check.bs.table uncheck.bs.table load-success.bs.table '
+							+ 'check-all.bs.table uncheck-all.bs.table',
+					function() {
+						$('#btn_delete').prop('disabled',!$('#${entityName?uncap_first}List').bootstrapTable('getSelections').length);
+						$('#btn_edit').prop('disabled',$('#${entityName?uncap_first}List').bootstrapTable('getSelections').length != 1);
+					});
+
+		});
+
+		var TableInit = function() {
+			var oTableInit = new Object();
+			//初始化Table
+			oTableInit.Init = function() {
+				$('#${entityName?uncap_first}List').bootstrapTable({
+									url : '${entityName?uncap_first}Controller.do?datagrid', //请求后台的URL（*）
+									method : 'get', //请求方式（*）
+									toolbar : '#toolbar', //工具按钮用哪个容器
+									striped : true, //是否显示行间隔色
+									cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+									pagination : true, //是否显示分页（*）
+									queryParams : oTableInit.queryParams,//传递参数（*）
+									sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
+									pageNumber : 1, //初始化加载第一页，默认第一页
+									pageSize : 10, //每页的记录行数（*）
+									pageList : [ 10, 25, 50, 100 ], //可供选择的每页的行数（*）
+									strictSearch : true,
+									showColumns : true, //是否显示所有的列
+									showRefresh : true, //是否显示刷新按钮
+									minimumCountColumns : 2, //最少允许的列数
+									clickToSelect : true, //是否启用点击选中行
+									height : $(window).height() - 35, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+									uniqueId : "id", //每一行的唯一标识，一般为主键列
+									showToggle : true, //是否显示详细视图和列表视图的切换按钮
+									cardView : false, //是否显示详细视图
+									detailView : false, //是否显示父子表
+									showExport : true, //显示到处按钮
+									<#if orderByCreateDate == true>
+									sortName:'createDate',
+									<#else>
+									sortName:'id',
+									</#if>
+									sortOrder:'desc',
+									columns : [
+											// 复选框
+											{
+												checkbox : true,
+												align : 'center'
+											},
+											{
+												title : '序号',
+												width : 5,
+												align : 'center',
+												switchable : false,
+												formatter : function(value,row, index) {
+													//return index+1; //序号正序排序从1开始
+													var pageSize = $('#${entityName?uncap_first}List')
+															.bootstrapTable('getOptions').pageSize;
+													var pageNumber = $('#${entityName?uncap_first}List').bootstrapTable('getOptions').pageNumber;
+													return pageSize* (pageNumber - 1) + index + 1;
+												}
+											},
+											<#list columns as po>
+											{
+												field : '${po.fieldName}',
+												title : '${po.content}',
+												valign : 'middle',
+												width : ${po.fieldLength},
+												<#if po.isShowList?if_exists?html =='N'>
+												visible:false,
+												</#if>
+												align : 'center',
+												switchable : true,
+												<#if po.showType?index_of("datetime")!=-1>
+												formatter : function(value, rec, index) {
+													return new Date().format('yyyy-MM-dd hh:mm:ss', value);
+												}
+												<#elseif po.showType?index_of("date")!=-1>
+												formatter : function(value, rec, index) {
+													return new Date().format('yyyy-MM-dd', value);
+												}
+												<#elseif po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
+												formatter : function(value, rec, index) {
+													return listDictFormat(value,${entityName?uncap_first}ListdictsData.${po.dictField});
+												}
+												<#elseif po.showType=='image' ||po.showType=='file'>
+												formatter:function(value,rec,index){
+													return listFileImgFormat(value,"${po.showType}");
+											 	}
+												</#if>
+											},
+											</#list>
+											{
+												title : "操作",
+												align : 'center',
+												valign : 'middle',
+												width : 100,
+												formatter : function(value,row, index) {
+													if (!row.id) {
+														return '';
+													}
+													var href = '';
+													href += "<a href='javascript:void(0);'  class='ace_button'  onclick=delObj('${entityName?uncap_first}Controller.do?doDel&id="
+															+ row.id
+															+ "','testRulesList')>  <i class='fa fa-trash-o' aria-hidden='true'></i> ";
+													href += "删除</a>&nbsp;";
+													return href;
+												}
+											} ],
+									onLoadSuccess : function() { //加载成功时执行
+										console.info("加载成功");
+									},
+									onLoadError : function() { //加载失败时执行
+										console.info("加载数据失败");
+									}
+								});
+			};
+
+			//得到查询的参数
+			oTableInit.queryParams = function(params) {
+				var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+					pageSize : params.limit, // 每页要显示的数据条数
+					offset : params.offset, // 每页显示数据的开始行号
+					sort : params.sort, // 排序规则
+					order : params.order,
+					rows : params.limit, //页面大小
+					page : (params.offset / params.limit) + 1, //页码
+					pageIndex : params.pageNumber,//请求第几页
+					field : '<#list columns as po>${po.fieldName},</#list>'
+				};
+
+				var params = $("#${entityName?uncap_first}Form").serializeArray();
+				for (x in params) {
+					temp[params[x].name] = params[x].value;
+				}
+				return temp;
+			};
+			return oTableInit;
+		};
+		
+		function searchList() {
+			reloadTable();
+		}
+
+		function reloadTable() {
+			$('#${entityName?uncap_first}List').bootstrapTable('refresh');
+		}
+
+		function searchRest() {
+			$('#${entityName?uncap_first}Form').find(':input').each(function() {
+		    	if("checkbox"== $(this).attr("type")){
+		    		$("input:checkbox[name='" + $(this).attr('name') + "']").attr('checked',false);
+				}else if("radio"== $(this).attr("type")){
+					$("input:radio[name='" + $(this).attr('name') + "']").attr('checked',false);
+				}else{
+					$(this).val("");
+				}
+		    });
+		    $('#${entityName?uncap_first}Form').find("input[type='checkbox']").each(function() {
+		        $(this).attr('checked', false);
+		    });
+		    $('#${entityName?uncap_first}Form').find("input[type='radio']").each(function() {
+		        $(this).attr('checked', false);
+		    });
+			reloadTable();
+		}
+		//高级查询模态框
+		function bootstrapQueryBuilder() {
+			$('#superQueryModal').modal({
+				backdrop : false
+			});
+		}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		});
+
+		//导入
+		function ImportXls() {
+			openuploadwin('Excel导入', '${entityName?uncap_first}Controller.do?upload',"${entityName?uncap_first}List");
+		}
+
+		//导出
+		function ExportXls() {
+			JeecgExcelExport("${entityName?uncap_first}Controller.do?exportXls","${entityName?uncap_first}List");
+		}
+
+		//模板下载
+		function ExportXlsByT() {
+			JeecgExcelExport("${entityName?uncap_first}Controller.do?exportXlsByT","${entityName?uncap_first}List");
+		}
+
+		//列表数据字典项格式化
+		function listDictFormat(value,dicts){
+			if (!value) return '';
+		    var valArray = value.split(',');
+		    var showVal = '';
+		    if (valArray.length > 1) {
+		    	for (var k = 0; k < valArray.length; k++) {
+		           if(dicts && dicts.length>0){
+		        	   for(var a = 0;a < dicts.length;a++){
+		                	if(dicts[a].typecode ==valArray[k]){
+		                		showVal = showVal + dicts[a].typename + ',';
+		                		 break;
+		                	}
+		                }
+		           }
+		        }
+		        showVal=showVal.substring(0, showVal.length - 1);
+		    }else{
+		    	if(dicts && dicts.length>0){
+		    	   for(var a = 0;a < dicts.length;a++){
+		            	if(dicts[a].typecode == value){
+		            		showVal =  dicts[a].typename;
+		            		 break;
+		            	}
+		            }
+		       }
+		    }
+		    return showVal;
+		}
+		
+		//加载字典数据
+		function initDictByCode(dictObj,code,callback){
+			if(!dictObj[code]){
+				jQuery.ajax({
+		            url: "systemController.do?typeListJson&typeGroupName="+code,
+		    		type:"GET",
+		       		dataType:"JSON",
+		            success: function (back) {
+		               if(back.success){
+		            	   dictObj[code]= back.obj;
+		            	  
+		               }
+		               callback();
+		             }
+		         });
+			}
+		}
+		//加载form查询数据字典项
+		function loadSearchFormDicts(obj,arr,type,name){
+			var html = "";
+			for(var a = 0;a < arr.length;a++){
+				if("select"== type){
+					html+="<option value = '"+arr[a].typecode+"'>"+arr[a].typename+"</option>";
+				}else{
+					if(!arr[a].typecode){
+					}else{
+						html+="<input name = '"+name+"' type='"+type+"' value = '"+arr[a].typecode+"'>"+arr[a].typename +"&nbsp;&nbsp;";
+					}
+					
+				}
+		    }
+			obj.html(html);
+		}
+	</script>
+	<#if (cgformConfig.listJs.cgJsStr)?? && cgformConfig.listJs.cgJsStr!="">
+    <script type="text/javascript">
+	 //JS增强
+	 ${cgformConfig.listJs.cgJsStr?if_exists}
+	</script>
+	</#if>
+</body>
+</html>

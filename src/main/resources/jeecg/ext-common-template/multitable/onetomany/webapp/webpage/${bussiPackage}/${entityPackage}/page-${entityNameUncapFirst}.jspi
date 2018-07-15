@@ -1,0 +1,121 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<#include "../../ui/datatype.ftl"/>
+<#include "../../ui/dictInfo.ftl"/>
+<#include "../../ui/formControl.ftl"/>
+<#include "../../ui/tag.ftl"/>
+<#assign ue_widget_count = 0>
+<div style="margin: 0 15px;padding-bottom:10px;">
+<!-- 若页面内容太多需要滚动条 ,可自己根据页面添加overflow: auto;样式 -->
+<div class="conc-wrapper" style="margin-top:10px">
+	<#list pageColumns as po>
+	<#-- 4个字段为一行，2行一个模块 -->
+		<#-- 模块头部开始 -->
+	<#if po_index%8==0>
+	<#assign index_m = po_index>
+	<div class="main-tab">
+		<ul class="tab-info">
+		  <li role="presentation" class="active">
+			<a href="javascript:void(0);"> &nbsp;&nbsp;信息模块${(po_index/8)+1}</a>
+		  </li>
+		</ul>
+		<!-- tab内容 -->
+		<div class="con-wrapper1">
+		  <div class="row form-wrapper">
+	</#if>
+	<#-- 模块头部结束 -->
+	<#-- 行头部开始 -->
+		<#if po_index%4==0>
+		<#assign index_h = po_index>
+		<div class="row show-grid">
+		</#if>
+		<#-- 行头部结束 -->
+		
+		<#-- 字段内容开始 -->
+		<div class="col-xs-1 text-center">
+			<b>${po.content}：</b>
+		</div>
+		 <#if po.showType=='file' || po.showType == 'image'>
+         <div class="col-xs-2">
+         <#else>
+         <div class="col-xs-2">
+         </#if>
+			<#if po.showType=='textarea'>
+				<textarea id="${po.fieldName}" class="form-control" rows="6" name="${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>${'$'}{${entityName?uncap_first}Page.${po.fieldName}}</textarea>
+		    <#elseif po.showType=='file' || po.showType == 'image'>
+				<@webuploadtag po = po defval="${'$'}{${entityName?uncap_first}Page.${po.fieldName}}"/>
+			<#elseif po.showType='umeditor'>
+				<#assign ue_widget_count = ue_widget_count + 1>
+				<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px">${'$'}{${entityName?uncap_first}Page.${po.fieldName}}</textarea>
+				<script type="text/javascript">
+					var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+				</script>
+			<#else>
+				<@formControl po = po namepre="" valuepre = "${entityName?uncap_first}Page."/>
+			</#if>
+			<span class="Validform_checktip" style="float:left;height:0px;"></span>
+			<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+		</div>
+		<#-- 字段内容结束 -->
+		
+		<#-- 行尾部开始 -->
+			<#if ((po_index+1)%4==0 && (index_h+4)==(po_index+1)) || !po_has_next>
+			</div>
+			</#if>
+		<#-- 行尾部结束 -->
+		
+		<#-- 模块尾部开始 -->
+			<#if ((po_index+1)%8==0 && (index_m+8)==(po_index+1)) || !po_has_next>
+			</div>
+		</div>
+	</div>
+	</#if>
+<#-- 模块尾部结束 -->
+	</#list>
+	<#list pageAreatextColumns as po>
+	<#if po_index%2==0>
+	<#assign index_a = po_index>
+	<div class="main-tab">
+		<ul class="tab-info">
+		  <li role="presentation" class="active">
+			<a href="javascript:void(0);"> &nbsp;&nbsp;其他信息${po_index+1}</a>
+		  </li>
+		</ul>
+		<!-- tab内容 -->
+		<div class="con-wrapper1">
+		  <div class="row form-wrapper">
+		  <div class="row show-grid">
+	</#if>
+		
+		<div class="col-xs-1 text-center">
+			<b>${po.content}：</b>
+		</div>
+		<div class="col-xs-5">
+			<#if po.showType=='textarea'>
+				<textarea id="${po.fieldName}" class="form-control" rows="6" name="${po.fieldName}" cols="28" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />>${'$'}{${entityName?uncap_first}Page.${po.fieldName}}</textarea>
+			<#elseif po.showType='umeditor'>
+				<#assign ue_widget_count = ue_widget_count + 1>
+				<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px">${'$'}{${entityName?uncap_first}Page.${po.fieldName} }</textarea>
+				<script type="text/javascript">
+					var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+				</script>
+			</#if>
+			<span class="Validform_checktip" style="float:left;height:0px;"></span>
+			<label class="Validform_label" style="display: none">${po.content?if_exists?html}</label>
+		</div>
+			<#if (po_index%2==0 && po_index==(index_a+2)) || !po_has_next>
+			</div></div></div></div>
+			</#if>
+	</#list>
+	
+</div>
+</div>
+<script type="text/javascript">
+   $(function(){
+	    //查看模式情况下,删除和上传附件功能禁止使用
+		if(location.href.indexOf("load=detail")!=-1){
+			$(".jeecgDetail").hide();
+			$("input,select,textarea").attr("disabled","disabled");
+		}
+   });
+</script>

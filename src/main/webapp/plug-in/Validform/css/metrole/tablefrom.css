@@ -1,0 +1,186 @@
+body {
+	margin-left: 0px;
+/* 	margin-top: 0px; */
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size:12px;
+	/* background-image: url(resources/fc/images/bj.jpg); */
+}
+.formtable .inputxt{
+	border: 1px solid #D7D7D7;
+	border-radius: 3PX;
+	/*update-start--Author: scott  Date:20180615 for：Online table风格一对多，输入框上下太宽 */
+	height: 12px;
+	/*update-end--Author: scott  Date:20180615 for：Online table风格一对多，输入框上下太宽  */
+	/*height: 14PX;*/
+	 padding: 7px 0 7px 5px; 
+	/*padding: 10px 0px 2px 5px;*/
+	line-height: 14PX;
+	font-size: 12px;
+	display: inline-block;
+	width:150px;
+	
+}
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
+input:focus {
+	 border-color: #76B4AC;
+     background-color: #fafafa;
+     color: #007465;
+}
+.formtable .inputxt:focus{
+	border-color: #76B4AC;
+    background-color: #fafafa;
+    color: #007465;
+}
+/*update-start--Author: scott  Date:20171110 for：输入框选中边框变绿色效果 */
+.formtable select{
+	padding:5px 2px;
+	width:155px;
+	/*update-begin--Author:scott  Date:20180628 for：tableform表单自定义下拉高度--- */
+	height: 28px;
+	/*update-end--Author:scott  Date:20180628 for：tableform表单自定义下拉高度--- */
+}
+.Validform_label {
+	font-size: 12px;
+	font-weight: normal;
+/* 	color: #5E7595; */
+	/*update-begin--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+	padding: 20px;
+	/*update-end--Author:scott  Date:20171128 for：【表单样式】非DIV表单，label宽一些-------------------- */
+	white-space:nowrap;
+}
+.formtable
+{
+	width:100%;
+	background-color:#ddd;
+	align:right;
+}
+.main_table{margin:6px auto;  border-left:0px solid #d3d3d3; border-top:0px solid #d3d3d3}
+.main_table td{line-height:26px; padding:2px; border-bottom:1px solid #d3d3d3; border-right:1px solid #d3d3d3}
+.table_title{background:#f7f7f7; padding:6px; text-align:center; font-weight:bold}
+.formtable tr 
+{ 
+	background-color:#f5f5f5;
+	align:right;
+}
+.value
+{
+	background-color:#FFFFFF;
+	padding:5px;
+	align:left; 
+	align:left; 
+}
+
+.swfupload{
+	vertical-align:top;
+}
+.passwordStrength{
+
+}
+.passwordStrength b{
+	font-weight:normal;
+}
+.passwordStrength b,.passwordStrength span{
+	display:inline-block; 
+	vertical-align:middle;
+	line-height:16px;
+	line-height:18px\9;
+	height:16px;
+}
+.passwordStrength span{
+	width:45px; 
+	text-align:center; 
+	background-color:#d0d0d0; 
+	border-right:1px solid #fff;
+}
+.passwordStrength .last{
+	border-right:none;
+}
+.passwordStrength .bgStrength{
+	color:#fff;
+	background-color:#71b83d;
+}
+/*update-begin--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些-------------------- */
+tbody > tr > td[align='right']{
+	min-width: 110px;
+}
+/*update-end--Author:xuelin  Date:20170617 for：TASK #2110 【表单样式】表单，label宽一些---------------------- */
+#tabs-project .progress{
+	background: url(../../images/bg_state-1.jpg) no-repeat -157px 0px;
+	height: 30px;
+	width: 30px;
+	float: left;
+	position: relative;
+}
+
+#tabs-project .progress1 {
+	background-position: 0 0;
+	width: 157px;
+}
+
+#tabs-project .progress div.detial {
+	position: absolute;
+	left: -40px;
+	top: 40px;
+	width: 157px;
+	height: 80px;
+	z-index: 2;
+	line-height: 18px;
+}
+
+#tabs-project .progress3 {
+	background-position: 0 -58px;
+	width: 157px;
+}
+
+#tabs-project .progress_cancel {
+	background-position: -157px -90px;
+}
+
+#tabs-project .progress_unstart {
+	background-position: -157px -60px;
+}
+
+.Button{ 
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	color: #fef4e9;
+	border: solid 1px #1D73F7;
+	background: #1D73F7;
+	background: -webkit-gradient(linear, left top, left bottom, from(#1D73F7), to(#1D51F7));
+}
+
+.disabledButton{ 
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	color: #ffffff;
+	border: solid 1px #BDBEC0;
+	background: #BDBEC0;
+	background: -webkit-gradient(linear, left top, left bottom, from(#BDBEC0), to(#BDBEC0));
+}
+/*--update-begin-author:taoyan for：上传控件样式被app.css搞坏了---*/
+.webuploader-container{top:5px !important;}
+.webuploader-container>.webuploader-pick{line-height:18px;}
+/*--update-end-author:taoyan for：上传控件样式被app.css搞坏了--*/

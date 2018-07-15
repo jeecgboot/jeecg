@@ -1,0 +1,659 @@
+<#include "/ui/datatypeJs.ftl"/>
+<#assign callbackFlag = false />
+<#assign hasUEditor = false />
+<#list pageColumns as callBackTestPo>
+	<#if callBackTestPo.showType=='file' || callBackTestPo.showType == 'image'>
+		<#assign callbackFlag = true />
+		<#break>
+	</#if>
+</#list>
+<#list pageAreatextColumns as po>
+	<#if po.showType='umeditor'>
+		<#assign hasUEditor = true />
+		<#break>
+	</#if>
+</#list>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${ftl_description}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name=viewportcontent="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+	<link rel="stylesheet" href="${'$'}{webRoot}/plug-in/element-ui/css/index.css">
+	<link href="${'$'}{webRoot}/plug-in/themes/bootstrap-ext/css/validform-ext.css" rel="stylesheet" />
+	<style>
+	[v-cloak] { display: none }
+	</style>
+</head>
+<body style="background-color: #FFFFFF;">
+	<div id="${entityName?uncap_first}Form" v-cloak>
+	<form class="form-horizontal" role="form" id="form" action="" method="POST">
+		<button type="button" id="btn_sub" class="btn_sub" @click="addSubmit()" style="display:none"></button>
+		<#-- update--begin--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题5)  -->
+		<input type="hidden" id="id" :value="form.id">
+		<#-- update--end--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题5)  -->
+			<!--新增界面-->
+			<el-form label-width="80px" size="mini">
+				<el-row>
+				<#list pageColumns as po>
+				  	<el-col :span="8">
+				<#if po.showType=='text'>
+					<el-form-item label="${po.content}" prop="${po.fieldName}">
+						<el-input v-model="form.${po.fieldName}" name="${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+					</el-form-item>
+				<#elseif po.showType=='password'>
+					<el-form-item label="${po.content}">
+						<el-input type="password" name="${po.fieldName}" v-model="form.${po.fieldName}"></el-input>
+					</el-form-item>
+				<#elseif po.showType=='date'>
+					<el-form-item label="${po.content}">
+						<el-date-picker type="date" name="${po.fieldName}" placeholder="选择${po.content}" v-model="form.${po.fieldName}"></el-date-picker>
+					</el-form-item>
+				<#elseif po.showType=='datetime'>
+					<el-form-item label="${po.content}">
+						 <el-date-picker type="datetime" name="${po.fieldName}" placeholder="选择${po.content}" v-model="form.${po.fieldName}"></el-date-picker>
+					</el-form-item>
+				<#elseif po.showType=='checkbox'>
+					<el-form-item label="${po.content}">
+						<el-select v-model="form.${po.fieldName}" name="${po.fieldName}" multiple placeholder="请选择${po.content}">
+					      <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+					    </el-select>
+					</el-form-item>
+				<#elseif po.showType=='select' || po.showType=='list' || po.showType=='radio'>
+					<el-form-item label="${po.content}">
+						<el-select v-model="form.${po.fieldName}" name="${po.fieldName}" placeholder="请选择${po.content}">
+					      <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+					    </el-select>
+					</el-form-item>
+				<#-- update--begin--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+				<#elseif po.showType == 'image'>
+					<el-form-item label="${po.content}" prop="${po.fieldName}">
+						<el-upload
+						  :action="url.upload"
+						  :data="{isup:'1'}"
+						  :on-success="handleMain${po.fieldName?cap_first}UploadFile"
+						  :on-remove="handleMain${po.fieldName?cap_first}RemoveFile"
+						  :file-list="formFile.main_${po.fieldName}"
+						  list-type="picture">
+						  <el-button size="small" type="primary">点击上传</el-button>
+						</el-upload>
+					</el-form-item>
+				<#elseif po.showType=='file'>
+				<#-- update--end--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+					<el-form-item label="${po.content}" prop="${po.fieldName}">
+						<el-upload
+						  :action="url.upload"
+						  :data="{isup:'1'}"
+						  :on-success="handleMain${po.fieldName?cap_first}UploadFile"
+						  :on-remove="handleMain${po.fieldName?cap_first}RemoveFile"
+						  :file-list="formFile.main_${po.fieldName}">
+						  <el-button size="small" type="primary">点击上传</el-button>
+						</el-upload>
+					</el-form-item>
+				<#else>
+					<el-form-item label="${po.content}" prop="${po.fieldName}">
+						<el-input v-model="form.${po.fieldName}" name="${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+					</el-form-item>
+				</#if>
+					</el-col>
+				</#list>
+				<#list pageAreatextColumns as po>
+				<el-col :span="8">
+					<#if po.showType=='textarea'>
+					<el-form-item label="${po.content}">
+						<el-input type="textarea" name="${po.fieldName}" v-model="form.${po.fieldName}"></el-input>
+					</el-form-item>
+					<#elseif po.showType='umeditor'>
+					<el-form-item label="${po.content}">
+						<script id="${po.fieldName}" name="${po.fieldName}" type="text/plain"></script>
+					</el-form-item>
+					</#if>
+				</el-col>
+				</#list>
+				</el-row>
+			</el-form>
+			
+			<el-tabs type="card">
+				<#list subtables as key>
+				<el-tab-pane label="${subsG['${key}'].ftlDescription}">
+				<#if subsG['${key}'].cgFormHead.relationType==1 >
+				    <el-form size="mini" :model="${subsG['${key}'].entityName?uncap_first}Form" label-width="80px" ref="${subsG['${key}'].entityName?uncap_first}Form">
+						<el-row>
+						<#list subPageNoAreatextColumnsMap['${key}'] as po>
+						  	<el-col :span="8">
+						<#if po.showType=='text'>
+							<el-form-item label="${po.content}" prop="${po.fieldName}">
+								<el-input name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+							</el-form-item>
+						<#elseif po.showType=='textarea'>
+							<el-form-item label="${po.content}">
+								<el-input  type="textarea" name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}"></el-input>
+							</el-form-item>
+						<#elseif po.showType=='password'>
+							<el-form-item label="${po.content}">
+								<el-input  type="password" name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}"></el-input>
+							</el-form-item>
+						<#elseif po.showType=='date'>
+							<el-form-item label="${po.content}">
+								<el-date-picker type="date" name="${po.fieldName}" placeholder="选择${po.content}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}"></el-date-picker>
+							</el-form-item>
+						<#elseif po.showType=='datetime'>
+							<el-form-item label="${po.content}">
+								 <el-date-picker type="datetime" name="${po.fieldName}" placeholder="选择${po.content}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}"></el-date-picker>
+							</el-form-item>
+						<#elseif po.showType=='checkbox'>
+							<el-form-item label="${po.content}">
+								<el-select name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}" multiple placeholder="请选择${po.content}">
+							       <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+							    </el-select>
+							</el-form-item>
+						<#elseif po.showType=='select' || po.showType=='list' || po.showType=='radio'>
+							<el-form-item label="${po.content}">
+								<el-select name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}" placeholder="请选择${po.content}">
+							       <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+							    </el-select>
+							</el-form-item>
+						<#else>
+							<el-form-item label="${po.content}" prop="${po.fieldName}">
+								<el-input name="${po.fieldName}" v-model="${subsG['${key}'].entityName?uncap_first}Form.${po.fieldName}" auto-complete="off" placeholder="请输入${po.content}"></el-input>
+							</el-form-item>
+						</#if>
+							</el-col>
+						</#list>
+						</el-row>
+					</el-form>
+				<#else>
+					<el-table size="mini" :data="${subsG['${key}'].entityName?uncap_first}List" class="tb-edit" highlight-current-row style="width: 100%;">
+				  		<#list subColumnsMap['${key}'] as po>
+				  		<#if po.isShow=="Y">
+				  		<el-table-column prop="${po.fieldName}" label="${po.content}" min-width="${po.fieldLength}">
+				  			<template scope="scope">
+				  				<#if po.showType=='text'>
+			                    <el-input size="mini" name="${po.fieldName}" v-model="scope.row.${po.fieldName}" placeholder="${po.content}"></el-input>
+			                    <#elseif po.showType=='textarea'>
+			                    <el-input size="mini" name="${po.fieldName}" type="textarea" v-model="scope.row.${po.fieldName}" placeholder="${po.content}"></el-input>
+			                    <#elseif po.showType=='date'>
+								<el-date-picker  size="mini" name="${po.fieldName}" type="date" placeholder="选择${po.content}" v-model="scope.row.${po.fieldName}"></el-date-picker>
+								<#elseif po.showType=='datetime'>
+								<el-date-picker  size="mini" name="${po.fieldName}" type="datetime" placeholder="选择${po.content}" v-model="scope.row.${po.fieldName}"></el-date-picker>
+								<#elseif po.showType=='checkbox'>
+								<el-select name="${po.fieldName}" v-model="scope.row.${po.fieldName}" multiple placeholder="请选择${po.content}"  size="mini">
+							       <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+							    </el-select>
+								<#elseif po.showType=='select' || po.showType=='list' || po.showType=='radio'>
+								<el-select name="${po.fieldName}" v-model="scope.row.${po.fieldName}" placeholder="请选择${po.content}"  size="mini">
+							       <el-option :label="option.typename" :value="option.typecode" v-for="option in ${po.dictField}Options"></el-option>
+							    </el-select>
+			                    <#else>
+			                    <el-input size="mini" name="${po.fieldName}" v-model="scope.row.${po.fieldName}" placeholder="${po.content}"></el-input>
+			                    </#if>
+			                </template>
+				  		</el-table-column>
+				  		</#if>
+				  		</#list>
+				  		
+				  		<el-table-column label="操作" width="50">
+			                <template scope="scope">
+								<a @click="handleRowDelete('${subsG['${key}'].entityName?uncap_first}List',scope.$index, scope.row)"><i class="el-icon-minus"></i></a>
+								<a @click="handle${subsG['${key}'].entityName?cap_first}Add('${subsG['${key}'].entityName?uncap_first}List',scope.$index, scope.row)"><i class="el-icon-plus"></i></a>
+			                </template>
+			            </el-table-column>
+				  	</el-table>
+				</#if>
+				</el-tab-pane>
+				</#list>
+			</el-tabs>
+	</form>
+	</div>
+</body>
+<script src="${'$'}{webRoot}/plug-in/vue/vue.js"></script>
+<script src="${'$'}{webRoot}/plug-in/vue/vue-resource.js"></script>
+<script src="${'$'}{webRoot}/plug-in/element-ui/index.js"></script>
+<!-- Jquery组件引用 -->
+<script src="${'$'}{webRoot}/plug-in/jquery/jquery-1.9.1.js"></script>
+<script src="${'$'}{webRoot}/plug-in/layer/layer.js"></script>
+<!-- Validform组件引用 -->
+<script src="${'$'}{webRoot}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
+<script src="${'$'}{webRoot}/plug-in/Validform/js/Validform_Datatype_zh-cn.js"></script>
+<script src="${'$'}{webRoot}/plug-in/Validform/js/datatype_zh-cn.js"></script>
+<script src="${'$'}{webRoot}/plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></script>
+<!-- 验证提示 -->
+<script src="${'$'}{webRoot}/plug-in/themes/bootstrap-ext/js/common.js"></script>
+<#if hasUEditor==true>
+<script type="text/javascript"  charset="utf-8" src="${'$'}{webRoot}/plug-in/ueditor/ueditor.config.js"></script>
+<script type="text/javascript"  charset="utf-8" src="${'$'}{webRoot}/plug-in/ueditor/ueditor.all.min.js"></script>
+</#if>
+<script>
+	var valid=null;
+	<#if hasUEditor == true>
+	<#list pageAreatextColumns as po>
+	<#if po.showType=='umeditor'>
+	var ${po.fieldName}_editor = null;
+	</#if>
+	</#list>
+	</#if>
+	$(function(){
+		valid=$("#form").Validform({
+			tiptype:function(msg,o,cssctl){
+				if(o.type==3){
+					var oopanel = $(o.obj).closest(".el-tab-pane");
+					var a = 0;
+					if(oopanel.length>0){
+						var panelID = oopanel.attr("id");
+						if(!!panelID){
+							var waitActive = $("#tab-"+panelID.substring(panelID.indexOf("-")+1));
+							if(!waitActive.attr(".aria-selected")){
+								waitActive.click();
+								a = 1;
+							}
+						}
+					}
+					if(a==1){
+						setTimeout(function(){validationMessage(o.obj,msg);},500);
+					}else{
+						validationMessage(o.obj,msg);
+					}
+				}else{
+					removeMessage(o.obj);
+				}
+			},
+			btnSubmit : "#btn_sub",
+			ajaxPost : true,
+			usePlugin : {
+				passwordstrength : {
+					minLen : 6,
+					maxLen : 18,
+					trigger : function(obj, error) {
+						if (error) {
+							obj.parent().next().find(".Validform_checktip").show();
+							obj.find(".passwordStrength").hide();
+						} else {
+							$(".passwordStrength").show();
+							obj.parent().next().find(".Validform_checktip").hide();
+						}
+					}
+				}
+			}
+	    });
+	});
+	var vue = new Vue({ 			
+		el:"#${entityName?uncap_first}Form",
+		data() {
+			return {
+				url:{
+					save:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?doAdd',
+					edit:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?doUpdate',
+					queryDict:'${'$'}{webRoot}/systemController.do?typeListJson',
+					upload:'${'$'}{webRoot}/systemController/filedeal.do',
+					<#list subtables as key>
+					${subsG['${key}'].entityName?uncap_first}List:'${'$'}{webRoot}/${entityName?uncap_first}Controller.do?${subsG['${key}'].entityName?uncap_first}List',
+					</#list>
+				},
+
+				//新增界面数据
+				form: {
+					<#list pageColumns as po>
+					<#if po.showType=='checkbox'>
+					${po.fieldName}:[],
+					</#if>
+					</#list>
+				}, 
+				<#if callbackFlag == true>
+				formFile: {
+				<#list pageColumns as po>
+				<#if po.showType=='file' || po.showType == 'image'>
+					main_${po.fieldName}:[],
+				</#if>
+				</#list>
+				},
+				</#if>
+				<#assign optionCodes="">
+				<#list subtables as key>
+				//子表数据对象
+				<#if subsG['${key}'].cgFormHead.relationType==1 >
+				${subsG['${key}'].entityName?uncap_first}List:[],
+				${subsG['${key}'].entityName?uncap_first}Form:{
+					<#list subColumnsMap['${key}'] as po>
+			  		<#if po.isShow=="Y" && po.showType=='checkbox'>
+			  		${po.fieldName}:[],
+			  		</#if>
+			  		</#list>
+				},
+				<#else>
+				${subsG['${key}'].entityName?uncap_first}List:[{
+					<#list subColumnsMap['${key}'] as po>
+			  		<#if po.isShow=="Y" && po.showType=='checkbox'>
+			  		${po.fieldName}:[],
+			  		</#if>
+			  		</#list>
+				}],
+				</#if>
+				//子表数据字典对象
+				<#list subColumnsMap['${key}'] as po>
+		   		<#if po.showType=='select' || po.showType=='list' || po.showType=='checkbox' || po.showType=='radio'>
+		   		<#if optionCodes?index_of(po.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+po.dictField >
+		   		${po.dictField}Options:[],
+		   		</#if>
+		   		</#if>
+		   		</#list>
+				</#list>
+				<#list pageColumns as mpo>
+	    	 	<#if mpo.showType=='select' || mpo.showType=='list'  || mpo.showType=='checkbox' || mpo.showType=='radio'>
+	    	 	<#if optionCodes?index_of(mpo.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+mpo.dictField >
+		   		${mpo.dictField}Options:[],
+		   		</#if>
+	    	 	</#if>
+	    	 	</#list>
+			}
+		},
+		methods: {
+			<#if callbackFlag == true>
+			<#list pageColumns as po>
+			<#-- update--begin--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+			<#if po.showType == 'image'>
+			handleMain${po.fieldName?cap_first}UploadFile: function(response, file, fileList){
+				file.url="img/server/"+response.obj;
+				this.form.${po.fieldName}=response.obj;
+				if(fileList.length>1){
+					this.handleMain${po.fieldName?cap_first}RemoveFile(fileList.splice(0,1)[0],fileList);
+				}
+			},
+			handleMain${po.fieldName?cap_first}RemoveFile: function(file, fileList){
+				if(fileList.length==0){
+					this.form.${po.fieldName}="";
+				}
+				this.$http.get(this.url.upload,{
+					params:{
+						isdel:'1',
+						path:file.url
+					}
+				}).then((res) => {
+				});
+			},
+			</#if>
+			<#if po.showType=='file'>
+			<#-- update--end--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+			handleMain${po.fieldName?cap_first}UploadFile: function(response, file, fileList){
+				file.url=response.obj;
+				this.form.${po.fieldName}=response.obj;
+				if(fileList.length>1){
+					this.handleMain${po.fieldName?cap_first}RemoveFile(fileList.splice(0,1)[0],fileList);
+				}
+			},
+			handleMain${po.fieldName?cap_first}RemoveFile: function(file, fileList){
+				if(fileList.length==0){
+					this.form.${po.fieldName}="";
+				}
+				this.$http.get(this.url.upload,{
+					params:{
+						isdel:'1',
+						path:file.url
+					}
+				}).then((res) => {
+				});
+			},
+			</#if>
+			</#list>
+			</#if>
+			formatDate: function(row,column,cellValue, index){
+				return !!cellValue?utilFormatDate(new Date(cellValue), 'yyyy-MM-dd'):'';
+			},
+			formatDateTime: function(row,column,cellValue, index){
+				return !!cellValue?utilFormatDate(new Date(cellValue), 'yyyy-MM-dd hh:mm:ss'):'';
+			},
+			<#list subtables as key>
+			<#if subsG['${key}'].cgFormHead.relationType==0 >
+			handle${subsG['${key}'].entityName?cap_first}Add(rowsName,index, row) {
+	        	this[rowsName].push({
+	        		<#list subColumnsMap['${key}'] as po>
+			  		<#if po.isShow=="Y" && po.showType=='checkbox'>
+			  		${po.fieldName}:[]
+			  		</#if>
+			  		</#list>
+	        	});
+	        	this.addValidType();
+	        },
+	        </#if>
+	      	//获取子表数据
+			get${subsG['${key}'].entityName?cap_first}List(id){
+				this.${subsG['${key}'].entityName?uncap_first}List=[{
+					<#list subColumnsMap['${key}'] as po>
+			  		<#if po.isShow=="Y" && po.showType=='checkbox'>
+			  		${po.fieldName}:[]
+			  		</#if>
+			  		</#list>
+				}];
+				if(!id){
+					return;
+				}
+				this.${'$'}http.get(this.url.${subsG['${key}'].entityName?uncap_first}List,{
+					params: {
+						id:id
+					}
+				}).then((res) => {
+					if(res.data.length>0){
+						for (var i = 0; i < res.data.length; i++) {
+							var data = res.data[i];
+							<#list subColumnsMap['${key}'] as po>
+					  		<#if po.isShow=="Y" && po.showType=='checkbox'>
+					  		data.${po.fieldName}=!!data.${po.fieldName}?data.${po.fieldName}.split(','):[];
+					  		</#if>
+					  		</#list>
+						}
+						this.${subsG['${key}'].entityName?uncap_first}List = res.data;
+					}
+					<#if subsG['${key}'].cgFormHead.relationType==1 >
+					this.${subsG['${key}'].entityName?uncap_first}Form=this.${subsG['${key}'].entityName?uncap_first}List[0];
+					</#if>
+				});
+			},
+			</#list>
+	        handleRowDelete(rowsName,index, row) {
+	        	this[rowsName].splice(index, 1);
+	        },
+			//显示编辑界面
+			initForm: function (row) {
+				if(!!row){
+					this.form = Object.assign({}, row);
+					<#list pageColumns as po>
+					<#-- update--begin--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+					<#if po.showType == 'image'>
+					var ${po.fieldName}=[];
+					if(!!this.form.${po.fieldName}){
+						${po.fieldName}=[{
+							name:this.form.${po.fieldName}.substring(this.form.${po.fieldName}.lastIndexOf('\\')+1),
+							url:"img/server/"+this.form.${po.fieldName}
+						}]
+					}
+					</#if>
+					<#if po.showType=='file'>
+					<#-- update--end--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题10)  -->
+					var ${po.fieldName}=[];
+					if(!!this.form.${po.fieldName}){
+						${po.fieldName}=[{
+							name:this.form.${po.fieldName}.substring(this.form.${po.fieldName}.lastIndexOf('\\')+1),
+							url:this.form.${po.fieldName}
+						}]
+					}
+					</#if>
+					</#list>
+					<#if callbackFlag == true>
+					this.formFile={
+						<#list pageColumns as po>
+						<#if po.showType=='file' || po.showType == 'image'>
+							<#-- update--begin--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题5)  -->
+							main_${po.fieldName}:${po.fieldName},
+							<#-- update--end--Author:gj_shaojc  Date:20180605 for：TASK #2767 【专题任务】element-ui 代码生成器遗留问题改造(问题5)  -->
+						</#if>
+						</#list>
+					};
+					</#if>
+					//加载子表列表
+					<#list subtables as key>
+					this.get${subsG['${key}'].entityName?cap_first}List(this.form.id);
+					</#list>
+				}
+				<#if hasUEditor == true>
+				var _this=this;
+				<#list pageAreatextColumns as po>
+				<#if po.showType=='umeditor'>
+				${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
+				${po.fieldName}_editor.ready(function(){
+					${po.fieldName}_editor.setContent(!!row?_this.form.${po.fieldName}:"");
+				});
+				</#if>
+				</#list>
+				</#if>
+				this.initDictsData();
+				this.addValidType();
+			},
+			//初始化校验
+			addValidType:function(){
+	        	<#list pageColumns as po>
+				<#if po.isShow == 'Y' && po.showType !='checkbox'>
+				<@datatypeJs descriptb="${ftl_description}" po = po/>
+				</#if>
+	    	 	</#list>
+	    	 	setTimeout(function(){
+	    	 	<#list subtables as key>
+	    	 	<#list subColumnsMap['${key}'] as spo>
+    	 		<#if spo.isShow == 'Y' && spo.showType !='checkbox'>
+    	 		<@datatypeJs descriptb="${subsG['${key}'].ftlDescription}" po = spo/>
+    	 		</#if>
+	    	 	</#list>
+	    	 	</#list>
+	    	 	},1000);
+	        },
+			//初始化数据字典
+			initDictsData:function(){
+	        	var _this = this;
+	        	<#assign optionCodes="">
+	        	<#list subtables as key>
+		   		<#list subColumnsMap['${key}'] as po>
+		   		<#if po.showType=='select' || po.showType=='list' || po.showType=='checkbox' || po.showType=='radio'>
+		   		<#if optionCodes?index_of(po.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+po.dictField >
+		   		_this.initDictByCode('${po.dictField}',_this,'${po.dictField}Options');
+		   		</#if>
+		   		</#if>
+	    	 	</#list>
+	    	 	</#list>
+	    		<#list pageColumns as mpo>
+	    	 	<#if mpo.showType=='select' || mpo.showType=='list'  || mpo.showType=='checkbox' || mpo.showType=='radio'>
+	    	 	<#if optionCodes?index_of(mpo.dictField) lt 0>
+		   		<#assign optionCodes=optionCodes+","+mpo.dictField >
+		   		_this.initDictByCode('${mpo.dictField}',_this,'${mpo.dictField}Options');
+		   		</#if>
+	    	 	</#if>
+	    	 	</#list>
+	        },
+	        initDictByCode:function(code,_this,dictOptionsName){
+	        	if(!code || !_this[dictOptionsName] || _this[dictOptionsName].length>0)
+	        		return;
+	        	this.${'$'}http.get(this.url.queryDict,{params: {typeGroupName:code}}).then((res) => {
+	        		var data=res.data;
+					if(data.success){
+					  _this[dictOptionsName] = data.obj;
+					  _this[dictOptionsName].splice(0, 1);//去掉请选择
+					}
+				});
+	        },
+			//新增
+			addSubmit: function () {
+				if(!valid.check(true)){
+					return false;
+				}
+				var _this=this;
+				_this.${'$'}confirm('确认提交吗？', '提示', {}).then(() => {
+					let para = Object.assign({}, _this.form);
+					<#list pageColumns as po>
+					<#if po.showType=='date'>
+					para.${po.fieldName} = !para.${po.fieldName} ? '' : utilFormatDate(new Date(para.${po.fieldName}), 'yyyy-MM-dd');
+					<#elseif po.showType=='datetime'>
+					para.${po.fieldName} = !para.${po.fieldName} ? '' : utilFormatDate(new Date(para.${po.fieldName}), 'yyyy-MM-dd hh:mm:ss');
+					<#elseif po.showType=='checkbox'>
+					para.${po.fieldName} = para.${po.fieldName}.join(',');
+					</#if>
+					</#list>
+					
+					<#if hasUEditor == true>
+					<#list pageAreatextColumns as po>
+					<#if po.showType=='umeditor'>
+					para.${po.fieldName}=${po.fieldName}_editor.getContent();
+					</#if>
+					</#list>
+					</#if>
+					
+					<#list subtables as key>
+					<#if subsG['${key}'].cgFormHead.relationType==1 >
+					_this.${subsG['${key}'].entityName?uncap_first}List.splice(0,1,_this.${subsG['${key}'].entityName?uncap_first}Form);
+					</#if>
+					</#list>
+					<#list subtables as key>
+					for (var i = 0; i < _this.${subsG['${key}'].entityName?uncap_first}List.length; i++) {
+						_this.${subsG['${key}'].entityName?uncap_first}List[i].test4=!_this.${subsG['${key}'].entityName?uncap_first}List[i].test4 ? '' : utilFormatDate(new Date(_this.manyOneList[i].test4), 'yyyy-MM-dd');
+						<#list subColumnsMap['${key}'] as po>
+				  		<#if po.isShow=="Y">
+				  		<#if po.showType=='checkbox'>
+				  		_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}=_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}.join(',');
+				  		<#elseif po.showType=='date'>
+				  		_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}=!_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName} ? '' : utilFormatDate(new Date(_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}), 'yyyy-MM-dd');
+				  		<#elseif po.showType=='datetime'>
+				  		_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}=!_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName} ? '' : utilFormatDate(new Date(_this.${subsG['${key}'].entityName?uncap_first}List[i].${po.fieldName}), 'yyyy-MM-dd hh:mm:ss');
+				  		</#if>
+				  		</#if>
+				  		</#list>
+					}
+					para.${subsG['${key}'].entityName?uncap_first}ListStr=JSON.stringify(_this.${subsG['${key}'].entityName?uncap_first}List);
+					</#list>
+					
+					_this.${'$'}http.post(!!para.id?_this.url.edit:_this.url.save,para,{emulateJSON: true}).then((res) => {
+						var win = window.parent;
+						var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+						parent.layer.close(index); 
+						win.vue.get${entityName?cap_first}s();
+						var data=res.data;
+						if (data.success == true) {
+							win.vue.${'$'}message({
+								message: '提交成功',
+								type: 'success',
+								duration:1500
+							});
+						} else {
+							win.vue.${'$'}message({
+								message: '提交失败',
+								type: 'error',
+								duration:1500
+							});
+						}
+					});
+				});
+			},
+		}
+	});
+	
+	function utilFormatDate(date, pattern) {
+        pattern = pattern || "yyyy-MM-dd";
+        return pattern.replace(/([yMdhsm])(\1*)/g, function (${'$'}0) {
+            switch (${'$'}0.charAt(0)) {
+                case 'y': return padding(date.getFullYear(), ${'$'}0.length);
+                case 'M': return padding(date.getMonth() + 1, ${'$'}0.length);
+                case 'd': return padding(date.getDate(), ${'$'}0.length);
+                case 'w': return date.getDay() + 1;
+                case 'h': return padding(date.getHours(), ${'$'}0.length);
+                case 'm': return padding(date.getMinutes(), ${'$'}0.length);
+                case 's': return padding(date.getSeconds(), ${'$'}0.length);
+            }
+        });
+    };
+	function padding(s, len) {
+	    var len = len - (s + '').length;
+	    for (var i = 0; i < len; i++) { s = '0' + s; }
+	    return s;
+	};
+</script>
+</html>

@@ -1,0 +1,359 @@
+<#include "/ui/datatype.ftl"/>
+<#include "/ui/dictInfo.ftl"/>
+<#include "/ui/tag.ftl"/>
+<#include "/ui/formControlbt.ftl"/>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>主表</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<#assign uploadFlag=0>
+<#assign hasDate = 0>
+<#assign hasDateTime = 0>
+<#list pageColumns as po>
+<#if uploadFlag==0 && (po.showType=='file' || po.showType == 'image')>
+<#assign uploadFlag=1>
+</#if>
+<#if hasDate==0 && po.showType=='date'>
+<#assign hasDate=1>
+</#if>
+<#if hasDateTime==0 && po.showType=='date'>
+<#assign hasDateTime=1>
+</#if>
+</#list>
+<t:base type="bootstrap,layer,validform,<#if uploadFlag==1>webuploader,</#if>bootstrap-form"></t:base>
+</head>
+<body>
+<div class="container" style="width:100%;overflow-x:hidden">
+<div class="panel panel-default">
+<div class="panel-heading"></div>
+<div class="panel-body">
+<form class="form-horizontal" role="form" id="formobj" action="${entityName?uncap_first}Controller.do?doUpdate" method="POST">
+	<input type="hidden" id="btn_sub" class="btn_sub"/>
+	<input type="hidden" id="id" name="id" value="${'$'}{${entityName?uncap_first}Page.id}"/>
+	<fieldset>
+		<legend>${ftl_description}</legend>
+		<div class="main-form">
+			<div class="row">
+			<#list pageColumns as po>
+				<div class="bt-item col-md-6 col-sm-6">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-xs-3 bt-label">
+							${po.content}：
+						</div>
+						<div class="col-md-8 col-sm-8 col-xs-8 bt-content">
+							<@formControlbt po = po namepre = "" valuepre="${entityName?uncap_first}Page."/>
+		            	</div>
+					</div>
+				</div>
+			</#list>
+			</div>
+		</div>
+	</fieldset>
+
+	<ul class="nav nav-tabs" style="margin-bottom:0" id="subTabs">
+	<#list subtables as key>
+		<#if key_index==0>
+		<li class="active"><a href="#${subsG['${key}'].entityName?uncap_first}" data-toggle="tab">${subsG['${key}'].ftlDescription}</a></li>  
+		<#else>
+		<li><a href="#${subsG['${key}'].entityName?uncap_first}" data-toggle="tab">${subsG['${key}'].ftlDescription}</a></li>  
+		</#if>
+	</#list>
+	</ul>
+	<div class="tab-content" style="background-color:#fff;padding-top:10px;">
+	<#list subtables as key>
+		<#if key_index==0>
+		<div class="tab-pane fade in active" id="${subsG['${key}'].entityName?uncap_first}">  
+		<#else>
+		<div class="tab-pane fade" id="${subsG['${key}'].entityName?uncap_first}">  
+		</#if>
+		<#if subsG['${key}'].cgFormHead.relationType==1>
+			<div class="row">
+				<input type="hidden" name = "${subsG['${key}'].entityName?uncap_first}Entity.id" value="${'$'}{${entityName?uncap_first}Page.${subsG['${key}'].entityName?uncap_first}Entity.id}" />
+	    	<#list subColumnsMap['${key}'] as po>
+			<#if po.isShow=="Y">
+				<div class="bt-item col-md-6 col-sm-6">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-xs-3 bt-label">
+							${po.content}：
+						</div>
+						<div class="col-md-8 col-sm-8 col-xs-8 bt-content">
+							<@formControlbt po = po namepre="${subsG['${key}'].entityName?uncap_first}Entity." valuepre = "${entityName?uncap_first}Page.${subsG['${key}'].entityName?uncap_first}Entity."/>
+		            	</div>
+					</div>
+				</div>
+			</#if>
+			</#list>
+			</div>
+		<#else>
+			<div class="form-tb-toolbar">
+				<button onclick="addOneRow('${subsG['${key}'].entityName?uncap_first}_table')" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button>
+				<button onclick="deleteSelectRows('${subsG['${key}'].entityName?uncap_first}_table')" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span>&nbsp;删除</button>
+			</div>
+	   		<div style="overflow-x:auto">
+	   		<table class="table subinfo-table" id="${subsG['${key}'].entityName?uncap_first}_table">
+		   		<thead>
+		   		<tr>
+		   			<th align="center" style="width:25px;"></th>
+		   		<#list subColumnsMap['${key}'] as po>
+				<#if po.isShow=="Y">
+					<th>${po.content}</th>
+				</#if>
+				</#list>
+				</thead>
+				<tbody>
+				<c:if test="${"$"}{fn:length(${entityName?uncap_first}Page.${subsG['${key}'].entityName?uncap_first}List)  > 0 }">
+				<c:forEach items="${"$"}{${entityName?uncap_first}Page.${subsG['${key}'].entityName?uncap_first}List}" var="poVal" varStatus="stuts">
+				<tr>
+			  		<td class="form-ck">
+			  			<input style="" type="checkbox" name="ck"/>
+			  			<input name = "${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }].id" value= "${'$'}{poVal.id}" type="hidden"/>
+			  		</td>
+			  	<#list subColumnsMap['${key}'] as po>
+				<#if po.isShow=="Y">
+					<td>
+					<@formControlbt po = po valuepre="poVal." namepre = "${subsG['${key}'].entityName?uncap_first}List[${'$'}{stuts.index }]." tablestyle="1"/>
+					</td>
+				</#if>
+				</#list>
+			  	</tr>
+				</c:forEach>
+				</c:if>
+				<c:if test="${"$"}{fn:length(${entityName?uncap_first}Page.${subsG['${key}'].entityName?uncap_first}List) <= 0 }">
+				<tr>
+			  		<td class="form-ck"><input type="checkbox" name="ck"/></td>
+			  	<#list subColumnsMap['${key}'] as po>
+				<#if po.isShow=="Y">
+					<td>
+					<@formControlbt po = po namepre = "${subsG['${key}'].entityName?uncap_first}List[0]." tablestyle="1"/>
+					</td>
+				</#if>
+				</#list>
+			  	</tr>
+				</c:if>
+			 	</tbody>
+			</table>
+			</div>
+		</#if>
+		</div>
+	</#list>
+	</div>
+</form>
+</div>
+</div>
+</div>
+<table style="display:none">
+<#list subtables as key>
+	<#if subsG['${key}'].cgFormHead.relationType!=1>
+	<tbody id="${subsG['${key}'].entityName?uncap_first}_table_template">
+		<tr>
+			<td class="form-ck"><input type="checkbox" name="ck"/></td>
+			<#list subColumnsMap['${key}'] as po>
+			<#if po.isShow=="Y">
+			<td>
+			<@formControlbt po = po namepre = "${subsG['${key}'].entityName?uncap_first}List[#index#]." tablestyle="1" tpl="1"/>
+			</td>
+			</#if>
+			</#list>
+		</tr>
+	</tbody>
+	</#if>
+</#list>
+</table>
+<script type="text/javascript">
+$(document).ready(function() {
+	formControlInit();
+	//表单提交
+	$("#formobj").Validform({
+		tiptype:function(msg,o,cssctl){
+			if(o.type==3){
+				var oopanel = $(o.obj).closest(".tab-pane");
+				var a = 0;
+				if(oopanel.length>0){
+					var panelID = oopanel.attr("id");
+					if(!!panelID){
+						var waitActive = $('#subTabs a[href="#'+panelID+'"]');
+						if(!waitActive.hasClass("active")){
+							waitActive.tab('show')
+							a = 1;
+						}
+					}
+				}
+				if(a==1){
+					setTimeout(function(){validationMessage(o.obj,msg);},366);
+				}else{
+					validationMessage(o.obj,msg);
+				}
+			}else{
+				removeMessage(o.obj);
+			}
+		},
+		btnSubmit : "#btn_sub",
+		btnReset : "#btn_reset",
+		ajaxPost : true,
+		beforeSubmit : function(curform) {
+		},
+		usePlugin : {
+			passwordstrength : {
+				minLen : 6,
+				maxLen : 18,
+				trigger : function(obj, error) {
+					if (error) {
+						obj.parent().next().find(".Validform_checktip").show();
+						obj.find(".passwordStrength").hide();
+					} else {
+						$(".passwordStrength").show();
+						obj.parent().next().find(".Validform_checktip").hide();
+					}
+				}
+			}
+		},
+		callback : function(data) {
+			var win = frameElement.api.opener;
+			if (data.success == true) {
+				frameElement.api.close();
+			    win.reloadTable();
+			    win.tip(data.msg);
+			} else {
+			    if (data.responseText == '' || data.responseText == undefined) {
+			        $.messager.alert('错误', data.msg);
+			        $.Hidemsg();
+			    } else {
+			        try {
+			            var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'), data.responseText.indexOf('错误信息'));
+			            $.messager.alert('错误', emsg);
+			            $.Hidemsg();
+			        } catch (ex) {
+			            $.messager.alert('错误', data.responseText + "");
+			            $.Hidemsg();
+			        }
+			    }
+			    return false;
+			}
+		}
+	});
+	  //查看模式情况下,删除和上传附件功能禁止使用
+	if(location.href.indexOf("load=detail")!=-1){
+		$(".form-tb-toolbar").hide();
+		$("#formobj").find(":input").attr("readonly","readonly");
+	}
+});
+function formControlInit(){
+<#if hasDateTime == 1>
+	$(".laydate-datetime").each(function(){
+		if($(this).attr("name").indexOf('#index#')<=0){
+			var _this = this;
+			laydate.render({
+			  elem: _this,
+			  format: 'yyyy-MM-dd HH:mm:ss',
+			  type: 'datetime',
+			  ready: function(date){
+			  	 $(_this).val(DateJsonFormat(date,this.format));
+			  },
+			  done:function(){
+				  _this.focus();
+			  }
+			});
+		}
+
+	});
+</#if>
+<#if hasDate == 1>
+	$(".laydate-date").each(function(){
+		if($(this).attr("name").indexOf('#index#')<=0){
+			var _this = this;
+			laydate.render({
+			  elem: _this,
+			  format: 'yyyy-MM-dd',
+			  ready: function(date){
+			  	 $(_this).val(DateJsonFormat(date,this.format));
+			  },
+			  done:function(){
+				  _this.focus();
+			  }
+			});
+		}
+	});
+</#if>
+	//单选框/多选框初始化
+	$('.i-checks').iCheck({
+		labelHover : false,
+		cursor : true,
+		checkboxClass : 'icheckbox_square-blue',
+		radioClass : 'iradio_square-blue',
+		increaseArea : '20%'
+	});
+}
+//初始化下标
+function resetTrNum(tableId) {
+	$tbody = $("#"+tableId+"");
+	$tbody.find('tbody > tr').each(function(i){
+		$(':input, select,button,a', this).each(function(){
+			var $this = $(this),validtype_str = $this.attr('validType'), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
+			if(name!=null){
+				if (name.indexOf("#index#") >= 0){
+					$this.attr("name",name.replace('#index#',i));
+				}else{
+					var s = name.indexOf("[");
+					var e = name.indexOf("]");
+					var new_name = name.substring(s+1,e);
+					$this.attr("name",name.replace("["+new_name+"]","["+i+"]"));
+				}
+			}
+			if(id!=null){
+				if (id.indexOf("#index#") >= 0){
+					$this.attr("id",id.replace('#index#',i));
+				}else{
+					var s = id.indexOf("[");
+					var e = id.indexOf("]");
+					var new_id = id.substring(s+1,e);
+					$this.attr("id",id.replace(new_id,i));
+				}
+			}
+			if(onclick_str!=null){
+				if (onclick_str.indexOf("#index#") >= 0){
+					$this.attr("onclick",onclick_str.replace(/#index#/g,i));
+				}else{
+				}
+			}
+			if(validtype_str!=null){
+				if(validtype_str.indexOf("#index#") >= 0){
+					$this.attr("validType",validtype_str.replace('#index#',i));
+				}
+			}
+			var class_str = $this.attr("class");
+			if(!!class_str && class_str.indexOf("i-checks-tpl")>=0){
+				$this.attr("class",class_str.replace(/i-checks-tpl/,"i-checks"));
+			}
+		});
+		//$(this).find('div[name=\'xh\']').html(i+1);
+	});
+}
+//新增一行
+function addOneRow(tableId){
+ 	var tr =  $("#"+tableId+"_template tr").clone();
+ 	 $("#"+tableId).append(tr);
+ 	 resetTrNum(tableId);
+ 	 formControlInit();
+}
+//删除所选行
+function deleteSelectRows(tableId){
+	<#-- update--begin--author:jiaqiankun date:20180710 for：TASK #2933 【严重bug 代码生成器】一对多table风格，默认编辑数据，点击任意一条明细数据，删除，会把所有的明细删掉 -->
+	$("#"+tableId).find("input[name$='ck']:checked").parent().parent().remove();   
+    <#-- update--end--author:jiaqiankun date:20180710 for：TASK #2933 【严重bug 代码生成器】一对多table风格，默认编辑数据，点击任意一条明细数据，删除，会把所有的明细删掉 -->
+    resetTrNum(tableId); 
+}
+</script>
+<#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
+<script type="text/javascript">
+//JS增强
+${cgformConfig.formJs.cgJsStr}
+</script>
+</#if>
+</body>
+</html>

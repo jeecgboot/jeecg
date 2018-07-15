@@ -1,0 +1,104 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="/context/mytags.jsp"%>
+<#assign orderByCreateDate = false />
+<#list columns as po>
+	<#if po.fieldName=='createDate'>
+		<#assign orderByCreateDate = true />
+		<#break>
+	</#if>
+</#list>
+<#include "../../ui/tdgColcb.ftl"/>
+<t:base type="jquery,easyui,tools,DatePicker"></t:base>
+<link rel="stylesheet" href="${'$'}{webRoot}/plug-in/mutitables/datagrid.menu.css" type="text/css"></link>
+<style>.datagrid-toolbar{padding:0 !important;border:0}</style>
+<div class="easyui-layout" fit="true">
+  <div region="center" style="padding:0px;border:0px">
+  <t:datagrid name="${entityName?uncap_first}List" filterBtn="true" complexSuperQuery="${entityName?uncap_first}" checkbox="true" fitColumns="false" title="" <#if orderByCreateDate == true >sortName="createDate" sortOrder="desc"</#if> actionUrl="${entityName?uncap_first}Controller.do?datagrid" idField="id" fit="true" pageSize="5" queryMode="group" onDblClick="datagridDbclick" extendParams="checkOnSelect:false,onSelect:function(index,row){datagridSelect(index,row);}" onLoadSuccess="optsMenuToggle">
+   <t:dgCol title="操作" field="opt" width="77" optsMenu="true"></t:dgCol>
+   <t:dgFunOpt funname="curd.addRow" urlfont="fa-plus" title="新增一行" />
+   <t:dgFunOpt funname="curd.deleteOne(id)" urlfont="fa-minus" title="删除该行" />
+   <t:dgFunOpt inGroup="true" funname="curd.detail(id)" urlfont="fa-eye" title="查看详情"/>
+   <t:dgFunOpt inGroup="true" exp="bpmStatus#eq#1"  funname="startProcess(id)" urlfont="fa-level-up" title="提交流程"/>
+   <@dgcol columns=columns noquery = "1"/>
+  </t:datagrid>
+  </div>
+ </div>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/mutitables/mutitables.urd.js"></script>
+  <script type="text/javascript" src="${'$'}{webRoot}/plug-in/mutitables/mutitables.curdInIframe.js"></script>
+  <script type="text/javascript">
+ $(function(){
+	  curd = $.curdInIframe({
+		  name:"${entityName?uncap_first}",
+		  isMain:true,
+		  queryCode:"${entityName?uncap_first}",
+		  describe:"${ftl_description}",
+		  form:{width:'100%',height:'100%'},
+		  urls:{
+			  excelImport:'${entityName?uncap_first}Controller.do?mainUpload'
+		  }
+	  });
+	  gridname = curd.getGridname();
+ });
+ 
+ /**
+  * 选中事件加载子表数据
+  */
+ function datagridSelect(index,row){
+	$('#${entityName?uncap_first}List').datagrid('unselectAll');
+ 	parent.initSubList(row.id);
+ }
+
+ /**
+  * 主页面重置调用方法
+  */
+ function queryResetit(){
+	searchReset('${entityName?uncap_first}List');
+	${entityName?uncap_first}Listsearch();
+ }
+ 
+ /**
+  * 刷新子表数据
+  */
+ function refreshSubTable(){
+	 parent.freshSubList();
+ }
+ 
+ /**
+  * 双击事件开始编辑
+  */
+ function datagridDbclick(index,field,value){
+ 	$("#${entityName?uncap_first}List").datagrid('beginEdit', index);
+ }
+ 
+ /**
+  * dataGrid 操作菜单 切换显示隐藏  datagrid加载成功之后执行该方法*/
+function optsMenuToggle(data){
+	optsMenuToggleBydg($("#${entityName?uncap_first}List").datagrid('getPanel'));
+}
+//模板下载
+function ExportXlsByT() {
+	JeecgExcelExport("${entityName?uncap_first}Controller.do?exportXlsByT","${entityName?uncap_first}List");
+}
+//导出
+function ExportXls() {
+	JeecgExcelExport("${entityName?uncap_first}Controller.do?exportXls","${entityName?uncap_first}List");
+}
+
+<#list columns as po>
+<#if po.fieldName == 'bpmStatus'>
+function startProcess(id){
+	 //业务表名
+	var tableName = "${tableName}"; 
+	var formUrl = "${entityName?uncap_first}Controller.do?goUpdate&load=detail";
+	var formUrlMobile = "${entityName?uncap_first}Controller.do?goUpdate&load=detail";
+	
+	var url = "activitiController.do?startUserDefinedProcess&id="+id
+			   +"&tableName="+tableName
+			   +"&formUrl="+formUrl
+			   +"&formUrlMobile="+formUrlMobile;
+	 confirm(url,'确定提交流程吗？','${entityName?uncap_first}List');
+	 
+ }
+</#if>
+</#list> 
+ </script>
