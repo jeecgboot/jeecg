@@ -43,3 +43,48 @@ form[name="searchColumsForm"]{
 	height:27px ;
 }
 /*update-end--Author:xuelin  Date:20171221 for：[#2456]【样式bug】shortcut下online功能测试的列表有问题-------------------- */
+
+/*update-begin-author:taoYan date:20180717 for:TASK #2873 【新功能】按钮折叠功能*/
+.toolbar-more-container{position:relative;display: inline-block;}
+.toolbar-more-list{
+	border: medium none;
+    display: none;
+    float: left;
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+    border-radius: 0;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.3);
+    min-width: 120px;
+    background-color: #fff;
+    margin: 0;
+}
+.toolbar-more-list.active{display:block;left: auto;right: 0;}
+.toolbar-more-list>li>a{
+    display: block;
+    padding: 2px 20px 2px 8px;
+    clear: both;
+    border-radius: 3px;
+    color: inherit;
+    line-height: 25px;
+    margin: 2px;
+    text-align: left;
+    font-weight: normal;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.toolbar-more-list>li>a:focus,.toolbar-more-list>li>a:hover{color:#262626;text-decoration:none;background-color:#f5f5f5}
+.toolbar-more-list .easyui-mycon{
+	display:inline-block;width:16px;height:16px;position:relative;top:2px;
+}
+/* .toolbar-more{display:none;border-radius:5px;position:absolute;z-index:100;background-color:rgb(238, 238, 238)}
+.toolbar-more.active{display:block}
+.toolbar-more-list{margin:8px 0;padding:0}
+.toolbar-more-list li{margin: 5px 2px;list-style-type:none;} */
+/*update-end-author:taoYan date:20180717 for:TASK #2873 【新功能】按钮折叠功能*/

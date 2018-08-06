@@ -1,6 +1,7 @@
 package com.jeecg.demo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jeecg.demo.entity.JeecgDemoExcelEntity;
 import com.jeecg.demo.service.JeecgDemoExcelServiceI;
+import com.jeecg.demo.util.FreemarkerUtil;
 
 import io.swagger.annotations.Api;
 
@@ -307,6 +309,20 @@ public class JeecgDemoExcelController extends BaseController {
 		}
 		return j;
 	}
-	
+
+	@RequestMapping("/ftl2word")
+	public void velocity2word(JeecgDemoExcelEntity jeecgDemoExcel,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		try {
+			jeecgDemoExcel = this.jeecgDemoExcelService.getEntity(JeecgDemoExcelEntity.class, jeecgDemoExcel.getId());
+			List<Map<String,Object>> departs = this.systemService.findForJdbc("select id,departname from t_s_depart"); 
+			String docFileName ="word-模板导出测试.doc";
+			Map<String,Object> rootMap = new HashMap<String,Object>();
+			rootMap.put("info", jeecgDemoExcel);
+			rootMap.put("departs", departs);
+			FreemarkerUtil.createFile("ftl2doc.ftl", docFileName, rootMap, request, response, FreemarkerUtil.WORD_FILE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

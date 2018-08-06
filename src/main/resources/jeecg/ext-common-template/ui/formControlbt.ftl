@@ -34,8 +34,25 @@
 		            			<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 		            		</div>
 			            	</#if>
-			            	<#elseif tablestyle != "1" && (po.showType=='file' || po.showType=='image')>
-			            	<@webuploadtag po = po defval="${'$'}{${valuepre}${po.fieldName}}"/>
+			            	<#-- update--begin--author:liushaoqian Date:20180720 for:TASK #2959 【代码生成器模板】新模板Bootstrap 版本等模板，明细不支持上传附件 （统一改造） -->
+			            	<#elseif po.showType=='file' || po.showType=='image'>
+			            	 <#if tablestyle != "1">
+				            	<@webuploadtag po = po defval="${'$'}{${valuepre}${po.fieldName}}"/>
+				            	<#else>
+				            		<input onclick="onetomanyUpload('${namepre}${po.fieldName}')" class="btn btn-default" type="button" value="上传附件" />	
+									<input type="hidden" name="${namepre}${po.fieldName}" <#if valuepre != "">value = "${'$'}{${valuepre}${po.fieldName}}"</#if>/>
+									<#if valuepre != "">
+										<a target="_blank" class=".btn-default"<#rt/>
+							            <c:if test="${'$'}{not empty ${valuepre}${po.fieldName}}"><#rt/>
+							              href="img/server/${'$'}{${valuepre}${po.fieldName}}?down=true">下载<#rt/>
+							            </c:if><#rt/>
+							            <c:if test="${'$'}{empty ${valuepre}${po.fieldName}}">></c:if><#rt/>
+							            </a><#rt/>
+									<#else>
+										<a target="_blank" class="btn btn-link"></a>
+									</#if>
+			            	 </#if>
+			            	 <#-- update--end--author:liushaoqian Date:20180720 for:TASK #2959 【代码生成器模板】新模板Bootstrap 版本等模板，明细不支持上传附件 （统一改造） -->
 			            	<#else>
 							<input name="${namepre}${po.fieldName}" <#if valuepre != "">value = "${'$'}{${valuepre}${po.fieldName}}"</#if> type="text" class="form-control input-sm" maxlength="${po.length?c}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/> />
 			            	</#if>

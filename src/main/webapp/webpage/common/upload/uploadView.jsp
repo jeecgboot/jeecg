@@ -21,14 +21,32 @@
                         html += "<a href='"+url+"' target=_blank >下载:"+d.attributes.name+"</a>";
                 }
                 $("#fileShow").html(html);
+            	changebutton(false);
         }
         function uploadCallback(callback,inputId){
                 var url = $("#fileUrl").val();
                 var name= $("#fileName").val();
                 var swfpath = $("#swfpath").val();
                 callback(url,name,inputId,swfpath);
-                
         }
+        //修改确认按钮禁用状态 
+        function changebutton(flag){
+	       	var api = frameElement.api;
+         	api.button({
+         		id: 'ok',
+        		name: flag?"上传中":"确定",
+                disabled: flag
+            });
+        }
+        //默认未上传文件，确认按钮为禁用状态 
+        function myUploadStart(){
+        	var documentTitle = $('#documentTitle').val();
+    	    $('#instruction').uploadify("settings", "formData", {
+    	        'documentTitle': documentTitle
+    	    });
+    	    changebutton(true);
+        }
+
 </script>
 </head>
  <body style="overflow-x: hidden">
@@ -43,7 +61,7 @@
        <label class="Validform_label"></label>
      </td>
      <td class="value">
-      <t:upload name="instruction" dialog="false" multi="false" extend="" queueID="instructionfile" view="false" auto="true" uploader="cgUploadController.do?ajaxSaveFile" onUploadSuccess="uploadSuccess"  id="instruction" formData="documentTitle"></t:upload>
+      <t:upload onUploadStart="myUploadStart" name="instruction" dialog="false" multi="false" extend="" queueID="instructionfile" view="false" auto="true" uploader="cgUploadController.do?ajaxSaveFile" onUploadSuccess="uploadSuccess"  id="instruction" formData="documentTitle"></t:upload>
      </td>
     </tr>
     <tr>

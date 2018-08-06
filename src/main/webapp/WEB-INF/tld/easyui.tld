@@ -562,7 +562,7 @@
 		<attribute>
 			<name>inGroup</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>操作菜单,一开始是否隐藏</description>
+			<description>操作菜单,一开始是否隐藏true/false</description>
 		</attribute>
 		<!-- update-end-author:jiaqiankun date:20180713 for：TASK #2872 【新功能】列表按钮改造成配置，支持折叠模式，增加一个参数 -->
 	</tag>
@@ -613,7 +613,7 @@
 		<attribute>
 			<name>inGroup</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>操作菜单,一开始是否隐藏</description>
+			<description>操作菜单,一开始是否隐藏true/false</description>
 		</attribute>
 		<!-- update-end-author:jiaqiankun date:20180713 for：TASK #2872 【新功能】列表按钮改造成配置，支持折叠模式，增加一个参数 -->
 	</tag>
@@ -679,7 +679,7 @@
 		<attribute>
 			<name>inGroup</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>操作菜单,一开始是否隐藏</description>
+			<description>操作菜单,一开始是否隐藏true/false</description>
 		</attribute>
 		<!-- update-end-author:taoYan date:20180524 for:操作菜单扩展 -->
 	</tag>
@@ -738,7 +738,7 @@
 		<attribute>
 			<name>inGroup</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>操作菜单,一开始是否隐藏</description>
+			<description>操作菜单,一开始是否隐藏true/false</description>
 		</attribute>
 		<!-- update-end-author:taoYan date:2018524 for:操作菜单扩展 -->
 	</tag>
@@ -803,6 +803,13 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>按钮操作Code</description>
 		</attribute>
+		<!-- update-begin-author:taoyan date:20180717 for:TASK #2873 【新功能】按钮折叠功能 -->
+		<attribute>
+			<name>inGroup</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否在更多操作按钮组中显示,若为true则该按钮一开始为隐藏,点击更多操作按钮才会显示</description>
+		</attribute>
+		<!-- update-end-author:taoyan date:20180717 for:TASK #2873 【新功能】按钮折叠功能 -->
 	</tag>
 	<tag>
 		<name>dgConfOpt</name>
@@ -857,7 +864,7 @@
 		<attribute>
 			<name>inGroup</name>
 			<rtexprvalue>true</rtexprvalue>
-			<description>操作菜单,一开始是否隐藏</description>
+			<description>操作菜单,一开始是否隐藏true/false</description>
 		</attribute>
 		<!-- update-end-author:jiaqiankun date:20180713 for：TASK #2872 【新功能】列表按钮改造成配置，支持折叠模式，增加一个参数 -->
 	</tag>
@@ -2026,6 +2033,14 @@
 			<description>是否在外部引入js-css</description>
 		</attribute>
 		<!-- update-end- Author:taoyan  Date:20180519 for：文件上传增加属性：是否在外部引入js-css  -->
+		<!-- update-begin- Author:taoyan  Date:20180725 for：TASK #3007 【新功能】陶炎的上传，不支持文档 swf转换  -->
+		<attribute>
+			<name>swfTransform</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否支持需要将此文件转换成swf文件,true/false</description>
+		</attribute>
+		<!-- update-end- Author:taoyan  Date:20180725 for：TASK #3007 【新功能】陶炎的上传，不支持文档 swf转换  -->
 	</tag>
 	<!-- add-end- Author:taoyan  Date:20170327 for：文件上传标签  -->
 	<!-- add-begin-author:zhangjiaqiang Date:20170913 for:treeSelectTag -->

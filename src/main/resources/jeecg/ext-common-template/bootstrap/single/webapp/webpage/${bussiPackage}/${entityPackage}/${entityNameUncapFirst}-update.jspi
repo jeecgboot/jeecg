@@ -45,7 +45,7 @@
 				</div>
 				<div class="col-md-9 col-sm-9 col-xs-9 bt-content">
 					<#if po.showType=='textarea'>
-	            	<textarea name="${po.fieldName}" class="form-control" rows="6" value = "${'$'}{${entityName?uncap_first}.${po.fieldName}}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>></textarea>
+	            	<textarea name="${po.fieldName}" class="form-control" rows="6" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>>${'$'}{${entityName?uncap_first}.${po.fieldName}}</textarea>
 	            	<#elseif po.showType=='text'>
 					<input name="${po.fieldName}" type="text" class="form-control" maxlength="${po.length?c}" value = "${'$'}{${entityName?uncap_first}.${po.fieldName}}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" tableName="${po.table.tableName}" fieldName="${po.oldFieldName}"/> />
 	            	<#elseif po.showType=='password'>
@@ -82,7 +82,7 @@
 						</div>
 				     <div class="col-md-9 col-sm-9 col-xs-9 bt-content">
 						    <#if po.showType=='textarea'>
-						  	 	<textarea name="${po.fieldName}" value = "${'$'}{${entityName?uncap_first}.${po.fieldName}}" class="form-control input-sm" rows="6" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>></textarea>
+						  	 	<textarea name="${po.fieldName}" class="form-control input-sm" rows="6" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>>${'$'}{${entityName?uncap_first}.${po.fieldName}}</textarea>
 							<#elseif po.showType='umeditor'>
 								<#-- update--begin--author:zhangjiaqiang date:20170522 for:ueditor配置文件只加载一次 -->
 								<#assign ue_widget_count = ue_widget_count + 1>
@@ -91,7 +91,7 @@
 								<script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
 								</#if>
 								<#-- update--end--author:zhangjiaqiang date:20170522 for:ueditor配置文件只加载一次 -->
-						    	<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px">${'$'}{${entityName?uncap_first}.${po.fieldName} }</textarea>
+						    	<textarea name="${po.fieldName}" id="${po.fieldName}" style="width: 650px;height:300px">${'$'}{${entityName?uncap_first}.${po.fieldName}}</textarea>
 							    <script type="text/javascript">
 							       <#-- update--begin--author:zhangjiaqiang date:20170522 for:editor编辑器变量唯一 -->
 							        var ${po.fieldName}_editor = UE.getEditor('${po.fieldName}');
@@ -143,7 +143,7 @@
 					<div class="col-sm-7">
 					<div class="input-group" style="width:100%">
 							<#if po.showType=='textarea'>
-						  	 	<textarea name="${po.fieldName}" value = "${'$'}{${entityName?uncap_first}.${po.fieldName}}" class="form-control input-sm" rows="6" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>></textarea>
+						  	 	<textarea name="${po.fieldName}" class="form-control input-sm" rows="6" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}"/>>${'$'}{${entityName?uncap_first}.${po.fieldName}}</textarea>
 							<#elseif po.showType='umeditor'>
 								<#-- update--begin--author:zhangjiaqiang date:20170522 for:ueditor配置文件只加载一次 -->
 								<#assign ue_widget_count = ue_widget_count + 1>
@@ -201,8 +201,8 @@ $(document).ready(function() {
 	$('.i-checks').iCheck({
 		labelHover : false,
 		cursor : true,
-		checkboxClass : 'icheckbox_square-blue',
-		radioClass : 'iradio_square-blue',
+		checkboxClass : 'icheckbox_square-green',
+		radioClass : 'iradio_square-green',
 		increaseArea : '20%'
 	});
 	

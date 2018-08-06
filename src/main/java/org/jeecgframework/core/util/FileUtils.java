@@ -5,9 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件操作工具类
@@ -194,4 +196,70 @@ public class FileUtils {
         }
         return returnFileName;
     }
+
+    /**
+     * 根据现有路径获取SWF文件名称
+     * @author taoYan
+     * @since 2018年7月26日
+     */
+    public static String getSwfPath(String path){
+    	String leftSlash = "/";
+    	if(!File.separator.equals(leftSlash)){
+    		path = path.replace(File.separator,leftSlash);
+		}
+    	String fileDir = path.substring(0,path.lastIndexOf(leftSlash)+1);//文件目录带/
+    	int pointPosition = path.lastIndexOf(".");
+		String fileName = path.substring(path.lastIndexOf(leftSlash)+1,pointPosition);//文件名不带后缀
+		String swfName = PinyinUtil.getPinYinHeadChar(fileName);// 取文件名首字母作为SWF文件名
+		return fileDir+swfName+".swf";
+    }
+    
+    /**
+     * 上传txt文件，防止乱码
+     * @author taoYan
+     * @since 2018年7月26日
+     */
+    public static void uploadTxtFile(MultipartFile mf,String savePath) throws IOException{
+    	//利用utf-8字符集的固定首行隐藏编码原理
+		//Unicode:FF FE   UTF-8:EF BB   
+		byte[] allbytes = mf.getBytes();
+		try{
+			String head1 = toHexString(allbytes[0]);
+			//System.out.println(head1);
+			String head2 = toHexString(allbytes[1]);
+			//System.out.println(head2);
+			if("ef".equals(head1) && "bb".equals(head2)){
+				//UTF-8
+				String contents = new String(mf.getBytes(),"UTF-8");
+				if(StringUtils.isNotBlank(contents)){
+					OutputStream out = new FileOutputStream(savePath);
+					out.write(contents.getBytes());
+					out.close();
+				}
+			}  else {
+
+				//GBK
+				String contents = new String(mf.getBytes(),"GBK");
+				OutputStream out = new FileOutputStream(savePath);
+				out.write(contents.getBytes());
+				out.close();
+
+			}
+		  } catch(Exception e){
+			  String contents = new String(mf.getBytes(),"UTF-8");
+				if(StringUtils.isNotBlank(contents)){
+					OutputStream out = new FileOutputStream(savePath);
+					out.write(contents.getBytes());
+					out.close();
+				}
+		}
+    }
+    
+	public static String toHexString(int index){
+        String hexString = Integer.toHexString(index);   
+        // 1个byte变成16进制的，只需要2位就可以表示了，取后面两位，去掉前面的符号填充   
+        hexString = hexString.substring(hexString.length() -2);  
+        return hexString;
+	}
+
 }

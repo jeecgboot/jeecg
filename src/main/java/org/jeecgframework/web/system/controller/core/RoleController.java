@@ -960,8 +960,11 @@ public class RoleController extends BaseController {
         subCq.eq("TSRole.id", roleId);
         subCq.add();
         
-
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
+
+        cq.eq("deleteFlag", new Short("0"));//删除状态，不删除
+        cq.eq("userType","1");//系统用户
+
         cq.add();
 
         this.systemService.getDataGridReturn(cq, true);

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import javax.persistence.Transient;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -237,5 +239,22 @@ public class ReflectHelper {
 	    }  
 	    return value;  
    }   
+
+   /**
+    * 判断该字段get方法是否被@Transient注解了
+    * @author taoYan
+    * @since 2018年7月26日
+    * @return 如果没有get*返回true，有get且无@Transient注解返回false
+    */
+	public boolean isIgore(String property) {
+		Method m = getMethods.get(property.toLowerCase());
+		if (m != null) {
+			Object o = m.getAnnotation(Transient.class);
+			if(o==null){
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

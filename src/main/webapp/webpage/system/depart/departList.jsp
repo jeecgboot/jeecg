@@ -114,5 +114,16 @@
 		location.href = "${webRoot}/export/template/departTemplate.xls";
     }
 
+function reloadTable(){
+	 var node = $('#departList').treegrid('getSelected');
+    if (node) {
+   	 var pnode = $('#departList').treegrid('getParent',node.id);
+   	 if(pnode){
+   	 	$('#departList').treegrid('reload',pnode.id);
+   	 }else{
+   		$('#departList').treegrid('reload',node.id);
+   	 }
+    }
+}
 //-->
 </script>

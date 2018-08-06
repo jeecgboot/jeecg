@@ -293,6 +293,8 @@
 <!-- 在线聊天 -->
 <%@include file="/context/layui.jsp"%>
 <script>
+	//初始化国际化配置
+	initI18nConfig();
     function logout(){
         layer.confirm('您确定要注销吗？', {
             btn: ['确定','取消'], //按钮
@@ -465,6 +467,26 @@
     //新增iframe中绑定click事件回调父级函数
     function bindFrameClick(){
     	$(".J_iframe").contents().find("body").attr("onclick", "parent.frameBodyClick()"); 
+    }
+
+    /**
+     * i18n国际化配置
+     */
+    function initI18nConfig() {
+    	var i18n_browser_Lang = getCookie("i18n_browser_Lang");
+    	if(i18n_browser_Lang == 'zh-cn'){
+    		i18n_browser_Lang = 'zh';
+    	}
+//    	console.log(i18n_browser_Lang);
+        $.i18n.properties({
+            name:'jeecgs',    		//属性文件名     命名格式： 文件名_国家代号.properties
+            path:'plug-in/i18n/',   //注意这里路径是你属性文件的所在文件夹
+            mode:'map',
+            language:i18n_browser_Lang,//这就是国家代号 name+language刚好组成属性文件名：strings+zh -> strings_zh.properties
+            callback:function(){
+           	
+            }
+        });
     }
 </script>
 

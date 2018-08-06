@@ -2,6 +2,7 @@ package com.jeecg.demo.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -625,9 +626,11 @@ public class JeecgListDemoController extends BaseController {
 		
 		//step.1 获取数据权限SQL片段
 		String authSql = JeecgDataAutorUtils.loadDataSearchConditonSQLString();
-		
+
+		//设置排序字段
 		//step.2 将权限SQL片段注入到业务SQL中
-		MiniDaoPage<JeecgDemoEntity> list = jeecgMinidaoDao.getAllEntities(jeecgDemo, dataGrid.getPage(), dataGrid.getRows(),authSql);
+		MiniDaoPage<JeecgDemoEntity> list = jeecgMinidaoDao.getAllEntities(jeecgDemo, dataGrid.getPage(), dataGrid.getRows(),dataGrid.getSort(),dataGrid.getOrder(),authSql);
+
 		dataGrid.setTotal(list.getTotal());
 		dataGrid.setResults(list.getResults());
 		
@@ -1395,4 +1398,33 @@ public class JeecgListDemoController extends BaseController {
 		public ModelAndView collapseDemo() {
 			return new ModelAndView("com/jeecg/demo/jeecgDemoList-collapse");
 		}
+
+		/**
+		 * bootstrap-suggest-plugin demo
+		 * @param request
+		 * @return
+		 */
+		@RequestMapping(params = "suggest")
+		public ModelAndView suggest(HttpServletRequest request) {
+			return new ModelAndView("com/jeecg/demo/suggest");
+		}
+		@RequestMapping(value = "loadSuggestData")
+		@ResponseBody
+		public Object loadSuggestData(String keyword,HttpServletRequest request) {
+			String sql = "select a.username,a.realname,IFNULL(c.departname,'火星人') as depart from t_s_base_user a left join t_s_user_org b on b.user_id  = a.ID left join t_s_depart c on c.id = b.org_id "
+					+ "";//TODO keyword 没用到 
+			JSONObject object = new JSONObject();
+			object.put("message", "");
+			try {
+				List<Map<String,Object>> data = this.systemService.findForJdbc(sql);
+				net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(data);
+				object.put("value", array);
+				object.put("code", 200);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			object.put("redirect", "");
+			return object;
+		}
+
 }

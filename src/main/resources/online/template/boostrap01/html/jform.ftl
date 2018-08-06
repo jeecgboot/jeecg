@@ -114,14 +114,11 @@
 			  }
 			});
 		});
-		//单选框/多选框初始化
-		$('.i-checks').iCheck({
-			labelHover : false,
-			cursor : true,
-			checkboxClass : 'icheckbox_square-blue',
-			radioClass : 'iradio_square-blue',
-			increaseArea : '20%'
-		});
+		//自定义checkbox、radio 样式
+	    $('.i-checks').iCheck({
+	        checkboxClass: 'icheckbox_square-green',
+	        radioClass: 'iradio_square-green'
+	    });
 	}
     
     function upload() {

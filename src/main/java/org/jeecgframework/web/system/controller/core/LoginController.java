@@ -129,7 +129,9 @@ public class LoginController extends BaseController{
 			TSUser u = userService.checkUserExits(user);
 			if (u == null) {
 				u = userService.findUniqueByProperty(TSUser.class, "email", user.getUserName());
-				if(u == null || u.getPassword().equals(PasswordUtil.encrypt(u.getUserName(), u.getPassword(), PasswordUtil.getStaticSalt()))){
+
+				if(u == null || !u.getPassword().equals(PasswordUtil.encrypt(u.getUserName(),user.getPassword(), PasswordUtil.getStaticSalt()))){
+
 					j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
 					j.setSuccess(false);
 					return j;

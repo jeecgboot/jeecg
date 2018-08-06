@@ -6,7 +6,7 @@
   <title></title>
   ${config_iframe}
  </head>
- <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
+ <body>
   <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
 			<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >

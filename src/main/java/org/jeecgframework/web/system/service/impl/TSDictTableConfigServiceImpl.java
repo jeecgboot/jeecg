@@ -72,7 +72,9 @@ public class TSDictTableConfigServiceImpl extends CommonServiceImpl implements T
 
 	@Override
 	public Object getDictText(String dictionary, String dictCondition,String value) {
-		Object text = value;
+
+		Object text = "--";
+
 		try {
 			//自定义字典处理
 			String[] dic = dictionary.split(",");

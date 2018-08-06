@@ -123,7 +123,7 @@
  	}
  </style>
  	</div>
-    <div title="新增数据" style="height:350px;" name="editPanel" id="editPanel" fit="true" class="easyui-panel"> 
+    <div title="新增数据" style="height:350px;background-color:#fff;overflow-y:auto;"  name="editPanel" id="editPanel"> 
     	<div class="datagrid-toolbar" style="float:left;width: 100%;">
 		    <a href="#" class="easyui-linkbutton l-btn l-btn-plain" plain="true" icon="icon-add" onclick="clearData()">
 			  	 清空表单
@@ -137,7 +137,7 @@
     	</div>
 		<t:formvalid formid="ff" dialog="true" layout="table" tiptype="4" action="jeecgListDemoController.do?saveRows">
 			<input name="demos[0].id" id="id" type="hidden" value="" /> 
-			<table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
+			<table style="width: 600px;margin-bottom:75px" cellpadding="0" cellspacing="1" class="formtable">
 					<tbody><tr>
 						<td align="right">
 							<label class="Validform_label">

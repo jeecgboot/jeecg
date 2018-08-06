@@ -105,3 +105,7 @@
   	background:url('icons/chart_organisation.png') no-repeat center center;
 }
 /*update-end-Author:LiShaoQing date:20180103 for:组织机构添加职务信息图标  */
+
+.icon-caret-down{
+	background:url('icons/fa-caret-down.png') no-repeat center center;
+}

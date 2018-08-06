@@ -251,7 +251,9 @@ public class ExcelTempletController extends BaseController {
 
 							}
 						}
-						resultMap.put(b.getFieldName(), sb.toString().substring(0, sb.toString().length() - 1));
+						if(oConvertUtils.isNotEmpty(sb.toString())){
+							resultMap.put(b.getFieldName(), sb.toString().substring(0, sb.toString().length() - 1));
+						}
 					}
 
 				}

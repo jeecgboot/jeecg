@@ -1,10 +1,10 @@
-.btn{
+.opts-menu-box .btn{
 	display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
+	margin-bottom: 0;
+   /*  padding: 6px 12px;
     font-size: 14px;
     font-weight: 400;
-    line-height: 1.42857143;
+    line-height: 1.42857143; */
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -18,11 +18,11 @@
     background-image: none;
     border: 1px solid transparent;
     border-radius: 4p
-}
-.btn.focus, .btn:focus, .btn:hover {
+} 
+.opts-menu-box .btn.focus,.opts-menu-box .btn:focus,.opts-menu-box .btn:hover {
     text-decoration: none;
 }
-.btn-default {
+.opts-menu-box .btn-default {
    color: #07a695;
     background-color: #fff;
     border-color: #07a695;
@@ -31,6 +31,7 @@
 	display: block;
 }
 div[class$='-opt'] {
+	/* height: 31px !important; */
     z-index: 2;
     overflow: visible !important;
 }
@@ -38,6 +39,7 @@ div[class$='-opt'] {
     overflow: visible !important;
 }
 div[class$='menu-active'] {
+/* 	height: 31px !important; */
     z-index: 2;
     overflow: visible !important;
 }
@@ -50,7 +52,6 @@ div[class$='menu-active'] {
 }
 
 .opts-menu-container.location-left{
-    left: 40px;
     top: -1px;
 }
 .opts-menu-parent{
@@ -58,31 +59,49 @@ div[class$='menu-active'] {
 }
 .opts-menu-box{
 	position: absolute;
-    top:2px;
+   /*  top:2px; */
     z-index: 1000;
     background-color: #FFFFFF;
     border: 1px solid #dddddd;
     border-radius: 4px;
     box-shadow: 2px 2px 5px #969696;
-    padding: 2px 4px;
+    padding: 1px 2px 1px 6px;
 }
 
 
 .opts-menu-triangle{
-    display: inline-block;
+   /*  display: inline-block;
     height: 16px;
-    position: absolute;
-    left: 30px;
-    top: 9px;
     width: 16px;
-    z-index: 10000;
+    position: relative;
+    top:45%;
+    transform:translateY(-50%); */
+}
+.opts-menu-temp{
+	display:inline-block;width:16px;height:16px;position:relative;top:5px;
+}
+.btnmy{
+	background-color: #fff;
+    border:1px solid #ccc;
+    color: #333;    
+    padding: 0px 7px;
+        position: relative;
+    top: 1px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.6;
+    display: inline-block;
+    font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+   }
+.btnmy:hover,.btnmy:active,.btnmy:focus{
+	 color: #333;    
 }
 .ops-more {
     font-size: 12px;
     padding: 1px 6px 1px 8px;
     margin: 0px 3px;
     border-radius: 3px;
-    text-decoration: none;
+    text-decoration: none; 
 }
 
 .ops-more:hover {

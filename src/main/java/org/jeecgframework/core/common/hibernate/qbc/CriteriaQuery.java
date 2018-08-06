@@ -15,6 +15,7 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.datatable.DataTables;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.datatable.SortInfo;
@@ -596,11 +597,11 @@ public class CriteriaQuery {
 	public void between(String keyname, Object keyvalue1, Object keyvalue2) {
 		Criterion c = null;// 写入between查询条件
 
-		if (!keyvalue1.equals(null) && !keyvalue2.equals(null)) {
+		if (oConvertUtils.isNotEmpty(keyvalue1) && oConvertUtils.isNotEmpty(keyvalue2)) {
 			c = Restrictions.between(keyname, keyvalue1, keyvalue2);
-		} else if (!keyvalue1.equals(null)) {
+		} else if (oConvertUtils.isNotEmpty(keyvalue1)) {
 			c = Restrictions.ge(keyname, keyvalue1);
-		} else if (!keyvalue2.equals(null)) {
+		} else if (oConvertUtils.isNotEmpty(keyvalue2)) {
 			c = Restrictions.le(keyname, keyvalue2);
 		}
 		criterionList.add(c);

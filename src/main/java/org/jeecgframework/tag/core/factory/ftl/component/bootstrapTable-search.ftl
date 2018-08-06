@@ -18,7 +18,10 @@
 					<div class="col-xs-12 col-sm-6 col-md-4">
 		    		<label for="${po.field}">${po.title}：</label>
 		    		<div class="input-group" style="width:100%">
-		    		<input type="text" class="form-control input-sm" id="${po.field}" name="${po.field}">
+		    		<#-- update-begin-Author:LiShaoQing date:20180802 for:TASK #3017 【Tag-bootstrap】查询区域字段，popup未实现 -->
+					<#assign columnArray = '${po.dictionary}'?split(",")>
+		    		<input type="text" class="form-control input-sm" id="${po.field}" name="${po.field}" onclick="popupClick(this,'${columnArray[2]?replace('@',',')}','${columnArray[1]?replace('@',',')}','${columnArray[0]}')">
+		    		<#-- update-end-Author:LiShaoQing date:20180802 for:TASK #3017 【Tag-bootstrap】查询区域字段，popup未实现 -->
 		    		</div>
 		    		</div>
 				<#elseif po.dictionary?index_of(",")!=-1&&!po.popup>

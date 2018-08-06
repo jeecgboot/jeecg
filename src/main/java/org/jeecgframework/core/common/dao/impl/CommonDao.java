@@ -256,11 +256,15 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 //					SwfToolsUtil.convert2SWF(savePath);
 //				}
 //				FileCopyUtils.copy(mf.getBytes(), savefile);
-				if (uploadFile.getSwfpath() != null) {
+
+				//默认上传文件是否转换为swf，实现在线预览功能开关
+				String globalSwfTransformFlag = ResourceUtil.getConfigByName("swf.transform.flag");
+				if ( "true".equals(globalSwfTransformFlag) && uploadFile.getSwfpath() != null) {
 					// 转SWF
 					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + FileUtils.getFilePrefix(myfilename) + ".swf");
 					SwfToolsUtil.convert2SWF(savePath);
 				}
+
 
 			}
 		} catch (Exception e1) {

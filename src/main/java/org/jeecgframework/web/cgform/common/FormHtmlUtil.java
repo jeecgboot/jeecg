@@ -1,9 +1,9 @@
 package org.jeecgframework.web.cgform.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
-
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
+import org.jeecgframework.web.cgform.service.impl.config.util.ExtendJsonConvert;
 /**   
  * @author 张代浩
  * @date 2013-08-11 09:47:30
@@ -57,23 +57,36 @@ public class FormHtmlUtil {
     private static String getTextAreaFormHtml(
 			CgFormFieldEntity cgFormFieldEntity) {
     	StringBuilder html = new StringBuilder("");
+
     	 html.append("<textarea rows=\"6\" ");
+    	 if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+        	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+         }
     	 if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
        	  	html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
          }
     	 html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
          html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
-         if("Y".equals(cgFormFieldEntity.getIsNull())){
-       	  html.append("ignore=\"ignore\" ");
-         }
+         if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	   	  	  //校验必填
+	   	  	  html.append("ignore=\"checked\" ");
+	   	  }else{
+	   	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	   	        	html.append("ignore=\"ignore\" ");
+	   	        }else{
+	   	        	html.append("ignore=\"checked\" ");
+	   	        }
+	   	  }
          if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
        	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
          }else{
    		  html.append("datatype=\"*\" ");
    	  }
          html.append("\\>");
-         html.append("\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}</textarea> ");
-		return html.toString();
+//         html.append("\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}</textarea> ");
+         html.append("\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}</textarea> ");
+
+         return html.toString();
 	}
 
 	/**
@@ -85,13 +98,26 @@ public class FormHtmlUtil {
       html.append("<input type=\"text\" ");
       html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
       html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+      if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+     	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+     }
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
-    	  html.append("ignore=\"ignore\" ");
-      }
+//      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+      html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
+      if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	  	  //校验必填
+	  	  html.append("ignore=\"checked\" ");
+	  }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
+	  }
+
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
     	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
       }else{
@@ -116,15 +142,26 @@ public class FormHtmlUtil {
         html.append("<input type=\"text\" ");
         html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
         html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+        if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+        	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+        }
         if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
       	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
         }
-        html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-        if("Y".equals(cgFormFieldEntity.getIsNull())){
-      	  html.append("ignore=\"ignore\" ");
-        }else{
+//        html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+        html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
+        if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+      	  //校验必填
       	  html.append("ignore=\"checked\" ");
+        }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
         }
+
         html.append("validtype=\"").append(tableName).append(",").append(cgFormFieldEntity.getFieldName()).append(",id\" ");
   	  	html.append("datatype=\"*\" ");
         html.append("\\/>");
@@ -140,13 +177,26 @@ public class FormHtmlUtil {
       html.append("<input type=\"password\" ");
       html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
       html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+      if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+     	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+      }
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
-    	  html.append("ignore=\"ignore\" ");
-      }
+//      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+      html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
+      if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	  	  //校验必填
+	  	  html.append("ignore=\"checked\" ");
+	  }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
+	  }
+
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
     	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
       }else{
@@ -174,7 +224,10 @@ public class FormHtmlUtil {
   	      html.append(" var=\"dictDataList\">");
   	      html.append("<#list dictDataList as dictdata>");
   	      html.append(" <input type=\"radio\" value=\"\\${dictdata.typecode?if_exists?html}\" name=\""+cgFormFieldEntity.getFieldName()+"\" ");
-  	      html.append("<#if dictdata.typecode=='\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}'>");
+
+//  	      html.append("<#if dictdata.typecode=='\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}'>");
+  	      html.append("<#if dictdata.typecode==\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\">");
+
   	      html.append(" checked=\"true\" ");
   	      html.append("</#if> ");
   	      html.append(">");
@@ -197,7 +250,8 @@ public class FormHtmlUtil {
         	 
     	      StringBuilder html = new StringBuilder("");
 
-    	      html.append("<#assign checkboxstr>\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}</#assign>");
+//    	      html.append("<#assign checkboxstr>\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}</#assign>");
+    	      html.append("<#assign checkboxstr>\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}</#assign>");
 
     	      html.append("<#assign checkboxlist=checkboxstr?split(\",\")> ");
     	      html.append("<@DictData name=\""+cgFormFieldEntity.getDictField()+"\"");
@@ -241,8 +295,10 @@ public class FormHtmlUtil {
 	      html.append("<select name=\""+cgFormFieldEntity.getFieldName()+"\" id=\""+cgFormFieldEntity.getFieldName()+"\"> ");
 	      html.append("<#list dictDataList as dictdata>");
 	      html.append(" <option value=\"\\${dictdata.typecode?if_exists?html}\" ");
-	      html.append("<#if dictdata.typecode=='\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}'>");
-	      html.append(" selected=\"selected\" ");
+
+//	      html.append("<#if dictdata.typecode=='\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}'>");
+	      html.append("<#if dictdata.typecode==\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\">");
+
 	      html.append("</#if> ");
 	      html.append(">");
 	      html.append("\\${dictdata.typename?if_exists?html}");
@@ -264,15 +320,28 @@ public class FormHtmlUtil {
       html.append("<input type=\"text\" ");
       html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
       html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+      if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+    	  html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+      }
       html.append("class=\"Wdate\" ");
       html.append("onClick=\"WdatePicker()\" ");
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
-    	  html.append("ignore=\"ignore\" ");
-      }
+//      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+      html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
+      if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	  	  //校验必填
+	  	  html.append("ignore=\"checked\" ");
+	  }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
+	  }
+
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
     	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
       }else{
@@ -291,15 +360,28 @@ public class FormHtmlUtil {
       html.append("<input type=\"text\" ");
       html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
       html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+      if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+     	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+     }
       html.append("class=\"Wdate\" ");
       html.append("onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\" ");
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
-    	  html.append("ignore=\"ignore\" ");
-      }
+//      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+      html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
+      if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	  	  //校验必填
+	  	  html.append("ignore=\"checked\" ");
+	  }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
+	  }
+
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
     	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
       }else{
@@ -370,16 +452,29 @@ public class FormHtmlUtil {
       html.append("<input type=\"text\" readonly=\"readonly\" class=\"searchbox-inputtext\" ");
       html.append("id=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
       html.append("name=\"").append(cgFormFieldEntity.getFieldName()).append("\" ");
+
+      if(StringUtils.isNotEmpty(cgFormFieldEntity.getExtendJson())){
+     	 html.append(" "+ExtendJsonConvert.json2Html(cgFormFieldEntity.getExtendJson())+" ");;
+      }
       if(cgFormFieldEntity.getFieldLength()!=null&&cgFormFieldEntity.getFieldLength()>0){
     	  html.append("style=\"width:").append(cgFormFieldEntity.getFieldLength()).append("px\" ");
       }
-      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+//      html.append("value=\"\\${").append(cgFormFieldEntity.getFieldName()).append("?if_exists?html}\" ");
+      html.append("value=\"\\${data\\['"+cgFormFieldEntity.getTable().getTableName()+"'\\]\\['").append(cgFormFieldEntity.getFieldName()).append("'\\]?if_exists?html}\" ");
 
       html.append("onclick=\"popupClick(this,'"+cgFormFieldEntity.getDictText()+"','"+cgFormFieldEntity.getDictField()+"','"+cgFormFieldEntity.getDictTable()+"');\" ");
 
-      if("Y".equals(cgFormFieldEntity.getIsNull())){
-    	  html.append("ignore=\"ignore\" ");
-      }
+      if("Y".equals(cgFormFieldEntity.getFieldMustInput())){
+	  	  //校验必填
+	  	  html.append("ignore=\"checked\" ");
+	  }else{
+	        if("Y".equals(cgFormFieldEntity.getIsNull())){
+	        	html.append("ignore=\"ignore\" ");
+	        }else{
+	        	html.append("ignore=\"checked\" ");
+	        }
+	  }
+
       if(cgFormFieldEntity.getFieldValidType()!=null&&cgFormFieldEntity.getFieldValidType().length()>0){
     	  html.append("datatype=\"").append(cgFormFieldEntity.getFieldValidType()).append("\" ");
       }else{

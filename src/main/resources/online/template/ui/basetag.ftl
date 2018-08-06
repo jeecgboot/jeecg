@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="${webRootf!''}plug-in/bootstrap3.3.5/css/bootstrap.min.css">
   <script type="text/javascript" src="${webRootf!''}plug-in/bootstrap3.3.5/js/bootstrap.min.js"></script>
   <!-- icheck组件引用 -->
-  <link href="${webRootf!''}plug-in/icheck-1.x/skins/square/_all.css" rel="stylesheet">
-  <script type="text/javascript" src="${webRootf!''}plug-in/icheck-1.x/icheck.js"></script>
+  <link href="${webRootf!''}plug-in/hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+  <script type="text/javascript" src="${webRootf!''}plug-in/hplus/js/plugins/iCheck/icheck.min.js"></script>
   <!-- Validform扩展样式 -->
   <link rel="stylesheet" href="plug-in/themes/bootstrap-ext/css/validform-ext.css" />
   <!-- Layer组件引用 -->

@@ -79,17 +79,17 @@ public class NoticeController extends BaseController{
 		AjaxJson j = new AjaxJson();
 		try {
 			TSUser user = ResourceUtil.getSessionUser();
+
 			String sql = "SELECT notice.*,noticeRead.is_read as is_read FROM t_s_notice notice "
 					+ "LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
-					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = '"+user.getId()+"' ";
-			if(isRead != null && (isRead == 1 || isRead == 0 )){
-				sql += " and noticeRead.is_read = " + isRead.intValue();
-			}else{
-				sql += " and noticeRead.is_read = 0 ";
+					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = ? ";
+			sql += " and noticeRead.is_read = ? ";
+			sql += " ORDER BY noticeRead.create_time DESC ";
+			if(isRead==null || !(isRead==1 || isRead ==0)){
+				isRead = 0;
 			}
-			sql += " ORDER BY noticeRead.create_time DESC ";		
-			List<Map<String, Object>> noticeList =  systemService.findForJdbc(sql,1,10);
-			
+			List<Map<String, Object>> noticeList = systemService.findForJdbcParam(sql,1,10,user.getId(),isRead.intValue());
+
 			//将List转换成JSON存储
 			JSONArray result = new JSONArray();
 			if(noticeList!=null && noticeList.size()>0){
@@ -109,13 +109,14 @@ public class NoticeController extends BaseController{
 			String seeAll = MutiLangUtil.getLang("notice.seeAll");
 			attrs.put("seeAll", seeAll);
 			j.setAttributes(attrs);
-			
+
 			//获取通知公告总数
 			String sql2 ="SELECT count(notice.id) FROM t_s_notice notice "
 					+ "LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
-					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = '"+user.getId()+"' "
+					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = ? "
 					+ "and noticeRead.is_read = 0";
-			List<Map<String, Object>> resultList2 =  systemService.findForJdbc(sql2);
+			List<Map<String, Object>> resultList2 =  systemService.findForJdbc(sql2,user.getId());
+
 			Object count = resultList2.get(0).get("count");
 			j.setObj(count);
 		} catch (Exception e) {
@@ -173,14 +174,15 @@ public class NoticeController extends BaseController{
 //			//查询条件组装器
 //			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, notice, request.getParameterMap());
 //			this.noticeService.getDataGridReturn(cq, true);
-			
+
 			TSUser user = ResourceUtil.getSessionUser();
 			String sql = "SELECT notice.*,noticeRead.is_read as is_read FROM t_s_notice notice "
 					+ " LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
-					+ " WHERE noticeRead.del_flag = 0 and noticeRead.user_id = '"+user.getId()+"' "
+					+ " WHERE noticeRead.del_flag = 0 and noticeRead.user_id = ? "
 					+ " ORDER BY noticeRead.is_read asc,noticeRead.create_time DESC ";
 			
-			List<Map<String, Object>> resultList =  systemService.findForJdbc(sql,dataGrid.getPage(),dataGrid.getRows());
+			List<Map<String, Object>> resultList = systemService.findForJdbcParam(sql,dataGrid.getPage(),dataGrid.getRows(),user.getId());
+
 			//将List转换成JSON存储
 			List<Map<String, Object>> noticeList = new ArrayList<Map<String, Object>>();
 			if(resultList!=null && resultList.size()>0){
@@ -197,9 +199,11 @@ public class NoticeController extends BaseController{
 			}
 	
 			dataGrid.setResults(noticeList);
+
 			String getCountSql ="SELECT count(notice.id) as count FROM t_s_notice notice LEFT JOIN t_s_notice_read_user noticeRead ON  notice.id = noticeRead.notice_id "
-					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = '"+user.getId()+"' and noticeRead.is_read = 0";
-			List<Map<String, Object>> resultList2 =  systemService.findForJdbc(getCountSql);
+					+ "WHERE noticeRead.del_flag = 0 and noticeRead.user_id = ? and noticeRead.is_read = 0";
+			List<Map<String, Object>> resultList2 = systemService.findForJdbc(getCountSql, user.getId());
+
 			Object count = resultList2.get(0).get("count");
 			dataGrid.setTotal(Integer.valueOf(count.toString()));
 			TagUtil.datagrid(response, dataGrid);

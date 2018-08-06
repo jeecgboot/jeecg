@@ -23,7 +23,7 @@ public interface JeecgMinidaoDao {
     List<Map<String, String>> getAllRegions();
 
  	@ResultType(JeecgDemoEntity.class)
-	public MiniDaoPage<JeecgDemoEntity> getAllEntities(@Param("jeecgDemo") JeecgDemoEntity jeecgDemo, @Param("page")  int page, @Param("rows") int rows,@Param("authSql") String authSql);
+	public MiniDaoPage<JeecgDemoEntity> getAllEntities(@Param("jeecgDemo") JeecgDemoEntity jeecgDemo, @Param("page")  int page, @Param("rows") int rows,@Param("sort")String sort, @Param("order")String order,@Param("authSql") String authSql);
 
  	@Sql("select count(*) from jeecg_demo")
 	Integer getCount();

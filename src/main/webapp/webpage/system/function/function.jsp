@@ -88,7 +88,7 @@
 	<div class="form" id="pfun">
         <label class="Validform_label"> <t:mutiLang langKey="parent.function"/>: </label>
         <input id="cc" <c:if test="${function.TSFunction.functionLevel eq 0}"> value="${function.TSFunction.id}"</c:if>
-		<c:if test="${function.TSFunction.functionLevel > 0}"> value="${function.TSFunction.functionName}"</c:if>>
+		<c:if test="${function.TSFunction.functionLevel > 0}"> value="<t:mutiLang langKey="${function.TSFunction.functionName}"/>"</c:if>>
         <input id="functionId" name="TSFunction.id" style="display: none;" value="${function.TSFunction.id}">
     </div>
 	<div class="form" id="funurl">

@@ -288,7 +288,11 @@ public class InterroleController extends BaseController {
 			if (roleInterfaceList.size() > 0) {
 				for (InterroleInterfaceEntity roleInterface : roleInterfaceList) {
 					TSInterfaceEntity inter = (TSInterfaceEntity) roleInterface.getInterfaceEntity();
-					loginActionlist.add(inter);
+
+					if(inter!=null){
+						loginActionlist.add(inter);
+					}
+
 				}
 			}
 			roleInterfaceList.clear();
@@ -427,7 +431,11 @@ public class InterroleController extends BaseController {
 					.findByProperty(InterroleInterfaceEntity.class, "interroleEntity.id", role.getId());
 			Map<String, InterroleInterfaceEntity> map = new HashMap<String, InterroleInterfaceEntity>();
 			for (InterroleInterfaceEntity interfaceOfRole : roleInterfaceList) {
-				map.put(interfaceOfRole.getInterfaceEntity().getId(), interfaceOfRole);
+
+				if(interfaceOfRole.getInterfaceEntity()!=null){
+					map.put(interfaceOfRole.getInterfaceEntity().getId(), interfaceOfRole);
+				}
+
 			}
 			Set<String> set = new HashSet<String>();
 			if (StringUtil.isNotEmpty(roleinterface)) {

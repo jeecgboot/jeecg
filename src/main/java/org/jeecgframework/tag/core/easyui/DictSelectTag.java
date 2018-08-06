@@ -204,6 +204,7 @@ public class DictSelectTag extends TagSupport {
 		Gson gson = new Gson();
 		Map<String, String> mp = gson.fromJson(extendJson, Map.class);
 		StringBuffer sb=new StringBuffer();
+		sb.append(" ");
 		for(Map.Entry<String, String> entry: mp.entrySet()) { 
 			//判断select标签中是否含有style属性
 			if(entry.getKey().equals("style")){

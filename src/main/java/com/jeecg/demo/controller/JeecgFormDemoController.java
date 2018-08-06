@@ -1,8 +1,10 @@
 package com.jeecg.demo.controller;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,6 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -459,6 +468,32 @@ public class JeecgFormDemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
+
+	/**
+	 * 修改文件标题
+	 * @author taoYan
+	 * @since 2018年8月2日
+	 */
+	@RequestMapping(params = "updateDoc")
+	@ResponseBody
+	public AjaxJson updateDoc(HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		try {
+			String id = request.getParameter("id");
+			String title = request.getParameter("title");
+			TSDocument document = systemService.getEntity(TSDocument.class,id);
+			document.setDocumentTitle(title);
+			systemService.updateEntitie(document);
+			j.setSuccess(true);
+			j.setMsg("文件标题修改成功!");
+		} catch (Exception e) {
+			j.setSuccess(false);
+			j.setMsg("文件标题修改失败!");
+		}
+		
+		return j;
+	}
+
 	
 	/**
 	 * 权限列表
@@ -833,6 +868,148 @@ public class JeecgFormDemoController extends BaseController {
 	@RequestMapping(params = "dropDownDatagrid",method ={RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView dropDownDatagrid(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/demo/dropDownDatagrid");
+	}
+
+	/**
+	 * bootstrap树形列表页面跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "bootstrapTreeListDemo")
+	public ModelAndView bootstrapTreeListDemo(ModelMap model) {
+		return new ModelAndView("com/jeecg/demo/bootstrapTreeList");
+	}
+	/**
+	 * bootstrap树形列表获取数据
+	 * 
+	 * @return
+	 */
+	@RequestMapping(params = "bootstrapDemoDatagrid",method ={RequestMethod.GET, RequestMethod.POST})
+	public  void bootstrapDemoDatagrid(HttpServletRequest request,HttpServletResponse response) {
+		    try {
+		      String text1="[{\"id\":1,\"pid\":0,\"status\":1,\"name\":\"系统管理\",\"permissionValue\":\"系统\"},{\"id\":2,\"pid\":0,\"status\":1,\"name\":\"字典管理\",\"permissionValue\":\"字典\"},{\"id\":20,\"pid\":1,\"status\":1,\"name\":\"新增系统\",\"permissionValue\":\"新增\"},{\"id\":21,\"pid\":1,\"status\":1,\"name\":\"编辑系统\",\"permissionValue\":\"编辑\"},{\"id\":22,\"pid\":1,\"status\":1,\"name\":\"删除系统\",\"permissionValue\":\"删除\"},{\"id\":33,\"pid\":2,\"status\":1,\"name\":\"系统环境\",\"permissionValue\":\"环境\"},{\"id\":333,\"pid\":33,\"status\":1,\"name\":\"新增环境\",\"permissionValue\":\"新增\"},{\"id\":3333,\"pid\":33,\"status\":1,\"name\":\"编辑环境\",\"permissionValue\":\"编辑\"},{\"id\":233332,\"pid\":33,\"status\":0,\"name\":\"删除环境\",\"permissionValue\":\"删除\"}]";
+			  response.getWriter().println(text1);
+			 } catch (IOException e) {
+				e.printStackTrace();
+		  }
+     }
+
+	@RequestMapping(params = "plupload1")
+	public ModelAndView plupload(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/plupload/plupload1");
+	}
+	@RequestMapping(params = "plupload2")
+	public ModelAndView plupload3(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/demo/plupload/plupload3");
+	}
+	@RequestMapping(params = "goPlupload")
+	public ModelAndView goPlupload(HttpServletRequest request) {
+		request.setAttribute("chunk", request.getParameter("chunk"));
+		return new ModelAndView("com/jeecg/demo/plupload/plupload5");
+	}
+	/**
+	 * 文件分割 请求处理
+	 * 尚存bug List<FileItem> items = upload.parseRequest(request); 因为mvc已有已文件处理配置，此处获取不到值了
+	 * 后期可修改
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/doupload")
+    public void doupload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
+        String tempFileDir = ctxPath+File.separator+"temp";
+        response.setCharacterEncoding("UTF-8");
+		Integer schunk = null;//分割块数
+		Integer schunks = null;//总分割数
+		String name = null;//文件名
+		BufferedOutputStream outputStream=null; 
+		if (ServletFileUpload.isMultipartContent(request)) {
+			try {
+				String bizType=request.getParameter("bizType");//上传业务名称
+	        	String bizPath=StoreUploadFilePathEnum.getPath(bizType);//根据业务名称判断上传路径
+	        	String nowday=new SimpleDateFormat("yyyyMMdd").format(new Date());
+	        	String fileDir = ctxPath+File.separator+bizPath+File.separator+nowday;
+	        	File file = new File(fileDir);
+	    		if (!file.exists()) {
+	    			file.mkdirs();// 创建文件根目录
+	    		}
+	    		File tempFile = new File(tempFileDir);
+	    		if (!tempFile.exists()) {
+	    			tempFile.mkdirs();// 创建文件临时目录
+	    		}
+				DiskFileItemFactory factory = new DiskFileItemFactory();
+				factory.setSizeThreshold(1024);
+				factory.setRepository(tempFile);//设置临时目录
+				ServletFileUpload upload = new ServletFileUpload(factory);
+				upload.setHeaderEncoding("UTF-8");
+				upload.setSizeMax(5*1024*1024);//设置附近大小？？
+				List<FileItem> items = upload.parseRequest(request);
+				//生成新的文件名
+				String newFilename = null;
+				for(FileItem item : items){
+					if(!item.isFormField()){
+						//如果是文件类型
+						name = item.getName();//获取文件名
+						System.out.println("name:"+name);
+						newFilename = UUID.randomUUID().toString().replace("-","").concat(".").concat(FilenameUtils.getExtension(name));
+						System.out.println("newFilename:"+newFilename);
+						if(name!=null){
+							String nFname = newFilename;
+							if(schunk!=null){
+								nFname = schunk+"_"+name;
+							}
+				    		File savedFile = new File(fileDir, nFname);
+							item.write(savedFile);
+						}
+					}else{
+						//判断是否带分割信息
+						if(item.getFieldName().equals("chunk")){
+							schunk = Integer.parseInt(item.getString());
+						}
+						if(item.getFieldName().equals("chunks")){
+							schunks = Integer.parseInt(item.getString());
+						}
+					}
+				}
+				System.out.println("chunk:"+schunk+"-"+schunks);
+				if(schunk!=null && schunk+1 == schunks){
+					outputStream = new BufferedOutputStream(new FileOutputStream(new File(fileDir,newFilename)));
+					for(int i=0;i<schunks;i++){
+						File itempFile = new File(fileDir,i+"_"+name);
+						byte[] bytes = FileUtils.readFileToByteArray(itempFile);
+						outputStream.write(bytes);
+						outputStream.flush();
+						itempFile.delete();
+					}
+					outputStream.flush();
+				}
+				response.getWriter().write("{\"status\":true,\"newName\":\""+newFilename+"\"}");
+			} catch (FileUploadException e) {
+				e.printStackTrace();
+				response.getWriter().write("{\"status\":false}");
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.getWriter().write("{\"status\":false}");
+			}finally{  
+	            try {  
+	            	if(outputStream!=null)
+	            		outputStream.close();  
+	            } catch (IOException e) {  
+	                e.printStackTrace();  
+	            }  
+	        }   
+		}
+    }
+
+	/**
+	 *打印demo页面跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "printingDemo")
+	public ModelAndView printingDemo(ModelMap model) {
+		return new ModelAndView("com/jeecg/demo/printingDemo");
 	}
 
 }

@@ -228,7 +228,9 @@ public class TreeSelectTag extends TagSupport {
 		resultSb.append("function " + field + "OnCheck(e, treeId, treeNode) {");
 		resultSb.append(" var myTree = $.fn.zTree.getZTreeObj(\"show"+StringUtil.firstUpperCase(field)+"Tree\"); ");
 		resultSb.append("var nodes = myTree.getCheckedNodes(true);var tempId='',tempText='';");
-		resultSb.append("if(nodes && nodes.length>0){for(var a in nodes){tempId+=nodes[a].id+',';tempText+=nodes[a].text+',';}}");    
+
+		resultSb.append("if(nodes && nodes.length>0){for(var i = 0;i<nodes.length;i++){tempId+=nodes[i].id+',';tempText+=nodes[i].text+',';}}");    
+
 		resultSb.append("if(tempId ==''){");
 		if(StringUtil.isEmpty(id)){
 			resultSb.append("$('#"+field+"').val(''); }else{$('#"+field+"').val(tempId.substring(0,tempId.length - 1));}");

@@ -41,8 +41,8 @@
 			  <form class = "page-query">
 			  <#list columns as po1>
 			  	 <#if po1.isQuery =='Y'>
-			  	 <#-- update--begin--author:liushaoqian date:20180713 for:TASK #2965 【代码生成器--刘少谦】一对多代码生成器模板测试 -->
-			  	 <#if po1.showType?index_of("datetime")!=-1>
+			  	 <#-- update--begin--author:liushaoqian date:20180720 for:TASK #2965 【代码生成器--刘少谦】一对多代码生成器模板测试 -->
+			  	 <#if po1.showType?index_of("datetime")!=-1 || po1.showType?index_of("date")!=-1 || po1.showType?index_of("timestamp")!=-1>
 			  	 <#if po1.queryMode =='group'>
 			  	 <span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
 					<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
@@ -61,32 +61,59 @@
 							${po1.content}：
 						</span>
 						<input type="text" class="form-control input-sm Wdate" onclick="WdatePicker()" id="${tableName}.${fieldMeta[po1.fieldName]}" name="${tableName}.${fieldMeta[po1.fieldName]}"/> 
-			  	    </#if>
-			  	   <#else>
-			  	    <span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
+			  	  	</span>
+				</span>
+			  	  </#if>
+			  <#else>
+			  	<span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
 					<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
 						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" >
 							${po1.content}：
 						</span>
-						<input type="text" name="${tableName}.${fieldMeta[po1.fieldName]}" style="width: 120px" class="inuptxt">
+						<input type="text" name="${tableName}.${fieldMeta[po1.fieldName]}" style="width: 120px" class="inuptxt"/>
 					</span>
 				</span>
 			  	   </#if>
-			  	   <#-- update--end--author:liushaoqian date:20180713 for:TASK #2965 【代码生成器--刘少谦】一对多代码生成器模板测试 -->
+			  	   <#-- update--end--author:liushaoqian date:20180720 for:TASK #2965 【代码生成器--刘少谦】一对多代码生成器模板测试 -->
 			  	</#if>
 			 </#list>
 			 
 			 <#list subtables as tb>
 			 	<#list subColumnsMap['${tb}'] as po2>
 			 	<#if po2.isQuery =='Y'>
+			 	 <#-- update--begin--author:liushaoqian date:20180713 for:TASK #2965 【代码生成器--刘少谦】一对多代码生成器模板测试 -->
+			  	 <#if po2.showType?index_of("datetime")!=-1 || po2.showType?index_of("date")!=-1||po2.showType?index_of("timestamp")!=-1>
+			  	 <#if po2.queryMode =='group'>
 			  	 <span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
 					<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
 						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" >
 							${po2.content}：
 						</span>
-						<input type="text" name="${tb}.${subFieldMeta[po2.fieldName]}" style="width: 120px" class="inuptxt">
+						<input type="text" class="form-control input-sm Wdate" onclick="WdatePicker()" id="${tb}.${subFieldMeta[po2.fieldName]}_begin" name="${tb}.${subFieldMeta[po2.fieldName]}_begin"/> 
+						<span class="input-group-addon input-sm">~</span> 
+						<input type="text" class="form-control input-sm Wdate" onclick="WdatePicker()" id="${tb}.${subFieldMeta[po2.fieldName]}_end" name="${tb}.${subFieldMeta[po2.fieldName]}_end"/>
 					</span>
 				</span>
+				<#else>
+				<span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
+					<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
+						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" >
+							${po2.content}：
+						</span>
+						<input type="text" class="form-control input-sm Wdate" onclick="WdatePicker()" id="${tb}.${subFieldMeta[po2.fieldName]}" name="${tb}.${subFieldMeta[po2.fieldName]}"/> 
+				  	 </span>
+				</span>
+			  	  </#if>
+			  	 <#else>
+			  	 <span class="query-item" style="max-width: 83%;display: inline-block;display:-moz-inline-box;">
+					<span style="display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;">
+						<span style="vertical-align:middle;display:-moz-inline-box;display:inline-block;width: 90px;text-align:right;text-overflow:ellipsis;-o-text-overflow:ellipsis; overflow: hidden;white-space:nowrap;" >
+							${po2.content}：
+						</span>
+						<input type="text" name="${tb}.${subFieldMeta[po2.fieldName]}" style="width: 120px" class="inuptxt"/>
+					</span>
+				</span>
+			  	</#if>
 			  	</#if>
 				</#list>		
 			 </#list>
@@ -180,7 +207,14 @@ $(function(){
 		}
 	});
 	
+	var lenOffset = getQueryareaRow();
+	var menu_top1 = (78+lenOffset*30)+"px",menu_top2 = '30px';
  	$('#accDiv').accordion({
+		firstbuybuy:true,
+ 		secondbuybuy:function(go){
+ 			var state = go=="collapse"?true:false;
+ 			toggleMainMenusTop(menu_top1,menu_top2,state);
+ 		},
 		onSelect:function(title,index){
 			$('#tab-menus-main').find('.table-menu-'+index).addClass("active");
 	 	},

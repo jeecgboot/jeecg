@@ -210,31 +210,30 @@ function initdivwidth(){
 	$("#tabsok").css("width", abc);
 	$("#tab-menus-attached").css("width", abc);
 	$("#tab-menus-main").css("width", abc);
-	
- 	var singleWidth = 225;
+ 	var lenOffset = getQueryareaRow();
+ 	$("#accDiv").accordion('getPanel',0).panel('resize',{height:lenOffset*30+100});
+}
+
+//获取查询区域的行
+function getQueryareaRow(){
+	var allw = document.body.clientWidth;
+	var singleWidth = 225;
  	var rowLen = Math.floor((allw-15)/singleWidth);
  	var alllen = $("#associated_query").find("span.query-item").length;
  	var lenOffset = Math.floor(alllen/rowLen);
- 	$("#accDiv").accordion('getPanel',0).panel('resize',{height:lenOffset*30+100});
-	var menu_top1 = (78+lenOffset*30)+"px",menu_top2 = '30px';
-	$('#accDiv').children(".panel:first-child").children('.panel-header').click(function(){
-		toggleMainMenusTop(menu_top1,menu_top2);
-	});
-	$('#accDiv').children(".panel:first-child").find('.panel-tool a').click(function(){
-		toggleMainMenusTop(menu_top1,menu_top2);
-	});
+ 	return lenOffset;
 }
 
 /**
  * 主表菜单top值改变
  * @returns
  */
-function toggleMainMenusTop(menu_top1,menu_top2){
+function toggleMainMenusTop(menu_top1,menu_top2,isclose){
 	var obj = $('#tab-menus-main').find('.table-menu-1');
-	if(obj.hasClass("expty")){
-		obj.removeClass("expty").animate({top:menu_top2},'500');
-	}else{
-		obj.addClass("expty").animate({top:menu_top1},'500');
+	if(isclose && obj.hasClass("expty")){
+		obj.removeClass("expty").animate({top:menu_top2},400);
+	}else if(!isclose && !obj.hasClass("expty")){
+		obj.addClass("expty").animate({top:menu_top1},400);
 	}
 }
 /**

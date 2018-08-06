@@ -157,7 +157,7 @@
 						  	<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 						<#elseif po.showType=='textarea'>
 						  	 <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />></textarea>
+						  	 <textarea style="height:auto;width:95%" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />></textarea>
 					      	<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 					    <#elseif po.showType=='password'>
 					      	<#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
@@ -240,7 +240,7 @@
 					<td class="value" <#if (pageColumns?size>10)> colspan="3" </#if>>
 						<#if po.showType=='textarea'>
 						  	 <#-- update--begin--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
-						  	 <textarea style="width:600px;" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />></textarea>
+						  	 <textarea style="height:auto;width:95%" class="inputxt" rows="6" id="${po.fieldName}" name="${po.fieldName}" <@datatype validType="${po.fieldValidType!''}" isNull="${po.isNull}" type="${po.type}" mustInput="${po.fieldMustInput!''}" />></textarea>
 					      	<#-- update--end--author:zhangjiaqiangDate:20170509 for:修订生成代码不美观 -->
 					    <#elseif po.showType='umeditor'>
 								<#-- update--begin--author:zhangjiaqiang date:20170522 for:ueditor配置文件只加载一次 -->

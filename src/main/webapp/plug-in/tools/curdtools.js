@@ -44,16 +44,16 @@ try {
  */
 function getzIndex(flag){
 	var zindexNumber = getCookie("ZINDEXNUMBER");
-	console.log('getCookie - zindexNumber: '+ zindexNumber)
-	console.log('getCookie: '+ document.cookie)
+	//console.log('getCookie - zindexNumber: '+ zindexNumber)
+	//console.log('getCookie: '+ document.cookie)
 	if(zindexNumber == null){
 		zindexNumber = 1990;
 	}else{
 		if(!flag){
 			zindexNumber = parseInt(zindexNumber) + parseInt(10);
 			setCookie("ZINDEXNUMBER",zindexNumber);
-			console.log('new zindexNumber: '+ zindexNumber)
-			console.log('new getCookie: '+ document.cookie)
+			//console.log('new zindexNumber: '+ zindexNumber)
+			//console.log('new getCookie: '+ document.cookie)
 		}
 	}
 	return zindexNumber;
@@ -481,6 +481,19 @@ function alertTip(msg,title) {
 			content: msg
 		});
 }
+//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
+function isRealNum(val){
+    // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除
+    if(val === "" || val ==null){
+        return false;
+    }
+    if(!isNaN(val)){
+        return true;
+    }else{
+        return false;
+    }
+}  
+//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
 /**
  * 创建添加或编辑窗口
  * 
@@ -489,12 +502,17 @@ function alertTip(msg,title) {
  * @param saveurl
  */
 function createwindow(title, addurl,width,height) {
-	width = width?width:700;
-	height = height?height:400;
+	//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
 	if(width=="100%" || height=="100%"){
 		width = window.top.document.body.offsetWidth;
 		height =window.top.document.body.offsetHeight-100;
+	}else{
+		width = isRealNum(width)?width:700;
+		height = isRealNum(height)?height:400;
+		width=parseInt(width);
+		height=parseInt(height);
 	}
+	//--author：zhoujf---------date：20180718---------for：弹出窗口大小控制问题
     //--author：JueYue---------date：20140427---------for：弹出bug修改,设置了zindex()函数
 	if(typeof(windowapi) == 'undefined'){
 		$.dialog({
@@ -1603,7 +1621,7 @@ function popupClick(pobj,tablefield,inputnames,pcode) {
  * 鼠标放在图片上方，显示大图
  */
 var bigImgIndex = null;
-function tipImg(obj){
+function tipImg(obj,level){
 	try{
 		var navigatorName = "Microsoft Internet Explorer"; 
 		if( navigator.appName != navigatorName ){ 
@@ -1614,7 +1632,15 @@ function tipImg(obj){
 				var src = obj.src;
 				var width = obj.naturalWidth;
 				var height = obj.naturalHeight;
-				bigImgIndex = layer.open({
+
+				var curlayer;
+				if(!level){
+					curlayer = layer;
+				}else if(level==1){
+					curlayer = parent.layer;
+				}
+
+				bigImgIndex = curlayer.open({
 					content:[src,'no'],
 					type:2,
 					offset:[y+"px",x+"px"],
@@ -1630,10 +1656,18 @@ function tipImg(obj){
 	
 }
 
-function moveTipImg(){
+function moveTipImg(level){
 	try{
 		if(bigImgIndex != null){
-			layer.close(bigImgIndex);
+			var curlayer;
+
+			if(!level){
+				curlayer = layer;
+			}else if(level==1){
+				curlayer = parent.layer;
+			}
+			curlayer.close(bigImgIndex);
+
 		}
 	}catch(e){
 		
@@ -1743,28 +1777,27 @@ function listFileImgFormat(value,type){
 
 function optsMenuToggle(data){
 	  var dgPanel = $("#"+data).datagrid('getPanel');
+
 	  var tr = dgPanel.find('div.datagrid-body tr');
 	  tr.each(function(){   
-	     var td = tr.children('td[field="opt"]'); 
-	     $(td).find("div[class$='-opt']").css({"position":"relative","left": "-70px","top": "-5px"});
-	     $(td).find("div[class$='-opt']").next().css({"margin-left":"30px"});
-	     $(td).find("div[class$='menu-active']").css({"position":"relative","left": "-70px","top": "-5px"});
-	     $(td).find("div[class$='menu-active']").next().css({"margin-left":"30px"});
-	     var  icon= $(td).find(".icon-triangle");
-	     icon.toggle(function(){
-	    	$(dgPanel).find(".datagrid-cell").removeClass("menu-active");
-    	    $(this).parent().parent().parent().children(".datagrid-cell").addClass("menu-active");
-    	    var width = $(this).parent().parent().parent().find(".opts-menu-box").width();
-    	    var left = "-"+(width-10)+"px";
-    	    $(this).parent().parent().parent().find(".opts-menu-box").css("left",left);
-		 },function(){
-			 $(dgPanel).find(".datagrid-cell").removeClass("menu-active");
-			 $(this).parent().parent().parent().children(".datagrid-cell").addClass("menu-active");
-    	     var width = $(this).parent().parent().parent().find(".opts-menu-box").width();
-    	     var left = "-"+(width-10)+"px";
-    	     $(this).parent().parent().parent().find(".opts-menu-box").css("left",left);
-		 });
-	 }); 
+	     var td = tr.children('td[field="opt"]');
+	     var toggleIcon = td.find(".opts-menu-triangle");
+	     toggleIcon.mouseenter(function(){
+	    	    $(this).parent(".datagrid-cell").addClass("menu-active");
+	    	    var w = $(this).next('.opts-menu-container').find(".opts-menu-box").width();
+	    	    var l = $(this).offset().left;
+	    	    var il = $(this).next('.opts-menu-container').offset().left;
+	    	    if(w+l+36<$(window).width()){
+	    	    	td.find(".opts-menu-box").css("left",(l-il+46)+"px");
+	    	    }else{
+	    	    	td.find(".opts-menu-box").css("left",-(w-l+il+6)+"px");
+	    	    }
+			});
+	     td.mouseleave(function(){
+	    	td.children(".datagrid-cell").removeClass("menu-active");
+	     });
+	 });
+
 } 
 //点击页面当中的其他部分，隐藏分组按钮
 $(document).click(function(){
@@ -1795,5 +1828,17 @@ function loadAjaxDict(rowData){
 			}
 		});
 		
+	});
+}
+
+function toggleMoreToolbars(obj){
+	$(".toolbar-more-list").toggleClass("active");
+	if($(".toolbar-more-list").hasClass("active")){
+		$(".toolbar-more-list").css("left",-($(obj).next().offset().left-$(obj).offset().left)+"px");
+		$(".toolbar-more-list").css("top",($(obj).outerHeight(true)/2)+"px");
+	}
+	//鼠标移开 列表隐藏
+	$(".toolbar-more-list").mouseleave(function(){
+		$(".toolbar-more-list").removeClass("active");
 	});
 }

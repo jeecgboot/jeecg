@@ -254,7 +254,11 @@ public class CgformSqlController extends BaseController {
 				for (PropertyDescriptor pd : pds) {
 					if(null == reflectHelper.getMethodValue(pd.getName())){
 						ignores.add(pd.getName());
+
+					}else if(reflectHelper.isIgore(pd.getName())){
+						ignores.add(pd.getName());
 					}
+
 				}
 				if(t instanceof CgFormHeadPojo){
 					reflectHelper.setMethodValue("isDbsynch", "N");

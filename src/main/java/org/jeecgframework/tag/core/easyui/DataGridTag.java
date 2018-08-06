@@ -386,11 +386,13 @@ public class DataGridTag extends TagSupport {
 	 * @param width2 
 	 * @param id 
 	 */
-	public void setToolbar(String url, String title, String icon, String exp,String onclick, String funname,String operationCode, String width2, String height2, String id) {
+	public void setToolbar(String url, String title, String icon, String exp,String onclick, String funname,String operationCode, String width2, String height2, String id,boolean inGroup) {
 		DataGridUrl dataGridUrl = new DataGridUrl();
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setUrl(url);
 		dataGridUrl.setType(OptTypeDirection.ToolBar);
+
+		dataGridUrl.setInGroup(inGroup);
 
 		if(!checkBrowerIsNotIE()){
 			//IE浏览器
@@ -1809,93 +1811,31 @@ public class DataGridTag extends TagSupport {
 		sb.append("<span style=\"float:left;\" >");
 		if(toolBarList.size()>0)
 		{
+
+			Boolean hasMore = false;
 			for (DataGridUrl toolBar : toolBarList) {
-
-				if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
-					if(btnCls.indexOf("bootstrap")==0){
-						if (btnCls.replace("bootstrap", "").trim().length() > 0) {
-							sb.append("<button class=\""+btnCls.replace("bootstrap", "").trim()+"\" ");
-						}else{
-							sb.append("<button class=\"btn btn-default btn-xs\" ");
-						}
-
-						if(StringUtil.isNotEmpty(toolBar.getId())){
-							sb.append(" id=\"");
-							sb.append(toolBar.getId());
-							sb.append("\" ");
-						}
-
-						
-						if(StringUtil.isNotEmpty(toolBar.getOnclick()))
-						{
-							sb.append("onclick="+toolBar.getOnclick()+"");
-						}
-						else {
-							sb.append("onclick=\""+toolBar.getFunname()+"(");
-							if(!toolBar.getFunname().equals("doSubmit"))
-							{
-							sb.append("\'"+toolBar.getTitle()+"\',");
-							}
-							String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
-							String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
-							sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
-						}
-						sb.append("><i class=\"" + toolBar.getIcon() + "\"></i><span class=\"bigger-110 no-text-shadow\">"+toolBar.getTitle()+"</span></button>");
-						
-					}else{
-						sb.append("<a href=\"#\" class=\""+btnCls+" " + toolBar.getIcon()+"\" ");	
-
-						if(StringUtil.isNotEmpty(toolBar.getId())){
-							sb.append(" id=\"");
-							sb.append(toolBar.getId());
-							sb.append("\" ");
-						}
-
-						if(StringUtil.isNotEmpty(toolBar.getOnclick()))
-						{
-							sb.append("onclick="+toolBar.getOnclick()+"");
-						}
-						else {
-							sb.append("onclick=\""+toolBar.getFunname()+"(");
-							if(!toolBar.getFunname().equals("doSubmit"))
-							{
-							sb.append("\'"+toolBar.getTitle()+"\',");
-							}
-							String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
-							String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
-							sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
-						}
-						sb.append(">"+toolBar.getTitle()+"</a>");
+				if(toolBar.isInGroup()){
+					if(!hasMore){
+						hasMore = true;
 					}
-					
-				}else if(btnCls == null || btnCls.equals("easyui")){//easyUI按钮样式
-					
-					sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\""+toolBar.getIcon()+"\" ");
-
-					if(StringUtil.isNotEmpty(toolBar.getId())){
-						sb.append(" id=\"");
-						sb.append(toolBar.getId());
-						sb.append("\" ");
-					}
-
-					if(StringUtil.isNotEmpty(toolBar.getOnclick()))
-					{
-						sb.append("onclick="+toolBar.getOnclick()+"");
-					}
-					else {
-						sb.append("onclick=\""+toolBar.getFunname()+"(");
-						if(!toolBar.getFunname().equals("doSubmit"))
-						{
-						sb.append("\'"+toolBar.getTitle()+"\',");
-						}
-						String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
-						String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
-						sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
-					}
-					sb.append(">"+toolBar.getTitle()+"</a>");
+				}else{
+					loadToolbar(toolBar, sb);
 				}
+			}
+			if(hasMore){
+				loadToolbarMoreBtn(sb,true,null);
+				sb.append("<div class='toolbar-more-container'><ul class='toolbar-more-list'>");
+				for (DataGridUrl toolBar : toolBarList) {
+					if(toolBar.isInGroup()){
+						sb.append("<li>");
+						loadToolbarMoreBtn(sb,false,toolBar);
+						sb.append("</li>");
+					}
+				}
+				sb.append("</ul></div>");
+				//sb.append("<div class='btn-group'><button data-toggle='dropdown' class='btn btn-default dropdown-toggle'>操作<span class='caret'></span> </button><ul class='dropdown-menu'><li><a href='buttons.html#'>置顶</a></li><li><a href='buttons.html#' class='font-bold'>修改</a></li><li><a href='buttons.html#'>禁用</a></li><li class='divider'></li> <li><a href='buttons.html#'>删除</a></li> </ul> </div>");
+			}
 
-			}				
 		}
 		sb.append("</span>");
 
@@ -1993,6 +1933,145 @@ public class DataGridTag extends TagSupport {
 		this.getFilter(sb);
 
 		return sb;
+	}
+
+	/**
+	 * 仅用于 加载【更多操作】 按钮的方法
+	 * @param sb 
+	 * @param 是否是【更多操作】按钮，false则为点击【更多操作】后展示的按钮
+	 * @param toolBar
+	 */
+	private void loadToolbarMoreBtn(StringBuffer sb,boolean isShow,DataGridUrl toolBar){
+		if(isShow){
+			if (btnCls != null && !btnCls.equals("easyui")) {
+				if(btnCls.indexOf("bootstrap")==0){
+					if (btnCls.replace("bootstrap", "").trim().length() > 0) {
+						sb.append("<button class=\""+btnCls.replace("bootstrap", "").trim()+"\" ");
+					}else{
+						sb.append("<button class=\"btn btn-default btn-xs\" ");
+					}
+					sb.append("onclick='toggleMoreToolbars(this)'");
+					sb.append("><i class=\"fa fa-caret-down\"></i><span class=\"bigger-110 no-text-shadow\">更多操作</span></button>");
+				}else{
+					sb.append("<a href=\"javascript:void(0)\" onclick='toggleMoreToolbars(this)' class=\""+btnCls+" " + toolBar.getIcon()+"\" >更多操作</a>");
+				}
+			}else if(btnCls == null || btnCls.equals("easyui")){
+				sb.append("<a href=\"javascript:void(0)\"  onclick='toggleMoreToolbars(this)' class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-caret-down\">更多操作</a> ");
+				
+			}
+		}else{
+			sb.append("<a href='javascript:void(0)' ");
+			if(StringUtil.isNotEmpty(toolBar.getId())){
+				sb.append(" id=\"");
+				sb.append(toolBar.getId());
+				sb.append("\" ");
+			}
+			if(StringUtil.isNotEmpty(toolBar.getOnclick())){
+				sb.append("onclick="+toolBar.getOnclick()+"");
+			}else{
+				sb.append("onclick=\""+toolBar.getFunname()+"(");
+				if(!toolBar.getFunname().equals("doSubmit")){
+					sb.append("\'"+toolBar.getTitle()+"\',");
+				}
+				String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+				String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+				sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
+			}
+			if(btnCls == null || btnCls.equals("easyui")){
+				sb.append("><span class=\"easyui-mycon "+toolBar.getIcon()+"\"></span> "+toolBar.getTitle());
+			}else{
+				sb.append("><i class=\""+toolBar.getIcon()+"\"></i> "+toolBar.getTitle());
+			}
+			sb.append("</a>");
+		}
+		
+	}
+	private void loadToolbar(DataGridUrl toolBar,StringBuffer sb){
+
+		if (btnCls != null && !btnCls.equals("easyui")) {//自定以样式 bootstrap按钮样式
+			if(btnCls.indexOf("bootstrap")==0){
+				if (btnCls.replace("bootstrap", "").trim().length() > 0) {
+					sb.append("<button class=\""+btnCls.replace("bootstrap", "").trim()+"\" ");
+				}else{
+					sb.append("<button class=\"btn btn-default btn-xs\" ");
+				}
+
+				if(StringUtil.isNotEmpty(toolBar.getId())){
+					sb.append(" id=\"");
+					sb.append(toolBar.getId());
+					sb.append("\" ");
+				}
+
+				
+				if(StringUtil.isNotEmpty(toolBar.getOnclick()))
+				{
+					sb.append("onclick="+toolBar.getOnclick()+"");
+				}
+				else {
+					sb.append("onclick=\""+toolBar.getFunname()+"(");
+					if(!toolBar.getFunname().equals("doSubmit"))
+					{
+					sb.append("\'"+toolBar.getTitle()+"\',");
+					}
+					String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+					String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+					sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
+				}
+				sb.append("><i class=\"" + toolBar.getIcon() + "\"></i><span class=\"bigger-110 no-text-shadow\">"+toolBar.getTitle()+"</span></button>");
+				
+			}else{
+				sb.append("<a href=\"#\" class=\""+btnCls+" " + toolBar.getIcon()+"\" ");	
+
+				if(StringUtil.isNotEmpty(toolBar.getId())){
+					sb.append(" id=\"");
+					sb.append(toolBar.getId());
+					sb.append("\" ");
+				}
+
+				if(StringUtil.isNotEmpty(toolBar.getOnclick()))
+				{
+					sb.append("onclick="+toolBar.getOnclick()+"");
+				}
+				else {
+					sb.append("onclick=\""+toolBar.getFunname()+"(");
+					if(!toolBar.getFunname().equals("doSubmit"))
+					{
+					sb.append("\'"+toolBar.getTitle()+"\',");
+					}
+					String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+					String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+					sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
+				}
+				sb.append(">"+toolBar.getTitle()+"</a>");
+			}
+			
+		}else if(btnCls == null || btnCls.equals("easyui")){//easyUI按钮样式
+			
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\""+toolBar.getIcon()+"\" ");
+
+			if(StringUtil.isNotEmpty(toolBar.getId())){
+				sb.append(" id=\"");
+				sb.append(toolBar.getId());
+				sb.append("\" ");
+			}
+
+			if(StringUtil.isNotEmpty(toolBar.getOnclick()))
+			{
+				sb.append("onclick="+toolBar.getOnclick()+"");
+			}
+			else {
+				sb.append("onclick=\""+toolBar.getFunname()+"(");
+				if(!toolBar.getFunname().equals("doSubmit"))
+				{
+				sb.append("\'"+toolBar.getTitle()+"\',");
+				}
+				String width = toolBar.getWidth().contains("%")?"'"+toolBar.getWidth()+"'":toolBar.getWidth();
+				String height = toolBar.getHeight().contains("%")?"'"+toolBar.getHeight()+"'":toolBar.getHeight();
+				sb.append("\'"+toolBar.getUrl()+"\',\'"+name+"\',"+width+","+height+")\"");
+			}
+			sb.append(">"+toolBar.getTitle()+"</a>");
+		}
+
 	}
 
 	private void loadSubData(String id){
@@ -2451,9 +2530,6 @@ public class DataGridTag extends TagSupport {
 		sb.append("if(!rec.id){return '';}");
 		sb.append("var href='';");
 		List<DataGridUrl> list = urlList;
-		if(hasGroup()){
-			getGroupUrl(sb);
-		}
 		for (DataGridUrl dataGridUrl : list) {
 			if(!dataGridUrl.isInGroup()){
 				String url = dataGridUrl.getUrl();
@@ -2593,6 +2669,11 @@ public class DataGridTag extends TagSupport {
 				}
 			}
 		}
+
+		if(hasGroup()){
+			getGroupUrl(sb);
+		}
+
 		sb.append("return href;");
 	}
 
@@ -2604,8 +2685,10 @@ public class DataGridTag extends TagSupport {
 	protected void getGroupUrl(StringBuffer sb) {
 		//注：操作列表会带入合计列中去，故加此判断
 		List<DataGridUrl> list = urlList;
+		//<i class='fa fa-angle-double-right'></i>更多
+		sb.append("href+=\"<a href='javascript:void(0)' class='opts-menu-triangle btnmy'> <span class='opts-menu-temp icon-triangle'></span>更多</a>\";");
+	/*	sb.append("href+=\"<div class='opts-menu-triangle icon-triangle' title='更多操作'></div>\";");*/
 		sb.append("href+=\"<div class='opts-menu-container location-left'>\";");
-		sb.append("href+=\"<div class='opts-menu-triangle icon-triangle' href='javascript:void(0);' title='更多操作'></div><div style='clear: both;'></div>\";");
 		sb.append("href+=\"<div class='opts-menu-parent'>\";");
 		sb.append("href+=\"<div class='opts-menu-box'>\";");
 		for (DataGridUrl dataGridUrl : list) {
@@ -2665,11 +2748,12 @@ public class DataGridTag extends TagSupport {
 				}
 
 				StringBuffer urlclass = new StringBuffer();
-				if(!StringUtil.isEmpty(dataGridUrl.getUrlclass())){
-					urlclass.append(" class=\'btn btn-default fa fa-edit ops-more ");
-					urlclass.append(dataGridUrl.getUrlclass());
-					urlclass.append("\'");
+
+				if(StringUtil.isEmpty(dataGridUrl.getUrlclass())){
+					dataGridUrl.setUrlclass("btn btn-default ops-more");
 				}
+				urlclass.append(" class=\'"+dataGridUrl.getUrlclass()+"\'");
+
 				StringBuffer urlfont = new StringBuffer();
 				if(!StringUtil.isEmpty(dataGridUrl.getUrlfont())){
 					urlfont.append(" <i class=\' fa ");
@@ -2891,8 +2975,11 @@ public class DataGridTag extends TagSupport {
 						if(column.getDictionary().contains(",")){
 
 							if(column.isPopup()){
+								//TODO popup值转换处理，此处暂不处理
 							}else{
 								if(column.getIsAjaxDict()){
+									//TODO ajax值转换处理，此处暂不处理
+
 								}else{
 									String[] dic = column.getDictionary().split(",");
 									String sql = "select " + dic[1] + " as field," + dic[2]+ " as text from " + dic[0];

@@ -129,8 +129,15 @@ $(function(){
 		}
 	});
 	
+	var lenOffset = getQueryareaRow();
+	var menu_top1 = (78+lenOffset*30)+"px",menu_top2 = '30px';
  	$('#accDiv').accordion({
-		onSelect:function(title,index){
+ 		firstbuybuy:true,
+ 		secondbuybuy:function(go){
+ 			var state = go=="collapse"?true:false;
+ 			toggleMainMenusTop(menu_top1,menu_top2,state);
+ 		},
+ 		onSelect:function(title,index){
 			$('#tab-menus-main').find('.table-menu-'+index).addClass("active");
 	 	},
 		onUnselect:function(title,index){

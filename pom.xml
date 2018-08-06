@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.7.7</version>
+	<version>3.7.8</version>
 	<packaging>war</packaging>
 	
 	<properties>
@@ -17,7 +17,7 @@
 		<hibernate.version>4.1.0.Final</hibernate.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
 		<!-- minidao -->
-		<minidao.version>1.6.6</minidao.version>
+		<minidao.version>1.6.7</minidao.version>
 
 		<!-- 数据库连接池 -->
 		<commons-dbcp.version>1.4</commons-dbcp.version>
@@ -70,7 +70,7 @@
         <!-- pinyin4j -->
 		<pinyin4j.version>2.5.1</pinyin4j.version>
         <!-- jeasypoi 工具类  -->
-        <jeasypoi.version>2.1.8</jeasypoi.version>
+        <jeasypoi.version>2.1.9</jeasypoi.version>
         <!-- cxf webservice -->
 		<cxf.version>3.0.2</cxf.version>
 		<!-- jacob -->
@@ -96,7 +96,7 @@
 		<!-- jeecg-p3 -->
 		<jeecg-p3-core.version>1.0.0</jeecg-p3-core.version>
 		<jeecg-p3-biz-demo.version>1.0.2</jeecg-p3-biz-demo.version>
-		<jeecg-p3-biz-chat.version>1.0.4</jeecg-p3-biz-chat.version>
+		<jeecg-p3-biz-chat.version>1.0.5</jeecg-p3-biz-chat.version>
 		<jeecg-p3-biz-mail.version>1.0.0</jeecg-p3-biz-mail.version>
 		
 		<!--maven插件变量-->

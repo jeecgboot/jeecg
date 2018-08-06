@@ -41,6 +41,8 @@ import org.jeecgframework.core.enums.StoreUploadFilePathEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
+import org.jeecgframework.core.extend.swftools.SwfToolsUtil;
+import org.jeecgframework.core.util.FileUtils;
 import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.ListUtils;
 import org.jeecgframework.core.util.MutiLangSqlCriteriaUtil;
@@ -60,6 +62,7 @@ import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.manager.ClientSort;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.DataLogDiff;
+import org.jeecgframework.web.system.pojo.base.DictEntity;
 import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
@@ -127,27 +130,45 @@ public class SystemController extends BaseController {
 
 	@RequestMapping(params = "typeListJson")
 	@ResponseBody
-	public AjaxJson typeListJson(@RequestParam(required=true)String typeGroupName) {
+	public AjaxJson typeListJson(@RequestParam(required=true)String typeGroupName,HttpServletRequest request) {
 		AjaxJson ajaxJson = new AjaxJson();
+		JSONArray typeArray = new JSONArray();
 		try {
-			List<TSType> typeList = ResourceUtil.getCacheTypes(typeGroupName.toLowerCase());
-			JSONArray typeArray = new JSONArray();
-			JSONObject headJson = new JSONObject();
-			headJson.put("typecode", "");
-			headJson.put("typename", "");
-			typeArray.add(headJson);
-			if(typeList != null && !typeList.isEmpty()){
-				for (TSType type : typeList) {
-					JSONObject typeJson = new JSONObject();
-					typeJson.put("typecode", type.getTypecode());
+			String dicTable = request.getParameter("dicTable");
+			if(oConvertUtils.isEmpty(dicTable)){
+				List<TSType> typeList = ResourceUtil.getCacheTypes(typeGroupName.toLowerCase());
+				JSONObject headJson = new JSONObject();
+				headJson.put("typecode", "");
+				headJson.put("typename", "");
+				typeArray.add(headJson);
+				if(typeList != null && !typeList.isEmpty()){
+					for (TSType type : typeList) {
+						JSONObject typeJson = new JSONObject();
+						typeJson.put("typecode", type.getTypecode());
 
-					String typename = type.getTypename();
-					if(MutiLangUtil.existLangKey(typename)){
-						typename = MutiLangUtil.doMutiLang(typename,"");
+						String typename = type.getTypename();
+						if(MutiLangUtil.existLangKey(typename)){
+							typename = MutiLangUtil.doMutiLang(typename,"");
+						}
+						typeJson.put("typename",typename );
+
+						typeArray.add(typeJson);
 					}
-					typeJson.put("typename",typename );
-
-					typeArray.add(typeJson);
+				}
+			}else{
+				String dicText = request.getParameter("dicText");
+				List<DictEntity> list = systemService.queryDict(dicTable, typeGroupName, dicText);
+				if(list!=null && list.size()>0){
+					for (DictEntity type : list) {
+						JSONObject typeJson = new JSONObject();
+						typeJson.put("typecode", type.getTypecode());
+						String typename = type.getTypename();
+						if(MutiLangUtil.existLangKey(typename)){
+							typename = MutiLangUtil.doMutiLang(typename,"");
+						}
+						typeJson.put("typename",typename );
+						typeArray.add(typeJson);
+					}
 				}
 			}
 			ajaxJson.setObj(typeArray);
@@ -1531,7 +1552,6 @@ public class SystemController extends BaseController {
 		return success;
 	}
 
-	
 	/**
 	 * WebUploader
 	 * 文件上传处理/删除处理
@@ -1543,8 +1563,14 @@ public class SystemController extends BaseController {
         String msg="啥都没干-没传参数吧！";
         String upFlag=request.getParameter("isup");
         String delFlag=request.getParameter("isdel");
+        String swfTransform=request.getParameter("swfTransform");//是否将文件转换成swf
         //String ctxPath = request.getSession().getServletContext().getRealPath("");
         String ctxPath=ResourceUtil.getConfigByName("webUploadpath");//demo中设置为D://upFiles,实际项目应因事制宜
+
+        //默认上传文件是否转换为swf，实现在线预览功能开关
+		String globalSwfTransformFlag = ResourceUtil.getConfigByName("swf.transform.flag");
+
+		
         logger.debug("----ctxPath-----"+ctxPath);
         try {
 	        //如果是上传操作
@@ -1566,16 +1592,28 @@ public class SystemController extends BaseController {
 	    		fileName = orgName.substring(0,orgName.lastIndexOf("."))+"_"+System.currentTimeMillis()+orgName.substring(orgName.indexOf("."));
 
 	    		String savePath = file.getPath() + File.separator + fileName;
-	    		File savefile = new File(savePath);
-	    		FileCopyUtils.copy(mf.getBytes(), savefile);
+	    		String fileExt = FileUtils.getExtend(fileName);
+	    		if("txt".equals(fileExt)){
+	    			FileUtils.uploadTxtFile(mf, savePath);
+	    		}else{
+	    			File savefile = new File(savePath);
+		    		FileCopyUtils.copy(mf.getBytes(), savefile);
+	    		}
 				msg="上传成功";
 				j.setMsg(msg);
 				String dbpath=bizPath+File.separator+nowday+File.separator+fileName;
 				logger.debug("---dbpath----"+dbpath);
+				if(dbpath.contains("\\")){
+					dbpath = dbpath.replace("\\","/");
+				}
 				j.setObj(dbpath);
 				//1、将文件路径赋值给obj,前台可获取之,随表单提交,然后数据库中存储该路径
 				//2、demo这里用的是AjaxJson对象,开发者可自定义返回对象,但是用t标签的时候路径属性名需为  obj或 filePath 或自己在标签内指定若在标签内指定则action返回路径的名称应保持一致
-	          //如果是删除操作
+				if("true".equals(globalSwfTransformFlag) && "true".equals(swfTransform)){
+					//转换swf
+					SwfToolsUtil.convert2SWF(savePath);
+				}
+			//如果是删除操作
 	        }else if("1".equals(delFlag)){
 	        	String path=request.getParameter("path");
 	        	String delpath=ctxPath+File.separator+path;
@@ -1588,6 +1626,21 @@ public class SystemController extends BaseController {
 	    			if(fileDelete.delete()){
 	    				msg="--------成功删除文件---------"+delpath;
 	    				logger.info(msg);
+	    				//删除swf/pdf文件
+	    				if("true".equals(globalSwfTransformFlag) && "true".equals(swfTransform)){
+	    					try {
+	    						String swfPath = FileUtils.getSwfPath(delpath);
+	    						new File(swfPath).delete();
+	    						logger.info("--------成功删除swf文件---------"+swfPath);
+	    						if(!delpath.endsWith("pdf")){
+	    							String pdfPath = delpath.substring(0, delpath.lastIndexOf(".")+1)+"pdf";
+	    							new File(pdfPath).delete();
+		    						logger.info("--------成功删除pdf文件---------"+pdfPath);
+	    						}
+							} catch (Exception e) {
+								logger.info("swf文件ORpdf文件未删除成功");
+							}
+	    				}
 	    			}else{
 	    				j.setSuccess(false);
 	    				msg="没删除成功--jdk的问题还是你文件的问题请重新试试";
@@ -1608,6 +1661,25 @@ public class SystemController extends BaseController {
 		j.setMsg(msg);
         return j;
     }
+	
+	/**
+	 * 预览图片/word/excel/PDF文件
+	 * @author taoYan
+	 * @since 2018年7月26日
+	 */
+	@RequestMapping(params = "openViewFile")
+	public ModelAndView openViewFile(HttpServletRequest request) {
+		String inputFile = request.getParameter("path");
+		String extend=FileUtils.getExtend(inputFile);
+		if (FileUtils.isPicture(extend)) {
+			request.setAttribute("realpath", "img/server/"+inputFile);
+			return new ModelAndView("common/upload/imageView");
+		}else{
+			String swfPath = FileUtils.getSwfPath(inputFile);
+			request.setAttribute("swfpath", "img/server/"+swfPath+"?down=true");
+			return new ModelAndView("common/upload/swfView");
+		}
+	}
 
 //	/**
 //	 * 获取图片流/获取文件用于下载

@@ -13,7 +13,6 @@
 		<!-- basic styles -->
 		<link href="plug-in/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="plug-in/hplus/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-		<!-- update-end--Author: dangzhenghui Date:20160812 for: TASK #2088 【图标问题】首页风格图标统一-->
 		<link rel="stylesheet" href="plug-in/ace/assets/css/font-awesome.min.css" />
 
 		<!--[if IE 7]>
@@ -41,7 +40,7 @@
 		<!-- ace settings handler -->
 
 		<script src="plug-in/ace/assets/js/ace-extra.min.js"></script>
-
+		<t:base type="tools,jquery"></t:base>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 		<!--[if lt IE 9]>
@@ -478,8 +477,6 @@
 		  <script src="plug-in/ace/assets/js/excanvas.min.js"></script>
 		<![endif]-->
 		<!-- ace scripts -->
-		<script type="text/javascript" src="plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
-		<t:base type="tools"></t:base>
 		<script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 		<script src="plug-in/ace/assets/js/ace-elements.min.js"></script>
 		<script src="plug-in/ace/assets/js/ace.min.js"></script>
@@ -827,6 +824,15 @@
     }
 
 		</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?098e6e84ab585bf0c2e6853604192b8b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </body>
 </html>
 

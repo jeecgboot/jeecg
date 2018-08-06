@@ -125,8 +125,8 @@
 		$('.i-checks').iCheck({
 			labelHover : false,
 			cursor : true,
-			checkboxClass : 'icheckbox_square-blue',
-			radioClass : 'iradio_square-blue',
+			checkboxClass : 'icheckbox_square-green',
+			radioClass : 'iradio_square-green',
 			increaseArea : '20%'
 		});
 		
@@ -173,7 +173,10 @@
 				} else {
 					win.tip(data.msg,'2');
 				}
-				win.reloadTable();
+				//layui 全局弹窗刷新列表
+				try {
+					win.reloadTable();
+				}catch(e) {}
 			}
 		});
 	});

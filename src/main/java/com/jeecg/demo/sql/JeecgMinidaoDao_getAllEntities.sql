@@ -26,3 +26,7 @@ SELECT * FROM jeecg_demo WHERE 1=1
 <#if authSql ?exists && authSql ?length gt 0>
 	${authSql}
 </#if>
+<#if sort ?exists && sort ?length gt 0>
+	ORDER BY  ${sort} ${order}
+</#if>
+	

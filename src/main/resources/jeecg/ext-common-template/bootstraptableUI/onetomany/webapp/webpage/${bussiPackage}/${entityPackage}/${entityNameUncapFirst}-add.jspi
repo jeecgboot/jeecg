@@ -27,6 +27,9 @@
 </#if>
 </#list>
 <t:base type="bootstrap,layer,validform,<#if uploadFlag==1>webuploader,</#if>bootstrap-form"></t:base>
+<script src="${'$'}{webRoot}/plug-in/lhgDialog/lhgdialog.min.js"></script>
+<script src="${'$'}{webRoot}/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
+<script src="${'$'}{webRoot}/plug-in/tools/curdtools.js"></script>
 </head>
 <body>
 <div class="container" style="width:100%;overflow-x:hidden">
@@ -251,8 +254,8 @@ function formControlInit(){
 	$('.i-checks').iCheck({
 		labelHover : false,
 		cursor : true,
-		checkboxClass : 'icheckbox_square-blue',
-		radioClass : 'iradio_square-blue',
+		checkboxClass : 'icheckbox_square-green',
+		radioClass : 'iradio_square-green',
 		increaseArea : '20%'
 	});
 }
@@ -286,6 +289,10 @@ function resetTrNum(tableId) {
 				if (onclick_str.indexOf("#index#") >= 0){
 					$this.attr("onclick",onclick_str.replace(/#index#/g,i));
 				}else{
+				    var s = onclick_str.indexOf("[");
+					var e = onclick_str.indexOf("]");
+					var new_onclick_str = onclick_str.substring(s+1,e);
+					$this.attr("onclick",onclick_str.replace(new_onclick_str,i));
 				}
 			}
 			if(validtype_str!=null){
@@ -315,6 +322,31 @@ function deleteSelectRows(tableId){
     <#-- update--end--author:jiaqiankun date:20180710 for：TASK #2933 【严重bug 代码生成器】一对多table风格，默认编辑数据，点击任意一条明细数据，删除，会把所有的明细删掉 -->
     resetTrNum(tableId); 
 }
+<#-- update--begin--author:liushaoqian date:20180720 for：TASK #2959 【代码生成器模板】新模板Bootstrap 版本等模板，明细不支持上传附件 （统一改造）-->
+//通用弹出式文件上传
+function onetomanyUpload(inputName){
+    $.dialog({
+           content: "url:${'$'}{webRoot}/systemController.do?commonWebUpload",
+           lock : true,
+           title:"文件上传",
+           zIndex:getzIndex(),
+           width:700,
+           height: 200,
+           parent:windowapi,
+           cache:false,
+	       ok: function(){
+	               var iframe = this.iframe.contentWindow;
+	               var url = iframe.uploadCallback();
+	               $("input[name='"+inputName+"']").val(url);
+	               $("input[name='"+inputName+"']").next("a").attr("href","img/server/"+url+"?down=true").html("下载");
+	               return true;
+	       },
+	       cancelVal: '关闭',
+	       cancel: function(){
+       	   } 
+      });
+  }
+  <#-- update--end--author:liushaoqian date:20180720 for：TASK #2959 【代码生成器模板】新模板Bootstrap 版本等模板，明细不支持上传附件 （统一改造）-->
 </script>
 <#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
 <script type="text/javascript">

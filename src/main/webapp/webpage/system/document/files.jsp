@@ -7,7 +7,7 @@
 <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:formvalid formid="formobj" layout="div" dialog="true" beforeSubmit="upload">
+<t:formvalid formid="formobj" layout="div" dialog="true" beforeSubmit="myBeforeSubmit">
 	<input type="hidden" id="docId" <c:if test="${not empty doc }">value="${doc.id }"</c:if> >
 	<fieldset class="step">
 	<div class="form">
@@ -27,5 +27,45 @@
 	</div>
 	</fieldset>
 </t:formvalid>
+<input type="hidden" id = "attachment" <c:if test="${not empty attachment }">value="1"</c:if> />
+<script type="text/javascript">
+function myBeforeSubmit(){
+	var fileLen = $("#filediv").find(".uploadify-queue-item").length;
+	if($("#attachment").val()=="1"){
+		//编辑页面
+		if(fileLen>0){
+			return upload();
+		}else{
+			var id = $("#docId").val();
+			var title = $("#documentTitle").val();
+			$.ajax({
+				async:false,
+				url:"jeecgFormDemoController.do?updateDoc",
+				type:"POST",
+				data:{id:id,title:title},
+				dataType:"JSON",
+				success:function(data){
+					if(data.success){
+						var win = frameElement.api.opener;
+			            win.reloadTable();
+			            win.tip(data.msg);
+			            frameElement.api.close();
+					}else{
+						tip(data.msg);
+					}
+				}
+			});
+		}
+	}else{
+		//新增页面
+		if(fileLen>0){
+			return upload();
+		}else{
+			tip("请选择文件")
+			return false;
+		}
+	}
+}
+</script>
 </body>
 </html>

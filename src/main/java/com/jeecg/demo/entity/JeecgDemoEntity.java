@@ -75,8 +75,6 @@ public class JeecgDemoEntity implements java.io.Serializable {
 	
 	private java.lang.String touxiang;
 	private java.lang.String fujian;
-	
-	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
@@ -389,6 +387,4 @@ public class JeecgDemoEntity implements java.io.Serializable {
 	public void setFujian(java.lang.String fujian) {
 		this.fujian = fujian;
 	}
-	
-	
 }

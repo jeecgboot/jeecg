@@ -41,7 +41,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.7
+            <b>当前版本：</b>v_3.7.8
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -126,7 +126,53 @@
                 <div class="ibox-content no-padding">
                     <div class="panel-body">
                         <div class="panel-group" id="version">
-                        
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v56">v3.7.8</a><code class="pull-right">2018.08.06</code>
+                                    </h5>
+                                </div>
+                                <div id="v56" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本主要目标是努力消灭BUG，让大家既有鱼丸也有粗面，多样化话主题UI满足你不同的需求，新增加5套Bootstrap风格代码生成器模板，极大提升美感和代码可控性，降低了表单的开发成本；</div>
+                                        <ol>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板， Boostrap表单+BootstapTable原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Boostrap表单+BootstapTable标签列表（单表、一对多）;</li>
+											<li>【新功能】Datagrid列表按钮折叠功能;</li>
+											<li>【新功能】webuploader上传组件支持openoffice格式转换控制;</li>
+											<li>【新功能】validform标签验证提示效果扩展tiptype="6";</li>
+											<li>【新功能】xml模板导出word格式数据;</li>
+											<li>【bug】树形列表dgFunOpt funname函数设置列表字段参数取不到值问题;</li>
+											<li>【bug】Online表单类型点击根节点不能查询所有表单信息问题修正;</li>
+											<li>【bug】在Tomcat的https模式下，录入、编辑、查看的样式丢失;</li>
+											<li>【bug】TreeSelectTag获取值多一个undefined问题;</li>
+											<li>【bug】online表单导入bug修正;</li>
+											<li>【bug】公用上传页面，加个上传刷新遮罩, 防止没上传完，用户点击确认按钮，导致出问题;</li>
+											<li>【bug】树控件报错问题;</li>
+											<li>【bug】针对curd*.js没引用国际化js的问题处理;</li>
+											<li>【bug】新版代码生成器编辑页面多行文本值未初始化问题;</li>
+											<li>【bug】常用示例 erp风格 ，点击折叠，按钮跑位问题;</li>
+											<li>【bug】bootstrap标签列表查询区域字段，popup未实现;</li>
+											<li>【样式问题】icheck样式优化;</li>
+											<li>【升级】升级jeasypoi，支持逗号分隔多值替换字典文本;</li>
+											<li>【改进】弹出窗口大小控制问题优化;</li>
+											<li>【改进】上传增加进度条显示问题;</li>
+											<li>【改进】Base标签命名修改;</li>
+											<li>【改进】Layui 全局弹出表单窗口,支持刷新列表页面;</li>
+											<li>【改进】popup弹出遮挡问题;</li>
+											<li>【优化】常用示例优化;</li>
+											<li>【优化】table模式字典性能，优化列表支持ajax异步处理数据值转换;</li>
+											<li>【demo】minidao 列表，按照字段排序demo;</li>
+											<li>【demo】bootstrap-table 树形列表demo;</li>
+											<li>【demo】下拉输入框demo;</li>
+											<li>【demo】plupload上传插件demo;</li>
+											<li>【demo】页面打印 demo;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">

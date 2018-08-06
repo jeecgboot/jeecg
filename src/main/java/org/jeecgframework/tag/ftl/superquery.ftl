@@ -207,7 +207,9 @@
 			splitArr = dictionary.split(",");
 			var spanVal = $(field).closest("#dsUL>li").find("span.conVal");
 			//splitArr=dictionary 0为表编码,1为查询字段,2为返回字段
-			spanVal.html("<input name=\"cons["+index+"].val\" type=\"text\" class=\"searchbox-inputtext\" onclick=\"popupClick(this,'"+splitArr[1]+"','val','"+splitArr[0]+"')\"/>");
+			//update-begin-author:taoyan date:20180802 for:TASK #3044 【jeecg测试问题-周俊峰】测试问题
+			spanVal.html("<input name=\"cons["+index+"].val\" type=\"text\" class=\"searchbox-inputtext\" onclick=\"popupClick(this,'"+splitArr[2]+"','val','"+splitArr[0]+"')\"/>");
+			//update-end-author:taoyan date:20180802 for:TASK #3044 【jeecg测试问题-周俊峰】测试问题
 			$("input[name='cons["+index+"].val']").css({"background":"url(\"plug-in/diy/icons/search.png\") no-repeat 105px","width":"130px"});
 		}
 		<#--update-end--Author:LiShaoQing  Date:20180110 for：[#2452]【新功能】高级查询，支持popup功能 -->
@@ -523,7 +525,9 @@
 			var splitArr = new Array();
 			splitArr = dictionary.split(",");
 			//splitArr=dictionary 0为表编码,1为查询字段,2为返回字段
-			spanHtml+="<input name=\"cons["+i+"].val\" value='"+v+"' type=\"text\" class=\"searchbox-inputtext\" onclick=\"popupClick(this,'"+splitArr[1]+"','val','"+splitArr[0]+"')\"/>";
+			//update-begin-author:taoyan date:20180802 for:TASK #3044 【jeecg测试问题-周俊峰】测试问题
+			spanHtml+="<input name=\"cons["+i+"].val\" value='"+v+"' type=\"text\" class=\"searchbox-inputtext\" onclick=\"popupClick(this,'"+splitArr[2]+"','val','"+splitArr[0]+"')\"/>";
+			//update-end-author:taoyan date:20180802 for:TASK #3044 【jeecg测试问题-周俊峰】测试问题
 			spanVal.html(spanHtml);
 			$("input[name='cons["+i+"].val']").css({"background":"url(\"plug-in/diy/icons/search.png\") no-repeat 105px","width":"130px"});
 		} else {

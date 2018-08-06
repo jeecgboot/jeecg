@@ -83,3 +83,6 @@
 	width:64px;height:64px;
 	background:url('icons/ok64.png') no-repeat center center;
 }
+.icon-caret-down{
+	background:url('icons/fa-caret-down.png') no-repeat center center;
+}

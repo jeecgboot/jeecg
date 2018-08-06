@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -108,6 +110,9 @@ public class TSDepartAuthgFunctionRelEntity implements java.io.Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "auth_id")
+
+	@NotFound(action=NotFoundAction.IGNORE)
+
 	public TSFunction getTsFunction() {
 		return tsFunction;
 	}

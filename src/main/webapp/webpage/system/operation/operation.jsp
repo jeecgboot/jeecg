@@ -40,13 +40,14 @@
 	                <t:mutiLang langKey="operationType.disabled"/>
 	            </option>
             </select>
+            <span class="Validform_checktip"> 说明：配置后即受限制，授权后不受限制</span>
         </div>
         <div class="form">
 			<label style="color:red;">
-				规则说明：针对需要控制的控件，配置后，非admin用户全部隐藏或者禁用，用户授权后，用户可见或可用。<br>
-				例&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如：按钮权限控制，针对页面进行按钮控件编码配置，
-				配置后非admin用户对该按钮不可见，用户需要改按钮权限，
-				需要在角色中授权，授权后对用户可见</label>        	
+				用法说明：<br>    
+				&nbsp;&nbsp;&nbsp;&nbsp;1. 配置隐藏或禁用后，默认所有用户都看不见/禁用;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;2. 用户授权后，方可见/可编辑;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;[ admin 用户有超级权限，不受限制]
         </div>
         <input name="TSFunction.id" value="${functionId}" type="hidden">
         <input name="status" type="hidden" value="0">

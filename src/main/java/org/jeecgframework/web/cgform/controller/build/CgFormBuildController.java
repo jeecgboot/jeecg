@@ -337,8 +337,7 @@ public class CgFormBuildController extends BaseController {
 	    	pushImages(data, id);
 	    	
 	    	//增加basePath
-	    	//String basePath = request.getContextPath();
-	    	String basePath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	    	String basePath = request.getScheme()+"://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	    	data.put(CgAutoListConstant.BASEPATH, basePath);
 
 	    	data.put("brower_type", ContextHolderUtils.getSession().getAttribute("brower_type"));
@@ -433,8 +432,7 @@ public class CgFormBuildController extends BaseController {
 		}
 		StringBuilder sb= new StringBuilder("");
 		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
-		//String basePath = request.getContextPath();
-		String basePath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String basePath = request.getScheme()+"://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery/jquery-1.8.3.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/dataformat.js\"></script>");

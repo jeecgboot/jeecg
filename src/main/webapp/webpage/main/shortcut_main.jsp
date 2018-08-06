@@ -321,8 +321,15 @@ a:hover {
     <div id="mm-tabcloseright"><t:mutiLang langKey="common.close.all.right"/></div>
     <div id="mm-tabcloseleft"><t:mutiLang langKey="common.close.all.left"/></div>
 </div>
-<script type="text/javascript">
 
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?098e6e84ab585bf0c2e6853604192b8b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
 </script>
 </body>
 </html>

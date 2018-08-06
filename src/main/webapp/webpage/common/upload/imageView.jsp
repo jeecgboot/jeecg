@@ -7,7 +7,7 @@
 <script type="text/javascript" src="plug-in/Flexpaper/flexpaper_flash.js"></script>
 </head>
 <body>
-<div style="position: absolute; left: 5px; top: 5px;"><img src="${realpath }" /></div>
+<div style="position: absolute; left: 5px; top: 5px;"><img src="${realpath }" style="max-width:100%"/></div>
 </body>
 </html>
 

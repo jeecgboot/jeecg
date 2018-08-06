@@ -20,6 +20,7 @@
    <t:dgToolBar title="导入" icon="icon-put" funname="ImportXls"></t:dgToolBar>
    <t:dgToolBar title="导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
    <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>
+   <t:dgToolBar title="ftl模板导出word" icon="icon-putout" funname="ftlExportWord"></t:dgToolBar>
   </t:datagrid>
   </div>
  </div>
@@ -27,8 +28,19 @@
  $(document).ready(function(){
  });
  
-   
- 
+//ftl模板导出word
+function ftlExportWord(){
+	var rowsData = $('#jeecgDemoExcelList').datagrid('getSelections');
+	if (!rowsData || rowsData.length==0) {
+		tip('请选择一条记录');
+		return;
+	}
+	if (rowsData.length>1) {
+		tip('请选择一条记录');
+		return;
+	}
+	location.href = "jeecgDemoExcelController/ftl2word.do?id="+rowsData[0].id;
+}
 //导入
 function ImportXls() {
 	openuploadwin('Excel导入', 'jeecgDemoExcelController.do?upload', "jeecgDemoExcelList");

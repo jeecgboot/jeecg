@@ -28,7 +28,7 @@
   <script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
   <script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.config.js"></script>
   <script type="text/javascript"  charset="utf-8" src="plug-in/ueditor/ueditor.all.min.js"></script>
-								
+  <style>.col-xs-3>input,.col-xs-3>select{width:100%}</style>				
    <script type="text/javascript">
   //编写自定义JS代码
   </script>
@@ -63,7 +63,7 @@
 			          	<b>性别：</b>
 			          </div>
 			          		<div class="col-xs-3">
-							  <t:dictSelect field="sex" type="list" extendJson="{class:'form-control',style:'width:158px'}" typeGroupCode="sex"  hasLabel="false"  title="性别"></t:dictSelect>
+							  <t:dictSelect field="sex" type="list" extendJson="{class:'form-control'}" typeGroupCode="sex"  hasLabel="false"  title="性别"></t:dictSelect>
 						<span class="Validform_checktip" style="float:left;height:0px;"></span>
 						<label class="Validform_label" style="display: none">性别</label>
 			          </div>
@@ -87,7 +87,7 @@
 			          	<b>关联部门：</b>
 			          </div>
 			          		<div class="col-xs-3">
-							  <t:dictSelect field="depart" type="list" extendJson="{class:'form-control',style:'width:158px'}" dictTable="t_s_depart" dictField="id" dictText="departname"  hasLabel="false"  title="关联部门"></t:dictSelect>
+							  <t:dictSelect field="depart" type="list" extendJson="{class:'form-control'}" dictTable="t_s_depart" dictField="id" dictText="departname"  hasLabel="false"  title="关联部门"></t:dictSelect>
 						<span class="Validform_checktip" style="float:left;height:0px;"></span>
 						<label class="Validform_label" style="display: none">关联部门</label>
 			          </div>

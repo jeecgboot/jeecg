@@ -362,16 +362,20 @@ public class CommonController extends BaseController {
 	public AjaxJson getDictInfo(String dictionary,String dictCondition,Boolean popup,String value, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		Object text = value;
+
+		Object text = "--";
 		if(popup){
 			//TODO popup处理  (暂不做处理)
-			
+			text="-- popup暂不支持ajax --";
 		}else{
 			boolean flag = tSDictTableConfigService.checkDictAuth(dictionary, dictCondition);
 			if(flag){
 				text = tSDictTableConfigService.getDictText(dictionary, dictCondition, value);
+			}else{
+				text="-- 字典配置需要授权 --";
 			}
 		}
+
 		j.setObj(text);
 		j.setMsg(message);
 		return j;

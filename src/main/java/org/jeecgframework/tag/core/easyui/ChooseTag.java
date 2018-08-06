@@ -20,6 +20,7 @@ import org.jeecgframework.core.util.UUIDGenerator;
  * @version 1.0
  */
 public class ChooseTag extends TagSupport {
+	private static final long serialVersionUID = 1L;
 	protected String hiddenName;
 	protected String textname;//显示文本框字段
 	protected String icon;

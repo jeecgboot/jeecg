@@ -6,11 +6,15 @@
 ul {
     list-style-type: none;
     list-style-image: none;
+    margin-bottom: 3px;
+}
+li {
+    margin-bottom: 3px;
 }
 .conditionType {
     display: block;
-    margin-bottom: 6px;
-    padding: 6px 0 8px;
+    margin-bottom: 3px;
+    padding: 3px 0 3px;
     width: 100%;
 }select {
     padding-right: 2px!important;

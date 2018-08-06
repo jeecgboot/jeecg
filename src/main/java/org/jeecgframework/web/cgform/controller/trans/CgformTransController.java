@@ -149,6 +149,9 @@ public class CgformTransController {
 					logger.info("  columnt : "+ columnt.toString());
 					String fieldName = columnt.getFieldDbName();
 					CgFormFieldEntity cgFormField = new CgFormFieldEntity();
+
+					cgFormField.setOldFieldName(columnt.getFieldDbName().toLowerCase());
+
 					cgFormField.setFieldName(columnt.getFieldDbName()
 							.toLowerCase());
 					if (StringUtil.isNotEmpty(columnt.getFiledComment()))

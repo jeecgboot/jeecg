@@ -21,7 +21,7 @@
 	
 	function tip(msg,icon) {
 		try{
-			layer.open({
+			parent.layer.open({
 				title:'提示信息',
 				offset:'rb',
 				content:msg,
@@ -36,7 +36,7 @@
 	}
 
 	function add(title, addurl, gname, width, height) {
-		var index = layer.open({
+		var index = parent.layer.open({
 			type : 2,
 			title : title,
 			area : [ '80%', '80%' ],
@@ -45,18 +45,23 @@
 			content : addurl,
 			btn : [ '确定', '关闭' ],
 			yes : function(index, layero) {
-			    var body = layer.getChildFrame('body', index);
-		        body.find('#btn_sub').click();
+			    var body = parent.layer.getChildFrame('body', index);
+			    body.find('#btn_sub').click();
 			},
 			btn2 : function(index, layero) {
-				layer.closeAll();
+				parent.layer.closeAll();
 			},
-			zIndex : layer.zIndex,
+			zIndex : parent.layer.zIndex,
 			success : function(layero) {
-				layer.setTop(layero);
-			}
+				parent.layer.setTop(layero);
+			},
+
+			end: function () {
+				reloadTable();
+            }
+
 		});
-		layer.full(index);
+		parent.layer.full(index);
 	}
 
 	/**
@@ -69,7 +74,7 @@
 	function update(title, url, gname, width, height) {
 	    var id = getSelected(gname,'id');
 		var url = url+'&id='+id;
-		var index = layer.open({
+		var index = parent.layer.open({
 			type : 2,
 			title : title,
 			area : [ '80%', '80%' ],
@@ -78,18 +83,23 @@
 			content : url,
 			btn : [ '确定', '关闭' ],
 			yes : function(index, layero) {
-				var body = layer.getChildFrame('body', index);
+				var body = parent.layer.getChildFrame('body', index);
 		        body.find('#btn_sub').click();
 			},
 			btn2 : function(index, layero) {
-				layer.closeAll();
+				parent.layer.closeAll();
 			},
-			zIndex : layer.zIndex,
+			zIndex : parent.layer.zIndex,
 			success : function(layero) {
-				layer.setTop(layero);
-			}
+				parent.layer.setTop(layero);
+			},
+
+			end: function () {
+				reloadTable();
+            }
+
 		});
-		layer.full(index);
+		parent.layer.full(index);
 	}
 	
 	/**
@@ -102,7 +112,7 @@
 	function deleteALLSelect(title,url,gname) {
 	    var rows = $("#"+gname).bootstrapTable('getSelections');
 	    if (rows.length > 0) {
-	    	layer.confirm('你确定永久删除该数据吗?', {
+	    	parent.layer.confirm('你确定永久删除该数据吗?', {
     		  btn: ['确定','取消'] //按钮
     		}, function(){
     			var ids = getSelections(gname,'id');
@@ -136,7 +146,7 @@
 	
 	//删除
 	function delObj(url,name) {
-		layer.confirm('确认删除该条记录吗？', {
+		parent.layer.confirm('确认删除该条记录吗？', {
   		  btn: ['确定','取消'] //按钮
   		}, function(){
   			$.ajax({
@@ -165,7 +175,7 @@
 	function tipImg(obj){
 		try{
 			var src = $(obj).attr("src");
-			layer.open({
+			parent.layer.open({
 				type: 1,
 				title: false,
 				fixed: false,
@@ -183,7 +193,7 @@
 	function moveTipImg(){
 		try{
 			if(bigImgIndex != null){
-				layer.close(bigImgIndex);
+				parent.layer.close(bigImgIndex);
 			}
 		}catch(e){
 			

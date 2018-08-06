@@ -1161,8 +1161,16 @@ public class CgFormHeadController extends BaseController {
 	public void configDatagrid(CgFormHeadEntity cgFormHead,String id,
 			HttpServletRequest request, HttpServletResponse response,
 			DataGrid dataGrid) {
-		String hql = "from CgFormHeadEntity c where c.physiceId = ? order by c.tableVersion asc";
-		List<CgFormHeadEntity> findHql = systemService.findHql(hql, id);
+
+		List<CgFormHeadEntity> findHql = null;
+		if(oConvertUtils.isNotEmpty(cgFormHead.getTableName())) {
+			String hql = "from CgFormHeadEntity c where c.physiceId = ? AND c.tableName = ? order by c.tableVersion asc";
+			findHql = systemService.findHql(hql, id, cgFormHead.getTableName());
+		} else {
+			String hql = "from CgFormHeadEntity c where c.physiceId = ? order by c.tableVersion asc";
+			findHql = systemService.findHql(hql, id);
+		}
+
 		dataGrid.setResults(findHql);
 		dataGrid.setTotal(findHql.size());
 		TagUtil.datagrid(response, dataGrid);

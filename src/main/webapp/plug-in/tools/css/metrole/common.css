@@ -112,11 +112,10 @@ a.ace_button:hover{ color:#DDDDDD !important; text-decoration:none;}
 .groupspan{
 	float:left;
 	display:table-cell;
-	background-color:#ddd;
+	background-color:#f3f3f3;
 	white-space:nowrap;
 	padding:4px 10px;
-	border: 1px solid #D7D7D7;
-	height: 26px;
+	border: 0.25px solid #D7D7D7;
 	margin-left: -2px;
 }
 /*update-end--Author:zhoujf  Date:20180713 for：TASK #2955 【样式功能】抽到开源里面，写个文档，供大家使用-------------------- */

@@ -312,7 +312,7 @@ public class LdapUtil {
 
 		try {
 			NamingEnumeration<?> answer = dc.search(searchBase, searchFilter, searchCtls);
-			if (answer == null || answer.equals(null)) {
+			if (oConvertUtils.isEmpty(answer)) {
 				LogUtil.info("answer is null");
 			} else {
 				LogUtil.info("answer not null");

@@ -179,7 +179,8 @@ public class BaseTag extends JeecgTag {
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/themes/bootstrap-ext/js/common.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/dataformat.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/lhgDialog/lhgdialog.min.js?skin=metrole\"></script>");
-			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/themes/bootstrap-ext/js/bootstrap-lhgdialog-curdtools_zh-cn.js\"></script>");
+
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/themes/bootstrap-ext/js/bootstrap-lhgdialog-curdtools.js\"></script>");
 
 			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/ace/css/common.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/ace/css/font-awesome.css\" type=\"text/css\"></link>");
@@ -219,8 +220,10 @@ public class BaseTag extends JeecgTag {
 		if (oConvertUtils.isIn("bootstrap-form", types)) {
 			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/themes/bootstrap-ext/css/validform-ext.css\" type=\"text/css\"></link>");
 			//icheck组件引用
-			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/icheck-1.x/skins/square/_all.css\" type=\"text/css\"></link>");
-			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/icheck-1.x/icheck.js\"></script>");
+
+			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/hplus/css/plugins/iCheck/custom.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/hplus/js/plugins/iCheck/icheck.min.js\"></script>");
+
 			//通用组件引用 
 			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/bootstrap3.3.5/css/default.css\" type=\"text/css\"></link>");
 			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/themes/bootstrap-ext/js/common.js\"></script>");
@@ -238,6 +241,11 @@ public class BaseTag extends JeecgTag {
 
 		types = null;
 		this.putTagCache(sb);
+
+		if(sb.indexOf("plug-in/tools/curdtools.js")!=-1 && sb.indexOf("/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js")==-1){
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js\"></script>");
+		}
+
 		return sb;
 	}
 

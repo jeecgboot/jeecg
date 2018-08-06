@@ -21,7 +21,9 @@
     <t:dgCol title="电话"  field="phone" queryMode="group"  width="120"></t:dgCol>
     <t:dgCol title="工资"  field="salary" query="true" queryMode="group" width="120"></t:dgCol>
     <t:dgCol title="创建日期"  field="createDate" formatter="yyyy-MM-dd" query="true" queryMode="group" editor="datebox" width="120"></t:dgCol>
-    <t:dgCol title="邮箱"  field="email" query="true"  popup="true" dictionary="user_msg,realname,realname" width="120"></t:dgCol>
+    <!-- update-begin-Author:LiShaoQing Date:20180802 for:TASK #3017 【Tag-bootstrap】查询区域字段，popup未实现 -->
+    <t:dgCol title="邮箱"  field="email" query="true"  popup="true" dictionary="user_msg,name@email,account@realname" width="120"></t:dgCol>
+    <!-- update-end-Author:LiShaoQing Date:20180802 for:TASK #3017 【Tag-bootstrap】查询区域字段，popup未实现 -->
     <t:dgCol title="入职状态"  field="status" query="true" extend="{style:{width:'300px';color:'red'};datatype:'*';}" defaultVal='N'  dictionary="sf_yn" width="80"></t:dgCol>
     <t:dgCol title="个人介绍"  field="content"  hidden="true"   queryMode="group"  width="150"></t:dgCol>
    <t:dgCol title="操作" field="opt" width="250"></t:dgCol>

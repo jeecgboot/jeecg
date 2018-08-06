@@ -14,7 +14,7 @@
 	//-->
 	</script>
  </head>
- <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
+ <body>
   <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
 			<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
@@ -32,24 +32,24 @@
                     <td align="right" height="40" width="10%">
 						<span class="filedzt">* 客户编号</span>
                     </td>
-                    <td class="value" width="20%">
+                    <td class="value" width="25%">
 						<input name="custom_id" id="custom_id" datatype="*" class="inputxt" value="${data['${tableName}']['custom_id']?if_exists?html}" >
 						<span class="Validform_checktip"></span>
 						<label class="Validform_label" style="display: none;">客户编号</label>
                     </td>
-					<td align="right" height="40" width="10%">
+					<td align="right" height="40" width="5%">
 						<span class="filedzt">负责人</span>
                     </td>
-                    <td class="value" width="20%">
+                    <td class="value" width="25%">
 						<input name="header" id="header" datatype="*" class="inputxt" value="${data['${tableName}']['header']?if_exists?html}" >
 						<span class="Validform_checktip"></span>
 						<label class="Validform_label" style="display: none;">负责人</label>
                     </td>
-                    <td align="right" height="40" width="10%">
+                    <td align="right" height="40" width="5%">
 						<span class="filedzt">成立日期</span>
                     </td>
-                    <td class="value" width="30%">
-						<input name="establish_date" id="establish_date" datatype="*" class="Wdate" onClick="WdatePicker()"  value="${data['${tableName}']['establish_date']?if_exists?html}" >
+                    <td class="value" width="25%">
+						<input name="establish_date" id="establish_date" datatype="*" class="inputxt Wdate" onClick="WdatePicker()"  value="${data['${tableName}']['establish_date']?if_exists?html}" >
 						<span class="Validform_checktip"></span>
 						<label class="Validform_label" style="display: none;">成立日期</label>
                     </td>

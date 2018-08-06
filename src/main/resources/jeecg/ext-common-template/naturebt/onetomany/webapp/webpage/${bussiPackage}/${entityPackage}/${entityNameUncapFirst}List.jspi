@@ -123,15 +123,21 @@ $(function(){
 	<#if po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
 	<#if optionCodes?index_of(po.dictField) lt 0>
 	<#assign optionCodes=optionCodes+","+po.dictField >
-	promiseArr.push(new Promise(function(resolve, reject) {
-		initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",resolve);
-	}));
+	<#if po.dictTable?if_exists?html!="">
+		<#if po.showType=='popup'><#rt/>
+		<#else><#rt/>
+	initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",promiseArr,"${po.dictTable}","${po.dictText}");
+		</#if><#rt/>
+	<#else><#rt/>
+		<#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!=""><#rt/>
+	initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",promiseArr,"","");
+		</#if><#rt/>
+ 	</#if><#rt/>
 	</#if>
 	</#if>
 	</#list>
-	
-	Promise.all(promiseArr).then(function(results) {
-		initDatagrid();
+	$.when.apply(null,promiseArr).done(function(){
+    	initDatagrid();
 		$('#${entityName?uncap_first}List').datagrid('getPager').pagination({
 	        beforePageText: '',
 	        afterPageText: '/{pages}',
@@ -145,20 +151,18 @@ $(function(){
 	            $(this).pagination('loaded');
 	        }
 	    });
-	    
 		<#list columns as po>
 		<#if po.isQuery =='Y'>
 		<#if po.showType=='checkbox'||po.showType=='radio'>
-		loadSearchFormDicts($("#${entityName?uncap_first}Form").find(".${po.fieldName}-search"),${entityName?uncap_first}ListdictsData.${po.dictField},"${po.showType}","${po.fieldName}");
+		loadSearchFormDicts($("#${entityName?uncap_first}Form").find(".${po.fieldName}-search"),"${po.dictTable}","${po.dictField}","${po.showType}","${po.fieldName}");
 		<#elseif  po.showType=='select' || po.showType=='list'>
-		loadSearchFormDicts($("#${entityName?uncap_first}Form").find("select[name='${po.fieldName}']"),${entityName?uncap_first}ListdictsData.${po.dictField},"select");
+		loadSearchFormDicts($("#${entityName?uncap_first}Form").find("select[name='${po.fieldName}']"),"${po.dictTable}","${po.dictField}","select","${po.content}");
 		</#if>
 		</#if>
 		</#list>
-	}).catch(function(err) {
-		console.log('Catch: ', err);
+	}).fail(function(){
+		console.log("i'm sorry!it's unkown error that i can't resolve as yet");
 	});
-	
 });
 
 //easyui-datagrid实例化
@@ -209,7 +213,7 @@ function initDatagrid(){
 				}
 				<#elseif po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
 				formatter : function(value, rec, index) {
-					return listDictFormat(value,${entityName?uncap_first}ListdictsData.${po.dictField});
+					return listDictFormat(value,"${po.dictField}","${po.dictTable}");
 				}
 				<#elseif po.showType=='image' ||po.showType=='file'>
 				formatter:function(value,rec,index){
@@ -301,35 +305,50 @@ function resetSearch(){
 }
 
 //加载字典数据
-function initDictByCode(dictObj,code,callback){
-	if(!dictObj[code]){
-		jQuery.ajax({
-            url: "systemController.do?typeListJson&typeGroupName="+code,
+function initDictByCode(dictObj,code,promiseArr,table,text){
+	var dictKey = code;
+	if(code=="id"){
+		//如果当前dictcode为id那么，此处的字典对象对应的key为"表名+id"
+		dictKey = table+code;
+	}
+	if(!dictObj[dictKey]){
+		var url = "systemController.do?typeListJson&typeGroupName="+code;
+		if(table){
+			url += "&dicTable="+table+"&dicText="+text;
+		}
+		var dictAjax = jQuery.ajax({
+            url:url,
     		type:"GET",
        		dataType:"JSON",
             success: function (back) {
                if(back.success){
-            	   dictObj[code]= back.obj;
-            	  
+            	   dictObj[dictKey]= back.obj;
                }
-               callback();
              }
          });
+         promiseArr.push(dictAjax);
 	}
 }
 
 //加载form查询数据字典项
-function loadSearchFormDicts(obj,arr,type,name){
+function loadSearchFormDicts(obj,table,code,type,name){
 	var html = "";
+	var dictKey = code;
+	if(code=="id"){
+		dictKey = table+code;
+	}
+	var arr = ${entityName?uncap_first}ListdictsData[dictKey];
 	for(var a = 0;a < arr.length;a++){
 		if("select"== type){
+			if(a==0){
+				html+="<option value = '' style='display: none'> 请选择"+name+"</option>";
+			}
 			html+="<option value = '"+arr[a].typecode+"'>"+arr[a].typename+"</option>";
 		}else{
 			if(!arr[a].typecode){
 			}else{
 				html+="<input name = '"+name+"' type='"+type+"' value = '"+arr[a].typecode+"'>"+arr[a].typename +"&nbsp;&nbsp;";
 			}
-			
 		}
     }
 	obj.html(html);
@@ -353,10 +372,15 @@ function getRadioVal(name){
 	return v;
 }
 //列表数据字典项格式化
-function listDictFormat(value,dicts){
+function listDictFormat(value,code,table){
 	if (!value) return '';
+	var dictKey = code;
+	if(code=="id"){
+		dictKey = table+code;
+	}
+	var dicts = ${entityName?uncap_first}ListdictsData[dictKey];
     var valArray = value.split(',');
-    var showVal = '';
+    var showVal = value;
     if (valArray.length > 1) {
     	for (var k = 0; k < valArray.length; k++) {
            if(dicts && dicts.length>0){

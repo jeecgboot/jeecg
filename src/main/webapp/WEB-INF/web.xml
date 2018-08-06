@@ -6,7 +6,7 @@
 	<display-name>Jeecg 微云快速开发平台</display-name>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>jeecg-3.7.7</param-value>
+		<param-value>jeecg-3.7.8</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

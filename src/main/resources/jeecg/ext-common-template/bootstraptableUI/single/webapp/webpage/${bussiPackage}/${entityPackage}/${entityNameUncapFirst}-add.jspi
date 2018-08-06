@@ -192,8 +192,8 @@ $(document).ready(function() {
 	$('.i-checks').iCheck({
 		labelHover : false,
 		cursor : true,
-		checkboxClass : 'icheckbox_square-blue',
-		radioClass : 'iradio_square-blue',
+		checkboxClass : 'icheckbox_square-green',
+		radioClass : 'iradio_square-green',
 		increaseArea : '20%'
 	});
 	

@@ -5,36 +5,32 @@
 <head>
 <title>用户信息</title>
 <t:base type="jquery,easyui,tools"></t:base>
-    <script>
-<%-- //        update-start--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
-        function setOrgIds() {
-//            var orgIds = $("#orgSelect").combobox("getValues");
-            var orgIds = $("#orgSelect").combotree("getValues");
-            $("#orgIds").val(orgIds);
-        }
-        $(function() {
-            $("#orgSelect").combotree({
-                onChange: function(n, o) {
-                    if($("#orgSelect").combotree("getValues") != "") {
-                        $("#orgSelect option").eq(1).attr("selected", true);
-                    } else {
-                        $("#orgSelect option").eq(1).attr("selected", false);
-                    }
-                }
-            });
-            $("#orgSelect").combobox("setValues", ${orgIdList});
-            $("#orgSelect").combotree("setValues", ${orgIdList});
-        }); --%>
-
-
+<script>
+	/**
+	 * 选择组织机构
+	 */
 		function openDepartmentSelect() {
 			$.dialog.setting.zIndex = getzIndex(); 
 			var orgIds = $("#orgIds").val();
 
-			$.dialog({content: 'url:departController.do?departSelect&orgIds='+orgIds, zIndex: getzIndex(), title: '组织机构列表', lock: true, width: '400px', height: '350px', opacity: 0.4, button: [
-			   {name: '<t:mutiLang langKey="common.confirm"/>', callback: callbackDepartmentSelect, focus: true},
-			   {name: '<t:mutiLang langKey="common.cancel"/>', callback: function (){}}
-		   ]}).zindex();
+			$.dialog({
+			    content: 'url:departController.do?departSelect&orgIds=' + orgIds,
+			    zIndex: getzIndex(),
+			    title: '组织机构列表',
+			    lock: true,
+			    width: '400px',
+			    height: '350px',
+			    opacity: 0.4,
+			    button: [{
+			        name: '<t:mutiLang langKey="common.confirm"/>',
+			        callback: callbackDepartmentSelect,
+			        focus: true
+			    },
+			    {
+			        name: '<t:mutiLang langKey="common.cancel"/>',
+			        callback: function() {}
+			    }]
+			}).zindex();
 
 		}
 			
@@ -115,16 +111,6 @@
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="common.department"/>: </label></td>
 			<td class="value">
-                <%--<select class="easyui-combobox" data-options="multiple:true, editable: false" id="orgSelect" datatype="*">--%>
-                <%--<select class="easyui-combotree" data-options="url:'departController.do?getOrgTree', multiple:true, cascadeCheck:false"
-                        id="orgSelect" name="orgSelect" datatype="select1">
-                update-end--Author:zhangguoming  Date:20140826 for：将combobox修改为combotree
-                    <c:forEach items="${departList}" var="depart">
-                        <option value="${depart.id }">${depart.departname}</option>
-                    </c:forEach>
-                </select> --%>
-                <%--  <t:departSelect departId="${tsDepart.id }" departName="${tsDepart.departname }"></t:departSelect>--%>
-                
                 <input id="departname" name="departname" type="text" readonly="readonly" class="inputxt" datatype="*" value="${departname}"/>
                 <input id="orgIds" name="orgIds" type="hidden" value="${orgIds}"/>
                 <a href="#" class="easyui-linkbutton" plain="true" icon="icon-search" id="departSearch" onclick="openDepartmentSelect()">选择</a>

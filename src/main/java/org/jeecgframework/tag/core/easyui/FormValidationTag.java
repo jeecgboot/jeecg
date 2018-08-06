@@ -108,7 +108,9 @@ public class FormValidationTag extends TagSupport {
 			if(cssTheme==null||"default".equals(cssTheme))cssTheme="";*/
 			if ("div".equals(layout)) {
 				sb.append("<div id=\"content\">");
-				sb.append("<div id=\"wrapper\">");
+
+				sb.append("<div id=\"wrapper\" style=\"border-left:1px solid #ddd;\">");
+
 				sb.append("<div id=\"steps\">");
 			}
 			sb.append("<form id=\"" + formid + "\" " );
@@ -184,7 +186,12 @@ public class FormValidationTag extends TagSupport {
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
 			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
-			
+
+			if("6".equals(tiptype)){
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tiptype.css\" type=\"text/css\"/>");
+				sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/tiptype.js\"></script>");
+			}
+
 			if (usePlugin != null) {
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append("<SCRIPT type=\"text/javascript\" src=\"plug-in/Validform/plugin/jqtransform/jquery.jqtransform.js\"></SCRIPT>");
@@ -219,6 +226,16 @@ public class FormValidationTag extends TagSupport {
 
 					sb.append("})");
 					sb.append("}},");
+
+				}else if("6".equals(tiptype)){
+					sb.append("tiptype:function(msg,o,cssctl){");
+					sb.append("if(o.type==3){");
+					sb.append(" ValidationMessage(o.obj,msg);");
+					sb.append("}else{");
+					sb.append("removeMessage(o.obj);");
+					sb.append("}");
+					sb.append("},");
+
 				}else{
 					sb.append("tiptype:"+this.getTiptype()+",");
 				}
