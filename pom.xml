@@ -444,6 +444,8 @@
 		    <groupId>org.freemarker</groupId>
 		    <artifactId>freemarker</artifactId>
 		    <version>${freemarker.version}</version>
+			<scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/freemarker-null-2.3.19.jar</systemPath>
 		</dependency>
         <!-- jeasypoi 工具类 -->
         <dependency>
