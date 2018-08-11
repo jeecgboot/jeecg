@@ -55,22 +55,22 @@
 	<t:dgCol title="common.updatetime" field="updateDate" formatter="yyyy/MM/dd" hidden="true"></t:dgCol>
 	<t:dgCol title="common.operation" field="opt" width="500"></t:dgCol>
 	<t:dgFunOpt funname="delCgForm(id,tableName)" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgFunOpt>
-	<t:dgFunOpt funname="remCgForm(id)" title="common.remove" inGroup="true" urlclass="ace_button" urlStyle="background-color:#FFA500;" urlfont="fa-remove"></t:dgFunOpt>
+	<t:dgFunOpt funname="remCgForm(id)" title="common.remove" urlclass="ace_button" urlStyle="background-color:#FFA500;" urlfont="fa-remove"></t:dgFunOpt>
 	<%-- 
 	<t:dgFunOpt funname="importFields(id,content)" title="导入字段" urlclass="ace_button"  urlfont="fa-download"></t:dgFunOpt>
 	--%>
-	<t:dgFunOpt exp="isDbSynch#eq#N" inGroup="true"  title="sync.db" funname="doDbsynch(id,content)" urlclass="ace_button"  urlfont="fa-database"/>
-	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3"  inGroup="true"  funname="addbytab(id,content)" title="form.template" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgFunOpt exp="isDbSynch#eq#N"  title="sync.db" funname="doDbsynch(id,content)" urlclass="ace_button"  urlfont="fa-database"/>
+	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3"   funname="addbytab(id,content)" title="form.template" urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
 	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="addlisttab(tableName,content)" title="function.test" urlStyle="background-color:#18a689;" urlclass="ace_button"  urlfont="fa-gavel"></t:dgFunOpt>
 	<t:dgFunOpt exp="isDbSynch#eq#Y&&jformType#ne#3" funname="popMenuLink(tableName,content)" title="config.place" urlStyle="background-color:#1a7bb9;" urlclass="ace_button"  urlfont="fa-cog" ></t:dgFunOpt>
-	<t:dgFunOpt funname="copyOnline(id)" title="复制表单" inGroup="true" operationCode="copyOnlineTable"  urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
-	<t:dgFunOpt exp="hasPeizhi#ne#0" funname="propertyTable(id)" inGroup="true" title="配置表"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
+	<t:dgFunOpt funname="copyOnline(id)" title="复制表单" operationCode="copyOnlineTable"  urlclass="ace_button"  urlfont="fa-copy"></t:dgFunOpt>
+	<t:dgFunOpt exp="hasPeizhi#ne#0" funname="propertyTable(id)" title="配置表"  urlclass="ace_button"  urlfont="fa-cog"></t:dgFunOpt>
 	<t:dgToolBar title="create.form" icon="fa fa-plus" width="100%" height="100%" url="cgFormHeadController.do?addorupdate" funname="addForm"></t:dgToolBar>
 	<t:dgToolBar title="edit.form" icon="fa fa-edit" width="100%" height="100%" url="cgFormHeadController.do?addorupdate" funname="updateForm"></t:dgToolBar>
 	<t:dgToolBar title="custom.button" icon="fa fa-bars" url="cgformButtonController.do?cgformButton" funname="cgFormButton"></t:dgToolBar>
-	<t:dgToolBar title="js.enhance" inGroup="true" icon="fa fa-strikethrough" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>
-	<t:dgToolBar title="sql.enhance" inGroup="true" icon="fa fa-filter" url="cgformButtonSqlController.do?addorupdate" operationCode="sql_enhance" funname="cgFormButtonSql"></t:dgToolBar>
-	<t:dgToolBar title="java.enhance" inGroup="true" icon="fa fa-wrench" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
+	<t:dgToolBar title="js.enhance" icon="fa fa-strikethrough" url="cgformEnhanceJsController.do?addorupdate" funname="enhanceJs"></t:dgToolBar>
+	<t:dgToolBar title="sql.enhance" icon="fa fa-filter" url="cgformButtonSqlController.do?addorupdate" operationCode="sql_enhance" funname="cgFormButtonSql"></t:dgToolBar>
+	<t:dgToolBar title="java.enhance" icon="fa fa-wrench" url="cgformEnhanceJavaController.do?addorupdate" funname="javaEnhance"></t:dgToolBar>
 	<t:dgToolBar title="form.export" icon="fa fa-download" url="cgformSqlController.do?doMigrateOut" funname="doMigrateOut"></t:dgToolBar>
 	<t:dgToolBar title="form.import" operationCode="form_import" icon="fa fa-upload" url="cgformSqlController.do?inSqlFile" funname="toCgformMigrate"></t:dgToolBar>
 	<t:dgToolBar title="code.generate" operationCode="code_generate" icon="fa fa-spinner" url="generateController.do?gogenerate" funname="generate"></t:dgToolBar>
@@ -353,7 +353,7 @@
 			lock : true,
 			title: '<t:mutiLang langKey="code.generate"/>' + " ["+rowsData[0].content+"]",
 			opacity : 0.3,
-			width:1200,
+			width:1250,
 			zIndex: getzIndex(),
 			height:500,
 			cache:false,

@@ -318,7 +318,9 @@
 						</div>
 					</div><!-- #sidebar-shortcuts -->
 
-					<ul class="nav nav-list">
+					<!-- update-begin-author:taoYan date:20180807 for: TASK #3052 【bug】论坛反馈 -- 3.7.8页面布局受到影响-->
+					<ul class="nav nav-list" id="aceMainPageMenu" style="overflow-y:auto">
+					<!-- update-end-author:taoYan date:20180807 for: TASK #3052 【bug】论坛反馈 -- 3.7.8页面布局受到影响-->
 						<li class="active">
 							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});">
 								<i class="fa fa-tachometer"></i>
@@ -508,6 +510,9 @@
 
 		<script type="text/javascript">
 			jQuery(function($) {
+
+				$("#aceMainPageMenu").css("max-height",($(window).height()-140)+"px");
+
 				$('.easy-pie-chart.percentage').each(function(){
 					var $box = $(this).closest('.infobox');
 					var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');

@@ -1,3 +1,4 @@
+<#include "/ui/excel.ftl"/>
 <#list subtables as key>
 
 #segment#${subsG['${key}'].entityName}Entity.java
@@ -38,9 +39,9 @@ public class ${subsG['${key}'].entityName}Entity implements java.io.Serializable
 	<#list subColumnsMap['${key}'] as po>
 	/**${po.content}*/
 	<#if po.isShow != 'N'>
-	<#--update-start--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
-    @Excel(name="${po.content}",width=15<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if><#if po.dictTable?if_exists?html!="">,dictTable ="${po.dictTable}",dicCode ="${po.dictField}",dicText ="${po.dictText}"</#if><#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!="">,dicCode="${po.dictField}"</#if>)
-	<#--update-end--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
+	<#--update-begin--Author:taoYan  Date:20170807 for：TASK #3021 【代码生成器 - 陶炎】popup配置影响了导出excel功能 -->
+    <@excel po = po/>
+	<#--update-end--Author:taoYan  Date:20170807 for：TASK #3021 【代码生成器 - 陶炎】popup配置影响了导出excel功能 -->
 	</#if>
 	<#if po.type == "javax.xml.soap.Text">
 	private java.lang.String ${po.fieldName};

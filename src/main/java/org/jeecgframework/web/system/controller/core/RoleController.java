@@ -265,9 +265,11 @@ public class RoleController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(role.getId())) {
 			message = "角色: " + role.getRoleName() + "被更新成功";
+
+			role.setRoleType(OrgConstants.SYSTEM_ROLE_TYPE);
+
 			userService.saveOrUpdate(role);
-			systemService.addLog(message, Globals.Log_Type_UPDATE,
-					Globals.Log_Leavel_INFO);
+			systemService.addLog(message, Globals.Log_Type_UPDATE,Globals.Log_Leavel_INFO);
 		} else {
 			message = "角色: " + role.getRoleName() + "被添加成功";
 
@@ -962,8 +964,8 @@ public class RoleController extends BaseController {
         
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
 
-        cq.eq("deleteFlag", new Short("0"));//删除状态，不删除
-        cq.eq("userType","1");//系统用户
+        cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
+        cq.eq("userType",Globals.USER_TYPE_SYSTEM);//系统用户
 
         cq.add();
 

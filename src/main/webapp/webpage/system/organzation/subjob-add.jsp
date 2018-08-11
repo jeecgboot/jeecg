@@ -110,8 +110,12 @@ function formSubmit(){
 }
 
 function callbackOrg(data){
+
 	if(data.success==true){
-		parent.layer.alert(data.msg, {
+		parent.tip(data.msg);
+		parent.loadTree();
+		location.reload();
+		/* parent.layer.alert(data.msg, {
 	        icon: 1,
 	        shadeClose: false,
 	        title: '提示'
@@ -119,16 +123,18 @@ function callbackOrg(data){
 	    	parent.loadTree();
 			location.reload();
 	    	parent.layer.close(index);
-	    });
+	    }); */
 	}else{
-		parent.layer.alert(data.msg, {
+		parent.tip(data.msg);
+		/* parent.layer.alert(data.msg, {
 	        icon: 0,
 	        shadeClose: false,
 	        title: '提示'
 	    },function(index){
 	    	parent.layer.close(index);
-	    });
+	    }); */
 	}
+
 	//tip(data.msg);
 }
 </script>

@@ -110,13 +110,15 @@ function formSubmit(){
 }
 
 function callbackOrg(data){
+
 	if(data.success==true){
-		alert(data.msg);
+		parent.tip(data.msg);
 		parent.loadTree();
 		location.reload();
 	}else{
-		alert(data.msg);
+		parent.tip(data.msg);
 	}
+
 	//tip(data.msg);
 }
 </script>

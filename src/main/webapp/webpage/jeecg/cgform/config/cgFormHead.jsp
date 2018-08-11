@@ -58,7 +58,7 @@ String langurl = basePath + "/plug-in/mutiLang/" + lang +".js";
 				<span class="Validform_checktip"></span>
 			</td>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="table.description"/>: </label></td>
-			<td class="value"><input class="inputxt" id="content" name="content" value="${cgFormHeadPage.content}" datatype="s2-100" nullmsg=<t:mutiLang langKey="please.input.table.content"/>> <span class="Validform_checktip"></span></td>
+			<td class="value"><input class="inputxt" id="content" name="content" value="${cgFormHeadPage.content}" datatype="s2-100" nullmsg="<t:mutiLang langKey='please.input.table.content'/>" /> <span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> <t:mutiLang langKey="pk.strategies"/>:</label></td>

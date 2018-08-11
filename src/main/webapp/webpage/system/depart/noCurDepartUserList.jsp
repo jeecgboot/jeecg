@@ -10,6 +10,7 @@
             <t:dgCol title="编号" field="id" hidden="true"></t:dgCol>
             <t:dgCol title="common.username" sortable="false" width="100" field="userName" query="true"></t:dgCol>
             <t:dgCol title="common.real.name" field="realName" width="100" query="true"></t:dgCol>
+            <t:dgCol title="common.user.type" field="userType" dictionary="user_type" width="80"></t:dgCol>
             <t:dgCol title="common.status" sortable="true" width="100" field="status" replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
         </t:datagrid>
     </div>

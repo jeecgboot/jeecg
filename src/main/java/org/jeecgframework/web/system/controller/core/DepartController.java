@@ -182,7 +182,9 @@ public class DepartController extends BaseController {
 
             }
         } else {
-            message = MutiLangUtil.paramDelFail("common.department");
+
+            message = MutiLangUtil.paramDelFail("common.department,!");
+
         }
 
         j.setMsg(message);
@@ -407,6 +409,10 @@ public class DepartController extends BaseController {
 		}
 		Short[] userstate = new Short[] { Globals.User_Normal, Globals.User_ADMIN };
 		cq.in("status", userstate);
+
+        //cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
+        //cq.eq("userType",Globals.USER_TYPE_SYSTEM);//系统用户
+
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
@@ -487,6 +493,10 @@ public class DepartController extends BaseController {
         subCq.add();
 
         cq.add(Property.forName("id").notIn(subCq.getDetachedCriteria()));
+
+        cq.eq("deleteFlag", Globals.Delete_Normal);//删除状态，不删除
+        cq.eq("userType",Globals.USER_TYPE_SYSTEM);//系统用户
+
         cq.add();
 
         this.systemService.getDataGridReturn(cq, true);

@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${ftl_description}</title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
@@ -380,7 +381,7 @@ function listDictFormat(value,code,table){
 	}
 	var dicts = ${entityName?uncap_first}ListdictsData[dictKey];
     var valArray = value.split(',');
-    var showVal = value;
+    var showVal = '';
     if (valArray.length > 1) {
     	for (var k = 0; k < valArray.length; k++) {
            if(dicts && dicts.length>0){
@@ -402,6 +403,9 @@ function listDictFormat(value,code,table){
             	}
             }
        }
+    }
+    if(showVal==''){
+    	showVal = value;
     }
     return showVal;
 }

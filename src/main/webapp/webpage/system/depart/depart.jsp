@@ -53,7 +53,7 @@
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:formvalid formid="formobj" layout="div" dialog="true" action="systemController.do?saveDepart">
+<t:formvalid formid="formobj" layout="div" dialog="true" callback="@Override callbackTreeLoad" action="systemController.do?saveDepart">
 	<input id="id" name="id" type="hidden" value="${depart.id }">
 	<fieldset class="step">
         <div class="form">
@@ -100,5 +100,37 @@
         <!-- update--end--author:zhangjiaqiang Date:20170112 for:TASK 1708-->
 	</fieldset>
 </t:formvalid>
+<script type="text/javascript">
+function callbackTreeLoad(data){
+		var win = frameElement.api.opener;
+		if (data.success == true) {
+			frameElement.api.close();
+			win.tip(data.msg);
+		} else {
+			if (data.responseText == ''
+					|| data.responseText == undefined) {
+				$.messager.alert('错误', data.msg);
+				$.Hidemsg();
+			} else {
+				try {
+					var emsg = data.responseText
+							.substring(
+									data.responseText
+											.indexOf('错误描述'),
+									data.responseText
+											.indexOf('错误信息'));
+					$.messager.alert('错误', emsg);
+					$.Hidemsg();
+				} catch (ex) {
+					$.messager.alert('错误',
+							data.responseText + "");
+					$.Hidemsg();
+				}
+			}
+			return false;
+		}
+		win.reloadTreeNode();
+}
+</script>
 </body>
 </html>

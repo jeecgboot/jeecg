@@ -16,12 +16,16 @@
  	</#if><#rt/>
  	<#if po.dictTable?if_exists?html!=""><#rt/>
  dictionary="${po.dictTable},${po.dictField?replace(',', '@')},${po.dictText?replace(',', '@')}" <#rt/>
-		<#if po.showType=='popup'> popup="true" extendParams="editor:'text'"<#else> extendParams="editor:'combobox'"</#if><#rt/>
- 		<#else><#rt/>
-			<#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!=""><#rt/>
+		<#if po.showType=='popup'> 
+ popup="true" extendParams="editor:{type:'popupty',options:{dicTable:'${po.dictTable}',dicText:'${po.dictText?replace(',', '@')}'}}" <#rt/>
+ 		<#else> 
+ extendParams="editor:'combobox'"<#rt/>
+ 		</#if><#rt/>
+ 	<#else><#rt/>
+		<#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!=""><#rt/>
  dictionary="${po.dictField}" filterType="combobox" extendParams="editor:'combobox'"<#rt/>
-			<#else>
- 				<#if po.type?if_exists?html =='java.util.Date'><#rt/>
+		<#else>
+ 			<#if po.type?if_exists?html =='java.util.Date'><#rt/>
  filterType="datebox" extendParams="editor:{type:'datebox',options:{onShowPanel:initDateboxformat}}"<#rt/>
  			<#elseif po.type?if_exists?html =='java.lang.Integer'><#rt/>
  filterType="numberbox" extendParams="editor:'numberbox'"<#rt/>

@@ -1,3 +1,4 @@
+<#include "/ui/excel.ftl"/>
 package ${bussiPackage}.${entityPackage}.entity;
 
 import java.math.BigDecimal;
@@ -36,9 +37,9 @@ public class ${entityName}Entity implements java.io.Serializable {
 	<#list columns as po>
 	/**${po.content}*/
 	<#if po.isShow != 'N'>
-	<#--update-start--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
-	@Excel(name="${po.content}",width=15<#if po.type == "java.util.Date">,format = "yyyy-MM-dd"</#if><#if po.dictTable?if_exists?html!="">,dictTable ="${po.dictTable}",dicCode ="${po.dictField}",dicText ="${po.dictText}"</#if><#if po.dictTable?if_exists?html=="" && po.dictField?if_exists?html!="">,dicCode="${po.dictField}"</#if>)
-	<#--update-end--Author:dangzhenghui  Date:20170503 for：TASK #1864 【excel】Excel 功能专项任务-->
+	<#--update-begin--Author:taoYan  Date:20170807 for：TASK #3021 【代码生成器 - 陶炎】popup配置影响了导出excel功能 -->
+    <@excel po = po/>
+	<#--update-end--Author:taoYan  Date:20170807 for：TASK #3021 【代码生成器 - 陶炎】popup配置影响了导出excel功能 -->
 	</#if>
 	<#--update-start--Author:luobaoli  Date:20150609 for：将数据库中blob类型对应为byte[]-->
 	private <#if po.type=='java.sql.Blob'>byte[]<#else>${po.type}</#if> ${po.fieldName};

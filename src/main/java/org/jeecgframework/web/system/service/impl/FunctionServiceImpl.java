@@ -26,27 +26,29 @@ public class FunctionServiceImpl extends CommonServiceImpl implements FunctionSe
 		
 		TSFunction parent = function.getTSFunction();
 		try {
+
 			List<TSFunction> listFunction = function.getTSFunctions();
 			if (listFunction != null && listFunction.size() > 0) {
-				message = "菜单【" + function.getFunctionName() + "】存在下级菜单，不能删除";
+				message = "菜单【" + MutiLangUtil.getLang(function.getFunctionName()) + "】存在下级菜单，不能删除";
 				j.setMsg(message);
 				j.setSuccess(false);
 				return j;
 			}
 			List<TSOperation> op = this.findHql("from TSOperation where TSFunction.id = ?", functionId);
 			if (op != null && op.size() > 0) {
-				message = "菜单【" + function.getFunctionName() + "】有设置页面权限，不能删除";
+				message = "菜单【" + MutiLangUtil.getLang(function.getFunctionName()) + "】有设置页面权限，不能删除";
 				j.setMsg(message);
 				j.setSuccess(false);
 				return j;
 			}
 			List<TSDataRule> tsdr = this.findByProperty(TSDataRule.class, "TSFunction", function);
 			if (tsdr != null && tsdr.size() > 0) {
-				message = "菜单【" + function.getFunctionName() + "】存在数据规则，不能删除";
+				message = "菜单【" + MutiLangUtil.getLang(function.getFunctionName()) + "】存在数据规则，不能删除";
 				j.setMsg(message);
 				j.setSuccess(false);
 				return j;
 			}
+
 			if (parent != null) {
 				parent.getTSFunctions().remove(function);
 			}

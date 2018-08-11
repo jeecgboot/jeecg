@@ -5,6 +5,7 @@
 <div region="center" style="padding:0px;border:0px">
 	<t:datagrid name="functionList" title="menu.manage" actionUrl="functionController.do?functionGrid" idField="id" fit="true" fitColumns="true" treegrid="true" pagination="false" btnCls="bootstrap btn btn-normal btn-xs">
         <t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
+        <t:dgCol title="common.id" field="parentId" treefield="parentId" hidden="true"></t:dgCol>
         <t:dgCol title="menu.name" field="functionName" treefield="text" width="40"></t:dgCol>
         <t:dgCol title="common.icon" field="TSIcon_iconPath" treefield="code" image="true" ></t:dgCol>
         <t:dgCol title="funcType" field="functionType" treefield="functionType" replace="funcType.page_0,funcType.from_1" width="20"></t:dgCol>
@@ -12,7 +13,7 @@
         <t:dgCol title="menu.order" field="functionOrder" treefield="order"></t:dgCol>
         <t:dgCol title="menu.funiconstyle" field="functionIconStyle" treefield="iconStyle" width="25"></t:dgCol>
         <t:dgCol title="common.operation" field="opt" width="100"></t:dgCol>
-        <t:dgDelOpt url="functionController.do?del&id={id}" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgDelOpt>
+        <t:dgFunOpt funname="delMenu(id)" title="common.delete" urlclass="ace_button" urlStyle="background-color:#ec4758;" urlfont="fa-trash-o"></t:dgFunOpt>
         <t:dgFunOpt funname="operationDetail(id)" title="button.setting" urlclass="ace_button" urlfont="fa-cog"></t:dgFunOpt>
         <t:dgFunOpt funname="operationData(id,src)" title="数据规则" urlclass="ace_button" urlStyle="background-color:#1a7bb9;" urlfont="fa-database"></t:dgFunOpt>
         <t:dgToolBar title="common.add.param" langArg="common.menu" icon="fa fa-plus" url="functionController.do?addorupdate" height="400" funname="addFun"></t:dgToolBar>
@@ -49,7 +50,7 @@ function  operationData(fucntionId, functionUrl){
 		}
 		$('#operationDetailpanel').panel("refresh", "functionController.do?dataRule&functionId=" +fucntionId);
 	} else {
-		var datarule = layer.confirm('数据权限规则配置，针对的是列表加载数据请求URL，不是列表页面请求地址，一般是 *Controller.do?datagrid', {
+		var datarule = layer.confirm('<b>友好提醒：</b> 菜单URL不是加载数据请求，加载数据请求格式一般是： *Controller.do?datagrid ，请注意菜单地址是否正确  ! ', {
 		  	btn: ['确认','取消'],
 		  	area:['450px','200px']
 		}, function(){
@@ -78,32 +79,39 @@ function addFun(title,url, id) {
 	}
 	add(title,url,'functionList',700,480);
 }
-function reloadTable(){
-	 var node = $('#functionList').treegrid('getSelected');
+
+function reloadTreeNode(){
+	var node = $('#functionList').treegrid('getSelected');
     if (node) {
-   	 var pnode = $('#functionList').treegrid('getParent',node.id);
-   	 if(pnode){
-   	 	$('#functionList').treegrid('reload',pnode.id);
-   	 }else{
-   		$('#functionList').treegrid('reload',node.id);
-   	 }
+	   	 var pnode = $('#functionList').treegrid('getParent',node.id);
+	   	 if(pnode){
+	   		if(node.parentId==""){
+	   			$('#functionList').treegrid('reload');
+	   		 }else{
+	   	 		$('#functionList').treegrid('reload',pnode.id);
+	   		 }
+	   	 
+	   	 }else{
+	   		if(node.parentId==""){
+	   			$('#functionList').treegrid('reload');
+	   		 }else{
+	   	 		$('#functionList').treegrid('reload',pnode.id);
+	   		 }
+	   	 }
     }else{
-    	$('#functionList').treegrid('reload');
+    	 $('#functionList').treegrid('reload');
     }
 }
-
-//删除调用函数
-function delObj(url,name) {
-	gridname=name;
-	createdialogDel($.i18n.prop('del.confirm.title'), $.i18n.prop('del.this.confirm.msg'), url,name);
-}
-
-function createdialogDel(title, content, url,name,noShade) {
+//删除菜单
+function delMenu(id,name) {
+	var url = "functionController.do?del&id="+id
+	var content = $.i18n.prop('del.this.confirm.msg');
+	var title = $.i18n.prop('del.confirm.title');
 	$.dialog.setting.zIndex = getzIndex(true);
 	var navigatorName = "Microsoft Internet Explorer"; 
 	if( navigator.appName == navigatorName ||"default,shortcut".indexOf(getCookie("JEECGINDEXSTYLE"))>=0){ 
 		$.dialog.confirm(content, function(){
-			doDelSubmit(url,name);
+			doDelSubmit(url);
 			rowid = '';
 		}, function(){
 		});
@@ -112,9 +120,9 @@ function createdialogDel(title, content, url,name,noShade) {
 			title:title,
 			content:content,
 			icon:7,
-			shade: !noShade?0.3:0,
+			shade: 0.3,
 			yes:function(index){
-				doDelSubmit(url,name);
+				doDelSubmit(url);
 				rowid = '';
 			},
 			btn:[$.i18n.prop('common.ok'),$.i18n.prop('common.cancel')],
@@ -131,25 +139,11 @@ function createdialogDel(title, content, url,name,noShade) {
  * @param url
  * @param index
  */
-function doDelSubmit(url,name,data) {
-	gridname=name;
-	var paramsData = data;
-	if(!paramsData){
-		paramsData = new Object();
-		if (url.indexOf("&") != -1) {
-			var str = url.substr(url.indexOf("&")+1);
-			url = url.substr(0,url.indexOf("&"));
-			var strs = str.split("&");
-			for(var i = 0; i < strs.length; i ++) {
-				paramsData[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
-			}
-		}      
-	}
+function doDelSubmit(url) {
 	$.ajax({
 		async : false,
 		cache : false,
 		type : 'POST',
-		data : paramsData,
 		url : url,// 请求的action路径
 		error : function() {// 请求失败处理函数
 		},
@@ -158,28 +152,13 @@ function doDelSubmit(url,name,data) {
 			if (d.success) {
 				var msg = d.msg;
 				tip(msg);
-				reloadTableDel();
+				reloadTreeNode();
 			} else {
 				tip(d.msg);
 			}
 		}
 	});
-	
-	
 }
 
-function reloadTableDel(){
-	 var node = $('#functionList').treegrid('getSelected');
-   if (node) {
-  	 var pnode = $('#functionList').treegrid('getParent',node.id);
-  	 if(pnode){
-  	 	$('#functionList').treegrid('reload',pnode.id);
-  	 }else{
-  		$('#functionList').treegrid('reload');
-  	 }
-   }else{
-   	$('#functionList').treegrid('reload');
-   }
-}
 </script>
 

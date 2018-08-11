@@ -888,7 +888,28 @@ public class UserController extends BaseController {
 			req.setAttribute("user", user);
 			idandname(req, user);
 			getOrgInfos(req, user);
+
+		}else{
+			//组织机构关联用户录入
+			String departid = oConvertUtils.getString(req.getParameter("departid"));
+			if(StringUtils.isNotEmpty(departid)){
+				TSDepart depart = systemService.getEntity(TSDepart.class,departid);
+				if(depart!=null){
+					req.setAttribute("orgIds", depart.getId()+",");
+					req.setAttribute("departname", depart.getDepartname()+",");
+				}
+			}
+			//角色管理关联用户录入
+			String roleId = oConvertUtils.getString(req.getParameter("roleId"));
+			if(StringUtils.isNotEmpty(roleId)){
+				TSRole tsRole = systemService.getEntity(TSRole.class,roleId);
+				if(tsRole!=null){
+					req.setAttribute("id", roleId);
+					req.setAttribute("roleName", tsRole.getRoleName());
+				}
+			}
 		}
+
 		req.setAttribute("tsDepart", tsDepart);
         //req.setAttribute("orgIdList", JSON.toJSON(orgIdList));
 

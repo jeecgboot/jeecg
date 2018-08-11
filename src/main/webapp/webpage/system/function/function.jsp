@@ -53,8 +53,8 @@
 </script>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:formvalid formid="formobj" layout="div" dialog="true" refresh="true" action="functionController.do?saveFunction">
-	<input name="id" type="hidden" value="${function.id}">
+<t:formvalid formid="formobj" layout="div" dialog="true" callback="@Override callbackTreeLoad" refresh="true" action="functionController.do?saveFunction">
+	<input id="id" name="id" type="hidden" value="${function.id}">
 	<fieldset class="step">
 	<div class="form">
         <label class="Validform_label"> <t:mutiLang langKey="menu.name"/>: </label>
@@ -128,5 +128,39 @@
     </div>
 	</fieldset>
 </t:formvalid> 
+<script type="text/javascript">
+
+function callbackTreeLoad(data){
+		var win = frameElement.api.opener;
+		if (data.success == true) {
+			frameElement.api.close();
+			win.tip(data.msg);
+		} else {
+			if (data.responseText == ''
+					|| data.responseText == undefined) {
+				$.messager.alert('错误', data.msg);
+				$.Hidemsg();
+			} else {
+				try {
+					var emsg = data.responseText
+							.substring(
+									data.responseText
+											.indexOf('错误描述'),
+									data.responseText
+											.indexOf('错误信息'));
+					$.messager.alert('错误', emsg);
+					$.Hidemsg();
+				} catch (ex) {
+					$.messager.alert('错误',
+							data.responseText + "");
+					$.Hidemsg();
+				}
+			}
+			return false;
+		}
+		win.reloadTreeNode();
+}
+
+</script>
 </body>
 </html>
