@@ -93,10 +93,10 @@ JEECG 功能特点
 技术文档
 -----------------------------------
 * [在线演示](http://demo.jeecg.org)
-* [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=278859)
-* [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
+* [JEECG 入门开发环境搭建](https://blog.csdn.net/zhangdaiscott/article/details/50915206)
+* [JEECG 在线开发文档](http://jeecg3.mydoc.io)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG 开发手册Wiki](http://jeecg3.mydoc.io)
+* [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
 * [JEECG 在线视频教程](https://edu.csdn.net/lecturer/929)
 * [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
 * [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
