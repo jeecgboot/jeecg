@@ -129,6 +129,9 @@ public class MenuTag extends JeecgTag {
 		}else if (style.equals("fineui")){
 			sb.append(ListtoMenu.getFineuiMultistageTree(menuFun));
 		}
+		if(style.equals("adminlte")) {
+			sb.append(ListtoMenu.getAdminlteTree(menuFun));
+		}
 
 		this.putTagCache(sb);
 

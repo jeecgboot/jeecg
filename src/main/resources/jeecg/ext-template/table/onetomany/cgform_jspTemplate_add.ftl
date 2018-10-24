@@ -44,8 +44,7 @@
   </style>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
   <#if callbackFlag == true>
-		<link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css" />
-		<script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+  <t:base type="uploadify"></t:base>
   </#if>
   <script type="text/javascript">
   $(document).ready(function(){

@@ -1083,7 +1083,10 @@
 	</tag>
 	<tag>
 		<name>upload</name>
-		<tag-class>org.jeecgframework.tag.core.easyui.UploadTag</tag-class>
+		<!-- update-begin-author:taoyan date:20180816 for:切换uploadify为plupload -->
+		<!-- <tag-class>org.jeecgframework.tag.core.easyui.UploadTag</tag-class> -->
+		<tag-class>org.jeecgframework.tag.core.easyui.UploadPlTag</tag-class>
+		<!-- update-end-author:taoyan date:20180816 for:切换uploadify为plupload -->
 		<body-content>JSP</body-content>
 		<description>选项卡选项标签</description>
 		<attribute>
@@ -1193,6 +1196,18 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>自定义上传按钮宽度(默认值：80)</description>
 		</attribute>
+		<!-- update-end-author:taoyan date:20181023 for: 上传标签扩展添加文件/移除文件触发事件 -->
+		<attribute>
+			<name>onFileAdded</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>文件添加时触发方法</description>
+		</attribute>
+		<attribute>
+			<name>onFilesRemoved</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>文件移除时触发方法</description>
+		</attribute>
+		<!-- update-end-author:taoyan date:20181023 for: 上传标签扩展添加文件/移除文件触发事件 -->
 	</tag>
 	<tag>
 		<name>ckeditor</name>
@@ -1911,6 +1926,142 @@
 		<tag-class>org.jeecgframework.tag.core.easyui.WebUploaderTag</tag-class>
 		<body-content>JSP</body-content>
 		<description>文件上传标签</description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>若指定该属性则①文件路径 input的name②action返回的文件路径的name都需使用该值</description>
+		</attribute>
+		<attribute>
+			<name>pathValues</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>默认值</description>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>file或是image,默认file</description>
+		</attribute>
+		<attribute>
+			<name>readOnly</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否只读</description>
+		</attribute>
+		<attribute>
+			<name>auto</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否自动上传</description>
+		</attribute>
+		<attribute>
+			<name>buttonStyle</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>按钮颜色和大小默认btn-green btn-S绿色小号</description>
+		</attribute>
+		<attribute>
+			<name>fileNumLimit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>最大文件数默认3</description>
+		</attribute>
+		<attribute>
+			<name>fileSingleSizeLimit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>单个文件大小限制(单位-KB,数值-正整数)</description>
+		</attribute>
+		<attribute>
+			<name>buttonText</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>控件按钮显示文本,默认-选择文件</description>
+		</attribute>
+		<attribute>
+			<name>extensions</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>允许的文件后缀,不带点,多个用逗号分割</description>
+		</attribute>
+		<attribute>
+			<name>showImgDiv</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>显示图片的div,如果不给会默认在按钮下方添加div其id为tempdiv</description>
+		</attribute>
+		
+		<attribute>
+			<name>duplicate</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>去重， 根据文件名字、文件大小和最后修改时间来生成hash Key</description>
+		</attribute>
+		<attribute>
+			<name>fileVal</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>设置文件上传域的name</description>
+		</attribute>
+		<attribute>
+			<name>extendParams</name>
+			<required>false</required>
+			<description>类似css写法 这是每个文件上传时候需要传递的参数字符串应带上引号</description>
+		</attribute>
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>文件处理action</description>
+		</attribute>
+		<attribute>
+			<name>datatype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>只要该属性有值,均视之为不为空</description>
+		</attribute>
+		<attribute>
+			<name>nullMsg</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>为空时候的提示信息</description>
+		</attribute>
+		<attribute>
+			<name>bizType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>业务类型[StoreUploadFilePathEnum],根据该类型确定上传路径</description>
+		</attribute>
+		<attribute>
+			<name>displayTxt</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否显示上传列表[默认显示]true显示false隐藏</description>
+		</attribute>
+		<!-- update-begin- Author:taoyan  Date:20180519 for：文件上传增加属性：是否在外部引入js-css  -->
+		<attribute>
+			<name>outJs</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否在外部引入js-css</description>
+		</attribute>
+		<!-- update-end- Author:taoyan  Date:20180519 for：文件上传增加属性：是否在外部引入js-css  -->
+		<!-- update-begin- Author:taoyan  Date:20180725 for：TASK #3007 【新功能】陶炎的上传，不支持文档 swf转换  -->
+		<attribute>
+			<name>swfTransform</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>是否支持需要将此文件转换成swf文件,true/false</description>
+		</attribute>
+		<!-- update-end- Author:taoyan  Date:20180725 for：TASK #3007 【新功能】陶炎的上传，不支持文档 swf转换  -->
+	</tag>
+	<tag>
+		<name>plupload</name>
+		<tag-class>org.jeecgframework.tag.core.easyui.WebUploaderPlTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>plupload上传标签</description>
 		<attribute>
 			<name>name</name>
 			<required>true</required>

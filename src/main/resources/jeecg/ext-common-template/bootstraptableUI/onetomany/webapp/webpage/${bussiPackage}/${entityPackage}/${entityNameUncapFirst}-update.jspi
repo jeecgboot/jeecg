@@ -322,6 +322,14 @@ function resetTrNum(tableId) {
 				if (onclick_str.indexOf("#index#") >= 0){
 					$this.attr("onclick",onclick_str.replace(/#index#/g,i));
 				}else{
+					<#-- update--begin--author:zhoujf date:20180827 for：TASK #3064 popup控件实现 -->
+					var s = onclick_str.indexOf("[");
+					var e = onclick_str.indexOf("]");
+					var new_onclick_str = onclick_str.substring(s+1,e);
+					if(new_onclick_str!=''){
+						$this.attr("onclick",onclick_str.replace(new_onclick_str,i));
+					}
+					<#-- update--end--author:jiaqiankun date:20180710 for：TASK #3064 popup控件实现 -->
 				}
 			}
 			if(validtype_str!=null){

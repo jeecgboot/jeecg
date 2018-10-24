@@ -1411,12 +1411,21 @@ public class JeecgListDemoController extends BaseController {
 		@RequestMapping(value = "loadSuggestData")
 		@ResponseBody
 		public Object loadSuggestData(String keyword,HttpServletRequest request) {
-			String sql = "select a.username,a.realname,IFNULL(c.departname,'火星人') as depart from t_s_base_user a left join t_s_user_org b on b.user_id  = a.ID left join t_s_depart c on c.id = b.org_id "
+
+			String sql = "select a.username,a.realname,c.departname as depart from t_s_base_user a left join t_s_user_org b on b.user_id  = a.ID left join t_s_depart c on c.id = b.org_id "
 					+ "";//TODO keyword 没用到 
 			JSONObject object = new JSONObject();
 			object.put("message", "");
 			try {
 				List<Map<String,Object>> data = this.systemService.findForJdbc(sql);
+				for (Map<String, Object> map : data) {
+					for (String key : map.keySet()) {
+						if(null == map.get(key)){
+							map.put(key,"");
+						}
+					}
+				}
+
 				net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(data);
 				object.put("value", array);
 				object.put("code", 200);
@@ -1425,6 +1434,15 @@ public class JeecgListDemoController extends BaseController {
 			}
 			object.put("redirect", "");
 			return object;
+		}
+
+		/**
+		 * DropDownDatagrid 新增拖拽面板页面
+		 * @return
+		 */
+		@RequestMapping(params = "goDraggablePanels")
+		public ModelAndView goDraggablePanels(HttpServletRequest request) {
+			return new ModelAndView("com/jeecg/demo/draggablePanels");
 		}
 
 }

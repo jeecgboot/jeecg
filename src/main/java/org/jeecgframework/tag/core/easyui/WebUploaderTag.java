@@ -1,18 +1,17 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 
-
 /**
- * 类描述：WebUploader
+ * 百度WebUploader上传标签
+ * @author scott
+ *
  */
 public class WebUploaderTag extends TagSupport {
 	private static final long serialVersionUID = 1L;

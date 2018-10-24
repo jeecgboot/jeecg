@@ -38,11 +38,11 @@
 	$(".tabs-wrap").css('width','100%');
   });
   //初始化下标
+	<#-- update-begin-Author:LiShaoQing date:20180829 for:TASK #3127 删除时没有添加 validtype_str校验-->
 	function resetTrNum(tableId) {
 		$tbody = $("#"+tableId+"");
-		$tbody.find('>tr').each(function(i){
-			<#-- update--begin--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
-			$(':input, select, button, a', this).each(function(){
+		$tbody.find('tr').each(function(i){
+			$(':input, select,button,a', this).each(function(){
 				var $this = $(this),validtype_str = $this.attr('validType'), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
 				if(name!=null){
 					if (name.indexOf("#index#") >= 0){
@@ -68,18 +68,35 @@
 					if (onclick_str.indexOf("#index#") >= 0){
 						$this.attr("onclick",onclick_str.replace(/#index#/g,i));
 					}else{
+					    var s = onclick_str.indexOf("[");
+						var e = onclick_str.indexOf("]");
+						var new_onclick_str = onclick_str.substring(s+1,e);
+						<#-- update--begin--author:zhoujf date:20180827 for：TASK #3064 popup控件实现 -->
+						if(new_onclick_str!=''){
+							$this.attr("onclick",onclick_str.replace(new_onclick_str,i));
+						}
+						<#-- update--end--author:jiaqiankun date:20180710 for：TASK #3064 popup控件实现 -->
 					}
 				}
-				<#-- update--end--author:zhangjiaqiang date:20170607 for:修订初始化下标当中涉及的下标内容 -->
 				if(validtype_str!=null){
 					if(validtype_str.indexOf("#index#") >= 0){
 						$this.attr("validType",validtype_str.replace('#index#',i));
+					}else{
+						var s = id.indexOf("[");
+						var e = id.indexOf("]");
+						var new_id = id.substring(s+1,e);
+						$this.attr("id",id.replace(new_id,i));
 					}
+				}
+				var class_str = $this.attr("class");
+				if(!!class_str && class_str.indexOf("i-checks-tpl")>=0){
+					$this.attr("class",class_str.replace(/i-checks-tpl/,"i-checks"));
 				}
 			});
 			$(this).find('div[name=\'xh\']').html(i+1);
 		});
 	}
+	<#-- update-end-Author:LiShaoQing date:20180829 for:TASK #3127 删除时没有添加 validtype_str校验-->
  </script>
  <body>
   <form id="formobj" action="${basePath}/cgFormBuildController.do?saveOrUpdateMore" name="formobj" method="post"><input type="hidden" id="btn_sub" class="btn_sub"/>

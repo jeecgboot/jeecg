@@ -96,6 +96,7 @@ function mysubmit(userId) {
 		},
 		success:function(data){
 			tip('保存数据成功');
+			reloadTable();
 		},
 		error:function(data) {
 			var d = $.parseJSON(data);
@@ -148,6 +149,7 @@ function GetAuthNode() {
 		<t:dgCol title="common.username" sortable="false" field="userName" query="true" width="50"></t:dgCol>
 		<t:dgCol title="common.real.name" field="realName" query="true" width="50"></t:dgCol>
 		<t:dgCol title="common.department" sortable="false" field="userOrgList.tsDepart.departname" query="false" width="60"></t:dgCol>
+		<t:dgCol title="common.position.name" sortable="false" field="positionName" query="false" width="30"></t:dgCol>
 		<t:dgCol title="common.status" sortable="true" width="20" field="status" replace="common.active_1,common.inactive_0,super.admin_-1"></t:dgCol>
 		<t:dgCol title="common.operation" field="opt" width="130"></t:dgCol>
 		<t:dgDelOpt title="解除机构关系" url="organzationController.do?delUserOrg&userid={id}&departid=${departid }" urlclass="ace_button"  urlfont="fa-trash-o"/>
@@ -166,6 +168,12 @@ function GetAuthNode() {
 </body>
 <script type="text/javascript">
 	var divHeight = $(window).height();
-	$("#divUserList").css("height",divHeight+"px"); 
+	$("#divUserList").css("height",divHeight+"px");
+
+	function reloadTable(){
+		$('#departUserList').datagrid('reload');
+		$("#orgTree").html("");
+	}
+
 </script>
 </html>

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +67,11 @@ public class JeecgDemoServiceImpl extends CommonServiceImpl implements JeecgDemo
 		      ps.setString(1, id);
 		      ps.setString(2, name);
 		      ps.setInt(3, age);
-		      ps.setString(4, DateUtils.date2Str(new SimpleDateFormat("yyyy-MM-dd HH:mm")));
+
+//		      ps.setString(4, DateUtils.date2Str(new SimpleDateFormat("yyyy-MM-dd HH:mm")));
+		      java.sql.Date date  = new java.sql.Date(new Date().getTime());
+		      ps.setDate(4, date);
+
 		   }
 		   public int getBatchSize()
 		   {

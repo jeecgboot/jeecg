@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -644,9 +645,20 @@ public class SuperQueryMainController extends BaseController {
 	public AjaxJson getTextById(HttpServletRequest request,HttpServletResponse response) {
 		AjaxJson json=new AjaxJson();
 		String tableName = request.getParameter("tableName");
-		String sql=" SELECT table_name, `name`, txt,ctype,stype,dict_code,dict_table ,dict_text,main_id  from super_query_field where table_name= ? GROUP BY `name`,txt";
+
+		String sql=" SELECT DISTINCT table_name, name, txt,ctype,stype,dict_code,dict_table ,dict_text,main_id  from super_query_field where table_name= ?";
 		List<Map<String, Object>> findForJdbc = systemService.findForJdbc(sql,tableName);
-		json.setObj(findForJdbc);
+		List<Map<String,Object>> fieldList = new ArrayList<Map<String,Object>>();
+		for (Map<String, Object> map : findForJdbc) {
+			Map<String, Object> temp = new HashMap<String, Object>();
+			for (Entry<String, Object> entry : map.entrySet()) {
+				String key = entry.getKey();
+				temp.put(key.toLowerCase(), entry.getValue());
+			}
+			fieldList.add(temp);
+		}
+		json.setObj(fieldList);
+
 		return  json;
 	}
 	
@@ -825,7 +837,9 @@ public class SuperQueryMainController extends BaseController {
 		AjaxJson json = new AjaxJson();
 		try {
 			// step.1 获取mainId和字段名称查询数据
-			String sql = "select stype,`name`,txt,dict_table,dict_code,dict_text from super_query_field where `name`=? AND main_id = ?";
+
+			String sql = "select stype,name,txt,dict_table,dict_code,dict_text from super_query_field where name=? AND main_id = ?";
+
 			List<Map<String, Object>> page = systemService.findForJdbc(sql,field,mainId);
 			if(page.size()>0) {
 				json.setObj(page);

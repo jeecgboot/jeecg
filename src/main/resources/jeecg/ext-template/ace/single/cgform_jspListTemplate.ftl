@@ -58,8 +58,7 @@
    </#list> 
   </t:datagrid>
   </div>
- </div>
- <script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}List.js"></script>		
+ </div>		
  <script type="text/javascript">
  $(document).ready(function(){
 		<#if cgformConfig.cgFormHead.isTree == 'Y'>
@@ -141,3 +140,9 @@ function getDataGrid(){
 }
 </#if>
  </script>
+<#if (cgformConfig.listJs.cgJsStr)?? && cgformConfig.listJs.cgJsStr!="">
+ <script type="text/javascript">
+ //JS增强
+ ${cgformConfig.listJs.cgJsStr}
+ </script>
+</#if>

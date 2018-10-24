@@ -137,3 +137,9 @@
 		$('#'+gname).datagrid('rejectChanges');
 	}
  </script>
+ <#if (cgformConfig.listJs.cgJsStr)?? && cgformConfig.listJs.cgJsStr!="">
+ <script type="text/javascript">
+ //JS增强
+ ${cgformConfig.listJs.cgJsStr}
+ </script>
+</#if>

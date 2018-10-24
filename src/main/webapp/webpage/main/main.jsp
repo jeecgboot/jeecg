@@ -169,7 +169,7 @@ a:hover {
                         <t:mutiLang langKey="common.ssms.getSysInfos"/>
                     </div>
                     <div class="menu-sep"></div>
-                    <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,200)">
+                    <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)">
                         <t:mutiLang langKey="common.my.style"/>
                     </div>
                     

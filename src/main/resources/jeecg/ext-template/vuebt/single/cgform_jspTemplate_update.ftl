@@ -74,7 +74,6 @@
 <script src="plug-in/laydate/laydate.js"></script>
 <script src="plug-in/vue-BootstrapTable/js/common.js"></script>
 <script src="plug-in/vue-BootstrapTable/js/form.js"></script>
-<script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}.js"></script>
 <script>
 var valid=null;
 $(function(){
@@ -157,5 +156,11 @@ var vm = new Vue({
 		}
 	}
 })
-</script>	
+</script>
+<#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
+<script type="text/javascript">
+//JS增强
+${cgformConfig.formJs.cgJsStr}
+</script>
+</#if>
 </html>

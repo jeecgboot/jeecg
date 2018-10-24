@@ -51,7 +51,6 @@
   </t:datagrid>
   </div>
  </div>
- <script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}List.js"></script>		
  <script type="text/javascript">
  <#list buttons as btn>
     <#if btn.buttonStyle =='button' && btn.buttonStatus == '1'>
@@ -122,3 +121,9 @@ function ExportXlsByT() {
 	  viewNotCreateWin("查看",url, "${entityName?uncap_first}List",false)
 	}
  </script>
+ <#if (cgformConfig.listJs.cgJsStr)?? && cgformConfig.listJs.cgJsStr!="">
+ <script type="text/javascript">
+ //JS增强
+ ${cgformConfig.listJs.cgJsStr}
+ </script>
+ </#if>

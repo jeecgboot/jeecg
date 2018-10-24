@@ -33,7 +33,7 @@
 				<div class="accordion-inner">
 					<div class="panel panel-default" style="margin-bottom: 0px;">
 						<div class="panel-body">
-							<form id="${entityName?uncap_first}Form" onkeydown="if(event.keyCode==13){doSearch();return false;}">
+							<form id="searchForm" onkeydown="if(event.keyCode==13){doSearch();return false;}">
 								<#list columns as po>
 									<#if po.isQuery =='Y'>
 										<#if po.showType?index_of("datetime")!=-1>
@@ -193,10 +193,10 @@
 			<#assign optionCodes="">
 			<#list columns as po>
 			<#if po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
-			<#if optionCodes?index_of(po.dictField) lt 0>
-			<#assign optionCodes=optionCodes+","+po.dictField >
+			<#if optionCodes?index_of(po.fieldName) lt 0>
+			<#assign optionCodes=optionCodes+","+po.fieldName >
 			promiseArr.push(new Promise(function(resolve, reject) {
-				initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",resolve);
+				initDictByCode(${entityName?uncap_first}ListdictsData,"${po.dictField}",promiseArr,"${po.dictTable}","${po.dictText}");
 			}));
 			</#if>
 			</#if>
@@ -206,9 +206,9 @@
 				<#list columns as po>
 				<#if po.isQuery =='Y'>
 				<#if po.showType=='checkbox'||po.showType=='radio'>
-				loadSearchFormDicts($("#${entityName?uncap_first}Form").find(".${po.fieldName}-search"),${entityName?uncap_first}ListdictsData.${po.dictField},"${po.showType}","${po.fieldName}");
+				loadSearchFormDicts($("#searchForm").find(".${po.fieldName}-search"),"${po.dictTable}","${po.dictField}","${po.showType}","${po.fieldName}");
 				<#elseif  po.showType=='select' || po.showType=='list'>
-				loadSearchFormDicts($("#${entityName?uncap_first}Form").find("select[name='${po.fieldName}']"),${entityName?uncap_first}ListdictsData.${po.dictField},"select");
+				loadSearchFormDicts($("#searchForm").find("select[name='${po.fieldName}']"),"${po.dictTable}","${po.dictField}","select","${po.content}");
 				</#if>
 				</#if>
 				</#list>
@@ -305,7 +305,7 @@
 												}
 												<#elseif po.showType=='checkbox' || po.showType=='radio' || po.showType=='select' || po.showType=='list'>
 												formatter : function(value, rec, index) {
-													return listDictFormat(value,${entityName?uncap_first}ListdictsData.${po.dictField});
+													return listDictFormat(value,"${po.dictField}","${po.dictTable}");
 												}
 												<#elseif po.showType=='image' ||po.showType=='file'>
 												formatter:function(value,rec,index){
@@ -353,7 +353,7 @@
 					field : '<#list columns as po>${po.fieldName},</#list>'
 				};
 
-				var params = $("#${entityName?uncap_first}Form").serializeArray();
+				var params = $("#searchForm").serializeArray();
 				for (x in params) {
 					temp[params[x].name] = params[x].value;
 				}
@@ -371,7 +371,7 @@
 		}
 
 		function searchRest() {
-			$('#${entityName?uncap_first}Form').find(':input').each(function() {
+			$('#searchForm').find(':input').each(function() {
 		    	if("checkbox"== $(this).attr("type")){
 		    		$("input:checkbox[name='" + $(this).attr('name') + "']").attr('checked',false);
 				}else if("radio"== $(this).attr("type")){
@@ -380,10 +380,10 @@
 					$(this).val("");
 				}
 		    });
-		    $('#${entityName?uncap_first}Form').find("input[type='checkbox']").each(function() {
+		    $('#searchForm').find("input[type='checkbox']").each(function() {
 		        $(this).attr('checked', false);
 		    });
-		    $('#${entityName?uncap_first}Form').find("input[type='radio']").each(function() {
+		    $('#searchForm').find("input[type='radio']").each(function() {
 		        $(this).attr('checked', false);
 		    });
 			reloadTable();
@@ -416,8 +416,13 @@
 		}
 
 		//列表数据字典项格式化
-		function listDictFormat(value,dicts){
+		function listDictFormat(value,code,table){
 			if (!value) return '';
+			var dictKey = code;
+			if(code=="id"){
+				dictKey = table+code;
+			}
+			var dicts = ${entityName?uncap_first}ListdictsData[dictKey];
 		    var valArray = value.split(',');
 		    var showVal = '';
 		    if (valArray.length > 1) {
@@ -449,27 +454,43 @@
 		}
 		
 		//加载字典数据
-		function initDictByCode(dictObj,code,callback){
+		function initDictByCode(dictObj,code,promiseArr,table,text){
+			var dictKey = code;
+			if(code=="id"){
+				//如果当前dictcode为id那么，此处的字典对象对应的key为"表名+id"
+				dictKey = table+code;
+			}
 			if(!dictObj[code]){
-				jQuery.ajax({
-		            url: "systemController.do?typeListJson&typeGroupName="+code,
+		        var url = "systemController.do?typeListJson&typeGroupName="+code;
+		        if(table){
+					url += "&dicTable="+table+"&dicText="+text;
+				}
+				var dictAjax = jQuery.ajax({
+		            url:url,
 		    		type:"GET",
 		       		dataType:"JSON",
 		            success: function (back) {
 		               if(back.success){
-		            	   dictObj[code]= back.obj;
-		            	  
+		            	   dictObj[dictKey]= back.obj;
 		               }
-		               callback();
 		             }
 		         });
+		         promiseArr.push(dictAjax);
 			}
 		}
 		//加载form查询数据字典项
-		function loadSearchFormDicts(obj,arr,type,name){
+		function loadSearchFormDicts(obj,table,code,type,name){
 			var html = "";
+			var dictKey = code;
+			if(code=="id"){
+				dictKey = table+code;
+			}
+			var arr = ${entityName?uncap_first}ListdictsData[dictKey];
 			for(var a = 0;a < arr.length;a++){
 				if("select"== type){
+					if(a==0){
+						html+="<option value = '' style='display: none'> 请选择"+name+"</option>";
+					}
 					html+="<option value = '"+arr[a].typecode+"'>"+arr[a].typename+"</option>";
 				}else{
 					if(!arr[a].typecode){

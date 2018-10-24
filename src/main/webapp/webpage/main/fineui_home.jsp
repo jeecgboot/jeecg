@@ -182,7 +182,7 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.7.8
+            <b>当前版本：</b>v_3.8
         </p>
         <p>
             <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
@@ -444,10 +444,73 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v57">v3.8</a><code class="pull-right">2018.10.24</code>
+                                    </h5>
+                                </div>
+                                <div id="v57" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本系统安全性能得到大幅提升，代码重构优化，上传组件使用plupload重构，提升浏览器兼容性，新增adminlte风格支持一级菜单导航，极大提升美感和代码可控性，降低了表单的开发成本；</div>
+                                        <ol>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板， Boostrap表单+BootstapTable原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Boostrap表单+BootstapTable标签列表（单表、一对多）;</li>
+											<li>【新功能】adminlte首页风格，一级菜单导航;</li>
+											<li>【新功能】新增上传组件Plupload;</li>
+											<li>【新功能】Minidao 代码生成工具;</li>
+											<li>【bug】popup配置影响了导出excel功能;</li>
+											<li>【bug】自定义表单的问题  控件id的赋值;</li>
+											<li>【bug】解决代码生成器，生成空指针问题;</li>
+											<li>【bug】Java增强,异常时 事物回滚报错;</li>
+											<li>【bug】Online开发,主从表单的主表单后台数据库触发器错误无法抛出;</li>
+											<li>【bug】Online模板列表页不支持下载txt文件;</li>
+											<li>【bug】EasyPOI 新版本的bootstrap 界面 导出excle 未带查询参数;</li>
+											<li>【bug】从表删除记录时resetTrNum方法未加validtype;</li>
+											<li>【bug】 二级管理员部门角色管理中设置权限出现问题;</li>
+											<li>【bug】oralce环境批量插入出错问题;</li>
+											<li>【bug】oracle保留关键字问题;</li>
+											<li>【改进】新版代码生成器bootstrap表单页面支持popup控件;</li>
+											<li>【改进】online行编辑模式支持 文件上传;</li>
+											<li>【改进】增删改树节点刷新问题;</li>
+											<li>【改进】easyui原生态列表promise语法 替换成jquery的deferred;</li>
+											<li>【改进】菜单管理和部门管理删除时提示信息国际化问题;</li>
+											<li>【改进】删除接口数据时接口权限角色关联表数据删除;</li>
+											<li>【改进】组织机构管理--成员录入;</li>
+											<li>【改进】列表页对于字典的值的展示没有匹配到字典项的展示原值而不是空;</li>
+											<li>【改进】模板消息字段截取;</li>
+											<li>【改进】Online在线模板图片支持打进jar中;</li>
+											<li>【改进】bootstrap 共通的js封装;</li>
+											<li>【改进】我的组织机构增删改，树展开问题;</li>
+											<li>【改进】自定义表单的增强放到表单设计上面;</li>
+											<li>【改进】我的组织机构，用户列表，展示出用户的职务;</li>
+											<li>【改进】组织机构默认展示用户信息列表;</li>
+											<li>【改进】老版代码生成器新机制，没有模板文件则不生成，不再报错;</li>
+											<li>【改进】取消Gzip压缩，IE11下tomcat开启压缩，多次压缩会导致页面列表数据请求失败;</li>
+											<li>【改进】解除机构关系将分配的角色、职务全部删除后删除该用户与机构关系;</li>
+											<li>【改进】java增强弹框和清空处理;</li>
+											<li>【改进】代码生成rest接口 list获取改造,新版;</li>
+											<li>【改进】通过online表单开发，需要在新增前、编辑前、删除前做业务逻辑;</li>
+											<li>【改进】新版风格echart报表页面首次加载不能自适应页面;</li>
+											<li>【改进】列表页面多文件支持弹窗查看列表;</li>
+											<li>【优化】UI：自定义表单设计器,我的组织机构,黑名单管理;</li>
+											<li>【优化】页面扩展js文件不生成，把逻辑直接写在页面里面;</li>
+											<li>【优化】H+其他皮肤切换左上角LOGO变大,ACE风格右侧设置图标靠上遮挡隐藏按钮;</li>
+											<li>【优化】bootstraptable列表删除成功提示信息图标不显示;</li>
+											<li>【优化】Online EASY默认表单样式不显示序号问题，Online报表生成表格无法对齐问题;</li>
+											<li>【demo】下拉支持多选demo;</li>
+											<li>【demo】拖拽面板做一个demo;</li>
+											<li>【demo】使用模板语言导出word/Excel;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v56">v3.7.8</a><code class="pull-right">2018.08.06</code>
                                     </h5>
                                 </div>
-                                <div id="v56" class="panel-collapse collapse in">
+                                <div id="v56" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本主要目标是努力消灭BUG，让大家既有鱼丸也有粗面，多样化话主题UI满足你不同的需求，新增加5套Bootstrap风格代码生成器模板，极大提升美感和代码可控性，降低了表单的开发成本；</div>
                                         <ol>

@@ -196,12 +196,20 @@ public class ${entityName}Controller extends BaseController {
 	</#list>
 	
 	<#-- restful 通用方法生成 -->
-	@RequestMapping(method = RequestMethod.GET)
+	<#-- update-begin-Author:LiShaoQing Date:20180828 for: TASK #3105 【代码生成器】代码生成rest接口 list获取改造 -->
+	@RequestMapping(value="/list/{pageNo}/{pageSize}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<${entityName}Entity> list() {
-		List<${entityName}Entity> list${entityName}s=${entityName?uncap_first}Service.getList(${entityName}Entity.class);
-		return list${entityName}s;
+	public List<${entityName}Entity> list(@PathVariable("pageNo") int pageNo, @PathVariable("pageSize") int pageSize, HttpServletRequest request) {
+		if(pageSize > Globals.MAX_PAGESIZE){
+			return Result.error("每页请求不能超过" + Globals.MAX_PAGESIZE + "条");
+		}
+		CriteriaQuery query = new CriteriaQuery(${entityName}Entity.class);
+		query.setCurPage(pageNo<=0?1:pageNo);
+		query.setPageSize(pageSize<1?1:pageSize);
+		List<${entityName}Entity> list${entityName}s = this.${entityName?uncap_first}Service.getListByCriteriaQuery(query,true);
+		return Result.success(list${entityName}s);
 	}
+	<#-- update-end-Author:LiShaoQing Date:20180828 for: TASK #3105 【代码生成器】代码生成rest接口 list获取改造 -->
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody

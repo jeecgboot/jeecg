@@ -966,7 +966,7 @@ a.l-btn span.l-btn-left .icon-ok{
 }
 
 .blueButton {
-	border: 1px solid #2f9df9;
+	border: 0px solid #2f9df9;
 	border-radius: 3px;
 	background-color: #39befb;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#39befb),
@@ -981,7 +981,7 @@ a.l-btn span.l-btn-left .icon-ok{
 }
 
 .blueButton:hover {
-	border: 1px solid #2091fc;
+	border: 0px solid #2091fc;
 	background-color: #6ecdff;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#6ecdff),
 		to(#2091fc));
@@ -995,7 +995,7 @@ a.l-btn span.l-btn-left .icon-ok{
 }
 
 .blueButton:active {
-	border: 1px solid #2091fc;
+	border: 0px solid #2091fc;
 	background-color: #2091fc;
 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#2091fc),
 		to(#6ecdff));

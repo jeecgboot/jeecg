@@ -348,6 +348,36 @@
 			 </div>
 	  </#if>
   </#list>
+    <#--update--begin--author:taoyan Date:20181022 for:ace分组表单布局无textarea控件显示-->
+    <#list columnsarea as po>
+	<div class="tab-wrapper">
+	    <!-- tab -->
+	    <ul class="nav nav-tabs">
+	      <li role="presentation" class="active"><a href="javascript:void(0);">表单信息管理</a></li>
+	    </ul>
+    	<!-- tab内容 -->
+	    <div class="con-wrapper" style="display: block;">
+	      <div class="row form-wrapper">
+	      	<div class="row show-grid">
+	            <div class="col-xs-3 text-center">
+	            	<b><@mutiLang langKey="${po.content}"/>：</b>
+	            </div>
+	            <div class="col-xs-3">
+	            	<textarea id="${po.field_name}" class="form-control" ${po.extend_json?if_exists} name="${po.field_name}"  rows="3" style="width:162px;margin:3px 0;"
+						<#if po.field_must_input??><#if po.field_must_input == 'Y' || po.is_null != 'Y'>ignore="checked"<#else>ignore="ignore"</#if><#elseif po.is_null != 'Y'> ignore="checked"<#else>ignore="ignore"</#if>
+						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
+		                <#if po.field_valid_type?if_exists?html != ''>
+		                datatype="${po.field_valid_type?if_exists?html}"
+		                <#else>
+		                <#if po.is_null != 'Y'>datatype="*"</#if> 
+		                </#if>>${data['${tableName}']['${po.field_name}']?if_exists?html}</textarea>
+	            </div>
+	         </div>
+	       </div>
+	    </div>
+	  </div>
+	</#list>
+	<#--update--end--author:taoyan Date:20181022 for:ace分组表单布局无textarea控件显示-->
 	</form>
 <#--update--begin--author:scott Date:20170304 for:替换layer风格提示框-->
 <script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:function(msg,o,cssctl){if(o.type == 3){layer.open({title:'提示信息',content:msg,icon:5,shift:6,btn:false,shade:false,time:5000,cancel:function(index){o.obj.focus();layer.close(index);},yes:function(index){o.obj.focus();layer.close(index);},})}},btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script>

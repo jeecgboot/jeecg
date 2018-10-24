@@ -235,8 +235,13 @@ public class BaseTag extends JeecgTag {
 			sb.append("<script type=\"text/javascript\" charset=\"utf-8\" src=\""+basePath+"/plug-in/ueditor/ueditor.all.min.js\"></script>");
 		}
 		if (oConvertUtils.isIn("uploadify", types)) {
+
+			/*sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");*/
 			sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
-			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/plupload/plupload.full.min.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/Map.js\"></script>");
+
 		}
 
 		types = null;

@@ -23,8 +23,7 @@
   <title>${ftl_description}</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
   <#if callbackFlag == true>
-		<link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css" />
-		<script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+  <t:base type="uploadify"></t:base>
   </#if>
   <script src="plug-in/layer/layer.js"></script>
  <script>
@@ -211,7 +210,6 @@
 			</table>
 		</t:formvalid>
  </body>
-  <script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}.js"></script>		
   <#if callbackFlag == true>
 	  	<script type="text/javascript">
 	  		function jeecgFormFileCallBack(data){
@@ -272,3 +270,9 @@
 			}
 	  	</script>
   	</#if>
+  	<#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
+		<script type="text/javascript">
+		//JS增强
+		${cgformConfig.formJs.cgJsStr}
+		</script>
+	</#if>

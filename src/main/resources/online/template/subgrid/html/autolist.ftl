@@ -153,11 +153,14 @@ function createDataGrid${config_id}(){
 						 		}else{
 						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 			<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+						 			<#-- update-begin- author:taoyan date:20181023 for:txt文件下载bug -->
+						 			var value2="systemController/downloadFile.do?filePath="+value
 						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
-						 				href+="[<a href='"+value+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
+						 				href+="[<a href='"+value2+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
 						 			<#else>
-						 				href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 				href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
 						 			</#if>
+						 			<#-- update-end- author:taoyan date:20181023 for:txt文件下载bug -->
 						 			<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}

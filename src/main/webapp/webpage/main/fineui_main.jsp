@@ -172,7 +172,7 @@
 			
 			
 			<li class="header-bar-nav hiddenty-xs"> 
-				<a href="javascript:add('首页风格','userController.do?changestyle','',550,250)" title="换肤">
+				<a href="javascript:add('首页风格','userController.do?changestyle','',550,270)" title="换肤">
 					<i class="icon-font">&#xe615;</i>&nbsp;风格切换
 				</a>
 			</li> 

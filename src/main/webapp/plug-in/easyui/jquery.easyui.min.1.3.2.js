@@ -1,4 +1,4 @@
-﻿﻿﻿﻿/**
+﻿﻿﻿﻿﻿/**
  * jQuery EasyUI 1.3.2
  * 
  * Copyright (c) 2009-2013 www.jeasyui.com. All rights reserved.
@@ -6836,7 +6836,9 @@ col.boxWidth=parseInt(cell[0].style.width);
 col.auto=true;
 }
 cell.css("text-align",(col.halign||col.align||""));
-col.cellClass="datagrid-cell-c"+_45e+"-"+col.field.replace(/\./g,"-");
+
+col.cellClass="datagrid-cell-c"+_45e+"-"+col.field.replace(/[\.|\s]/g, "-").replace(/./g,function($1){return $1.charCodeAt(0).toString(16);});
+
 col.cellSelector="div."+col.cellClass;
 }else{
 $("<div class=\"datagrid-cell-group\"></div>").html(col.title).appendTo(td);

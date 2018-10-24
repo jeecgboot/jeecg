@@ -33,8 +33,10 @@ public interface DepartAuthGroupDao {
 	 * @param userId
 	 * @return
 	 */
-	@Sql("select dag.* from t_s_depart_auth_group as dag join t_s_depart_authg_manager as dam on dam.group_id=dag.id where user_id = :userId")
+
+	@Sql("select dag.* from t_s_depart_auth_group dag join t_s_depart_authg_manager dam on dam.group_id=dag.id where dam.user_id = :userId")
 	public List<Map<String,Object>> chkDepartAuthGroupList(@Param("userId") String userId);
+
 	
 	/**
 	 * 根据登陆人ID分页查询部门管理员组

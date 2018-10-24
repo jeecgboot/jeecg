@@ -23,6 +23,14 @@
 			</select> <span class="Validform_checktip"></span></td>
 		</tr>
 		<tr>
+			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.event"/>: </label></td>
+			<td class="value">
+				<input type="radio" name="event" value="start" ${empty cgformEnhanceJavaPage.event or cgformEnhanceJavaPage.event eq 'start' ? 'checked' : '' } /><t:mutiLang langKey="common.begin"/>
+				<input type="radio" name="event" value="end" ${empty cgformEnhanceJavaPage.event or cgformEnhanceJavaPage.event eq 'end' ? 'checked' : '' } /><t:mutiLang langKey="common.end"/>
+				<span class="Validform_checktip"></span>
+			</td>
+		</tr>
+		<tr>
 			<td align="center" width="150px"><label class="Validform_label"> <t:mutiLang langKey="common.type"/>: </label></td>
 			<td class="value"><t:dictSelect field="cgJavaType" type="radio" typeGroupCode="enhanceType" hasLabel="false" defaultVal="${cgformEnhanceJavaPage.cgJavaType==null?'spring':(cgformEnhanceJavaPage.cgJavaType)}"></t:dictSelect><span class="Validform_checktip"></span></td>
 		</tr>
@@ -44,16 +52,25 @@
 </t:formvalid>
 </body>
 <script type="text/javascript">
+
  $('#buttonCode').change(function() {
+	 changeDate();
+ });
+ $('input[type=radio][name=event]').change(function() {
+	 changeDate();
+ });
+ 
+ function changeDate() {
 	 var buttonCode =$('#buttonCode').val();
 	 var formId =$('#formId').val();
+	 var event = $('input[name=event]:checked').val();
 	 $.ajax({
 			async : false,
 			cache : false,
 			type : 'POST',
 			contentType : 'application/json', 
 			dataType:"json",
-			url : "cgformEnhanceJavaController.do?doCgformEnhanceJava&buttonCode="+buttonCode+"&formId="+formId,// 请求的action路径
+			url : "cgformEnhanceJavaController.do?doCgformEnhanceJava&buttonCode="+buttonCode+"&formId="+formId+"&event="+event,// 请求的action路径
 			error : function() {// 请求失败处理函数
 				alert('<t:mutiLang langKey="get.error"/>');
 				frameElement.api.close();
@@ -72,6 +89,7 @@
 				}
 			}
 		});
- });
+ }
+
 </script>
 </html>

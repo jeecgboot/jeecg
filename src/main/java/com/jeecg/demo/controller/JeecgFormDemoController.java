@@ -1012,4 +1012,14 @@ public class JeecgFormDemoController extends BaseController {
 		return new ModelAndView("com/jeecg/demo/printingDemo");
 	}
 
+	
+	/**
+	 * 多选下拉框DEMO
+	 * @author taoYan
+	 * @since 2018年9月5日
+	 */
+	@RequestMapping(params = "multiSelect")
+	public ModelAndView multiSelect() {
+		return new ModelAndView("com/jeecg/demo/select_multi");
+	}
 }

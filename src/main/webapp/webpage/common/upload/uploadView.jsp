@@ -46,6 +46,10 @@
     	    });
     	    changebutton(true);
         }
+        //只返回文件的相对路径,可以直接存储在数据库中
+        function backOnlyUrl(){
+      	  return $("#fileUrl").val();
+        }
 
 </script>
 </head>

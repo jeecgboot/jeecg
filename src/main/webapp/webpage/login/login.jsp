@@ -117,7 +117,7 @@
                 </form>
               </div>
             </div>
-            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.7.8</h4></div>
+            <div class="center"><h4 class="blue" id="id-company-text">&copy; JEECG版权所有 v_3.8</h4></div>
             <div class="navbar-fixed-top align-right">
               <br />
               &nbsp;

@@ -151,3 +151,45 @@ function Map() {
 		return s;
 	};
 }
+
+
+/**
+ * 兼容老版uploadfy的上传方法upload扩展一个jquery的uploadfy实例方法<br>
+ * 若切换回老版上传,发现功能有bug,需要删除以下代码
+ * @param type 目前只有upload/cancel
+ * @param content
+ * @author taoYan
+ * 
+ **/
+var jqueryPluploadIns = new Map();
+(function ($) {
+	if(!$.fn.uploadify){
+		$.extend({
+	        "iplupload": function (id,uploader) {
+	           var type = typeof(uploader);
+	           if(type == 'object') {
+	        	   jqueryPluploadIns.put(id,uploader);
+	           }else if(type == "undefined"){
+	        	   return jqueryPluploadIns.get(id);
+	           }
+	        }
+	     });
+		
+	    $.fn.extend({
+			 "uploadify": function (type,content,settingOptions) {
+				 return this.each(function(){
+			        var id = $(this).attr("id");
+			        var uploader = $.iplupload(id);
+			        if(type=="upload"){
+			     	   uploader.start();
+			        }else if(type=="cancel"){
+			     	   uploader.stop();
+					   uploader.destroy();
+			        }else if(type="settings" && content == "formData"){
+			     	   uploader.setOption('multipart_params',settingOptions);
+			        }
+				 });
+		     }
+		});
+	}
+})(jQuery);

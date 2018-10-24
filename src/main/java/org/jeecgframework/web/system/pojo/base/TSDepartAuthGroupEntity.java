@@ -176,10 +176,11 @@ public class TSDepartAuthGroupEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  级别
 	 */
 
-	@Column(name ="LEVEL",nullable=true,length=10)
+	@Column(name ="[LEVEL]",nullable=true,length=10)
 	public java.lang.Integer getLevel(){
 		return this.level;
 	}
+
 
 	/**
 	 *方法: 设置java.lang.Integer

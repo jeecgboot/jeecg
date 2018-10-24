@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -184,7 +185,18 @@ public class GraphReportController extends BaseController {
 	@SuppressWarnings("unchecked")
 	private void loadVars(Map<String, Object> cgReportMap) {
 		Map mainM = (Map) cgReportMap.get(CgReportConstant.MAIN);
-		List<Map<String,Object>> fieldList = (List<Map<String, Object>>) cgReportMap.get(CgReportConstant.ITEMS);
+
+		List<Map<String,Object>> fieldList2 = (List<Map<String, Object>>) cgReportMap.get(CgReportConstant.ITEMS);
+		List<Map<String,Object>> fieldList = new ArrayList<Map<String,Object>>();
+		for (Map<String, Object> map : fieldList2) {
+			Map<String, Object> temp = new HashMap<String, Object>();
+			for (Entry<String, Object> entry : map.entrySet()) {
+				String key = entry.getKey();
+				temp.put(key.toLowerCase(), entry.getValue());
+			}
+			fieldList.add(temp);
+		}
+
 		List<Map<String,Object>> queryList = new ArrayList<Map<String,Object>>(0);
 		//图表数据
 		List<Map<String,Object>> graphList = new ArrayList<Map<String,Object>>(0);

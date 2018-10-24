@@ -33,7 +33,7 @@
 				<div class="accordion-inner">
 					<div class="panel panel-default" style="margin-bottom: 0px;">
 						<div class="panel-body">
-							<form id="${entityName?uncap_first}Form" onkeydown="if(event.keyCode==13){doSearch();return false;}">
+							<form id="searchForm" onkeydown="if(event.keyCode==13){doSearch();return false;}">
 								<#list columns as po>
 									<#if po.isQuery =='Y'>
 										<#if po.showType?index_of("datetime")!=-1>
@@ -102,6 +102,13 @@
 										    		<select class="form-control input-sm" id="${po.fieldName}" name="${po.fieldName}"></select>
 									    		</div>
 								    		</div>
+								    	<#elseif po.showType=='popup'>
+											<div class="col-xs-12 col-sm-6 col-md-4">
+												<label for="${po.fieldName}">${po.content}：</label>
+												<div class="input-group" style="width: 100%">
+													<input type="text" class="form-control input-sm" id="${po.fieldName}" name="${po.fieldName}" <#if po.dictTable?if_exists?html!=""> onclick="popupClick(this,'${po.dictText}','${po.dictField}','${po.dictTable}')"</#if>/>
+												</div>
+											</div>
 										<#else>
 											<#if po.queryMode =='group'>
 											<div class="col-xs-12 col-sm-6 col-md-4">
@@ -208,9 +215,9 @@
 				<#list columns as po>
 				<#if po.isQuery =='Y'>
 				<#if po.showType=='checkbox'||po.showType=='radio'>
-				loadSearchFormDicts($("#${entityName?uncap_first}Form").find(".${po.fieldName}-search"),${entityName?uncap_first}ListdictsData.${po.dictField},"${po.showType}","${po.fieldName}");
+				loadSearchFormDicts($("#searchForm").find(".${po.fieldName}-search"),${entityName?uncap_first}ListdictsData.${po.dictField},"${po.showType}","${po.fieldName}");
 				<#elseif  po.showType=='select' || po.showType=='list'>
-				loadSearchFormDicts($("#${entityName?uncap_first}Form").find("select[name='${po.fieldName}']"),${entityName?uncap_first}ListdictsData.${po.dictField},"select");
+				loadSearchFormDicts($("#searchForm").find("select[name='${po.fieldName}']"),${entityName?uncap_first}ListdictsData.${po.dictField},"select");
 				</#if>
 				</#if>
 				</#list>
@@ -355,7 +362,7 @@
 					field : '<#list columns as po>${po.fieldName},</#list>'
 				};
 
-				var params = $("#${entityName?uncap_first}Form").serializeArray();
+				var params = $("#searchForm").serializeArray();
 				for (x in params) {
 					temp[params[x].name] = params[x].value;
 				}
@@ -373,7 +380,7 @@
 		}
 
 		function searchRest() {
-			$('#${entityName?uncap_first}Form').find(':input').each(function() {
+			$('#searchForm').find(':input').each(function() {
 		    	if("checkbox"== $(this).attr("type")){
 		    		$("input:checkbox[name='" + $(this).attr('name') + "']").attr('checked',false);
 				}else if("radio"== $(this).attr("type")){
@@ -382,10 +389,10 @@
 					$(this).val("");
 				}
 		    });
-		    $('#${entityName?uncap_first}Form').find("input[type='checkbox']").each(function() {
+		    $('#searchForm').find("input[type='checkbox']").each(function() {
 		        $(this).attr('checked', false);
 		    });
-		    $('#${entityName?uncap_first}Form').find("input[type='radio']").each(function() {
+		    $('#searchForm').find("input[type='radio']").each(function() {
 		        $(this).attr('checked', false);
 		    });
 			reloadTable();

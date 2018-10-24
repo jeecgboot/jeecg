@@ -33,6 +33,7 @@ import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
+import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
@@ -389,18 +390,30 @@ public class CgAutoListController extends BaseController{
 	public AjaxJson del(String configId,String id,
 			HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-
-		String tableName = PublicUtil.replaceTableName(configId);
-		String jversion = cgFormFieldService.getCgFormVersionByTableName(tableName);
-		String table = (String) configService.queryConfigs(tableName,jversion).get(CgAutoListConstant.TABLENAME);
-		//String jversion = cgFormFieldService.getCgFormVersionByTableName(configId);
-		//String table = (String) configService.queryConfigs(configId,jversion).get(CgAutoListConstant.TABLENAME);
-
-		cgTableService.delete(table, id);
 		String message = "删除成功";
-		log.info("["+IpUtil.getIpAddr(request)+"][online表单数据删除]"+message+"表名："+configId);
-		systemService.addLog(message, Globals.Log_Type_DEL,
-				Globals.Log_Leavel_INFO);
+
+		try {
+
+			String tableName = PublicUtil.replaceTableName(configId);
+			String jversion = cgFormFieldService.getCgFormVersionByTableName(tableName);
+			String table = (String) configService.queryConfigs(tableName,jversion).get(CgAutoListConstant.TABLENAME);
+			//String jversion = cgFormFieldService.getCgFormVersionByTableName(configId);
+			//String table = (String) configService.queryConfigs(configId,jversion).get(CgAutoListConstant.TABLENAME);
+
+			cgTableService.delete(table, id);
+			log.info("["+IpUtil.getIpAddr(request)+"][online表单数据删除]"+message+"表名："+configId);
+			systemService.addLog(message, Globals.Log_Type_DEL,
+					Globals.Log_Leavel_INFO);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			j.setSuccess(false);
+		}catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			j.setSuccess(false);
+		}
+
 		j.setMsg(message);
 		return j;
 	}

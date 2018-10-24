@@ -87,11 +87,11 @@
 <script>
 var upload_total = 9;//最多上传数量
 var uploader = new plupload.Uploader({//创建实例的构造方法
-    runtimes: 'gears,html5,html4,silverlight,flash', //上传插件初始化选用那种方式的优先级顺序
+    runtimes: 'gears,html5,flash,silverlight,html4', //上传插件初始化选用那种方式的优先级顺序
     browse_button: ['btn', 'btn2'], // 上传按钮
     url: "systemController/filedeal.do", //远程上传地址
-    flash_swf_url: 'plug-in/plupload/js/Moxie.swf', //flash文件地址
-    silverlight_xap_url: 'plug-in/plupload/js/Moxie.xap', //silverlight文件地址
+    flash_swf_url: 'plug-in/plupload/Moxie.swf', //flash文件地址
+    silverlight_xap_url: 'plug-in/plupload/Moxie.xap', //silverlight文件地址
     filters: {
         max_file_size: '10mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
         mime_types: [//允许文件上传类型
@@ -206,8 +206,8 @@ var uploader2 = new plupload.Uploader({//创建实例的构造方法
     runtimes: 'gears,html5,html4,silverlight,flash', //上传插件初始化选用那种方式的优先级顺序
     browse_button: 'picsPicker', // 上传按钮
     url: "systemController/filedeal.do", //远程上传地址
-    flash_swf_url: 'plug-in/plupload/js/Moxie.swf', //flash文件地址
-    silverlight_xap_url: 'plug-in/plupload/js/Moxie.xap', //silverlight文件地址
+    flash_swf_url: 'plug-in/plupload/Moxie.swf', //flash文件地址
+    silverlight_xap_url: 'plug-in/plupload/Moxie.xap', //silverlight文件地址
     filters: {
         max_file_size: '10mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
         mime_types: [//允许文件上传类型

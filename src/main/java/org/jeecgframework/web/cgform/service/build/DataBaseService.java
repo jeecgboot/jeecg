@@ -28,7 +28,7 @@ public interface DataBaseService {
 	 * sql业务增强
 	 * 
 	 */
-	public void executeSqlExtend(String formId,String buttonCode,Map<String, Object> data);
+	public void executeSqlExtend(String formId,String buttonCode,Map<String, Object> data) throws BusinessException;
 
 	public Object getPkValue(String tableName);
 
@@ -39,6 +39,15 @@ public interface DataBaseService {
 	 * @param data
 	 */
 	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException;
+
+	/**
+	 * java业务增强
+	 * @param formId
+	 * @param buttonCode
+	 * @param data
+	 * @param event
+	 */
+	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data, String event) throws BusinessException;
 
 	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId(String formId);
 

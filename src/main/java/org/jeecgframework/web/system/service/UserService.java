@@ -74,5 +74,12 @@ public interface UserService extends CommonService{
 	 * @return
 	 */
 	public String getShortcutPrimaryMenuDiy(List<TSFunction> primaryMenu);
+	
+	/**
+	 * 根据菜单ID找到指定用户拥有的权限的子菜单集合
+	 * @author taoYan
+	 * @since 2018年10月22日
+	 */
+	public List<TSFunction>  getSubFunctionList(String userid,String functionId);
 
 }

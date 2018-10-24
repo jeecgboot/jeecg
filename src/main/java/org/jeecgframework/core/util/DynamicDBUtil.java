@@ -137,17 +137,18 @@ public class DynamicDBUtil {
 
 		list = findList(dbKey, sql, param);
 
-		
 		if(ListUtils.isNullOrEmpty(list))
 		{
 			logger.error("Except one, but not find actually");
+			return null;
 		}
 		
 		if(list.size() > 1)
 		{
 			logger.error("Except one, but more than one actually");
+			return null;
 		}
-		
+
 		return list.get(0);
 	}
 
@@ -161,12 +162,16 @@ public class DynamicDBUtil {
 	public static Object findOneByHash(final String dbKey, String sql, HashMap<String, Object> data){
 		List<Map<String, Object>> list;
 		list = findListByHash(dbKey, sql, data);
+
 		if(ListUtils.isNullOrEmpty(list)){
 			logger.error("Except one, but not find actually");
+			return null;
 		}
 		if(list.size() > 1){
 			logger.error("Except one, but more than one actually");
+			return null;
 		}
+
 		return list.get(0);
 	}
 

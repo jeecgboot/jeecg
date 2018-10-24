@@ -372,6 +372,11 @@
   }
 
 </script>
+<#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
+<script type="text/javascript">
+//JS增强
+${cgformConfig.formJs.cgJsStr}
+</script>
+</#if>
  </body>
-<script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}.js"></script>		
 </html>

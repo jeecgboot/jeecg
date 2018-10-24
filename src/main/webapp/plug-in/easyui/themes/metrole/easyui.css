@@ -132,6 +132,9 @@
   height: 30px;
   line-height: 30px;
   padding: 0 15px;
+  /*update--begin--author:scott date:20180811 for:自定义表单设计器上面无边框*/
+  border-top: 1px solid #e7eaec !important;
+  /*update--end--author:scott date:20180811 for:自定义表单设计器上面无边框*/
   border-bottom: 1px solid #e7eaec !important;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;

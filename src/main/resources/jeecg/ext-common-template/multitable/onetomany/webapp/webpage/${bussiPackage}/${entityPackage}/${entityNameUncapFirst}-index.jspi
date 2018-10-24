@@ -124,7 +124,7 @@
 		<!-- 主表 margin-bottom:6px;border-bottom:2px solid rgb(0, 116, 101) 375 -->
 		<div title="${ftl_description}" data-options="iconCls:'icon-ok',selected:true"  >
 			<div id="easyui_mainList" class="resize-y-iframe" style="height:286px;padding-bottom:6px;">
-				<iframe id="mainList" src="${entityName?uncap_first}Controller.do?mainList" height="99%" width="100%" frameborder="0"></iframe>
+				<iframe id="mainList" src="" height="99%" width="100%" frameborder="0"></iframe>
 			</div>
 		</div>
 	</div>
@@ -151,7 +151,7 @@
 	 <div id="tabsok" style="height:500px">
 	 <#list subtables as key>
 	     <div title="${subsG['${key}'].ftlDescription}" data-options="closable:false" style="overflow:hidden;box-sizing: border-box;">
-			<iframe id="${subsG['${key}'].entityName?uncap_first}Iframe" src="${subsG['${key}'].entityName?uncap_first}Controller.do?list" scrolling="yes" frameborder="0" height="100%" width="100%"></iframe>
+			<iframe id="${subsG['${key}'].entityName?uncap_first}Iframe" src="" scrolling="yes" frameborder="0" height="100%" width="100%"></iframe>
 		 </div>
 	 </#list>
 	 </div>
@@ -179,6 +179,7 @@
 
 <script type="text/javascript">
 $(function(){
+	$("#mainList").attr("src","${'$'}{webRoot}/${entityName?uncap_first}Controller.do?mainList");
  	initdivwidth();
 	$(window).resize(function(){
 		initdivwidth();

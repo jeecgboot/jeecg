@@ -62,27 +62,7 @@
         return false;  
     });  
   });
-  //初始化下标
-	function resetTrNum(tableId) {
-		$tbody = $("#"+tableId+"");
-		$tbody.find('>tr').each(function(i){
-			$(':input, select', this).each(function(){
-				var $this = $(this), name = $this.attr('name'), val = $this.val();
-				if(name!=null){
-					if (name.indexOf("#index#") >= 0){
-						$this.attr("name",name.replace('#index#',i));
-					}else{
-						var s = name.indexOf("[");
-						var e = name.indexOf("]");
-						var new_name = name.substring(s+1,e);
-						$this.attr("name",name.replace(new_name,i));
-					}
-				}
-			});
-			$(this).find('div[name=\'xh\']').html(i+1);
-		});
-	}
-	
+
 	function init(){
     	var tabHead =$("#jform_tab li:first");
     	var tabBox = $("#jform_tab .con-wrapper:first"); 

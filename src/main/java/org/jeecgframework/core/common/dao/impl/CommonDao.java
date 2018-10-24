@@ -40,6 +40,7 @@ import java.util.*;
  * @author  张代浩
  *
  */
+@SuppressWarnings("unchecked")
 @Repository
 public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGenericBaseCommonDao {
 

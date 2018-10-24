@@ -135,4 +135,10 @@ public final class Globals {
 			 BUTTON_AUTHORITY_CHECK = true;
 		 }
 	 }
+
+	 /**
+	  * rest接口 list最大当前条数
+	  */
+	 public static Integer MAX_PAGESIZE = 2000;	//条数
+
 }

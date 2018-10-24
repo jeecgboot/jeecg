@@ -76,6 +76,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		//通过转换，获取用户的请求URL地址
 		String requestPath = ResourceUtil.getJgAuthRequsetPath(request);
+
+		requestPath = filterUrl(requestPath);
+
 		//API接口，不做登陆验证
 		if (requestPath.length()>3&&"api/".equals(requestPath.substring(0,4))) {
 			return true;
@@ -105,7 +108,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 					requestPath = requestPath.replace("?olstylecode=", "");
 				}
 				logger.debug("-----authInterceptor----requestPath------"+requestPath);
-				
 				
 				//步骤三：  判断请求URL，是否有菜单访问权限 
 				if(!systemService.loginUserIsHasMenuAuth(requestPath,functionId,loginUserId,orgId)){
@@ -267,4 +269,20 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public void setExcludeContainUrls(List<String> excludeContainUrls) {
 		this.excludeContainUrls = excludeContainUrls;
 	}
+
+	private String filterUrl(String requestPath){
+		String url = "";
+		if(oConvertUtils.isNotEmpty(requestPath)){
+			url = requestPath.replace("\\", "/");
+			url = requestPath.replace("//", "/");
+			if(url.indexOf("//")>=0){
+				url = filterUrl(url);
+			}
+			if(url.startsWith("/")){
+				url=url.substring(1);
+			}
+		}
+		return url;
+	}
+
 }

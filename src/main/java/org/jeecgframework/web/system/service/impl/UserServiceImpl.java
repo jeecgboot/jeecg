@@ -462,4 +462,28 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		return floor;
 	}
 
+	@Override
+	public List<TSFunction> getSubFunctionList(String userid, String functionId) {
+		Map<String, TSFunction> loginActionlist = new HashMap<String, TSFunction>();
+		//查询用户角色对应的授权菜单
+		StringBuilder hqlsb1 = new StringBuilder("select distinct f from TSFunction f,TSRoleFunction rf,TSRoleUser ru  ").append("where ru.TSRole.id=rf.TSRole.id and rf.TSFunction.id=f.id and ru.TSUser.id=? and f.TSFunction.id = ?");
+		//查询用户组织机构授权的菜单
+		StringBuilder hqlsb2 = new StringBuilder("select distinct c from TSFunction c,TSRoleFunction rf,TSRoleOrg b,TSUserOrg a ").append("where a.tsDepart.id=b.tsDepart.id and b.tsRole.id=rf.TSRole.id and rf.TSFunction.id=c.id and a.tsUser.id=? and c.TSFunction.id = ?");
+		List<TSFunction> list1 = this.findHql(hqlsb1.toString(), userid,functionId);
+		List<TSFunction> list2 = this.findHql(hqlsb2.toString(), userid,functionId);
+		for (TSFunction function : list1) {
+			loginActionlist.put(function.getId(), function);
+		}
+		for (TSFunction function : list2) {
+			loginActionlist.put(function.getId(), function);
+		}
+		list1.clear();
+		list2.clear();
+		list1 = null;
+		list2 = null;
+		List<TSFunction> list = new ArrayList<TSFunction>(loginActionlist.values());
+		Collections.sort(list, new NumberComparator());
+		return list;
+	}
+
 }

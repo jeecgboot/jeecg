@@ -18,11 +18,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jeecgframework.core.common.hibernate.qbc.PageList;
 import org.jeecgframework.core.common.model.json.ComboBox;
 import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ReflectHelper;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.tag.core.util.GzipUtilities;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.easyui.Autocomplete;
 import org.jeecgframework.web.system.pojo.base.TSRole;
@@ -486,22 +484,10 @@ public class TagUtil {
 		response.setHeader("Cache-Control", "no-store");
 		String jsonStr = TagUtil.getJson(dg);
 		try {
-
-			HttpServletRequest request = ContextHolderUtils.getRequest();
-			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
-				log.debug("-------datagrid----json-----开启Gzip压缩-------------");
-				response.setHeader("Content-Encoding", "gzip");
-				OutputStream pw = GzipUtilities.getGzipWriter(response);
-				pw.write(jsonStr.getBytes("UTF-8"));
-				pw.flush();
-				pw.close();
-			} else {
-				PrintWriter pw = response.getWriter();
-				pw.write(jsonStr.toString());
-				pw.flush();
-				pw.close();
-			}
-
+			PrintWriter pw = response.getWriter();
+			pw.write(jsonStr.toString());
+			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
@@ -528,22 +514,10 @@ public class TagUtil {
 		JSONObject object = JSONObject.parseObject(jsonStr);
 		JSONArray rows = object.getJSONArray("rows");
 		try {
-
-			HttpServletRequest request = ContextHolderUtils.getRequest();
-			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
-				log.debug("-------datagrid----json-----开启Gzip压缩-------------");
-				response.setHeader("Content-Encoding", "gzip");
-				OutputStream pw = GzipUtilities.getGzipWriter(response);
-				pw.write(rows.toString().getBytes("UTF-8"));
-				pw.flush();
-				pw.close();
-			} else {
-				PrintWriter pw = response.getWriter();
-				pw.write(rows.toString());
-				pw.flush();
-				pw.close();
-			}
-
+			PrintWriter pw = response.getWriter();
+			pw.write(rows.toString());
+			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
@@ -577,23 +551,11 @@ public class TagUtil {
 		}
 		
 		try {
-
-			HttpServletRequest request = ContextHolderUtils.getRequest();
-			if (GzipUtilities.isGzipSupported(request) && !GzipUtilities.isGzipDisabled(request)) {
-				log.debug("-------datagrid----json-----开启Gzip压缩-------------");
-				response.setHeader("Content-Encoding", "gzip");
-				OutputStream pw = GzipUtilities.getGzipWriter(response);
-				pw.write(object.toString().getBytes("UTF-8"));
-				pw.flush();
-				pw.close();
-			} else {
-				PrintWriter pw = response.getWriter();
-				pw = response.getWriter();
-				pw.write(object.toString());
-				pw.flush();
-				pw.close();
-			}
-
+			PrintWriter pw = response.getWriter();
+			pw = response.getWriter();
+			pw.write(object.toString());
+			pw.flush();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{

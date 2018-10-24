@@ -15,6 +15,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @version 1.0
  */
 public class ComboTreeTag extends TagSupport {
+	private static final long serialVersionUID = 1L;
 	protected String id;// ID
 	protected String url;// 远程数据URL
 	protected String name;// 控件名称

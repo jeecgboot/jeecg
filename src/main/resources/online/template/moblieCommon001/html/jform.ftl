@@ -10,7 +10,7 @@
 		<title>Jeecg 移动表单</title>
 		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/formviewm.css" />
 		<link type="text/css" rel="stylesheet" href="${basePath}/online/template/${this_olstylecode}/css/theme/default.css" />
-		<link rel="stylesheet" href="${basePath}/plug-in/bootstrap3.3.5/css/bootstrap.min.css">
+		<#--<link rel="stylesheet" href="${basePath}/plug-in/bootstrap3.3.5/css/bootstrap.min.css">-->
 		<script type="text/javascript" src="${basePath}/online/template/${this_olstylecode}/js/head.load.min.js"></script>
 		<script type="text/javascript" src="${basePath}/plug-in/jquery/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="${basePath}/plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
@@ -22,7 +22,12 @@
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<script type="text/javascript" src="${basePath}/plug-in/My97DatePicker/WdatePicker.js"></script>
 		<link rel="stylesheet" href="${basePath}/plug-in/uploadify/css/uploadify.css" type="text/css"></link>
-  		<script type="text/javascript" src="${basePath}/plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+		<#--update-begin--Author:taoYan  Date:20180821 for： Online上传改造 -->
+  		<#-- script type="text/javascript" src="${basePath}/plug-in/uploadify/jquery.uploadify-3.1.js"></script -->
+  		<script type="text/javascript" src="${basePath}/plug-in/plupload/plupload.full.min.js"></script>
+  		<script type="text/javascript" src="${basePath}/plug-in/tools/Map.js"></script>
+  		<link rel="stylesheet" href="${basePath}/plug-in/webuploader/custom.css" type="text/css"></link>
+  		<#--update-end--Author:taoYan  Date:20180821 for： Online上传改造 -->
   		<!-- Validform组件引用 -->
 		<link href="${basePath}/plug-in/themes/bootstrap-ext/css/validform-ext.css" rel="stylesheet" />
 		<script type="text/javascript" src="${basePath}/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js"></script>
@@ -61,6 +66,11 @@
 			}
 			.upload_generate {
 				font-size:13px;
+			}
+			.li_upload{
+				padding:0 !important;
+				clear:none !important;
+				float:left;
 			}
 		</style>
 	</head>
@@ -267,12 +277,18 @@
 										/>
 									</div>
 								</li>
-							<#elseif po.show_type=='file' || po.show_type=='image'>
+							<#-- update-begin-author:taoYan date:20180903 for:移动模板文件上传改造 -->
+							<#elseif po.show_type=='file'>
 								<li class="clearfix " typ="name" reqd="1">
 									<label class="desc">${po.content}:<#if po.is_null != 'Y'><span class="req">*</span></#if></label>
+									<@uploadFile po = po />
 								</li>
-								<@uploadtag po = po />
-								
+							<#elseif po.show_type=='image'>
+								<li class="clearfix " typ="name" reqd="1">
+									<label class="desc">${po.content}:<#if po.is_null != 'Y'><span class="req">*</span></#if></label>
+									<@uploadImg po = po />
+								</li>
+							<#-- update-end-author:taoYan date:20180903 for:移动模板文件上传改造 -->
 						</#if>
 					</#list>
 					<#list columnsarea as po>
@@ -401,39 +417,60 @@
 			        }
 			    }
 			    
+		    	<#-- update-begin-author:taoYan date:20180903 for:移动模板文件上传改造 -->
 			    function upload() {
-				    <#list columns as po>
-				        <#if po.show_type=='file'>
-				            $('#${po.field_name}').uploadify('upload', '*');
-				        </#if>
-				        <#if po.show_type=='image'>
-				  			$('#${po.field_name}').uploadify('upload', '*');		
-				  		</#if>
-				    </#list>
-			    }
-			    
-			    function del(url,obj){
-					$.dialog.setting.zIndex = getzIndex();
-					$.dialog.confirm("确认删除该条记录?", function(){
-					  	$.ajax({
-							async : false,
-							cache : false,
-							type : 'POST',
-							url : url,// 请求的action路径
-							error : function() {// 请求失败处理函数
-							},
-							success : function(data) {
-								var d = $.parseJSON(data);
-								if (d.success) {
-									var msg = d.msg;
-									tip(msg);
-									$(obj).closest("tr").hide("slow");
-								}
+			    	var iattachment = getFileIDArray();
+				    var icgFormId = $("input[name='id']").val();
+					$.ajax({
+						async : false,
+						cache : false,
+						url:"cgUploadController.do?updateCgformFile",
+						data:{
+							'cgFormName':'${tableName?if_exists?html}',
+	    					'cgFormId':icgFormId,
+	    					'attachment': iattachment
+						},
+						type:"POST",
+						dataType:"JSON",
+						error : function() {// 请求失败处理函数
+						},
+						success : function(data) {
+							if (data.success) {
+								 var win = frameElement.api.opener;
+								 win.reloadTable();
+								 win.tip("操作成功！");
+								 frameElement.api.close();
+							}else{
+								tip(data.msg);
 							}
-						});  
-					}, function(){});
-				}
-		    	
+						}
+					});
+			    }
+			   	function getFileIDArray(){
+			    	var arr = [];
+			     	<#list columns as po>
+				       <#if po.show_type=='file' || po.show_type=='image'>
+				             var ${po.field_name}_attachment = [];
+				    		 $("#${po.field_name}thelist").find('.uploadify-queue-item').each(function(){
+				    		 	var temp = $(this).attr("id");
+				    		 	if(!!temp){
+				    		 		if($(this).is(":hidden")){
+				    		 			temp = temp+"_D";//删除文件
+				    		 		}else if($(this).hasClass('history')){
+				    		 			temp = temp+"_O";//老文件
+				    		 		}
+				    		 		${po.field_name}_attachment.push(temp);
+				    		 	}
+					         });
+					         if(${po.field_name}_attachment.length>0){
+					        	arr.push({cgFormField:'${po.field_name}',attachment: ${po.field_name}_attachment.join(',')});
+					         }
+				        </#if>
+				    </#list>
+			        return JSON.stringify(arr);
+		    	}
+			    <#-- update-end-author:taoYan date:20180903 for:移动模板文件上传改造 -->
+			    
 			    $(function(){
 			    	if(location.href.indexOf("goAddButton.do")!=-1||location.href.indexOf("goUpdateButton.do")!=-1){
 						//其他模式显示提交按钮

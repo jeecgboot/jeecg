@@ -70,11 +70,14 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 	}
 	
 	@SuppressWarnings("unchecked")
-	
-	public boolean delete(String table, Object id) {
-		try{
+
+	public boolean delete(String table, Object id) throws org.jeecgframework.web.cgform.exception.BusinessException {
+//		try{
 			CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(table);
 			Map<String,Object> data  = dataBaseService.findOneForJdbc(table, id.toString());
+
+			dataBaseService.executeJavaExtend(head.getId(), "delete", data, "start");
+
 			if(data!=null){
 				//打印测试
 			    Iterator it=data.entrySet().iterator();
@@ -86,9 +89,6 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(head.getId(), "delete", data);
-
-				dataBaseService.executeJavaExtend(head.getId(), "delete", data);
-
 			}
 			//step.1 删除表
 			StringBuilder deleteSql = new StringBuilder();
@@ -125,13 +125,17 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 					cgFormFieldService.deleteEntityById(CgUploadEntity.class, b.getId());
 				}
 			}
+
+			dataBaseService.executeJavaExtend(head.getId(), "delete", data, "end");
+
 //--------longjb-end--20150526 ----for:add step.3 判断是否有附件字段,进行连带删除附件及附件表---------------
-		}catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			return false;
+//		}
 		return true;
 	}
+
 	@SuppressWarnings("unchecked")
 	private void dealQuerySql(String table, String field, Map params,StringBuilder sqlB){
 		sqlB.append(" SELECT ");
@@ -203,7 +207,9 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 				}
 			}
 			parentIds = parentIds.substring(1);
-			String subSQL = "select `" + parentIdFieldName + "`, count(*) ct from " + table + " a where a.`" + parentIdFieldName + "` in" + "(" + parentIds + ") group by a.`" + parentIdFieldName + "`";
+
+			String subSQL = "select " + parentIdFieldName + ", count(*) ct from " + table + " a where a." + parentIdFieldName + " in" + "(" + parentIds + ") group by a." + parentIdFieldName + "";
+
 			List<Map<String, Object>> subCountResult =  this.findForJdbc(subSQL);
 			Map<String, Object> subCountMap = new HashMap<String, Object>();
 			for (Map<String, Object> map : subCountResult) {

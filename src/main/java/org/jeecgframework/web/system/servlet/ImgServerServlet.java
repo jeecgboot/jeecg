@@ -155,8 +155,17 @@ public class ImgServerServlet extends HttpServlet {
 		OutputStream outputStream = null;
 		try {
 			String imgurl = getUploadBasePath() + File.separator + imgPath;
-
-			inputStream = new BufferedInputStream(new FileInputStream(imgurl));
+			try {
+				inputStream = new BufferedInputStream(new FileInputStream(imgurl));
+			} catch (Exception e) {
+				//Online在线模板图片支持打进jar中，如果图片寻找失败，则再从jar中找
+				String imgClassPath = "/online/template/"+imgPath;
+				System.out.println(" imgClassPath "+imgClassPath);
+				if(inputStream==null){
+					inputStream = this.getClass().getResourceAsStream(imgClassPath);
+				}
+			}
+			
 			outputStream = response.getOutputStream();
 			byte[] buf = new byte[1024];
 			int len;

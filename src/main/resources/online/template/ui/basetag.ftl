@@ -34,6 +34,7 @@
   <script type="text/javascript" src="${webRootf!''}plug-in/jquery/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="${webRootf!''}plug-in/jquery-plugs/i18n/jquery.i18n.properties.js"></script>
   <script type="text/javascript" src="${webRootf!''}plug-in/tools/dataformat.js"></script>
+  <link rel="stylesheet" href="${webRootf!''}plug-in/easyui/themes/metrole/easyui.css" type="text/css"></link>
   <script type="text/javascript" src="${webRootf!''}plug-in/easyui/jquery.easyui.min.1.3.2.js"></script>
   <script type="text/javascript" src="${webRootf!''}plug-in/easyui/locale/${lang}.js"></script>
   <script type="text/javascript" src="${webRootf!''}plug-in/tools/syUtil.js"></script>
@@ -57,6 +58,10 @@
 </#if> 
 <#if hasFile==true>
   <link rel="stylesheet" href="${webRootf!''}plug-in/uploadify/css/uploadify.css" type="text/css"></link>
-  <script type="text/javascript" src="${webRootf!''}plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+  <#--update-begin--Author:taoYan  Date:20180821 for： Online上传改造 -->
+  <#-- script type="text/javascript" src="${webRootf!''}plug-in/uploadify/jquery.uploadify-3.1.js"></script -->
+  <script type="text/javascript" src="${webRootf!''}plug-in/plupload/plupload.full.min.js"></script>
+  <script type="text/javascript" src="${webRootf!''}plug-in/tools/Map.js"></script>
+  <#--update-end--Author:taoYan  Date:20180821 for： Online上传改造 -->
 </#if>
 </#macro>

@@ -73,21 +73,35 @@ function createDataGrid${config_id}(){
 						 		if(value==null || value.length==0){
 						 			return href;
 						 		}
-						 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
+						 		<#-- update-begin-Author: taoyan  Date:20180903 for:移动通用模板上传改造 -->
+						 		if(value.indexOf(',')>0){
+						 			var onclickFun = "createdetailwindow(\'文件列表\',\'cgUploadController.do?fileList&cgformName=${config_id}&cgformField=${x['field_id']}&cgformId="+rec.id+"\',500,300);";
+						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+						 			href = "[<a href='javascript:void(0)' style='text-decoration:none;' onclick=\""+onclickFun+"\">查看文件</a>]";
+						 			<#else>
+						 			href = "<a href='javascript:void(0)' class='ace_button' onclick=\""+onclickFun+"\"><u style='text-decoration:none;'><i class='fa fa-eye'></i>查看文件</u></a>";
+						 			</#if>
+						 		}else{
+						 			if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
 						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
 						 			href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=50 height=50/>";
 						 				<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
-						 		}else{
-						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
-						 			<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
-						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
-						 			href+="[<a href='"+value+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
-						 			<#else>
-						 			href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
-						 			</#if>
-						 			<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
-						 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
+							 		}else{
+							 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
+							 			<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+							 			<#-- update-begin- author:taoyan date:20181023 for:txt文件下载bug -->
+						 				var value2="systemController/downloadFile.do?filePath="+value
+							 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+							 			href+="[<a href='"+value2+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
+							 			<#else>
+							 			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+							 			</#if>
+							 			<#-- update-end- author:taoyan date:20181023 for:txt文件下载bug -->
+							 			<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+							 			<#-- //update-begin--Author:zhangjiaqiang  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
+							 		}
 						 		}
+						 		<#-- update-end-Author: taoyan  Date:20180903 for:移动通用模板上传改造 -->
 						 		return href;
 						 	},
 						 	</#if>
@@ -98,9 +112,20 @@ function createDataGrid${config_id}(){
 						 		if(value==null || value.length==0){
 						 			return href;
 						 		}
+						 		<#-- update-begin-Author: taoyan  Date:20180903 for:移动通用模板上传改造 -->
+						 		if(value.indexOf(',')>0){
+						 			var onclickFun = "createdetailwindow(\'图片列表\',\'cgUploadController.do?fileList&img=1&cgformName=${config_id}&cgformField=${x['field_id']}&cgformId="+rec.id+"\',500,300);";
+						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
+						 			href = "[<a href='javascript:void(0)' style='text-decoration:none;' onclick=\""+onclickFun+"\">查看图片</a>]";
+						 			<#else>
+						 			href = "<a href='javascript:void(0)' class='ace_button' onclick=\""+onclickFun+"\"><u style='text-decoration:none;'><i class='fa fa-eye'></i>查看图片</u></a>";
+						 			</#if>
+						 		}else{
 						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
-						 		href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=100 height=50/>";
+						 			href+="<img src='"+value+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=100 height=50/>";
 						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
+						 		}
+						 		<#-- update-end-Author: taoyan  Date:20180903 for:移动通用模板上传改造 -->
 						 		return href;
 						 	},
 						 	styler: function(value,row,index){

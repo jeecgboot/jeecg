@@ -24,9 +24,9 @@ $('#iuploader').pluploadQueue({
 	],
 	multipart_params:{isup:"1"},
 	rename: true,
-	runtimes: 'gears,html5,html4,silverlight,flash', //上传插件初始化选用那种方式的优先级顺序
-	flash_swf_url: 'plug-in/plupload/js/Moxie.swf', //flash文件地址
-    silverlight_xap_url: 'plug-in/plupload/js/Moxie.xap', //silverlight文件地址
+	runtimes: 'gears,html5,flash,silverlight,html4', //上传插件初始化选用那种方式的优先级顺序
+	flash_swf_url: 'plug-in/plupload/Moxie.swf', //flash文件地址
+    silverlight_xap_url: 'plug-in/plupload/Moxie.xap', //silverlight文件地址
 	init:{
 		FileUploaded:function(uploader,file,info){
 			 var data = eval("(" + info.response + ")");//解析返回的json数据

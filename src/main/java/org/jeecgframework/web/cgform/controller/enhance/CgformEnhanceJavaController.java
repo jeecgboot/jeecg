@@ -153,7 +153,9 @@ public class CgformEnhanceJavaController extends BaseController {
 	@ResponseBody  
 	public AjaxJson doCgformEnhanceJava(CgformEnhanceJavaEntity cgformEnhanceJavaEntity, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		CgformEnhanceJavaEntity doCgformEnhanceJava = cgformEnhanceJavaService.getCgformEnhanceJavaEntityByCodeFormId(cgformEnhanceJavaEntity.getButtonCode(), cgformEnhanceJavaEntity.getFormId());
+
+		CgformEnhanceJavaEntity doCgformEnhanceJava = cgformEnhanceJavaService.getCgformEnhanceJavaEntityByCodeFormId(cgformEnhanceJavaEntity.getButtonCode(), cgformEnhanceJavaEntity.getFormId(), cgformEnhanceJavaEntity.getEvent());
+
 		if(doCgformEnhanceJava!=null){
 			j.setObj(doCgformEnhanceJava);
 			j.setSuccess(true);
@@ -216,7 +218,7 @@ public class CgformEnhanceJavaController extends BaseController {
 		//根据buttonCode和formId初始化数据
 		cgformEnhanceJavaEntity.setButtonCode("add");
 		if (StringUtil.isNotEmpty(cgformEnhanceJavaEntity.getButtonCode())&&StringUtil.isNotEmpty(cgformEnhanceJavaEntity.getFormId())) {
-			CgformEnhanceJavaEntity cgformEnhanceJavaEntityVo = cgformEnhanceJavaService.getCgformEnhanceJavaEntityByCodeFormId(cgformEnhanceJavaEntity.getButtonCode(), cgformEnhanceJavaEntity.getFormId());
+			CgformEnhanceJavaEntity cgformEnhanceJavaEntityVo = cgformEnhanceJavaService.getCgformEnhanceJavaEntityByCodeFormId(cgformEnhanceJavaEntity.getButtonCode(), cgformEnhanceJavaEntity.getFormId(), cgformEnhanceJavaEntity.getEvent());
 			 if(cgformEnhanceJavaEntityVo!=null){
 				 cgformEnhanceJavaEntity = cgformEnhanceJavaEntityVo;
 			 }

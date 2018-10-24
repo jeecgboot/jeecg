@@ -7398,6 +7398,7 @@ body.boxed-layout.skin-3 #wrapper {
 }
 
 .skin-3 .nav-header {
+	padding:0;
     background: #ecba52;
     background: url('patterns/header-profile-skin-3.png');
 }

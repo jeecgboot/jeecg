@@ -12,10 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.service.upload.CgUploadServiceI;
 import org.jeecgframework.web.system.pojo.base.TSAttachment;
@@ -23,6 +21,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.common.UploadFile;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.constant.Globals;
@@ -41,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -195,18 +196,23 @@ public class CgUploadController extends BaseController {
 					write2Disk(mf, extend, savePath);
 					TSAttachment attachment = new TSAttachment();
 					attachment.setId(UUID.randomUUID().toString().replace("-", ""));
-					attachment.setAttachmenttitle(fileName);
+					attachment.setAttachmenttitle(fileName.substring(0,fileName.lastIndexOf(".")));
 					attachment.setCreatedate(new Timestamp(new Date().getTime()));
 					attachment.setExtend(extend);
 					attachment.setRealpath(path + myfilename);
 
-					attachment.setSwfpath( path + FileUtils.getFilePrefix(myfilename) + ".swf");
-					SwfToolsUtil.convert2SWF(savePath);
+					String globalSwfTransformFlag = ResourceUtil.getConfigByName("swf.transform.flag");
+					if("true".equals(globalSwfTransformFlag) && !FileUtils.isPicture(extend)){
+						attachment.setSwfpath( path + FileUtils.getFilePrefix(myfilename) + ".swf");
+						SwfToolsUtil.convert2SWF(savePath);
+					}
 
 					systemService.save(attachment);
 					attributes.put("url", path + myfilename);
 					attributes.put("name", fileName);
 					attributes.put("swfpath", attachment.getSwfpath());
+					attributes.put("fileid", attachment.getId());
+
 				}
 			}
 			ajaxJson.setAttributes(attributes);
@@ -272,5 +278,77 @@ public class CgUploadController extends BaseController {
         return hexString;
 	}
 
+	/**
+	 * Online 删除文件
+	 * 情景1.删除正在上传的文件,直接删除附件表即可
+	 * 情景2.删除历史上传文件(编辑页面存在),这种不能直接删除,因为删除要放在表单提交后做,所以只能返回一个状态值(页面作显示/隐藏欺骗用户)
+	 */
+	@RequestMapping(params = "delAttachment")
+	@ResponseBody
+	public AjaxJson delAttachment( HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String id  = request.getParameter("id");
+		try {
+			CgUploadEntity file = systemService.getEntity(CgUploadEntity.class, id);
+			if(file==null){
+				//如果关系表中无数据,则表示是情景1
+				TSAttachment attachment = systemService.getEntity(TSAttachment.class, id);
+				cgUploadService.deleteAttachment(attachment);
+				j.setObj(1);//情景1
+			}else{
+				j.setObj(0);//情景2
+			}
+			j.setSuccess(true);
+		} catch (Exception e) {
+			j.setSuccess(false);
+		}
+		return j;
+	}
+	@RequestMapping(params = "updateCgformFile")
+	@ResponseBody
+	public AjaxJson updateCgformFile( HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		String cgFormId = oConvertUtils.getString(request.getParameter("cgFormId"));//动态表主键ID
+		String tableName = oConvertUtils.getString(request.getParameter("cgFormName"));//动态表名
+		String attachments = oConvertUtils.getString(request.getParameter("attachment"));//动态表上传控件字段
+		try {
+			cgUploadService.updateCgFormFile(cgFormId, tableName, attachments);
+		} catch (Exception e) {
+			j.setSuccess(false);
+		}
+		return j;
+	}
 	
+	/**
+	 * 弹窗查看文件列表
+	 * @author taoYan
+	 * @since 2018年9月4日
+	 */
+	@RequestMapping(params = "fileList")
+	public ModelAndView fileList(HttpServletRequest request) {
+		String cgFormId = oConvertUtils.getString(request.getParameter("cgformId"));//动态表主键ID
+		String tableName = oConvertUtils.getString(request.getParameter("cgformName"));//动态表名
+		String cgField = oConvertUtils.getString(request.getParameter("cgformField"));//动态表上传控件字段
+		CriteriaQuery cq = new CriteriaQuery(CgUploadEntity.class);
+		cq.eq("cgformName", tableName);
+		cq.eq("cgformId", cgFormId);
+		cq.eq("cgformField", cgField);
+		cq.add();
+		List<CgUploadEntity> list = this.systemService.getListByCriteriaQuery(cq, false);
+		net.sf.json.JSONArray array = net.sf.json.JSONArray.fromObject(list);
+		JSONObject json = new JSONObject();
+		json.put("total",list.size());
+		json.put("rows",array);
+		request.setAttribute("datagridData", json);
+		String img = request.getParameter("img");
+		if("1".equals(img)){
+			return new ModelAndView("common/upload/cgformUploadImglist");
+		}else{
+			return new ModelAndView("common/upload/cgformUploadFilelist");
+		}
+	}
+	//TODO 1.更新表cgform_uploadfiles的时候，是根据页面传过来的ID以xx结尾判断：历史OR新增文件,这个功能应该在java代码中查询数据库校验
+	//TODO 2.新增文件 但是不提交表单 那么附件表就会产生垃圾数据 需要写个xx功能 清除垃圾文件/数据
+	//TODO 3.上传代码在宏中定义，但是依赖部分页面JS代码，通用性不好。
+
 }

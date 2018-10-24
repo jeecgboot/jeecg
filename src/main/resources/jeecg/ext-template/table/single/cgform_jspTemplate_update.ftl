@@ -23,8 +23,7 @@
   <title>${ftl_description}</title>
   <t:base type="jquery,easyui,tools,DatePicker"></t:base>
   <#if callbackFlag == true>
-	<link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css" />
-	<script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script>
+  <t:base type="uploadify"></t:base>
   </#if>
 <#if cgformConfig.cgFormHead.isTree == 'Y'>
   <style type="text/css">
@@ -277,7 +276,6 @@
 			</table>
 		</t:formvalid>
  </body>
-  <script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}.js"></script>		
   <#if callbackFlag == true>
 	  	<script type="text/javascript">
 		  	//加载 已存在的 文件
@@ -438,3 +436,9 @@
 			}
 	  	</script>
   	</#if>
+	<#if (cgformConfig.formJs.cgJsStr)?? && cgformConfig.formJs.cgJsStr!="">
+		<script type="text/javascript">
+		//JS增强
+		${cgformConfig.formJs.cgJsStr}
+		</script>
+	</#if>

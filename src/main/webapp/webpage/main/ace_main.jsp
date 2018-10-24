@@ -238,7 +238,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)">
+									<a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,270)">
 										<i class="icon-cog"></i>
 										 <t:mutiLang langKey="common.my.style"/>
 									</a>
@@ -318,9 +318,7 @@
 						</div>
 					</div><!-- #sidebar-shortcuts -->
 
-					<!-- update-begin-author:taoYan date:20180807 for: TASK #3052 【bug】论坛反馈 -- 3.7.8页面布局受到影响-->
-					<ul class="nav nav-list" id="aceMainPageMenu" style="overflow-y:auto">
-					<!-- update-end-author:taoYan date:20180807 for: TASK #3052 【bug】论坛反馈 -- 3.7.8页面布局受到影响-->
+					<ul class="nav nav-list">
 						<li class="active">
 							<a  href="javascript:addTabs({id:'home',title:'首页',close: false,url: 'loginController.do?hplushome'});">
 								<i class="fa fa-tachometer"></i>
@@ -355,7 +353,7 @@
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->
 
-				<div class="ace-settings-container" id="ace-settings-container">
+				<div class="ace-settings-container" id="ace-settings-container" style="top:100px;">
 					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 						<i class="icon-cog bigger-150"></i>
 					</div>
@@ -510,9 +508,6 @@
 
 		<script type="text/javascript">
 			jQuery(function($) {
-
-				$("#aceMainPageMenu").css("max-height",($(window).height()-140)+"px");
-
 				$('.easy-pie-chart.percentage').each(function(){
 					var $box = $(this).closest('.infobox');
 					var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');

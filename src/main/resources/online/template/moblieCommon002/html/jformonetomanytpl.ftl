@@ -125,11 +125,7 @@
 											class="ui-input-select province fld"
 											>
 											<#list dataList as dictdata> 
-												<option 
-													value="${dictdata.typecode?if_exists?html}" 
-													<#if dictdata.typecode?if_exists?html=="${subTableData['${subTableField.field_name}']?if_exists?html}">
-														selected="selected"
-													</#if>>${dictdata.typename?if_exists?html}
+												<option value="${dictdata.typecode?if_exists?html}" >${dictdata.typename?if_exists?html}
 												</option> 
 											</#list> 
 										</select>

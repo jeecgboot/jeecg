@@ -127,7 +127,9 @@
 						var d = $.parseJSON(data);
 						if (d.success) {
 							var msg = d.msg;
-							tip(msg);
+
+							tip(msg,1);//icon设置为1 表示一个绿色的对勾图标
+
 							reloadTable();
 							ids='';
 						}
@@ -157,7 +159,9 @@
 					success : function(data) {
 						if (data.success) {
 							var msg = data.msg;
-							tip(msg);
+
+							tip(msg,1);//icon设置为1 表示一个绿色的对勾图标
+
 							reloadTable();
 						}
 					}

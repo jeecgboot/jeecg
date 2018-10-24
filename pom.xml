@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jeecgframework</groupId>
 	<artifactId>jeecg</artifactId>
-	<version>3.7.8</version>
+	<version>3.8</version>
 	<packaging>war</packaging>
 	
 	<properties>
 		<!-- 自定义依赖包 -->
-        <codegenerate.version>3.6.3</codegenerate.version>
+        <codegenerate.version>3.6.4</codegenerate.version>
         <jeecg-common-plugin-ui.version>1.0.0</jeecg-common-plugin-ui.version>
 
 		<!-- springmvc -->
@@ -70,7 +70,7 @@
         <!-- pinyin4j -->
 		<pinyin4j.version>2.5.1</pinyin4j.version>
         <!-- jeasypoi 工具类  -->
-        <jeasypoi.version>2.1.9</jeasypoi.version>
+        <jeasypoi.version>2.2.0</jeasypoi.version>
         <!-- cxf webservice -->
 		<cxf.version>3.0.2</cxf.version>
 		<!-- jacob -->
@@ -143,7 +143,7 @@
 			<artifactId>codegenerate</artifactId>
 			<version>${codegenerate.version}</version>
 			<scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.3-20180614.jar</systemPath>
+          	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/codegenerate-3.6.4-20180823.jar</systemPath>
 		</dependency>
 		<!-- jeecg plugin-ui-->
 		<dependency>
@@ -151,7 +151,7 @@
 			<artifactId>jeecg-common-plugin-ui</artifactId>
 			<version>${jeecg-common-plugin-ui.version}</version>
 			<scope>system</scope>
-          	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jeecg-common-plugin-ui-1.0.0-20180613.jar</systemPath>
+          	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jeecg-common-plugin-ui-1.0.0-20180813.jar</systemPath>
 		</dependency>
 		<!-- 自定义的依赖包  end -->
 		
@@ -444,7 +444,7 @@
 		    <groupId>org.freemarker</groupId>
 		    <artifactId>freemarker</artifactId>
 		    <version>${freemarker.version}</version>
-			<scope>system</scope>
+		    <scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/freemarker-null-2.3.19.jar</systemPath>
 		</dependency>
         <!-- jeasypoi 工具类 -->
@@ -613,6 +613,14 @@
 			</exclusions>
 		</dependency>
 		<!-- Jeecg Plugin end -->
+		
+		<!-- update-begin-author:taoYan date:20180828 for:jxls导出excel -->
+		<dependency>
+		    <groupId>net.sf.jxls</groupId>
+		    <artifactId>jxls-core</artifactId>
+		    <version>1.0.6</version>
+		</dependency>
+		<!-- update-end-author:taoYan date:20180828 for:jxls导出excel -->
 		
 	</dependencies>
 

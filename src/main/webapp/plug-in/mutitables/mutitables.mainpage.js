@@ -109,10 +109,14 @@ function tempNoDo(){
 function initSubList(id){
 	id = iframeMainPageid(id);
 	if(!id){
-		console.log("主表无选中");
+		console.log("主表无选中!");
 	}else{
 		var listname = $("#mainPageFrameActived").val();
-		$("#"+listname+"Iframe")[0].contentWindow.curd.initListByMain(id);
+		try{
+			$("#"+listname+"Iframe")[0].contentWindow.curd.initListByMain(id);
+		}catch(e){
+			console.log("不是你的错！");
+		}
 	}
 }
 //设置/获取隐藏域主表id
@@ -133,10 +137,27 @@ function freshSubList(){
 //切换子表的时候切换对应菜单的激活状态
 function toggleMenus(index){
 	$("#tab-menus-attached").find("div."+$('#mainPageFrameActived').val()+"-ul").removeClass("active");
-	//console.log($("#mainPageFrameActived").val());
 	$("#mainPageFrameActived").find("option:eq("+index+")").attr("selected","selected");
-	//console.log($("#mainPageFrameActived").val());
-	$("#tab-menus-attached").find("div."+$('#mainPageFrameActived').val()+"-ul").addClass("active");
+	var activeTab = $('#mainPageFrameActived').val();
+	initSubIframeSrc(activeTab);//加快index页加载效率,动态的初始化iframe的地址
+	$("#tab-menus-attached").find("div."+activeTab+"-ul").addClass("active");
+}
+
+/**
+ * 默认每个iframe的src的地址是xxController.do?list ,如想自定义地址可在mainPageFrameActived的每个option上自定义data-src属性
+ * @returns
+ */
+function initSubIframeSrc(activeTab){
+	if(!$("#"+activeTab+"Iframe").attr("src")){
+		var src = $("#mainPageFrameActived option:selected").data("src");
+		if(!src){
+			src = activeTab+"Controller.do?list";
+		}
+		$("#"+activeTab+"Iframe").attr("src",src);
+		$("#"+activeTab+"Iframe").load(function(){
+			initSubList(0);
+		});
+	}
 }
 
 /**

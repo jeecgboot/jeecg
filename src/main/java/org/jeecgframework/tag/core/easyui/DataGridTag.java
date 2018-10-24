@@ -1565,7 +1565,8 @@ public class DataGridTag extends TagSupport {
 		sb.append("columns:[[");
 		this.getField(sb);
 		sb.append("]],");
-		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
+
+		sb.append("onLoadSuccess:function(data){$(\"#"+name+"\")."+grid+"(\"clearChecked\");$(\"#"+name+"\")."+grid+"(\"clearSelections\");");
 
 		//sb.append(" $(this).datagrid(\"fixRownumber\");");
 
@@ -4122,7 +4123,7 @@ appendLine(sb,"					}}\">关系</th>");
 		}else{		
 			appendLine(sb,"var toolbar = [{");
 			appendLine(sb,"	text:'',");
-			appendLine(sb,"	iconCls:'"+btnCls+"',");
+			appendLine(sb,"	iconCls:'icon-add',");
 			appendLine(sb,"	handler:function(){append();}");
 			appendLine(sb,"},{");
 			appendLine(sb,"	text:'',");

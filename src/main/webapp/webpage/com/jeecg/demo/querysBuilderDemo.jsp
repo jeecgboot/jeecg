@@ -54,7 +54,7 @@ textarea, input[type=text], input[type=password], select {
 			<t:dgCol title="工资" field="salary" query="false"></t:dgCol>
 			<t:dgCol title="生日" field="birthday" formatter="yyyy/MM/dd" query="false"></t:dgCol>
 		</t:datagrid>
-		<div id="jeecgDemoListquerytb"  style="padding: 3px; height: 25px">
+		<div id="jeecgDemoListquerytb"  style="padding: 3px; height: 67px">
 			<div style="float: left;">
 		  		<ul id="dsUL">
 					<li id="anyAll" class="conditionType">

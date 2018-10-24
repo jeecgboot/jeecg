@@ -332,13 +332,15 @@ public class CgReportServiceImpl extends CommonServiceImpl implements CgReportSe
 			}else{
 
 				List<Map<String, Object>> dicDatas = queryDicBySQL(dict_code);
-				for(Map r:result){
-					String value = String.valueOf(r.get(field_name));
-					for(Map m:dicDatas){
-						String typecode = String.valueOf(m.get("typecode"));
-						String typename = String.valueOf(m.get("typename"));
-						if(value.equalsIgnoreCase(typecode)){
-							r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),typename);
+				if(result!=null){
+					for(Map r:result){
+						String value = String.valueOf(r.get(field_name));
+						for(Map m:dicDatas){
+							String typecode = String.valueOf(m.get("typecode"));
+							String typename = String.valueOf(m.get("typename"));
+							if(value.equalsIgnoreCase(typecode)){
+								r.put(bean.get(CgReportConstant.ITEM_FIELDNAME),typename);
+							}
 						}
 					}
 				}

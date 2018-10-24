@@ -82,7 +82,9 @@ function createDataGrid${config_id}(){
 						 			<#-- update--begin--author:zhangjiaqiang date:20170606 for:TASK #2056 【上传附件功能】Online 一对多对上传组件支持 -->
 						 		}else{
 						 			<#-- //update-begin--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
-						 			href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 			<#-- update-begin- author:taoyan date:20181023 for:txt文件下载bug -->
+						 			var value2="systemController/downloadFile.do?filePath="+value
+						 			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
 						 			<#-- //update-end--Author:zhangdaihao  Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}
 						 		return href;

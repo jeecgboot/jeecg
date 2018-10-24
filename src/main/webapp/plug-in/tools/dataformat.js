@@ -38,3 +38,28 @@ Date.prototype.format = function (format,value) {
 	}
 	return format;
 };
+
+/**
+ * 列表文件图片 列格式化方法
+ * @param value
+ * @param type
+ * @returns
+ */
+function listFileImgFormat(value,type){
+	var href='';
+	if(value==null || value.length==0){
+		return href;
+	}
+	var value1 = "img/server/"+value;
+	if("image"==type){
+ 		href+="<img src='"+value1+"' width=30 height=30  onmouseover='tipImg(this)' onmouseout='moveTipImg()' style='vertical-align:middle'/>";
+	}else{
+ 		if(value.indexOf(".jpg")>-1 || value.indexOf(".gif")>-1 || value.indexOf(".png")>-1){
+ 			href+="<img src='"+value1+"' onmouseover='tipImg(this)' onmouseout='moveTipImg()' width=30 height=30 style='vertical-align:middle'/>";
+ 		}else{
+ 			var value2 = "img/server/"+value+"?down=true";
+ 			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+ 		}
+	}
+	return href;
+}

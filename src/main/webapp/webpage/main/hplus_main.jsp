@@ -35,7 +35,7 @@
         </div>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="nav-header">
+                <li class="nav-header" style="padding:0;">
                     <div class="dropdown profile-element">
                                 <span><img alt="image" width="180" height="61" src="plug-in/login/images/jeecg-aceplus.png" /></span>
                     </div>
@@ -76,7 +76,7 @@
                             </li>
                             <li><a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><t:mutiLang langKey="common.profile"/></a></li>
                            <%--  <li><a href="javascript:openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')"><t:mutiLang langKey="common.ssms.getSysInfos"/></a></li> --%>
-                            <li><a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)"><t:mutiLang langKey="common.my.style"/></a></li>
+                            <li><a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,270)"><t:mutiLang langKey="common.my.style"/></a></li>
                             <li><a href="javascript:clearLocalstorage()"><t:mutiLang langKey="common.clear.localstorage"/></a></li>
                             <li><a href="javascript:toSwagger()">Swagger接口</a></li>
                            <%-- <li><a href="javascript:toJeecgYun()">云应用中心</a></li>--%>

@@ -183,11 +183,18 @@
 				</div>
 			</li>
 			<#--update-begin--Author:liushaoqian  Date:20180710 for：TASK #2930 【online样式】通用移动模板一对多，支持上传图片和附件-->
-			<#elseif po.show_type=='file' || po.show_type=='image'>
-						<li class="clearfix " typ="name" reqd="1">
-							<label class="desc">${po.content}:<#if po.is_null != 'Y'><span class="req">*</span></#if></label>
-						</li>
-			<@uploadtag po = po />
+			<#-- update-begin-author:taoYan date:20180903 for:移动模板文件上传改造 -->
+			<#elseif po.show_type=='file'>
+			<li class="clearfix" typ="name" reqd="1">
+				<label class="desc">${po.content}:<#if po.is_null != 'Y'><span class="req">*</span></#if></label>
+				<@uploadFile po = po />
+			</li>
+			<#elseif po.show_type=='image'>
+			<li class="clearfix" typ="name" reqd="1">
+				<label class="desc">${po.content}:<#if po.is_null != 'Y'><span class="req">*</span></#if></label>
+				<@uploadImg po = po />
+			</li>
+			<#-- update-end-author:taoYan date:20180903 for:移动模板文件上传改造 -->
 			<#--update-end--Author:liushaoqian  Date:20180710 for：TASK #2930 【online样式】通用移动模板一对多，支持上传图片和附件-->
 		<#-- update--begin--author:taoyan Date:20170707 for:TASK #2918 【bug】online样式，通用移动模板2一对多 -->
 		<#else>

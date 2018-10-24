@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿//console.log兼容问题
+﻿﻿﻿﻿﻿﻿﻿//console.log兼容问题
 if(!window.console){
     window.console = {};
 }
@@ -1028,6 +1028,11 @@ function addOneTab(subtitle, url, icon) {
 		var id = "";
 		id = createTabId(subtitle);
 		window.top.addFineuiTab({id:id,title:subtitle,close: true,url: url});
+
+	}else if(indexStyle=='adminlte'){
+		var id = "";
+		id = createTabId(subtitle);
+		window.top.addTabs({id:id,title:subtitle,close: true,url: url});
 
 	}else{
 		if (icon == '') {

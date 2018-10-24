@@ -307,3 +307,77 @@
   white-space: nowrap;
 }
 /*进度条-end-*/
+
+/*plUpload 新增样式*/
+.uploader-list .viewtd{display:none;}
+.plupload-btn-default{
+    padding: 3px 14px;
+    display: -moz-inline-box; /* FF < 3*/
+	display: inline-block;
+	font: normal 12px sans-serif;
+	text-decoration: none;
+	outline: 0;
+    /* Optional rounded corners for browsers that support it */
+    -moz-border-radius: 10px;
+    -khtml-border-radius:10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: #fff;
+    background-color:#1cb495;
+    border-color: #398439;
+}
+.plupload-btn-default:hover,.plupload-btn-default.active,.plupload-btn-default:focus {
+	background-color: #159178;
+	color: #fff;
+	text-decoration: none;
+}
+
+.plupload-btn-uploader{
+     padding: 3px 14px;
+    display: -moz-inline-box; /* FF < 3*/
+	display: inline-block;
+	font: normal 12px sans-serif;
+	text-decoration: none !important;
+	outline: 0;
+    /* Optional rounded corners for browsers that support it */
+    -moz-border-radius: 10px;
+    -khtml-border-radius:10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.plupload-btn-uploader:hover,.plupload-btn-uploader.active,.plupload-btn-uploader:focus {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+.plupload_disabled, a.plupload_disabled:hover {
+    color: #737373;
+    border-color: #c5c5c5;
+    background-color: #c0c0c0;
+	cursor: default;
+}
+/*plUpload 新增样式*/
+
+
+/*plUpload 新增viewModel=thumb*/
+ul,li{list-style: none;padding:0;margin:0}
+ .photo_upload_box_outside{position: absolute;left:0;top:0;z-index: 800;display: none}
+ .photo_upload_box{padding: 16px 0 10px 16px; width: 268px;background-color: #FFF; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.2); position: relative}
+ .photo_upload_box h1{font-size: 14px;font-weight: 700;}
+ .photo_upload_box .upload_num{margin:10px 0}
+ .photo_upload_box .arrow_layer .arrow_top_area{left:20px}
+ .ul_pics li{float:left;width:80px;height:80px;margin:0 8px 8px 0;position: relative}
+ .ul_pics li img{width:100%;height: 100%}
+ .ul_pics li:hover .picbg{background: #4A4A4A; opacity: 0.6; filter:alpha(opacity=60); display: block; height: 100%; position: absolute; top: 0; width: 100%;}
+
+ .progress{position:relative;padding: 1px; border-radius:3px; margin:30px 0 0 0;}
+ .bar{background-color: green; display:block; width:0%; height:20px; border-radius:3px;}
+ .percent{position:absolute; height:20px; display:inline-block;top:3px; left:2%; color:#fff}
+ .pic_close{background:url("icons/ico_layer.png") no-repeat scroll -25px -25px; display: none; height: 20px; width: 20px; position: absolute;right:0;top:0;z-index: 990}
+ .ul_pics li:hover .pic_close{display: block}
+ .photo_upload_close{background:url("icons/local_upload_close.png") no-repeat scroll 0 0; display: block; height: 11px; width: 11px; position: absolute;right:7px;top:8px}
+/*plUpload 新增viewModel=thumb*/ 

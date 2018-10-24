@@ -1,4 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
 ${config_iframe}
+<link type="text/css" rel="stylesheet" href="online/template/${this_olstylecode}/css/rowedit.css"/>
+<script type="text/javascript" src="online/template/${this_olstylecode}/js/rowedit.js"></script>
+</head>
+<body>
 <#--update-start--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->
 <script type="text/javascript">
 /**
@@ -7,18 +14,19 @@ ${config_iframe}
 var ${config_id}Fw = 700,${config_id}Fh = 400;
 
 $(function(){
+	var comboboxDataObj = {};
 	$.get("cgFormHeadController.do?checkIsExit&checkIsTableCreate&name=${config_id}",
 	function(data){
 		data = $.parseJSON(data);
 		if(data.success){
-			createDataGrid${config_id}();
+			createDataGrid${config_id}(comboboxDataObj);
 		}else{
 			alertTip('表:<span style="color:red;">${config_id}</span>还没有生成,请到表单配置生成表');
 		}
 	});
 });
 
-function createDataGrid${config_id}(){
+function createDataGrid${config_id}(comboboxDataObj){
 	var initUrl = 'cgAutoListController.do?datagrid&configId=${config_id}&field=${fileds}${initquery}';
 	initUrl = encodeURI(initUrl);
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>(
@@ -59,7 +67,31 @@ function createDataGrid${config_id}(){
 						 {	field:'${x['field_id']}',
 						 <#--  update-begin--Author: chenj  Date:20160808 for：TASK 行编辑模式标题修改 -->
 						 	title:'${x['field_title']}',
+						 	<#-- update-begin--Author:taoyan date:20181022 for：行编辑radio类型 编辑完成显示value bug -->
+						 	<#if x['field_showType']=="radio">
+						 	formatter: function(value,row){
+								if('${x['field_id']}' in comboboxDataObj){
+									var arr = comboboxDataObj['${x['field_id']}'];
+									for(var a = 0;a<arr.length;a++){
+										if(arr[a].typecode == value){
+											return arr[a].typename;
+										}
+									}
+								}
+								return value;
+							},
+						 	</#if>
+						 	<#-- update-end--Author:taoyan date:20181022 for：行编辑radio类型 编辑完成显示value bug -->
 						 <#--  update-end--Author: chenj  Date:20160808 for：TASK 行编辑模式标题修改 -->
+						 <#--  update-begin--Author: taoyan  Date:20180824 for：TASK 行编辑模式支持文件上传 -->
+						 <#if x['field_showType']=="file" || x['field_showType']=="image">
+						  editor: {
+				                type: 'filecontrol',
+				                options: {
+				                    btnclass: 'ace_button'
+				                }
+				            },
+						 <#else>
 						 	editor:<#switch x['field_type']>
                                                   <#case "string">
                                                   <#--  update-begin--Author: chenj  Date:20160805 for：TASK #1247 [bug]论坛问题处理 -->
@@ -91,20 +123,24 @@ function createDataGrid${config_id}(){
 													options:{
 														valueField:'typecode',
 														textField:'typename',
-														data:
-														<#if  (x['field_dictlist']?size >0)>
-															[
-															<#list x['field_dictlist']  as xd>
-																{
-																"typecode":"${xd['typecode']}",
-																"typename":"${xd['typename']}"
-																},
-															</#list>
-															],
-														</#if>
+														<#-- update-begin--Author:taoyan date:20181022 for：行编辑radio类型 编辑完成显示value bug -->
 														<#-- add-begin--Author:xuelin  Date:20170425 for：#1781 【online模板】online行编辑模板，非空判断-------------------- -->
-														<#if x['field_isNull'] != "Y">required:true</#if>
+														<#if x['field_isNull'] != "Y">required:true,</#if>
 														<#-- add-end--Author:xuelin  Date:20170425 for：#1781 【online模板】online行编辑模板，非空判断-------------------- -->
+														data:(function(){
+															var dataObj = [];
+															<#if  (x['field_dictlist']?size >0)>
+																<#list x['field_dictlist']  as xd>
+																	dataObj.push({
+																	"typecode":"${xd['typecode']}",
+																	"typename":"${xd['typename']}"
+																	});
+																</#list>
+															</#if>
+															comboboxDataObj['${x['field_id']}'] = dataObj;
+															return dataObj;
+														})()
+														<#-- update-end--Author:taoyan date:20181022 for：行编辑radio类型 编辑完成显示value bug -->
 													}
 												}
 												<#-- add-begin--Author:xuelin  Date:20170425 for：#1781 【online模板】online 选择行编辑模板，添加数据，保存没有校验功能，需要改模板-------------------- -->
@@ -146,6 +182,8 @@ function createDataGrid${config_id}(){
                                                   <#break>
                                                   <#default>'text'
                                     </#switch> ,
+                            </#if>
+                            <#--  update-end--Author: taoyan  Date:20180824 for：TASK 行编辑模式支持文件上传 -->
 						 	<#if x['field_isShow'] == "N" >hidden:true,
 						 	</#if>
 						 	<#if x['field_href'] != "">
@@ -168,11 +206,14 @@ function createDataGrid${config_id}(){
 						 		}else{
 						 			<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 			<#-- update--begin--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
+						 			<#-- update-begin- author:taoyan date:20181023 for:txt文件下载bug -->
+						 			var value2="systemController/downloadFile.do?filePath="+value
 						 			<#if brower_type?? && brower_type == 'Microsoft%20Internet%20Explorer'>
-						 			href+="[<a href='"+value+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
+						 			href+="[<a href='"+value2+"' style='text-decoration:none;' target=_blank>点击下载</a>]";
 						 			<#else>
-						 			href+="<a href='"+value+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
+						 			href+="<a href='"+value2+"' class='ace_button' style='text-decoration:none;' target=_blank><u><i class='fa fa-download'></i>点击下载</u></a>";
 						 			</#if>
+						 			<#-- update-end- author:taoyan date:20181023 for:txt文件下载bug -->
 						 			<#-- update--end--author:zhangjiaqiang date:20170628 for: TASK #2194 【online链接样式切换】Online 功能测试的列表链接样式，需要根据浏览器IE进行切换 -->
 						 			<#-- //update-begin--Author:zhangjiaqiang Date:20160925 for：TASK #1344 [链接图标] online功能测试的按钮链接图标修改 -->
 						 		}
@@ -749,4 +790,6 @@ function createDataGrid${config_id}(){
 </#if>
 	</div>
 </div>
+</body>
+</html>
 <#--update-end--Author:luobaoli  Date:20150703 for：将本文档中所有href="#"修改为href="javascript:void(0)",避免rest风格下新增/删除等操作跳转到主页问题-->

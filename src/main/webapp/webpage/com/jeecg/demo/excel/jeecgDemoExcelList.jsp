@@ -21,12 +21,18 @@
    <t:dgToolBar title="导出" icon="icon-putout" funname="ExportXls"></t:dgToolBar>
    <t:dgToolBar title="模板下载" icon="icon-putout" funname="ExportXlsByT"></t:dgToolBar>
    <t:dgToolBar title="ftl模板导出word" icon="icon-putout" funname="ftlExportWord"></t:dgToolBar>
+   <t:dgToolBar title="jxls模板导出excel" icon="icon-putout" funname="jxlsExportXls"></t:dgToolBar>
   </t:datagrid>
   </div>
  </div>
  <script type="text/javascript">
  $(document).ready(function(){
  });
+ 
+//ftl模板导出word
+ function jxlsExportXls(){
+ 	location.href = "jeecgDemoExcelController/jxlsExportXls.do";
+ }
  
 //ftl模板导出word
 function ftlExportWord(){

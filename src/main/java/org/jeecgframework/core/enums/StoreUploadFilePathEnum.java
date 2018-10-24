@@ -11,6 +11,8 @@ import org.jeecgframework.core.util.oConvertUtils;
  */
 public enum StoreUploadFilePathEnum {
 	PHOTOSUCAI("photosucai", "upload"+File.separator+"img"+File.separator+"photosucai"), 
+	/**online文件上传位置*/
+	ONlINE("online","upload"+File.separator+"online"),
 	DEFAULT("default", "upload"+File.separator+"files");	 
 	 
 	private String name;

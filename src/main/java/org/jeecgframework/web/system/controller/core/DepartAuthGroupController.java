@@ -1303,13 +1303,17 @@ public class DepartAuthGroupController extends BaseController {
 			if (pFunction.size() > 0) {
 				for (TSDepartAuthgFunctionRelEntity departGroupRel : pFunction) {
 					TSFunction function = (TSFunction) departGroupRel.getTsFunction();
-					// 获取上级所有选中的ID
-					selectChild.add(function.getId());
-					for (TSFunction ts : functionList) {
-						if (ts.getId().equals(function.getId())) {
-							lists.add(ts);
+
+					if(function!=null){
+						// 获取上级所有选中的ID
+						selectChild.add(function.getId());
+						for (TSFunction ts : functionList) {
+							if (ts.getId().equals(function.getId())) {
+								lists.add(ts);
+							}
 						}
 					}
+
 				}
 				functionList = lists;
 			} else {
@@ -1356,9 +1360,11 @@ public class DepartAuthGroupController extends BaseController {
 		if (role != null) {
 			if (oConvertUtils.isNotEmpty(role.getDepartAgId())) {
 				String pid = role.getDepartAgId();
-				String groupSql = "select * from t_s_depart_authg_function_rel where group_id = ?";
+
+				String groupSql = "select * from t_s_depart_authg_function_rel where group_id = ? and auth_id = ?";
 				// 查询部门组记录赋值给pOperationArray
-				pGroup = this.systemService.findForJdbc(groupSql, pid);
+				pGroup = this.systemService.findForJdbc(groupSql, pid, functionId);
+
 			}
 		}
 		String[] pOperationArray = null;
@@ -1401,9 +1407,11 @@ public class DepartAuthGroupController extends BaseController {
 		if (role != null) {
 			if (oConvertUtils.isNotEmpty(role.getDepartAgId())) {
 				String pid = role.getDepartAgId();
-				String groupSql = "select * from t_s_depart_authg_function_rel where group_id = ?";
+
+				String groupSql = "select * from t_s_depart_authg_function_rel where group_id = ? and auth_id = ?";
 				// 查询部门组记录赋值给pDataRuleArray
-				pGroup = this.systemService.findForJdbc(groupSql, pid);
+				pGroup = this.systemService.findForJdbc(groupSql, pid, functionId);
+
 			}
 		}
 		String[] pDataRuleArray = null;

@@ -458,7 +458,10 @@ public class CgFormBuildController extends BaseController {
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/easyuiextend.js\"></script>");
 		sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum,basePath));
 		sb.append("<link rel=\"stylesheet\" href=\""+basePath+"/plug-in/uploadify/css/uploadify.css\" type=\"text/css\"></link>");
-		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+
+		//sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/uploadify/jquery.uploadify-3.1.js\"></script>");
+		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/plupload/plupload.full.min.js\"></script>");
+
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/tools/Map.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/js/Validform_v5.3.1_min_zh-cn.js\"></script>");
 		sb.append("<script type=\"text/javascript\" src=\""+basePath+"/plug-in/Validform/js/Validform_Datatype_zh-cn.js\"></script>");
@@ -692,9 +695,12 @@ public class CgFormBuildController extends BaseController {
 			        logger.debug("name:"+ok.toString()+";value:"+ov.toString());
 			    }
 				data = CommUtils.mapConvert(data);
+
+				dataBaseService.executeJavaExtend(formId, buttonCode, data, "start");
+
 				dataBaseService.executeSqlExtend(formId, buttonCode, data);
 
-				dataBaseService.executeJavaExtend(formId, buttonCode, data);
+				dataBaseService.executeJavaExtend(formId, buttonCode, data, "end");
 
 			}
 			j.setSuccess(true);

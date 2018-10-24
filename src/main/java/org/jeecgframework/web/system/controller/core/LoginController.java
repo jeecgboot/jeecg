@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -52,6 +54,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.SSOToken;
 import com.baomidou.kisso.common.util.HttpUtil;
@@ -234,7 +237,7 @@ public class LoginController extends BaseController{
             modelMap.put("currentOrgName", clientManager.getClient().getUser().getCurrentDepart().getDepartname());
 			
 			SysThemesEnum sysTheme = SysThemesUtil.getSysTheme(request);
-			if("fineui".equals(sysTheme.getStyle())|| "ace".equals(sysTheme.getStyle())||"diy".equals(sysTheme.getStyle())||"acele".equals(sysTheme.getStyle())||"hplus".equals(sysTheme.getStyle())){
+			if("fineui".equals(sysTheme.getStyle())|| "ace".equals(sysTheme.getStyle())||"diy".equals(sysTheme.getStyle())||"acele".equals(sysTheme.getStyle())||"hplus".equals(sysTheme.getStyle()) || "adminlte".equals(sysTheme.getStyle())){
 				request.setAttribute("menuMap", userService.getFunctionMap(user.getId()));
 			}
 			//国际化cookie
@@ -698,4 +701,68 @@ public class LoginController extends BaseController{
 	public String login3(){
 		return "login/login3";
 	}
+
+	/**
+	 * AdminLTE返回：用户权限菜单
+	 */
+	@RequestMapping(params = "getPrimaryMenuForAdminlte", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public AjaxJson getPrimaryMenuForAdminlte(String functionId, HttpServletRequest request) {
+		AjaxJson j = new AjaxJson();
+		try {
+
+			//List<TSFunction> functions = this.systemService.findByProperty(TSFunction.class, "TSFunction.id", functionId);
+			String userid = ResourceUtil.getSessionUser().getId();
+			List<TSFunction> functions = userService.getSubFunctionList(userid, functionId);
+
+			JSONArray jsonArray = new JSONArray();
+			if(functions != null && functions.size() > 0) {
+				for (TSFunction function : functions) {
+					JSONObject jsonObjectInfo = new JSONObject();
+					jsonObjectInfo.put("id", function.getId());
+
+					jsonObjectInfo.put("text",oConvertUtils.getString(MutiLangUtil.getLang(function.getFunctionName())));
+					jsonObjectInfo.put("url",oConvertUtils.getString(function.getFunctionUrl()));
+					jsonObjectInfo.put("targetType", "iframe-tab");
+					jsonObjectInfo.put("icon", "fa " + oConvertUtils.getString(function.getFunctionIconStyle()));
+
+					jsonObjectInfo.put("children", getChildOfAdminLteTree(function));
+					jsonArray.add(jsonObjectInfo);
+				}
+			}
+			j.setObj(jsonArray);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return j;
+	}
+	
+	public JSONArray getChildOfAdminLteTree(TSFunction function) {
+		JSONArray jsonArray = new JSONArray();
+		List<TSFunction> functions = this.systemService.findByProperty(TSFunction.class, "TSFunction.id", function.getId());
+		if(functions != null && functions.size() > 0) {
+			for (TSFunction tsFunction : functions) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("id", tsFunction.getId());
+				jsonObject.put("text", MutiLangUtil.getLang(tsFunction.getFunctionName()));
+				jsonObject.put("url", tsFunction.getFunctionUrl());
+				jsonObject.put("targetType", "iframe-tab");
+				jsonObject.put("icon", "fa " + tsFunction.getFunctionIconStyle());
+				jsonObject.put("children", getChildOfAdminLteTree(tsFunction));
+				jsonArray.add(jsonObject);
+			}
+		}
+		return jsonArray;
+	}
+	
+	/**
+	 * AdminLTE首页跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "adminlteHome")
+	public ModelAndView adminlteHome(HttpServletRequest request) {
+		return new ModelAndView("main/adminlte_home");
+	}
+
 }

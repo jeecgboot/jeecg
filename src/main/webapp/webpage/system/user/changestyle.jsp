@@ -42,6 +42,9 @@
 			<tr>
 				<td class="value"><input type="radio" value="fineui" name="indexStyle"  /><span>FineUI风格</span></td>
 			</tr>
+			<tr>
+				<td class="value"><input type="radio" value="adminlte" name="indexStyle"  /><span>AdminLTE风格</span></td>
+			</tr>
 		</tbody>
 	</table>
 </t:formvalid>

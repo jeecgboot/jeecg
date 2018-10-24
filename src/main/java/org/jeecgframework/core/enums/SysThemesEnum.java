@@ -19,7 +19,8 @@ public enum SysThemesEnum {
 	ACE_LE_STYLE("acele","main/ace_main","metrole", "ACE2风格"),
 	DIY("diy","main/diy","default","diy风格"),
 	HPLUS("hplus","main/hplus_main","metrole","H+风格"),
-	FINEUI_STYLE("fineui","main/fineui_main","metrole", "fineUI风格");
+	FINEUI_STYLE("fineui","main/fineui_main","metrole", "fineUI风格"),
+	ADMINLTE_STYLE("adminlte","main/adminlte_main","metrole","AdminLTE风格");
 
     /**
      * 风格

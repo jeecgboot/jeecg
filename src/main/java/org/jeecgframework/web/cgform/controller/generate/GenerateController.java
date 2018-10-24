@@ -107,7 +107,7 @@ public class GenerateController extends BaseController {
 		if(cgFormHead.getJformType()==1 || cgFormHead.getJformType()==3){
 			//如果是单表或者附表，则进入单表模型
 
-			request.setAttribute("jspModeList", GenerateUtil.getOnlineGenerateEnum("single","ext-common","Y".equals(cgFormHead.getIsTree())));// 默认老版本模板(IE8+/不支持移动/列表标签)
+			request.setAttribute("jspModeList", GenerateUtil.getOnlineGenerateEnum("single","ext","Y".equals(cgFormHead.getIsTree())));// 默认老版本模板(IE8+/不支持移动/列表标签)
 
 			returnModelAndView = "jeecg/cgform/generate/single";
 		}else{
@@ -122,7 +122,7 @@ public class GenerateController extends BaseController {
 				}
 			}
 
-			request.setAttribute("jspModeList", GenerateUtil.getOnlineGenerateEnum("onetomany","ext-common","Y".equals(cgFormHead.getIsTree())));// 默认老版本模板(IE8+/不支持移动/列表标签)
+			request.setAttribute("jspModeList", GenerateUtil.getOnlineGenerateEnum("onetomany","ext","Y".equals(cgFormHead.getIsTree())));// 默认老版本模板(IE8+/不支持移动/列表标签)
 
 			request.setAttribute("subTableList", subTableList);
 			returnModelAndView = "jeecg/cgform/generate/one2many";

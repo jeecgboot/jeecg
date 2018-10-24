@@ -3,6 +3,7 @@ package org.jeecgframework.web.cgform.service.upload;
 import org.jeecgframework.core.common.service.CommonService;
 
 import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
+import org.jeecgframework.web.system.pojo.base.TSAttachment;
 /**
  * 
  * @Title:CgUploadServiceI
@@ -24,4 +25,21 @@ public interface CgUploadServiceI extends CommonService{
 	 * @param cgFormField
 	 */
 	public void writeBack(String cgFormId,String cgFormName,String cgFormField,String fileId,String fileUrl);
+	
+	/**
+	 * 删除附件表数据
+	 * @author taoYan
+	 * @since 2018年9月3日
+	 */
+	public void deleteAttachment(TSAttachment attachment);
+	
+	/**
+	 * 更新附件信息
+	 * @param cgFormId 表单ID
+	 * @param tableName 表名称
+	 * @param attachments 附件信息:[{表字段,[附件ID]}]
+	 * @author taoYan
+	 * @since 2018年9月3日
+	 */
+	public void updateCgFormFile(String cgFormId,String tableName,String attachments) throws Exception;
 }

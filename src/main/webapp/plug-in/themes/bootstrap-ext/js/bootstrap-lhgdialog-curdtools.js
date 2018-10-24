@@ -1256,14 +1256,15 @@ function popClick(obj,name,url) {
  * 代入查询条件
  */
 function JeecgExcelExport(url,datagridId){
-	var queryParams = $('#'+datagridId).bootstrapTable('getOptions').queryParams;
-	$('#'+datagridId+'tb').find('*').each(function() {
-	    queryParams[$(this).attr('name')] = $(this).val();
+
+	var params = '';
+	var queryParams = $("#searchForm").serializeArray();
+	$.each(queryParams, function(index, obj){
+		if(!!obj.value){
+			params+='&'+obj.name+'='+obj.value;
+		}
 	});
-	var params = '&';
-	$.each(queryParams, function(key, val){
-		params+='&'+key+'='+val;
-	}); 
+
 	var fields = '&field=';
 	$.each($('#'+ datagridId).bootstrapTable('getOptions').columns[0], function(i, val){
 		if(val.field != 'opt'){

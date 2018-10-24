@@ -49,7 +49,9 @@ public interface CgTableServiceI {
 	 * @param id 主键
 	 * @return
 	 */
-	public boolean delete(String table,Object id);
+
+	public boolean delete(String table,Object id)throws org.jeecgframework.web.cgform.exception.BusinessException;
+
 	/**
 	 * 删除多条数据
 	 * @param table 表

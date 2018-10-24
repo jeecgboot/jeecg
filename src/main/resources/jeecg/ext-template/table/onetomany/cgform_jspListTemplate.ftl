@@ -36,7 +36,6 @@
   </t:datagrid>
   </div>
  </div>
- <script src = "webpage/${bussiPackage?replace('.','/')}/${entityPackage}/${entityName?uncap_first}List.js"></script>		
  <script type="text/javascript">
  <#list buttons as btn>
  	<#if btn.buttonStyle =='button' && btn.optType=='action'>
@@ -68,3 +67,9 @@ function ExportXlsByT() {
 	JeecgExcelExport("${entityName?uncap_first}Controller.do?exportXlsByT","${entityName?uncap_first}List");
 }
  </script>
+<#if (cgformConfig.listJs.cgJsStr)?? && cgformConfig.listJs.cgJsStr!="">
+ <script type="text/javascript">
+ //JS增强
+ ${cgformConfig.listJs.cgJsStr}
+ </script>
+</#if>

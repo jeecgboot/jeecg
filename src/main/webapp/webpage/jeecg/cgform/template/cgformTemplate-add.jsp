@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Online表单风格</title>
-    <t:base type="jquery,easyui,tools,DatePicker"></t:base>
+    <t:base type="jquery,easyui,tools,DatePicker,uploadify"></t:base>
 </head>
 <body>
 <t:formvalid formid="formobj" dialog="true"   usePlugin="password" layout="table" action="cgformTemplateController.do?doAdd">
@@ -88,12 +88,10 @@
                      	   预览图：
                     </label>
                 </td>
-                <td class="value" >
-                    <span id="templatePicspan"><input type="file" name="templatePic_u" id="templatePic_u" /></span>
+                <td class="value" style="padding-top:1em">
                     <input type="hidden" id="templatePic" name="templatePic" />
-
-                    <span class="Validform_checktip"></span>
-                    <label class="Validform_label" style="display: none;">预览图</label>
+					<t:upload queueID="hiddenArea" auto="true" dialog="false" outhtml="false" onUploadSuccess="viewPicUploadSuccess" id="templatePic_u" uploader="cgformTemplateController.do?uploadPic&sessionId=${pageContext.session.id}" extend="pic" name="templatePic_u"></t:upload>
+                    <div id = "hiddenArea" style="display:none"></div>
                 </td>
             </tr>
 
@@ -104,7 +102,7 @@
                     </label>
                 </td>
                 <td class="value" >
-                    <t:upload id="templateZip"   buttonText="上传文件" multi="false" name="templateZip" uploader="cgformTemplateController.do?uploadZip" onUploadSuccess="uploadZipSuccess" extend="*.zip;*.rar"></t:upload>
+                    <t:upload id="templateZip" onFilesRemoved="zipFilesRemoved" onFileAdded="zipFileAdded" queueID= "filediv" dialog="false" outhtml="false"  onUploadSuccess="zipUploadSuccess" buttonText="浏览文件" multi="false" name="templateZip" uploader="cgformTemplateController.do?uploadZip&sessionId=${pageContext.session.id}" extend="*.zip;*.rar"></t:upload>
                     <div class="form" id="filediv" ></div>
                     <span class="Validform_checktip"></span>
                     <label class="Validform_label" style="display: none;">风格模板</label>
@@ -188,9 +186,28 @@
 <script>
     var hasZipFile=0;
 
+    function viewPicUploadSuccess(d){
+    	if(d.success){
+            $("#prePic").attr("src","img-online/server/temp/"+ d.obj);
+            $("#templatePic").val(d.obj);
+        }
+    }
+    function zipUploadSuccess(d){
+    	if(d.success){
+            $("#templateZipName").val(d.obj);
+            $("#formobj").submit();
+        }
+    }
+    function zipFileAdded(){
+    	hasZipFile++;
+    }
+    
+    function zipFilesRemoved(){
+    	hasZipFile--;
+    }
     $(function () {
         $("#prePic").attr("src","img-online/server/default/images/default.jpg");
-        $('#templatePic_u').uploadify({buttonText:'浏览',
+        /* $('#templatePic_u').uploadify({buttonText:'浏览',
             progressData:'speed',
             multi:false,
             height:18,
@@ -214,7 +231,7 @@
                 }
 
             }
-        });
+        }); 
 
         $('#templateZip').uploadify({buttonText:'浏览文件',
             progressData:'speed',
@@ -245,8 +262,9 @@
                 }
 
             }
-        });
+        });*/
     });
+
     //验证编码唯一性
     function checkCode(){
         var tCode=$("#templateCode").val();
