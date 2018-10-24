@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 105000
 File Encoding         : 65001
 
-Date: 2018-10-23 20:34:54
+Date: 2018-10-24 15:56:18
 */
 
 
@@ -19751,15 +19751,6 @@ GO
 INSERT INTO [dbo].[t_s_data_rule] ([id], [rule_name], [rule_column], [rule_conditions], [rule_value], [create_date], [create_by], [create_name], [update_date], [update_by], [update_name], [functionId]) VALUES (N'4028318161424e730161424fca6f0004', N'createBy', N'createBy', N'=', N'#{sys_user_code}', N'2018-01-29 22:26:20.0000000', N'admin', N'管理员', null, null, null, N'4028318161424e730161424f61510002')
 GO
 GO
-INSERT INTO [dbo].[t_s_data_rule] ([id], [rule_name], [rule_column], [rule_conditions], [rule_value], [create_date], [create_by], [create_name], [update_date], [update_by], [update_name], [functionId]) VALUES (N'402881e56266f43101626727aff60067', N'销售自己看自己的数据', N'createBy', N'=', N'#{sys_user_code}', N'2018-03-27 19:11:16.0000000', N'admin', N'管理员', null, null, null, N'402881e56266f43101626724eb730065')
-GO
-GO
-INSERT INTO [dbo].[t_s_data_rule] ([id], [rule_name], [rule_column], [rule_conditions], [rule_value], [create_date], [create_by], [create_name], [update_date], [update_by], [update_name], [functionId]) VALUES (N'402881e56266f4310162672fb1a70082', N'销售经理看所有下级数据', N'sysOrgCode', N'LIKE', N'#{sys_org_code}', N'2018-03-27 19:20:01.0000000', N'admin', N'管理员', null, null, null, N'402881e56266f43101626724eb730065')
-GO
-GO
-INSERT INTO [dbo].[t_s_data_rule] ([id], [rule_name], [rule_column], [rule_conditions], [rule_value], [create_date], [create_by], [create_name], [update_date], [update_by], [update_name], [functionId]) VALUES (N'402881e56266f431016267387c9f0088', N'只看金额大于1000的数据', N'money', N'>=', N'1000', N'2018-03-27 19:29:37.0000000', N'admin', N'管理员', null, null, null, N'402881e56266f43101626724eb730065')
-GO
-GO
 
 -- ----------------------------
 -- Table structure for t_s_data_source
@@ -20961,15 +20952,6 @@ INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], 
 GO
 GO
 INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], [operation], [datarule], [create_name], [create_by], [create_date], [update_name], [update_by], [update_date], [sys_org_code], [sys_company_code]) VALUES (N'402881f3641ccf5601641cd1920f0050', N'402881f3641ccf5601641cd174e2002a', N'4028810061e634380161e635df420001', null, null, N'管理员', N'admin', N'2018-06-20 18:50:53.0000000', null, null, null, N'A03', N'A03')
-GO
-GO
-INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], [operation], [datarule], [create_name], [create_by], [create_date], [update_name], [update_by], [update_date], [sys_org_code], [sys_company_code]) VALUES (N'402881f3641ccf5601641cd1b2c70051', N'402881f3641ccf5601641cd174e2002a', N'402881e56266f431016267412f22009a', null, null, N'管理员', N'admin', N'2018-06-20 18:51:02.0000000', null, null, null, N'A03', N'A03')
-GO
-GO
-INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], [operation], [datarule], [create_name], [create_by], [create_date], [update_name], [update_by], [update_date], [sys_org_code], [sys_company_code]) VALUES (N'402881f3641ccf5601641cd1b2cd0052', N'402881f3641ccf5601641cd174e2002a', N'402881e56266f4310162671d62050044', N'402881e56266f4310162671e558e0046,', null, N'管理员', N'admin', N'2018-06-20 18:51:02.0000000', N'管理员', N'admin', N'2018-06-20 18:51:05.0000000', N'A03', N'A03')
-GO
-GO
-INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], [operation], [datarule], [create_name], [create_by], [create_date], [update_name], [update_by], [update_date], [sys_org_code], [sys_company_code]) VALUES (N'402881f3641ccf5601641cd1b2ce0053', N'402881f3641ccf5601641cd174e2002a', N'402881e56266f43101626724eb730065', null, N'402881e56266f43101626727aff60067,402881e56266f431016267387c9f0088,', N'管理员', N'admin', N'2018-06-20 18:51:02.0000000', N'管理员', N'admin', N'2018-06-21 09:38:09.0000000', N'A03', N'A03')
 GO
 GO
 INSERT INTO [dbo].[t_s_depart_authg_function_rel] ([id], [group_id], [auth_id], [operation], [datarule], [create_name], [create_by], [create_date], [update_name], [update_by], [update_date], [sys_org_code], [sys_company_code]) VALUES (N'402881f4609299ad0160929c328b000f', N'402881f4609299ad0160929bd4ac000c', N'4028ef8155fd32e40155fd348df80005', null, null, N'管理员', N'admin', N'2017-12-26 19:36:38.0000000', null, null, null, N'A03', N'A03')
@@ -22178,15 +22160,6 @@ INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [func
 GO
 GO
 INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [functionname], [functionorder], [functionurl], [parentfunctionid], [iconid], [desk_iconid], [functiontype], [function_icon_style], [create_by], [create_name], [update_by], [update_date], [create_date], [update_name]) VALUES (N'402881e55de5aead015de643eaed0004', null, N'1', N'多表头列表', N'2', N'jeecgListDemoController.do?multiHeaList', N'4028f6815af3ce54015af3d1ad610001', N'8a8ab0b246dc81120146dc8180460000', N'8a8ab0b246dc81120146dc8180dd001e', N'0', N'fa-tags', N'admin', N'管理员', N'admin', N'2018-06-01 12:06:26.0000000', N'2017-08-15 22:19:57.0000000', N'管理员')
-GO
-GO
-INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [functionname], [functionorder], [functionurl], [parentfunctionid], [iconid], [desk_iconid], [functiontype], [function_icon_style], [create_by], [create_name], [update_by], [update_date], [create_date], [update_name]) VALUES (N'402881e56266f4310162671d62050044', null, N'1', N'编辑页面', N'2', N'testRuleController.do?goUpdate', N'402881e56266f431016267412f22009a', N'8a8ab0b246dc81120146dc8180460000', N'8a8ab0b246dc81120146dc8180dd001e', N'1', N'', N'admin', N'管理员', N'admin', N'2018-03-27 19:39:39.0000000', N'2018-03-27 19:00:01.0000000', N'管理员')
-GO
-GO
-INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [functionname], [functionorder], [functionurl], [parentfunctionid], [iconid], [desk_iconid], [functiontype], [function_icon_style], [create_by], [create_name], [update_by], [update_date], [create_date], [update_name]) VALUES (N'402881e56266f43101626724eb730065', null, N'1', N'数据权限url', N'3', N'testRuleController.do?datagrid', N'402881e56266f431016267412f22009a', N'8a8ab0b246dc81120146dc8180460000', N'8a8ab0b246dc81120146dc8180dd001e', N'1', N'', N'admin', N'管理员', N'admin', N'2018-03-27 19:39:45.0000000', N'2018-03-27 19:08:15.0000000', N'管理员')
-GO
-GO
-INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [functionname], [functionorder], [functionurl], [parentfunctionid], [iconid], [desk_iconid], [functiontype], [function_icon_style], [create_by], [create_name], [update_by], [update_date], [create_date], [update_name]) VALUES (N'402881e56266f431016267412f22009a', null, N'0', N'数据权限讲解视频', N'102', N'', null, N'8a8ab0b246dc81120146dc8180460000', N'8a8ab0b246dc81120146dc8180dd001e', N'0', N'', N'admin', N'管理员', null, null, N'2018-03-27 19:39:07.0000000', null)
 GO
 GO
 INSERT INTO [dbo].[t_s_function] ([ID], [functioniframe], [functionlevel], [functionname], [functionorder], [functionurl], [parentfunctionid], [iconid], [desk_iconid], [functiontype], [function_icon_style], [create_by], [create_name], [update_by], [update_date], [create_date], [update_name]) VALUES (N'402881ea5bc9abd3015bc9b2ebe10001', null, N'1', N'左右布局', N'10', N'jeecgFormDemoController.do?siteSelect', N'4028f6815af3ce54015af3d1ad610001', N'8a8ab0b246dc81120146dc8180460000', N'8a8ab0b246dc81120146dc8181560043', N'0', N'fa-code', null, null, N'admin', N'2018-06-01 12:16:37.0000000', null, N'管理员')
@@ -23914,6 +23887,33 @@ INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], 
 GO
 GO
 INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'40286081669bca4601669bca93e40000', N'Chrome', N'用户: admin[JEECG开源社区]common.login.success', N'1', N'192.168.224.1', N'2018-10-22 20:40:36.0000000', N'1', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50f9d020000', N'Chrome', N'用户: admin[JEECG开源社区]common.login.success', N'1', N'192.168.224.1', N'2018-10-24 15:52:35.0000000', N'1', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50fc55a0001', N'Chrome', N'菜单【编辑页面】有设置页面权限，不能删除', N'1', N'本地', N'2018-10-24 15:52:46.1700000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50fd0fd0002', N'Chrome', N'操作删除成功', N'1', N'本地', N'2018-10-24 15:52:49.1500000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50fddf80003', N'Chrome', N'操作删除成功', N'1', N'本地', N'2018-10-24 15:52:52.4730000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50fe49d0004', N'Chrome', N'操作删除成功', N'1', N'本地', N'2018-10-24 15:52:54.1730000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50fea980005', N'Chrome', N'操作删除成功', N'1', N'本地', N'2018-10-24 15:52:55.7030000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50ff40d0006', N'Chrome', N'操作成功', N'1', N'本地', N'2018-10-24 15:52:58.1230000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a50ffb110007', N'Chrome', N'操作成功', N'1', N'本地', N'2018-10-24 15:52:59.9200000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
+GO
+GO
+INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'4028608166a509bd0166a510019d0008', N'Chrome', N'操作成功', N'1', N'本地', N'2018-10-24 15:53:01.5970000', N'4', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
 GO
 GO
 INSERT INTO [dbo].[t_s_log] ([ID], [broswer], [logcontent], [loglevel], [note], [operatetime], [operatetype], [userid], [username], [realname]) VALUES (N'402881f363b915f80163b9166d850000', N'Chrome', N'用户: admin[北京国炬软件]common.login.success', N'1', N'192.168.1.115', N'2018-06-01 10:04:04.0000000', N'1', N'8a8ab0b246dc81120146dc8181950052', N'admin', N'管理员')
@@ -31994,9 +31994,6 @@ INSERT INTO [dbo].[t_s_operation] ([ID], [operationcode], [operationicon], [oper
 GO
 GO
 INSERT INTO [dbo].[t_s_operation] ([ID], [operationcode], [operationicon], [operationname], [status], [functionid], [iconid], [operationtype], [processnode_id]) VALUES (N'402881875b1a8040015b1a84fd800001', N'phone', null, N'列表隐藏手机号', N'0', N'4028f6815af5e479015af5f08dc4001a', N'8a8ab0b246dc81120146dc8180460000', N'0', null)
-GO
-GO
-INSERT INTO [dbo].[t_s_operation] ([ID], [operationcode], [operationicon], [operationname], [status], [functionid], [iconid], [operationtype], [processnode_id]) VALUES (N'402881e56266f4310162671e558e0046', N'#saleContent_rule', null, N'销售过程隐藏', N'0', N'402881e56266f4310162671d62050044', N'8a8ab0b246dc81120146dc8180460000', N'0', null)
 GO
 GO
 INSERT INTO [dbo].[t_s_operation] ([ID], [operationcode], [operationicon], [operationname], [status], [functionid], [iconid], [operationtype], [processnode_id]) VALUES (N'402881f4606cc3d501606cd0cbdb0007', N'jeecgdemo_add', null, N'个人介绍', N'0', N'402881f4606cc3d501606cd07a520005', N'8a8ab0b246dc81120146dc8180460000', N'0', null)
@@ -43508,21 +43505,6 @@ GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e55de5aead015de64419c50006', null, N'402881e55de5aead015de643eaed0004', N'8a8ab0b246dc81120146dc8181870050', null)
 GO
 GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e56266f4310162671ee842004c', N'402881e56266f4310162671e558e0046,', N'402881e56266f4310162671d62050044', N'8a8ab0b246dc81120146dc81818b0051', null)
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e56266f431016267233a85005a', null, N'402881e56266f4310162671d62050044', N'402881875b19f141015b19fb1d490019', null)
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e56266f4310162672a24390074', null, N'402881e56266f43101626724eb730065', N'8a8ab0b246dc81120146dc81818b0051', N'402881e56266f43101626727aff60067,')
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e56266f4310162672bb7cd007d', null, N'402881e56266f43101626724eb730065', N'402881875b19f141015b19fb1d490019', N'402881e56266f4310162672fb1a70082,')
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e56266f4310162673961f9008e', null, N'402881e56266f43101626724eb730065', N'402880e74d75c4dd014d75d3c5f40001', N'402881e56266f431016267387c9f0088,')
-GO
-GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881e5626a5ec701626a6892ab0001', null, N'402881ff6265de9b016266eb26380035', N'8a8ab0b246dc81120146dc8181870050', null)
 GO
 GO
@@ -43583,12 +43565,6 @@ GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ccf5601641cd091090029', null, N'4028810061f41d790161f41ed05f0001', N'402881f36381446901638178a8af0042', null)
 GO
 GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ccf5601641cd792410056', null, N'402881e56266f431016267412f22009a', N'402881f3641ccf5601641cd30fa60055', null)
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ccf5601641cd792430057', N'402881e56266f4310162671e558e0046,', N'402881e56266f4310162671d62050044', N'402881f3641ccf5601641cd30fa60055', null)
-GO
-GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ccf5601641cd8b292005a', null, N'297e7ae160909a6f016090a112a50007', N'8a8ab0b246dc81120146dc81818b0051', null)
 GO
 GO
@@ -43596,9 +43572,6 @@ INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid]
 GO
 GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ccf5601641cd8b296005d', null, N'402881f4609299ad0160929ab2e00001', N'8a8ab0b246dc81120146dc81818b0051', null)
-GO
-GO
-INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3641ffa5b01641ffdad340001', null, N'402881e56266f43101626724eb730065', N'402881f3641ccf5601641cd30fa60055', N'402881e56266f4310162672fb1a70082,')
 GO
 GO
 INSERT INTO [dbo].[t_s_role_function] ([ID], [operation], [functionid], [roleid], [datarule]) VALUES (N'402881f3643ff24a01643ff391700001', null, N'4028f681643b2e6401643b3aeba50001', N'8a8ab0b246dc81120146dc8181870050', null)
