@@ -774,7 +774,7 @@ public class SystemController extends BaseController {
 			sb.append(" and  org_code like '").append(parentCode).append("%'");
 		} else {
 
-			sb.append(" and LEFT(org_code,1)='A'");
+			//sb.append(" and LEFT(org_code,1)='A'");
 
 		}
 
