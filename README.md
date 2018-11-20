@@ -108,7 +108,7 @@ JEECG 功能特点
     
 技术交流
 -----------------------------------
-* 	QQ交流群： ⑥190866569、其他群(全满)</br>
+* 	QQ交流群： ⑦286263896、其他群(全满)</br>
 * 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
 * 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
 * 	关注官方微信公众号，获取更多资讯
