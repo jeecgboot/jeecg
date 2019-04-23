@@ -97,9 +97,10 @@ JEECG 功能特点
 * [JEECG 在线开发文档](http://jeecg3.mydoc.io)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
 * [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
-* JEECG 视频教程(网盘密码rxk3): [https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA](https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA)
 * [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
 * [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
+* JEECG 视频教程(网盘密码rxk3): [https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA](https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA)
+
 
 工程说明
 -----------------------------------
