@@ -8,7 +8,7 @@
 	注意： 必须手工执行doc\db下的数据库脚本
 	
 3. 入门开发环境搭建
-   http://jeecg3.mydoc.io/?t=278859
+   http://jeecg3.mydoc.io/?t=286008
 
 4. JEECG常见问题贴(入门必看)
     http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1
