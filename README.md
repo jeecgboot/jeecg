@@ -1,3 +1,6 @@
+
+![JEECG](https://static.oschina.net/uploads/img/201905/24184932_ak9D.png "Jeecg快速开发平台")
+
 JEECG 微云快速开发平台
 ===============
 
