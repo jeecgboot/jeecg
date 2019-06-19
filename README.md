@@ -6,7 +6,7 @@ JEECG 微云快速开发平台
 
 当前最新版本： 3.8（发布日期：20181024）
 
-JEECG全新版本(Spring2.x+Vue+Antd 前后端分离)已经推出，强烈建议： [jeecg-boot](https://github.com/zhangdaiscott/jeecg-boot)
+JEECG全新版本已经发布，强烈建议(Spring2.x+Vue+Antd 前后端分离)： [jeecg-boot](https://github.com/zhangdaiscott/jeecg-boot)
 
 前言：
 -----------------------------------
