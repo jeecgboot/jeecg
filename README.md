@@ -95,7 +95,7 @@ JEECG 功能特点
 
 技术文档
 -----------------------------------
-* [在线演示](http://demo.jeecg.org)
+* [在线演示](http://demo.jeecg.com)
 * [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=286008)
 * [JEECG 在线开发文档](http://jeecg3.mydoc.io)
 * [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
