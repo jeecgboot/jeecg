@@ -113,8 +113,8 @@ JEECG 功能特点
 技术交流
 -----------------------------------
 * 	QQ交流群： ⑦286263896、其他群(全满)</br>
-* 	官方论坛： [http://www.jeecg.org](http://www.jeecg.org)
-* 	官方博客： [http://blog.csdn.net/zhangdaiscott](http://blog.csdn.net/zhangdaiscott)
+* 	官方网站： [http://www.jeecg.com](http://www.jeecg.com)
+* 	官方博客： [https://jeecg.blog.csdn.net](https://jeecg.blog.csdn.net)
 * 	关注官方微信公众号，获取更多资讯
 
 ![输入图片说明](https://static.oschina.net/uploads/img/201807/09172938_ltsb.jpg "在这里输入图片标题")
@@ -122,7 +122,7 @@ JEECG 功能特点
 
 社区荣誉
 -----------------------------------
-* 开源社区：http://www.jeecg.org
+* 官网：http://www.jeecg.com
 
 * ★2012年JEECG在Google Code上开源;
 * ★2012年底开源项目JEECG被"ITeye专家访谈";
