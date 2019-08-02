@@ -182,12 +182,19 @@ function createDataGrid${config_id}(){
 			}
 		]
 	],
+	<#--update-begin--Author:taoyan  Date:20181106 for：树形列表分页bug+行点击事件报错 -->
 	onLoadSuccess:function(data){
 		$("#${config_id}List").<#if config_istree=="Y">treegrid<#else>datagrid</#if>("clearSelections");
+		delete $("#${config_id}List").treegrid('options').queryParams['id'];
 	},
 	onClickRow:function(rowIndex,rowData)
-		{rowid=rowData.id;gridname='${config_id}List';}
+		<#if config_istree=="Y">
+			{rowid=rowIndex.id;gridname='${config_id}List';}
+		<#else>
+			{rowid=rowData.id;gridname='${config_id}List';}
+		</#if>
 	});
+	<#--update-end--Author:taoyan  Date:20181106 for：树形列表分页bug+行点击事件报错 -->
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>('getPager').pagination({beforePageText:'',afterPageText:'/{pages}',displayMsg:'{from}-{to}共{total}条',showPageList:true,showRefresh:true});
 	$('#${config_id}List').<#if config_istree=="Y">treegrid<#else>datagrid</#if>('getPager').pagination({onBeforeRefresh:function(pageNumber, pageSize){ $(this).pagination('loading');$(this).pagination('loaded'); }});
 	//将没有权限的按钮屏蔽掉

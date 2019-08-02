@@ -213,6 +213,8 @@ public class CgUploadController extends BaseController {
 					attributes.put("swfpath", attachment.getSwfpath());
 					attributes.put("fileid", attachment.getId());
 
+					attributes.put("extend", attachment.getExtend());
+
 				}
 			}
 			ajaxJson.setAttributes(attributes);

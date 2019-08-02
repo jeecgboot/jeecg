@@ -47,17 +47,17 @@
                         </h2>
             <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
             <p>
-                <b>当前版本：</b>v_3.8
+                <b>当前版本：</b>v_4.0
             </p>
             <p>
                 <span class="label label-warning">开源     免费</span>
             </p>
             <br>
             <p>
-                <a class="btn btn-success btn-outline" href="http://www.jeecg.org/" target="_blank">
+                <a class="btn btn-success btn-outline" href="http://www.jeecg.com" target="_blank">
                     <i class="fa fa-qq"> </i> 联系我们
                 </a>
-                <a class="btn btn-white btn-bitbucket" href="http://blog.csdn.net/zhangdaiscott" target="_blank">
+                <a class="btn btn-white btn-bitbucket" href="https://jeecg.blog.csdn.net" target="_blank">
                     <i class="fa fa-home"></i> 访问博客
                 </a>
             </p>
@@ -110,13 +110,13 @@
 
                     </div>
                     <div class="ibox-content">
-                        <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.org" target="_blank">http://www.jeecg.org</a>
+                        <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.com" target="_blank">http://www.jeecg.com</a>
                         </p>
                         <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">190866569</a>
                         </p>
                         <p><i class="fa fa-weixin"></i>微信公众号：<a href="javascript:;">jeecg</a>
                         </p>
-                        <p><i class="fa fa-credit-card"></i> 邮箱：<a href="javascript:;" class="邮箱">jeecg@sina.com</a>
+                        <p><i class="fa fa-credit-card"></i> 邮箱：<a href="javascript:;" class="邮箱">jeecgceo@163.com</a>
                         </p>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                                     <div id="v33" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <ol>
-                                                <li>更多版本，请详见论坛：www.jeecg.org</li>
+                                                <li>更多版本，请详见论坛：http://bbs.jeecg.com</li>
                                             </ol>
                                         </div>
                                     </div>

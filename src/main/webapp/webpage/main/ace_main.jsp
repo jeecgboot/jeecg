@@ -245,9 +245,9 @@
 								</li>
 								
 								<li>
-									<a href="http://yun.jeecg.org" target="_blank">
+									<a href="http://www.jeecg.com" target="_blank">
 										<i class="icon-cloud"></i>
-										 云应用中心
+										 JEECG官网
 									</a>
 								</li>
 								
@@ -352,7 +352,6 @@
 						</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->
-
 				<div class="ace-settings-container" id="ace-settings-container" style="top:100px;">
 					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 						<i class="icon-cog bigger-150"></i>

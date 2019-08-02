@@ -72,7 +72,51 @@
 				clear:none !important;
 				float:left;
 			}
-		</style>
+			/*update-begin-author:toayan date:20181112 for:TASK #3153 JEECG 问题确认处理 -->4.Online 单表移动模板，文件上 传格式太丑*/
+			.uploadify-button{
+				width: 100% !important;
+			    background-color: #3598dc !important;
+			    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#3598dc), to(#5cade2));
+			    border: 1px solid #3598dc;
+			    color: #fff !important;
+			    font-size: 14px;
+			    font-family: Hiragino Sans GB;
+			    height: 28px !important;
+			    line-height: 28px !important;
+			    border-radius: 4px;
+			}
+			.list-li{ 
+				-webkit-transform: translateX(0px);
+				border:1px solid #ddd;
+				border-right:none;
+			}
+			.os-file-type {
+			    background-size:36px 36px;
+			    display: inline-block;
+			    width: 36px;
+			    height: 36px;
+			    vertical-align:middle;
+			}
+			 .os-file-name{
+				display: inline-block;
+				height: 36px;
+				width: 100px;
+				vertical-align:middle;
+				font-size: 12px;
+			}
+			 .os-file-del{ 
+			 	position: absolute; 
+			 	top: -2px; right: -80px;
+			  	text-align: center; 
+			  	font-family: Hiragino Sans GB;
+			  	font-size:14px;
+			  	background: #ffcb20; color: #fff; 
+			  	width: 80px;
+			  	height: 40px;
+			  	line-height: 40px;
+			}
+	/*update-end-author:toayan date:20181112 for:TASK #3153 JEECG 问题确认处理 -->4.Online 单表移动模板，文件上 传格式太丑*/
+	</style>
 	</head>
 	<body class="wallpaper wallpaperm">
 	<div id="container" class="container" mobile="1">

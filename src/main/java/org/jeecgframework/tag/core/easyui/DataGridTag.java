@@ -2189,6 +2189,8 @@ public class DataGridTag extends TagSupport {
 			for (DataGridColumn col : columnList) {
 				if (col.isQuery()) {
 
+					String searchControlAttr= extendAttribute(col.getExtend());//获取extend属性对应的HTML
+
 					sb.append("<span style=\"display:-moz-inline-box;display:inline-block;margin-bottom:2px;text-align:justify;\">");
 
 					if(i==0){
@@ -2200,7 +2202,12 @@ public class DataGridTag extends TagSupport {
 					
 					if("single".equals(col.getQueryMode())){
 						if(!StringUtil.isEmpty(col.getReplace())){
-							sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"120\" style=\"width: 120px\"> ");
+
+							if(oConvertUtils.isEmpty(searchControlAttr)){
+								searchControlAttr = " style=\"width: 120px\" ";
+							}
+							sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" "+searchControlAttr+"> ");
+
 							sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
 							String[] test = col.getReplace().split(",");
 							String text = "";
@@ -2237,10 +2244,13 @@ public class DataGridTag extends TagSupport {
 								//System.out.println(dic[0]+"--"+dic[1]+"--"+dic[2]);
 							//	<input type="text" name="order_code"  style="width: 100px"  class="searchbox-inputtext" value="" onClick="inputClick(this,'account','user_msg');" />
 
+								if(oConvertUtils.isEmpty(searchControlAttr)){
+									searchControlAttr = " style=\"width: 120px\" ";
+								}
 								if(col.getDefaultVal()!=null&&!col.getDefaultVal().trim().equals("")){
-									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"popupClick(this,'"+dic[2].replaceAll("@", ",")+"','"+dic[1].replaceAll("@", ",")+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
+									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" "+searchControlAttr+" class=\"searchbox-inputtext\" onClick=\"popupClick(this,'"+dic[2].replaceAll("@", ",")+"','"+dic[1].replaceAll("@", ",")+"','"+dic[0]+"');\" value=\""+col.getDefaultVal()+"\"/> ");
 								}else{
-									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" style=\"width: 120px\" class=\"searchbox-inputtext\" value=\"\" onClick=\"popupClick(this,'"+dic[2].replaceAll("@", ",")+"','"+dic[1].replaceAll("@", ",")+"','"+dic[0]+"');\" /> ");
+									sb.append("<input type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" "+searchControlAttr+" class=\"searchbox-inputtext\" value=\"\" onClick=\"popupClick(this,'"+dic[2].replaceAll("@", ",")+"','"+dic[1].replaceAll("@", ",")+"','"+dic[0]+"');\" /> ");
 								}
 
 							}else if(col.getDictionary().contains(",")&&(!col.isPopup())){
@@ -2265,12 +2275,12 @@ public class DataGridTag extends TagSupport {
 									for (Map<String, Object> map : list){	//									    
 
 										if(col.getDefaultVal()!=null && col.getDefaultVal().trim().equals(map.get("field"))){
-											sb.append(" <input type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" checked=\"checked\" />");
+											sb.append(" <input "+searchControlAttr+" type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" checked=\"checked\" />");
 											sb.append(" <script type=\"text/javascript\">");
 											sb.append("  	$('#"+ field+"_radio').val(\""+map.get("field")+"\");");
 											sb.append(" </script>");
 										}else{
-											sb.append(" <input type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" />");
+											sb.append(" <input "+searchControlAttr+" type=\"radio\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+field+"_radio').val('"+map.get("field")+"');\" value=\""+map.get("field")+"\" />");
 										}	
 
 										sb.append(map.get("text"));										
@@ -2280,17 +2290,22 @@ public class DataGridTag extends TagSupport {
 									sb.append("<input type=\"hidden\" name=\""+field+"\" id=\""+field+"_checkbox\" value=\"\" />");
 									for (Map<String, Object> map : list){	//									    
 										if(col.getDefaultVal()!=null && col.getDefaultVal().trim().equals(map.get("field"))){											
-											sb.append(" <input type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+map.get("field")+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+map.get("field")+",',''));}\" value=\"" + map.get("field") + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" checked=\"checked\" />");
+											sb.append(" <input "+searchControlAttr+" type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+map.get("field")+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+map.get("field")+",',''));}\" value=\"" + map.get("field") + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" checked=\"checked\" />");
 											sb.append(" <script type=\"text/javascript\">");
 											sb.append("  	$(\"#"+ field +"_checkbox\").val($(\"#"+ field +"_checkbox\").val()+,"+map.get("field")+",);");
 											sb.append(" </script>");											
 										}else{											
-											sb.append(" <input type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+map.get("field")+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+map.get("field")+",',''));}\" value=\"" + map.get("field") + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" />");
+											sb.append(" <input "+searchControlAttr+" type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+map.get("field")+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+map.get("field")+",',''));}\" value=\"" + map.get("field") + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" />");
 										}
 										sb.append(map.get("text"));										
 									}
 								}else{
-									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"120\" style=\"width: 120px\"> ");
+
+									if(oConvertUtils.isEmpty(searchControlAttr)){
+										searchControlAttr = " style=\"width: 120px\" ";
+									}
+									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" "+searchControlAttr+"> ");
+
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
 									for (Map<String, Object> map : list){
 
@@ -2319,12 +2334,12 @@ public class DataGridTag extends TagSupport {
 											String typeCode = type.getTypecode();
 
 											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(typeCode)){
-												sb.append(" <input type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:#('#"+ field+"_radio').val('" + typeCode + "');\" checked=\"checked\" />");
+												sb.append(" <input "+searchControlAttr+" type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:#('#"+ field+"_radio').val('" + typeCode + "');\" checked=\"checked\" />");
 												sb.append(" <script type=\"text/javascript\">");
 												sb.append("  $('#"+ field+"_radio').val('"+typeCode+"');");
 												sb.append(" </script>");
 											}else{
-												sb.append(" <input type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + typeCode + "');\" />");
+												sb.append(" <input "+searchControlAttr+" type=\"radio\" value=\"" + typeCode + "\" name=\""+field+"_radio\" onclick=\"javascrpt:$('#"+ field+"_radio').val('" + typeCode + "');\" />");
 											}										
 
 											sb.append(MutiLangUtil.getLang(type.getTypename()));
@@ -2337,18 +2352,23 @@ public class DataGridTag extends TagSupport {
 										for (TSType type : types) {
 											String typeCode = type.getTypecode();
 											if(col.getDefaultVal()!=null&&col.getDefaultVal().trim().equals(typeCode)){
-												sb.append(" <input type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+typeCode+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+typeCode+",',''));}\" value=\"" + typeCode + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" checked=\"checked\" />");
+												sb.append(" <input "+searchControlAttr+" type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+typeCode+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+typeCode+",',''));}\" value=\"" + typeCode + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" checked=\"checked\" />");
 												sb.append(" <script type=\"text/javascript\">");
 												sb.append("  	$(\"#"+ field +"_checkbox\").val($(\"#"+ field +"_checkbox\").val()+,"+typeCode+",);");
 												sb.append(" </script>");
 											}else{
-												sb.append(" <input type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+typeCode+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+typeCode+",',''));}\" value=\"" + typeCode + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" />");
+												sb.append(" <input "+searchControlAttr+" type=\"checkbox\" onclick=\"javascript:if(this.checked)$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val()+',"+typeCode+",');else{$('#"+ field +"_checkbox').val($('#"+ field +"_checkbox').val().replace(',"+typeCode+",',''));}\" value=\"" + typeCode + "\" name=\"" + field +"_checkbox\" class=\"" + field + "_checkbox\" />");
 											}										
 											sb.append(MutiLangUtil.getLang(type.getTypename()));
 										}
 									}
 								}else{
-									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" WIDTH=\"120\" style=\"width: 120px\"> ");
+
+									if(oConvertUtils.isEmpty(searchControlAttr)){
+										searchControlAttr = " style=\"width: 120px\" ";
+									}
+									sb.append("<select name=\""+col.getField().replaceAll("_","\\.")+"\" "+searchControlAttr+"> ");
+
 									sb.append(StringUtil.replaceAll("<option value =\"\" >{0}</option>", "{0}", MutiLangUtil.getLang("common.please.select")));
 									if (types != null) {
 										for (TSType type : types) {
@@ -2375,14 +2395,25 @@ public class DataGridTag extends TagSupport {
 							sb.append(getAutoSpan(col.getField().replaceAll("_","\\."),extendAttribute(col.getExtend())));
 						}else{
 
-							sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\"  "+extendAttribute(col.getExtend())+" ");
+							sb.append("<input onkeypress=\"EnterPress(event)\" onkeydown=\"EnterPress()\"  type=\"text\" name=\""+col.getField().replaceAll("_","\\.")+"\" ");
+
 							if(this.DATE_FORMATTER.equals(col.getFormatter())){
-								sb.append(" style=\"width: 120px\" class=\"Wdate\" onClick=\"WdatePicker()\" ");
+								if(oConvertUtils.isEmpty(searchControlAttr)){
+									searchControlAttr = " style=\"width: 120px\" ";
+								}
+								sb.append(searchControlAttr+"class=\"Wdate\" onClick=\"WdatePicker()\" ");
 							}else if(this.DATETIME_FORMATTER.equals(col.getFormatter())){
-								sb.append(" style=\"width: 160px\" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\" ");
+								if(oConvertUtils.isEmpty(searchControlAttr)){
+									searchControlAttr = " style=\"width: 160px\" ";
+								}
+								sb.append(searchControlAttr+"class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\" ");
 							}else{
-								sb.append(" style=\"width: 120px\" class=\"inuptxt\" ");
+								if(oConvertUtils.isEmpty(searchControlAttr)){
+									searchControlAttr = " style=\"width: 120px\" ";
+								}
+								sb.append(searchControlAttr+"class=\"inuptxt\" ");
 							}
+
 							if(oConvertUtils.isNotEmpty(col.getDefaultVal())){
 								sb.append(" value=\""+col.getDefaultVal()+"\" ");
 							}
@@ -2395,17 +2426,26 @@ public class DataGridTag extends TagSupport {
 					}else if("group".equals(col.getQueryMode())){
 
 						if(this.DATE_FORMATTER.equals(col.getFormatter())){
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
+							if(oConvertUtils.isEmpty(searchControlAttr)){
+								searchControlAttr = " style=\"width: 100px\" ";
+							}
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\" "+searchControlAttr+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\" "+searchControlAttr+" class=\"Wdate\" onClick=\"WdatePicker()\"/>");
 						}else if(this.DATETIME_FORMATTER.equals(col.getFormatter())){
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 140px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
+							if(oConvertUtils.isEmpty(searchControlAttr)){
+								searchControlAttr = " style=\"width: 140px\" ";
+							}
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\" "+searchControlAttr+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 140px\" "+extendAttribute(col.getExtend())+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\" "+searchControlAttr+" class=\"Wdate\" onClick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>");
 						}else{
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
+							if(oConvertUtils.isEmpty(searchControlAttr)){
+								searchControlAttr = " style=\"width: 100px\" ";
+							}
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_begin\" "+searchControlAttr+" class=\"inuptxt\"/>");
 							sb.append("<span style=\"display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;\">~</span>");
-							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\"  style=\"width: 100px\" "+extendAttribute(col.getExtend())+" class=\"inuptxt\"/>");
+							sb.append("<input type=\"text\" name=\""+col.getField()+"_end\" "+searchControlAttr+" class=\"inuptxt\"/>");
 						}
 
 					}

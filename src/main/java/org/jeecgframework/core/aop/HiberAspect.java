@@ -30,7 +30,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 	try {
 		currentUser = ResourceUtil.getSessionUser();
 	} catch (RuntimeException e) {
-		//logger.warn("当前session为空,无法获取用户");
+		logger.warn(" --- 当前session为空，无法获取用户 ---- ");
 	}
 	if(currentUser==null){
 		return true;
@@ -118,7 +118,7 @@ public boolean onFlushDirty(Object entity, Serializable id,
 	try {
 		currentUser = ResourceUtil.getSessionUser();
 	} catch (RuntimeException e1) {
-		//logger.warn("当前session为空,无法获取用户");
+		logger.warn("  --- 当前session为空，无法获取用户  ---  ");
 	}
 	if(currentUser==null){
 		return true;

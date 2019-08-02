@@ -169,11 +169,13 @@ public class ${entityName}Controller extends BaseController {
 	public void datagrid(${entityName}Entity ${entityName?uncap_first},HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(${entityName}Entity.class, dataGrid);
 		<#if cgformConfig.cgFormHead.isTree == 'Y'>
+		boolean isSubTree = false;
 		if(StringUtil.isEmpty(${entityName?uncap_first}.getId())){
 			cq.isNull("${cgformConfig.cgFormHead.treeParentIdFieldNamePage}");
 		}else{
 			cq.eq("${cgformConfig.cgFormHead.treeParentIdFieldNamePage}", ${entityName?uncap_first}.getId());
 			${entityName?uncap_first}.setId(null);
+			isSubTree = true;
 		}
 		</#if>
 		//查询条件组装器
@@ -184,12 +186,15 @@ public class ${entityName}Controller extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		cq.add();
-		this.${entityName?uncap_first}Service.getDataGridReturn(cq, true);
+		<#-- update-begin-author:taoyan date:20181106 for:树形列表子节点查询不分页 -->
 		<#if cgformConfig.cgFormHead.isTree == 'Y'>
-		TagUtil.treegrid(response, dataGrid);
+		this.${entityName?uncap_first}Service.getDataGridReturn(cq, !isSubTree);
+		TagUtil.treegrid(response, dataGrid, isSubTree);
 		<#else>
+		this.${entityName?uncap_first}Service.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 		</#if>
+		<#-- update-end-author:taoyan date:20181106 for:树形列表子节点查询不分页 -->
 	}
 	
 	/**

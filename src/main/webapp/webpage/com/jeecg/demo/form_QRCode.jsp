@@ -154,7 +154,7 @@ a, a:focus, a:hover {
        
 		<div >
 			<label class="Validform_label" style="font-size: 1.1rem;"> 二维码内容： </label>
-			<input type="text" name="content" class="form-control form-control-lg"  style="width:80%;font-size: 1.1rem;" id="content" value="http://www.jeecg.org" />
+			<input type="text" name="content" class="form-control form-control-lg"  style="width:80%;font-size: 1.1rem;" id="content" value="http://www.jeecg.com" />
       		 <a id="downloadLink"></a>
         </div>
          <div>

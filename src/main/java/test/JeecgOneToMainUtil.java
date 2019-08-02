@@ -11,7 +11,7 @@ import org.jeecgframework.codegenerate.pojo.onetomany.SubTableEntity;
 /**
  * 代码生成器入口【一对多】
  * @author 张代浩
- * @site www.jeecg.org
+ * @site www.jeecg.com
  * 
  */
 public class JeecgOneToMainUtil {

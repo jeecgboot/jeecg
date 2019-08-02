@@ -7398,7 +7398,9 @@ body.boxed-layout.skin-3 #wrapper {
 }
 
 .skin-3 .nav-header {
+	/* update-begin-Author:LiShaoQing date:20181023 for: H+其他皮肤切换左上角LOGO变大*/
 	padding:0;
+	/* update-end-Author:LiShaoQing date:20181023 for: H+其他皮肤切换左上角LOGO变大*/
     background: #ecba52;
     background: url('patterns/header-profile-skin-3.png');
 }

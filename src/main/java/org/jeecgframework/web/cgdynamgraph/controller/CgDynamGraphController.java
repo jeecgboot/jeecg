@@ -231,12 +231,13 @@ public class CgDynamGraphController extends BaseController {
         		map=(Map)DynamicDBUtil.findOne(dbKey,SqlUtil.getCountSql(querySql,null));
         	}
 
-            if(map.get("COUNT(*)") instanceof BigDecimal){
-            	BigDecimal count = (BigDecimal)map.get("COUNT(*)");
+            if(map.get("COUNT") instanceof BigDecimal){
+            	BigDecimal count = (BigDecimal)map.get("COUNT");
             	size = count.longValue();
             }else{
-            	size=(Long)map.get("COUNT(*)");
+            	size=Long.valueOf(map.get("COUNT")+"");
             }
+
         }else{
 
             result= cgDynamGraphService.queryByCgDynamGraphSql(querySql, pageSearchFields,paramData);

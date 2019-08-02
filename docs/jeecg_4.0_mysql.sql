@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.199（内网）
-Source Server Version : 50710
-Source Host           : 192.168.1.199:3306
-Source Database       : jeecg_3.7.9
+Source Server         : mysql
+Source Server Version : 50037
+Source Host           : 127.0.0.1:3306
+Source Database       : jeecg
 
 Target Server Type    : MYSQL
-Target Server Version : 50710
+Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2018-10-24 15:56:52
+Date: 2019-08-02 14:35:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,16 +21,16 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `cgform_button`;
 CREATE TABLE `cgform_button` (
   `ID` varchar(32) NOT NULL COMMENT '主键ID',
-  `BUTTON_CODE` varchar(50) DEFAULT NULL COMMENT '按钮编码',
-  `button_icon` varchar(20) DEFAULT NULL COMMENT '按钮图标',
-  `BUTTON_NAME` varchar(50) DEFAULT NULL COMMENT '按钮名称',
-  `BUTTON_STATUS` varchar(2) DEFAULT NULL COMMENT '按钮状态',
-  `BUTTON_STYLE` varchar(20) DEFAULT NULL COMMENT '按钮样式',
-  `EXP` varchar(255) DEFAULT NULL COMMENT '表达式',
-  `FORM_ID` varchar(32) DEFAULT NULL COMMENT '表单ID',
-  `OPT_TYPE` varchar(20) DEFAULT NULL COMMENT '按钮类型',
-  `order_num` int(11) DEFAULT NULL COMMENT '排序',
-  PRIMARY KEY (`ID`),
+  `BUTTON_CODE` varchar(50) default NULL COMMENT '按钮编码',
+  `button_icon` varchar(20) default NULL COMMENT '按钮图标',
+  `BUTTON_NAME` varchar(50) default NULL COMMENT '按钮名称',
+  `BUTTON_STATUS` varchar(2) default NULL COMMENT '按钮状态',
+  `BUTTON_STYLE` varchar(20) default NULL COMMENT '按钮样式',
+  `EXP` varchar(255) default NULL COMMENT '表达式',
+  `FORM_ID` varchar(32) default NULL COMMENT '表单ID',
+  `OPT_TYPE` varchar(20) default NULL COMMENT '按钮类型',
+  `order_num` int(11) default NULL COMMENT '排序',
+  PRIMARY KEY  (`ID`),
   KEY `index_formid` (`FORM_ID`),
   KEY `index_button_code` (`BUTTON_CODE`),
   KEY `index_button_status` (`BUTTON_STATUS`),
@@ -59,12 +59,12 @@ INSERT INTO `cgform_button` VALUES ('4028b881537338160153738b86ac0010', 'groupma
 DROP TABLE IF EXISTS `cgform_button_sql`;
 CREATE TABLE `cgform_button_sql` (
   `ID` varchar(32) NOT NULL COMMENT '主键ID',
-  `BUTTON_CODE` varchar(50) DEFAULT NULL COMMENT '按钮编码',
+  `BUTTON_CODE` varchar(50) default NULL COMMENT '按钮编码',
   `CGB_SQL` longtext COMMENT 'SQL内容',
-  `CGB_SQL_NAME` varchar(50) DEFAULT NULL COMMENT 'Sql名称',
-  `CONTENT` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `FORM_ID` varchar(32) DEFAULT NULL COMMENT '表单ID',
-  PRIMARY KEY (`ID`),
+  `CGB_SQL_NAME` varchar(50) default NULL COMMENT 'Sql名称',
+  `CONTENT` varchar(1000) default NULL COMMENT '备注',
+  `FORM_ID` varchar(32) default NULL COMMENT '表单ID',
+  PRIMARY KEY  (`ID`),
   KEY `index_formid` (`FORM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -81,13 +81,13 @@ INSERT INTO `cgform_button_sql` VALUES ('402881f36381446901638177fcd20040', null
 DROP TABLE IF EXISTS `cgform_enhance_java`;
 CREATE TABLE `cgform_enhance_java` (
   `id` varchar(36) NOT NULL,
-  `button_code` varchar(32) DEFAULT NULL COMMENT '按钮编码',
+  `button_code` varchar(32) default NULL COMMENT '按钮编码',
   `cg_java_type` varchar(32) NOT NULL COMMENT '类型',
   `cg_java_value` varchar(200) NOT NULL COMMENT '数值',
   `form_id` varchar(32) NOT NULL COMMENT '表单ID',
-  `active_status` varchar(2) DEFAULT '1' COMMENT '生效状态',
-  `event` varchar(10) NOT NULL DEFAULT 'end' COMMENT '事件状态(end:结束，start:开始)',
-  PRIMARY KEY (`id`),
+  `active_status` varchar(2) default '1' COMMENT '生效状态',
+  `event` varchar(10) NOT NULL default 'end' COMMENT '事件状态(end:结束，start:开始)',
+  PRIMARY KEY  (`id`),
   KEY `index_fmid` (`form_id`),
   KEY `index_buttoncode` (`button_code`),
   KEY `index_status` (`active_status`)
@@ -106,10 +106,10 @@ DROP TABLE IF EXISTS `cgform_enhance_js`;
 CREATE TABLE `cgform_enhance_js` (
   `ID` varchar(32) NOT NULL COMMENT '主键ID',
   `CG_JS` longtext COMMENT 'JS增强内容',
-  `CG_JS_TYPE` varchar(20) DEFAULT NULL COMMENT '类型',
-  `CONTENT` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `FORM_ID` varchar(32) DEFAULT NULL COMMENT '表单ID',
-  PRIMARY KEY (`ID`),
+  `CG_JS_TYPE` varchar(20) default NULL COMMENT '类型',
+  `CONTENT` varchar(1000) default NULL COMMENT '备注',
+  `FORM_ID` varchar(32) default NULL COMMENT '表单ID',
+  PRIMARY KEY  (`ID`),
   KEY `index_fmid` (`FORM_ID`),
   KEY `index_jstype` (`CG_JS_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -130,39 +130,39 @@ DROP TABLE IF EXISTS `cgform_field`;
 CREATE TABLE `cgform_field` (
   `id` varchar(32) NOT NULL COMMENT '主键ID',
   `content` varchar(200) NOT NULL COMMENT '字段备注',
-  `create_by` varchar(255) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人名字',
-  `dict_field` varchar(100) DEFAULT NULL COMMENT '字典code',
-  `dict_table` varchar(100) DEFAULT NULL COMMENT '字典表',
-  `dict_text` varchar(100) DEFAULT NULL COMMENT '字典Text',
-  `field_default` varchar(20) DEFAULT NULL COMMENT '表字段默认值',
-  `field_href` varchar(200) DEFAULT NULL COMMENT '跳转URL',
-  `field_length` int(11) DEFAULT NULL COMMENT '表单控件长度',
+  `create_by` varchar(255) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_name` varchar(32) default NULL COMMENT '创建人名字',
+  `dict_field` varchar(100) default NULL COMMENT '字典code',
+  `dict_table` varchar(100) default NULL COMMENT '字典表',
+  `dict_text` varchar(100) default NULL COMMENT '字典Text',
+  `field_default` varchar(20) default NULL COMMENT '表字段默认值',
+  `field_href` varchar(200) default NULL COMMENT '跳转URL',
+  `field_length` int(11) default NULL COMMENT '表单控件长度',
   `field_name` varchar(32) NOT NULL COMMENT '字段名字',
-  `field_valid_type` varchar(300) DEFAULT NULL COMMENT '表单字段校验规则',
-  `field_must_input` varchar(2) DEFAULT NULL COMMENT '字段是否必填',
-  `is_key` varchar(2) DEFAULT NULL COMMENT '是否主键',
-  `is_null` varchar(5) DEFAULT NULL COMMENT '是否允许为空',
-  `is_query` varchar(5) DEFAULT NULL COMMENT '是否查询条件',
-  `is_show` varchar(5) DEFAULT NULL COMMENT '表单是否显示',
-  `is_show_list` varchar(5) DEFAULT NULL COMMENT '列表是否显示',
+  `field_valid_type` varchar(300) default NULL COMMENT '表单字段校验规则',
+  `field_must_input` varchar(2) default NULL COMMENT '字段是否必填',
+  `is_key` varchar(2) default NULL COMMENT '是否主键',
+  `is_null` varchar(5) default NULL COMMENT '是否允许为空',
+  `is_query` varchar(5) default NULL COMMENT '是否查询条件',
+  `is_show` varchar(5) default NULL COMMENT '表单是否显示',
+  `is_show_list` varchar(5) default NULL COMMENT '列表是否显示',
   `length` int(11) NOT NULL COMMENT '数据库字段长度',
-  `main_field` varchar(100) DEFAULT NULL COMMENT '外键主键字段',
-  `main_table` varchar(100) DEFAULT NULL COMMENT '外键主表名',
-  `old_field_name` varchar(32) DEFAULT NULL COMMENT '原字段名',
-  `order_num` int(11) DEFAULT NULL COMMENT '原排列序号',
-  `point_length` int(11) DEFAULT NULL COMMENT '小数点',
-  `query_mode` varchar(10) DEFAULT NULL COMMENT '查询模式',
-  `show_type` varchar(10) DEFAULT NULL COMMENT '表单控件类型',
+  `main_field` varchar(100) default NULL COMMENT '外键主键字段',
+  `main_table` varchar(100) default NULL COMMENT '外键主表名',
+  `old_field_name` varchar(32) default NULL COMMENT '原字段名',
+  `order_num` int(11) default NULL COMMENT '原排列序号',
+  `point_length` int(11) default NULL COMMENT '小数点',
+  `query_mode` varchar(10) default NULL COMMENT '查询模式',
+  `show_type` varchar(10) default NULL COMMENT '表单控件类型',
   `type` varchar(32) NOT NULL COMMENT '数据库字段类型',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人名称',
+  `update_by` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_name` varchar(32) default NULL COMMENT '修改人名称',
   `table_id` varchar(32) NOT NULL COMMENT '表ID',
-  `extend_json` varchar(500) DEFAULT NULL COMMENT '扩展参数JSON',
-  `fill_rule_code` varchar(500) DEFAULT NULL COMMENT '填值规则code',
-  PRIMARY KEY (`id`),
+  `extend_json` varchar(500) default NULL COMMENT '扩展参数JSON',
+  `fill_rule_code` varchar(500) default NULL COMMENT '填值规则code',
+  PRIMARY KEY  (`id`),
   KEY `inex_table_id` (`table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -633,18 +633,18 @@ CREATE TABLE `cgform_ftl` (
   `ID` varchar(32) NOT NULL COMMENT '主键ID',
   `CGFORM_ID` varchar(36) NOT NULL COMMENT '表单ID',
   `CGFORM_NAME` varchar(100) NOT NULL COMMENT '表单名字',
-  `CREATE_BY` varchar(36) DEFAULT NULL COMMENT '创建人',
-  `CREATE_DATE` datetime DEFAULT NULL COMMENT '创建时间',
-  `CREATE_NAME` varchar(32) DEFAULT NULL COMMENT '创建人名字',
+  `CREATE_BY` varchar(36) default NULL COMMENT '创建人',
+  `CREATE_DATE` datetime default NULL COMMENT '创建时间',
+  `CREATE_NAME` varchar(32) default NULL COMMENT '创建人名字',
   `FTL_CONTENT` longtext COMMENT '设计模板内容',
-  `FTL_STATUS` varchar(50) DEFAULT NULL COMMENT '模板激活状态',
+  `FTL_STATUS` varchar(50) default NULL COMMENT '模板激活状态',
   `FTL_VERSION` int(11) NOT NULL COMMENT '模板编号',
-  `FTL_WORD_URL` varchar(200) DEFAULT NULL COMMENT '上传Word路径',
-  `UPDATE_BY` varchar(36) DEFAULT NULL COMMENT '修改人',
-  `UPDATE_DATE` datetime DEFAULT NULL COMMENT '修改时间',
-  `UPDATE_NAME` varchar(32) DEFAULT NULL COMMENT '修改人名字',
-  `editor_type` varchar(10) DEFAULT '01' COMMENT '类型',
-  PRIMARY KEY (`ID`),
+  `FTL_WORD_URL` varchar(200) default NULL COMMENT '上传Word路径',
+  `UPDATE_BY` varchar(36) default NULL COMMENT '修改人',
+  `UPDATE_DATE` datetime default NULL COMMENT '修改时间',
+  `UPDATE_NAME` varchar(32) default NULL COMMENT '修改人名字',
+  `editor_type` varchar(10) default '01' COMMENT '类型',
+  PRIMARY KEY  (`ID`),
   KEY `inex_table_id` (`CGFORM_ID`),
   KEY `index_ftl_status` (`FTL_STATUS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -674,35 +674,35 @@ DROP TABLE IF EXISTS `cgform_head`;
 CREATE TABLE `cgform_head` (
   `id` varchar(32) NOT NULL COMMENT '主键ID',
   `content` varchar(200) NOT NULL COMMENT '表描述',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人名称',
+  `create_by` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_name` varchar(32) default NULL COMMENT '创建人名称',
   `is_checkbox` varchar(5) NOT NULL COMMENT '是否带checkbox',
   `is_dbsynch` varchar(20) NOT NULL COMMENT '同步数据库状态',
   `is_pagination` varchar(5) NOT NULL COMMENT '是否分页',
   `is_tree` varchar(5) NOT NULL COMMENT '是否是树',
-  `jform_pk_sequence` varchar(200) DEFAULT NULL COMMENT '主键生成序列',
-  `jform_pk_type` varchar(100) DEFAULT NULL COMMENT '主键类型',
+  `jform_pk_sequence` varchar(200) default NULL COMMENT '主键生成序列',
+  `jform_pk_type` varchar(100) default NULL COMMENT '主键类型',
   `jform_type` int(11) NOT NULL COMMENT '表类型:单表、主表、附表',
   `jform_version` varchar(10) NOT NULL COMMENT '表单版本号',
   `querymode` varchar(10) NOT NULL COMMENT '查询模式',
-  `relation_type` int(11) DEFAULT NULL,
-  `sub_table_str` varchar(1000) DEFAULT NULL COMMENT '子表',
-  `tab_order` int(11) DEFAULT NULL COMMENT '附表排序序号',
+  `relation_type` int(11) default NULL,
+  `sub_table_str` varchar(1000) default NULL COMMENT '子表',
+  `tab_order` int(11) default NULL COMMENT '附表排序序号',
   `table_name` varchar(50) NOT NULL COMMENT '表名',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人名字',
-  `tree_parentid_fieldname` varchar(50) DEFAULT NULL COMMENT '树形表单父id',
-  `tree_id_fieldname` varchar(50) DEFAULT NULL COMMENT '树表主键字段',
-  `tree_fieldname` varchar(50) DEFAULT NULL COMMENT '树开表单列字段',
-  `jform_category` varchar(50) NOT NULL DEFAULT 'bdfl_ptbd' COMMENT '表单分类',
-  `form_template` varchar(50) DEFAULT NULL COMMENT 'PC表单模板',
-  `form_template_mobile` varchar(50) DEFAULT NULL COMMENT '表单模板样式(移动端)',
-  `table_type` varchar(50) DEFAULT NULL COMMENT '''0''为物理表，‘1’为配置表',
-  `table_version` int(11) DEFAULT NULL COMMENT '表版本',
-  `physice_id` varchar(32) DEFAULT NULL COMMENT '物理表id(配置表用)',
-  PRIMARY KEY (`id`),
+  `update_by` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_name` varchar(32) default NULL COMMENT '修改人名字',
+  `tree_parentid_fieldname` varchar(50) default NULL COMMENT '树形表单父id',
+  `tree_id_fieldname` varchar(50) default NULL COMMENT '树表主键字段',
+  `tree_fieldname` varchar(50) default NULL COMMENT '树开表单列字段',
+  `jform_category` varchar(50) NOT NULL default 'bdfl_ptbd' COMMENT '表单分类',
+  `form_template` varchar(50) default NULL COMMENT 'PC表单模板',
+  `form_template_mobile` varchar(50) default NULL COMMENT '表单模板样式(移动端)',
+  `table_type` varchar(50) default NULL COMMENT '''0''为物理表，‘1’为配置表',
+  `table_version` int(11) default NULL COMMENT '表版本',
+  `physice_id` varchar(32) default NULL COMMENT '物理表id(配置表用)',
+  PRIMARY KEY  (`id`),
   KEY `index_table_type` (`table_type`),
   KEY `index_physice_id` (`physice_id`),
   KEY `index_form_templdate` (`form_template`),
@@ -749,17 +749,17 @@ INSERT INTO `cgform_head` VALUES ('ff8080816021b031016021feb0c00016', '订单明
 DROP TABLE IF EXISTS `cgform_index`;
 CREATE TABLE `cgform_index` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `index_name` varchar(100) DEFAULT NULL COMMENT '索引名称',
-  `index_field` varchar(500) DEFAULT NULL COMMENT '索引栏位',
-  `index_type` varchar(32) DEFAULT NULL COMMENT '索引类型',
-  `table_id` varchar(32) DEFAULT NULL COMMENT '主表id',
-  PRIMARY KEY (`id`),
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `index_name` varchar(100) default NULL COMMENT '索引名称',
+  `index_field` varchar(500) default NULL COMMENT '索引栏位',
+  `index_type` varchar(32) default NULL COMMENT '索引类型',
+  `table_id` varchar(32) default NULL COMMENT '主表id',
+  PRIMARY KEY  (`id`),
   KEY `index_table_id` (`table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -775,26 +775,26 @@ INSERT INTO `cgform_index` VALUES ('402880f45ad5bf19015ad5d1c6180011', '管理�
 DROP TABLE IF EXISTS `cgform_template`;
 CREATE TABLE `cgform_template` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `template_name` varchar(100) DEFAULT NULL COMMENT '模板名称',
-  `template_code` varchar(50) DEFAULT NULL COMMENT '模板编码',
-  `template_type` varchar(32) DEFAULT NULL COMMENT '模板类型',
-  `template_share` varchar(10) DEFAULT NULL COMMENT '是否共享',
-  `template_pic` varchar(100) DEFAULT NULL COMMENT '预览图',
-  `template_comment` varchar(200) DEFAULT NULL COMMENT '模板描述',
-  `template_list_name` varchar(200) DEFAULT NULL COMMENT '列表模板名称\r\n',
-  `template_add_name` varchar(200) DEFAULT NULL COMMENT '录入模板名称',
-  `template_update_name` varchar(200) DEFAULT NULL COMMENT '编辑模板名\r\n称',
-  `template_detail_name` varchar(200) DEFAULT NULL COMMENT '查看页面模\r\n板名称',
-  `status` int(11) DEFAULT NULL COMMENT '有效状态',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `template_name` varchar(100) default NULL COMMENT '模板名称',
+  `template_code` varchar(50) default NULL COMMENT '模板编码',
+  `template_type` varchar(32) default NULL COMMENT '模板类型',
+  `template_share` varchar(10) default NULL COMMENT '是否共享',
+  `template_pic` varchar(100) default NULL COMMENT '预览图',
+  `template_comment` varchar(200) default NULL COMMENT '模板描述',
+  `template_list_name` varchar(200) default NULL COMMENT '列表模板名称\r\n',
+  `template_add_name` varchar(200) default NULL COMMENT '录入模板名称',
+  `template_update_name` varchar(200) default NULL COMMENT '编辑模板名\r\n称',
+  `template_detail_name` varchar(200) default NULL COMMENT '查看页面模\r\n板名称',
+  `status` int(11) default NULL COMMENT '有效状态',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -827,7 +827,7 @@ CREATE TABLE `cgform_uploadfiles` (
   `CGFORM_FIELD` varchar(100) NOT NULL COMMENT '表单字段',
   `CGFORM_ID` varchar(36) NOT NULL COMMENT '表单ID',
   `CGFORM_NAME` varchar(100) NOT NULL COMMENT '表单名称',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `FK_qwig8sn3okhvh4wye8nn8gdeg` (`id`),
   KEY `index_fieldid` (`CGFORM_FIELD`),
   KEY `index_formid` (`CGFORM_ID`)
@@ -907,20 +907,20 @@ INSERT INTO `cgform_uploadfiles` VALUES ('4028ef815509d842015509e143280004', 'fi
 DROP TABLE IF EXISTS `eeee`;
 CREATE TABLE `eeee` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT NULL COMMENT '流程状态',
-  `www` double(6,2) DEFAULT NULL COMMENT 'www',
-  `www2` decimal(5,1) DEFAULT NULL COMMENT 'www',
-  `eee` int(6) DEFAULT NULL COMMENT '333',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default NULL COMMENT '流程状态',
+  `www` double(6,2) default NULL COMMENT 'www',
+  `www2` decimal(5,1) default NULL COMMENT 'www',
+  `eee` int(6) default NULL COMMENT '333',
   `rr` blob COMMENT 'rrr',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -933,58 +933,58 @@ CREATE TABLE `eeee` (
 DROP TABLE IF EXISTS `jeecg_custom_info`;
 CREATE TABLE `jeecg_custom_info` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `cust_name` varchar(100) DEFAULT NULL COMMENT '客户名称',
-  `cust_addr` varchar(200) DEFAULT NULL COMMENT '地址',
-  `cust_code` varchar(50) DEFAULT NULL COMMENT '客户编号',
-  `email` varchar(50) DEFAULT NULL COMMENT 'email',
-  `cust_charge` varchar(50) DEFAULT NULL COMMENT '负责人',
-  `sex` varchar(10) DEFAULT NULL COMMENT '性别',
-  `age` varchar(32) DEFAULT NULL COMMENT '年龄',
-  `position` varchar(32) DEFAULT NULL COMMENT '职务',
-  `phone` varchar(32) DEFAULT NULL COMMENT '电话',
-  `bank` varchar(100) DEFAULT NULL COMMENT '往来银行',
-  `money` varchar(100) DEFAULT NULL COMMENT '现金情况',
-  `promoter` varchar(50) DEFAULT NULL COMMENT '承办人',
-  `account` varchar(100) DEFAULT NULL COMMENT '账号',
-  `turnover` varchar(32) DEFAULT NULL COMMENT '资金周转',
-  `payment_attr` varchar(100) DEFAULT NULL COMMENT '付款态度',
-  `sax_num` varchar(100) DEFAULT NULL COMMENT '税号',
-  `pay_date` varchar(100) DEFAULT NULL COMMENT '付款日期',
-  `begin_pay_date` varchar(100) DEFAULT NULL COMMENT '开始交易日期',
-  `main_bus` varchar(100) DEFAULT NULL COMMENT '主营产品',
-  `bus_pro` varchar(100) DEFAULT NULL COMMENT '营业项目',
-  `warehouse` varchar(100) DEFAULT NULL COMMENT '仓库情况',
-  `people` varchar(100) DEFAULT NULL COMMENT '员工人数及素质',
-  `transportation` varchar(100) DEFAULT NULL COMMENT '运输方式',
-  `operation` varchar(100) DEFAULT NULL COMMENT '经营体制',
-  `car` varchar(20) DEFAULT NULL COMMENT '服务车数目',
-  `shopkeeper` varchar(100) DEFAULT NULL COMMENT '零售商数及覆盖情况',
-  `wholesale` varchar(10) DEFAULT NULL COMMENT '批发商数',
-  `bus_scope` varchar(100) DEFAULT NULL COMMENT '营业范围',
-  `area` varchar(100) DEFAULT NULL COMMENT '门市面积',
-  `management` varchar(200) DEFAULT NULL COMMENT '经营方针',
-  `stock1` varchar(10) DEFAULT NULL COMMENT '进货',
-  `stock2` varchar(10) DEFAULT NULL COMMENT '进货',
-  `sale1` varchar(10) DEFAULT NULL COMMENT '销售',
-  `sale2` varchar(10) DEFAULT NULL COMMENT '销售',
-  `inventory1` varchar(100) DEFAULT NULL COMMENT '存货',
-  `inventory2` varchar(100) DEFAULT NULL COMMENT '存货',
-  `max_money` varchar(100) DEFAULT NULL COMMENT '最高信用额度',
-  `cust_level` varchar(100) DEFAULT NULL COMMENT '客户等级',
-  `all_avg_inventory` varchar(100) DEFAULT NULL COMMENT '总体月均库存数',
-  `avg_inventory` varchar(100) DEFAULT NULL COMMENT '月均库存数',
-  `price` varchar(100) DEFAULT NULL COMMENT '价格折扣',
-  `promise` varchar(100) DEFAULT NULL COMMENT '支持和服务的承诺',
-  `competing_goods` varchar(100) DEFAULT NULL COMMENT '竞品经营情况',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `cust_name` varchar(100) default NULL COMMENT '客户名称',
+  `cust_addr` varchar(200) default NULL COMMENT '地址',
+  `cust_code` varchar(50) default NULL COMMENT '客户编号',
+  `email` varchar(50) default NULL COMMENT 'email',
+  `cust_charge` varchar(50) default NULL COMMENT '负责人',
+  `sex` varchar(10) default NULL COMMENT '性别',
+  `age` varchar(32) default NULL COMMENT '年龄',
+  `position` varchar(32) default NULL COMMENT '职务',
+  `phone` varchar(32) default NULL COMMENT '电话',
+  `bank` varchar(100) default NULL COMMENT '往来银行',
+  `money` varchar(100) default NULL COMMENT '现金情况',
+  `promoter` varchar(50) default NULL COMMENT '承办人',
+  `account` varchar(100) default NULL COMMENT '账号',
+  `turnover` varchar(32) default NULL COMMENT '资金周转',
+  `payment_attr` varchar(100) default NULL COMMENT '付款态度',
+  `sax_num` varchar(100) default NULL COMMENT '税号',
+  `pay_date` varchar(100) default NULL COMMENT '付款日期',
+  `begin_pay_date` varchar(100) default NULL COMMENT '开始交易日期',
+  `main_bus` varchar(100) default NULL COMMENT '主营产品',
+  `bus_pro` varchar(100) default NULL COMMENT '营业项目',
+  `warehouse` varchar(100) default NULL COMMENT '仓库情况',
+  `people` varchar(100) default NULL COMMENT '员工人数及素质',
+  `transportation` varchar(100) default NULL COMMENT '运输方式',
+  `operation` varchar(100) default NULL COMMENT '经营体制',
+  `car` varchar(20) default NULL COMMENT '服务车数目',
+  `shopkeeper` varchar(100) default NULL COMMENT '零售商数及覆盖情况',
+  `wholesale` varchar(10) default NULL COMMENT '批发商数',
+  `bus_scope` varchar(100) default NULL COMMENT '营业范围',
+  `area` varchar(100) default NULL COMMENT '门市面积',
+  `management` varchar(200) default NULL COMMENT '经营方针',
+  `stock1` varchar(10) default NULL COMMENT '进货',
+  `stock2` varchar(10) default NULL COMMENT '进货',
+  `sale1` varchar(10) default NULL COMMENT '销售',
+  `sale2` varchar(10) default NULL COMMENT '销售',
+  `inventory1` varchar(100) default NULL COMMENT '存货',
+  `inventory2` varchar(100) default NULL COMMENT '存货',
+  `max_money` varchar(100) default NULL COMMENT '最高信用额度',
+  `cust_level` varchar(100) default NULL COMMENT '客户等级',
+  `all_avg_inventory` varchar(100) default NULL COMMENT '总体月均库存数',
+  `avg_inventory` varchar(100) default NULL COMMENT '月均库存数',
+  `price` varchar(100) default NULL COMMENT '价格折扣',
+  `promise` varchar(100) default NULL COMMENT '支持和服务的承诺',
+  `competing_goods` varchar(100) default NULL COMMENT '竞品经营情况',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -998,36 +998,36 @@ INSERT INTO `jeecg_custom_info` VALUES ('402880ec5d97c622015d97e0be190007', '管
 DROP TABLE IF EXISTS `jeecg_custom_record`;
 CREATE TABLE `jeecg_custom_record` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `custom_id` varchar(32) DEFAULT NULL COMMENT '客户编号',
-  `header` varchar(32) DEFAULT NULL COMMENT '负责人',
-  `establish_date` datetime DEFAULT NULL COMMENT '成立日期',
-  `custom_name` varchar(32) DEFAULT NULL COMMENT '客户名称',
-  `capital_lines` double DEFAULT NULL COMMENT '资本额',
-  `address` varchar(32) DEFAULT NULL COMMENT '地址',
-  `phone` varchar(32) DEFAULT NULL COMMENT '电话',
-  `business_type` varchar(32) DEFAULT NULL COMMENT '营业类型',
-  `fax` varchar(32) DEFAULT NULL COMMENT '传真',
-  `banks` varchar(32) DEFAULT NULL COMMENT '主要往来银行',
-  `other_business` varchar(32) DEFAULT NULL COMMENT '其他投资事业',
-  `turnover` varchar(32) DEFAULT NULL COMMENT '平均每日营业额',
-  `business` varchar(32) DEFAULT NULL COMMENT '主要业务往来',
-  `pay_type` varchar(32) DEFAULT NULL COMMENT '付款方式',
-  `business_contacts` varchar(32) DEFAULT NULL COMMENT '与本公司往来',
-  `collection` varchar(32) DEFAULT NULL COMMENT '收款记录',
-  `business_important_contacts` varchar(32) DEFAULT NULL COMMENT '最近与本公司往来重要记录',
-  `business_record` varchar(32) DEFAULT NULL COMMENT '最近交易数据跟踪',
-  `customer_opinion` varchar(32) DEFAULT NULL COMMENT '客户意见',
-  `credit_evaluation` varchar(32) DEFAULT NULL COMMENT '信用评定',
-  `preparer` varchar(32) DEFAULT NULL COMMENT '填表人',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `custom_id` varchar(32) default NULL COMMENT '客户编号',
+  `header` varchar(32) default NULL COMMENT '负责人',
+  `establish_date` datetime default NULL COMMENT '成立日期',
+  `custom_name` varchar(32) default NULL COMMENT '客户名称',
+  `capital_lines` double default NULL COMMENT '资本额',
+  `address` varchar(32) default NULL COMMENT '地址',
+  `phone` varchar(32) default NULL COMMENT '电话',
+  `business_type` varchar(32) default NULL COMMENT '营业类型',
+  `fax` varchar(32) default NULL COMMENT '传真',
+  `banks` varchar(32) default NULL COMMENT '主要往来银行',
+  `other_business` varchar(32) default NULL COMMENT '其他投资事业',
+  `turnover` varchar(32) default NULL COMMENT '平均每日营业额',
+  `business` varchar(32) default NULL COMMENT '主要业务往来',
+  `pay_type` varchar(32) default NULL COMMENT '付款方式',
+  `business_contacts` varchar(32) default NULL COMMENT '与本公司往来',
+  `collection` varchar(32) default NULL COMMENT '收款记录',
+  `business_important_contacts` varchar(32) default NULL COMMENT '最近与本公司往来重要记录',
+  `business_record` varchar(32) default NULL COMMENT '最近交易数据跟踪',
+  `customer_opinion` varchar(32) default NULL COMMENT '客户意见',
+  `credit_evaluation` varchar(32) default NULL COMMENT '信用评定',
+  `preparer` varchar(32) default NULL COMMENT '填表人',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1042,26 +1042,26 @@ DROP TABLE IF EXISTS `jeecg_demo`;
 CREATE TABLE `jeecg_demo` (
   `id` varchar(32) NOT NULL COMMENT 'id',
   `name` varchar(255) NOT NULL COMMENT '名称',
-  `age` int(10) DEFAULT NULL COMMENT '年龄',
-  `birthday` datetime DEFAULT NULL COMMENT '生日',
+  `age` int(10) default NULL COMMENT '年龄',
+  `birthday` datetime default NULL COMMENT '生日',
   `content` text COMMENT '个人介绍',
-  `dep_id` varchar(255) DEFAULT NULL COMMENT '部门',
-  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(255) DEFAULT NULL COMMENT '电话',
-  `salary` double(16,2) DEFAULT NULL COMMENT '工资',
-  `sex` varchar(255) DEFAULT NULL COMMENT '性别',
-  `touxiang` varchar(255) DEFAULT NULL COMMENT '头像',
-  `fujian` varchar(255) DEFAULT NULL COMMENT '附件',
-  `status` varchar(255) DEFAULT NULL COMMENT '入职状态',
-  `create_date` datetime DEFAULT NULL COMMENT 'createDate',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `sys_org_code` varchar(200) DEFAULT NULL COMMENT '部门编码',
-  `sys_company_code` varchar(200) DEFAULT NULL COMMENT '公司编码',
-  PRIMARY KEY (`id`)
+  `dep_id` varchar(255) default NULL COMMENT '部门',
+  `email` varchar(255) default NULL COMMENT '邮箱',
+  `phone` varchar(255) default NULL COMMENT '电话',
+  `salary` double(16,2) default NULL COMMENT '工资',
+  `sex` varchar(255) default NULL COMMENT '性别',
+  `touxiang` varchar(255) default NULL COMMENT '头像',
+  `fujian` varchar(255) default NULL COMMENT '附件',
+  `status` varchar(255) default NULL COMMENT '入职状态',
+  `create_date` datetime default NULL COMMENT 'createDate',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  `sys_org_code` varchar(200) default NULL COMMENT '部门编码',
+  `sys_company_code` varchar(200) default NULL COMMENT '公司编码',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1087,13 +1087,13 @@ INSERT INTO `jeecg_demo` VALUES ('402881f3646ecdd601646f1aaf610027', '张是哪1
 DROP TABLE IF EXISTS `jeecg_demo_excel`;
 CREATE TABLE `jeecg_demo_excel` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `name` varchar(100) DEFAULT NULL COMMENT '姓名',
-  `sex` varchar(3) DEFAULT NULL COMMENT '性别',
-  `birthday` datetime DEFAULT NULL COMMENT '生日',
-  `depart` varchar(36) DEFAULT NULL COMMENT '关联部门',
-  `fd_replace` varchar(255) DEFAULT NULL COMMENT '测试替换',
-  `fd_convert` varchar(255) DEFAULT NULL COMMENT '测试转换',
-  PRIMARY KEY (`id`)
+  `name` varchar(100) default NULL COMMENT '姓名',
+  `sex` varchar(3) default NULL COMMENT '性别',
+  `birthday` datetime default NULL COMMENT '生日',
+  `depart` varchar(36) default NULL COMMENT '关联部门',
+  `fd_replace` varchar(255) default NULL COMMENT '测试替换',
+  `fd_convert` varchar(255) default NULL COMMENT '测试转换',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='excel导入导出示例';
 
 -- ----------------------------
@@ -1109,19 +1109,19 @@ INSERT INTO `jeecg_demo_excel` VALUES ('4028f6816402f8e30164032d7d010007', '刘�
 DROP TABLE IF EXISTS `jeecg_multi_upload`;
 CREATE TABLE `jeecg_multi_upload` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
   `test_file_1` longtext COMMENT '测试文件1',
   `test_file_2` longtext COMMENT '测试文件2',
   `test_file_3` longtext COMMENT '测试文件3',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1134,22 +1134,22 @@ CREATE TABLE `jeecg_multi_upload` (
 DROP TABLE IF EXISTS `jeecg_order_custom`;
 CREATE TABLE `jeecg_order_custom` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT NULL,
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default NULL,
   `GO_ORDER_CODE` varchar(32) NOT NULL,
-  `GOC_BUSS_CONTENT` varchar(33) DEFAULT NULL,
-  `GOC_CONTENT` varchar(66) DEFAULT NULL,
-  `GOC_CUS_NAME` varchar(16) DEFAULT NULL,
-  `GOC_IDCARD` varchar(18) DEFAULT NULL,
-  `GOC_PASSPORT_CODE` varchar(10) DEFAULT NULL,
-  `GOC_SEX` varchar(255) DEFAULT NULL,
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `GOC_BUSS_CONTENT` varchar(33) default NULL,
+  `GOC_CONTENT` varchar(66) default NULL,
+  `GOC_CUS_NAME` varchar(16) default NULL,
+  `GOC_IDCARD` varchar(18) default NULL,
+  `GOC_PASSPORT_CODE` varchar(10) default NULL,
+  `GOC_SEX` varchar(255) default NULL,
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1170,24 +1170,24 @@ INSERT INTO `jeecg_order_custom` VALUES ('402881e75f0f7831015f0f7c7b9d0008', nul
 DROP TABLE IF EXISTS `jeecg_order_main`;
 CREATE TABLE `jeecg_order_main` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT NULL,
-  `GO_ALL_PRICE` decimal(10,2) DEFAULT NULL,
-  `GO_CONTACT_NAME` varchar(16) DEFAULT NULL,
-  `GO_CONTENT` varchar(66) DEFAULT NULL,
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default NULL,
+  `GO_ALL_PRICE` decimal(10,2) default NULL,
+  `GO_CONTACT_NAME` varchar(16) default NULL,
+  `GO_CONTENT` varchar(66) default NULL,
   `GO_ORDER_CODE` varchar(12) NOT NULL,
-  `GO_ORDER_COUNT` int(11) DEFAULT NULL,
-  `GO_RETURN_PRICE` decimal(10,2) DEFAULT NULL,
-  `GO_TELPHONE` varchar(11) DEFAULT NULL,
-  `GODER_TYPE` varchar(255) DEFAULT NULL,
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  `USERTYPE` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `GO_ORDER_COUNT` int(11) default NULL,
+  `GO_RETURN_PRICE` decimal(10,2) default NULL,
+  `GO_TELPHONE` varchar(11) default NULL,
+  `GODER_TYPE` varchar(255) default NULL,
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  `USERTYPE` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1205,22 +1205,22 @@ INSERT INTO `jeecg_order_main` VALUES ('402881e75f0f7831015f0f7c7b4f0006', null,
 DROP TABLE IF EXISTS `jeecg_order_product`;
 CREATE TABLE `jeecg_order_product` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT NULL,
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default NULL,
   `GO_ORDER_CODE` varchar(12) NOT NULL,
-  `GOP_CONTENT` varchar(66) DEFAULT NULL,
-  `GOP_COUNT` int(11) DEFAULT NULL,
-  `GOP_ONE_PRICE` decimal(10,2) DEFAULT NULL,
-  `GOP_PRODUCT_NAME` varchar(33) DEFAULT NULL,
+  `GOP_CONTENT` varchar(66) default NULL,
+  `GOP_COUNT` int(11) default NULL,
+  `GOP_ONE_PRICE` decimal(10,2) default NULL,
+  `GOP_PRODUCT_NAME` varchar(33) default NULL,
   `GOP_PRODUCT_TYPE` varchar(1) NOT NULL,
-  `GOP_SUM_PRICE` decimal(10,2) DEFAULT NULL,
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `GOP_SUM_PRICE` decimal(10,2) default NULL,
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1233,22 +1233,22 @@ CREATE TABLE `jeecg_order_product` (
 DROP TABLE IF EXISTS `jeecg_p3demo`;
 CREATE TABLE `jeecg_p3demo` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT NULL COMMENT '流程状态',
-  `name` varchar(32) DEFAULT NULL COMMENT '姓名',
-  `sex` int(11) DEFAULT NULL COMMENT '性别',
-  `age` int(11) DEFAULT NULL COMMENT '年龄',
-  `address` varchar(32) DEFAULT NULL COMMENT '地址',
-  `phone` varchar(32) DEFAULT NULL COMMENT '电话',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default NULL COMMENT '流程状态',
+  `name` varchar(32) default NULL COMMENT '姓名',
+  `sex` int(11) default NULL COMMENT '性别',
+  `age` int(11) default NULL COMMENT '年龄',
+  `address` varchar(32) default NULL COMMENT '地址',
+  `phone` varchar(32) default NULL COMMENT '电话',
   `memo` text COMMENT '备注',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1268,17 +1268,17 @@ CREATE TABLE `jform_cgdynamgraph_head` (
   `CODE` varchar(36) NOT NULL COMMENT '移动报表编码',
   `CONTENT` varchar(500) NOT NULL COMMENT '描述',
   `NAME` varchar(100) NOT NULL COMMENT '移动报表名字',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `db_source` varchar(36) DEFAULT NULL COMMENT '动态数据源',
-  `graph_type` varchar(36) DEFAULT NULL COMMENT '移动报表类型',
-  `data_structure` varchar(36) DEFAULT NULL COMMENT '数据结构类型',
-  `is_pagination` varchar(2) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  `db_source` varchar(36) default NULL COMMENT '动态数据源',
+  `graph_type` varchar(36) default NULL COMMENT '移动报表类型',
+  `data_structure` varchar(36) default NULL COMMENT '数据结构类型',
+  `is_pagination` varchar(2) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `index_code` (`CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1293,18 +1293,18 @@ INSERT INTO `jform_cgdynamgraph_head` VALUES ('40287d815212a622015212ab57100003'
 DROP TABLE IF EXISTS `jform_cgdynamgraph_item`;
 CREATE TABLE `jform_cgdynamgraph_item` (
   `ID` varchar(36) NOT NULL,
-  `S_FLAG` varchar(2) DEFAULT NULL COMMENT '是否查询',
-  `S_MODE` varchar(10) DEFAULT NULL COMMENT '查询模式',
-  `CGRHEAD_ID` varchar(36) DEFAULT NULL COMMENT '报表ID',
-  `DICT_CODE` varchar(36) DEFAULT NULL COMMENT '字段code',
-  `FIELD_HREF` varchar(120) DEFAULT NULL COMMENT '字段跳转URL',
-  `FIELD_NAME` varchar(36) DEFAULT NULL COMMENT '字段名字',
+  `S_FLAG` varchar(2) default NULL COMMENT '是否查询',
+  `S_MODE` varchar(10) default NULL COMMENT '查询模式',
+  `CGRHEAD_ID` varchar(36) default NULL COMMENT '报表ID',
+  `DICT_CODE` varchar(36) default NULL COMMENT '字段code',
+  `FIELD_HREF` varchar(120) default NULL COMMENT '字段跳转URL',
+  `FIELD_NAME` varchar(36) default NULL COMMENT '字段名字',
   `FIELD_TXT` longtext COMMENT '字段文本',
-  `FIELD_TYPE` varchar(10) DEFAULT NULL COMMENT '字段类型',
-  `IS_SHOW` varchar(5) DEFAULT NULL COMMENT '是否显示',
-  `ORDER_NUM` int(11) DEFAULT NULL COMMENT '排序',
-  `REPLACE_VA` varchar(36) DEFAULT NULL COMMENT '取值表达式',
-  PRIMARY KEY (`ID`),
+  `FIELD_TYPE` varchar(10) default NULL COMMENT '字段类型',
+  `IS_SHOW` varchar(5) default NULL COMMENT '是否显示',
+  `ORDER_NUM` int(11) default NULL COMMENT '排序',
+  `REPLACE_VA` varchar(36) default NULL COMMENT '取值表达式',
+  PRIMARY KEY  (`ID`),
   KEY `index1` (`CGRHEAD_ID`),
   KEY `index2` (`IS_SHOW`),
   KEY `index3` (`ORDER_NUM`)
@@ -1323,20 +1323,20 @@ INSERT INTO `jform_cgdynamgraph_item` VALUES ('40287d81523df8f501523f348d6a000b'
 DROP TABLE IF EXISTS `jform_cgdynamgraph_param`;
 CREATE TABLE `jform_cgdynamgraph_param` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
   `param_name` varchar(32) NOT NULL COMMENT '参数名称',
-  `param_desc` varchar(32) DEFAULT NULL COMMENT '参数说明',
-  `param_value` varchar(32) DEFAULT NULL COMMENT '数值',
-  `seq` int(11) DEFAULT NULL COMMENT '排序',
-  `cgrhead_id` varchar(36) DEFAULT NULL COMMENT '动态报表ID',
-  PRIMARY KEY (`id`),
+  `param_desc` varchar(32) default NULL COMMENT '参数说明',
+  `param_value` varchar(32) default NULL COMMENT '数值',
+  `seq` int(11) default NULL COMMENT '排序',
+  `cgrhead_id` varchar(36) default NULL COMMENT '动态报表ID',
+  PRIMARY KEY  (`id`),
   KEY `index_headid` (`cgrhead_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1354,17 +1354,17 @@ CREATE TABLE `jform_cgreport_head` (
   `CODE` varchar(36) NOT NULL COMMENT '报表编码',
   `CONTENT` varchar(1000) NOT NULL COMMENT '描述',
   `NAME` varchar(100) NOT NULL COMMENT '报表名字',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `db_source` varchar(36) DEFAULT NULL COMMENT '动态数据源',
-  `return_val_field` varchar(100) DEFAULT NULL COMMENT '返回值字段',
-  `return_txt_field` varchar(100) DEFAULT NULL COMMENT '返回文本字段',
-  `pop_retype` varchar(2) DEFAULT '1' COMMENT '返回类型，单选或多选',
-  PRIMARY KEY (`ID`),
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  `db_source` varchar(36) default NULL COMMENT '动态数据源',
+  `return_val_field` varchar(100) default NULL COMMENT '返回值字段',
+  `return_txt_field` varchar(100) default NULL COMMENT '返回文本字段',
+  `pop_retype` varchar(2) default '1' COMMENT '返回类型，单选或多选',
+  PRIMARY KEY  (`ID`),
   KEY `index_code` (`CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1383,18 +1383,18 @@ INSERT INTO `jform_cgreport_head` VALUES ('402881f363aa9a380163aa9ebe480001', 's
 DROP TABLE IF EXISTS `jform_cgreport_item`;
 CREATE TABLE `jform_cgreport_item` (
   `ID` varchar(36) NOT NULL,
-  `S_FLAG` varchar(2) DEFAULT NULL COMMENT '是否查询',
-  `S_MODE` varchar(10) DEFAULT NULL COMMENT '查询模式',
-  `CGRHEAD_ID` varchar(36) DEFAULT NULL COMMENT '报表ID',
-  `DICT_CODE` varchar(36) DEFAULT NULL COMMENT '字典CODE',
-  `FIELD_HREF` varchar(120) DEFAULT NULL COMMENT '字段跳转URL',
-  `FIELD_NAME` varchar(36) DEFAULT NULL COMMENT '字段名字',
+  `S_FLAG` varchar(2) default NULL COMMENT '是否查询',
+  `S_MODE` varchar(10) default NULL COMMENT '查询模式',
+  `CGRHEAD_ID` varchar(36) default NULL COMMENT '报表ID',
+  `DICT_CODE` varchar(36) default NULL COMMENT '字典CODE',
+  `FIELD_HREF` varchar(120) default NULL COMMENT '字段跳转URL',
+  `FIELD_NAME` varchar(36) default NULL COMMENT '字段名字',
   `FIELD_TXT` longtext COMMENT '字段文本',
-  `FIELD_TYPE` varchar(10) DEFAULT NULL COMMENT '字段类型',
-  `IS_SHOW` varchar(5) DEFAULT NULL COMMENT '是否显示',
-  `ORDER_NUM` int(11) DEFAULT NULL COMMENT '排序',
-  `REPLACE_VA` varchar(36) DEFAULT NULL COMMENT '取值表达式',
-  PRIMARY KEY (`ID`),
+  `FIELD_TYPE` varchar(10) default NULL COMMENT '字段类型',
+  `IS_SHOW` varchar(5) default NULL COMMENT '是否显示',
+  `ORDER_NUM` int(11) default NULL COMMENT '排序',
+  `REPLACE_VA` varchar(36) default NULL COMMENT '取值表达式',
+  PRIMARY KEY  (`ID`),
   KEY `index_CGRHEAD_ID` (`CGRHEAD_ID`),
   KEY `index_isshow` (`IS_SHOW`),
   KEY `index_order_num` (`ORDER_NUM`)
@@ -1457,20 +1457,20 @@ INSERT INTO `jform_cgreport_item` VALUES ('402894815165f4d60151660145ea0003', 'Y
 DROP TABLE IF EXISTS `jform_cgreport_param`;
 CREATE TABLE `jform_cgreport_param` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
   `param_name` varchar(32) NOT NULL COMMENT '参数名称',
-  `param_desc` varchar(32) DEFAULT NULL COMMENT '参数说明',
-  `param_value` varchar(32) DEFAULT NULL COMMENT '数值',
-  `seq` int(11) DEFAULT NULL COMMENT '排序',
-  `cgrhead_id` varchar(36) DEFAULT NULL COMMENT '动态报表ID',
-  PRIMARY KEY (`id`),
+  `param_desc` varchar(32) default NULL COMMENT '参数说明',
+  `param_value` varchar(32) default NULL COMMENT '数值',
+  `seq` int(11) default NULL COMMENT '排序',
+  `cgrhead_id` varchar(36) default NULL COMMENT '动态报表ID',
+  PRIMARY KEY  (`id`),
   KEY `idx_cgrheadid` (`cgrhead_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1485,24 +1485,24 @@ INSERT INTO `jform_cgreport_param` VALUES ('402881f36402f3de016403035d350010', '
 DROP TABLE IF EXISTS `jform_contact`;
 CREATE TABLE `jform_contact` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
   `name` varchar(100) NOT NULL COMMENT '姓名',
   `sex` varchar(50) NOT NULL COMMENT '性别',
-  `groups` varchar(200) DEFAULT NULL COMMENT '所属分组',
-  `company` varchar(200) DEFAULT NULL COMMENT '公司名称',
-  `position` varchar(100) DEFAULT NULL COMMENT '职位',
-  `mobile` varchar(30) DEFAULT NULL COMMENT '移动电话',
-  `office_phone` varchar(30) DEFAULT NULL COMMENT '办公电话',
-  `email` varchar(100) DEFAULT NULL COMMENT '电子邮箱',
-  PRIMARY KEY (`id`)
+  `groups` varchar(200) default NULL COMMENT '所属分组',
+  `company` varchar(200) default NULL COMMENT '公司名称',
+  `position` varchar(100) default NULL COMMENT '职位',
+  `mobile` varchar(30) default NULL COMMENT '移动电话',
+  `office_phone` varchar(30) default NULL COMMENT '办公电话',
+  `email` varchar(100) default NULL COMMENT '电子邮箱',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1519,17 +1519,17 @@ INSERT INTO `jform_contact` VALUES ('402881f3643474e301643474e3ee0000', '管理�
 DROP TABLE IF EXISTS `jform_contact_group`;
 CREATE TABLE `jform_contact_group` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
   `name` varchar(32) NOT NULL COMMENT '分组名称',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `index_name` (`name`),
   KEY `index_bpm_status` (`bpm_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1547,29 +1547,29 @@ INSERT INTO `jform_contact_group` VALUES ('402881f363fcac8f0163fcac8f7c0000', '�
 -- ----------------------------
 DROP TABLE IF EXISTS `jform_employee_cost_claim`;
 CREATE TABLE `jform_employee_cost_claim` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'id',
-  `staff_name` varchar(50) DEFAULT NULL COMMENT '职工姓名',
-  `depart` varchar(50) DEFAULT NULL COMMENT '部门',
-  `staff_no` varchar(30) DEFAULT NULL COMMENT '员工编号',
-  `staff_post` varchar(50) DEFAULT NULL COMMENT '职位',
-  `pay_way` varchar(10) DEFAULT NULL COMMENT '打款方式',
-  `acct_bank` varchar(100) DEFAULT NULL COMMENT '开户行',
-  `card_no` varchar(30) DEFAULT NULL COMMENT '卡号',
-  `tele_no` varchar(20) DEFAULT NULL COMMENT '联系手机号',
-  `cost_all` decimal(7,2) DEFAULT NULL COMMENT '费用合计',
-  `documents` varchar(2) DEFAULT NULL COMMENT '单据数量',
-  `cost_upper` varchar(50) DEFAULT NULL COMMENT '费用大写',
-  `prepaid_fee` decimal(7,2) DEFAULT NULL COMMENT '预支款项',
-  `real_fee` decimal(7,2) DEFAULT NULL COMMENT '实际支付',
-  `fill_time` date DEFAULT NULL,
-  `apply_time` date DEFAULT NULL,
-  `apply_by` varchar(50) DEFAULT NULL COMMENT '申请人',
-  `comments` varchar(100) DEFAULT NULL COMMENT '备注',
-  `depart_approve` varchar(100) DEFAULT NULL COMMENT '部门审批',
-  `finance_approve` varchar(100) DEFAULT NULL COMMENT '财务审批',
-  `mgr_approve` varchar(100) DEFAULT NULL COMMENT '总经理审批',
-  `treasurer` varchar(100) DEFAULT NULL COMMENT '出纳',
-  PRIMARY KEY (`id`)
+  `id` varchar(36) NOT NULL default '' COMMENT 'id',
+  `staff_name` varchar(50) default NULL COMMENT '职工姓名',
+  `depart` varchar(50) default NULL COMMENT '部门',
+  `staff_no` varchar(30) default NULL COMMENT '员工编号',
+  `staff_post` varchar(50) default NULL COMMENT '职位',
+  `pay_way` varchar(10) default NULL COMMENT '打款方式',
+  `acct_bank` varchar(100) default NULL COMMENT '开户行',
+  `card_no` varchar(30) default NULL COMMENT '卡号',
+  `tele_no` varchar(20) default NULL COMMENT '联系手机号',
+  `cost_all` decimal(7,2) default NULL COMMENT '费用合计',
+  `documents` varchar(2) default NULL COMMENT '单据数量',
+  `cost_upper` varchar(50) default NULL COMMENT '费用大写',
+  `prepaid_fee` decimal(7,2) default NULL COMMENT '预支款项',
+  `real_fee` decimal(7,2) default NULL COMMENT '实际支付',
+  `fill_time` date default NULL,
+  `apply_time` date default NULL,
+  `apply_by` varchar(50) default NULL COMMENT '申请人',
+  `comments` varchar(100) default NULL COMMENT '备注',
+  `depart_approve` varchar(100) default NULL COMMENT '部门审批',
+  `finance_approve` varchar(100) default NULL COMMENT '财务审批',
+  `mgr_approve` varchar(100) default NULL COMMENT '总经理审批',
+  `treasurer` varchar(100) default NULL COMMENT '出纳',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1582,44 +1582,44 @@ CREATE TABLE `jform_employee_cost_claim` (
 DROP TABLE IF EXISTS `jform_employee_entry`;
 CREATE TABLE `jform_employee_entry` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '填表日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `employee_name` varchar(32) DEFAULT NULL COMMENT '姓名',
-  `employee_depart` varchar(50) DEFAULT NULL COMMENT '部门',
-  `employee_job` varchar(32) DEFAULT NULL COMMENT '职务',
-  `employee_birthday` datetime DEFAULT NULL COMMENT '生日',
-  `employee_origin` varchar(50) DEFAULT NULL COMMENT '籍贯',
-  `employee_degree` varchar(32) DEFAULT NULL COMMENT '学历',
-  `employee_identification` varchar(50) DEFAULT NULL COMMENT '身份证',
-  `employee_entry_date` datetime DEFAULT NULL COMMENT '入职日期',
-  `employee_code` varchar(32) DEFAULT NULL COMMENT '工号',
-  `employee_phone` varchar(32) DEFAULT NULL COMMENT '手机',
-  `employee_mail` varchar(150) DEFAULT NULL COMMENT '邮箱',
-  `employee_msn` varchar(32) DEFAULT NULL COMMENT 'MSN',
-  `hr_pic` varchar(2) DEFAULT NULL COMMENT '照片',
-  `hr_archives` varchar(2) DEFAULT NULL COMMENT '档案表',
-  `hr_identification` varchar(2) DEFAULT NULL COMMENT '身份证',
-  `hr_degree` varchar(2) DEFAULT NULL COMMENT '学位证',
-  `hr_other` varchar(2) DEFAULT NULL COMMENT '其他证件',
-  `hr_tel` varchar(2) DEFAULT NULL COMMENT '分配电话',
-  `hr_op_user` varchar(32) DEFAULT NULL COMMENT '经办人',
-  `hr_op_date` datetime DEFAULT NULL COMMENT '日期',
-  `depart_opinion` varchar(200) DEFAULT NULL COMMENT '部门意见',
-  `depart_op_user` varchar(32) DEFAULT NULL COMMENT '经办人',
-  `depart_op_date` datetime DEFAULT NULL COMMENT '日期',
-  `manager_opinion` varchar(200) DEFAULT NULL COMMENT '总经理意见',
-  `manager_op_user` varchar(32) DEFAULT NULL COMMENT '经办人',
-  `manager_op_date` datetime DEFAULT NULL COMMENT '日期',
-  `employee_opinion` varchar(200) DEFAULT NULL COMMENT '新员工意见',
-  `employee_op_user` varchar(32) DEFAULT NULL COMMENT '经办人',
-  `employee_op_date` datetime DEFAULT NULL COMMENT '日期',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '填表日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `employee_name` varchar(32) default NULL COMMENT '姓名',
+  `employee_depart` varchar(50) default NULL COMMENT '部门',
+  `employee_job` varchar(32) default NULL COMMENT '职务',
+  `employee_birthday` datetime default NULL COMMENT '生日',
+  `employee_origin` varchar(50) default NULL COMMENT '籍贯',
+  `employee_degree` varchar(32) default NULL COMMENT '学历',
+  `employee_identification` varchar(50) default NULL COMMENT '身份证',
+  `employee_entry_date` datetime default NULL COMMENT '入职日期',
+  `employee_code` varchar(32) default NULL COMMENT '工号',
+  `employee_phone` varchar(32) default NULL COMMENT '手机',
+  `employee_mail` varchar(150) default NULL COMMENT '邮箱',
+  `employee_msn` varchar(32) default NULL COMMENT 'MSN',
+  `hr_pic` varchar(2) default NULL COMMENT '照片',
+  `hr_archives` varchar(2) default NULL COMMENT '档案表',
+  `hr_identification` varchar(2) default NULL COMMENT '身份证',
+  `hr_degree` varchar(2) default NULL COMMENT '学位证',
+  `hr_other` varchar(2) default NULL COMMENT '其他证件',
+  `hr_tel` varchar(2) default NULL COMMENT '分配电话',
+  `hr_op_user` varchar(32) default NULL COMMENT '经办人',
+  `hr_op_date` datetime default NULL COMMENT '日期',
+  `depart_opinion` varchar(200) default NULL COMMENT '部门意见',
+  `depart_op_user` varchar(32) default NULL COMMENT '经办人',
+  `depart_op_date` datetime default NULL COMMENT '日期',
+  `manager_opinion` varchar(200) default NULL COMMENT '总经理意见',
+  `manager_op_user` varchar(32) default NULL COMMENT '经办人',
+  `manager_op_date` datetime default NULL COMMENT '日期',
+  `employee_opinion` varchar(200) default NULL COMMENT '新员工意见',
+  `employee_op_user` varchar(32) default NULL COMMENT '经办人',
+  `employee_op_date` datetime default NULL COMMENT '日期',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1636,22 +1636,22 @@ INSERT INTO `jform_employee_entry` VALUES ('402880e75b47f12e015b47f6402e0004', '
 DROP TABLE IF EXISTS `jform_employee_leave`;
 CREATE TABLE `jform_employee_leave` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `apply_date` datetime DEFAULT NULL COMMENT '申请日期',
-  `duty` varchar(100) DEFAULT NULL COMMENT '职务',
-  `leave_category` varchar(100) DEFAULT NULL COMMENT '请假类别',
-  `leave_reason` varchar(100) DEFAULT NULL COMMENT '请假原因',
-  `leave_start_date` datetime DEFAULT NULL COMMENT '请假开始时间',
-  `leave_end_date` datetime DEFAULT NULL COMMENT '请假结束时间',
-  `total` int(5) DEFAULT NULL COMMENT '共计',
-  `contact_way` varchar(20) DEFAULT NULL COMMENT '紧急联系方式',
-  `duty_deputy` varchar(100) DEFAULT NULL COMMENT '批定职务代理人',
-  `leader_approval` varchar(50) DEFAULT NULL COMMENT '直接主管审批',
-  `dept_principal_approval` varchar(50) DEFAULT NULL COMMENT '部门负责人审批',
-  `hr_principal_approval` varchar(50) DEFAULT NULL COMMENT 'HR负责人审批',
-  `hr_records` varchar(50) DEFAULT NULL COMMENT '行政部备案',
-  `department` varchar(50) DEFAULT NULL COMMENT '部门',
-  PRIMARY KEY (`id`)
+  `name` varchar(100) default NULL COMMENT '名称',
+  `apply_date` datetime default NULL COMMENT '申请日期',
+  `duty` varchar(100) default NULL COMMENT '职务',
+  `leave_category` varchar(100) default NULL COMMENT '请假类别',
+  `leave_reason` varchar(100) default NULL COMMENT '请假原因',
+  `leave_start_date` datetime default NULL COMMENT '请假开始时间',
+  `leave_end_date` datetime default NULL COMMENT '请假结束时间',
+  `total` int(5) default NULL COMMENT '共计',
+  `contact_way` varchar(20) default NULL COMMENT '紧急联系方式',
+  `duty_deputy` varchar(100) default NULL COMMENT '批定职务代理人',
+  `leader_approval` varchar(50) default NULL COMMENT '直接主管审批',
+  `dept_principal_approval` varchar(50) default NULL COMMENT '部门负责人审批',
+  `hr_principal_approval` varchar(50) default NULL COMMENT 'HR负责人审批',
+  `hr_records` varchar(50) default NULL COMMENT '行政部备案',
+  `department` varchar(50) default NULL COMMENT '部门',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1672,14 +1672,14 @@ INSERT INTO `jform_employee_leave` VALUES ('4028efa2521a91c701521a91c77d0000', '
 -- ----------------------------
 DROP TABLE IF EXISTS `jform_employee_meals_cost`;
 CREATE TABLE `jform_employee_meals_cost` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'id',
-  `fk_id` varchar(36) DEFAULT NULL COMMENT '外键',
-  `meals_date` date DEFAULT NULL,
-  `meals_cost` decimal(7,2) DEFAULT NULL COMMENT '餐费',
-  `meals_addr` varchar(100) DEFAULT NULL COMMENT '吃饭地点',
-  `meals_number` int(2) DEFAULT NULL COMMENT '同行人数',
-  `comments` varchar(100) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
+  `id` varchar(36) NOT NULL default '' COMMENT 'id',
+  `fk_id` varchar(36) default NULL COMMENT '外键',
+  `meals_date` date default NULL,
+  `meals_cost` decimal(7,2) default NULL COMMENT '餐费',
+  `meals_addr` varchar(100) default NULL COMMENT '吃饭地点',
+  `meals_number` int(2) default NULL COMMENT '同行人数',
+  `comments` varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1691,14 +1691,14 @@ CREATE TABLE `jform_employee_meals_cost` (
 -- ----------------------------
 DROP TABLE IF EXISTS `jform_employee_other_cost`;
 CREATE TABLE `jform_employee_other_cost` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'id',
-  `fk_id` varchar(36) DEFAULT NULL COMMENT '外键',
-  `item` varchar(20) DEFAULT NULL COMMENT '事项',
-  `cost` decimal(7,2) DEFAULT NULL COMMENT '费用',
-  `begin_time` datetime DEFAULT NULL COMMENT '开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `comments` varchar(100) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
+  `id` varchar(36) NOT NULL default '' COMMENT 'id',
+  `fk_id` varchar(36) default NULL COMMENT '外键',
+  `item` varchar(20) default NULL COMMENT '事项',
+  `cost` decimal(7,2) default NULL COMMENT '费用',
+  `begin_time` datetime default NULL COMMENT '开始时间',
+  `end_time` datetime default NULL COMMENT '结束时间',
+  `comments` varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1711,34 +1711,34 @@ CREATE TABLE `jform_employee_other_cost` (
 DROP TABLE IF EXISTS `jform_employee_resignation`;
 CREATE TABLE `jform_employee_resignation` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `name` varchar(32) DEFAULT NULL COMMENT '姓名',
-  `code` varchar(32) DEFAULT NULL COMMENT '员工编号',
-  `job` varchar(32) DEFAULT NULL COMMENT '职务',
-  `join_time` datetime DEFAULT NULL COMMENT '入职时间',
-  `out_type` varchar(32) DEFAULT NULL COMMENT '离职方式',
-  `apply_out_time` datetime DEFAULT NULL COMMENT '申请离职日期',
-  `out_time` datetime DEFAULT NULL COMMENT '正式离职日期',
-  `id_card` varchar(32) DEFAULT NULL COMMENT '身份证编号',
-  `out_content` varchar(200) DEFAULT NULL COMMENT '离职须知',
-  `out_reason` varchar(100) DEFAULT NULL COMMENT '离职原因',
-  `interview_record` varchar(100) DEFAULT NULL COMMENT '面谈记录',
-  `office_change` varchar(100) DEFAULT NULL COMMENT '办公物品移交',
-  `hr_check` varchar(32) DEFAULT NULL COMMENT '人力资源部审核',
-  `should_send_salary` double(32,0) DEFAULT NULL COMMENT '应发薪资',
-  `should_deduct_pay` double(32,0) DEFAULT NULL COMMENT '应扣薪资',
-  `pay` double(32,0) DEFAULT NULL COMMENT '实发薪资',
-  `get_time` datetime DEFAULT NULL COMMENT '领取日期',
-  `boss_check` varchar(32) DEFAULT NULL COMMENT '总经理审批',
-  `description` varchar(32) DEFAULT NULL COMMENT '说明',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `name` varchar(32) default NULL COMMENT '姓名',
+  `code` varchar(32) default NULL COMMENT '员工编号',
+  `job` varchar(32) default NULL COMMENT '职务',
+  `join_time` datetime default NULL COMMENT '入职时间',
+  `out_type` varchar(32) default NULL COMMENT '离职方式',
+  `apply_out_time` datetime default NULL COMMENT '申请离职日期',
+  `out_time` datetime default NULL COMMENT '正式离职日期',
+  `id_card` varchar(32) default NULL COMMENT '身份证编号',
+  `out_content` varchar(200) default NULL COMMENT '离职须知',
+  `out_reason` varchar(100) default NULL COMMENT '离职原因',
+  `interview_record` varchar(100) default NULL COMMENT '面谈记录',
+  `office_change` varchar(100) default NULL COMMENT '办公物品移交',
+  `hr_check` varchar(32) default NULL COMMENT '人力资源部审核',
+  `should_send_salary` double(32,0) default NULL COMMENT '应发薪资',
+  `should_deduct_pay` double(32,0) default NULL COMMENT '应扣薪资',
+  `pay` double(32,0) default NULL COMMENT '实发薪资',
+  `get_time` datetime default NULL COMMENT '领取日期',
+  `boss_check` varchar(32) default NULL COMMENT '总经理审批',
+  `description` varchar(32) default NULL COMMENT '说明',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1760,15 +1760,15 @@ CREATE TABLE `jform_graphreport_head` (
   `name` varchar(100) NOT NULL COMMENT '名称',
   `ytext` varchar(100) NOT NULL COMMENT 'y轴文字',
   `categories` varchar(1000) NOT NULL COMMENT 'x轴数据',
-  `is_show_list` varchar(5) DEFAULT NULL COMMENT '是否显示明细',
-  `x_page_js` varchar(1000) DEFAULT NULL COMMENT '扩展JS',
-  `create_date` datetime DEFAULT NULL,
-  `create_by` varchar(50) DEFAULT NULL,
-  `create_name` varchar(100) DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  `update_by` varchar(50) DEFAULT NULL,
-  `update_name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `is_show_list` varchar(5) default NULL COMMENT '是否显示明细',
+  `x_page_js` varchar(1000) default NULL COMMENT '扩展JS',
+  `create_date` datetime default NULL,
+  `create_by` varchar(50) default NULL,
+  `create_name` varchar(100) default NULL,
+  `update_date` datetime default NULL,
+  `update_by` varchar(50) default NULL,
+  `update_name` varchar(100) default NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `index_code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1783,22 +1783,22 @@ INSERT INTO `jform_graphreport_head` VALUES ('402881e64ca71152014ca71152480000',
 DROP TABLE IF EXISTS `jform_graphreport_item`;
 CREATE TABLE `jform_graphreport_item` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `search_flag` varchar(2) DEFAULT NULL COMMENT '是否查询',
-  `search_mode` varchar(10) DEFAULT NULL COMMENT '查询模式',
-  `cgreport_head_id` varchar(36) DEFAULT NULL COMMENT 'cgreportHeadId',
-  `dict_code` varchar(500) DEFAULT NULL COMMENT '字典Code',
-  `field_href` varchar(120) DEFAULT NULL COMMENT '字段href',
-  `field_name` varchar(36) DEFAULT NULL COMMENT '字段名',
-  `field_txt` varchar(1000) DEFAULT NULL COMMENT '字段文本',
-  `field_type` varchar(10) DEFAULT NULL COMMENT '字段类型',
-  `is_show` varchar(5) DEFAULT NULL COMMENT '是否显示',
-  `order_num` int(11) DEFAULT NULL COMMENT '排序',
-  `replace_va` varchar(36) DEFAULT NULL COMMENT '取值表达式',
-  `is_graph` varchar(5) DEFAULT NULL COMMENT '显示图表',
-  `graph_type` varchar(50) DEFAULT NULL COMMENT '图表类型',
-  `graph_name` varchar(100) DEFAULT NULL COMMENT '图表名称',
-  `tab_name` varchar(50) DEFAULT NULL COMMENT '标签名称',
-  PRIMARY KEY (`id`),
+  `search_flag` varchar(2) default NULL COMMENT '是否查询',
+  `search_mode` varchar(10) default NULL COMMENT '查询模式',
+  `cgreport_head_id` varchar(36) default NULL COMMENT 'cgreportHeadId',
+  `dict_code` varchar(500) default NULL COMMENT '字典Code',
+  `field_href` varchar(120) default NULL COMMENT '字段href',
+  `field_name` varchar(36) default NULL COMMENT '字段名',
+  `field_txt` varchar(1000) default NULL COMMENT '字段文本',
+  `field_type` varchar(10) default NULL COMMENT '字段类型',
+  `is_show` varchar(5) default NULL COMMENT '是否显示',
+  `order_num` int(11) default NULL COMMENT '排序',
+  `replace_va` varchar(36) default NULL COMMENT '取值表达式',
+  `is_graph` varchar(5) default NULL COMMENT '显示图表',
+  `graph_type` varchar(50) default NULL COMMENT '图表类型',
+  `graph_name` varchar(100) default NULL COMMENT '图表名称',
+  `tab_name` varchar(50) default NULL COMMENT '标签名称',
+  PRIMARY KEY  (`id`),
   KEY `index_headid` (`cgreport_head_id`),
   KEY `index_isshow` (`is_show`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jform_graphreport_item';
@@ -1824,14 +1824,14 @@ CREATE TABLE `jform_leave` (
   `sex` varchar(10) NOT NULL COMMENT '性别',
   `begindate` datetime NOT NULL COMMENT '请假开始时间',
   `enddate` datetime NOT NULL COMMENT '请假结束时间',
-  `day_num` int(11) DEFAULT NULL COMMENT '请假天数',
+  `day_num` int(11) default NULL COMMENT '请假天数',
   `hol_dept` varchar(32) NOT NULL COMMENT '所属部门',
   `hol_reson` varchar(255) NOT NULL COMMENT '请假原因',
-  `dep_leader` varchar(20) DEFAULT NULL COMMENT '部门审批人',
-  `content` varchar(255) DEFAULT NULL COMMENT '部门审批意见',
-  `file_str` varchar(300) DEFAULT NULL COMMENT '附件',
-  `create_by` varchar(100) DEFAULT NULL COMMENT '创建人',
-  PRIMARY KEY (`id`)
+  `dep_leader` varchar(20) default NULL COMMENT '部门审批人',
+  `content` varchar(255) default NULL COMMENT '部门审批意见',
+  `file_str` varchar(300) default NULL COMMENT '附件',
+  `create_by` varchar(100) default NULL COMMENT '创建人',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1849,13 +1849,13 @@ INSERT INTO `jform_leave` VALUES ('4028ef815374112b015374112b620000', '请假出
 DROP TABLE IF EXISTS `jform_order_customer`;
 CREATE TABLE `jform_order_customer` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `name` varchar(100) DEFAULT NULL COMMENT '客户名',
-  `money` double(10,2) DEFAULT NULL COMMENT '单价',
-  `sex` varchar(4) DEFAULT NULL COMMENT '性别',
-  `telphone` varchar(32) DEFAULT NULL COMMENT '电话1',
+  `name` varchar(100) default NULL COMMENT '客户名',
+  `money` double(10,2) default NULL COMMENT '单价',
+  `sex` varchar(4) default NULL COMMENT '性别',
+  `telphone` varchar(32) default NULL COMMENT '电话1',
   `fk_id` varchar(36) NOT NULL COMMENT '外键',
-  `sf_pic` varchar(500) DEFAULT NULL COMMENT '身份证扫描件',
-  PRIMARY KEY (`id`)
+  `sf_pic` varchar(500) default NULL COMMENT '身份证扫描件',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1915,12 +1915,12 @@ INSERT INTO `jform_order_customer` VALUES ('402881f5602b1e4501602b21b1120008', '
 DROP TABLE IF EXISTS `jform_order_main`;
 CREATE TABLE `jform_order_main` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `order_code` varchar(50) DEFAULT NULL COMMENT '订单号',
-  `order_date` datetime DEFAULT NULL COMMENT '订单日期',
-  `order_money` double(10,3) DEFAULT NULL COMMENT '订单金额',
-  `content` varchar(500) DEFAULT NULL COMMENT '备注',
-  `ctype` varchar(500) DEFAULT NULL COMMENT '订单扫描件',
-  PRIMARY KEY (`id`)
+  `order_code` varchar(50) default NULL COMMENT '订单号',
+  `order_date` datetime default NULL COMMENT '订单日期',
+  `order_money` double(10,3) default NULL COMMENT '订单金额',
+  `content` varchar(500) default NULL COMMENT '备注',
+  `ctype` varchar(500) default NULL COMMENT '订单扫描件',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1959,7 +1959,7 @@ CREATE TABLE `jform_order_ticket` (
   `ticket_code` varchar(100) NOT NULL COMMENT '航班号',
   `tickect_date` datetime NOT NULL COMMENT '航班时间',
   `fck_id` varchar(36) NOT NULL COMMENT '外键',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2045,7 +2045,7 @@ CREATE TABLE `jform_price1` (
   `c3` double NOT NULL COMMENT '自收自支',
   `d` int(11) NOT NULL COMMENT '经费合计',
   `d1` longtext NOT NULL COMMENT '机构资质',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2058,13 +2058,13 @@ CREATE TABLE `jform_price1` (
 DROP TABLE IF EXISTS `jform_resume_degree_info`;
 CREATE TABLE `jform_resume_degree_info` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `resume_id` varchar(36) DEFAULT NULL COMMENT '简历主键',
-  `begin_date` datetime DEFAULT NULL COMMENT '开始时间',
-  `end_date` datetime DEFAULT NULL COMMENT '结束时间',
-  `school_name` varchar(100) DEFAULT NULL COMMENT '学校名称',
-  `major` varchar(100) DEFAULT NULL COMMENT '专业',
-  `degree` varchar(30) DEFAULT NULL COMMENT '学历',
-  PRIMARY KEY (`id`)
+  `resume_id` varchar(36) default NULL COMMENT '简历主键',
+  `begin_date` datetime default NULL COMMENT '开始时间',
+  `end_date` datetime default NULL COMMENT '结束时间',
+  `school_name` varchar(100) default NULL COMMENT '学校名称',
+  `major` varchar(100) default NULL COMMENT '专业',
+  `degree` varchar(30) default NULL COMMENT '学历',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2094,14 +2094,14 @@ INSERT INTO `jform_resume_degree_info` VALUES ('4028ef8156826b380156826b390a0001
 DROP TABLE IF EXISTS `jform_resume_exp_info`;
 CREATE TABLE `jform_resume_exp_info` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `resume_id` varchar(36) DEFAULT NULL COMMENT '简历信息表ID',
-  `begin_date` datetime DEFAULT NULL COMMENT '开始日期',
-  `end_date` datetime DEFAULT NULL COMMENT '结束日期',
+  `resume_id` varchar(36) default NULL COMMENT '简历信息表ID',
+  `begin_date` datetime default NULL COMMENT '开始日期',
+  `end_date` datetime default NULL COMMENT '结束日期',
   `company_name` varchar(200) NOT NULL COMMENT '公司名称',
-  `depart_name` varchar(100) DEFAULT NULL COMMENT '部门名称',
-  `post` varchar(50) DEFAULT NULL COMMENT '职位',
-  `experience` varchar(2000) DEFAULT NULL COMMENT '工作描述',
-  PRIMARY KEY (`id`)
+  `depart_name` varchar(100) default NULL COMMENT '部门名称',
+  `post` varchar(50) default NULL COMMENT '职位',
+  `experience` varchar(2000) default NULL COMMENT '工作描述',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2134,20 +2134,20 @@ CREATE TABLE `jform_resume_info` (
   `id` varchar(36) NOT NULL COMMENT 'id',
   `name` varchar(50) NOT NULL COMMENT '姓名',
   `sex` varchar(10) NOT NULL COMMENT '性别',
-  `birthday` datetime DEFAULT NULL COMMENT '生日',
-  `telnum` varchar(30) DEFAULT NULL COMMENT '电话号码',
-  `email` varchar(50) DEFAULT NULL COMMENT '电子邮箱',
-  `degree` varchar(50) DEFAULT NULL COMMENT '最高学历',
-  `workyear` varchar(20) DEFAULT NULL COMMENT '工作年限',
-  `cardid` varchar(50) DEFAULT NULL COMMENT '身份证号',
-  `habitation` varchar(100) DEFAULT NULL COMMENT '现居地',
-  `residence` varchar(100) DEFAULT NULL COMMENT '户口所在地',
-  `salary` varchar(20) DEFAULT NULL COMMENT '期望薪资',
-  `work_place` varchar(50) DEFAULT NULL COMMENT '期望工作地点',
-  `work_type` varchar(50) DEFAULT NULL COMMENT '工作类型',
-  `arrival_time` datetime DEFAULT NULL COMMENT '到岗时间',
-  `introduction` varchar(500) DEFAULT NULL COMMENT '自我评价',
-  PRIMARY KEY (`id`)
+  `birthday` datetime default NULL COMMENT '生日',
+  `telnum` varchar(30) default NULL COMMENT '电话号码',
+  `email` varchar(50) default NULL COMMENT '电子邮箱',
+  `degree` varchar(50) default NULL COMMENT '最高学历',
+  `workyear` varchar(20) default NULL COMMENT '工作年限',
+  `cardid` varchar(50) default NULL COMMENT '身份证号',
+  `habitation` varchar(100) default NULL COMMENT '现居地',
+  `residence` varchar(100) default NULL COMMENT '户口所在地',
+  `salary` varchar(20) default NULL COMMENT '期望薪资',
+  `work_place` varchar(50) default NULL COMMENT '期望工作地点',
+  `work_type` varchar(50) default NULL COMMENT '工作类型',
+  `arrival_time` datetime default NULL COMMENT '到岗时间',
+  `introduction` varchar(500) default NULL COMMENT '自我评价',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2169,16 +2169,16 @@ INSERT INTO `jform_resume_info` VALUES ('4028ef815673f03a015673f35d8c0003', '王
 DROP TABLE IF EXISTS `jform_tree`;
 CREATE TABLE `jform_tree` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `name` varchar(32) DEFAULT NULL COMMENT '物料编码',
-  `father_id` varchar(32) DEFAULT NULL COMMENT '父ID',
-  `age` varchar(32) DEFAULT NULL COMMENT 'age',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `name` varchar(32) default NULL COMMENT '物料编码',
+  `father_id` varchar(32) default NULL COMMENT '父ID',
+  `age` varchar(32) default NULL COMMENT 'age',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2196,22 +2196,22 @@ INSERT INTO `jform_tree` VALUES ('402881f363fd318f0163fd3713000003', '管理员'
 DROP TABLE IF EXISTS `jfrom_order`;
 CREATE TABLE `jfrom_order` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
-  `receiver_name` varchar(56) DEFAULT NULL COMMENT '收货人',
-  `receiver_mobile` varchar(32) DEFAULT NULL COMMENT '联系电话',
-  `receiver_state` varchar(32) DEFAULT NULL COMMENT '收货省',
-  `receiver_city` varchar(32) DEFAULT NULL COMMENT '收货市',
-  `receiver_district` varchar(32) DEFAULT NULL COMMENT '收货区',
-  `receiver_address` varchar(128) DEFAULT NULL COMMENT '收货地址',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
+  `receiver_name` varchar(56) default NULL COMMENT '收货人',
+  `receiver_mobile` varchar(32) default NULL COMMENT '联系电话',
+  `receiver_state` varchar(32) default NULL COMMENT '收货省',
+  `receiver_city` varchar(32) default NULL COMMENT '收货市',
+  `receiver_district` varchar(32) default NULL COMMENT '收货区',
+  `receiver_address` varchar(128) default NULL COMMENT '收货地址',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2228,21 +2228,21 @@ INSERT INTO `jfrom_order` VALUES ('402881e7628630330162863033830000', '管理员
 DROP TABLE IF EXISTS `jfrom_order_line`;
 CREATE TABLE `jfrom_order_line` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
-  `orderid` varchar(36) DEFAULT NULL COMMENT '订单ID',
-  `item_name` varchar(128) DEFAULT NULL COMMENT '商品名称',
-  `qty` int(32) DEFAULT NULL COMMENT '商品数量',
-  `price` decimal(32,0) DEFAULT NULL COMMENT '商品价格',
-  `amount` decimal(32,0) DEFAULT NULL COMMENT '金额',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
+  `orderid` varchar(36) default NULL COMMENT '订单ID',
+  `item_name` varchar(128) default NULL COMMENT '商品名称',
+  `qty` int(32) default NULL COMMENT '商品数量',
+  `price` decimal(32,0) default NULL COMMENT '商品价格',
+  `amount` decimal(32,0) default NULL COMMENT '金额',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2263,12 +2263,12 @@ DROP TABLE IF EXISTS `jp_chat_message_his`;
 CREATE TABLE `jp_chat_message_his` (
   `id` varchar(50) NOT NULL,
   `msg_from` varchar(255) NOT NULL,
-  `msg_to` varchar(255) DEFAULT NULL,
-  `msg_data` varchar(5000) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
-  `readed` smallint(2) DEFAULT NULL COMMENT '消息是否已读 0 未读  1 已读',
-  PRIMARY KEY (`id`)
+  `msg_to` varchar(255) default NULL,
+  `msg_data` varchar(5000) default NULL,
+  `create_date` datetime default NULL,
+  `type` varchar(255) default NULL,
+  `readed` smallint(2) default NULL COMMENT '消息是否已读 0 未读  1 已读',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2359,10 +2359,10 @@ DROP TABLE IF EXISTS `jp_demo_activity`;
 CREATE TABLE `jp_demo_activity` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
   `name` varchar(100) NOT NULL COMMENT '活动名称',
-  `begin_time` datetime DEFAULT NULL COMMENT '活动开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT ' 活动结束时间',
-  `hdurl` varchar(300) DEFAULT NULL COMMENT '入口地址',
-  PRIMARY KEY (`id`)
+  `begin_time` datetime default NULL COMMENT '活动开始时间',
+  `end_time` datetime default NULL COMMENT ' 活动结束时间',
+  `hdurl` varchar(300) default NULL COMMENT '入口地址',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='红包活动表';
 
 -- ----------------------------
@@ -2376,16 +2376,16 @@ INSERT INTO `jp_demo_activity` VALUES ('9AF797E30518418F84F0228245AEE95B', '新�
 -- ----------------------------
 DROP TABLE IF EXISTS `jp_demo_auth`;
 CREATE TABLE `jp_demo_auth` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `auth_id` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '权限编码',
-  `auth_name` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '权限名称',
-  `auth_type` varchar(2) COLLATE utf8_bin DEFAULT NULL COMMENT '权限类型 0:菜单;1:功能',
-  `auth_contr` varchar(256) COLLATE utf8_bin DEFAULT NULL COMMENT '权限控制',
-  `parent_auth_id` char(12) COLLATE utf8_bin DEFAULT NULL COMMENT '上一级权限编码',
-  `leaf_ind` char(2) COLLATE utf8_bin DEFAULT NULL COMMENT '是否叶子节点',
-  PRIMARY KEY (`id`),
+  `id` bigint(20) unsigned NOT NULL auto_increment COMMENT '序号',
+  `auth_id` varchar(32) collate utf8_bin NOT NULL default '' COMMENT '权限编码',
+  `auth_name` varchar(100) collate utf8_bin default NULL COMMENT '权限名称',
+  `auth_type` varchar(2) collate utf8_bin default NULL COMMENT '权限类型 0:菜单;1:功能',
+  `auth_contr` varchar(256) collate utf8_bin default NULL COMMENT '权限控制',
+  `parent_auth_id` char(12) collate utf8_bin default NULL COMMENT '上一级权限编码',
+  `leaf_ind` char(2) collate utf8_bin default NULL COMMENT '是否叶子节点',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_authid` (`auth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='运营系统权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='运营系统权限表';
 
 -- ----------------------------
 -- Records of jp_demo_auth
@@ -2409,22 +2409,22 @@ INSERT INTO `jp_demo_auth` VALUES ('12', '210302', '编辑权限', '1', '/system
 DROP TABLE IF EXISTS `jp_demo_order_custom`;
 CREATE TABLE `jp_demo_order_custom` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT '0',
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default '0',
   `GO_ORDER_CODE` varchar(12) NOT NULL COMMENT '团购订单号',
-  `GOC_BUSS_CONTENT` varchar(33) DEFAULT NULL COMMENT '业务',
-  `GOC_CONTENT` varchar(66) DEFAULT NULL COMMENT '备注',
-  `GOC_CUS_NAME` varchar(16) DEFAULT NULL COMMENT '姓名',
-  `GOC_IDCARD` varchar(18) DEFAULT NULL COMMENT '身份证号',
-  `GOC_PASSPORT_CODE` varchar(10) DEFAULT NULL COMMENT '护照号',
-  `GOC_SEX` varchar(255) DEFAULT NULL COMMENT '性别',
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `GOC_BUSS_CONTENT` varchar(33) default NULL COMMENT '业务',
+  `GOC_CONTENT` varchar(66) default NULL COMMENT '备注',
+  `GOC_CUS_NAME` varchar(16) default NULL COMMENT '姓名',
+  `GOC_IDCARD` varchar(18) default NULL COMMENT '身份证号',
+  `GOC_PASSPORT_CODE` varchar(10) default NULL COMMENT '护照号',
+  `GOC_SEX` varchar(255) default NULL COMMENT '性别',
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2442,24 +2442,24 @@ INSERT INTO `jp_demo_order_custom` VALUES ('CD91F431BDC34431A46CC80F966C55A7', '
 DROP TABLE IF EXISTS `jp_demo_order_main`;
 CREATE TABLE `jp_demo_order_main` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT '0',
-  `GO_ALL_PRICE` decimal(10,2) DEFAULT NULL COMMENT '总价(不含返款)',
-  `GO_CONTACT_NAME` varchar(16) DEFAULT NULL COMMENT '联系人',
-  `GO_CONTENT` varchar(66) DEFAULT NULL COMMENT '备注',
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default '0',
+  `GO_ALL_PRICE` decimal(10,2) default NULL COMMENT '总价(不含返款)',
+  `GO_CONTACT_NAME` varchar(16) default NULL COMMENT '联系人',
+  `GO_CONTENT` varchar(66) default NULL COMMENT '备注',
   `GO_ORDER_CODE` varchar(12) NOT NULL COMMENT '订单号',
-  `GO_ORDER_COUNT` int(11) DEFAULT NULL COMMENT '订单人数',
-  `GO_RETURN_PRICE` decimal(10,2) DEFAULT NULL COMMENT '返款',
-  `GO_TELPHONE` varchar(11) DEFAULT NULL COMMENT '手机',
-  `GODER_TYPE` varchar(255) DEFAULT NULL COMMENT '订单类型',
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  `USERTYPE` varchar(255) DEFAULT NULL COMMENT '顾客类型 : 1直客 2同行',
-  PRIMARY KEY (`ID`)
+  `GO_ORDER_COUNT` int(11) default NULL COMMENT '订单人数',
+  `GO_RETURN_PRICE` decimal(10,2) default NULL COMMENT '返款',
+  `GO_TELPHONE` varchar(11) default NULL COMMENT '手机',
+  `GODER_TYPE` varchar(255) default NULL COMMENT '订单类型',
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  `USERTYPE` varchar(255) default NULL COMMENT '顾客类型 : 1直客 2同行',
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2473,22 +2473,22 @@ INSERT INTO `jp_demo_order_main` VALUES ('20E478EF3B38444EBE6D9BF6CF7AD60B', '20
 DROP TABLE IF EXISTS `jp_demo_order_product`;
 CREATE TABLE `jp_demo_order_product` (
   `ID` varchar(32) NOT NULL,
-  `CREATE_DT` datetime DEFAULT NULL,
-  `CRTUSER` varchar(12) DEFAULT NULL,
-  `CRTUSER_NAME` varchar(10) DEFAULT NULL,
-  `DEL_DT` datetime DEFAULT NULL,
-  `DELFLAG` int(11) DEFAULT '0',
+  `CREATE_DT` datetime default NULL,
+  `CRTUSER` varchar(12) default NULL,
+  `CRTUSER_NAME` varchar(10) default NULL,
+  `DEL_DT` datetime default NULL,
+  `DELFLAG` int(11) default '0',
   `GO_ORDER_CODE` varchar(12) NOT NULL COMMENT '团购订单号',
-  `GOP_CONTENT` varchar(66) DEFAULT NULL COMMENT '备注',
-  `GOP_COUNT` int(11) DEFAULT NULL COMMENT '个数',
-  `GOP_ONE_PRICE` decimal(10,2) DEFAULT NULL COMMENT '单价',
-  `GOP_PRODUCT_NAME` varchar(33) DEFAULT NULL COMMENT '产品名称',
+  `GOP_CONTENT` varchar(66) default NULL COMMENT '备注',
+  `GOP_COUNT` int(11) default NULL COMMENT '个数',
+  `GOP_ONE_PRICE` decimal(10,2) default NULL COMMENT '单价',
+  `GOP_PRODUCT_NAME` varchar(33) default NULL COMMENT '产品名称',
   `GOP_PRODUCT_TYPE` varchar(1) NOT NULL COMMENT '服务项目类型',
-  `GOP_SUM_PRICE` decimal(10,2) DEFAULT NULL COMMENT '小计',
-  `MODIFIER` varchar(12) DEFAULT NULL,
-  `MODIFIER_NAME` varchar(10) DEFAULT NULL,
-  `MODIFY_DT` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `GOP_SUM_PRICE` decimal(10,2) default NULL COMMENT '小计',
+  `MODIFIER` varchar(12) default NULL,
+  `MODIFIER_NAME` varchar(10) default NULL,
+  `MODIFY_DT` datetime default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2506,16 +2506,16 @@ INSERT INTO `jp_demo_order_product` VALUES ('EF10DC1C05364466990B1CA9D2D22C62', 
 DROP TABLE IF EXISTS `jp_inner_mail`;
 CREATE TABLE `jp_inner_mail` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `title` varchar(100) DEFAULT NULL COMMENT '主题',
-  `attachment` varchar(1000) DEFAULT NULL COMMENT '附件',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `title` varchar(100) default NULL COMMENT '主题',
+  `attachment` varchar(1000) default NULL COMMENT '附件',
   `content` longtext COMMENT '内容',
-  `status` varchar(50) DEFAULT NULL COMMENT '状态',
-  `receiver_names` varchar(300) DEFAULT NULL COMMENT '接收者姓名列表',
-  `receiver_ids` varchar(300) DEFAULT NULL COMMENT '收件人标识列表',
-  PRIMARY KEY (`id`)
+  `status` varchar(50) default NULL COMMENT '状态',
+  `receiver_names` varchar(300) default NULL COMMENT '接收者姓名列表',
+  `receiver_ids` varchar(300) default NULL COMMENT '收件人标识列表',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2555,8 +2555,8 @@ INSERT INTO `jp_inner_mail` VALUES ('E9B0557DBA994D46A3D44495AFA428B0', '管理�
 DROP TABLE IF EXISTS `jp_inner_mail_attach`;
 CREATE TABLE `jp_inner_mail_attach` (
   `id` varchar(32) NOT NULL,
-  `mailid` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `mailid` varchar(32) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2570,13 +2570,13 @@ INSERT INTO `jp_inner_mail_attach` VALUES ('4028ef8153a650060153a65327350012', '
 DROP TABLE IF EXISTS `jp_inner_mail_receiver`;
 CREATE TABLE `jp_inner_mail_receiver` (
   `id` varchar(36) NOT NULL,
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `mail_id` varchar(36) DEFAULT NULL COMMENT '邮件标识',
-  `user_id` varchar(36) DEFAULT NULL COMMENT '收件人标识',
-  `status` varchar(50) DEFAULT NULL COMMENT '收件状态',
-  `isdelete` char(2) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `mail_id` varchar(36) default NULL COMMENT '邮件标识',
+  `user_id` varchar(36) default NULL COMMENT '收件人标识',
+  `status` varchar(50) default NULL COMMENT '收件状态',
+  `isdelete` char(2) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `index_userid` (`user_id`),
   KEY `index_mailid` (`mail_id`),
   KEY `index_status` (`status`)
@@ -2618,17 +2618,17 @@ INSERT INTO `jp_inner_mail_receiver` VALUES ('F35684BE071F40939155F4FBC844F040',
 DROP TABLE IF EXISTS `jw_system_account_recharge`;
 CREATE TABLE `jw_system_account_recharge` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
-  `account_id` varchar(255) DEFAULT NULL COMMENT '账户表ID',
-  `type` varchar(255) DEFAULT NULL COMMENT '支付类型',
-  `amount` decimal(11,2) DEFAULT NULL COMMENT '支付金额',
-  `status` varchar(255) DEFAULT NULL COMMENT '状态',
-  `jwid` varchar(255) DEFAULT NULL COMMENT 'JWID',
-  `openid` varchar(255) DEFAULT NULL COMMENT 'OPENID',
-  `tran_no` varchar(255) DEFAULT NULL COMMENT '交易订单号',
-  `return_code` varchar(255) DEFAULT NULL COMMENT '返回编码',
+  `account_id` varchar(255) default NULL COMMENT '账户表ID',
+  `type` varchar(255) default NULL COMMENT '支付类型',
+  `amount` decimal(11,2) default NULL COMMENT '支付金额',
+  `status` varchar(255) default NULL COMMENT '状态',
+  `jwid` varchar(255) default NULL COMMENT 'JWID',
+  `openid` varchar(255) default NULL COMMENT 'OPENID',
+  `tran_no` varchar(255) default NULL COMMENT '交易订单号',
+  `return_code` varchar(255) default NULL COMMENT '返回编码',
   `return_msg` text COMMENT '返回信息',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `create_time` datetime default NULL COMMENT '创建时间',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统账户充值记录表';
 
 -- ----------------------------
@@ -2641,25 +2641,25 @@ CREATE TABLE `jw_system_account_recharge` (
 DROP TABLE IF EXISTS `super_query_field`;
 CREATE TABLE `super_query_field` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `seq` varchar(32) DEFAULT NULL COMMENT '序号',
-  `table_name` varchar(32) DEFAULT NULL COMMENT '表名',
-  `name` varchar(32) DEFAULT NULL COMMENT '字段名',
-  `txt` varchar(32) DEFAULT NULL COMMENT '字段文本',
-  `ctype` varchar(32) DEFAULT NULL COMMENT '字段类型',
-  `stype` varchar(32) DEFAULT NULL COMMENT '控件类型',
-  `dict_table` varchar(32) DEFAULT NULL COMMENT '字典Table',
-  `dict_code` varchar(32) DEFAULT NULL COMMENT '字典Code',
-  `dict_text` varchar(32) DEFAULT NULL COMMENT '字典Text',
-  `main_id` varchar(32) DEFAULT NULL COMMENT '外键',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `seq` varchar(32) default NULL COMMENT '序号',
+  `table_name` varchar(32) default NULL COMMENT '表名',
+  `name` varchar(32) default NULL COMMENT '字段名',
+  `txt` varchar(32) default NULL COMMENT '字段文本',
+  `ctype` varchar(32) default NULL COMMENT '字段类型',
+  `stype` varchar(32) default NULL COMMENT '控件类型',
+  `dict_table` varchar(32) default NULL COMMENT '字典Table',
+  `dict_code` varchar(32) default NULL COMMENT '字典Code',
+  `dict_text` varchar(32) default NULL COMMENT '字典Text',
+  `main_id` varchar(32) default NULL COMMENT '外键',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字段配置';
 
 -- ----------------------------
@@ -2682,20 +2682,20 @@ INSERT INTO `super_query_field` VALUES ('402881e96048d988016048faf0ae000b', '管
 DROP TABLE IF EXISTS `super_query_history`;
 CREATE TABLE `super_query_history` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `user_id` varchar(50) DEFAULT NULL COMMENT '用户id',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `user_id` varchar(50) default NULL COMMENT '用户id',
   `record` longtext COMMENT '记录',
-  `query_type` varchar(255) DEFAULT NULL COMMENT '查询类型',
-  `query_code` varchar(255) DEFAULT NULL COMMENT '查询编码',
-  `history_name` varchar(255) DEFAULT NULL COMMENT '名称',
-  PRIMARY KEY (`id`)
+  `query_type` varchar(255) default NULL COMMENT '查询类型',
+  `query_code` varchar(255) default NULL COMMENT '查询编码',
+  `history_name` varchar(255) default NULL COMMENT '名称',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='高级查询历史记录';
 
 -- ----------------------------
@@ -2710,19 +2710,19 @@ INSERT INTO `super_query_history` VALUES ('4028810260a214ad0160a21a4fbd0001', '�
 DROP TABLE IF EXISTS `super_query_main`;
 CREATE TABLE `super_query_main` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `query_name` varchar(50) DEFAULT NULL COMMENT '查询规则名称',
-  `query_code` varchar(50) DEFAULT NULL COMMENT '查询规则编码',
-  `query_type` varchar(50) DEFAULT NULL COMMENT '查询类型',
-  `content` varchar(32) DEFAULT NULL COMMENT '说明',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `query_name` varchar(50) default NULL COMMENT '查询规则名称',
+  `query_code` varchar(50) default NULL COMMENT '查询规则编码',
+  `query_type` varchar(50) default NULL COMMENT '查询类型',
+  `content` varchar(32) default NULL COMMENT '说明',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='高级查询';
 
 -- ----------------------------
@@ -2738,21 +2738,21 @@ INSERT INTO `super_query_main` VALUES ('402881f66265f83b016266197dcf0005', '管�
 DROP TABLE IF EXISTS `super_query_table`;
 CREATE TABLE `super_query_table` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `seq` varchar(32) DEFAULT NULL COMMENT '序号',
-  `table_name` varchar(32) DEFAULT NULL COMMENT '表名',
-  `instruction` varchar(255) DEFAULT NULL COMMENT '说明',
-  `is_main` varchar(32) DEFAULT NULL COMMENT '是否是主表',
-  `fk_field` varchar(32) DEFAULT NULL COMMENT '外键字段',
-  `main_id` varchar(32) DEFAULT NULL COMMENT '外键id',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `seq` varchar(32) default NULL COMMENT '序号',
+  `table_name` varchar(32) default NULL COMMENT '表名',
+  `instruction` varchar(255) default NULL COMMENT '说明',
+  `is_main` varchar(32) default NULL COMMENT '是否是主表',
+  `fk_field` varchar(32) default NULL COMMENT '外键字段',
+  `main_id` varchar(32) default NULL COMMENT '外键id',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表组合';
 
 -- ----------------------------
@@ -2771,23 +2771,23 @@ INSERT INTO `super_query_table` VALUES ('402881f66265f83b016266197dcf0006', '管
 DROP TABLE IF EXISTS `test_person`;
 CREATE TABLE `test_person` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
   `name` varchar(32) NOT NULL COMMENT '名字',
-  `sex` varchar(32) DEFAULT NULL COMMENT '性别',
-  `birthday` datetime DEFAULT NULL COMMENT '生日',
-  `conets` varchar(32) DEFAULT NULL COMMENT '个人简介',
-  `salary` double(32,0) DEFAULT NULL COMMENT '工资',
-  `fiel_jls` varchar(1000) DEFAULT NULL COMMENT '简历附件',
-  `tou_pic` varchar(1000) DEFAULT NULL COMMENT '个人头像',
-  PRIMARY KEY (`id`)
+  `sex` varchar(32) default NULL COMMENT '性别',
+  `birthday` datetime default NULL COMMENT '生日',
+  `conets` varchar(32) default NULL COMMENT '个人简介',
+  `salary` double(32,0) default NULL COMMENT '工资',
+  `fiel_jls` varchar(1000) default NULL COMMENT '简历附件',
+  `tou_pic` varchar(1000) default NULL COMMENT '个人头像',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2874,22 +2874,22 @@ INSERT INTO `test_person` VALUES ('4028838f63dadbee0163dadd89310002', '管理员
 DROP TABLE IF EXISTS `test_rules`;
 CREATE TABLE `test_rules` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
-  `name` varchar(32) DEFAULT NULL COMMENT '销售人员',
-  `money` double(32,0) DEFAULT NULL COMMENT '订单金额',
-  `product` varchar(200) DEFAULT NULL COMMENT '产品名字',
-  `sale_date` datetime DEFAULT NULL COMMENT '下单时间',
-  `eeee` varchar(32) DEFAULT NULL COMMENT 'cc',
-  `dda` varchar(32) DEFAULT NULL COMMENT 'dd',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
+  `name` varchar(32) default NULL COMMENT '销售人员',
+  `money` double(32,0) default NULL COMMENT '订单金额',
+  `product` varchar(200) default NULL COMMENT '产品名字',
+  `sale_date` datetime default NULL COMMENT '下单时间',
+  `eeee` varchar(32) default NULL COMMENT 'cc',
+  `dda` varchar(32) default NULL COMMENT 'dd',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -2915,11 +2915,11 @@ INSERT INTO `test_rules` VALUES ('402881f36464837c016464863b300003', '管理员'
 -- ----------------------------
 DROP TABLE IF EXISTS `tmp_tables`;
 CREATE TABLE `tmp_tables` (
-  `id` int(100) NOT NULL AUTO_INCREMENT,
-  `wl_table_name` varchar(100) DEFAULT NULL,
-  `xt_table_name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+  `id` int(100) NOT NULL auto_increment,
+  `wl_table_name` varchar(100) default NULL,
+  `xt_table_name` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tmp_tables
@@ -3013,18 +3013,18 @@ DROP TABLE IF EXISTS `t_s_attachment`;
 CREATE TABLE `t_s_attachment` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
   `attachmentcontent` longblob COMMENT '附件内容',
-  `attachmenttitle` varchar(100) DEFAULT NULL COMMENT '附件名称',
-  `businesskey` varchar(32) DEFAULT NULL COMMENT '业务类主键',
-  `createdate` datetime DEFAULT NULL COMMENT '创建时间',
-  `extend` varchar(32) DEFAULT NULL COMMENT '扩展名',
+  `attachmenttitle` varchar(100) default NULL COMMENT '附件名称',
+  `businesskey` varchar(32) default NULL COMMENT '业务类主键',
+  `createdate` datetime default NULL COMMENT '创建时间',
+  `extend` varchar(32) default NULL COMMENT '扩展名',
   `note` longtext COMMENT 'note',
-  `realpath` varchar(100) DEFAULT NULL COMMENT '附件路径',
+  `realpath` varchar(100) default NULL COMMENT '附件路径',
   `subclassname` longtext COMMENT '子类名称全路径',
   `swfpath` longtext COMMENT 'swf格式路径',
-  `BUSENTITYNAME` varchar(100) DEFAULT NULL COMMENT 'BUSENTITYNAME',
-  `INFOTYPEID` varchar(32) DEFAULT NULL COMMENT 'INFOTYPEID',
-  `USERID` varchar(32) DEFAULT NULL COMMENT '用户ID',
-  PRIMARY KEY (`ID`),
+  `BUSENTITYNAME` varchar(100) default NULL COMMENT 'BUSENTITYNAME',
+  `INFOTYPEID` varchar(32) default NULL COMMENT 'INFOTYPEID',
+  `USERID` varchar(32) default NULL COMMENT '用户ID',
+  PRIMARY KEY  (`ID`),
   KEY `FK_mnq23hlc835n4ufgjl7nkn3bd` (`USERID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3180,18 +3180,18 @@ INSERT INTO `t_s_attachment` VALUES ('4028ef815509d842015509e143280004', null, '
 DROP TABLE IF EXISTS `t_s_base_user`;
 CREATE TABLE `t_s_base_user` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
-  `activitiSync` smallint(6) DEFAULT NULL COMMENT '同步流程',
-  `browser` varchar(20) DEFAULT NULL COMMENT '浏览器',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
-  `realname` varchar(50) DEFAULT NULL COMMENT '真实名字',
+  `activitiSync` smallint(6) default NULL COMMENT '同步流程',
+  `browser` varchar(20) default NULL COMMENT '浏览器',
+  `password` varchar(100) default NULL COMMENT '密码',
+  `realname` varchar(50) default NULL COMMENT '真实名字',
   `signature` blob COMMENT '签名',
-  `status` smallint(6) DEFAULT NULL COMMENT '有效状态',
-  `userkey` varchar(200) DEFAULT NULL COMMENT '用户KEY',
+  `status` smallint(6) default NULL COMMENT '有效状态',
+  `userkey` varchar(200) default NULL COMMENT '用户KEY',
   `username` varchar(50) NOT NULL COMMENT '用户账号',
-  `departid` varchar(32) DEFAULT NULL COMMENT '部门ID',
-  `user_name_en` varchar(500) DEFAULT NULL COMMENT '英文名',
-  `delete_flag` smallint(6) DEFAULT NULL COMMENT '删除状态',
-  PRIMARY KEY (`ID`),
+  `departid` varchar(32) default NULL COMMENT '部门ID',
+  `user_name_en` varchar(500) default NULL COMMENT '英文名',
+  `delete_flag` smallint(6) default NULL COMMENT '删除状态',
+  PRIMARY KEY  (`ID`),
   KEY `FK_15jh1g4iem1857546ggor42et` (`departid`),
   KEY `index_login` (`password`,`username`),
   KEY `idx_deleteflg` (`delete_flag`),
@@ -3224,17 +3224,17 @@ INSERT INTO `t_s_base_user` VALUES ('8a8c82a35de421ab015de4228d400003', null, nu
 DROP TABLE IF EXISTS `t_s_black_list`;
 CREATE TABLE `t_s_black_list` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
-  `ip` varchar(32) DEFAULT NULL COMMENT 'ip地址',
-  PRIMARY KEY (`id`),
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
+  `ip` varchar(32) default NULL COMMENT 'ip地址',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `unique_key_ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3252,20 +3252,20 @@ INSERT INTO `t_s_black_list` VALUES ('402881f363915e4b0163916177c20003', '管理
 DROP TABLE IF EXISTS `t_s_category`;
 CREATE TABLE `t_s_category` (
   `id` varchar(36) NOT NULL COMMENT 'ID',
-  `icon_id` varchar(32) DEFAULT NULL COMMENT '图标ID',
+  `icon_id` varchar(32) default NULL COMMENT '图标ID',
   `code` varchar(32) NOT NULL COMMENT '类型编码',
   `name` varchar(32) NOT NULL COMMENT '类型名称',
   `create_name` varchar(50) NOT NULL COMMENT '创建人名称',
   `create_by` varchar(50) NOT NULL COMMENT '创建人登录名称',
   `create_date` datetime NOT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `parent_id` varchar(32) DEFAULT NULL COMMENT '上级ID',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `parent_id` varchar(32) default NULL COMMENT '上级ID',
   `sys_org_code` varchar(10) NOT NULL COMMENT '机构',
   `sys_company_code` varchar(10) NOT NULL COMMENT '公司',
-  `PARENT_CODE` varchar(32) DEFAULT NULL COMMENT '父邮编',
-  PRIMARY KEY (`id`),
+  `PARENT_CODE` varchar(32) default NULL COMMENT '父邮编',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_code` (`code`),
   KEY `index_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分类管理';
@@ -3292,23 +3292,23 @@ INSERT INTO `t_s_category` VALUES ('4028ef81526266d40152627417350035', '8a8ab0b2
 DROP TABLE IF EXISTS `t_s_company_position`;
 CREATE TABLE `t_s_company_position` (
   `id` varchar(32) NOT NULL COMMENT '序号',
-  `company_id` varchar(36) DEFAULT NULL COMMENT '公司ID',
-  `position_code` varchar(64) DEFAULT NULL COMMENT '岗位代码',
-  `position_name` varchar(100) DEFAULT NULL COMMENT '岗位名称',
-  `position_name_en` varchar(255) DEFAULT NULL COMMENT '岗位英文名',
-  `position_name_abbr` varchar(255) DEFAULT NULL COMMENT '岗位缩写',
-  `position_level` varchar(50) DEFAULT NULL COMMENT '岗位级别',
-  `memo` varchar(500) DEFAULT NULL COMMENT '备注',
-  `del_flag` int(11) DEFAULT NULL COMMENT '缩写',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人账号',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人账号',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '数据所属公司',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '数据所属部门',
-  PRIMARY KEY (`id`)
+  `company_id` varchar(36) default NULL COMMENT '公司ID',
+  `position_code` varchar(64) default NULL COMMENT '岗位代码',
+  `position_name` varchar(100) default NULL COMMENT '岗位名称',
+  `position_name_en` varchar(255) default NULL COMMENT '岗位英文名',
+  `position_name_abbr` varchar(255) default NULL COMMENT '岗位缩写',
+  `position_level` varchar(50) default NULL COMMENT '岗位级别',
+  `memo` varchar(500) default NULL COMMENT '备注',
+  `del_flag` int(11) default NULL COMMENT '缩写',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人账号',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人账号',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_company_code` varchar(50) default NULL COMMENT '数据所属公司',
+  `sys_org_code` varchar(50) default NULL COMMENT '数据所属部门',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统岗位表';
 
 -- ----------------------------
@@ -3322,19 +3322,19 @@ INSERT INTO `t_s_company_position` VALUES ('4028810260c422c30160c445327b0009', '
 DROP TABLE IF EXISTS `t_s_data_log`;
 CREATE TABLE `t_s_data_log` (
   `id` varchar(36) NOT NULL COMMENT 'id',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `table_name` varchar(32) DEFAULT NULL COMMENT '表名',
-  `data_id` varchar(32) DEFAULT NULL COMMENT '数据ID',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `table_name` varchar(32) default NULL COMMENT '表名',
+  `data_id` varchar(32) default NULL COMMENT '数据ID',
   `data_content` text COMMENT '数据内容',
-  `version_number` int(11) DEFAULT NULL COMMENT '版本号',
-  PRIMARY KEY (`id`),
+  `version_number` int(11) default NULL COMMENT '版本号',
+  PRIMARY KEY  (`id`),
   KEY `sindex` (`table_name`,`data_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3364,18 +3364,18 @@ INSERT INTO `t_s_data_log` VALUES ('4028ef81568c31ec01568c3307080004', '管理�
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_data_rule`;
 CREATE TABLE `t_s_data_rule` (
-  `id` varchar(96) DEFAULT NULL COMMENT 'ID',
-  `rule_name` varchar(96) DEFAULT NULL COMMENT '数据权限规则名称',
-  `rule_column` varchar(300) DEFAULT NULL COMMENT '字段',
-  `rule_conditions` varchar(300) DEFAULT NULL COMMENT '条件',
-  `rule_value` varchar(300) DEFAULT NULL COMMENT '规则值',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(96) DEFAULT NULL,
-  `create_name` varchar(96) DEFAULT NULL COMMENT '创建时间',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(96) DEFAULT NULL COMMENT '修改人',
-  `update_name` varchar(96) DEFAULT NULL COMMENT '修改人名字',
-  `functionId` varchar(96) DEFAULT NULL COMMENT '菜单ID',
+  `id` varchar(96) default NULL COMMENT 'ID',
+  `rule_name` varchar(96) default NULL COMMENT '数据权限规则名称',
+  `rule_column` varchar(300) default NULL COMMENT '字段',
+  `rule_conditions` varchar(300) default NULL COMMENT '条件',
+  `rule_value` varchar(300) default NULL COMMENT '规则值',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(96) default NULL,
+  `create_name` varchar(96) default NULL COMMENT '创建时间',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(96) default NULL COMMENT '修改人',
+  `update_name` varchar(96) default NULL COMMENT '修改人名字',
+  `functionId` varchar(96) default NULL COMMENT '菜单ID',
   KEY `index_fucntionid` (`functionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3410,10 +3410,10 @@ CREATE TABLE `t_s_data_source` (
   `driver_class` varchar(50) NOT NULL COMMENT '驱动class',
   `url` varchar(200) NOT NULL COMMENT 'db链接',
   `db_user` varchar(50) NOT NULL COMMENT '用户名',
-  `db_password` varchar(50) DEFAULT NULL COMMENT '密码',
-  `db_type` varchar(50) DEFAULT NULL COMMENT '数据库类型',
-  `db_name` varchar(50) DEFAULT NULL COMMENT '数据源名字',
-  PRIMARY KEY (`id`)
+  `db_password` varchar(50) default NULL COMMENT '密码',
+  `db_type` varchar(50) default NULL COMMENT '数据库类型',
+  `db_name` varchar(50) default NULL COMMENT '数据源名字',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3430,25 +3430,25 @@ CREATE TABLE `t_s_depart` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
   `departname` varchar(100) NOT NULL COMMENT '部门名称',
   `description` longtext COMMENT '描述',
-  `parentdepartid` varchar(32) DEFAULT NULL COMMENT '父部门ID',
-  `org_code` varchar(64) DEFAULT NULL COMMENT '机构编码',
-  `org_type` varchar(1) DEFAULT NULL COMMENT '机构类型',
-  `mobile` varchar(32) DEFAULT NULL COMMENT '手机号',
-  `fax` varchar(32) DEFAULT NULL COMMENT '传真',
-  `address` varchar(100) DEFAULT NULL COMMENT '地址',
-  `depart_order` varchar(5) DEFAULT '0' COMMENT '排序',
-  `departname_en` varchar(500) DEFAULT NULL COMMENT '英文名',
-  `departname_abbr` varchar(500) DEFAULT NULL COMMENT '缩写',
-  `memo` varchar(500) DEFAULT NULL COMMENT '备注',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人账号',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人账号',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '数据所属公司',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '数据所属部门',
-  PRIMARY KEY (`ID`),
+  `parentdepartid` varchar(32) default NULL COMMENT '父部门ID',
+  `org_code` varchar(64) default NULL COMMENT '机构编码',
+  `org_type` varchar(1) default NULL COMMENT '机构类型',
+  `mobile` varchar(32) default NULL COMMENT '手机号',
+  `fax` varchar(32) default NULL COMMENT '传真',
+  `address` varchar(100) default NULL COMMENT '地址',
+  `depart_order` varchar(5) default '0' COMMENT '排序',
+  `departname_en` varchar(500) default NULL COMMENT '英文名',
+  `departname_abbr` varchar(500) default NULL COMMENT '缩写',
+  `memo` varchar(500) default NULL COMMENT '备注',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人账号',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人账号',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_company_code` varchar(50) default NULL COMMENT '数据所属公司',
+  `sys_org_code` varchar(50) default NULL COMMENT '数据所属部门',
+  PRIMARY KEY  (`ID`),
   KEY `FK_knnm3wb0bembwvm0il7tf6686` (`parentdepartid`),
   KEY `index_org_code` (`org_code`),
   KEY `index_org_type` (`org_type`),
@@ -3476,19 +3476,19 @@ INSERT INTO `t_s_depart` VALUES ('8a8ab0b246dc81120146dc8180bd0018', '软件开�
 DROP TABLE IF EXISTS `t_s_depart_authg_function_rel`;
 CREATE TABLE `t_s_depart_authg_function_rel` (
   `id` varchar(36) NOT NULL COMMENT 'ID',
-  `group_id` varchar(36) DEFAULT NULL COMMENT '权限组ID',
-  `auth_id` varchar(36) DEFAULT NULL COMMENT '权限ID',
-  `operation` varchar(2000) DEFAULT NULL COMMENT '页面操作权限',
-  `datarule` varchar(1000) DEFAULT NULL COMMENT '数据权限',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人id',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '修改人',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '修改人id',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  PRIMARY KEY (`id`)
+  `group_id` varchar(36) default NULL COMMENT '权限组ID',
+  `auth_id` varchar(36) default NULL COMMENT '权限ID',
+  `operation` varchar(2000) default NULL COMMENT '页面操作权限',
+  `datarule` varchar(1000) default NULL COMMENT '数据权限',
+  `create_name` varchar(50) default NULL COMMENT '创建人',
+  `create_by` varchar(50) default NULL COMMENT '创建人id',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `update_name` varchar(50) default NULL COMMENT '修改人',
+  `update_by` varchar(50) default NULL COMMENT '修改人id',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3583,18 +3583,18 @@ INSERT INTO `t_s_depart_authg_function_rel` VALUES ('402881f4609299ad0160929c328
 DROP TABLE IF EXISTS `t_s_depart_authg_manager`;
 CREATE TABLE `t_s_depart_authg_manager` (
   `id` varchar(36) NOT NULL COMMENT 'ID',
-  `group_id` varchar(36) DEFAULT NULL COMMENT '权限组ID',
-  `user_id` varchar(36) DEFAULT NULL COMMENT '用户ID',
-  `type` int(3) DEFAULT NULL COMMENT '权限组类型',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人id',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '修改人',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '修改人id',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  PRIMARY KEY (`id`)
+  `group_id` varchar(36) default NULL COMMENT '权限组ID',
+  `user_id` varchar(36) default NULL COMMENT '用户ID',
+  `type` int(3) default NULL COMMENT '权限组类型',
+  `create_name` varchar(50) default NULL COMMENT '创建人',
+  `create_by` varchar(50) default NULL COMMENT '创建人id',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `update_name` varchar(50) default NULL COMMENT '修改人',
+  `update_by` varchar(50) default NULL COMMENT '修改人id',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3610,21 +3610,21 @@ INSERT INTO `t_s_depart_authg_manager` VALUES ('402881f4609299ad0160929c7f760018
 DROP TABLE IF EXISTS `t_s_depart_auth_group`;
 CREATE TABLE `t_s_depart_auth_group` (
   `id` varchar(36) NOT NULL COMMENT 'ID',
-  `group_name` varchar(100) DEFAULT NULL COMMENT '权限组名称',
-  `dept_id` varchar(36) DEFAULT NULL COMMENT '部门ID',
-  `dept_code` varchar(50) DEFAULT NULL COMMENT '部门编码',
-  `dept_name` varchar(100) DEFAULT NULL COMMENT '部门名称',
-  `depart_type` varchar(2) DEFAULT NULL COMMENT '类型1/公司2/部门4/供应商',
-  `level` int(10) DEFAULT NULL COMMENT '级别',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人id',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '修改人',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '修改人id',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  PRIMARY KEY (`id`)
+  `group_name` varchar(100) default NULL COMMENT '权限组名称',
+  `dept_id` varchar(36) default NULL COMMENT '部门ID',
+  `dept_code` varchar(50) default NULL COMMENT '部门编码',
+  `dept_name` varchar(100) default NULL COMMENT '部门名称',
+  `depart_type` varchar(2) default NULL COMMENT '类型1/公司2/部门4/供应商',
+  `level` int(10) default NULL COMMENT '级别',
+  `create_name` varchar(50) default NULL COMMENT '创建人',
+  `create_by` varchar(50) default NULL COMMENT '创建人id',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `update_name` varchar(50) default NULL COMMENT '修改人',
+  `update_by` varchar(50) default NULL COMMENT '修改人id',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3639,20 +3639,20 @@ INSERT INTO `t_s_depart_auth_group` VALUES ('402881f4609299ad0160929bd4ac000c', 
 DROP TABLE IF EXISTS `t_s_dict_table_config`;
 CREATE TABLE `t_s_dict_table_config` (
   `id` varchar(36) NOT NULL,
-  `table_name` varchar(100) DEFAULT NULL COMMENT '表名',
-  `value_col` varchar(50) DEFAULT NULL COMMENT '值字段名',
-  `text_col` varchar(50) DEFAULT NULL COMMENT '文本字段名',
-  `dict_condition` varchar(255) DEFAULT NULL COMMENT '字典表查询条件',
-  `isvalid` varchar(32) DEFAULT NULL COMMENT '是否启用',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  PRIMARY KEY (`id`),
+  `table_name` varchar(100) default NULL COMMENT '表名',
+  `value_col` varchar(50) default NULL COMMENT '值字段名',
+  `text_col` varchar(50) default NULL COMMENT '文本字段名',
+  `dict_condition` varchar(255) default NULL COMMENT '字典表查询条件',
+  `isvalid` varchar(32) default NULL COMMENT '是否启用',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_tablename_valuecol_textcol` (`table_name`,`value_col`,`text_col`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表授权配置';
 
@@ -3666,12 +3666,12 @@ CREATE TABLE `t_s_dict_table_config` (
 DROP TABLE IF EXISTS `t_s_document`;
 CREATE TABLE `t_s_document` (
   `id` varchar(32) NOT NULL,
-  `typeid` varchar(32) DEFAULT NULL,
-  `documentstate` smallint(6) DEFAULT NULL,
-  `documenttitle` varchar(100) DEFAULT NULL,
+  `typeid` varchar(32) default NULL,
+  `documentstate` smallint(6) default NULL,
+  `documenttitle` varchar(100) default NULL,
   `pictureindex` blob,
-  `showhome` smallint(6) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `showhome` smallint(6) default NULL,
+  PRIMARY KEY  (`id`),
   KEY `FK_qr3qlmgkflj35m5ci1xv0vvg3` (`typeid`),
   KEY `FK_f2mc12eu0umghp2i70apmtxjl` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3689,20 +3689,20 @@ INSERT INTO `t_s_document` VALUES ('402881f3641622190164162519950008', '8a8ab0b2
 DROP TABLE IF EXISTS `t_s_fill_rule`;
 CREATE TABLE `t_s_fill_rule` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `bpm_status` varchar(32) DEFAULT '1' COMMENT '流程状态',
-  `rule_code` varchar(255) DEFAULT NULL COMMENT '规则code',
-  `rule_name` varchar(255) DEFAULT NULL COMMENT '规则名称',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `bpm_status` varchar(32) default '1' COMMENT '流程状态',
+  `rule_code` varchar(255) default NULL COMMENT '规则code',
+  `rule_name` varchar(255) default NULL COMMENT '规则名称',
   `rule_class` longtext COMMENT '规则实现类',
   `rule_param` longtext COMMENT '规则参数',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3717,23 +3717,23 @@ INSERT INTO `t_s_fill_rule` VALUES ('402881ee60d4fc4e0160d501177b0005', '管理�
 DROP TABLE IF EXISTS `t_s_function`;
 CREATE TABLE `t_s_function` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
-  `functioniframe` smallint(6) DEFAULT NULL COMMENT '菜单地址打开方式',
-  `functionlevel` smallint(6) DEFAULT NULL COMMENT '菜单等级',
+  `functioniframe` smallint(6) default NULL COMMENT '菜单地址打开方式',
+  `functionlevel` smallint(6) default NULL COMMENT '菜单等级',
   `functionname` varchar(50) NOT NULL COMMENT '菜单名字',
-  `functionorder` varchar(255) DEFAULT NULL COMMENT '排序',
-  `functionurl` varchar(500) DEFAULT NULL COMMENT 'URL',
-  `parentfunctionid` varchar(32) DEFAULT NULL COMMENT '父菜单ID',
-  `iconid` varchar(32) DEFAULT NULL COMMENT '图标ID',
-  `desk_iconid` varchar(32) DEFAULT NULL COMMENT '桌面图标ID',
-  `functiontype` smallint(6) DEFAULT NULL COMMENT '菜单类型',
-  `function_icon_style` varchar(255) DEFAULT NULL COMMENT 'ace图标样式',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`ID`),
+  `functionorder` varchar(255) default NULL COMMENT '排序',
+  `functionurl` varchar(500) default NULL COMMENT 'URL',
+  `parentfunctionid` varchar(32) default NULL COMMENT '父菜单ID',
+  `iconid` varchar(32) default NULL COMMENT '图标ID',
+  `desk_iconid` varchar(32) default NULL COMMENT '桌面图标ID',
+  `functiontype` smallint(6) default NULL COMMENT '菜单类型',
+  `function_icon_style` varchar(255) default NULL COMMENT 'ace图标样式',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  PRIMARY KEY  (`ID`),
   KEY `FK_brd7b3keorj8pmxcv8bpahnxp` (`parentfunctionid`),
   KEY `FK_q5tqo3v4ltsp1pehdxd59rccx` (`iconid`),
   KEY `FK_gbdacaoju6d5u53rp4jo4rbs9` (`desk_iconid`),
@@ -3921,13 +3921,13 @@ INSERT INTO `t_s_function` VALUES ('ff8080815ffd3b5d015ffd3e74b40001', null, '1'
 DROP TABLE IF EXISTS `t_s_icon`;
 CREATE TABLE `t_s_icon` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `extend` varchar(255) DEFAULT NULL COMMENT '图片后缀',
-  `iconclas` varchar(200) DEFAULT NULL COMMENT '类型',
+  `extend` varchar(255) default NULL COMMENT '图片后缀',
+  `iconclas` varchar(200) default NULL COMMENT '类型',
   `content` blob COMMENT '图片流内容',
   `name` varchar(100) NOT NULL COMMENT '名字',
   `path` longtext COMMENT '路径',
-  `type` smallint(6) DEFAULT NULL COMMENT '类型 1系统图标/2菜单图标/3桌面图标',
-  PRIMARY KEY (`ID`)
+  `type` smallint(6) default NULL COMMENT '类型 1系统图标/2菜单图标/3桌面图标',
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3962,22 +3962,22 @@ INSERT INTO `t_s_icon` VALUES ('8a8ab0b246dc81120146dc81816e004a', 'png', 'deskI
 DROP TABLE IF EXISTS `t_s_interface`;
 CREATE TABLE `t_s_interface` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
   `interface_name` varchar(50) NOT NULL COMMENT '权限名称',
-  `interface_order` varchar(50) DEFAULT NULL COMMENT '排序',
-  `interface_level` varchar(10) DEFAULT NULL COMMENT '接口等級',
+  `interface_order` varchar(50) default NULL COMMENT '排序',
+  `interface_level` varchar(10) default NULL COMMENT '接口等級',
   `interface_url` longtext COMMENT 'URL',
   `interface_code` varchar(64) NOT NULL COMMENT '接口编码',
-  `interface_method` varchar(64) DEFAULT NULL COMMENT '请求方式',
-  `parent_interface_id` varchar(32) DEFAULT NULL COMMENT '父菜单ID',
-  PRIMARY KEY (`id`)
+  `interface_method` varchar(64) default NULL COMMENT '请求方式',
+  `parent_interface_id` varchar(32) default NULL COMMENT '父菜单ID',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -4007,20 +4007,20 @@ INSERT INTO `t_s_interface` VALUES ('402881fc60a129cf0160a1563ee60018', '管理�
 DROP TABLE IF EXISTS `t_s_interface_datarule`;
 CREATE TABLE `t_s_interface_datarule` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `sys_org_code` varchar(50) DEFAULT NULL COMMENT '所属部门',
-  `sys_company_code` varchar(50) DEFAULT NULL COMMENT '所属公司',
-  `rule_name` varchar(96) DEFAULT NULL COMMENT '接口权限规则名称',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
+  `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
+  `rule_name` varchar(96) default NULL COMMENT '接口权限规则名称',
   `rule_column` longtext COMMENT '字段',
   `rule_conditions` longtext COMMENT '条件',
   `rule_value` longtext COMMENT '规则值',
-  `interface_id` varchar(32) DEFAULT NULL COMMENT '菜单id',
-  PRIMARY KEY (`id`)
+  `interface_id` varchar(32) default NULL COMMENT '菜单id',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -4034,15 +4034,15 @@ INSERT INTO `t_s_interface_datarule` VALUES ('402881fc60a196d80160a1a31dd70001',
 DROP TABLE IF EXISTS `t_s_interrole`;
 CREATE TABLE `t_s_interrole` (
   `id` varchar(32) NOT NULL COMMENT 'id',
-  `role_code` varchar(10) DEFAULT NULL COMMENT '接口角色编码',
-  `role_name` varchar(100) DEFAULT NULL COMMENT '接口角色名称',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改时间',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  PRIMARY KEY (`id`)
+  `role_code` varchar(10) default NULL COMMENT '接口角色编码',
+  `role_name` varchar(100) default NULL COMMENT '接口角色名称',
+  `update_name` varchar(32) default NULL COMMENT '修改时间',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(32) default NULL COMMENT '创建人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='接口权限角色表';
 
 -- ----------------------------
@@ -4056,9 +4056,9 @@ INSERT INTO `t_s_interrole` VALUES ('402881fc60a0eea40160a0f20b1f0001', 'common'
 DROP TABLE IF EXISTS `t_s_interrole_interface`;
 CREATE TABLE `t_s_interrole_interface` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
-  `interface_id` varchar(32) DEFAULT NULL COMMENT '权限ID',
-  `interrole_id` varchar(32) DEFAULT NULL COMMENT '接口角色ID',
-  `data_rule` varchar(1000) DEFAULT NULL COMMENT '接口权限规则ID',
+  `interface_id` varchar(32) default NULL COMMENT '权限ID',
+  `interrole_id` varchar(32) default NULL COMMENT '接口角色ID',
+  `data_rule` varchar(1000) default NULL COMMENT '接口权限规则ID',
   UNIQUE KEY `uniq_interfaceid_interroleid` (`interface_id`,`interrole_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='接口权限角色关联表';
 
@@ -4084,9 +4084,9 @@ INSERT INTO `t_s_interrole_interface` VALUES ('40288109628f9ce701628fb8e7ba0007'
 DROP TABLE IF EXISTS `t_s_interrole_user`;
 CREATE TABLE `t_s_interrole_user` (
   `id` varchar(32) NOT NULL COMMENT 'ID',
-  `interrole_id` varchar(32) DEFAULT NULL COMMENT '接口角色ID',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '用户ID',
-  PRIMARY KEY (`id`),
+  `interrole_id` varchar(32) default NULL COMMENT '接口角色ID',
+  `user_id` varchar(32) default NULL COMMENT '用户ID',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_interroleid_userid` (`interrole_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='接口角色和用户关联表';
 
@@ -4100,16 +4100,16 @@ CREATE TABLE `t_s_interrole_user` (
 DROP TABLE IF EXISTS `t_s_log`;
 CREATE TABLE `t_s_log` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `broswer` varchar(100) DEFAULT NULL COMMENT '浏览器',
+  `broswer` varchar(100) default NULL COMMENT '浏览器',
   `logcontent` longtext NOT NULL COMMENT '日志内容',
-  `loglevel` smallint(6) DEFAULT NULL COMMENT '日志级别',
+  `loglevel` smallint(6) default NULL COMMENT '日志级别',
   `note` longtext COMMENT 'IP',
   `operatetime` datetime NOT NULL COMMENT '操作时间',
-  `operatetype` smallint(6) DEFAULT NULL COMMENT '操作类型',
-  `userid` varchar(32) DEFAULT NULL COMMENT '用户ID',
-  `username` varchar(50) DEFAULT NULL COMMENT '用户账号',
-  `realname` varchar(50) DEFAULT NULL COMMENT '真实名字',
-  PRIMARY KEY (`ID`),
+  `operatetype` smallint(6) default NULL COMMENT '操作类型',
+  `userid` varchar(32) default NULL COMMENT '用户ID',
+  `username` varchar(50) default NULL COMMENT '用户账号',
+  `realname` varchar(50) default NULL COMMENT '真实名字',
+  PRIMARY KEY  (`ID`),
   KEY `FK_oe64k4852uylhyc5a00rfwtay` (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -5388,6 +5388,7 @@ INSERT INTO `t_s_log` VALUES ('4028608166a504710166a50890db0004', 'Chrome', '操
 INSERT INTO `t_s_log` VALUES ('4028608166a504710166a5089c050005', 'Chrome', '操作成功', '1', '本地', '2018-10-24 15:44:57', '4', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('4028608166a504710166a508a37b0006', 'Chrome', '操作成功', '1', '本地', '2018-10-24 15:44:59', '4', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 INSERT INTO `t_s_log` VALUES ('4028608166a504710166a508abc90007', 'Chrome', '操作成功', '1', '本地', '2018-10-24 15:45:01', '4', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
+INSERT INTO `t_s_log` VALUES ('402860816c50e76b016c50e7d1cc0000', 'Chrome', '用户: admin[JEECG开源社区]common.login.success', '1', '本地', '2019-08-02 13:57:45', '1', '8a8ab0b246dc81120146dc8181950052', 'admin', '管理员');
 
 -- ----------------------------
 -- Table structure for t_s_muti_lang
@@ -5395,16 +5396,16 @@ INSERT INTO `t_s_log` VALUES ('4028608166a504710166a508abc90007', 'Chrome', '操
 DROP TABLE IF EXISTS `t_s_muti_lang`;
 CREATE TABLE `t_s_muti_lang` (
   `id` varchar(32) NOT NULL COMMENT '主键',
-  `lang_key` varchar(50) DEFAULT NULL COMMENT '语言主键',
-  `lang_context` varchar(500) DEFAULT NULL COMMENT '内容',
-  `lang_code` varchar(50) DEFAULT NULL COMMENT '语言',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人编号',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人姓名',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人编号',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`),
+  `lang_key` varchar(50) default NULL COMMENT '语言主键',
+  `lang_context` varchar(500) default NULL COMMENT '内容',
+  `lang_code` varchar(50) default NULL COMMENT '语言',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(50) default NULL COMMENT '创建人编号',
+  `create_name` varchar(50) default NULL COMMENT '创建人姓名',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `update_by` varchar(50) default NULL COMMENT '更新人编号',
+  `update_name` varchar(50) default NULL COMMENT '更新人姓名',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_langkey_langcode` (`lang_key`,`lang_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6104,8 +6105,8 @@ INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533051360153305c60c90008', 'form.te
 INSERT INTO `t_s_muti_lang` VALUES ('4028ef815335c1da015335c8647d0003', 'self.defined.form', 'use defined form', 'en', '2016-03-02 13:23:58', 'admin', '管理员', null, null, null);
 INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533a788e01533a7a53180005', 'form.tb.db.table.name', 'table', 'en', '2016-03-03 11:16:48', 'admin', '管理员', '2016-03-03 11:17:56', 'admin', '管理员');
 INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533a788e01533a7ba98c0008', 'form.tb.db.key', 'db source', 'en', '2016-03-03 11:18:16', 'admin', '管理员', null, null, null);
-INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533c078201533c08b1ca0001', 'system.version.number', '3.8', 'zh-cn', '2016-03-03 18:31:56', 'admin', '管理员', '2016-06-29 11:50:18', 'admin', '管理员');
-INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533c078201533c08e2370003', 'system.version.number', '3.8', 'en', '2016-03-03 18:32:08', 'admin', '管理员', '2016-06-29 11:50:12', 'admin', '管理员');
+INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533c078201533c08b1ca0001', 'system.version.number', '4.0', 'zh-cn', '2016-03-03 18:31:56', 'admin', '管理员', '2016-06-29 11:50:18', 'admin', '管理员');
+INSERT INTO `t_s_muti_lang` VALUES ('4028ef81533c078201533c08e2370003', 'system.version.number', '4.0', 'en', '2016-03-03 18:32:08', 'admin', '管理员', '2016-06-29 11:50:12', 'admin', '管理员');
 INSERT INTO `t_s_muti_lang` VALUES ('4028ef8154753f26015475436db30001', 'common.returntxttype', 'return type', 'en', '2016-05-03 14:17:13', 'admin', '管理员', '2016-05-03 14:41:57', 'admin', '管理员');
 INSERT INTO `t_s_muti_lang` VALUES ('4028ef8154753f26015475438dd00003', 'common.returntxttype', '返回类型', 'zh-cn', '2016-05-03 14:17:22', 'admin', '管理员', '2016-05-03 14:42:06', 'admin', '管理员');
 INSERT INTO `t_s_muti_lang` VALUES ('4028efa2523a030601523a55381d0004', 'self.defined.form', '自定义表单', 'zh-cn', '2016-01-13 17:33:29', 'admin', '管理员', null, null, null);
@@ -6636,15 +6637,15 @@ INSERT INTO `t_s_muti_lang` VALUES ('jglongjba87c37d001487c499a4d1114', 'common.
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_notice`;
 CREATE TABLE `t_s_notice` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ID',
-  `notice_title` varchar(255) DEFAULT NULL COMMENT '通知标题',
+  `id` varchar(36) NOT NULL default '' COMMENT 'ID',
+  `notice_title` varchar(255) default NULL COMMENT '通知标题',
   `notice_content` longtext COMMENT '通知公告内容',
-  `notice_type` varchar(2) DEFAULT NULL COMMENT '通知公告类型（1：通知，2:公告）',
-  `notice_level` varchar(2) DEFAULT NULL COMMENT '通告授权级别（1:全员，2：角色，3：用户）',
-  `notice_term` datetime DEFAULT NULL COMMENT '阅读期限',
-  `create_user` varchar(32) DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `notice_type` varchar(2) default NULL COMMENT '通知公告类型（1：通知，2:公告）',
+  `notice_level` varchar(2) default NULL COMMENT '通告授权级别（1:全员，2：角色，3：用户）',
+  `notice_term` datetime default NULL COMMENT '阅读期限',
+  `create_user` varchar(32) default NULL COMMENT '创建者',
+  `create_time` datetime default NULL COMMENT '创建时间',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通知公告表';
 
 -- ----------------------------
@@ -6659,10 +6660,10 @@ INSERT INTO `t_s_notice` VALUES ('402881855b90f0d5015b90fb8721000e', '222', '<p>
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_notice_authority_role`;
 CREATE TABLE `t_s_notice_authority_role` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ID',
-  `notice_id` varchar(36) DEFAULT NULL COMMENT '通告ID',
-  `role_id` varchar(32) DEFAULT NULL COMMENT '授权角色ID',
-  PRIMARY KEY (`id`),
+  `id` varchar(36) NOT NULL default '' COMMENT 'ID',
+  `notice_id` varchar(36) default NULL COMMENT '通告ID',
+  `role_id` varchar(32) default NULL COMMENT '授权角色ID',
+  PRIMARY KEY  (`id`),
   KEY `index_noteid` (`notice_id`),
   KEY `index_roleid` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权角色表';
@@ -6677,10 +6678,10 @@ INSERT INTO `t_s_notice_authority_role` VALUES ('402880f25b0da07e015b0dc68e87005
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_notice_authority_user`;
 CREATE TABLE `t_s_notice_authority_user` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ID',
-  `notice_id` varchar(36) DEFAULT NULL COMMENT '通告ID',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '授权用户ID',
-  PRIMARY KEY (`id`),
+  `id` varchar(36) NOT NULL default '' COMMENT 'ID',
+  `notice_id` varchar(36) default NULL COMMENT '通告ID',
+  `user_id` varchar(32) default NULL COMMENT '授权用户ID',
+  PRIMARY KEY  (`id`),
   KEY `index_noticeid` (`notice_id`),
   KEY `index_userid` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通告授权用户表';
@@ -6694,13 +6695,13 @@ CREATE TABLE `t_s_notice_authority_user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_s_notice_read_user`;
 CREATE TABLE `t_s_notice_read_user` (
-  `id` varchar(36) NOT NULL DEFAULT '' COMMENT 'ID',
-  `notice_id` varchar(36) DEFAULT NULL COMMENT '通告ID',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '用户ID',
-  `is_read` smallint(2) NOT NULL DEFAULT '0' COMMENT '是否已阅读',
-  `del_flag` smallint(2) NOT NULL DEFAULT '0' COMMENT '是否已删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
+  `id` varchar(36) NOT NULL default '' COMMENT 'ID',
+  `notice_id` varchar(36) default NULL COMMENT '通告ID',
+  `user_id` varchar(32) default NULL COMMENT '用户ID',
+  `is_read` smallint(2) NOT NULL default '0' COMMENT '是否已阅读',
+  `del_flag` smallint(2) NOT NULL default '0' COMMENT '是否已删除',
+  `create_time` datetime default NULL COMMENT '创建时间',
+  PRIMARY KEY  (`id`),
   KEY `notice_id_index` (`notice_id`),
   KEY `user_id_index` (`user_id`),
   KEY `index_delflag` (`del_flag`),
@@ -6736,15 +6737,15 @@ INSERT INTO `t_s_notice_read_user` VALUES ('402881855b90f0d5015b90fb87ac0017', '
 DROP TABLE IF EXISTS `t_s_operation`;
 CREATE TABLE `t_s_operation` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `operationcode` varchar(50) DEFAULT NULL COMMENT '页面控件code',
-  `operationicon` varchar(100) DEFAULT NULL COMMENT '图标',
-  `operationname` varchar(50) DEFAULT NULL COMMENT '页面名字',
-  `status` smallint(6) DEFAULT NULL COMMENT '状态',
-  `functionid` varchar(32) DEFAULT NULL COMMENT '菜单ID',
-  `iconid` varchar(32) DEFAULT NULL COMMENT '图标ID',
-  `operationtype` smallint(6) DEFAULT NULL COMMENT '规则类型：1/禁用 0/隐藏',
-  `processnode_id` varchar(32) DEFAULT NULL COMMENT '流程节点id',
-  PRIMARY KEY (`ID`),
+  `operationcode` varchar(50) default NULL COMMENT '页面控件code',
+  `operationicon` varchar(100) default NULL COMMENT '图标',
+  `operationname` varchar(50) default NULL COMMENT '页面名字',
+  `status` smallint(6) default NULL COMMENT '状态',
+  `functionid` varchar(32) default NULL COMMENT '菜单ID',
+  `iconid` varchar(32) default NULL COMMENT '图标ID',
+  `operationtype` smallint(6) default NULL COMMENT '规则类型：1/禁用 0/隐藏',
+  `processnode_id` varchar(32) default NULL COMMENT '流程节点id',
+  PRIMARY KEY  (`ID`),
   KEY `FK_pceuy41wr2fjbcilyc7mk3m1f` (`functionid`),
   KEY `FK_ny5de7922l39ta2pkhyspd5f` (`iconid`),
   CONSTRAINT `FK_ny5de7922l39ta2pkhyspd5f` FOREIGN KEY (`iconid`) REFERENCES `t_s_icon` (`ID`),
@@ -6784,13 +6785,13 @@ INSERT INTO `t_s_operation` VALUES ('402881f4606cc3d501606cd0cbdb0007', 'jeecgde
 DROP TABLE IF EXISTS `t_s_password_resetkey`;
 CREATE TABLE `t_s_password_resetkey` (
   `id` varchar(36) NOT NULL,
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `username` varchar(100) DEFAULT NULL COMMENT '用户名',
-  `email` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
-  `is_reset` int(11) DEFAULT NULL COMMENT '是否已重置',
-  PRIMARY KEY (`id`)
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `username` varchar(100) default NULL COMMENT '用户名',
+  `email` varchar(100) default NULL COMMENT '邮箱地址',
+  `is_reset` int(11) default NULL COMMENT '是否已重置',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -6809,7 +6810,7 @@ CREATE TABLE `t_s_region` (
   `NAME` varchar(50) NOT NULL COMMENT '城市名',
   `PID` varchar(10) NOT NULL COMMENT '父ID',
   `NAME_EN` varchar(100) NOT NULL COMMENT '英文名',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10342,17 +10343,17 @@ INSERT INTO `t_s_region` VALUES ('999', '宁江区', '91', 'Ningjiang Qu');
 DROP TABLE IF EXISTS `t_s_role`;
 CREATE TABLE `t_s_role` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
-  `rolecode` varchar(10) DEFAULT NULL COMMENT '角色编码',
+  `rolecode` varchar(10) default NULL COMMENT '角色编码',
   `rolename` varchar(100) NOT NULL COMMENT '角色名字',
-  `depart_ag_id` varchar(32) DEFAULT NULL COMMENT '部门权限组ID',
-  `role_type` varchar(2) DEFAULT NULL COMMENT '类型1部门角色/0系统角色',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  PRIMARY KEY (`ID`)
+  `depart_ag_id` varchar(32) default NULL COMMENT '部门权限组ID',
+  `role_type` varchar(2) default NULL COMMENT '类型1部门角色/0系统角色',
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10372,11 +10373,11 @@ INSERT INTO `t_s_role` VALUES ('8a8ab0b246dc81120146dc81818b0051', 'manager', '�
 DROP TABLE IF EXISTS `t_s_role_function`;
 CREATE TABLE `t_s_role_function` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
-  `operation` varchar(1000) DEFAULT NULL COMMENT '页面控件权限编码',
-  `functionid` varchar(32) DEFAULT NULL COMMENT '菜单ID',
-  `roleid` varchar(32) DEFAULT NULL COMMENT '角色ID',
-  `datarule` varchar(1000) DEFAULT NULL COMMENT '数据权限规则ID',
-  PRIMARY KEY (`ID`),
+  `operation` varchar(1000) default NULL COMMENT '页面控件权限编码',
+  `functionid` varchar(32) default NULL COMMENT '菜单ID',
+  `roleid` varchar(32) default NULL COMMENT '角色ID',
+  `datarule` varchar(1000) default NULL COMMENT '数据权限规则ID',
+  PRIMARY KEY  (`ID`),
   KEY `FK_fvsillj2cxyk5thnuu625urab` (`functionid`),
   KEY `FK_9dww3p4w8jwvlrgwhpitsbfif` (`roleid`),
   CONSTRAINT `FK_9dww3p4w8jwvlrgwhpitsbfif` FOREIGN KEY (`roleid`) REFERENCES `t_s_role` (`ID`),
@@ -10591,9 +10592,9 @@ INSERT INTO `t_s_role_function` VALUES ('ff8080815ffd3b5d015ffd3f36800003', null
 DROP TABLE IF EXISTS `t_s_role_org`;
 CREATE TABLE `t_s_role_org` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `org_id` varchar(32) DEFAULT NULL COMMENT '机构ID',
-  `role_id` varchar(32) DEFAULT NULL COMMENT '角色ID',
-  PRIMARY KEY (`ID`)
+  `org_id` varchar(32) default NULL COMMENT '机构ID',
+  `role_id` varchar(32) default NULL COMMENT '角色ID',
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10606,9 +10607,9 @@ CREATE TABLE `t_s_role_org` (
 DROP TABLE IF EXISTS `t_s_role_user`;
 CREATE TABLE `t_s_role_user` (
   `ID` varchar(32) NOT NULL COMMENT 'ID',
-  `roleid` varchar(32) DEFAULT NULL COMMENT '角色ID',
-  `userid` varchar(32) DEFAULT NULL COMMENT '用户ID',
-  PRIMARY KEY (`ID`),
+  `roleid` varchar(32) default NULL COMMENT '角色ID',
+  `userid` varchar(32) default NULL COMMENT '用户ID',
+  PRIMARY KEY  (`ID`),
   KEY `FK_n2ucxeorvpjy7qhnmuem01kbx` (`roleid`),
   KEY `FK_d4qb5xld2pfb0bkjx9iwtolda` (`userid`),
   CONSTRAINT `FK_d4qb5xld2pfb0bkjx9iwtolda` FOREIGN KEY (`userid`) REFERENCES `t_s_user` (`id`),
@@ -10639,22 +10640,22 @@ INSERT INTO `t_s_role_user` VALUES ('4028ef81563ae5be01563ae92de10004', '402880e
 DROP TABLE IF EXISTS `t_s_sms`;
 CREATE TABLE `t_s_sms` (
   `id` varchar(36) NOT NULL COMMENT 'ID',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `es_title` varchar(32) DEFAULT NULL COMMENT '消息标题',
-  `es_type` varchar(1) DEFAULT NULL COMMENT '消息类型',
-  `es_sender` varchar(50) DEFAULT NULL COMMENT '发送人',
-  `es_receiver` varchar(50) DEFAULT NULL COMMENT '接收人',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `es_title` varchar(32) default NULL COMMENT '消息标题',
+  `es_type` varchar(1) default NULL COMMENT '消息类型',
+  `es_sender` varchar(50) default NULL COMMENT '发送人',
+  `es_receiver` varchar(50) default NULL COMMENT '接收人',
   `es_content` longtext COMMENT '内容',
-  `es_sendtime` datetime DEFAULT NULL COMMENT '发送时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `es_status` varchar(1) DEFAULT NULL COMMENT '发送状态',
-  `is_read` smallint(2) NOT NULL DEFAULT '0' COMMENT '是否已阅读',
-  PRIMARY KEY (`id`),
+  `es_sendtime` datetime default NULL COMMENT '发送时间',
+  `remark` varchar(500) default NULL COMMENT '备注',
+  `es_status` varchar(1) default NULL COMMENT '发送状态',
+  `is_read` smallint(2) NOT NULL default '0' COMMENT '是否已阅读',
+  PRIMARY KEY  (`id`),
   KEY `index_type` (`es_type`),
   KEY `index_receiver` (`es_receiver`),
   KEY `index_sendtime` (`es_sendtime`),
@@ -10678,15 +10679,15 @@ INSERT INTO `t_s_sms` VALUES ('402881f3646a472b01646a4a5af00001', '管理员', '
 DROP TABLE IF EXISTS `t_s_sms_sql`;
 CREATE TABLE `t_s_sms_sql` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `sql_name` varchar(32) DEFAULT NULL COMMENT 'SQL名称',
-  `sql_content` varchar(1000) DEFAULT NULL COMMENT 'SQL内容',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  PRIMARY KEY (`id`)
+  `sql_name` varchar(32) default NULL COMMENT 'SQL名称',
+  `sql_content` varchar(1000) default NULL COMMENT 'SQL内容',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10700,18 +10701,18 @@ INSERT INTO `t_s_sms_sql` VALUES ('8a71b40e4a386269014a3865f9a90001', 'SQL-查�
 DROP TABLE IF EXISTS `t_s_sms_template`;
 CREATE TABLE `t_s_sms_template` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `template_type` varchar(1) DEFAULT NULL COMMENT '模板类型',
-  `template_code` varchar(32) DEFAULT NULL COMMENT '模板CODE',
-  `template_name` varchar(50) DEFAULT NULL COMMENT '模板名称',
-  `template_content` varchar(1000) DEFAULT NULL COMMENT '模板内容',
-  `template_test_json` varchar(1000) DEFAULT NULL COMMENT '模板测试json',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  PRIMARY KEY (`id`),
+  `template_type` varchar(1) default NULL COMMENT '模板类型',
+  `template_code` varchar(32) default NULL COMMENT '模板CODE',
+  `template_name` varchar(50) default NULL COMMENT '模板名称',
+  `template_content` varchar(1000) default NULL COMMENT '模板内容',
+  `template_test_json` varchar(1000) default NULL COMMENT '模板测试json',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_templatecode` (`template_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -10727,17 +10728,17 @@ INSERT INTO `t_s_sms_template` VALUES ('8a71b40e4a386269014a38701cff0005', '1', 
 DROP TABLE IF EXISTS `t_s_sms_template_sql`;
 CREATE TABLE `t_s_sms_template_sql` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `code` varchar(32) DEFAULT NULL COMMENT '配置CODE',
-  `name` varchar(32) DEFAULT NULL COMMENT '配置名称',
-  `sql_id` varchar(32) DEFAULT NULL COMMENT '业务SQLID',
-  `template_id` varchar(32) DEFAULT NULL COMMENT '消息模本ID',
-  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人登录名称',
-  `create_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `update_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人登录名称',
-  `update_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  PRIMARY KEY (`id`)
+  `code` varchar(32) default NULL COMMENT '配置CODE',
+  `name` varchar(32) default NULL COMMENT '配置名称',
+  `sql_id` varchar(32) default NULL COMMENT '业务SQLID',
+  `template_id` varchar(32) default NULL COMMENT '消息模本ID',
+  `create_date` datetime default NULL COMMENT '创建日期',
+  `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
+  `create_name` varchar(50) default NULL COMMENT '创建人名称',
+  `update_date` datetime default NULL COMMENT '更新日期',
+  `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
+  `update_name` varchar(50) default NULL COMMENT '更新人名称',
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10751,21 +10752,21 @@ INSERT INTO `t_s_sms_template_sql` VALUES ('8a71b40e4a386269014a3871f5ee0008', '
 DROP TABLE IF EXISTS `t_s_timetask`;
 CREATE TABLE `t_s_timetask` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `CREATE_BY` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `CREATE_DATE` datetime DEFAULT NULL COMMENT '创建时间',
-  `CREATE_NAME` varchar(32) DEFAULT NULL COMMENT '创建人名字',
+  `CREATE_BY` varchar(32) default NULL COMMENT '创建人',
+  `CREATE_DATE` datetime default NULL COMMENT '创建时间',
+  `CREATE_NAME` varchar(32) default NULL COMMENT '创建人名字',
   `CRON_EXPRESSION` varchar(100) NOT NULL COMMENT 'cron表达式',
   `IS_EFFECT` varchar(1) NOT NULL COMMENT '是否生效 0/未生效,1/生效',
   `IS_START` varchar(1) NOT NULL COMMENT '是否运行0停止,1运行',
   `TASK_DESCRIBE` varchar(50) NOT NULL COMMENT '任务描述',
   `TASK_ID` varchar(100) NOT NULL COMMENT '任务ID',
   `CLASS_NAME` varchar(300) NOT NULL COMMENT '任务类名',
-  `RUN_SERVER_IP` varchar(15) NOT NULL DEFAULT '本地' COMMENT '任务运行服务器IP',
-  `RUN_SERVER` varchar(300) NOT NULL DEFAULT '本地' COMMENT '远程主机（域名/IP+项目路径）',
-  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `UPDATE_DATE` datetime DEFAULT NULL COMMENT '修改时间',
-  `UPDATE_NAME` varchar(32) DEFAULT NULL COMMENT '修改人名称',
-  PRIMARY KEY (`ID`)
+  `RUN_SERVER_IP` varchar(15) NOT NULL default '本地' COMMENT '任务运行服务器IP',
+  `RUN_SERVER` varchar(300) NOT NULL default '本地' COMMENT '远程主机（域名/IP+项目路径）',
+  `UPDATE_BY` varchar(32) default NULL COMMENT '修改人',
+  `UPDATE_DATE` datetime default NULL COMMENT '修改时间',
+  `UPDATE_NAME` varchar(32) default NULL COMMENT '修改人名称',
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -10779,14 +10780,14 @@ INSERT INTO `t_s_timetask` VALUES ('402880e74c79dd47014c79de88f70001', 'admin', 
 DROP TABLE IF EXISTS `t_s_type`;
 CREATE TABLE `t_s_type` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `typecode` varchar(50) DEFAULT NULL COMMENT '字典编码',
-  `typename` varchar(50) DEFAULT NULL COMMENT '字典名称',
-  `typepid` varchar(32) DEFAULT NULL COMMENT '无用字段',
-  `typegroupid` varchar(32) DEFAULT NULL COMMENT '字典组ID',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_name` varchar(36) DEFAULT NULL COMMENT '创建用户',
-  `order_num` int(3) DEFAULT NULL COMMENT '序号',
-  PRIMARY KEY (`ID`),
+  `typecode` varchar(50) default NULL COMMENT '字典编码',
+  `typename` varchar(50) default NULL COMMENT '字典名称',
+  `typepid` varchar(32) default NULL COMMENT '无用字段',
+  `typegroupid` varchar(32) default NULL COMMENT '字典组ID',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_name` varchar(36) default NULL COMMENT '创建用户',
+  `order_num` int(3) default NULL COMMENT '序号',
+  PRIMARY KEY  (`ID`),
   KEY `FK_nw2b22gy7plh7pqows186odmq` (`typepid`),
   KEY `FK_3q40mr4ebtd0cvx79matl39x1` (`typegroupid`),
   CONSTRAINT `FK_3q40mr4ebtd0cvx79matl39x1` FOREIGN KEY (`typegroupid`) REFERENCES `t_s_typegroup` (`ID`),
@@ -10911,7 +10912,7 @@ INSERT INTO `t_s_type` VALUES ('8a8ab0b246dc81120146dc81823c0075', 'news', 'comm
 INSERT INTO `t_s_type` VALUES ('8a8ab0b246dc81120146dc8182400076', '0', 'common.male', null, '8a8ab0b246dc81120146dc8181cd005f', null, null, '2');
 INSERT INTO `t_s_type` VALUES ('8a8ab0b246dc81120146dc8182430077', '1', 'common.female', null, '8a8ab0b246dc81120146dc8181cd005f', null, null, '1');
 INSERT INTO `t_s_type` VALUES ('8a8ab0ba487c527201487c7863ec001b', 'oracle', 'common.oracle', null, '8a8ab0ba487c527201487c7732790019', '2016-09-04 22:19:12', '管理员', null);
-INSERT INTO `t_s_type` VALUES ('8a8ab0ba487c527201487c78aefc001d', 'sqlserver2008', 'common.sqlserver2008', null, '8a8ab0ba487c527201487c7732790019', '2016-09-04 22:19:12', '管理员', null);
+INSERT INTO `t_s_type` VALUES ('8a8ab0ba487c527201487c78aefc001d', 'sqlserver', 'common.sqlserver', null, '8a8ab0ba487c527201487c7732790019', '2016-09-04 22:19:12', '管理员', null);
 INSERT INTO `t_s_type` VALUES ('8a8ab0ba487c527201487c78fbb5001f', 'mysql', 'common.mysql', null, '8a8ab0ba487c527201487c7732790019', '2016-09-04 22:19:12', '管理员', null);
 INSERT INTO `t_s_type` VALUES ('f852d85d47ed64a40147ed71f6b40005', '>', '大于', null, 'f852d85d47ed64a40147ed70894c0003', '2016-09-04 22:19:12', '管理员', null);
 INSERT INTO `t_s_type` VALUES ('f852d85d47ed64a40147ed72a9dc0007', '>=', '大于等于', null, 'f852d85d47ed64a40147ed70894c0003', '2016-09-04 22:19:12', '管理员', null);
@@ -10943,11 +10944,11 @@ INSERT INTO `t_s_type` VALUES ('jglongjbtstype201506041030000008', 'WXWDYS', '�
 DROP TABLE IF EXISTS `t_s_typegroup`;
 CREATE TABLE `t_s_typegroup` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `typegroupcode` varchar(50) DEFAULT NULL COMMENT '字典分组编码',
-  `typegroupname` varchar(50) DEFAULT NULL COMMENT '字典分组名称',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_name` varchar(36) DEFAULT NULL COMMENT '创建用户',
-  PRIMARY KEY (`ID`),
+  `typegroupcode` varchar(50) default NULL COMMENT '字典分组编码',
+  `typegroupname` varchar(50) default NULL COMMENT '字典分组名称',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_name` varchar(36) default NULL COMMENT '创建用户',
+  PRIMARY KEY  (`ID`),
   KEY `index_typegroupcode` (`typegroupcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -11001,29 +11002,29 @@ INSERT INTO `t_s_typegroup` VALUES ('jglongjbtstypegourp2015060400001', 'weixin'
 DROP TABLE IF EXISTS `t_s_user`;
 CREATE TABLE `t_s_user` (
   `id` varchar(32) NOT NULL COMMENT 'id',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `mobilePhone` varchar(30) DEFAULT NULL COMMENT '手机号',
-  `officePhone` varchar(20) DEFAULT NULL COMMENT '办公座机',
-  `signatureFile` varchar(100) DEFAULT NULL COMMENT '签名文件',
-  `update_name` varchar(32) DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改人id',
-  `create_name` varchar(32) DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人id',
-  `portrait` varchar(100) DEFAULT NULL,
-  `imsign` varchar(255) DEFAULT NULL,
-  `dev_flag` varchar(2) NOT NULL DEFAULT '0' COMMENT '开发权限标志',
-  `user_type` varchar(2) DEFAULT NULL COMMENT '用户类型',
-  `person_type` varchar(2) DEFAULT NULL COMMENT '人员类型',
-  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
-  `emp_no` varchar(36) DEFAULT NULL COMMENT '工号',
-  `citizen_no` varchar(20) DEFAULT NULL COMMENT '身份证号',
-  `fax` varchar(50) DEFAULT NULL COMMENT '传真',
-  `address` varchar(1000) DEFAULT NULL COMMENT '联系地址',
-  `post` varchar(10) DEFAULT NULL COMMENT '邮编',
-  `memo` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`),
+  `email` varchar(50) default NULL COMMENT '邮箱',
+  `mobilePhone` varchar(30) default NULL COMMENT '手机号',
+  `officePhone` varchar(20) default NULL COMMENT '办公座机',
+  `signatureFile` varchar(100) default NULL COMMENT '签名文件',
+  `update_name` varchar(32) default NULL COMMENT '修改人',
+  `update_date` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(32) default NULL COMMENT '修改人id',
+  `create_name` varchar(32) default NULL COMMENT '创建人',
+  `create_date` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(32) default NULL COMMENT '创建人id',
+  `portrait` varchar(100) default NULL,
+  `imsign` varchar(255) default NULL,
+  `dev_flag` varchar(2) NOT NULL default '0' COMMENT '开发权限标志',
+  `user_type` varchar(2) default NULL COMMENT '用户类型',
+  `person_type` varchar(2) default NULL COMMENT '人员类型',
+  `sex` varchar(2) default NULL COMMENT '性别',
+  `emp_no` varchar(36) default NULL COMMENT '工号',
+  `citizen_no` varchar(20) default NULL COMMENT '身份证号',
+  `fax` varchar(50) default NULL COMMENT '传真',
+  `address` varchar(1000) default NULL COMMENT '联系地址',
+  `post` varchar(10) default NULL COMMENT '邮编',
+  `memo` varchar(255) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`),
   KEY `FK_2cuji5h6yorrxgsr8ojndlmal` (`id`),
   KEY `index_dev_flag` (`dev_flag`),
   CONSTRAINT `FK_2cuji5h6yorrxgsr8ojndlmal` FOREIGN KEY (`id`) REFERENCES `t_s_base_user` (`ID`)
@@ -11055,9 +11056,9 @@ INSERT INTO `t_s_user` VALUES ('8a8c82a35de421ab015de4228d400003', '418799587@qq
 DROP TABLE IF EXISTS `t_s_user_org`;
 CREATE TABLE `t_s_user_org` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '用户id',
-  `org_id` varchar(32) DEFAULT NULL COMMENT '部门id',
-  PRIMARY KEY (`ID`),
+  `user_id` varchar(32) default NULL COMMENT '用户id',
+  `org_id` varchar(32) default NULL COMMENT '部门id',
+  PRIMARY KEY  (`ID`),
   KEY `index_user_id` (`user_id`),
   KEY `index_org_id` (`org_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -11084,10 +11085,10 @@ INSERT INTO `t_s_user_org` VALUES ('4028ef81563ae5be01563ae92dc20003', '4028ef81
 DROP TABLE IF EXISTS `t_s_user_position_rel`;
 CREATE TABLE `t_s_user_position_rel` (
   `ID` varchar(32) NOT NULL COMMENT 'id',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '用户id',
-  `position_id` varchar(32) DEFAULT NULL COMMENT '职务id',
-  `company_id` varchar(32) DEFAULT NULL COMMENT '公司ID',
-  PRIMARY KEY (`ID`),
+  `user_id` varchar(32) default NULL COMMENT '用户id',
+  `position_id` varchar(32) default NULL COMMENT '职务id',
+  `company_id` varchar(32) default NULL COMMENT '公司ID',
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `uniq_userid_positionid_companyid` (`user_id`,`position_id`,`company_id`),
   KEY `idx_userid_companyid` (`user_id`,`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户-岗位-公司关联表';

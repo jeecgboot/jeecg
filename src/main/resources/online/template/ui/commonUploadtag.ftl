@@ -100,8 +100,8 @@ $("#${po.field_name}thelist").on("click",".pic_close",function(eve){
 	var itemObj = $(eve.target).closest(".uploadify-queue-item");
 	var id = itemObj.attr("id");
 	$.dialog.setting.zIndex = getzIndex();
-	$.dialog.confirm("确认删除该条记录?", function(){
-	  	$.ajax({
+	<#-- update-begin-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->3.Online 单表移动模板，删除图 片不需要确认 -->
+	$.ajax({
 			async : false,
 			cache : false,
 			url:"cgUploadController.do?delAttachment",
@@ -126,8 +126,8 @@ $("#${po.field_name}thelist").on("click",".pic_close",function(eve){
 					tip(data.msg);
 				}
 			}
-		});  
-	}, function(){});
+		});
+	<#-- update-end-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->3.Online 单表移动模板，删除图 片不需要确认 -->
 });
 });
 </script>
@@ -137,35 +137,6 @@ $("#${po.field_name}thelist").on("click",".pic_close",function(eve){
 <#-- 文件上传 -->
 <#macro uploadFile po height = "18" width = "80">
 <div class="iuploader">
-	<div id = "${po.field_name}thelist" class="uploader-list">
-		<table class="temptable">
-		<tbody>
-		<#list filesList as fileB>
-		<#if fileB['field']?lower_case == po.field_name>
-			<tr class="upload_generate history uploadify-queue-item" id="${fileB['fileKey']}">
-				<td title="${fileB['title']}">
-				<#if fileB['title']?length gt 20>
-					${fileB['title']?substring(0,15)}...
-				<#else>
-					${fileB['title']}
-				</#if>
-				</td>
-				<td>
-					<a title="删除" href="javascript:void(0)" class="jeecgDetail file_close" style="margin:0 8px;text-decoration: none;">删除</a>
-				</td>
-				<td>
-					<a title="预览" href="javascript:void(0);" onclick="openwindow('预览','${basePath}/commonController.do?openViewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity','fList',700,500)" style="margin:0 8px;text-decoration: none;">预览</a>
-				</td>
-				<td>
-					<a title="下载" href="${basePath}/commonController.do?viewFile&fileid=${fileB['fileKey']}&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" style="margin:0 8px;text-decoration: none;">下载</a>
-				</td>
-				<td style="display:none"><input type="hidden" name="${po.field_name}" value="${fileB['path']}"/></td>
-			</tr>
-		</#if>
-		</#list>
-		</tbody>
-		</table>
-	</div>
 	<#if !(po.operationCodesReadOnly ??)>
 	<div class="plupload-btns">
 		<div id="${po.field_name}Upselector" class="uploadify-button " style="cursor:pointer;height:${height}px; line-height:${height}px; width:${width}px; position: relative; z-index: 1;">
@@ -176,6 +147,38 @@ $("#${po.field_name}thelist").on("click",".pic_close",function(eve){
 		<input type="button" id = "${po.field_name}" style="display:none"/>
 	</div>
 	</#if>
+	<div id = "${po.field_name}thelist" class="uploader-list">
+	<table class="online-file-block" style="width: 100%;overflow: hidden;">
+		<tbody>
+		<#list filesList as fileB>
+		<#if fileB['field']?lower_case == po.field_name>
+		
+		<tr class="os-single-file-line history uploadify-queue-item" id="${fileB['fileKey']}">
+			<td class="list-li">
+				<div style="position: relative;">
+					<#assign osFileTypeImg = "default">
+					<#if fileB['extend']?default("")?length gt 1>
+					<#assign osFileTypeImg = "${fileB['extend']}">
+					</#if>
+					<span class="os-file-type" style="background-image: url(plug-in/plupload/filetype/${osFileTypeImg}.png);"></span>
+					<span class="os-file-name">
+					<#if fileB['title']?length gt 20>
+						${fileB['title']?substring(0,20)}...${fileB['extend']}
+					<#else>
+						${fileB['title']}.${fileB['extend']}
+					</#if>
+					</span>
+					<div class="os-file-del file_close">删除</div>
+					<input type="hidden" name="${po.field_name}" value="${fileB['path']}"/>
+				</div>
+			</td>
+		</tr>
+		</#if>
+		</#list>
+		</tbody>
+	</table>
+	</div>
+
 	<div class="form" id="filediv_${po.field_name}"> </div>
 </div>
 <#if !(po.operationCodesReadOnly ??)>
@@ -187,7 +190,7 @@ var serverMsg = "";
 var addtrFile = function(file) {
     var fileName = file.name;
     if (fileName.length > 20) {
-        fileName = fileName.substring(0, 15) + '...';
+        fileName = fileName.substring(0, 20) + '...';
     }
 	var fileSize = Math.ceil(file.size/1024);
 	var html = '<div id="'+file.id+'" class="uploadify-queue-item">';
@@ -204,20 +207,25 @@ var addtrFile = function(file) {
 		$("#imagediv_${po.field_name}").append(html);
 	</#if>
 }
-
 var addSuccessFile = function(file) {
-    var path = file['url'],fileid = file['fileid'],title = file['name'];
-	var html = '<tr class="uploadify-queue-item upload_generate" id="'+fileid+'"><td title="'+title+'">';
-	if(title.length>20){
-		html+=title.substring(0,15)+'...';
-	}else{
-		html+=title;
+   var path = file['url'],fileid = file['fileid'],title = file['name'],extend=file['extend'];
+	var html = '<tr class="os-single-file-line uploadify-queue-item" id="'+fileid+'"><td class="list-li">';
+	html+='<div style="position: relative;">';
+	html+='';
+	var osFileTypeImg = "default";
+	if(!!extend){
+		osFileTypeImg = extend;
 	}
-	html+='</td>';
-	html+='<td><a title="删除" class="jeecgDetail file_close" href="javascript:void(0)" style="margin:0 8px;text-decoration: none;">删除</a></td>';
-	//html+='<td><a title="预览" href="javascript:void(0);" onclick="openwindow(\'预览\',\'${basePath}/commonController.do?openViewFile&fileid='+fileid+'&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity\',\'fList\',700,500)" style="margin:0 8px;text-decoration: none;">预览</a></td>';
-	//html+='<td><a title="下载" href="${basePath}/commonController.do?viewFile&fileid='+fileid+'&subclassname=org.jeecgframework.web.cgform.entity.upload.CgUploadEntity" style="margin:0 8px;text-decoration: none;">下载</a></td>';
-	html+='<td style="display:none"><input type="hidden" name="${po.field_name}" value="'+path+'"/></td></tr>';
+	html+='<span class="os-file-type" style="background-image: url(plug-in/plupload/filetype/'+osFileTypeImg+'.png);"></span>';
+	html+='<span class="os-file-name">';
+	if(title.length>20){
+		html+=title.substring(0,20)+'...'+extend;
+	}else{
+		html+=title+"."+extend;
+	}
+	html+='</span><div class="os-file-del file_close">删除</div>';
+	html+='<input type="hidden" name="${po.field_name}" value="'+path+'"/>';
+	html+='</div></td></tr>';
 	$("#${po.field_name}thelist").children('table').append(html);
 }
 var uploader = new plupload.Uploader({
@@ -283,8 +291,8 @@ $("#${po.field_name}thelist").on("click",".file_close",function(eve){
 	var itemObj = $(eve.target).closest(".uploadify-queue-item");
 	var id = itemObj.attr("id");
 	$.dialog.setting.zIndex = getzIndex();
-	$.dialog.confirm("确认删除该条记录?", function(){
-	  	$.ajax({
+	<#-- update-begin-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->3.Online 单表移动模板，删除图 片不需要确认 -->
+	$.ajax({
 			async : false,
 			cache : false,
 			url:"cgUploadController.do?delAttachment",
@@ -309,10 +317,90 @@ $("#${po.field_name}thelist").on("click",".file_close",function(eve){
 					tip(data.msg);
 				}
 			}
-		});  
-	}, function(){});
+		});
+	<#-- update-end-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->3.Online 单表移动模板，删除图 片不需要确认 -->
 });
 });
 </script>
+<#-- update-begin-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->4.Online 单表移动模板，文件上 传格式太丑 -->
+<script>
+//滑动删除JS
+window.addEventListener('load',function(){
+    var initX;
+    var moveX;
+    var X = 0;
+    var objX = 0;
+    document.getElementById("${po.field_name}thelist").addEventListener('touchstart',function(event){
+    	if(!!event.target.className && event.target.className.indexOf("os-file-del")>=0){
+    		$(event.target).click();
+    		return;
+    	}
+        event.preventDefault();
+        var obj = event.target.parentNode;
+        if(obj.className == "list-li"){console.log(event.targetTouches[0].pageX);
+            initX = event.targetTouches[0].pageX;
+            objX =(obj.style.WebkitTransform.replace(/translateX\(/g,"").replace(/px\)/g,""))*1;
+        }
+        if( objX == 0){
+        	console.log('objX == 0)');
+            document.getElementById("${po.field_name}thelist").addEventListener('touchmove',function(event) {
+                event.preventDefault();
+                var obj = event.target.parentNode;
+                if (obj.className == "list-li") {
+                    moveX = event.targetTouches[0].pageX;
+                    X = moveX - initX;
+                    if (X > 0) {
+                        obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+                    }
+                    else if (X < 0) {
+                        var l = Math.abs(X);
+                        obj.style.WebkitTransform = "translateX(" + -l + "px)";
+                        if(l>80){
+                            l=80;
+                            obj.style.WebkitTransform = "translateX(" + -l + "px)";
+                        }
+                    }
+                }
+            });
+        }
+        else if(objX<0){console.log('objX 《 0)');
+            document.getElementById("${po.field_name}thelist").addEventListener('touchmove',function(event) {
+                event.preventDefault();
+                var obj = event.target.parentNode;
+                if (obj.className == "list-li") {
+                    moveX = event.targetTouches[0].pageX;
+                    X = moveX - initX;
+                    if (X > 0) {
+                        var r = -80 + Math.abs(X);
+                        obj.style.WebkitTransform = "translateX(" + r + "px)";
+                        if(r>0){
+                            r=0;
+                            obj.style.WebkitTransform = "translateX(" + r + "px)";
+                        }
+                    }
+                    else {     //向左滑动
+                        obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+                    }
+                }
+            });
+        }
+
+    })
+    document.getElementById("${po.field_name}thelist").addEventListener('touchend',function(event){
+        event.preventDefault();
+        var obj = event.target.parentNode;
+        if(obj.className == "list-li"){
+            objX =(obj.style.WebkitTransform.replace(/translateX\(/g,"").replace(/px\)/g,""))*1;
+            if(objX>-40){
+                obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+            }else{
+                obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+            }
+        }
+     })
+
+})
+</script>
+<#-- update-end-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->4.Online 单表移动模板，文件上 传格式太丑 -->
 </#if>	
 </#macro>

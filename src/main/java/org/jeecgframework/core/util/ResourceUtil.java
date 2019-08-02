@@ -165,14 +165,16 @@ public class ResourceUtil {
 		if(clientManager.getClient(session.getId())!=null){
 			return clientManager.getClient(session.getId()).getUser();
 
-		}else{
-			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
-			Client client = new Client();
-	        client.setIp("");
-	        client.setLogindatetime(new Date());
-	        client.setUser(u);
-	        clientManager.addClinet(session.getId(), client);
 		}
+		
+//		else{
+//			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
+//			Client client = new Client();
+//	        client.setIp("");
+//	        client.setLogindatetime(new Date());
+//	        client.setUser(u);
+//	        clientManager.addClinet(session.getId(), client);
+//		}
 
 		return null;
 	}

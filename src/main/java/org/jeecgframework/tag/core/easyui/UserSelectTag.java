@@ -27,7 +27,7 @@ public class UserSelectTag extends TagSupport {
 	private boolean hasLabel = false;       //是否显示lable,默认不显示
 	private String userNamesDefalutVal;    //用户名默认值
 	private String userIdsDefalutVal;   	 //用户ID默认值
-	private String readonly = "readonly";	// 只读属性
+	private String readonly = "false";	// 只读属性
 	private String inputWidth; 				//输入框宽度
 	private String windowWidth; 			//弹出窗口宽度
 	private String windowHeight; 			//弹出窗口高度
@@ -162,7 +162,12 @@ public class UserSelectTag extends TagSupport {
 		if(hasLabel && oConvertUtils.isNotEmpty(title)){
 			sb.append(title + "：");
 		}
-		sb.append("<input class=\"inuptxt\" readonly=\""+readonly+"\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" onclick=\"openUserSelect()\" ");
+
+		sb.append("<input class=\"inuptxt\" readonly=\"readonly\" type=\"text\" id=\"" + selectedNamesInputId + "\" name=\"" + selectedNamesInputId + "\" style=\"width: "+inputWidth+"\" ");
+		if(!("true".equals(readonly)||"readonly".equals(readonly.toLowerCase()))){
+			sb.append("onclick=\"openUserSelect()\"");
+		}
+
 		if(StringUtils.isNotBlank(userNamesDefalutVal)){
 			sb.append(" value=\""+userNamesDefalutVal+"\"");
 		}

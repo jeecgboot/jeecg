@@ -396,7 +396,9 @@ a span.accordion-collapse.accordion-expand:hover {
 }
 /*---------------高级查询器---------------*/
 #accDiv{border:0}
-#accDiv>.panel{border:1px solid #ddd;border-bottom:0}
+/*update-begin-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->6.ERP风格生成的代码， 感觉边线有点粗 */
+#accDiv>.panel{/*border:1px solid #ddd;*/border-bottom:0}
+/*update-end-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->6.ERP风格生成的代码， 感觉边线有点粗 */
 
 /*-----------拖动css-----------*/
 .resize-y-border{ 

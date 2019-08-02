@@ -903,7 +903,9 @@ a:hover {
 	
 }
 a.l-btn span.l-btn-left .icon-ok{
+	/* update-begin-Author:LiShaoQing Date:20181022 for: 黑名单管理下的高级查询构造器图表样式问题-----*/
 	/*background-image:none;*/
+	/* update-end-Author:LiShaoQing Date:20181022 for: 黑名单管理下的高级查询构造器图表样式问题-----*/
 }
 
 .button:hover,a.l-btn:hover span.l-btn-left {

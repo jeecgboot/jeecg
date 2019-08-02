@@ -26,9 +26,12 @@
 		.active #menuAdmin li {
 			background: #338fde;
 		}
+		/* update-begin-Author:LiShaoQing date:20181024 for:TASK #2871 【新风格】新首页风格，鼠标放在上面菜单还是小手 */
 		#menuAdmin a {
 			cursor:pointer;
 		}
+		/* update-end-Author:LiShaoQing date:20181024 for:TASK #2871 【新风格】新首页风格，鼠标放在上面菜单还是小手 */
+		.menulistDIV{width: calc(100% - 340px);}
 	</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed" style="overflow-y:hidden;">
@@ -48,7 +51,9 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
       
-	  <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+      <!-- update-begin-author:taoyan date:20181106 for:TASK #3147 【论坛问题】主题 AdminLTE的一些问题需要修复 -->
+	  <div class="collapse navbar-collapse pull-left menulistDIV" id="navbar-collapse" style="height:50px !important;overflow:hidden !important">
+      <!-- update-end-author:taoyan date:20181106 for:TASK #3147 【论坛问题】主题 AdminLTE的一些问题需要修复  -->
           <ul class="nav navbar-nav" id="menuAdmin">
           	<t:menu style="adminlte" menuFun="${menuMap}"></t:menu>
           </ul>
@@ -57,6 +62,19 @@
 	   
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+        	<!-- update-begin-author:taoyan date:20181106 for:更多菜单  -->
+        	<li class="dropdown notifications-menu" id="deligateMenuContainer">
+	            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	              <i class="fa fa-caret-down"></i>
+	            </a>
+	            <ul class="dropdown-menu" >
+	              <li>
+	                <ul id="deligate-menu" style="height:auto !important">
+	                </ul>
+	              </li>
+	            </ul>
+            </li>
+            <!-- update-end-author:taoyan date:20181106 for:更多菜单  -->
         	<!-- 系统公共选项 -->
         	<li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -73,8 +91,8 @@
                     </a>
                   </li>
                   <li>
-                    <a href="javascript:window.open('http://yun.jeecg.org')" title="云应用中心">
-                      <i class="fa fa-warning text-yellow"></i> 云应用中心
+                    <a href="javascript:window.open('http://www.jeecg.com')" title="JEECG官网">
+                      <i class="fa fa-warning text-yellow"></i> JEECG官网
                     </a>
                   </li>
                   <li>
@@ -325,7 +343,7 @@
       <b>Version</b> <t:mutiLang langKey="system.version.number"/>
     </div>
     <t:mutiLang langKey="common.copyright"/>
-    <a href="http://www.jeecg.org" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
+    <a href="http://www.jeecg.com" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
            (推荐谷歌浏览器，获得更快响应速度) 技术支持:
            <a href="#" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
   </footer>
@@ -573,8 +591,69 @@
 		createdetailwindow("通知详情", addurl, 750, 600);
 		loadSms();
     }
-    
-    
+
+window.onload=function(){
+	fitMenu();
+	$(".sidebar-toggle").bind("click",function(){
+		setTimeout(function () {
+			$("#deligate-menu").html("");
+			fitMenu();
+		},400);
+	})
+}
+$(window).resize(function() {
+	$("#deligate-menu").html("");
+	fitMenu();
+	
+});
+function fitMenu(){
+	var left = $("#menuAdmin>li:first").offset().left;
+	var top = $("#menuAdmin>li:first").offset().top;
+	if(parseFloat(top)==parseFloat(50) && left==42){
+		$(".menulistDIV").width($(".navbar-static-top").width()-340-230);
+	}else{
+		$(".menulistDIV").css("width","calc(100% - 340px)");//不支持css3 cacl低版本浏览器请打开下面注释
+		//$(".menulistDIV").width($(".navbar-static-top").width()-340);
+	}
+	var width = $(".menulistDIV").width();
+	//console.log("总宽度："+width);
+	var flag = false;
+	//1.遍历所有菜单,判断菜单是否被隐藏
+	$("#menuAdmin").find("li").each(function(){
+		var temp = $(this).offset();
+		//console.log(temp);
+		if(top==50 && temp.top==top){
+			if(($(this).width()+temp.left-left)>(width)){
+				flag = true;
+				document.getElementById('deligate-menu').appendChild(this.cloneNode(true));
+			}
+		}else{
+			if(top<temp.top ){
+				flag = true;
+				document.getElementById('deligate-menu').appendChild(this.cloneNode(true));
+			}
+		}
+	});
+	//如果flag是false说明菜单很少或是界面太小
+	//sidebar-collapse
+	if(!flag){
+		if(!$("#navbar-collapse").is(':hidden')){
+			//2.菜单很少 需要隐藏下拉图标
+			$("#deligateMenuContainer").hide();
+		}else{
+			//3.界面太小隐藏 了菜单,需要将所有菜单加载到下拉列表中去
+			$("#menuAdmin").find("li").each(function(){
+				document.getElementById('deligate-menu').appendChild(this.cloneNode(true));
+			});
+			$("#deligateMenuContainer").show();
+			
+		}
+	}else{
+		$("#deligateMenuContainer").show();
+	}
+	$("#deligate-menu").addClass("menu");
+}
+
 </script>
 </body>
 </html>

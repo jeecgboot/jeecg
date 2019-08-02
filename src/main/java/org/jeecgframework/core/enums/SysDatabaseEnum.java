@@ -10,7 +10,9 @@ import org.jeecgframework.core.util.StringUtil;
 public enum SysDatabaseEnum {
 
 	MYSQL("mysql","jdbc:mysql://SERVERADDRESS:PORT/YOURDATABASENAME?useUnicode=true&characterEncoding=UTF-8","com.mysql.jdbc.Driver"),
-	SQLSERVER2008("sqlserver2008","jdbc:sqlserver://SERVERADDRESS:PORT;DatabaseName=YOURDATABASENAME","com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+
+	SQLSERVER("sqlserver","jdbc:sqlserver://SERVERADDRESS:PORT;DatabaseName=YOURDATABASENAME","com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+
 	ORACLE("oracle","jdbc:oracle:thin:@SERVERADDRESS:PORT:YOURDATABASENAME","oracle.jdbc.driver.OracleDriver");
 
 

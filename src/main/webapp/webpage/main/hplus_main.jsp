@@ -131,7 +131,7 @@
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="loginController.do?hplushome" frameborder="0" data-id="loginController.do?hplushome" seamless></iframe>
         </div>
         <div class="footer" style="border-top:none;">
-            <div class="pull-right">&copy; <t:mutiLang langKey="system.version.number"/> <a href="http://www.jeecg.org/" target="_blank">jeecg</a>
+            <div class="pull-right">&copy; <t:mutiLang langKey="system.version.number"/> <a href="http://www.jeecg.com" target="_blank">jeecg</a>
             </div>
         </div>        
     </div>
@@ -314,7 +314,7 @@
         layer.msg("浏览器缓存清除成功!");
     }
     function toJeecgYun(){
-    	window.open("http://yun.jeecg.org","_blank");
+    	window.open("http://www.jeecg.com","_blank");
     }
     function toSwagger(){
     	window.open("swagger/index.html","_blank");

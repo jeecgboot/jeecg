@@ -222,7 +222,7 @@ a.cancel-row-btn:hover{color:#c8615d;} */
 }
 /**上传行编辑小图标-end-*/
 
-/* 船舶风格页面行编辑默认上传按钮样式 */
+/* erp上下布局风格页面行编辑默认上传按钮样式 */
 .rowedit-file-control{
 	    color: #fff;
     background-color: #18a689;
@@ -265,4 +265,19 @@ a.cancel-row-btn:hover{color:#c8615d;} */
     -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
     box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 }
-/* 船舶风格页面行编辑默认上传按钮样式 */
+/* erp上下布局风格页面行编辑默认上传按钮样式 */
+
+/* update-begin-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->7.时间输入框的高度，跟普通文 本框的不一致  */
+table td>.datebox{
+height:auto !important;
+padding: 0 !important;
+}
+table td>.datebox>.combo-text{
+height:26px !important;
+line-height:26px !important;
+padding:2px
+}
+table td>.datebox .combo-arrow{
+height:26px !important;
+}
+/* update-end-author:taoyan date:20181112 for:TASK #3153 JEECG 问题确认处理 ->7.时间输入框的高度，跟普通文 本框的不一致  */

@@ -101,7 +101,9 @@ public class CgReportQueryParamUtil{
 			if(!StringUtil.isEmpty(end)){
 //				String re = CgReportConstant.OP_LQ+end;
 				String re = CgReportConstant.OP_LQ+":"+filedName+"_end";
-				pageSearchFields.put(filedName, re);
+
+				pageSearchFields.put(new String(filedName), re);
+
 				paramData.put(filedName+"_end", covertData(filedType,end,false));
 			}
 

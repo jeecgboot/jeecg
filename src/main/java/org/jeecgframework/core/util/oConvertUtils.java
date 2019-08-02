@@ -19,6 +19,9 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 
@@ -26,6 +29,8 @@ import org.apache.commons.lang.StringEscapeUtils;
  *
  */
 public class oConvertUtils {
+	private static final Logger logger = Logger.getLogger(oConvertUtils.class);
+	
 	public static boolean isEmpty(Object object) {
 		if (object == null) {
 			return (true);
@@ -237,6 +242,12 @@ public class oConvertUtils {
 	 * 获取本机IP
 	 */
 	public static String getIp() {
+		HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+		logger.info("----------------获取spring线程request-------------------"+request);
+		if(oConvertUtils.isNotEmpty(request)){
+			logger.info("----------------通过 spring线程request 获取 getIpAddr------------------"+IpUtil.getIpAddr(request));
+			return IpUtil.getIpAddr(request);
+		}
 		String ip = null;
 		try {
 			InetAddress address = InetAddress.getLocalHost();

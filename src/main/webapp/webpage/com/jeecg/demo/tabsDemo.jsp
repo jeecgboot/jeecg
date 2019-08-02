@@ -17,6 +17,6 @@
 	</t:tabs>
 	<t:tabs id="tabsFour" iframe="true" heigth="800px" tabPosition="top" fit="false">
 		<t:tab href="http://www.guojusoft.com" icon="icon-search" title="北京国炬(全部iframe)" id="tab6"></t:tab>
-		<t:tab href="http://www.jeecg.org" icon="icon-search" title="Jeecg论坛" id="tab7"></t:tab>
+		<t:tab href="http://www.jeecg.com" icon="icon-search" title="Jeecg官网" id="tab7"></t:tab>
 	</t:tabs>
 </div>

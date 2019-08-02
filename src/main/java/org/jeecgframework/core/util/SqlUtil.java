@@ -75,7 +75,10 @@ public class SqlUtil {
      */
     public static String getCountSql(String sql, Map params) {
         String querySql = getFullSql(sql,params);
-        querySql = "SELECT COUNT(*) FROM ("+querySql+") t2";
+
+        //若要兼容数据库,SQL中取别名一律用大写
+        querySql = "SELECT COUNT(*) COUNT FROM ("+querySql+") t2";
+
         return querySql;
     }
 

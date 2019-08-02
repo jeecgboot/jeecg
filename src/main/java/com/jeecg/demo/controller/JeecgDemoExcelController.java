@@ -361,7 +361,7 @@ public class JeecgDemoExcelController extends BaseController {
 			Map<String,Object> beans =new HashMap<String,Object>();
 			beans.put("datac",list);
 			XLSTransformer transformer = new XLSTransformer(); 
-			String srcFilePath = request.getServletContext().getRealPath("/")+"export/template/jxls.xls";
+			String srcFilePath = request.getSession().getServletContext().getRealPath("/")+"export/template/jxls.xls";
 			InputStream is = new BufferedInputStream(new FileInputStream(srcFilePath));
 	        org.apache.poi.ss.usermodel.Workbook workbook = transformer.transformXLS(is, beans);
 	        //设置导出
@@ -439,7 +439,7 @@ public class JeecgDemoExcelController extends BaseController {
         	Map<String,Object> beans =new HashMap<String,Object>();
     		beans.put("datac",pageList);
     		String repeat = request.getParameter("repeat");
-    		String templateFilePath = request.getServletContext().getRealPath("/")+"export/template/jxlsone2many-"+repeat+".xls";
+    		String templateFilePath = request.getSession().getServletContext().getRealPath("/")+"export/template/jxlsone2many-"+repeat+".xls";
     		String exportFileName = "jxls导出excel-demo(一对多).xls";
     		JxlsExcelExportUtil.export(beans,exportFileName,templateFilePath, request, response);
     	}catch (Exception e) {

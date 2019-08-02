@@ -220,8 +220,8 @@ a:hover {
                             <div onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)">
                                 <t:mutiLang langKey="common.change.style"/>
                             </div>
-                            <div onclick="window.open('http://yun.jeecg.org')">
-                       		 	云应用中心
+                            <div onclick="window.open('http://www.jeecg.com')">
+                       		 	JEECG官网
                    			 </div>
                              <div onclick="clearLocalstorage()">
                        		 	<t:mutiLang langKey="common.clear.localstorage"/>
@@ -262,7 +262,7 @@ a:hover {
 	.proccess b{vertical-align:middle;background:url(plug-in/layer/skin/default/loading-2.gif) no-repeat 0 center;padding-left:55px;display:inline-block;}  
 	-->  
 	</style> 
-	<div class="proccess" id="panelloadingDiv"><b>&nbsp;</b></div>
+	<!--<div class="proccess" id="panelloadingDiv"><b>&nbsp;</b></div>-->
     <div id="maintabs" class="easyui-tabs" fit="true" border="false">
         <div class="easyui-tab" title="<t:mutiLang langKey="common.dash_board"/>" href="loginController.do?home" style="padding: 2px;"></div>
         <c:if test="${map=='1'}">
@@ -305,7 +305,7 @@ a:hover {
     <div align="center" style="color: #1fa3e5; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
+            <a href="http://www.jeecg.com" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
             (推荐谷歌浏览器，获得更快响应速度) 技术支持:
             <a href="#" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
         </span>

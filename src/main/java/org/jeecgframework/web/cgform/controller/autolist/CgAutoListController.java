@@ -29,6 +29,7 @@ import org.jeecgframework.core.util.SqlInjectionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
@@ -248,7 +249,7 @@ public class CgAutoListController extends BaseController{
 		//step.3 进行查询返回结果，如果为tree的下级数据，则不需要分页
 
 		List<Map<String, Object>> result = null;
-		if(isTree && treeId !=null) {
+		if(isTree && oConvertUtils.isNotEmpty(treeId)) {
 			//防止下级数据太大，最大只取500条
 			result=cgTableService.querySingle(table, field.toString(), params,sort,order, 1, 500);
 		}else {
@@ -313,28 +314,16 @@ public class CgAutoListController extends BaseController{
 		}
 		Long size = cgTableService.getQuerySingleSize(table, field, params);
 		dealDic(result,beans);
-		response.setContentType("application/json");
-		response.setHeader("Cache-Control", "no-store");
-		PrintWriter writer = null;
-		try {
-			writer = response.getWriter();
 
-			if(isTree && treeId !=null) {
-				//下级列表
-				writer.println(QueryParamUtil.getJson(result));
-			}else {
-				writer.println(QueryParamUtil.getJson(result,size));
-			}
-
-			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-			}
+		DataGrid datagrid = dataGrid;
+		datagrid.setTotal(size.intValue());
+		datagrid.setResults(result);
+		if(oConvertUtils.isEmpty(treeId)) {
+			TagUtil.treegrid(response, datagrid, false);
+		} else {
+			TagUtil.treegrid(response, datagrid, true);
 		}
+
 		long end = System.currentTimeMillis();
 		log.debug("动态列表查询耗时："+(end-start)+" ms");
 	}

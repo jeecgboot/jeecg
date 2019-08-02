@@ -1,0 +1,2 @@
+﻿UPDATE t_s_type SET typecode = 'sqlserver', typename = 'common.sqlserver' WHERE ID = '8a8ab0ba487c527201487c78aefc001d';
+update t_s_muti_lang set lang_context = '4.0' where lang_key ='system.version.number';

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -242,7 +243,8 @@ public class CgReportController extends BaseController {
 		//SQL参数
 		List<String> paramList = (List<String>) cgReportMap.get(CgReportConstant.PARAMS);
 		//页面参数查询字段（SQL条件语句片段）
-		Map<String,Object> pageSearchFields =  new LinkedHashMap<String,Object>();
+
+		Map<String,Object> pageSearchFields =  new IdentityHashMap<String,Object>();
 
 		//获取查询条件数据
 		Map<String,Object> paramData = new HashMap<String, Object>();
@@ -290,12 +292,13 @@ public class CgReportController extends BaseController {
 
         	}
 
-            if(map.get("COUNT(*)") instanceof BigDecimal){
-            	BigDecimal count = (BigDecimal)map.get("COUNT(*)");
+            if(map.get("COUNT") instanceof BigDecimal){
+            	BigDecimal count = (BigDecimal)map.get("COUNT");
             	size = count.longValue();
             }else{
-            	size=(Long)map.get("COUNT(*)");
+            	size=Long.valueOf(map.get("COUNT")+"");
             }
+
         }else{
 
         	result= cgReportService.queryByCgReportSql(querySql, pageSearchFields,paramData, p, r);

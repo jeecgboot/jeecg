@@ -41,17 +41,17 @@
         </h2>
         <p>JEECG是一款基于代码生成器的J2EE快速开发平台，开源界“小普元”超越传统商业企业级开发平台。引领新的开发模式(Online Coding模式(自定义表单)->代码生成器模式->手工MERGE智能开发)， 可以帮助解决Java项目60%的重复工作，让开发更多关注业务逻辑。既能快速提高开发效率，帮助公司节省人力成本，同时又不失灵活性。她可以用于所有的Web应用程序，如:<b>MIS</b>，<b>CRM</b>，<b>OA</b>，<b>ERP</b>，<b>CMS</b>，<b>网站后台</b>，<b>微信管家</b>，等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
         <p>
-            <b>当前版本：</b>v_3.8
+            <b>当前版本：</b>v_4.0
         </p>
         <p>
-            <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多插件</span>
+            <span class="label label-warning">开源     &nbsp; | &nbsp; 免费  | &nbsp; 更多源码</span>
         </p>
         <br>
         <p>
-        	<a class="btn btn-success btn-outline" href="http://yun.jeecg.org" target="_blank">
-                <i class="fa fa-cloud"></i> JEECG插件下载
+        	<a class="btn btn-success btn-outline" href="http://www.jeecg.com" target="_blank">
+                <i class="fa fa-cloud"></i> JEECG官网
             </a>
-            <a class="btn btn-white btn-bitbucket" href="http://www.jeecg.org/forum.php?mod=viewthread&tid=1249&page=1&extra=#pid3689" target="_blank">
+            <a class="btn btn-white btn-bitbucket" href="http://www.guojusoft.com" target="_blank">
                 <i class="fa fa-qq"> </i> 联系我们
             </a>
             <a class="btn btn-white btn-bitbucket" href="http://jeecg3.mydoc.io" target="_blank">
@@ -107,13 +107,13 @@
 
                 </div>
                 <div class="ibox-content">
-                    <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.org" target="_blank">http://www.jeecg.org</a>
+                    <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.jeecg.com" target="_blank">http://www.jeecg.com</a>
                     </p>
                     <p><i class="fa fa-qq"></i> QQ群：<a href="javascript:;">190866569</a>
                     </p>
                     <p><i class="fa fa-weixin"></i>微信公众号：<a href="javascript:;">jeecg</a>
                     </p>
-                    <p><i class="fa fa-credit-card"></i> 邮箱：<a href="javascript:;" class="邮箱">jeecg@sina.com</a>
+                    <p><i class="fa fa-credit-card"></i> 邮箱：<a href="javascript:;" class="邮箱">jeecgceo@163.com</a>
                     </p>
                 </div>
             </div>
@@ -129,10 +129,48 @@
                         <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#version" href="#v58">v4.0</a><code class="pull-right">2019.08.05</code>
+                                    </h5>
+                                </div>
+                                <div id="v58" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">此版本针对系统数据库兼容问题做了优化，AdminLTE风格首页增加更多菜单功能，UI标签、树形列表分页代码生成BUG修正以及论坛相关问题修正，系统更稳定更快；</div>
+                                        <ol>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Bootstrap表单+EasyUI原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板， Boostrap表单+BootstapTable原生列表（单表、一对多）;</li>
+											<li>【新功能】一套新的代码生成器模板，Boostrap表单+BootstapTable标签列表（单表、一对多）;</li>
+											<li>【新功能】AdminLTE风格首页增加更多菜单功能;</li>
+											<li>【新功能】上传组件Plupload优化;</li>
+											<li>【新功能】Minidao 代码生成工具;</li>
+											<li>【bug】多数据源配置的SQL Server2008无法获取分页问题修正;</li>
+											<li>【bug】组织机构录入一级机构，oracle兼容问题修正;</li>
+											<li>【bug】easyUI界面，多次点击查询按钮，界面的列表间隔逐渐缩小问题修正;</li>
+											<li>【bug】[UI标签] 折叠标签之未铺满问题修正;</li>
+											<li>【bug】macbook无法切换风格问题修正;</li>
+											<li>【bug】树形列表分类功能失效问题修正;</li>
+											<li>【bug】树形列表分页问题修正;</li>
+											<li>【bug】online图表配置 饼图无文字提示 全部显示slice问题修正;</li>
+											<li>【bug】online报表范围查询不生效;</li>
+											<li>【改进】UI标签 采用extend属性设置查询框样式;</li>
+											<li>【改进】Online单表移动模板，删除图片不需要确认;</li>
+											<li>【改进】Online单表移动模板，文件上传格式优化;</li>
+											<li>【改进】ERP风格生成的代码，边线样式优化;</li>
+											<li>【改进】时间输入框的高度，跟普通文本框不一致;</li>
+											<li>【改进】用户选择标签readonly属性改造，若为readonly/true则无click事件;</li>
+											<li>【改进】黑名单管理下的高级查询构造器图表样式问题;</li>
+											<li>【改进】session性能问题优化;</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#version" href="#v57">v3.8</a><code class="pull-right">2018.10.24</code>
                                     </h5>
                                 </div>
-                                <div id="v57" class="panel-collapse collapse in">
+                                <div id="v57" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="alert alert-warning">此版本系统安全性能得到大幅提升，代码重构优化，上传组件使用plupload重构，提升浏览器兼容性，新增adminlte风格支持一级菜单导航，极大提升美感和代码可控性，降低了表单的开发成本；</div>
                                         <ol>
@@ -679,7 +717,7 @@
 											<li>解决，easyui列表序号分页错误;</li>
 											<li>日志输出格式修改;</li>
 											<li>弹出窗口最大化JS，处理;</li>
-                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
+                                            <li>JJEECG更多源码下载：http://www.jeecg.com </li>
                                             <li>更多插件发布，敬请期待。。</li>
                                         </ol>
                                     </div>
@@ -707,7 +745,7 @@
                                             <li>Sqlserver驱动升级，支持2008;</li>
                                             <li>系统管理，组织机构角色赋权功能实现；</li>
                                             <li>代码重构优化</li>
-                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
+                                            <li>JJEECG更多源码下载：http://www.jeecg.com </li>
                                             <li>更多插件发布，敬请期待。。</li>
                                         </ol>
                                     </div>
@@ -737,7 +775,7 @@
                                             <li>插件发布：我的邮箱</li>
                                             <li>插件发布：CMS系统</li>
                                             <li>插件发布：微信企业号管理平台</li>
-                                            <li>JEECG云插件下载地址：http://yun.jeecg.org </li>
+                                            <li>JJEECG更多源码下载：http://www.jeecg.com </li>
                                             <li>更多插件发布，敬请期待。。</li>
                                         </ol>
                                     </div>
@@ -768,7 +806,7 @@
                                             <li>popup选择组织机构，用户通用JS封装；</li>
                                             <li>火狐下上传文件bug修复；</li>
                                             <li>用户删除，改成逻辑删除；</li>
-                                            <li>JEECG云应用平台中心发布：http://yun.jeecg.org </li>
+                                            <li>JEECG更多源码下载：http://www.jeecg.com </li>
                                             <li>插件发布：CMS系统</li>
                                             <li>插件发布：微信企业号管理平台</li>
                                             <li>更多插件发布，敬请期待。。</li>
@@ -882,7 +920,7 @@
                                 <div id="v33" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ol>
-                                            <li>更多版本，请详见论坛：www.jeecg.org</li>
+                                            <li>更多版本，请详见官网：www.jeecg.com</li>
                                         </ol>
                                     </div>
                                 </div>

@@ -507,17 +507,26 @@ public class TagUtil {
 	 * @param response
 	 * @param dataGrid
 	 */
-	public static void treegrid(HttpServletResponse response,DataGrid dg) {
+	public static void treegrid(HttpServletResponse response,DataGrid dg,Boolean isSubTree) {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
 		String jsonStr = TagUtil.getJson(dg);
 		JSONObject object = JSONObject.parseObject(jsonStr);
-		JSONArray rows = object.getJSONArray("rows");
 		try {
-			PrintWriter pw = response.getWriter();
-			pw.write(rows.toString());
-			pw.flush();
-			pw.close();
+
+			if(isSubTree) {
+				JSONArray rows = object.getJSONArray("rows");
+				PrintWriter pw = response.getWriter();
+				pw.write(rows.toString());
+				pw.flush();
+				pw.close();
+		    } else {
+		    	PrintWriter pw = response.getWriter();
+		    	pw.write(jsonStr.toString());
+		    	pw.flush();
+		    	pw.close();
+		    }
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{

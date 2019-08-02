@@ -174,8 +174,8 @@ a:hover {
                     </div>
                     
                     <div class="menu-sep" ></div>
-                    <div onclick="window.open('http://yun.jeecg.org')">
-                         	云应用中心
+                    <div onclick="window.open('http://www.jeecg.com')">
+                         	JEECG官网
                     </div>
                     
                     <div onclick="clearLocalstorage()">
@@ -246,7 +246,7 @@ a:hover {
     <div align="center" style="color: #CC99FF; padding-top: 2px">&copy;
         <t:mutiLang langKey="common.copyright"/>
         <span class="tip">
-            <a href="http://www.jeecg.org" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>"> JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
+            <a href="http://www.jeecg.com" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>"> JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
             <t:mutiLang langKey="common.copyright"/>:
             <a href="#" title=" JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a>
         </span>

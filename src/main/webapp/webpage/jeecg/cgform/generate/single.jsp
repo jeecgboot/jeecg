@@ -82,13 +82,11 @@ function browseFolder(path) {
 			<td align="right"><label class="Validform_label"> 表名: </label></td>
 			<td class="value" colspan="3"><input disabled="disabled" class="inputxt" id="tableName_tmp" name="tableName_tmp" value="${cgFormHeadPage.tableName}" datatype="*"> <span
 				class="Validform_checktip"></span>
-				<!-- update-begin-author:taoyan date:20180628 for:布局修改 -->
 				<div style="display:inline-block">
 					<span>树形列表: </span>
 					<input disabled type="radio" name="supportTree" <c:if test="${cgFormHeadPage.isTree eq 'Y'}">checked="checked"</c:if> value="1"/>是
 				<input disabled type="radio" name="supportTree" <c:if test="${cgFormHeadPage.isTree eq 'N'}">checked="checked"</c:if> value="0"/>否
 				</div>
-				<!-- update-end-author:taoyan date:20180628 for:布局修改 -->
 			</td>
 		</tr>
 		<tr>
@@ -109,7 +107,6 @@ function browseFolder(path) {
 				checked="checked">Jsp</input> <input type="checkbox" value="1" name="serviceIFlag" id="serviceIFlag" checked="checked">ServiceI</input> <input type="checkbox" value="1" name="serviceImplFlag"
 				id="serviceImplFlag" checked="checked">ServiceImpl</input> <input type="checkbox" value="1" name="pageFlag" id="pageFlag" checked="checked">Page</input> <input type="checkbox" value="1"
 				name="entityFlag" id="entityFlag" checked="checked">Entity</input> <span class="Validform_checktip"></span>
-				<!-- update-begin-author:taoyan date:20180628 for:布局修改 -->
 				<div style="display:inline-block">
 					<span>【</span>
 					<span>是否支持Restful:</span>
@@ -117,11 +114,8 @@ function browseFolder(path) {
 					<input type="radio" name="supportRestful" checked="checked" value="0"/>否
 					<span>】</span>
 				</div>
-				<!-- update-end-author:taoyan date:20180628 for:布局修改 -->
 			</td>
 		</tr>
-		<!-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
-		<!-- update--begin--author:zhoujf date:20180614 for:TASK #2787 【online 代码生成器】支持生成word 布局模板 -->
 		<tr>
 			<td align="right"><label class="Validform_label"> 模板类型: </label></td>
 			<td class="value" colspan="3">
@@ -130,8 +124,6 @@ function browseFolder(path) {
 			<input type="radio" name="version" datatype="*" value="system">Online原样生成(Word模板)
 			<span class="Validform_checktip"></span></td>
 		</tr>
-		<!-- update--end--author:zhoujf date:20180614 for:TASK #2787 【online 代码生成器】支持生成word 布局模板 -->
-		<!-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 		<tr id="jspMode_tr">
 			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
 			<td class="value" colspan="3">
@@ -145,9 +137,7 @@ function browseFolder(path) {
 	</table>
 </t:formvalid>
 </body>
-<!-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 <script type="text/javascript">
-<!-- update-begin-author:taoyan date:20180627 for:TASK #2817 【bug】代码生成器模板是否支持树类型隔离 -->
 $(function(){
 	$("input[name='version']").change(function(){
 		var type = "single";
@@ -194,7 +184,5 @@ function getSingleTemplate(type,version,supportTree){
 	}
 	
 }
-<!-- update-end-author:taoyan date:20180627 for:TASK #2817 【bug】代码生成器模板是否支持树类型隔离 -->
 </script>
-<!-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 </html>

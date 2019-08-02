@@ -95,10 +95,6 @@ public class ClientManager {
 	 */
 	public void removeClinet(String sessionId){
 		try {
-			ContextHolderUtils.removeSession(sessionId);
-		} catch (Exception e) {}
-		
-		try {
 			HttpSession session = ContextHolderUtils.getSession();
 			session.removeAttribute(sessionId);
 		} catch (Exception e) {}

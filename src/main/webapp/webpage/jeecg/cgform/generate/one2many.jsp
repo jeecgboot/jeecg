@@ -80,14 +80,12 @@ function browseFolder(path) {
 			<td align="right"><label class="Validform_label"> 主表名: </label></td>
 			<td class="value" colspan="3"><input disabled="disabled" class="inputxt" id="tableName_tmp" name="tableName_tmp" value="${cgFormHeadPage.tableName}" datatype="*"> <span
 				class="Validform_checktip"></span>
-			<!-- update-begin-author:taoyan date:20180628 for:布局修改 -->
 				<div style="display:inline-block">
 					<span>树形列表: </span>
 					<input disabled type="radio" name="supportTree" <c:if test="${cgFormHeadPage.isTree eq 'Y'}">checked="checked"</c:if> value="1"/>是
 					<input disabled type="radio" name="supportTree" <c:if test="${cgFormHeadPage.isTree eq 'N'}">checked="checked"</c:if> value="0"/>否
 				</div>
 			</td>
-			<!-- update-end-author:taoyan date:20180628 for:布局修改 -->
 		</tr>
 		<tr>
 			<td align="right"><label class="Validform_label"> 主表实体名(首字母大写): </label></td>
@@ -101,7 +99,6 @@ function browseFolder(path) {
 			<td align="right"><label class="Validform_label">主包名(小写): </label></td>
 			<td class="value"><input class="inputxt" id="entityPackage" name="entityPackage" datatype="*"> <span class="Validform_checktip"></span></td>
 		</tr>
-		<!-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 		<tr>
 			<td align="right"><label class="Validform_label"> 模板类型: </label></td>
 			<td class="value" colspan="3">
@@ -109,8 +106,6 @@ function browseFolder(path) {
 			<input type = "radio"   name="version" value="ext-common" >新一代模板(IE10+/移动支持/Bootstrap/Vue/支持原生态列表)
 			<span class="Validform_checktip"></span></td>
 		</tr>
-		<!-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
-		<!-- update--begin--author:taoyan date:20180619 for:TASK #2812 【代码生成器优化】Restful swggerUI 代码生成，可选择 -->
 		<tr>
 			<td align="right"><label class="Validform_label"> 是否支持Restful: </label></td>
 			<td class="value" colspan="3">
@@ -118,7 +113,6 @@ function browseFolder(path) {
 			<input type = "radio" name="supportRestful" checked="checked" value="0"/>否
 			</td>
 		</tr>
-		<!-- update--end--author:taoyan date:20180619 for:TASK #2812 【代码生成器优化】Restful swggerUI 代码生成，可选择 -->
 		<tr>
 			<td align="right"><label class="Validform_label"> 页面风格: </label></td>
 			<td class="value">
@@ -160,9 +154,7 @@ function browseFolder(path) {
 	</table>
 </t:formvalid>
 </body>
-<!-- update--begin--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 <script type="text/javascript">
-<!-- update-begin-author:taoyan date:20180627 for:TASK #2817 【bug】代码生成器模板是否支持树类型隔离 -->
 $(function(){
 	$("input[name='version']").change(function(){
 		var type = "onetomany";
@@ -197,7 +189,5 @@ function getSingleTemplate(type,version,supportTree){
 		}
 	});
 }
-<!-- update-end-author:taoyan date:20180627 for:TASK #2817 【bug】代码生成器模板是否支持树类型隔离 -->
 </script>
-<!-- update--end--author:zhoujf date:20180503 for:一对多主子表关联外键的问题 -->
 </html>

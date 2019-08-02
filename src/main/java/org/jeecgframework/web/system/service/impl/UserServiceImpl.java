@@ -88,17 +88,17 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 	public String trueDel(TSUser user) {
 		String message = "";
 		List<TSRoleUser> roleUser = this.commonDao.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-		if (!user.getStatus().equals(Globals.User_ADMIN)) {
+		if(!"admin".equals(user.getUserName())){
 			if (roleUser.size()>0) {
 				// 删除用户时先删除用户和角色关系表
 				delRoleUser(user);
 				this.commonDao.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
                 this.commonDao.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
+				message = user.getUserName() + "， 用户真实删除成功";
 				this.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			} else {
 				this.commonDao.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
+				message = user.getUserName() + "， 用户真实删除成功";
 			}
 		} else {
 			message = "超级管理员不可删除";

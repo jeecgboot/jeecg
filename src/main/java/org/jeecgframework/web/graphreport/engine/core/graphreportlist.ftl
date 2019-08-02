@@ -204,26 +204,49 @@ function showReport(data, tabName) {
 	</#if>
 	//数据转换成报表格式
 	var series = new Array();
-	
+	<#-- update-begin-author:taoyan date:20181109 for：online图表配置 饼图无文字提示 全部显示slice  -->
+	<#assign pietooltip="1">
 	<#list graphList as x>
 		<#if (tabList?size > 1)>
 			if(tabName || $.trim(tabName)) {
 				if("${x['tab_name']!''}" == tabName) {
+					<#if x['graph_type'] =='pie'>
+					var piearr = [];
+					$.map(data, function(n) {
+						piearr.push([n["${main['categories']}"],n["${x['field_name']}"] * 1 || 0]);
+					});
+					series.push({type: "${x['graph_type']}", name: "${x['graph_name']}", data:piearr });
+					<#else>
+					<#assign pietooltip="0">
 					series.push({type: "${x['graph_type']}", name: "${x['graph_name']}", data: $.map(data, function(n) {
 						return n["${x['field_name']}"] * 1 || 0;
 					})});
+					</#if>
 				}
 			}
 		<#else>
-			series.push({type: "${x['graph_type']}", name: "${x['graph_name']}", data: $.map(data, function(n) {
-				return n["${x['field_name']}"] * 1 || 0;
-			})});
+		<#if x['graph_type'] =='pie'>
+		var piearr = [];
+		$.map(data, function(n) {
+			piearr.push([n["${main['categories']}"],n["${x['field_name']}"] * 1 || 0]);
+		});
+		series.push({type: "${x['graph_type']}", name: "${x['graph_name']}", data:piearr });
+		<#else>
+		<#assign pietooltip="0">
+		series.push({type: "${x['graph_type']}", name: "${x['graph_name']}", data: $.map(data, function(n) {
+			return n["${x['field_name']}"] * 1 || 0;
+		})});
+		</#if>
 		</#if>
 		
 	</#list>
 	 
 	var options = reportUtil.getSplineOptions(categories, series, "${main['ytext']}");
 	//options.tooltip.headerFormat = '<span style="font-size: 10px">{point.key}人</span><br/>';
+	<#if pietooltip =="1">
+	options.tooltip = {pointFormat: '{point.y}, <b>{point.percentage:.1f}%</b>' };
+	</#if>
+	<#-- update-end-author:taoyan date:20181109 for：online图表配置 饼图无文字提示 全部显示slice  -->
 	//执行扩展js
 	if(typeof(xFixedOptions) == 'function') {
 		xFixedOptions(options, tabName);

@@ -41,7 +41,9 @@
 	<#-- update-begin-Author:LiShaoQing date:20180829 for:TASK #3127 删除时没有添加 validtype_str校验-->
 	function resetTrNum(tableId) {
 		$tbody = $("#"+tableId+"");
+		<#-- update-begin-Author:LiShaoQing date:20181023 for:Online EASY默认表单样式不显示序号问题 -->
 		$tbody.find('tr').each(function(i){
+		<#-- update-end-Author:LiShaoQing date:20181023 for:Online EASY默认表单样式不显示序号问题 -->
 			$(':input, select,button,a', this).each(function(){
 				var $this = $(this),validtype_str = $this.attr('validType'), name = $this.attr('name'),id=$this.attr('id'),onclick_str=$this.attr('onclick'), val = $this.val();
 				if(name!=null){
@@ -93,7 +95,9 @@
 					$this.attr("class",class_str.replace(/i-checks-tpl/,"i-checks"));
 				}
 			});
+			<#-- update-begin-Author:LiShaoQing date:20181023 for:Online EASY默认表单样式不显示序号问题 -->
 			$(this).find('div[name=\'xh\']').html(i+1);
+			<#-- update-end-Author:LiShaoQing date:20181023 for:Online EASY默认表单样式不显示序号问题 -->
 		});
 	}
 	<#-- update-end-Author:LiShaoQing date:20180829 for:TASK #3127 删除时没有添加 validtype_str校验-->

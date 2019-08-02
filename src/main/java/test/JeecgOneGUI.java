@@ -8,7 +8,7 @@ import java.sql.SQLOutput;
 /**
  * 【单表模型】代码生成器入口
  * @author 张代浩
- * @site www.jeecg.org
+ * @site www.jeecg.com
  *
  */
 public class JeecgOneGUI {

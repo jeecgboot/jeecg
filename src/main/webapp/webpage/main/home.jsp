@@ -10,7 +10,7 @@
 <h3>架构说明</h3>
 <ul>
 	<li>JEECG开发平台，采用SpringMVC + Hibernate + Minidao(类Mybatis) + Easyui(UI库)+ Jquery + Boostrap + Ehcache + Redis + Ztree等基础架构,采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、表单处理等功能，再配合代码生成器的使用,将J2EE的开发效率提高6倍以上，可以将代码减少60%以上。</li>
-	<li>JEECG_<font color="red">v_3.8 </font>功能点: <b>1.代码生成器</b> <b>2.数据权限</b> <b>3.Online表单</b> <b>4.工作流组件</b> <b>5.移动OA</b> <b>6.EasyPOI工具类</b> <b>7.查询过滤器</b> <b>8.UI库</b> <b>9.国际化</b> <b>10.多数据源</b> <b>11.自定义表单</b> <b>12.在线报表</b> <b>13.移动报表</b> <b>14.日志监控</b> <b>15.首页切换</b> <b>16.插件开发</b></li>
+	<li>JEECG_<font color="red">v_4.0 </font>功能点: <b>1.代码生成器</b> <b>2.数据权限</b> <b>3.Online表单</b> <b>4.工作流组件</b> <b>5.移动OA</b> <b>6.EasyPOI工具类</b> <b>7.查询过滤器</b> <b>8.UI库</b> <b>9.国际化</b> <b>10.多数据源</b> <b>11.自定义表单</b> <b>12.在线报表</b> <b>13.移动报表</b> <b>14.日志监控</b> <b>15.首页切换</b> <b>16.插件开发</b></li>
 	<li>[1].代码生成器，支持多种数据模型,根据表生成对应的Entity,Service,Dao,Action,JSP等,增删改查功能生成直接使用</li>
 	<li>[2].用户权限，强大数据权限<font color="red">new</font>，支持精细化数据权限控制，控制到行级，列表级，表单字段级，实现不同人看不同数据，不同人对同一个页面操作不同字段</li>
 	<li>[3].Online表单，通过在线配置实现表模型的增删改查功能，零代码，支持用户自定义表单风格，<font color="red">new</font>表单配置PC样式和移动样式，针对移动端采用移动样式展示</li>
@@ -40,9 +40,9 @@
 <h3>技术交流</h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本系统由JEECG开源社区提供，JEECG微云快速开发平台，永久开源免费，为大家提供最好的<b>企业级快速开发平台</b></p>
 <ul>
-	<li>作  者 ：<a href="http://www.jeecg.org/forum.php?mod=viewthread&tid=1047">张代浩</a></li>
-	<li>邮  箱 ：jeecg@sina.com</li>
-	<li>官  网 ：<a href="http://www.jeecg.org" target="_blank">www.jeecg.org</a></li>
+	<li>作  者 ：<a href="http://www.jeecg.com/forum.php?mod=viewthread&tid=1047">张代浩</a></li>
+	<li>邮  箱 ：jeecgceo@163.com</li>
+	<li>官  网 ：<a href="http://www.jeecg.com" target="_blank">www.jeecg.com</a></li>
 	<li>QQ 群: 190866569、176031980、106838471、106259349、 289782002</li>
 	<li><a href="http://www.guojusoft.com" target="_blank" style="color: red"> 【 JEECG针对企业用户提供商业版本，详细咨询请联系官方 】 </a></li>
 </ul>

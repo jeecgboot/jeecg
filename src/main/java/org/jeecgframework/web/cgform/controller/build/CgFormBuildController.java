@@ -500,6 +500,9 @@ public class CgFormBuildController extends BaseController {
 			file.put("fileKey", fileKey);
 			file.put("path", path);
 			file.put("field", field==null?"":field);
+
+			file.put("extend", b.getExtend());
+
 			files.add(file);
 		}
 		data.put("filesList", files);

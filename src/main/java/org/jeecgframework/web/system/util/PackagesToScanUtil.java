@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @description:Mini Bean Scan
  * @author 张代浩
  * @mail zhangdaiscott@163.com
- * @category www.jeecg.org
+ * @category www.jeecg.com
  * @date 20130817
  * @version V1.0
  */

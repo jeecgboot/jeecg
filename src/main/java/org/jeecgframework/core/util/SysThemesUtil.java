@@ -27,9 +27,12 @@ public class SysThemesUtil {
 				if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
 					continue;
 				}
+
 				if (cookie.getName().equalsIgnoreCase("JEECGINDEXSTYLE")) {
 					indexStyle = cookie.getValue();
+					break;
 				}
+
 			}
 		} catch (Exception e) {
 		}

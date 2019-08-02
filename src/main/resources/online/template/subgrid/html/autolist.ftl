@@ -98,7 +98,9 @@ function createDataGrid${config_id}(){
 	idField: 'id', <#if config_istree=="Y">treeField:"${tree_fieldname}",</#if>
 	title: '<@mutiLang langKey="${config_name}"/>',
 	fit:true,
-	fitColumns:true,
+	<#--update-begin--Author:taoyan date:20181105 for:TASK #3143 【论坛问题】[UI标签] 折叠标签之未铺满-->
+	//fitColumns:true,
+	<#--update-end--Author:taoyan date:20181105 for:TASK #3143 【论坛问题】[UI标签] 折叠标签之未铺满-->
 	striped:true,
 	autoRowHeight: true,
 	pageSize: 10,

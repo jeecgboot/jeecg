@@ -4,9 +4,7 @@ import org.jeecgframework.core.util.oConvertUtils;
 
 /**
  * 主从页面 菜单配置  ,code字符串不要有包含的情况 (例如：有了add 就不能有addOne)
- * 【船舶专用】
- * @author taoYan
- * @since 2017年12月25日
+ * ERP上下布局 按钮菜单枚举
  */
 //addSingle,editSingle,batchDel,save,reject,template,importe,export,filter
 public enum MenuButtonsEnum {

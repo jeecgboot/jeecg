@@ -65,9 +65,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/cgformTemplateController")
 public class CgformTemplateController extends BaseController {
-	/**
-	 * Logger for this class
-	 */
 	private static final Logger logger = Logger.getLogger(CgformTemplateController.class);
 
 	@Autowired
@@ -147,14 +144,17 @@ public class CgformTemplateController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
+	
 	private void delTemplate(HttpServletRequest request,String code){
 		String dirPath=getUploadBasePath(request)+File.separator+code;
+		logger.info("---------【演示系统不允许删除模板】删除online模板-----------"+dirPath);
 		try {
 			org.apache.commons.io.FileUtils.deleteDirectory(new File(dirPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * 批量删除自定义模板
 	 * 
@@ -168,9 +168,7 @@ public class CgformTemplateController extends BaseController {
 		message = "自定义模板删除成功";
 		try{
 			for(String id:ids.split(",")){
-				CgformTemplateEntity cgformTemplate = systemService.getEntity(CgformTemplateEntity.class, 
-				id
-				);
+				CgformTemplateEntity cgformTemplate = systemService.getEntity(CgformTemplateEntity.class,id);
 				cgformTemplateService.delete(cgformTemplate);
 				if(cgformTemplate.getTemplateCode()!=null){
 					delTemplate(request,cgformTemplate.getTemplateCode());

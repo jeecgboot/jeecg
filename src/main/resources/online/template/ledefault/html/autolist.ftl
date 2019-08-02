@@ -271,6 +271,9 @@ function createDataGrid${config_id}(){
 	],
 	onLoadSuccess:function(data){
 		$("#${config_id}List").<#if config_istree=="Y">treegrid<#else>datagrid</#if>("clearSelections");
+		<#--update-begin--Author:taoyan  Date:20181106 for：树形列表分页bug -->
+		delete $("#${config_id}List").treegrid('options').queryParams['id'];
+		<#--update-end--Author:taoyan  Date:20181106 for：树形列表分页bug -->
 	},
 	onClickRow:function(rowIndex,rowData)
 		{

@@ -509,7 +509,7 @@ public class LoginController extends BaseController{
 			mailConfig.put("title", ResourceUtil.getConfigByName("resetpwd.mail.title"));
 			mailConfig.put("content",content);
 			mailConfig.put("url",url);
-			mailConfig.put("commentUrl","http://www.jeecg.org");
+			mailConfig.put("commentUrl","http://www.jeecg.com");
 			
 			String mailContent = new FreemarkerHelper().parseTemplate("export/mail/password_reset.ftl", mailConfig);
 			

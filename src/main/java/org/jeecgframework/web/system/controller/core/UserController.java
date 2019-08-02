@@ -602,38 +602,19 @@ public class UserController extends BaseController {
 	public AjaxJson del(TSUser user, HttpServletRequest req) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		if("admin".equals(user.getUserName())){
-			message = "超级管理员[admin]不可删除";
-			j.setMsg(message);
-			return j;
-		}
 		user = systemService.getEntity(TSUser.class, user.getId());
 //		List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-		if (!user.getStatus().equals(Globals.User_ADMIN)) {
+		if(!"admin".equals(user.getUserName())){
 
 			user.setDeleteFlag(Globals.Delete_Forbidden);
 			userService.updateEntitie(user);
 			message = "用户：" + user.getUserName() + "删除成功";
 			logger.info("["+IpUtil.getIpAddr(req)+"][逻辑删除用户]"+message);
 
-			
-/**
-			if (roleUser.size()>0) {
-				// 删除用户时先删除用户和角色关系表
-				delRoleUser(user);
-
-                systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-
-                userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-			} else {
-				userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-			}
-**/	
 		} else {
-			message = "超级管理员不可删除";
+			message = "超级管理员[admin]不可删除";
+			j.setMsg(message);
+			return j;
 		}
 
 		j.setMsg(message);
@@ -657,24 +638,6 @@ public class UserController extends BaseController {
 			return j;
 		}
 		user = systemService.getEntity(TSUser.class, user.getId());
-
-		/*List<TSRoleUser> roleUser = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-		if (!user.getStatus().equals(Globals.User_ADMIN)) {
-			if (roleUser.size()>0) {
-				// 删除用户时先删除用户和角色关系表
-				delRoleUser(user);
-                systemService.executeSql("delete from t_s_user_org where user_id=?", user.getId()); // 删除 用户-机构 数据
-                userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-			} else {
-				userService.delete(user);
-				message = "用户：" + user.getUserName() + "删除成功";
-			}
-		} else {
-			message = "超级管理员不可删除";
-		}*/
-		
 		try {
 			message = userService.trueDel(user);
 			logger.info("["+IpUtil.getIpAddr(req)+"][真实删除用户]"+message);
@@ -683,20 +646,10 @@ public class UserController extends BaseController {
 			message ="删除失败";
 		}
 
-
 		j.setMsg(message);
 		return j;
 	}
-
-	/*public void delRoleUser(TSUser user) {
-		// 同步删除用户角色关联表
-		List<TSRoleUser> roleUserList = systemService.findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
-		if (roleUserList.size() >= 1) {
-			for (TSRoleUser tRoleUser : roleUserList) {
-				systemService.delete(tRoleUser);
-			}
-		}
-	}*/
+	
 	/**
 	 * 检查用户名
 	 * 

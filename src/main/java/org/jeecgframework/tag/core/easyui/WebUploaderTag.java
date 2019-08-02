@@ -149,8 +149,9 @@ public class WebUploaderTag extends TagSupport {
 			sb.append("$list.append('<table class=\"temptable\"></table>');\r\n");
 			//增加进度条方法
 			//进度条加载延迟duration设置太小则出现大文件，则会瞬间达到一个值，然后卡在那个点上,效果太假
-			sb.append("var showUploadProgress = function(progress,mycallback,obj){if(!obj){obj = $('#"+name+"_progress_bar').find('.progress-ty');}if(!$('#"+name+"_progress_bar').hasClass('active')){$('#"+name+"_progress_bar').addClass('active');}obj.animate({width:progress+'%'},{duration:100,easing:'swing',complete:function(scope,i,elem){if(!!mycallback){mycallback();}}})};");
-			
+
+			sb.append("var showUploadProgress = function(progress,mycallback,obj){if(!obj){obj = $('#"+name+"_progress_bar').find('.progress-ty');}if(!$('#"+name+"_progress_bar').hasClass('active')){$('#"+name+"_progress_bar').addClass('active');}obj.animate({width:progress+'%'},{duration:150,easing:'swing',complete:function(scope,i,elem){if(!!mycallback){mycallback();}}})};");
+
 			//判断是否支持base64
 			sb.append(" var isSupportBase64 = function() {var data = new Image();var support = true;data.onload = data.onerror = function() {if( this.width != 1 || this.height != 1 ){support = false;}}//data['src'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';\r\nreturn support;};");
 			//缩略图大小暂时写死,也可以修改css

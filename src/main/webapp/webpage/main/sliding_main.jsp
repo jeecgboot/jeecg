@@ -212,7 +212,7 @@
 				</li>
 				<li cmd="favorite">
 					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
-                         onclick="window.open('http://yun.jeecg.org')">云应用中心 </div>
+                         onclick="window.open('http://www.jeecg.com')">JEECG官网 </div>
 				</li>
 				<li cmd="logout">
 					<div class="startMenuImg logout_botton" title="注销当前用户"

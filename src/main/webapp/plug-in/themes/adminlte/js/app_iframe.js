@@ -1957,6 +1957,7 @@ var addTabs = function (options) {
 
 
         var $tabPanel = $('<div role="tabpanel" class="tab-pane"></div>').attr(pageIdField, pageId);
+
         if($('.page_tab_title').length>10){
     		layer.open({
     			   title: ['提示信息', 'font-size:16px;']
@@ -1972,6 +1973,7 @@ var addTabs = function (options) {
     			});
     		return false;
     	}
+
         if (options.content) {
             //是否指定TAB内容
             $tabPanel.append(options.content);
