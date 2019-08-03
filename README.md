@@ -6,7 +6,15 @@ JEECG 微云快速开发平台
 
 当前最新版本： 4.0（发布日期：20190805）
 
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg/blob/master/LICENSE)
+[![](https://img.shields.io/badge/Author-JEECG团队-orange.svg)](http://www.jeecg.com)
+[![](https://img.shields.io/badge/version-2.0-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg)
+[![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg)
+[![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg)
+
+
 JEECG全新版本已经发布，强烈建议(Spring2.x+Vue+Antd 前后端分离)： [jeecg-boot](https://github.com/zhangdaiscott/jeecg-boot)
+
 
 前言：
 -----------------------------------
