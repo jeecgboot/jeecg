@@ -13,7 +13,7 @@ JEECG 微云快速开发平台
 [![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg)
 
 
-JEECG全新版本已经发布，强烈建议(Spring2.x+Vue+Antd 前后端分离)： [jeecg-boot](https://github.com/zhangdaiscott/jeecg-boot)
+JEECG新版已经出，强烈推荐 ： [JeecgBoot 前后端分离(最潮技术栈 SpringBoot2+Antd-Vue)](https://github.com/zhangdaiscott/jeecg-boot)
 
 
 前言：
@@ -56,6 +56,20 @@ JEECG快速开发平台，可以应用在任何J2EE项目的开发中，尤其�
 * 20.高级组合查询功能，在线配置支持主子表关联查询，可保存查询历史
 * 21.支持二级管理员，权限细化管理
 * 22.代码生成器支持resutful接口生成
+
+
+技术文档
+-----------------------------------
+* [在线演示](http://demo.jeecg.com)
+* [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=286008)
+* [JEECG 在线开发文档](http://jeecg3.mydoc.io)
+* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
+* [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
+* [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
+* [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
+* JEECG 视频教程 : https://edu.csdn.net/combo/detail/905
+
+
 
 JEECG 功能特点
 -----------------------------------
@@ -101,16 +115,6 @@ JEECG 功能特点
 * 	要求JDK1.6+</br>
 
 
-技术文档
------------------------------------
-* [在线演示](http://demo.jeecg.com)
-* [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=286008)
-* [JEECG 在线开发文档](http://jeecg3.mydoc.io)
-* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
-* [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
-* [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
-* JEECG 视频教程(网盘密码rxk3): [https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA](https://pan.baidu.com/s/1ONWNrtKbNY3gI3TztgtOJA)
 
 
 工程说明
