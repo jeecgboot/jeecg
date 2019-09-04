@@ -61,13 +61,14 @@ JEECG快速开发平台，可以应用在任何J2EE项目的开发中，尤其�
 技术文档
 -----------------------------------
 * [在线演示](http://demo.jeecg.com)
-* [JEECG 入门开发环境搭建](http://jeecg3.mydoc.io/?t=286008)
-* [JEECG 在线开发文档](http://jeecg3.mydoc.io)
-* [JEECG 常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
-* [JEECG 本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
+* [开发环境搭建入门](http://jeecg3.mydoc.io/?t=286008)
+* [开发文档](http://jeecg3.mydoc.io)
+* [入门常见问题贴](http://www.jeecg.org/forum.php?mod=viewthread&tid=1830&extra=page%3D1)
+* [JEECG 实战视频教程] (https://edu.csdn.net/combo/detail/905)
+* [本地maven仓库下载](https://gitee.com/jeecg/jeecg-local-maven)
 * [非Maven版本下载](https://github.com/zhangdaiscott/jeecg-nomaven)
 * [JEECG 版本日志](http://www.jeecg.org/forum.php?mod=viewthread&tid=365&extra=page%3D1)
-* JEECG 视频教程 : https://edu.csdn.net/combo/detail/905
+
 
 
 
