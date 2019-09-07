@@ -17,7 +17,6 @@ import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.util.IconImageUtil;
 

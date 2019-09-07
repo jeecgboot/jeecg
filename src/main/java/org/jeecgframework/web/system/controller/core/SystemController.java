@@ -1,29 +1,7 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.SocketException;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -31,29 +9,14 @@ import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.common.model.json.TreeGrid;
-import org.jeecgframework.core.common.model.json.ValidForm;
+import org.jeecgframework.core.common.model.json.*;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.StoreUploadFilePathEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
 import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
 import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
 import org.jeecgframework.core.extend.swftools.SwfToolsUtil;
-import org.jeecgframework.core.util.FileUtils;
-import org.jeecgframework.core.util.JSONHelper;
-import org.jeecgframework.core.util.ListUtils;
-import org.jeecgframework.core.util.MutiLangSqlCriteriaUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.PropertiesUtil;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.SetListSort;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.UrlCheckUtil;
-import org.jeecgframework.core.util.YouBianCodeUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
@@ -61,17 +24,7 @@ import org.jeecgframework.tag.vo.easyui.TreeGridModel;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.manager.ClientSort;
-import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.DataLogDiff;
-import org.jeecgframework.web.system.pojo.base.DictEntity;
-import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSRole;
-import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
-import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,8 +40,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.SocketException;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 系统控制器
@@ -101,7 +61,6 @@ public class SystemController extends BaseController {
 	private static final Logger logger = Logger.getLogger(SystemController.class);
 	private UserService userService;
 	private SystemService systemService;
-	private MutiLangServiceI mutiLangService;
 	@Resource
 	private ClientManager clientManager;
 
@@ -111,10 +70,6 @@ public class SystemController extends BaseController {
 		this.systemService = systemService;
 	}
 
-	@Autowired
-	public void setMutiLangService(MutiLangServiceI mutiLangService) {
-		this.mutiLangService = mutiLangService;
-	}
 
 	public UserService getUserService() {
 		return userService;
@@ -401,7 +356,7 @@ public class SystemController extends BaseController {
 //    private void assembleConditionForMutilLang(CriteriaQuery cq, String typegroupname, List<String> typegroupnameKeyList) {
 //        Map<String,String> typegroupnameMap = new HashMap<String, String>();
 //        for (String nameKey : typegroupnameKeyList) {
-//            String name = mutiLangService.getLang(nameKey);
+//            String name = MutiLangUtil.getLang(nameKey);
 //            typegroupnameMap.put(nameKey, name);
 //        }
 //        List<String> tepegroupnameParamList = new ArrayList<String>();
@@ -445,11 +400,11 @@ public class SystemController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		if (id.startsWith("G")) {//分组
 			TSTypegroup typegroup = systemService.getEntity(TSTypegroup.class, id.substring(1));
-			message = "数据字典分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被删除 成功";
+			message = "数据字典分组: " + MutiLangUtil.getLang(typegroup.getTypegroupname()) + "被删除 成功";
 			systemService.delete(typegroup);
 		} else {
 			TSType type = systemService.getEntity(TSType.class, id.substring(1));
-			message = "数据字典类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+			message = "数据字典类型: " + MutiLangUtil.getLang(type.getTypename()) + "被删除 成功";
 			systemService.delete(type);
 		}
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -471,14 +426,14 @@ public class SystemController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.getEntity(TSTypegroup.class, typegroup.getId());
 
-		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
+		message = "类型分组: " + MutiLangUtil.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
         if (ListUtils.isNullOrEmpty(typegroup.getTSTypes())) {
             systemService.delete(typegroup);
             systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
             //刷新缓存
             systemService.refleshTypeGroupCach();
         } else {
-            message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
+            message = "类型分组: " + MutiLangUtil.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
         }
 
 		j.setMsg(message);
@@ -496,7 +451,7 @@ public class SystemController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		type = systemService.getEntity(TSType.class, type.getId());
-		message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+		message = "类型: " + MutiLangUtil.getLang(type.getTypename()) + "被删除 成功";
 		systemService.delete(type);
 		//刷新缓存
 		systemService.refleshTypesCach(type);
@@ -539,9 +494,9 @@ public class SystemController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try{
 			systemService.refreshTypeGroupAndTypes();
-			message = mutiLangService.getLang("common.refresh.success");
+			message = MutiLangUtil.getLang("common.refresh.success");
 		} catch (Exception e) {
-			message = mutiLangService.getLang("common.refresh.fail");
+			message = MutiLangUtil.getLang("common.refresh.fail");
 		}
 		j.setMsg(message);
 		return j;
@@ -560,11 +515,11 @@ public class SystemController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(typegroup.getId())) {
-			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被更新成功";
+			message = "类型分组: " + MutiLangUtil.getLang(typegroup.getTypegroupname()) + "被更新成功";
 			userService.saveOrUpdate(typegroup);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被添加成功";
+			message = "类型分组: " + MutiLangUtil.getLang(typegroup.getTypegroupname()) + "被添加成功";
 			userService.save(typegroup);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -613,11 +568,11 @@ public class SystemController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(type.getId())) {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被更新成功";
+			message = "类型: " + MutiLangUtil.getLang(type.getTypename()) + "被更新成功";
 			userService.saveOrUpdate(type);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被添加成功";
+			message = "类型: " + MutiLangUtil.getLang(type.getTypename()) + "被添加成功";
 			userService.save(type);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -657,7 +612,7 @@ public class SystemController extends BaseController {
 
         req.setAttribute("typegroup", typegroup);
 
-        req.setAttribute("typegroupname", mutiLangService.getLang(typegroupname));
+        req.setAttribute("typegroupname", MutiLangUtil.getLang(typegroupname));
 		if (StringUtil.isNotEmpty(type.getId())) {
 			type = systemService.getEntity(TSType.class, type.getId());
 			req.setAttribute("type", type);

@@ -1,26 +1,15 @@
 package com.jeecg.demo.controller;
+
+import com.alibaba.fastjson.JSONArray;
+import com.jeecg.demo.dao.JeecgMinidaoDao;
+import com.jeecg.demo.entity.JeecgDemoEntity;
+import com.jeecg.demo.entity.JeecgDemoPage;
+import com.jeecg.demo.entity.JeecgLogReport;
+import com.jeecg.demo.service.JeecgDemoServiceI;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import net.sf.json.JSONObject;
-
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import org.apache.batik.transcoder.Transcoder;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -39,14 +28,7 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.Highchart;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.DBTypeUtil;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.ExceptionUtil;
-import org.jeecgframework.core.util.JeecgDataAutorUtils;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.jwt.util.GsonUtil;
 import org.jeecgframework.jwt.util.ResponseMessage;
 import org.jeecgframework.jwt.util.Result;
@@ -57,12 +39,10 @@ import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
-import org.jeecgframework.web.system.controller.core.LoginController;
 import org.jeecgframework.web.system.enums.InterfaceEnum;
 import org.jeecgframework.web.system.pojo.base.InterfaceRuleDto;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSLog;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.util.InterfaceUtil;
 import org.slf4j.Logger;
@@ -71,23 +51,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.alibaba.fastjson.JSONArray;
-import com.jeecg.demo.dao.JeecgMinidaoDao;
-import com.jeecg.demo.entity.JeecgDemoEntity;
-import com.jeecg.demo.entity.JeecgDemoPage;
-import com.jeecg.demo.entity.JeecgLogReport;
-import com.jeecg.demo.service.JeecgDemoServiceI;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.util.*;
 
 /**   
  * @Title: Controller  
@@ -116,9 +95,6 @@ public class JeecgListDemoController extends BaseController {
 	@Autowired
 	private JeecgMinidaoDao jeecgMinidaoDao;
 
-    @Autowired
-    private MutiLangServiceI mutiLangService;
-	
 	/**
 	 * 采用minidao查询数据
 	 * @param request
@@ -521,7 +497,7 @@ public class JeecgListDemoController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-		hc.setName(mutiLangService.getLang(BROSWER_COUNT_ANALYSIS));
+		hc.setName(MutiLangUtil.getLang(BROSWER_COUNT_ANALYSIS));
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

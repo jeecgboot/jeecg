@@ -1,20 +1,7 @@
 package org.jeecgframework.web.superquery.controller;
+
+import com.alibaba.fastjson.JSONArray;
 import io.swagger.annotations.ApiParam;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
@@ -24,12 +11,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.core.util.ExceptionUtil;
-import org.jeecgframework.core.util.MyBeanUtils;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.jwt.util.ResponseMessage;
 import org.jeecgframework.jwt.util.Result;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -44,7 +26,6 @@ import org.jeecgframework.web.superquery.entity.SuperQueryTableEntity;
 import org.jeecgframework.web.superquery.page.SuperQueryMainPage;
 import org.jeecgframework.web.superquery.service.SuperQueryMainServiceI;
 import org.jeecgframework.web.superquery.util.SuperQueryUtil;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.slf4j.Logger;
@@ -54,19 +35,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.alibaba.fastjson.JSONArray;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**   
  * @Title: Controller
@@ -868,12 +849,11 @@ public class SuperQueryMainController extends BaseController {
 			List<Map<String, Object>> selectType = systemService.findForJdbc(sql,typegroup);
 			//step.2 根据查询的结果判断是否是国际化语言，是的话转换
 			List<Map<String, Object>> listMap = new ArrayList<Map<String,Object>>();
-			MutiLangServiceI mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
 			if(selectType.size()>0) {
 				for (Map<String, Object> map : selectType) {
 					Map<String, Object> mutiMap = new HashMap<String, Object>();
 					mutiMap.put("typecode", map.get("typecode"));
-					mutiMap.put("typename", mutiLangService.getLang(map.get("typename").toString()));
+					mutiMap.put("typename", MutiLangUtil.getLang(map.get("typename").toString()));
 					listMap.add(mutiMap);
 				}
 				json.setObj(listMap);

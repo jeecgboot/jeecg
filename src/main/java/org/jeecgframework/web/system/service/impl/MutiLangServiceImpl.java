@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jeecgframework.core.common.dao.ICommonDao;
+import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.core.util.ResourceUtil;
@@ -22,17 +23,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("mutiLangService")
-
-public class MutiLangServiceImpl implements MutiLangServiceI {
+public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangServiceI {
 	private static final Logger logger = LoggerFactory.getLogger(MutiLangServiceImpl.class);
-	@Autowired
-	public ICommonDao commonDao;
 	@Autowired
 	private CacheServiceI cacheService;
 	
 	
 	/**初始化语言信息，TOMCAT启动时直接加入到内存中**/
-	@Transactional(readOnly = true)
 	public void initAllMutiLang() {
 		Map<String, String> ls = new HashMap<String, String>();
 		List<MutiLangEntity> mutiLang = this.commonDao.loadAll(MutiLangEntity.class);
@@ -75,50 +72,6 @@ public class MutiLangServiceImpl implements MutiLangServiceI {
 	}
 	
 	
-	/**取 o_muti_lang.lang_key 的值返回当前语言的值**/
-	public String getLang(String langKey)
-	{
-		//如果为空，返回空串，防止返回null
-		if(langKey==null){
-			return "";
-		}
-		HttpServletRequest request = ContextHolderUtils.getRequest();
-		String language = oConvertUtils.getString(request.getSession().getAttribute("lang"));
-		if(oConvertUtils.isEmpty(language)){
-			language = BrowserUtils.getBrowserLanguage(request);
-		}
-		
-		String langContext = ResourceUtil.getMutiLan(langKey + "_" + language); 
-		if(StringUtil.isEmpty(langContext))
-		{
-			langContext = ResourceUtil.getMutiLan("common.notfind.langkey" + "_" + language);
-			if("null".equals(langContext)||langContext==null ||langKey.startsWith("?")){
-				langContext = "";
-			}
-			langContext = langContext  + langKey;
-		}
-		return langContext;
-	}
-
-	public String getLang(String lanKey, String langArg) {
-		String langContext = "";
-		if(StringUtil.isEmpty(langArg))
-		{
-			langContext = getLang(lanKey);
-		} else
-		{
-			String[] argArray = langArg.split(",");
-			langContext = getLang(lanKey);
-			
-			for(int i=0; i< argArray.length; i++)
-			{
-				String langKeyArg = argArray[i].trim();
-				String langKeyContext = getLang(langKeyArg);
-				langContext = StringUtil.replace(langContext, "{" + i + "}", langKeyContext);
-			}
-		}
-		return langContext;
-	}
 
 	/** 刷新多语言cach **/
 	public void refleshMutiLangCach() {

@@ -20,14 +20,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.IpUtil;
-import org.jeecgframework.core.util.NumberComparator;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
@@ -37,7 +30,6 @@ import org.jeecgframework.web.system.pojo.base.TSRole;
 import org.jeecgframework.web.system.pojo.base.TSRoleUser;
 import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.pojo.base.TSUserOrg;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,8 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userService")
 public class UserServiceImpl extends CommonServiceImpl implements UserService {
 	private Logger log = Logger.getLogger(UserServiceImpl.class);
-	@Autowired
-	private MutiLangServiceI mutiLangService;
 	@Resource
 	private ClientManager clientManager;
 	
@@ -290,7 +280,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
         HttpSession session = ContextHolderUtils.getSession();
 		user.setDepartid(orgId);
 		session.setAttribute(ResourceUtil.LOCAL_CLINET_USER, user);
-        message = mutiLangService.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + mutiLangService.getLang("common.login.success");
+        message = MutiLangUtil.getLang("common.user") + ": " + user.getUserName() + "["+ currentDepart.getDepartname() + "]" + MutiLangUtil.getLang("common.login.success");
         
         //IE列表操作按钮的样式
         String browserType = "";
@@ -345,7 +335,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 		for (TSFunction function : primaryMenu) {
 			if (function.getFunctionLevel() == 0) {
 				String lang_key = function.getFunctionName();
-				String lang_context = mutiLangService.getLang(lang_key);
+				String lang_context = MutiLangUtil.getLang(lang_key);
 				lang_context = lang_context.trim();
 				
 				if ("业务申请".equals(lang_context)) {
@@ -420,7 +410,7 @@ public class UserServiceImpl extends CommonServiceImpl implements UserService {
 				if (function.getFunctionLevel() == 1) {
 
 					String lang_key = function.getFunctionName();
-					String lang_context = mutiLangService.getLang(lang_key);
+					String lang_context = MutiLangUtil.getLang(lang_key);
 					if ("申请".equals(lang_key)) {
 						lang_context = "申请";
 						String s = "";

@@ -1,18 +1,5 @@
 package org.jeecgframework.web.cgform.controller.autolist;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
@@ -20,15 +7,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.online.util.FreemarkerHelper;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.IpUtil;
-import org.jeecgframework.core.util.JeecgDataAutorUtils;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.SqlInjectionUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.SysThemesUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
@@ -42,11 +21,9 @@ import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.PublicUtil;
 import org.jeecgframework.web.cgform.util.QueryParamUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
-import org.jeecgframework.web.system.controller.core.LoginController;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
  * 
@@ -78,8 +62,6 @@ public class CgAutoListController extends BaseController{
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
 	private CgformTemplateServiceI cgformTemplateService;
-	@Autowired
-	private MutiLangServiceI mutiLangService;
 	/**
 	 * 动态列表展现入口
 	 * @param id 动态配置ID
@@ -720,7 +702,7 @@ public class CgAutoListController extends BaseController{
 					DictEntity d = new DictEntity();
 					d.setTypecode(tsType.getTypecode());
 
-					d.setTypename(mutiLangService.getLang(tsType.getTypename()));
+					d.setTypename(MutiLangUtil.getLang(tsType.getTypename()));
 
 					li.add(d);
 				}

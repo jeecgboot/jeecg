@@ -1,8 +1,5 @@
 package org.jeecgframework.web.system.controller.core;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -23,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Title: Controller
  * @Description: 多语言
  * @author Rocky
  * @date 2014-06-28 00:09:31
  * @version V1.0
- * 
+ *
  */
 //@Scope("prototype")
 @Controller
@@ -118,7 +118,7 @@ public class MutiLangController extends BaseController {
 
 			if(MutiLangUtil.existLangKey( mutiLang.getLangKey(),mutiLang.getLangCode()))
 			{
-				message = mutiLangService.getLang("common.langkey.exist");
+				message = MutiLangUtil.getLang("common.langkey.exist");
 			}
 
 			if(StringUtil.isEmpty(message))
@@ -163,9 +163,9 @@ public class MutiLangController extends BaseController {
 		try {
 			mutiLangService.refleshMutiLangCach();
 			cacheService.clean();
-			message = mutiLangService.getLang("common.refresh.success");
+			message = MutiLangUtil.getLang("common.refresh.success");
 		} catch (Exception e) {
-			message = mutiLangService.getLang("common.refresh.fail");
+			message = MutiLangUtil.getLang("common.refresh.fail");
 		}
 		j.setMsg(message);
 		return j;

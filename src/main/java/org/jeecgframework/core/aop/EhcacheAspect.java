@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 /**
  * 
  * @author  张代浩
- * @TODO 【暂时注释掉，减少内存占用 - 实际项目可根据需求放开注释，提高平台性能】
+ * @TODO 【暂时注释掉，MutiLangTag减少内存占用 - 实际项目可根据需求放开注释，提高平台性能】
  * 用途：注解式Ehcache缓存类
  */
 //@Component

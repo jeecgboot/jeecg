@@ -1,45 +1,19 @@
 package org.jeecgframework.web.system.controller.core;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.SSOToken;
+import com.baomidou.kisso.common.util.HttpUtil;
 import net.sf.json.JSONArray;
-
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.enums.SysThemesEnum;
 import org.jeecgframework.core.online.util.FreemarkerHelper;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.IpUtil;
-import org.jeecgframework.core.util.JSONHelper;
-import org.jeecgframework.core.util.ListtoMenu;
-import org.jeecgframework.core.util.LogUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.PasswordUtil;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.SysThemesUtil;
-import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.core.util.*;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.pojo.base.TSPasswordResetkey;
-import org.jeecgframework.web.system.pojo.base.TSRole;
-import org.jeecgframework.web.system.pojo.base.TSRoleUser;
-import org.jeecgframework.web.system.pojo.base.TSUser;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
+import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.jeecgframework.web.system.sms.util.MailUtil;
@@ -54,10 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.kisso.SSOHelper;
-import com.baomidou.kisso.SSOToken;
-import com.baomidou.kisso.common.util.HttpUtil;
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.*;
 
 
 
@@ -75,9 +52,6 @@ public class LoginController extends BaseController{
 	@Resource
 	private ClientManager clientManager;
 
-	@Autowired
-	private MutiLangServiceI mutiLangService;
-	
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
@@ -115,16 +89,16 @@ public class LoginController extends BaseController{
 		//验证码
 		String randCode = req.getParameter("randCode");
 		if (StringUtils.isEmpty(randCode)) {
-			j.setMsg(mutiLangService.getLang("common.enter.verifycode"));
+			j.setMsg(MutiLangUtil.getLang("common.enter.verifycode"));
 			j.setSuccess(false);
 		} else if (!randCode.equalsIgnoreCase(String.valueOf(session.getAttribute("randCode")))) {
-			j.setMsg(mutiLangService.getLang("common.verifycode.error"));
+			j.setMsg(MutiLangUtil.getLang("common.verifycode.error"));
 			log.info("Username:{} ,验证码: {} 错误!", user.getUserName(), randCode);
 			j.setSuccess(false);
 			//IP黑名单 check
 		} else if (userService.isInBlackList(IpUtil.getIpAddr(req))){
 			log.info("Username:{} ,IP: {} 进入黑名单!", user.getUserName(), IpUtil.getIpAddr(req));
-			j.setMsg(mutiLangService.getLang("common.blacklist.error"));
+			j.setMsg(MutiLangUtil.getLang("common.blacklist.error"));
 			j.setSuccess(false);
 		}
 		else {
@@ -135,7 +109,7 @@ public class LoginController extends BaseController{
 
 				if(u == null || !u.getPassword().equals(PasswordUtil.encrypt(u.getUserName(),user.getPassword(), PasswordUtil.getStaticSalt()))){
 
-					j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
+					j.setMsg(MutiLangUtil.getLang("common.username.or.password.error"));
 					j.setSuccess(false);
 					return j;
 				}
@@ -143,13 +117,13 @@ public class LoginController extends BaseController{
 			if (u != null && u.getStatus() != 0) {
 
 				if(u.getDeleteFlag()==1){
-					j.setMsg(mutiLangService.getLang("common.username.or.password.error"));
+					j.setMsg(MutiLangUtil.getLang("common.username.or.password.error"));
 					j.setSuccess(false);
 					return j;
 				}
 
 				if("2".equals(u.getUserType())){
-					j.setMsg(mutiLangService.getLang("common.user.interfaceUser"));
+					j.setMsg(MutiLangUtil.getLang("common.user.interfaceUser"));
 					j.setSuccess(false);
 					return j;
 				}
@@ -176,7 +150,7 @@ public class LoginController extends BaseController{
 				}
 			} else {
 				//用户锁定提醒
-				j.setMsg(mutiLangService.getLang("common.lock.user"));
+				j.setMsg(MutiLangUtil.getLang("common.lock.user"));
 				j.setSuccess(false);
 			}
 		}

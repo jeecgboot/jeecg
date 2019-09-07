@@ -6,10 +6,7 @@ public interface MutiLangServiceI{
 
 	public void initAllMutiLang();
 	
-	public String getLang(String lang_key);
-	
-	public String getLang(String lang_key, String args);
-	
+
 	public void refleshMutiLangCach();
 	
 	/**
