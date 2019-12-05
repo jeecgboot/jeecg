@@ -1,10 +1,7 @@
-2019年度最受欢迎中国开源软件评选
-请给JeecgBoot 投票，谢谢支持。
-https://www.oschina.net/p/jeecg-boot
 
+新版本已出，强烈推荐：https://github.com/zhangdaiscott/jeecg-boot
 
-JEECG新版已出强烈推荐 ： [JeecgBoot 前后端分离(最潮技术栈 SpringBoot2+Antd-Vue)](https://github.com/zhangdaiscott/jeecg-boot)
-
+======================================================================================
 
 
 ![JEECG](https://static.oschina.net/uploads/img/201905/24184932_ak9D.png "Jeecg快速开发平台")
