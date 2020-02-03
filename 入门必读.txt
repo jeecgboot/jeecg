@@ -14,7 +14,7 @@
     http://bbs.jeecg.com/forum.php?mod=viewthread&tid=1830&extra=page%3D1
 	
 5. JEECG在线Wiki
-    http://jeecg3.mydoc.io
+    http://idoc.jeecg.com
    
 6. Jeecg新版视频教程
     https://edu.csdn.net/lecturer/929
