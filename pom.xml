@@ -76,7 +76,7 @@
 		<!-- jacob -->
 		<jacob.version>1.18</jacob.version>
 		<!-- highchart export -->
-		<xercesImpl.version>2.7.1</xercesImpl.version>
+		<xercesImpl.version>2.12.0</xercesImpl.version>
 		<batik-codec.version>1.7</batik-codec.version>
 		<xstream.version>1.4.6</xstream.version>
 		<!-- jsoup HTML parser  -->
