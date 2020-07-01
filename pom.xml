@@ -24,7 +24,7 @@
 		<commons-pool.version>1.6</commons-pool.version>
 		<druid.version>1.1.9</druid.version>
 		<!-- mysql -->
-        <mysql.version>5.1.27</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <!-- sqlserver 2008 -->
         <sqlserver.version>4.0</sqlserver.version>
         <!-- oracle 11g -->
