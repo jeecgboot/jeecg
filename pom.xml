@@ -31,7 +31,7 @@
         <ojdbc14.version>10.2.0.5.0</ojdbc14.version>
         
         <!-- quartz 2.0 -->
-        <org.quartz.version>2.3.0</org.quartz.version>
+        <org.quartz.version>2.3.2</org.quartz.version>
         <!-- log4j12 -->
 		<slf4j.version>1.6.1</slf4j.version>
         
