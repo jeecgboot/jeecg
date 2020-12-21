@@ -78,7 +78,7 @@
 		<!-- highchart export -->
 		<xercesImpl.version>2.7.1</xercesImpl.version>
 		<batik-codec.version>1.7</batik-codec.version>
-		<xstream.version>1.4.6</xstream.version>
+		<xstream.version>1.4.15</xstream.version>
 		<!-- jsoup HTML parser  -->
 		<jsoup.version>1.8.3</jsoup.version>
 		
