@@ -89,7 +89,7 @@
 		<jedis.version>2.9.0</jedis.version>
 		<!--swagger2-->
 		<springfox-swagger2.version>2.4.0</springfox-swagger2.version>
-		<jackson-databind.version>2.9.9</jackson-databind.version>
+		<jackson-databind.version>2.9.10.7</jackson-databind.version>
 		<!-- jjwt -->
 		<jjwt.version>0.9.0</jjwt.version>
 		
