@@ -80,7 +80,7 @@
 		<batik-codec.version>1.7</batik-codec.version>
 		<xstream.version>1.4.6</xstream.version>
 		<!-- jsoup HTML parser  -->
-		<jsoup.version>1.8.3</jsoup.version>
+		<jsoup.version>1.14.2</jsoup.version>
 		
 		<!-- kisso 单点登陆 -->
 		<kisso.version>3.6.11</kisso.version>
