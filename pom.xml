@@ -47,7 +47,7 @@
         <!-- json start -->
 		<jackson.version>1.8.4</jackson.version>
 		<json-lib.version>2.1</json-lib.version>
-		<fastjson-lib.version>1.2.31</fastjson-lib.version>
+		<fastjson-lib.version>1.2.83</fastjson-lib.version>
 		<gson.version>2.2.4</gson.version>
         <!-- dom4j -->
 		<dom4j.version>1.6.1</dom4j.version>
